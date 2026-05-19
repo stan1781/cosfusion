@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import { tailwindTheme } from './config/theme-tokens';
 
 export default {
 	content: [
@@ -8,5 +9,7 @@ export default {
 		'./woocommerce/**/*.php',
 		'./src/ts/**/*.ts',
 	],
+	theme: {
+		extend: tailwindTheme,
+	},
 } satisfies Config;
-

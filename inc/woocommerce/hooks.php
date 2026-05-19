@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 function tailwindscore_wc_wrapper_open(): void {
-	echo '<main class="site-main"><div class="ts-container ts-section">';
+	echo '<main class="site-main ts-main ts-main--commerce"><div class="ts-container ts-section ts-wc-shell">';
 }
 
 function tailwindscore_wc_wrapper_close(): void {
@@ -13,4 +13,3 @@ remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wr
 remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10 );
 add_action( 'woocommerce_before_main_content', 'tailwindscore_wc_wrapper_open', 10 );
 add_action( 'woocommerce_after_main_content', 'tailwindscore_wc_wrapper_close', 10 );
-

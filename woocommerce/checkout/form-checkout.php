@@ -10,12 +10,12 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 	return;
 }
 ?>
-<form name="checkout" method="post" class="checkout woocommerce-checkout ts-stack" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data">
-	<div class="ts-grid" style="grid-template-columns: minmax(0, 1fr); align-items: start;">
-		<div class="ts-stack">
+<form name="checkout" method="post" class="checkout woocommerce-checkout ts-wc-checkout ts-stack" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data">
+	<div class="ts-wc-checkout__layout">
+		<div class="ts-wc-checkout__details ts-stack">
 			<?php if ( $checkout->get_checkout_fields() ) : ?>
 				<?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
-				<div id="customer_details" class="ts-grid" style="grid-template-columns: minmax(0, 1fr);">
+				<div id="customer_details" class="ts-wc-checkout__customer-details">
 					<div class="col-1">
 						<?php do_action( 'woocommerce_checkout_billing' ); ?>
 					</div>
@@ -26,8 +26,8 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 				<?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
 			<?php endif; ?>
 		</div>
-		<div class="ts-card ts-stack">
-			<h3><?php esc_html_e( 'Order summary', 'tailwindscore' ); ?></h3>
+		<div class="ts-card ts-wc-checkout__summary ts-stack">
+			<h3 class="ts-wc-checkout__heading"><?php esc_html_e( 'Order summary', 'tailwindscore' ); ?></h3>
 			<?php do_action( 'woocommerce_checkout_before_order_review_heading' ); ?>
 			<?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
 			<div id="order_review" class="woocommerce-checkout-review-order">
@@ -38,4 +38,3 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 	</div>
 </form>
 <?php do_action( 'woocommerce_after_checkout_form', $checkout ); ?>
-

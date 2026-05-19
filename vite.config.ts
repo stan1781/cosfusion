@@ -1,5 +1,12 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import { defineConfig } from 'vite';
+import { buildThemeTokenCss } from './config/theme-tokens';
+
+const generatedThemeCssPath = path.resolve(__dirname, 'src/css/generated/theme-tokens.css');
+
+fs.mkdirSync(path.dirname(generatedThemeCssPath), { recursive: true });
+fs.writeFileSync(generatedThemeCssPath, buildThemeTokenCss(), 'utf8');
 
 export default defineConfig({
 	build: {

@@ -1,0 +1,26 @@
+/* Auto-generated from config/theme-tokens.ts */
+:root {
+	--ts-colors-background: #ffffff;
+	--ts-colors-surface: #ffffff;
+	--ts-colors-surface-muted: #fafafa;
+	--ts-colors-text: #18181b;
+	--ts-colors-text-muted: #52525b;
+	--ts-colors-border: #e4e4e7;
+	--ts-colors-border-strong: #d4d4d8;
+	--ts-colors-primary: #18181b;
+	--ts-colors-primary-foreground: #ffffff;
+	--ts-radius-sm: 0.5rem;
+	--ts-radius-md: 0.75rem;
+	--ts-space-xs: 0.75rem;
+	--ts-space-sm: 1rem;
+	--ts-space-md: 1.5rem;
+	--ts-space-lg: 2.5rem;
+	--ts-layout-container: 72rem;
+	--ts-layout-search: 32rem;
+	--ts-type-body: ui-sans-serif, system-ui, sans-serif;
+	--ts-type-brand-size: 1.25rem;
+	--ts-type-heading-size: 1.875rem;
+	--ts-type-heading-line-height: 1.2;
+	--ts-shadow-card: 0 1px 2px rgb(24 24 27 / 0.06);
+	--ts-woocommerce-notice-background: #fafafa;
+}
