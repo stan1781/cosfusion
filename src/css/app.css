@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+@layer base {
+	body {
+		background: #ffffff;
+		color: #18181b;
+		font-family: ui-sans-serif, system-ui, sans-serif;
+	}
+
+	a {
+		color: inherit;
+	}
+}
+
+@layer components {
+	.ts-site {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.ts-container {
+		margin-inline: auto;
+		width: min(100% - 2rem, 72rem);
+	}
+
+	.ts-section {
+		padding-block: 2.5rem;
+	}
+
+	.ts-stack {
+		display: grid;
+		gap: 1.5rem;
+	}
+
+	.ts-grid {
+		display: grid;
+		gap: 1.5rem;
+	}
+
+	.ts-card {
+		border: 1px solid #e4e4e7;
+		border-radius: 0.5rem;
+		padding: 1rem;
+		background: #ffffff;
+	}
+
+	.ts-button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 0.5rem;
+		background: #18181b;
+		color: #ffffff;
+		padding: 0.75rem 1rem;
+		text-decoration: none;
+		border: 1px solid #18181b;
+		cursor: pointer;
+	}
+
+	.ts-input {
+		width: 100%;
+		border: 1px solid #d4d4d8;
+		border-radius: 0.5rem;
+		padding: 0.75rem 1rem;
+		background: #ffffff;
+	}
+
+	.ts-heading {
+		font-size: 1.875rem;
+		line-height: 1.2;
+		font-weight: 600;
+	}
+
+	.ts-site-header,
+	.ts-site-footer {
+		border-color: #e4e4e7;
+		border-style: solid;
+	}
+
+	.ts-site-header {
+		border-width: 0 0 1px;
+	}
+
+	.ts-site-footer {
+		margin-top: auto;
+		border-width: 1px 0 0;
+	}
+
+	.ts-site-header__inner,
+	.ts-site-footer__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		padding-block: 1rem;
+	}
+
+	.ts-site-footer__inner {
+		align-items: flex-start;
+	}
+
+	.ts-branding a {
+		font-size: 1.25rem;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.ts-nav__list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.ts-search-form {
+		display: flex;
+		gap: 0.75rem;
+		width: 100%;
+		max-width: 28rem;
+	}
+}
+

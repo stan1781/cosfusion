@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+@layer components {
+	.woocommerce .button,
+	.woocommerce a.button,
+	.woocommerce button.button,
+	.woocommerce input.button,
+	.woocommerce #respond input#submit {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 0.5rem;
+		background: #18181b;
+		color: #ffffff;
+		padding: 0.75rem 1rem;
+		text-decoration: none;
+		border: 1px solid #18181b;
+	}
+
+	.woocommerce form .input-text,
+	.woocommerce form select,
+	.woocommerce form textarea,
+	.woocommerce-page form .input-text,
+	.woocommerce-page form select,
+	.woocommerce-page form textarea {
+		width: 100%;
+		border: 1px solid #d4d4d8;
+		border-radius: 0.5rem;
+		padding: 0.75rem 1rem;
+		background: #ffffff;
+	}
+
+	.woocommerce form .form-row {
+		margin-bottom: 1rem;
+	}
+
+	.woocommerce table.shop_table,
+	.woocommerce table.shop_attributes {
+		width: 100%;
+		border-collapse: collapse;
+		border: 1px solid #e4e4e7;
+	}
+
+	.woocommerce table.shop_table th,
+	.woocommerce table.shop_table td,
+	.woocommerce table.shop_attributes th,
+	.woocommerce table.shop_attributes td {
+		border: 1px solid #e4e4e7;
+		padding: 0.875rem 1rem;
+		text-align: left;
+	}
+
+	.woocommerce-message,
+	.woocommerce-error,
+	.woocommerce-info {
+		margin-bottom: 1.5rem;
+		padding: 1rem;
+		border: 1px solid #e4e4e7;
+		border-radius: 0.5rem;
+		background: #fafafa;
+		list-style: none;
+	}
+
+	.quantity .qty {
+		max-width: 6rem;
+	}
+
+	.woocommerce-tabs ul.tabs {
+		display: flex;
+		gap: 0.75rem;
+		padding: 0;
+		margin: 0 0 1.5rem;
+		list-style: none;
+	}
+
+	.woocommerce-tabs ul.tabs li {
+		margin: 0;
+	}
+
+	.woocommerce-tabs ul.tabs li a {
+		display: inline-flex;
+		padding: 0.625rem 1rem;
+		border: 1px solid #d4d4d8;
+		border-radius: 0.5rem;
+		text-decoration: none;
+	}
+
+	.woocommerce-account .woocommerce-MyAccount-navigation ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 0.75rem;
+	}
+
+	.woocommerce-checkout .col2-set,
+	.woocommerce-account .addresses,
+	.woocommerce-cart .cart-collaterals {
+		display: grid;
+		gap: 1.5rem;
+	}
+}
+

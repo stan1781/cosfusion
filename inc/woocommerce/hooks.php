@@ -1,0 +1,16 @@
+<?php
+declare(strict_types=1);
+
+function tailwindscore_wc_wrapper_open(): void {
+	echo '<main class="site-main"><div class="ts-container ts-section">';
+}
+
+function tailwindscore_wc_wrapper_close(): void {
+	echo '</div></main>';
+}
+
+remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10 );
+remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10 );
+add_action( 'woocommerce_before_main_content', 'tailwindscore_wc_wrapper_open', 10 );
+add_action( 'woocommerce_after_main_content', 'tailwindscore_wc_wrapper_close', 10 );
+
