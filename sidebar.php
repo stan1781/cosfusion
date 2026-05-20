@@ -6,7 +6,7 @@ if ( ! is_active_sidebar( 'sidebar-1' ) ) {
 }
 ?>
 <aside class="ts-sidebar ts-content-sidebar">
-	<div class="ts-sidebar__inner ts-stack">
+	<div class="ts-sidebar__content ts-stack">
 		<?php dynamic_sidebar( 'sidebar-1' ); ?>
 	</div>
 </aside>

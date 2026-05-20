@@ -81,7 +81,14 @@ declare(strict_types=1);
 			@click.self="closeSearch()"
 		>
 			<button class="ts-site-search-modal__backdrop" type="button" @click="closeSearch()" aria-label="<?php esc_attr_e( 'Close search', 'tailwindscore' ); ?>"></button>
-			<div id="ts-site-search-panel" class="ts-site-search-modal__dialog ts-stack" role="dialog" aria-modal="true" aria-labelledby="ts-site-search-title">
+			<div
+				id="ts-site-search-panel"
+				class="ts-site-search-modal__dialog ts-stack"
+				role="dialog"
+				aria-modal="true"
+				aria-labelledby="ts-site-search-title"
+				@click.outside="closeSearch()"
+			>
 				<div class="ts-site-search-modal__header">
 					<h2 id="ts-site-search-title" class="ts-site-search-modal__title"><?php esc_html_e( 'Search', 'tailwindscore' ); ?></h2>
 					<button class="ts-icon-button ts-site-search-modal__close" type="button" @click="closeSearch()" aria-label="<?php esc_attr_e( 'Close search', 'tailwindscore' ); ?>">
@@ -135,6 +142,9 @@ declare(strict_types=1);
 						data-ts-cart-config
 						data-store-api-url="<?php echo esc_url( rest_url( 'wc/store/v1/' ) ); ?>"
 						data-store-api-nonce="<?php echo esc_attr( wp_create_nonce( 'wc_store_api' ) ); ?>"
+						data-cart-url="<?php echo esc_url( tailwindscore_cart_url() ); ?>"
+						data-checkout-url="<?php echo esc_url( tailwindscore_checkout_url() ); ?>"
+						data-shop-url="<?php echo esc_url( function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/' ) ); ?>"
 					>
 						<div data-ts-cart-drawer-inner>
 							<?php tailwindscore_render_cart_drawer(); ?>

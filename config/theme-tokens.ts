@@ -20,6 +20,11 @@ export const themeTokens = {
 		md: '1.5rem',
 		lg: '2.5rem',
 	},
+	form: {
+		paddingY: '0.5rem',
+		paddingX: '0.75rem',
+		minHeight: '2.25rem',
+	},
 	layout: {
 		container: '72rem',
 		search: '32rem',

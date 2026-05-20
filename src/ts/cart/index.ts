@@ -123,6 +123,9 @@ function getCartConfig() {
 	const configNode = document.querySelector<HTMLElement>('[data-ts-cart-config]');
 	const storeApiUrl = configNode?.dataset.storeApiUrl;
 	const nonce = configNode?.dataset.storeApiNonce;
+	const cartUrl = configNode?.dataset.cartUrl;
+	const checkoutUrl = configNode?.dataset.checkoutUrl;
+	const shopUrl = configNode?.dataset.shopUrl;
 
 	if (!storeApiUrl || !nonce) {
 		return undefined;
@@ -131,9 +134,9 @@ function getCartConfig() {
 	return {
 		storeApiUrl,
 		nonce,
-		cartUrl: '/cart/',
-		checkoutUrl: '/checkout/',
-		shopUrl: '/shop/',
+		cartUrl: cartUrl || '/cart/',
+		checkoutUrl: checkoutUrl || '/checkout/',
+		shopUrl: shopUrl || '/shop/',
 		i18n: {
 			cartScreenReaderSingular: 'Cart, %d item',
 			cartScreenReaderPlural: 'Cart, %d items',

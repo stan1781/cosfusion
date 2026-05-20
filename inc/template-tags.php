@@ -66,6 +66,72 @@ function tailwindscore_cart_summary_text(): string {
 	);
 }
 
+function tailwindscore_search_mode(): string {
+	$default_mode = function_exists( 'WC' ) ? 'product' : 'site';
+	$mode         = apply_filters( 'tailwindscore_search_mode', $default_mode );
+
+	if ( ! is_string( $mode ) ) {
+		return $default_mode;
+	}
+
+	$mode = sanitize_key( $mode );
+
+	if ( ! in_array( $mode, array( 'product', 'site', 'mixed' ), true ) ) {
+		return $default_mode;
+	}
+
+	if ( 'product' === $mode && ! function_exists( 'WC' ) ) {
+		return 'site';
+	}
+
+	if ( 'mixed' === $mode && ! function_exists( 'WC' ) ) {
+		return 'site';
+	}
+
+	return $mode;
+}
+
+function tailwindscore_search_post_types(): array {
+	$mode = tailwindscore_search_mode();
+
+	if ( 'product' === $mode ) {
+		return array( 'product' );
+	}
+
+	if ( 'mixed' === $mode ) {
+		return array( 'product', 'post', 'page' );
+	}
+
+	return array( 'post', 'page' );
+}
+
+function tailwindscore_search_placeholder_text(): string {
+	if ( 'product' === tailwindscore_search_mode() ) {
+		return __( 'Search products', 'tailwindscore' );
+	}
+
+	return __( 'Search the site', 'tailwindscore' );
+}
+
+function tailwindscore_search_submit_text(): string {
+	if ( 'product' === tailwindscore_search_mode() ) {
+		return __( 'Search products', 'tailwindscore' );
+	}
+
+	return __( 'Search', 'tailwindscore' );
+}
+
+function tailwindscore_render_search_hidden_fields(): void {
+	$post_types = tailwindscore_search_post_types();
+
+	if ( 1 !== count( $post_types ) ) {
+		return;
+	}
+	?>
+	<input type="hidden" name="post_type" value="<?php echo esc_attr( $post_types[0] ); ?>">
+	<?php
+}
+
 function tailwindscore_render_cart_badge(): void {
 	$count = tailwindscore_cart_count();
 
