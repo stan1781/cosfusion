@@ -665,6 +665,7 @@
 		gap: var(--ts-space-sm);
 		padding-top: var(--ts-space-sm);
 		border-top: 1px solid var(--ts-colors-border);
+		font-size: 0.75rem;
 	}
 
 	.ts-site-footer__info--centered {
