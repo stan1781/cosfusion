@@ -92,6 +92,65 @@ Tailwind CSS 在本项目中主要承担以下职责：
 
 一次性区域实现参数不应默认上升为全局令牌。
 
+## 响应式断点
+
+### 令牌数值（唯一真源：`config/theme-tokens.ts`）
+
+| 名称 | 宽度 | Tailwind 前缀 | 组件 CSS 媒体查询 |
+|------|------|---------------|-------------------|
+| `sm` | `40rem` | `sm:` | `@media (width >= 40rem)` |
+| `md` | `48rem` | `md:` | `@media (width >= 48rem)` |
+| `lg` | `64rem` | `lg:` | `@media (width >= 64rem)` |
+| `xl` | `80rem` | `xl:` | `@media (width >= 80rem)` |
+| `2xl` | `96rem` | `2xl:` | `@media (width >= 96rem)` |
+
+构建时会同步输出：
+
+- `@theme` 中的 `--breakpoint-*`，供 Tailwind 工具类消费
+- `:root` 中的 `--ts-breakpoint-*`，供文档与运行时引用
+
+**禁止**在组件样式中手写与上表不一致的 `rem` 断点；调整断点只改 `theme-tokens.ts`，并同步更新组件 CSS 中对应的 `@media (width >= …)`（勿使用 `@media (--ts-up-*)` / `@custom-media`，Vite 开发模式下可能不被展开，导致桌面样式整块失效）。
+
+**禁止**在 `@media` 条件中使用 `var(--ts-breakpoint-*)`（浏览器普遍不支持在媒体查询内解析自定义属性）。
+
+### 设备与样式分层约定
+
+采用 **移动优先（mobile-first）**：无媒体查询的默认样式只服务 **低于 `md`（&lt; 48rem）** 的视口，即手机端。
+
+| 视口区间 | 约定 |
+|----------|------|
+| **&lt; `md`** | 手机端：单列、抽屉/叠层导航、全宽控件等 |
+| **`md`～`lg` 以下** | 大屏手机、小平板；仅在需要与手机区分时增加 `md:` 或 `@media (--ts-up-md)` |
+| **`lg` 及以上** | 桌面主断点：站点壳层（如 inline 导航、页头布局）默认在此切换 |
+| **`xl` / `2xl`** | 按页面需要渐进增强：列数、间距、侧栏、超宽屏留白等，**不必**全站每个组件都写满 |
+
+**设计基准**：桌面视觉稿以 **`2xl`（96rem / 1536px）** 为主要参考画布；**实现**仍从手机默认样式写起，通过 `min-width` 向上叠加，而不是把无媒体查询的样式写成「默认 PC / 2xl」再用 `max-width` 往下覆盖。
+
+### 消费方式
+
+1. **PHP 模板（少量布局 utility）**  
+   使用 Tailwind 响应式前缀，例如 `lg:hidden`、`lg:block`。数值与上表一致，由 `tailwind.config.ts` 的 `screens` 映射自令牌。
+
+2. **组件 CSS（`app.css`、`woo.css` 等）**  
+   使用与令牌一致的现代区间语法，例如：
+
+   ```css
+   @media (width >= 64rem) {
+     /* 桌面布局，对应 lg */
+   }
+   ```
+
+   数值须与 `themeBreakpoints` 保持一致；改令牌时同步改对应 `@media` 条件。
+
+3. **`sm`**  
+   在「低于 `md` 即为手机」的前提下，`sm` 仅用于 **手机区间内** 的细调（如横屏略加间距），不另建一套与「手机/桌面」平行的设备体系。
+
+### 与站点壳层、商城的关系
+
+- **Header / 主导航**：移动壳 &lt; `lg`，桌面 inline 导航 ≥ `lg`（与当前实现一致）。
+- **WooCommerce**：结账/账户等可在 `lg` 启用多列；商品列表网格可在 `md` / `xl` 按需加分列，无需与 header 使用同一断点档位。
+- **容器宽度**（`--ts-layout-container: 72rem`）：在 `lg`～`2xl` 视口内居中；`2xl` 主要用于限制内容区过宽与两侧留白，而非要求所有 PC 组件都包在 `2xl:` 下。
+
 ## 推荐方案
 
 本项目采用“独立主题令牌文件 + Tailwind/CSS/TS 共同消费”的方案。
@@ -119,7 +178,7 @@ tailwind.config.ts
 
 #### `config/theme-tokens.ts`
 
-作为设计令牌唯一真源，定义精简的全局核心令牌、少量全局语义令牌，以及有限的 WooCommerce 业务语义令牌。
+作为设计令牌唯一真源，定义精简的全局核心令牌（含响应式断点）、少量全局语义令牌，以及有限的 WooCommerce 业务语义令牌。断点由 `buildThemeTokenCss()` 同步为 `@theme` 与 `:root` 变量；组件 CSS 中的 `@media (width >= …)` 须与 `themeBreakpoints` 手动保持同值。
 
 #### `tailwind.config.ts`
 
@@ -157,7 +216,7 @@ tailwind.config.ts
 - 行高阶梯
 - 字重阶梯
 - 字间距
-- 断点：`sm`、`md`、`lg`、`xl`、`2xl`
+- 断点：`sm`、`md`、`lg`、`xl`、`2xl`（见上文「响应式断点」）
 - 容器宽度：窄内容区、标准内容区、宽内容区
 
 ### 2. 空间系统

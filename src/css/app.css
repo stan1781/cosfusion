@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import "./generated/theme-tokens.css";
+@import "tailwindcss";
 
 @layer base {
 	[x-cloak] {
@@ -729,7 +729,8 @@
 		padding: 0;
 	}
 
-	@media (min-width: 64rem) {
+	/* lg: themeBreakpoints.lg — use (width >= …); @custom-media is not reliable in Vite dev */
+	@media (width >= 64rem) {
 		.ts-site-header__inner {
 			flex-wrap: nowrap;
 		}

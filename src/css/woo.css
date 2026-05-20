@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import "./generated/theme-tokens.css";
+@import "tailwindcss";
 
 @layer base {
 	.ts-main--commerce .ts-wc-shell {
@@ -419,7 +419,8 @@
 		gap: var(--ts-space-md);
 	}
 
-	@media (min-width: 64rem) {
+	/* lg: themeBreakpoints.lg */
+	@media (width >= 64rem) {
 		.ts-wc-checkout__layout {
 			grid-template-columns: minmax(0, 1.65fr) minmax(20rem, 1fr);
 		}

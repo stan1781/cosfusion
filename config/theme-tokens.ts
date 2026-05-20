@@ -1,4 +1,16 @@
+/** Responsive breakpoints — single source for Tailwind, CSS @custom-media, and :root vars. */
+export const themeBreakpoints = {
+	sm: '40rem',
+	md: '48rem',
+	lg: '64rem',
+	xl: '80rem',
+	'2xl': '96rem',
+} as const;
+
+export type ThemeBreakpointName = keyof typeof themeBreakpoints;
+
 export const themeTokens = {
+	breakpoint: themeBreakpoints,
 	colors: {
 		background: '#ffffff',
 		surface: '#ffffff',
@@ -40,6 +52,7 @@ export const themeTokens = {
 	},
 	woocommerce: {
 		noticeBackground: '#fafafa',
+		price: '#85bb65',
 	},
 } as const;
 
@@ -69,14 +82,27 @@ function flattenTokens(
 	return entries;
 }
 
+function buildBreakpointThemeBlock(): string {
+	const lines = Object.entries(themeBreakpoints).map(
+		([name, value]) => `\t--breakpoint-${name}: ${value};`
+	);
+
+	return `@theme {\n${lines.join('\n')}\n}`;
+}
+
 export function buildThemeTokenCss(): string {
 	const variables = flattenTokens(themeTokens as Record<string, string | Record<string, string>>, 'ts');
-	const lines = Object.entries(variables).map(([name, value]) => `\t${name}: ${value};`);
+	const rootLines = Object.entries(variables).map(([name, value]) => `\t${name}: ${value};`);
 
-	return `/* Auto-generated from config/theme-tokens.ts */\n:root {\n${lines.join('\n')}\n}\n`;
+	return [
+		'/* Auto-generated from config/theme-tokens.ts */',
+		buildBreakpointThemeBlock(),
+		`:root {\n${rootLines.join('\n')}\n}`,
+	].join('\n\n');
 }
 
 export const tailwindTheme = {
+	screens: { ...themeBreakpoints },
 	colors: {
 		background: themeTokens.colors.background,
 		surface: themeTokens.colors.surface,
