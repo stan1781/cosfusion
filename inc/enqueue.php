@@ -1,6 +1,40 @@
 <?php
 declare(strict_types=1);
 
+function tailwindscore_is_vite_dev_enabled(): bool {
+	return defined( 'TAILWINDSCORE_VITE_DEV' ) && true === TAILWINDSCORE_VITE_DEV;
+}
+
+function tailwindscore_vite_dev_server_url(): string {
+	return 'http://localhost:5173';
+}
+
+function tailwindscore_module_script_handles(): array {
+	return array(
+		'tailwindscore-vite-client',
+		'tailwindscore-app',
+	);
+}
+
+function tailwindscore_localize_app_script(): void {
+	wp_add_inline_script(
+		'tailwindscore-app',
+		sprintf(
+			'window.tailwindscoreCart = %s;',
+			wp_json_encode(
+				array(
+					'ajaxUrl'          => admin_url( 'admin-ajax.php' ),
+					'addToCartAction'  => 'tailwindscore_add_to_cart',
+					'updateCartAction' => 'tailwindscore_update_cart_item_quantity',
+					'removeCartAction' => 'tailwindscore_remove_cart_item',
+					'nonce'            => wp_create_nonce( 'tailwindscore-cart' ),
+				)
+			)
+		),
+		'before'
+	);
+}
+
 function tailwindscore_manifest_path(): string {
 	return get_template_directory() . '/assets/dist/manifest.json';
 }
@@ -40,7 +74,51 @@ function tailwindscore_enqueue_manifest_style( string $handle, string $entry, ar
 	);
 }
 
+function tailwindscore_enqueue_vite_dev_style( string $handle, string $entry, array $deps = array() ): void {
+	wp_enqueue_style(
+		$handle,
+		tailwindscore_vite_dev_server_url() . '/' . ltrim( $entry, '/' ),
+		$deps,
+		null
+	);
+}
+
+function tailwindscore_enqueue_vite_dev_script( string $handle, string $entry, array $deps = array(), bool $in_footer = true ): void {
+	wp_enqueue_script(
+		$handle,
+		tailwindscore_vite_dev_server_url() . '/' . ltrim( $entry, '/' ),
+		$deps,
+		null,
+		$in_footer
+	);
+	wp_script_add_data( $handle, 'type', 'module' );
+}
+
+function tailwindscore_script_loader_tag( string $tag, string $handle, string $src ): string {
+	if ( ! in_array( $handle, tailwindscore_module_script_handles(), true ) ) {
+		return $tag;
+	}
+
+	return sprintf(
+		'<script type="module" src="%s"></script>',
+		esc_url( $src )
+	);
+}
+
 function tailwindscore_enqueue_assets(): void {
+	if ( tailwindscore_is_vite_dev_enabled() ) {
+		tailwindscore_enqueue_vite_dev_style( 'tailwindscore-app', 'src/css/app.css' );
+
+		if ( tailwindscore_is_woo_page() ) {
+			tailwindscore_enqueue_vite_dev_style( 'tailwindscore-woo', 'src/css/woo.css', array( 'tailwindscore-app' ) );
+		}
+
+		tailwindscore_enqueue_vite_dev_script( 'tailwindscore-vite-client', '@vite/client', array(), false );
+		tailwindscore_enqueue_vite_dev_script( 'tailwindscore-app', 'src/ts/app.ts' );
+		tailwindscore_localize_app_script();
+		return;
+	}
+
 	$manifest = tailwindscore_manifest();
 
 	tailwindscore_enqueue_manifest_style( 'tailwindscore-app', 'src/css/app.css' );
@@ -58,7 +136,8 @@ function tailwindscore_enqueue_assets(): void {
 			true
 		);
 		wp_script_add_data( 'tailwindscore-app', 'type', 'module' );
+		tailwindscore_localize_app_script();
 	}
 }
 add_action( 'wp_enqueue_scripts', 'tailwindscore_enqueue_assets' );
-
+add_filter( 'script_loader_tag', 'tailwindscore_script_loader_tag', 10, 3 );
