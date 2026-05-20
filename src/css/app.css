@@ -296,6 +296,7 @@
 
 	.ts-site-menu-drawer__panel,
 	.ts-site-cart-drawer__panel {
+		--ts-drawer-panel-padding: clamp(1rem, 3vw, 1.5rem);
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -304,7 +305,7 @@
 		gap: var(--ts-space-md);
 		width: min(100%, 22rem);
 		height: 100%;
-		padding: clamp(1rem, 3vw, 1.5rem);
+		padding: var(--ts-drawer-panel-padding);
 		transform: translateX(100%);
 		transition: transform 180ms ease;
 		overflow: hidden;
@@ -360,16 +361,18 @@
 	}
 
 	[data-ts-cart-drawer-content] {
+		display: grid;
 		min-height: 0;
+		overflow: hidden;
 	}
 
 	.ts-cart-drawer-cart {
+		display: grid;
 		height: 100%;
 		min-height: 0;
 	}
 
 	.ts-cart-drawer-cart--filled {
-		display: grid;
 		grid-template-rows: minmax(0, 1fr) auto;
 		gap: var(--ts-space-md);
 	}
@@ -378,6 +381,7 @@
 		min-height: 0;
 		overflow-y: auto;
 		padding-right: 0.25rem;
+		padding-bottom: var(--ts-space-xs);
 	}
 
 	.ts-cart-drawer-cart__items {
@@ -558,7 +562,9 @@
 
 	.ts-cart-drawer-cart__footer {
 		gap: 0.75rem;
-		padding-top: var(--ts-space-md);
+		margin-inline: calc(var(--ts-drawer-panel-padding) * -1);
+		margin-bottom: calc(var(--ts-drawer-panel-padding) * -1);
+		padding: var(--ts-space-md) var(--ts-drawer-panel-padding) var(--ts-drawer-panel-padding);
 		border-top: 1px solid var(--ts-colors-border);
 		background: var(--ts-colors-surface);
 	}

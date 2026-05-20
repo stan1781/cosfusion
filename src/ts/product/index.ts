@@ -1,48 +1,4 @@
-import { applyFragments } from '../cart/index';
-
-type TailwindscoreCartConfig = {
-	ajaxUrl: string;
-	addToCartAction: string;
-	nonce: string;
-};
-
-type WooFragmentResponse = {
-	success?: boolean;
-	data?: {
-		fragments?: Record<string, string>;
-		message?: string;
-	};
-	fragments?: Record<string, string>;
-	message?: string;
-};
-
-function getCartConfig() {
-	const runtimeWindow = window as typeof window & { tailwindscoreCart?: TailwindscoreCartConfig };
-
-	if (runtimeWindow.tailwindscoreCart) {
-		return runtimeWindow.tailwindscoreCart;
-	}
-
-	const configNode = document.querySelector<HTMLElement>('[data-ts-cart-config]');
-
-	if (!configNode) {
-		return undefined;
-	}
-
-	const ajaxUrl = configNode.dataset.ajaxUrl;
-	const addToCartAction = configNode.dataset.addToCartAction;
-	const nonce = configNode.dataset.nonce;
-
-	if (!ajaxUrl || !addToCartAction || !nonce) {
-		return undefined;
-	}
-
-	return {
-		ajaxUrl,
-		addToCartAction,
-		nonce,
-	};
-}
+import { addCartItem } from '../cart/index';
 
 function getProductForms() {
 	return document.querySelectorAll<HTMLFormElement>('form.cart, form.variations_form');
@@ -63,19 +19,26 @@ function setFormPending(form: HTMLFormElement, isPending: boolean) {
 }
 
 function collectVariation(formData: FormData) {
-	const variation: Record<string, string> = {};
+	const variation: Array<{
+		attribute: string;
+		value: string;
+	}> = [];
 
 	formData.forEach((value, key) => {
-		if (typeof value === 'string' && key.startsWith('attribute_') && value !== '') {
-			variation[key] = value;
+		if (typeof value !== 'string' || !key.startsWith('attribute_') || '' === value) {
+			return;
 		}
+
+		variation.push({
+			attribute: key.replace(/^attribute_/, ''),
+			value,
+		});
 	});
 
 	return variation;
 }
 
-function buildAddToCartPayload(form: HTMLFormElement, submitter: HTMLButtonElement | null) {
-	const cartConfig = getCartConfig();
+function buildAddToCartRequest(form: HTMLFormElement, submitter: HTMLButtonElement | null) {
 	const formData = submitter ? new FormData(form, submitter) : new FormData(form);
 	const submitterProductId =
 		submitter?.name === 'add-to-cart' ? Number(submitter.value || '0') : Number(submitter?.dataset.productId ?? '0');
@@ -84,7 +47,7 @@ function buildAddToCartPayload(form: HTMLFormElement, submitter: HTMLButtonEleme
 	const variationId = Math.max(0, Number(formData.get('variation_id') ?? '0'));
 	const isVariationForm = form.classList.contains('variations_form');
 
-	if (!cartConfig || productId < 1) {
+	if (productId < 1) {
 		return null;
 	}
 
@@ -92,54 +55,29 @@ function buildAddToCartPayload(form: HTMLFormElement, submitter: HTMLButtonEleme
 		return null;
 	}
 
-	const payload = new URLSearchParams({
-		action: cartConfig.addToCartAction,
-		nonce: cartConfig.nonce,
-		product_id: String(productId),
-		quantity: String(quantity),
-		variation_id: String(variationId),
-	});
-
-	Object.entries(collectVariation(formData)).forEach(([key, value]) => {
-		payload.append(`variation[${key}]`, value);
-	});
-
-	return payload;
+	return {
+		productId,
+		quantity,
+		variationId,
+		variation: collectVariation(formData),
+	};
 }
 
-async function addToCart(form: HTMLFormElement, submitter: HTMLButtonElement | null, payload: URLSearchParams) {
-	const cartConfig = getCartConfig();
+async function handleAddToCart(form: HTMLFormElement, submitter: HTMLButtonElement | null) {
+	const request = buildAddToCartRequest(form, submitter);
 
-	if (!cartConfig) {
+	if (!request) {
 		return false;
 	}
 
 	setFormPending(form, true);
 
 	try {
-		const response = await fetch(cartConfig.ajaxUrl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-			},
-			body: payload.toString(),
-			credentials: 'same-origin',
-		});
-
-		if (!response.ok) {
-			return false;
-		}
-
-		const data = (await response.json()) as WooFragmentResponse;
-		const fragments = data.data?.fragments ?? data.fragments;
-
-		if (data.success === false || !fragments) {
-			return false;
-		}
-
-		applyFragments(fragments);
-		document.dispatchEvent(new CustomEvent('tailwindscore:open-cart'));
+		await addCartItem(request);
 		return true;
+	} catch (error) {
+		console.error(error);
+		return false;
 	} finally {
 		setFormPending(form, false);
 	}
@@ -157,14 +95,14 @@ if (document.body.classList.contains('single-product')) {
 
 			const submitter =
 				event instanceof SubmitEvent && event.submitter instanceof HTMLButtonElement ? event.submitter : null;
-			const payload = buildAddToCartPayload(form, submitter);
+			const request = buildAddToCartRequest(form, submitter);
 
-			if (!payload) {
+			if (!request) {
 				return;
 			}
 
 			event.preventDefault();
-			const handled = await addToCart(form, submitter, payload);
+			const handled = await handleAddToCart(form, submitter);
 
 			if (!handled) {
 				if (submitter && typeof form.requestSubmit === 'function') {

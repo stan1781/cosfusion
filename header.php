@@ -133,11 +133,8 @@ declare(strict_types=1);
 					<div
 						data-ts-cart-drawer-content
 						data-ts-cart-config
-						data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>"
-						data-add-to-cart-action="tailwindscore_add_to_cart"
-						data-update-cart-action="tailwindscore_update_cart_item_quantity"
-						data-remove-cart-action="tailwindscore_remove_cart_item"
-						data-nonce="<?php echo esc_attr( wp_create_nonce( 'tailwindscore-cart' ) ); ?>"
+						data-store-api-url="<?php echo esc_url( rest_url( 'wc/store/v1/' ) ); ?>"
+						data-store-api-nonce="<?php echo esc_attr( wp_create_nonce( 'wc_store_api' ) ); ?>"
 					>
 						<div data-ts-cart-drawer-inner>
 							<?php tailwindscore_render_cart_drawer(); ?>

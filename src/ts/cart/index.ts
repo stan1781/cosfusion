@@ -1,35 +1,119 @@
 export {};
 
-type TailwindscoreCartConfig = {
-	ajaxUrl: string;
-	addToCartAction: string;
-	updateCartAction: string;
-	removeCartAction: string;
-	nonce: string;
+type CartI18nConfig = {
+	cartScreenReaderSingular: string;
+	cartScreenReaderPlural: string;
+	cartSummarySingular: string;
+	cartSummaryPlural: string;
+	emptyCartMessage: string;
+	browseProducts: string;
+	subtotal: string;
+	checkout: string;
+	viewCart: string;
+	quantityLabel: string;
+	decreaseQuantity: string;
+	increaseQuantity: string;
+	removeItem: string;
 };
 
-type WooFragmentResponse = {
-	success?: boolean;
-	data?: {
-		fragments?: Record<string, string>;
-		message?: string;
+type CartIconConfig = {
+	plus: string;
+	minus: string;
+	trash: string;
+};
+
+type TailwindscoreCartConfig = {
+	storeApiUrl: string;
+	nonce: string;
+	cartUrl: string;
+	checkoutUrl: string;
+	shopUrl: string;
+	i18n: CartI18nConfig;
+	icons: CartIconConfig;
+};
+
+type StoreApiCurrency = {
+	currency_code: string;
+	currency_symbol: string;
+	currency_minor_unit: number;
+	currency_decimal_separator: string;
+	currency_thousand_separator: string;
+	currency_prefix: string;
+	currency_suffix: string;
+};
+
+type StoreApiImage = {
+	src: string;
+	thumbnail: string;
+	alt: string;
+};
+
+type StoreApiCartItem = {
+	key: string;
+	id: number;
+	quantity: number;
+	name: string;
+	permalink: string;
+	images: StoreApiImage[];
+	prices: StoreApiCurrency & {
+		price: string;
 	};
-	fragments?: Record<string, string>;
+	totals: StoreApiCurrency & {
+		line_total: string;
+	};
+	quantity_limits?: {
+		maximum?: number;
+		minimum?: number;
+	};
+};
+
+type StoreApiCart = {
+	items: StoreApiCartItem[];
+	items_count: number;
+	totals: StoreApiCurrency & {
+		total_items: string;
+	};
+};
+
+type StoreApiErrorResponse = {
+	code?: string;
 	message?: string;
+	data?: {
+		status?: number;
+		cart?: StoreApiCart;
+	};
+};
+
+type AddCartItemRequest = {
+	productId: number;
+	quantity: number;
+	variationId?: number;
+	variation?: Array<{
+		attribute: string;
+		value: string;
+	}>;
 };
 
 declare global {
 	interface Window {
-		jQuery?: (...args: unknown[]) => {
-			on: (events: string, handler: (...args: unknown[]) => void) => void;
-			trigger: (eventName: string) => void;
-		};
 		tailwindscoreCart?: TailwindscoreCartConfig;
 	}
 }
 
 const cartDrawerSelector = '[data-ts-cart-drawer-inner]';
 const pendingCartItemKeys = new Set<string>();
+let currentCart: StoreApiCart | null = null;
+let storeApiNonce: string | undefined;
+let cartToken: string | undefined;
+
+function escapeHtml(value: string) {
+	return value
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&#039;');
+}
 
 function getCartConfig() {
 	if (window.tailwindscoreCart) {
@@ -37,72 +121,194 @@ function getCartConfig() {
 	}
 
 	const configNode = document.querySelector<HTMLElement>('[data-ts-cart-config]');
+	const storeApiUrl = configNode?.dataset.storeApiUrl;
+	const nonce = configNode?.dataset.storeApiNonce;
 
-	if (!configNode) {
-		return undefined;
-	}
-
-	const ajaxUrl = configNode.dataset.ajaxUrl;
-	const addToCartAction = configNode.dataset.addToCartAction;
-	const updateCartAction = configNode.dataset.updateCartAction;
-	const removeCartAction = configNode.dataset.removeCartAction;
-	const nonce = configNode.dataset.nonce;
-
-	if (!ajaxUrl || !addToCartAction || !updateCartAction || !removeCartAction || !nonce) {
+	if (!storeApiUrl || !nonce) {
 		return undefined;
 	}
 
 	return {
-		ajaxUrl,
-		addToCartAction,
-		updateCartAction,
-		removeCartAction,
+		storeApiUrl,
 		nonce,
+		cartUrl: '/cart/',
+		checkoutUrl: '/checkout/',
+		shopUrl: '/shop/',
+		i18n: {
+			cartScreenReaderSingular: 'Cart, %d item',
+			cartScreenReaderPlural: 'Cart, %d items',
+			cartSummarySingular: '%d item ready for checkout',
+			cartSummaryPlural: '%d items ready for checkout',
+			emptyCartMessage: 'Your cart is empty.',
+			browseProducts: 'Browse products',
+			subtotal: 'Subtotal',
+			checkout: 'Checkout',
+			viewCart: 'View cart',
+			quantityLabel: 'Quantity',
+			decreaseQuantity: 'Decrease quantity',
+			increaseQuantity: 'Increase quantity',
+			removeItem: 'Remove item from your cart',
+		},
+		icons: {
+			plus: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>',
+			minus: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"></path></svg>',
+			trash: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M6 7l1 12h10l1-12"></path><path d="M9 7V5h6v2"></path></svg>',
+		},
 	};
 }
 
-export function applyFragments(fragments?: Record<string, string>) {
-	if (!fragments) {
-		return;
+function getConfigOrThrow() {
+	const config = getCartConfig();
+
+	if (!config) {
+		throw new Error('Store API config unavailable.');
 	}
 
-	Object.entries(fragments).forEach(([selector, markup]) => {
-		document.querySelectorAll<HTMLElement>(selector).forEach((element) => {
-			element.innerHTML = markup;
-		});
-	});
-
-	document.dispatchEvent(new CustomEvent('tailwindscore:cart-fragments-applied'));
-	syncPendingCartItems();
-}
-
-function getCartItemElement(cartItemKey: string) {
-	return document.querySelector<HTMLElement>(`[data-ts-cart-item][data-cart-item-key="${cartItemKey}"]`);
-}
-
-function toggleCartItemPending(cartItemKey: string, isPending: boolean) {
-	const cartItem = getCartItemElement(cartItemKey);
-
-	if (!cartItem) {
-		return;
+	if (!storeApiNonce) {
+		storeApiNonce = config.nonce;
 	}
 
-	cartItem.toggleAttribute('aria-busy', isPending);
-	cartItem.dataset.state = isPending ? 'pending' : 'idle';
+	return config;
+}
 
-	cartItem
-		.querySelectorAll<HTMLButtonElement | HTMLInputElement | HTMLAnchorElement>(
-			'[data-ts-cart-quantity-step], [data-ts-cart-quantity-input], [data-ts-cart-remove]',
-		)
-		.forEach((control) => {
-			if (control instanceof HTMLAnchorElement) {
-				control.setAttribute('aria-disabled', isPending ? 'true' : 'false');
-				control.tabIndex = isPending ? -1 : 0;
-				return;
-			}
+function replaceCount(template: string, count: number) {
+	return template.replace('%d', String(count));
+}
 
-			control.disabled = isPending;
-		});
+function formatMoney(amount: string, currency: StoreApiCurrency) {
+	const minorUnit = Math.max(0, Number(currency.currency_minor_unit || 0));
+	const normalized = amount.replace(/[^0-9-]/g, '');
+	const isNegative = normalized.startsWith('-');
+	const digits = normalized.replace('-', '');
+	const padded = digits.padStart(minorUnit + 1, '0');
+	const whole = minorUnit > 0 ? padded.slice(0, -minorUnit) : padded;
+	const decimal = minorUnit > 0 ? padded.slice(-minorUnit) : '';
+	const groupedWhole = whole.replace(/\B(?=(\d{3})+(?!\d))/g, currency.currency_thousand_separator || ',');
+	const numeric = decimal ? `${groupedWhole}${currency.currency_decimal_separator || '.'}${decimal}` : groupedWhole;
+	const signed = isNegative ? `-${numeric}` : numeric;
+
+	return `${currency.currency_prefix || ''}${signed}${currency.currency_suffix || ''}`;
+}
+
+function renderCartBadge(count: number) {
+	if (count < 1) {
+		return '';
+	}
+
+	return `<span class="ts-site-header__badge" aria-hidden="true">${count}</span>`;
+}
+
+function renderCartScreenReader(count: number, config: TailwindscoreCartConfig) {
+	const template = count === 1 ? config.i18n.cartScreenReaderSingular : config.i18n.cartScreenReaderPlural;
+
+	return `<span class="screen-reader-text">${escapeHtml(replaceCount(template, count))}</span>`;
+}
+
+function renderCartSummary(count: number, config: TailwindscoreCartConfig) {
+	const template = count === 1 ? config.i18n.cartSummarySingular : config.i18n.cartSummaryPlural;
+	return replaceCount(template, count);
+}
+
+function renderCartItem(item: StoreApiCartItem, config: TailwindscoreCartConfig) {
+	const image = item.images[0];
+	const imageMarkup = image
+		? `<img width="300" height="300" src="${escapeHtml(image.thumbnail || image.src)}" alt="${escapeHtml(image.alt || item.name)}" loading="lazy" />`
+		: '';
+	const unitPrice = formatMoney(item.prices.price, item.prices);
+	const subtotal = formatMoney(item.totals.line_total, item.totals);
+	const maxQuantity = item.quantity_limits?.maximum;
+	const maxAttribute = typeof maxQuantity === 'number' && Number.isFinite(maxQuantity) ? ` max="${maxQuantity}"` : '';
+	const productUrl = item.permalink ? escapeHtml(item.permalink) : '';
+	const productName = escapeHtml(item.name);
+
+	return `
+		<li class="ts-cart-drawer-cart__item" data-ts-cart-item data-cart-item-key="${escapeHtml(item.key)}">
+			<div class="ts-cart-drawer-cart__media">
+				${productUrl ? `<a href="${productUrl}">${imageMarkup}</a>` : imageMarkup}
+			</div>
+			<div class="ts-cart-drawer-cart__content ts-stack">
+				<div class="ts-cart-drawer-cart__row">
+					<div class="ts-cart-drawer-cart__meta ts-stack">
+						${productUrl ? `<a class="ts-cart-drawer-cart__name" href="${productUrl}">${productName}</a>` : `<span class="ts-cart-drawer-cart__name">${productName}</span>`}
+						<span class="ts-cart-drawer-cart__quantity">${item.quantity} x ${escapeHtml(unitPrice)}</span>
+					</div>
+					<button
+						type="button"
+						class="ts-cart-drawer-cart__remove"
+						data-ts-cart-remove
+						data-cart-item-key="${escapeHtml(item.key)}"
+						aria-label="${escapeHtml(config.i18n.removeItem)}"
+					>
+						<span class="ts-icon" aria-hidden="true">${config.icons.trash}</span>
+					</button>
+				</div>
+				<div class="ts-cart-drawer-cart__controls" data-ts-cart-quantity-controls>
+					<button
+						type="button"
+						class="ts-cart-drawer-cart__quantity-button"
+						data-ts-cart-quantity-step="-1"
+						data-cart-item-key="${escapeHtml(item.key)}"
+						aria-label="${escapeHtml(config.i18n.decreaseQuantity)}"
+					>
+						<span class="ts-icon" aria-hidden="true">${config.icons.minus}</span>
+					</button>
+					<label class="screen-reader-text" for="ts-cart-qty-${escapeHtml(item.key)}">${escapeHtml(config.i18n.quantityLabel)}</label>
+					<input
+						id="ts-cart-qty-${escapeHtml(item.key)}"
+						class="ts-cart-drawer-cart__quantity-input"
+						type="number"
+						inputmode="numeric"
+						min="0"${maxAttribute}
+						step="1"
+						value="${item.quantity}"
+						data-ts-cart-quantity-input
+						data-cart-item-key="${escapeHtml(item.key)}"
+					>
+					<button
+						type="button"
+						class="ts-cart-drawer-cart__quantity-button"
+						data-ts-cart-quantity-step="1"
+						data-cart-item-key="${escapeHtml(item.key)}"
+						aria-label="${escapeHtml(config.i18n.increaseQuantity)}"
+					>
+						<span class="ts-icon" aria-hidden="true">${config.icons.plus}</span>
+					</button>
+				</div>
+				<div class="ts-cart-drawer-cart__subtotal">${escapeHtml(subtotal)}</div>
+			</div>
+		</li>
+	`;
+}
+
+function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
+	if (cart.items.length < 1) {
+		return `
+			<div class="ts-cart-drawer-cart">
+				<div class="ts-cart-drawer-cart__empty ts-stack">
+					<p>${escapeHtml(config.i18n.emptyCartMessage)}</p>
+					<a class="ts-button" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
+				</div>
+			</div>
+		`;
+	}
+
+	return `
+		<div class="ts-cart-drawer-cart ts-cart-drawer-cart--filled">
+			<div class="ts-cart-drawer-cart__body">
+				<ul class="ts-cart-drawer-cart__items">
+					${cart.items.map((item) => renderCartItem(item, config)).join('')}
+				</ul>
+			</div>
+			<div class="ts-cart-drawer-cart__footer ts-stack">
+				<div class="ts-cart-drawer-cart__totals">
+					<span>${escapeHtml(config.i18n.subtotal)}</span>
+					<strong>${escapeHtml(formatMoney(cart.totals.total_items, cart.totals))}</strong>
+				</div>
+				<a class="ts-button" href="${escapeHtml(config.checkoutUrl)}">${escapeHtml(config.i18n.checkout)}</a>
+				<a class="ts-cart-drawer-cart__view-cart" href="${escapeHtml(config.cartUrl)}">${escapeHtml(config.i18n.viewCart)}</a>
+			</div>
+		</div>
+	`;
 }
 
 function syncPendingCartItems() {
@@ -114,100 +320,166 @@ function syncPendingCartItems() {
 		item.dataset.state = isPending ? 'pending' : 'idle';
 
 		item
-			.querySelectorAll<HTMLButtonElement | HTMLInputElement | HTMLAnchorElement>(
+			.querySelectorAll<HTMLButtonElement | HTMLInputElement>(
 				'[data-ts-cart-quantity-step], [data-ts-cart-quantity-input], [data-ts-cart-remove]',
 			)
 			.forEach((control) => {
-				if (control instanceof HTMLAnchorElement) {
-					control.setAttribute('aria-disabled', isPending ? 'true' : 'false');
-					control.tabIndex = isPending ? -1 : 0;
-					return;
-				}
-
 				control.disabled = isPending;
 			});
 	});
 }
 
-async function requestCartMutation(payload: URLSearchParams) {
-	const cartConfig = getCartConfig();
+function syncCartUi(cart: StoreApiCart) {
+	const config = getConfigOrThrow();
+	const count = Number(cart.items_count || 0);
+	const summary = renderCartSummary(count, config);
+	const drawerMarkup = renderCartDrawer(cart, config);
 
-	if (!cartConfig) {
-		throw new Error('Cart config unavailable.');
-	}
-
-	const response = await fetch(cartConfig.ajaxUrl, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-		},
-		body: payload.toString(),
-		credentials: 'same-origin',
+	document.querySelectorAll<HTMLElement>('[data-ts-cart-badge]').forEach((element) => {
+		element.innerHTML = renderCartBadge(count);
 	});
 
+	document.querySelectorAll<HTMLElement>('[data-ts-cart-screen-reader]').forEach((element) => {
+		element.innerHTML = renderCartScreenReader(count, config);
+	});
+
+	document.querySelectorAll<HTMLElement>('[data-ts-cart-summary]').forEach((element) => {
+		element.textContent = summary;
+	});
+
+	document.querySelectorAll<HTMLElement>(cartDrawerSelector).forEach((element) => {
+		element.innerHTML = drawerMarkup;
+	});
+
+	syncPendingCartItems();
+}
+
+function updateStoreApiHeaders(response: Response) {
+	const nextNonce = response.headers.get('Nonce');
+	const nextCartToken = response.headers.get('Cart-Token');
+
+	if (nextNonce) {
+		storeApiNonce = nextNonce;
+	}
+
+	if (nextCartToken) {
+		cartToken = nextCartToken;
+	}
+}
+
+async function readErrorResponse(response: Response) {
+	let payload: StoreApiErrorResponse | null = null;
+
+	try {
+		payload = (await response.json()) as StoreApiErrorResponse;
+	} catch {
+		payload = null;
+	}
+
+	if (payload?.data?.cart) {
+		currentCart = payload.data.cart;
+		syncCartUi(payload.data.cart);
+	}
+
+	throw new Error(payload?.message || 'Store API request failed.');
+}
+
+async function requestStoreApi<TResponse>(path: string, options?: { method?: string; body?: unknown }) {
+	const config = getConfigOrThrow();
+	const method = options?.method ?? 'GET';
+	const url = new URL(path, config.storeApiUrl);
+	const headers = new Headers({
+		Accept: 'application/json',
+	});
+
+	if ('GET' !== method && storeApiNonce) {
+		headers.set('Nonce', storeApiNonce);
+	}
+
+	if (cartToken) {
+		headers.set('Cart-Token', cartToken);
+	}
+
+	if (undefined !== options?.body) {
+		headers.set('Content-Type', 'application/json');
+	}
+
+	const response = await fetch(url.toString(), {
+		method,
+		headers,
+		credentials: 'same-origin',
+		body: undefined === options?.body ? undefined : JSON.stringify(options.body),
+	});
+
+	updateStoreApiHeaders(response);
+
 	if (!response.ok) {
-		throw new Error('Cart mutation failed.');
+		await readErrorResponse(response);
 	}
 
-	const data = (await response.json()) as WooFragmentResponse;
-	const fragments = data.data?.fragments ?? data.fragments;
-	const message = data.data?.message ?? data.message;
+	return (await response.json()) as TResponse;
+}
 
-	if (data.success === false) {
-		throw new Error(message || 'Cart mutation failed.');
+function setPendingState(cartItemKey: string, isPending: boolean) {
+	if (isPending) {
+		pendingCartItemKeys.add(cartItemKey);
+	} else {
+		pendingCartItemKeys.delete(cartItemKey);
 	}
 
-	applyFragments(fragments);
+	syncPendingCartItems();
+}
+
+function setCart(cart: StoreApiCart) {
+	currentCart = cart;
+	syncCartUi(cart);
+}
+
+export async function refreshCart() {
+	const cart = await requestStoreApi<StoreApiCart>('cart');
+	setCart(cart);
+	return cart;
+}
+
+export async function addCartItem(request: AddCartItemRequest) {
+	const itemId = request.variationId && request.variationId > 0 ? request.variationId : request.productId;
+	const cart = await requestStoreApi<StoreApiCart>('cart/add-item', {
+		method: 'POST',
+		body: {
+			id: itemId,
+			quantity: Math.max(1, request.quantity),
+			variation: request.variation ?? [],
+		},
+	});
+
+	setCart(cart);
+	document.dispatchEvent(new CustomEvent('tailwindscore:open-cart'));
+	return cart;
 }
 
 async function updateCartItemQuantity(cartItemKey: string, quantity: number) {
-	const cartConfig = getCartConfig();
-
-	if (!cartConfig) {
-		throw new Error('Cart config unavailable.');
-	}
-
-	pendingCartItemKeys.add(cartItemKey);
-	toggleCartItemPending(cartItemKey, true);
+	setPendingState(cartItemKey, true);
 
 	try {
-		await requestCartMutation(
-			new URLSearchParams({
-				action: cartConfig.updateCartAction,
-				nonce: cartConfig.nonce,
-				cart_item_key: cartItemKey,
-				quantity: String(Math.max(1, quantity)),
-			}),
-		);
+		const cart = await requestStoreApi<StoreApiCart>(`cart/update-item?key=${encodeURIComponent(cartItemKey)}&quantity=${Math.max(1, quantity)}`, {
+			method: 'POST',
+		});
+		setCart(cart);
 	} finally {
-		pendingCartItemKeys.delete(cartItemKey);
-		toggleCartItemPending(cartItemKey, false);
-		syncPendingCartItems();
+		setPendingState(cartItemKey, false);
 	}
 }
 
 async function removeCartItem(cartItemKey: string) {
-	const cartConfig = getCartConfig();
-
-	if (!cartConfig) {
-		throw new Error('Cart config unavailable.');
-	}
-
-	pendingCartItemKeys.add(cartItemKey);
-	toggleCartItemPending(cartItemKey, true);
+	setPendingState(cartItemKey, true);
 
 	try {
-		await requestCartMutation(
-			new URLSearchParams({
-				action: cartConfig.removeCartAction,
-				nonce: cartConfig.nonce,
-				cart_item_key: cartItemKey,
-			}),
-		);
+		const cart = await requestStoreApi<StoreApiCart>(`cart/remove-item?key=${encodeURIComponent(cartItemKey)}`, {
+			method: 'POST',
+		});
+		setCart(cart);
 	} finally {
-		pendingCartItemKeys.delete(cartItemKey);
-		toggleCartItemPending(cartItemKey, false);
-		syncPendingCartItems();
+		setPendingState(cartItemKey, false);
 	}
 }
 
@@ -242,8 +514,8 @@ function bindQuantityControls() {
 			}
 
 			const nextQuantity = Math.max(0, Number(input.value || '0') + step);
-
 			input.value = String(nextQuantity);
+
 			try {
 				if (nextQuantity < 1) {
 					await removeCartItem(cartItemKey);
@@ -253,10 +525,11 @@ function bindQuantityControls() {
 			} catch (error) {
 				console.error(error);
 			}
+
 			return;
 		}
 
-		const removeButton = target.closest<HTMLAnchorElement>('[data-ts-cart-remove]');
+		const removeButton = target.closest<HTMLButtonElement>('[data-ts-cart-remove]');
 
 		if (!removeButton) {
 			return;
@@ -274,11 +547,6 @@ function bindQuantityControls() {
 			await removeCartItem(cartItemKey);
 		} catch (error) {
 			console.error(error);
-			const href = removeButton.getAttribute('href');
-
-			if (href) {
-				window.location.href = href;
-			}
 		}
 	});
 
@@ -310,19 +578,18 @@ function bindQuantityControls() {
 	});
 }
 
-function bindWooEvents() {
-	if (!window.jQuery) {
+function initializeCartUi() {
+	const config = getCartConfig();
+
+	if (!config) {
 		return;
 	}
 
-	const $body = window.jQuery(document.body);
-
-	$body.on('added_to_cart removed_from_cart', (...args: unknown[]) => {
-		const fragments = args[1] as Record<string, string> | undefined;
-		applyFragments(fragments);
+	storeApiNonce = config.nonce;
+	bindQuantityControls();
+	void refreshCart().catch((error) => {
+		console.error(error);
 	});
 }
 
-bindQuantityControls();
-bindWooEvents();
-syncPendingCartItems();
+initializeCartUi();

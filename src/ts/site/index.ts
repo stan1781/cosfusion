@@ -1,12 +1,6 @@
-document.documentElement.classList.add('js');
+export {};
 
-declare global {
-	interface Window {
-		Alpine?: {
-			$data: (element: Element) => unknown;
-		};
-	}
-}
+document.documentElement.classList.add('js');
 
 type SiteShellState = {
 	menuOpen: boolean;
