@@ -337,10 +337,6 @@ function renderCartItem(item: StoreApiCartItem, config: TailwindscoreCartConfig)
 	`;
 }
 
-function renderCartFeedbackMarkup() {
-	return `<div class="ts-cart-feedback" data-ts-cart-feedback data-ts-cart-feedback-surface="drawer" role="status" aria-live="polite" hidden></div>`;
-}
-
 function formatDiscountAmount(amount: string, currency: StoreApiCurrency) {
 	const formatted = formatMoney(amount, currency);
 
@@ -404,7 +400,6 @@ function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 	if (cart.items.length < 1) {
 		return `
 			<div class="ts-cart-drawer-cart">
-				${renderCartFeedbackMarkup()}
 				<div class="ts-cart-drawer-cart__empty ts-stack">
 					<p>${escapeHtml(config.i18n.emptyCartMessage)}</p>
 					<a class="ts-button" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
@@ -415,7 +410,6 @@ function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 
 	return `
 		<div class="ts-cart-drawer-cart ts-cart-drawer-cart--filled">
-			${renderCartFeedbackMarkup()}
 			<div class="ts-cart-drawer-cart__body">
 				<ul class="ts-cart-drawer-cart__items" data-ts-cart-items>
 					${cart.items.map((item) => renderCartItem(item, config)).join('')}
@@ -431,7 +425,7 @@ function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 	`;
 }
 
-function reportCartError(error: unknown, surface: 'drawer' | 'toast' | 'page' = 'drawer') {
+function reportCartError(error: unknown, surface: 'drawer' | 'toast' | 'page' = 'toast') {
 	const message = error instanceof Error ? error.message : 'Store API request failed.';
 
 	notify({
@@ -478,18 +472,7 @@ function syncCartUi(cart: StoreApiCart) {
 	});
 
 	document.querySelectorAll<HTMLElement>(cartDrawerSelector).forEach((element) => {
-		const existingFeedback = element.querySelector<HTMLElement>('[data-ts-cart-feedback][data-ts-cart-feedback-surface="drawer"]');
-		const feedbackMarkup = existingFeedback && !existingFeedback.hidden ? existingFeedback.innerHTML : '';
 		element.innerHTML = drawerMarkup;
-
-		if (feedbackMarkup) {
-			const feedback = element.querySelector<HTMLElement>('[data-ts-cart-feedback][data-ts-cart-feedback-surface="drawer"]');
-
-			if (feedback) {
-				feedback.hidden = false;
-				feedback.innerHTML = feedbackMarkup;
-			}
-		}
 	});
 
 	syncPendingCartItems();
@@ -630,7 +613,7 @@ async function removeCartItem(cartItemKey: string) {
 	}
 }
 
-async function applyCartCoupon(code: string, surface: 'drawer' | 'toast' | 'page' = 'drawer') {
+async function applyCartCoupon(code: string, surface: 'drawer' | 'toast' | 'page' = 'toast') {
 	const trimmed = code.trim();
 	const config = getConfigOrThrow();
 
@@ -651,7 +634,6 @@ async function applyCartCoupon(code: string, surface: 'drawer' | 'toast' | 'page
 			},
 		});
 		setCart(cart);
-		clearFeedback('drawer');
 		notify({
 			type: 'success',
 			message: config.i18n.couponApplied,

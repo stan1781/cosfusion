@@ -4,7 +4,7 @@
 
 **Goal:** Implement the first production baseline for the TailwindScore site shell by introducing a lean theme-token foundation, Alpine.js for shell-level interactions, and reusable header/footer/search structure that stays compatible with WordPress and WooCommerce templates.
 
-**Architecture:** Keep `theme-tokens` small and reusable, let component styles consume those values, allow layout-oriented Tailwind utilities in PHP templates where useful, and use Alpine.js only for shell-level UI state such as menu and search toggles. Avoid premature WooCommerce-specific structure tokens.
+**Architecture:** Keep SCSS design tokens in `src/scss/abstracts/_variables.scss`, expose `--ts-*` on `:root`, and let component partials consume `var(--ts-*)`. Use Alpine.js only for shell-level UI state. Avoid premature WooCommerce-specific structure tokens.
 
 **Tech Stack:** WordPress theme PHP, Vite, TypeScript, Tailwind CSS v4, Alpine.js
 

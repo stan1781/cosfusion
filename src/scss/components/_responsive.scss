@@ -1,0 +1,62 @@
+@use "../abstracts/mixins";
+
+@include mixins.ts-up('lg') {
+	.ts-site-header__inner {
+		flex-wrap: nowrap;
+	}
+
+	.ts-site-header__actions {
+		order: 3;
+	}
+
+	.ts-site-header__toggle--menu {
+		display: none;
+	}
+
+	.ts-site-header__nav-inline {
+		display: block;
+		width: auto;
+		margin-left: auto;
+	}
+
+	.ts-nav {
+		width: auto;
+	}
+
+	.ts-nav__list {
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+
+	.ts-site-search-modal {
+		padding-top: clamp(6rem, 12vw, 8rem);
+	}
+
+	.ts-site-menu-drawer {
+		display: none;
+	}
+
+	.ts-site-footer__content {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
+	.ts-site-footer__info--split {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.ts-site-footer__info--split .widget {
+		width: auto;
+	}
+
+	.ts-site-footer__info--split .widget:last-child {
+		margin-left: auto;
+		text-align: right;
+	}
+
+	.ts-content-shell--has-sidebar {
+		grid-template-columns: minmax(0, 1fr) minmax(18rem, 20rem);
+	}
+}

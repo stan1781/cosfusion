@@ -1,0 +1,31 @@
+[x-cloak] {
+	display: none !important;
+}
+
+body {
+	background: var(--ts-colors-background);
+	color: var(--ts-colors-text);
+	font-family: var(--ts-type-body);
+}
+
+html.ts-has-overlay,
+html.ts-has-overlay body {
+	overflow: hidden;
+}
+
+a {
+	color: inherit;
+}
+
+.screen-reader-text {
+	border: 0;
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	word-wrap: normal !important;
+}

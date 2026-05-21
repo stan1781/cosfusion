@@ -99,10 +99,10 @@ function tailwindscore_script_loader_tag( string $tag, string $handle, string $s
 
 function tailwindscore_enqueue_assets(): void {
 	if ( tailwindscore_is_vite_dev_enabled() ) {
-		tailwindscore_enqueue_vite_dev_style( 'tailwindscore-app', 'src/css/app.css' );
+		tailwindscore_enqueue_vite_dev_style( 'tailwindscore-app', 'src/scss/app.scss' );
 
 		if ( tailwindscore_is_woo_page() ) {
-			tailwindscore_enqueue_vite_dev_style( 'tailwindscore-woo', 'src/css/woo.css', array( 'tailwindscore-app' ) );
+			tailwindscore_enqueue_vite_dev_style( 'tailwindscore-woo', 'src/scss/woo.scss', array( 'tailwindscore-app' ) );
 		}
 
 		tailwindscore_enqueue_vite_dev_script( 'tailwindscore-vite-client', '@vite/client', array(), false );
@@ -113,10 +113,10 @@ function tailwindscore_enqueue_assets(): void {
 
 	$manifest = tailwindscore_manifest();
 
-	tailwindscore_enqueue_manifest_style( 'tailwindscore-app', 'src/css/app.css' );
+	tailwindscore_enqueue_manifest_style( 'tailwindscore-app', 'src/scss/app.scss' );
 
 	if ( tailwindscore_is_woo_page() ) {
-		tailwindscore_enqueue_manifest_style( 'tailwindscore-woo', 'src/css/woo.css', array( 'tailwindscore-app' ) );
+		tailwindscore_enqueue_manifest_style( 'tailwindscore-woo', 'src/scss/woo.scss', array( 'tailwindscore-app' ) );
 	}
 
 	if ( ! empty( $manifest['src/ts/app.ts']['file'] ) ) {

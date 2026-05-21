@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-// The drawer is the primary place for cart edits, coupon entry, and cart-state feedback.
+// The drawer is the primary place for cart edits and coupon entry; transient feedback uses toast.
 // The drawer and lightweight cart page must render line items through the same partial.
 
 if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
@@ -11,7 +11,6 @@ if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
 $cart = WC()->cart;
 ?>
 <div class="ts-cart-drawer-cart<?php echo $cart->is_empty() ? '' : ' ts-cart-drawer-cart--filled'; ?>">
-	<?php tailwindscore_render_cart_feedback( array( 'surface' => 'drawer' ) ); ?>
 	<?php if ( $cart->is_empty() ) : ?>
 		<div class="ts-cart-drawer-cart__empty ts-stack">
 			<p><?php esc_html_e( 'Your cart is empty.', 'tailwindscore' ); ?></p>

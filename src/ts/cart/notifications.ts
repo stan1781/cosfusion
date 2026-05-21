@@ -144,7 +144,8 @@ export function clearFeedback(surface: NotificationSurface, context?: string) {
 }
 
 export function notify(notification: PurchaseFlowNotification) {
-	if ('toast' === notification.surface) {
+	// Drawer uses toast notifications; persistent inline feedback is for cart/checkout pages.
+	if ('toast' === notification.surface || 'drawer' === notification.surface) {
 		showToast(notification);
 		return;
 	}

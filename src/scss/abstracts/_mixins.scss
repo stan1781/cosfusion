@@ -1,0 +1,79 @@
+@use "variables";
+
+@mixin ts-up($name) {
+	@if $name == sm or $name == 'sm' {
+		@media (width >= #{variables.$ts-breakpoint-sm}) {
+			@content;
+		}
+	} @else if $name == md or $name == 'md' {
+		@media (width >= #{variables.$ts-breakpoint-md}) {
+			@content;
+		}
+	} @else if $name == lg or $name == 'lg' {
+		@media (width >= #{variables.$ts-breakpoint-lg}) {
+			@content;
+		}
+	} @else if $name == xl or $name == 'xl' {
+		@media (width >= #{variables.$ts-breakpoint-xl}) {
+			@content;
+		}
+	} @else if $name == '2xl' {
+		@media (width >= #{variables.$ts-breakpoint-2xl}) {
+			@content;
+		}
+	} @else {
+		@error "Unknown breakpoint `#{$name}`. Use sm, md, lg, xl, or 2xl.";
+	}
+}
+
+@mixin ts-down($name) {
+	@if $name == sm or $name == 'sm' {
+		@media (width < #{variables.$ts-breakpoint-sm}) {
+			@content;
+		}
+	} @else if $name == md or $name == 'md' {
+		@media (width < #{variables.$ts-breakpoint-md}) {
+			@content;
+		}
+	} @else if $name == lg or $name == 'lg' {
+		@media (width < #{variables.$ts-breakpoint-lg}) {
+			@content;
+		}
+	} @else if $name == xl or $name == 'xl' {
+		@media (width < #{variables.$ts-breakpoint-xl}) {
+			@content;
+		}
+	} @else if $name == '2xl' {
+		@media (width < #{variables.$ts-breakpoint-2xl}) {
+			@content;
+		}
+	} @else {
+		@error "Unknown breakpoint `#{$name}`. Use sm, md, lg, xl, or 2xl.";
+	}
+}
+
+// Animation timing defaults (pair with abstracts/_animations.scss).
+$ts-animation-spin-duration: 0.65s;
+$ts-animation-spin-duration-slow: 0.7s;
+$ts-animation-fade-duration: 0.22s;
+$ts-animation-slide-duration: 0.22s;
+
+/// Continuous rotation (buttons, cart pending, loaders).
+@mixin ts-animation-spin($duration: $ts-animation-spin-duration, $timing: linear) {
+	animation: ts-spin $duration $timing infinite;
+}
+
+/// Fade in (modals, toasts entering).
+@mixin ts-animation-fade-in($duration: $ts-animation-fade-duration, $timing: ease) {
+	animation: ts-fade-in $duration $timing both;
+}
+
+/// Fade out (toasts leaving — also set `.is-leaving` transition in component CSS).
+@mixin ts-animation-fade-out($duration: $ts-animation-fade-duration, $timing: ease) {
+	animation: ts-fade-out $duration $timing both;
+}
+
+/// Subtle enter from below (inline notices, small overlays).
+@mixin ts-animation-slide-up-in($duration: $ts-animation-slide-duration, $timing: ease) {
+	animation: ts-slide-up-in $duration $timing both;
+}

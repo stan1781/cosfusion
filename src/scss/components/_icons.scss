@@ -1,0 +1,39 @@
+// Inline SVG icons (see tailwindscore_icon() in inc/template-tags.php).
+
+$ts-icon-size: 1.25rem;
+$ts-icon-stroke-width: 1.75;
+
+.ts-icon-button {
+	box-sizing: border-box;
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--ts-form-min-height);
+	height: var(--ts-form-min-height);
+	border: 1px solid var(--ts-colors-border);
+	border-radius: var(--ts-radius-sm);
+	background: var(--ts-colors-surface);
+	color: var(--ts-colors-text);
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.ts-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: $ts-icon-size;
+	height: $ts-icon-size;
+	flex-shrink: 0;
+}
+
+.ts-icon svg {
+	width: 100%;
+	height: 100%;
+	fill: none;
+	stroke: currentColor;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: $ts-icon-stroke-width;
+}

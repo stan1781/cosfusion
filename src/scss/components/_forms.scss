@@ -1,0 +1,109 @@
+.ts-form-control,
+.ts-input {
+	box-sizing: border-box;
+	width: 100%;
+	height: var(--ts-form-min-height);
+	min-height: var(--ts-form-min-height);
+	border: 1px solid var(--ts-colors-border-strong);
+	border-radius: var(--ts-radius-sm);
+	padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
+	background: var(--ts-colors-surface);
+	line-height: 1.25;
+}
+
+.ts-form-control:focus,
+.ts-input:focus {
+	outline: none;
+}
+
+.ts-form-control:focus-visible,
+.ts-input:focus-visible {
+	outline: 2px solid var(--ts-colors-text);
+	outline-offset: 0;
+}
+
+.ts-input-group {
+	display: flex;
+	align-items: stretch;
+	min-height: var(--ts-form-min-height);
+	overflow: hidden;
+	border: 1px solid var(--ts-colors-border-strong);
+	border-radius: var(--ts-radius-sm);
+	background: var(--ts-colors-surface);
+}
+
+.ts-input-group .ts-input,
+.ts-input-group .ts-form-control {
+	flex: 1 1 auto;
+	min-width: 0;
+	height: var(--ts-form-min-height);
+	min-height: var(--ts-form-min-height);
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+}
+
+.ts-input-group .ts-input:focus,
+.ts-input-group .ts-form-control:focus,
+.ts-input-group .ts-button:focus,
+.ts-input-group .ts-icon-button:focus {
+	outline: none;
+}
+
+.ts-input-group .ts-input:focus-visible,
+.ts-input-group .ts-form-control:focus-visible {
+	box-shadow: inset 0 0 0 2px var(--ts-colors-text);
+	border-start-start-radius: var(--ts-radius-sm);
+	border-end-start-radius: var(--ts-radius-sm);
+}
+
+.ts-input-group .ts-button:focus-visible {
+	box-shadow: inset 0 0 0 2px var(--ts-colors-text);
+	border-start-end-radius: var(--ts-radius-sm);
+	border-end-end-radius: var(--ts-radius-sm);
+}
+
+.ts-input-group .ts-button {
+	flex: 0 0 auto;
+	height: var(--ts-form-min-height);
+	min-height: var(--ts-form-min-height);
+	padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
+	border: 0;
+	border-radius: 0;
+	border-inline-start: 1px solid var(--ts-colors-border);
+	white-space: nowrap;
+}
+
+.ts-input-group--inset-end {
+	position: relative;
+}
+
+.ts-input-group--inset-end .ts-input,
+.ts-input-group--inset-end .ts-form-control {
+	padding-inline-end: calc(var(--ts-form-padding-x) + var(--ts-form-min-height));
+}
+
+.ts-input-group--inset-end .ts-icon-button,
+.ts-input-group--inset-end .ts-button {
+	position: absolute;
+	inset-block: 0;
+	inset-inline-end: 0;
+	width: var(--ts-form-min-height);
+	height: auto;
+	min-height: 0;
+	border: 0;
+	border-inline-start: 0;
+	border-radius: 0;
+	background: transparent;
+}
+
+.ts-input-group--inset-end .ts-input:focus-visible,
+.ts-input-group--inset-end .ts-form-control:focus-visible {
+	border-radius: var(--ts-radius-sm);
+}
+
+.ts-input-group--inset-end .ts-icon-button:focus-visible {
+	box-shadow: inset 0 0 0 2px var(--ts-colors-text);
+	border-start-end-radius: var(--ts-radius-sm);
+	border-end-end-radius: var(--ts-radius-sm);
+}

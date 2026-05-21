@@ -1,0 +1,6 @@
+.ts-wc-product-detail {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+	gap: var(--ts-space-md);
+	align-items: start;
+}

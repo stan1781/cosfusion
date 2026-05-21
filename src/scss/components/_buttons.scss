@@ -1,0 +1,125 @@
+@use "../abstracts/mixins";
+
+.ts-button {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--ts-radius-sm);
+	background: var(--ts-colors-primary);
+	color: var(--ts-colors-primary-foreground);
+	padding: var(--ts-space-xs) var(--ts-space-sm);
+	text-decoration: none;
+	border: 1px solid var(--ts-colors-primary);
+	cursor: pointer;
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease,
+		color 0.15s ease;
+}
+
+.ts-button--ghost {
+	background: transparent;
+	color: var(--ts-colors-text);
+}
+
+.ts-button--secondary {
+	background: var(--ts-colors-surface);
+	color: var(--ts-colors-text);
+	border-color: var(--ts-colors-border);
+}
+
+.ts-button--outline {
+	background: transparent;
+	color: var(--ts-colors-text);
+	border-color: var(--ts-colors-border-strong);
+}
+
+@media (hover: hover) {
+	.ts-button:not(:disabled):not(.is-loading):not(.loading):hover {
+		background: color-mix(in srgb, var(--ts-colors-primary) 88%, white);
+		border-color: color-mix(in srgb, var(--ts-colors-primary) 88%, white);
+	}
+
+	.ts-button--ghost:not(:disabled):not(.is-loading):not(.loading):hover {
+		background: var(--ts-colors-surface-muted);
+		border-color: var(--ts-colors-border);
+		color: var(--ts-colors-text);
+	}
+
+	.ts-button--secondary:not(:disabled):not(.is-loading):not(.loading):hover {
+		background: var(--ts-colors-surface-muted);
+		border-color: var(--ts-colors-border-strong);
+		color: var(--ts-colors-text);
+	}
+
+	.ts-button--outline:not(:disabled):not(.is-loading):not(.loading):hover {
+		background: var(--ts-colors-surface-muted);
+		border-color: var(--ts-colors-border-strong);
+		color: var(--ts-colors-text);
+	}
+}
+
+.ts-button--sm {
+	min-height: auto;
+	padding: 0.3125rem 0.625rem;
+	border-radius: 0.4rem;
+	font-size: 0.8125rem;
+	line-height: 1.25;
+	font-weight: 600;
+}
+
+/* Shared AJAX loading state (coupon, add to cart, checkout, etc.) */
+.ts-button.is-loading,
+.ts-button.loading,
+button.ts-button.is-loading,
+button.ts-button.loading,
+a.ts-button.is-loading,
+a[role="button"].is-loading {
+	position: relative;
+	pointer-events: none;
+	cursor: wait;
+}
+
+.ts-button.is-loading:not(.ts-icon-button),
+.ts-button.loading:not(.ts-icon-button),
+button.ts-button.is-loading:not(.ts-icon-button),
+button.ts-button.loading:not(.ts-icon-button),
+a.ts-button.is-loading,
+a[role="button"].is-loading {
+	color: transparent;
+}
+
+.ts-button.is-loading:not(.ts-icon-button)::after,
+.ts-button.loading:not(.ts-icon-button)::after,
+button.ts-button.is-loading:not(.ts-icon-button)::after,
+button.ts-button.loading:not(.ts-icon-button)::after,
+a.ts-button.is-loading::after,
+a[role="button"].is-loading::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	width: 1rem;
+	height: 1rem;
+	margin: auto;
+	border: 2px solid transparent;
+	border-top-color: var(--ts-button-spinner-color, var(--ts-colors-primary-foreground));
+	border-inline-end-color: var(--ts-button-spinner-color, var(--ts-colors-primary-foreground));
+	border-radius: 50%;
+		@include mixins.ts-animation-spin;
+}
+
+.ts-button--secondary.is-loading,
+.ts-button--secondary.loading,
+.ts-button--outline.is-loading,
+.ts-button--outline.loading,
+.ts-button--ghost.is-loading,
+.ts-button--ghost.loading {
+	--ts-button-spinner-color: var(--ts-colors-text);
+}
+
+.ts-input-group .ts-button.is-loading:not(.ts-icon-button)::after,
+.ts-input-group .ts-button.loading:not(.ts-icon-button)::after {
+	width: 0.875rem;
+	height: 0.875rem;
+}

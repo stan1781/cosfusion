@@ -1,0 +1,42 @@
+.woocommerce-message,
+.woocommerce-error,
+.woocommerce-info {
+	margin-bottom: var(--ts-space-md);
+	padding: var(--ts-space-sm);
+	border: 1px solid var(--ts-colors-border);
+	border-radius: var(--ts-radius-sm);
+	background: var(--ts-woocommerce-notice-background);
+	list-style: none;
+}
+
+.quantity .qty {
+	max-width: 6rem;
+}
+
+.woocommerce-tabs ul.tabs {
+	display: flex;
+	gap: var(--ts-space-xs);
+	padding: 0;
+	margin: 0 0 var(--ts-space-md);
+	list-style: none;
+}
+
+.woocommerce-tabs ul.tabs li {
+	margin: 0;
+}
+
+.woocommerce-tabs ul.tabs li a {
+	display: inline-flex;
+	padding: 0.625rem var(--ts-space-sm);
+	border: 1px solid var(--ts-colors-border-strong);
+	border-radius: var(--ts-radius-sm);
+	text-decoration: none;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: grid;
+	gap: var(--ts-space-xs);
+}

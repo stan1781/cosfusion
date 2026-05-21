@@ -1,0 +1,24 @@
+.ts-sidebar {
+	width: 100%;
+}
+
+.ts-sidebar .widget-title {
+	font-size: 1rem;
+	font-weight: 600;
+	margin-bottom: var(--ts-space-xs);
+}
+
+.ts-sidebar .widget {
+	display: grid;
+	gap: var(--ts-space-xs);
+}
+
+.ts-site-footer .widget {
+	display: grid;
+	gap: var(--ts-space-xs);
+}
+
+.ts-search-form {
+	width: 100%;
+	max-width: var(--ts-layout-search);
+}

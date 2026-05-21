@@ -1,0 +1,52 @@
+// Design tokens — single source of truth (edit values here).
+
+// Breakpoints
+$ts-breakpoint-sm: 40rem;
+$ts-breakpoint-md: 48rem;
+$ts-breakpoint-lg: 64rem;
+$ts-breakpoint-xl: 80rem;
+$ts-breakpoint-2xl: 96rem;
+
+// Colors
+$ts-colors-background: #ffffff;
+$ts-colors-surface: #ffffff;
+$ts-colors-surface-muted: #fafafa;
+$ts-colors-text: #18181b;
+$ts-colors-text-muted: #52525b;
+$ts-colors-border: #e4e4e7;
+$ts-colors-border-strong: #d4d4d8;
+$ts-colors-primary: #18181b;
+$ts-colors-primary-foreground: #ffffff;
+
+// Radius
+$ts-radius-sm: 0.5rem;
+$ts-radius-md: 0.75rem;
+
+// Space
+$ts-space-xs: 0.75rem;
+$ts-space-sm: 1rem;
+$ts-space-md: 1.5rem;
+$ts-space-lg: 2.5rem;
+
+// Form
+$ts-form-padding-y: 0.5rem;
+$ts-form-padding-x: 0.75rem;
+$ts-form-min-height: 2.375rem;
+$ts-form-textarea-min-rows: 2;
+
+// Layout
+$ts-layout-container: 72rem;
+$ts-layout-search: 32rem;
+
+// Type
+$ts-type-body: ui-sans-serif, system-ui, sans-serif;
+$ts-type-brand-size: 1.25rem;
+$ts-type-heading-size: 1.875rem;
+$ts-type-heading-line-height: 1.2;
+
+// Shadow
+$ts-shadow-card: 0 1px 2px rgb(24 24 27 / 0.06);
+
+// WooCommerce semantics
+$ts-woocommerce-notice-background: #fafafa;
+$ts-woocommerce-price: #85bb65;

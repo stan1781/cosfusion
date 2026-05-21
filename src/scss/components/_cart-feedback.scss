@@ -1,0 +1,24 @@
+.ts-cart-feedback[hidden] {
+	display: none !important;
+}
+
+.ts-cart-feedback:not([hidden]) {
+	display: grid;
+	gap: var(--ts-space-xs);
+}
+
+.ts-cart-feedback__message {
+	margin: 0;
+	padding: var(--ts-space-xs) var(--ts-space-sm);
+	border-radius: var(--ts-radius-sm);
+	font-size: 0.875rem;
+}
+
+.ts-cart-feedback__message--success {
+	background: color-mix(in srgb, var(--ts-colors-primary) 12%, var(--ts-colors-surface));
+}
+
+.ts-cart-feedback__message--error,
+.ts-cart-feedback__message--warning {
+	background: color-mix(in srgb, #b42318 10%, var(--ts-colors-surface));
+}

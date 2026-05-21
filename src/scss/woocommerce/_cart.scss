@@ -1,0 +1,35 @@
+.ts-wc-cart {
+	display: grid;
+	gap: var(--ts-space-md);
+}
+
+.ts-wc-cart__header {
+	display: grid;
+	gap: var(--ts-space-xs);
+}
+
+.ts-wc-cart__title {
+	font-size: clamp(1.5rem, 2vw, 2rem);
+	font-weight: 700;
+}
+
+.ts-wc-cart__summary {
+	color: var(--ts-colors-text-muted);
+}
+
+.ts-wc-cart__items {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: var(--ts-space-md);
+}
+
+.ts-wc-cart__form .ts-cart-drawer-cart__footer--cart-page .ts-button {
+	width: 100%;
+	min-height: 3rem;
+}
+
+.ts-wc-cart__collaterals {
+	display: none;
+}

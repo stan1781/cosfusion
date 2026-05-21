@@ -1,12 +1,5 @@
-import fs from 'node:fs';
 import path from 'node:path';
 import { defineConfig } from 'vite';
-import { buildThemeTokenCss } from './config/theme-tokens';
-
-const generatedThemeCssPath = path.resolve(__dirname, 'src/css/generated/theme-tokens.css');
-
-fs.mkdirSync(path.dirname(generatedThemeCssPath), { recursive: true });
-fs.writeFileSync(generatedThemeCssPath, buildThemeTokenCss(), 'utf8');
 
 export default defineConfig({
 	build: {
@@ -16,8 +9,9 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				app: path.resolve(__dirname, 'src/ts/app.ts'),
-				styles: path.resolve(__dirname, 'src/css/app.css'),
-				woo: path.resolve(__dirname, 'src/css/woo.css'),
+				styles: path.resolve(__dirname, 'src/scss/app.scss'),
+				woo: path.resolve(__dirname, 'src/scss/woo.scss'),
+				editor: path.resolve(__dirname, 'src/scss/editor.scss'),
 			},
 		},
 	},

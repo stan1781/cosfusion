@@ -1,0 +1,39 @@
+// Global @keyframes — import once via app.scss (woo.scss does not duplicate).
+
+@keyframes ts-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes ts-fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes ts-fade-out {
+	from {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes ts-slide-up-in {
+	from {
+		opacity: 0;
+		transform: translateY(0.35rem);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}

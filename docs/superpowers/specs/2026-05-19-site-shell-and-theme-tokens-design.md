@@ -94,22 +94,19 @@ Tailwind CSS 在本项目中主要承担以下职责：
 
 ## 响应式断点
 
-### 令牌数值（唯一真源：`config/theme-tokens.ts`）
+### 令牌数值（唯一真源：`src/scss/abstracts/_variables.scss`）
 
-| 名称 | 宽度 | Tailwind 前缀 | 组件 CSS 媒体查询 |
-|------|------|---------------|-------------------|
-| `sm` | `40rem` | `sm:` | `@media (width >= 40rem)` |
-| `md` | `48rem` | `md:` | `@media (width >= 48rem)` |
-| `lg` | `64rem` | `lg:` | `@media (width >= 64rem)` |
-| `xl` | `80rem` | `xl:` | `@media (width >= 80rem)` |
-| `2xl` | `96rem` | `2xl:` | `@media (width >= 96rem)` |
+| 名称 | 宽度 | SCSS 变量 | 组件 SCSS 媒体查询 |
+|------|------|-----------|-------------------|
+| `sm` | `40rem` | `$ts-breakpoint-sm` | `@include ts-up(sm)` / `ts-down(sm)` |
+| `md` | `48rem` | `$ts-breakpoint-md` | `@include ts-up(md)` / `ts-down(md)` |
+| `lg` | `64rem` | `$ts-breakpoint-lg` | `@include ts-up(lg)` / `ts-down(lg)` |
+| `xl` | `80rem` | `$ts-breakpoint-xl` | `@include ts-up(xl)` / `ts-down(xl)` |
+| `2xl` | `96rem` | `$ts-breakpoint-2xl` | `@include ts-up('2xl')` / `ts-down('2xl')` |
 
-构建时会同步输出：
+[`abstracts/_root.scss`](../../../src/scss/abstracts/_root.scss) 将 `$ts-*` 映射为 `:root` 上的 `--ts-*`，供组件样式通过 `var(--ts-*)` 消费。
 
-- `@theme` 中的 `--breakpoint-*`，供 Tailwind 工具类消费
-- `:root` 中的 `--ts-breakpoint-*`，供文档与运行时引用
-
-**禁止**在组件样式中手写与上表不一致的 `rem` 断点；调整断点只改 `theme-tokens.ts`，并同步更新组件 CSS 中对应的 `@media (width >= …)`（勿使用 `@media (--ts-up-*)` / `@custom-media`，Vite 开发模式下可能不被展开，导致桌面样式整块失效）。
+**禁止**在组件样式中手写与上表不一致的 `rem` 断点；调整断点只改 `_variables.scss`（mixin 自动跟随）。勿使用 `@custom-media`（Vite 开发模式下可能不被展开）。
 
 **禁止**在 `@media` 条件中使用 `var(--ts-breakpoint-*)`（浏览器普遍不支持在媒体查询内解析自定义属性）。
 
@@ -128,19 +125,19 @@ Tailwind CSS 在本项目中主要承担以下职责：
 
 ### 消费方式
 
-1. **PHP 模板（少量布局 utility）**  
-   使用 Tailwind 响应式前缀，例如 `lg:hidden`、`lg:block`。数值与上表一致，由 `tailwind.config.ts` 的 `screens` 映射自令牌。
+1. **PHP 模板**  
+   使用语义化 class（`.ts-*`），不依赖 utility class。
 
-2. **组件 CSS（`app.css`、`woo.css` 等）**  
-   使用与令牌一致的现代区间语法，例如：
+2. **组件 SCSS（`src/scss/components/*`、`woocommerce/*`）**  
+   使用断点 mixin，例如：
 
-   ```css
-   @media (width >= 64rem) {
-     /* 桌面布局，对应 lg */
+   ```scss
+   @include ts-up(lg) {
+     /* 桌面布局 */
    }
    ```
 
-   数值须与 `themeBreakpoints` 保持一致；改令牌时同步改对应 `@media` 条件。
+   样式属性继续写 `var(--ts-colors-text)` 等 CSS 变量。
 
 3. **`sm`**  
    在「低于 `md` 即为手机」的前提下，`sm` 仅用于 **手机区间内** 的细调（如横屏略加间距），不另建一套与「手机/桌面」平行的设备体系。
@@ -153,42 +150,39 @@ Tailwind CSS 在本项目中主要承担以下职责：
 
 ## 推荐方案
 
-本项目采用“独立主题令牌文件 + Tailwind/CSS/TS 共同消费”的方案。
+本项目采用「SCSS 变量 + `:root` CSS 变量 + Vite 编译」方案（与 bootscore-child 的 `$` → `var()` 模式一致）。
 
 ### 核心结构
 
-建议目录如下：
-
 ```text
-config/
-  theme-tokens.ts
-src/css/
-  app.css
-  woo.css
-  tokens.css
+src/scss/
+  abstracts/
+    _variables.scss   # 设计令牌真源（$ts-*）
+    _root.scss        # :root { --ts-* }
+    _mixins.scss      # ts-up / ts-down
+  base/
   components/
-    site-header.css
-    navigation.css
-    footer.css
-    search.css
-tailwind.config.ts
+  woocommerce/
+  app.scss
+  woo.scss
+  editor.scss
 ```
 
 ### 各文件职责
 
-#### `config/theme-tokens.ts`
+#### `abstracts/_variables.scss`
 
-作为设计令牌唯一真源，定义精简的全局核心令牌（含响应式断点）、少量全局语义令牌，以及有限的 WooCommerce 业务语义令牌。断点由 `buildThemeTokenCss()` 同步为 `@theme` 与 `:root` 变量；组件 CSS 中的 `@media (width >= …)` 须与 `themeBreakpoints` 手动保持同值。
+作为设计令牌唯一真源，定义颜色、间距、断点、表单、布局、排版与 WooCommerce 语义色。
 
-#### `tailwind.config.ts`
+#### `abstracts/_root.scss`
 
-只负责从 `theme-tokens.ts` 读取令牌，并映射到 Tailwind 可消费的主题项，不再直接承载所有业务语义。
+将 `$ts-*` 输出为 `:root` 自定义属性，供全站 `var(--ts-*)` 引用。
 
-#### `src/css/tokens.css`
+#### `abstracts/_mixins.scss`
 
-将关键令牌输出为 CSS 自定义属性，供组件层和 WooCommerce 样式层复用。
+`ts-up` / `ts-down` 封装断点媒体查询，避免手写 `rem` 与令牌漂移。
 
-#### `src/css/components/*.css`
+#### `src/scss/components/*.scss`
 
 承接站点通用语义类名，例如：
 
@@ -199,7 +193,7 @@ tailwind.config.ts
 
 模板层只使用这些语义类，不直接重复布局细节。
 
-#### `src/css/woo.css`
+#### `src/scss/woo.scss` 与 `woocommerce/*.scss`
 
 承接 WooCommerce 元素与主题设计令牌的映射，包括按钮、表单、表格、通知条、账户页、购物车和结账基础布局。
 
@@ -390,13 +384,13 @@ WooCommerce 层只保留少量真正具有业务含义的语义令牌：
 
 为了避免配置膨胀，本项目采用以下判断标准：
 
-适合进入 `theme-tokens.ts` 的值：
+适合进入 `_variables.scss` 的值：
 
 - 跨多个组件复用
 - 明显服务主题换肤或品牌替换
 - 可以作为稳定的基础风格控制项
 
-不应默认进入 `theme-tokens.ts` 的值：
+不应默认进入 `_variables.scss` 的值：
 
 - 单个区域的一次性尺寸
 - 单个组件的局部实现参数

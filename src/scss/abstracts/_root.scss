@@ -1,0 +1,38 @@
+@use "variables";
+
+:root {
+	--ts-breakpoint-sm: #{variables.$ts-breakpoint-sm};
+	--ts-breakpoint-md: #{variables.$ts-breakpoint-md};
+	--ts-breakpoint-lg: #{variables.$ts-breakpoint-lg};
+	--ts-breakpoint-xl: #{variables.$ts-breakpoint-xl};
+	--ts-breakpoint-2xl: #{variables.$ts-breakpoint-2xl};
+	--ts-colors-background: #{variables.$ts-colors-background};
+	--ts-colors-surface: #{variables.$ts-colors-surface};
+	--ts-colors-surface-muted: #{variables.$ts-colors-surface-muted};
+	--ts-colors-text: #{variables.$ts-colors-text};
+	--ts-colors-text-muted: #{variables.$ts-colors-text-muted};
+	--ts-colors-border: #{variables.$ts-colors-border};
+	--ts-colors-border-strong: #{variables.$ts-colors-border-strong};
+	--ts-colors-primary: #{variables.$ts-colors-primary};
+	--ts-colors-primary-foreground: #{variables.$ts-colors-primary-foreground};
+	--ts-radius-sm: #{variables.$ts-radius-sm};
+	--ts-radius-md: #{variables.$ts-radius-md};
+	--ts-space-xs: #{variables.$ts-space-xs};
+	--ts-space-sm: #{variables.$ts-space-sm};
+	--ts-space-md: #{variables.$ts-space-md};
+	--ts-space-lg: #{variables.$ts-space-lg};
+	--ts-form-padding-y: #{variables.$ts-form-padding-y};
+	--ts-form-padding-x: #{variables.$ts-form-padding-x};
+	--ts-form-min-height: #{variables.$ts-form-min-height};
+	--ts-form-textarea-min-rows: #{variables.$ts-form-textarea-min-rows};
+	--ts-layout-container: #{variables.$ts-layout-container};
+	--ts-layout-search: #{variables.$ts-layout-search};
+	--ts-type-body: #{variables.$ts-type-body};
+	--ts-type-brand-size: #{variables.$ts-type-brand-size};
+	--ts-type-heading-size: #{variables.$ts-type-heading-size};
+	--ts-type-heading-line-height: #{variables.$ts-type-heading-line-height};
+	--ts-shadow-card: #{variables.$ts-shadow-card};
+	--ts-woocommerce-notice-background: #{variables.$ts-woocommerce-notice-background};
+	--ts-woocommerce-price: #{variables.$ts-woocommerce-price};
+	color-scheme: light;
+}

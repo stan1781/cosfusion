@@ -1,0 +1,28 @@
+@use "../abstracts/mixins";
+
+.ts-wc-account {
+	display: grid;
+	gap: var(--ts-space-md);
+	align-items: start;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: grid;
+	gap: var(--ts-space-xs);
+}
+
+.woocommerce-checkout .col2-set,
+.woocommerce-account .addresses,
+.woocommerce-cart .cart-collaterals {
+	display: grid;
+	gap: var(--ts-space-md);
+}
+
+@include mixins.ts-up('lg') {
+	.ts-wc-account {
+		grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
+	}
+}
