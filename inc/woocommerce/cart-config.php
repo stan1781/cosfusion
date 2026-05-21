@@ -1,0 +1,48 @@
+<?php
+declare(strict_types=1);
+
+function tailwindscore_purchase_flow_config(): array {
+	return array(
+		'storeApiUrl'   => rest_url( 'wc/store/v1/' ),
+		'nonce'         => wp_create_nonce( 'wc_store_api' ),
+		'cartUrl'       => tailwindscore_cart_url(),
+		'checkoutUrl'   => tailwindscore_checkout_url(),
+		'shopUrl'       => function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/' ),
+		'notifications' => array(
+			'selectors' => array(
+				'toast'  => '[data-ts-purchase-flow-toast-root]',
+				'drawer' => '[data-ts-cart-feedback][data-ts-cart-feedback-surface="drawer"]',
+				'inline' => '[data-ts-cart-feedback][data-ts-cart-feedback-surface="inline"]',
+				'page'   => '[data-ts-cart-feedback][data-ts-cart-feedback-surface="page"]',
+			),
+		),
+		'i18n'          => array(
+			'cartScreenReaderSingular' => __( 'Cart, %d item', 'tailwindscore' ),
+			'cartScreenReaderPlural'   => __( 'Cart, %d items', 'tailwindscore' ),
+			'cartSummarySingular'      => __( '%d item ready for checkout', 'tailwindscore' ),
+			'cartSummaryPlural'        => __( '%d items ready for checkout', 'tailwindscore' ),
+			'emptyCartMessage'         => __( 'Your cart is empty.', 'tailwindscore' ),
+			'browseProducts'           => __( 'Browse products', 'tailwindscore' ),
+			'subtotal'                 => __( 'Subtotal', 'tailwindscore' ),
+			'couponDiscount'           => __( 'Coupon discount', 'tailwindscore' ),
+			'checkout'                 => __( 'Checkout', 'tailwindscore' ),
+			'viewCart'                 => __( 'View cart', 'tailwindscore' ),
+			'quantityLabel'            => __( 'Quantity', 'tailwindscore' ),
+			'decreaseQuantity'         => __( 'Decrease quantity', 'tailwindscore' ),
+			'increaseQuantity'         => __( 'Increase quantity', 'tailwindscore' ),
+			'removeItem'               => __( 'Remove item from your cart', 'tailwindscore' ),
+			'couponLabel'              => __( 'Coupon code', 'tailwindscore' ),
+			'couponPlaceholder'        => __( 'Enter code', 'tailwindscore' ),
+			'applyCoupon'              => __( 'Apply', 'tailwindscore' ),
+			'couponApplied'            => __( 'Coupon applied.', 'tailwindscore' ),
+			'couponInvalid'            => __( 'That coupon code is not valid.', 'tailwindscore' ),
+			'itemRemoved'              => __( 'Item removed from your cart.', 'tailwindscore' ),
+			'addedToCart'              => __( 'Added to your cart.', 'tailwindscore' ),
+		),
+		'icons'         => array(
+			'plus'  => tailwindscore_icon( 'plus' ),
+			'minus' => tailwindscore_icon( 'minus' ),
+			'trash' => tailwindscore_icon( 'trash' ),
+		),
+	);
+}

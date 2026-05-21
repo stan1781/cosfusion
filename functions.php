@@ -8,4 +8,5 @@ require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/woocommerce/setup.php';
 require_once get_template_directory() . '/inc/woocommerce/hooks.php';
 require_once get_template_directory() . '/inc/woocommerce/helpers.php';
-
+require_once get_template_directory() . '/inc/woocommerce/cart-view.php';
+require_once get_template_directory() . '/inc/woocommerce/cart-config.php';

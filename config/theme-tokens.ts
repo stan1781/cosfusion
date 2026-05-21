@@ -35,7 +35,8 @@ export const themeTokens = {
 	form: {
 		paddingY: '0.5rem',
 		paddingX: '0.75rem',
-		minHeight: '2.25rem',
+		/** Unified control height: 38px at 16px root (2.375rem). */
+		minHeight: '2.375rem',
 	},
 	layout: {
 		container: '72rem',

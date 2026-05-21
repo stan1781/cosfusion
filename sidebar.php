@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-if ( ! is_active_sidebar( 'sidebar-1' ) ) {
+if ( ! tailwindscore_has_sidebar() ) {
 	return;
 }
 ?>

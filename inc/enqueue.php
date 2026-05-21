@@ -21,35 +21,7 @@ function tailwindscore_localize_app_script(): void {
 		'tailwindscore-app',
 		sprintf(
 			'window.tailwindscoreCart = %s;',
-			wp_json_encode(
-				array(
-					'storeApiUrl' => rest_url( 'wc/store/v1/' ),
-					'nonce'       => wp_create_nonce( 'wc_store_api' ),
-					'cartUrl'     => tailwindscore_cart_url(),
-					'checkoutUrl' => tailwindscore_checkout_url(),
-					'shopUrl'     => function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/' ),
-					'i18n'        => array(
-						'cartScreenReaderSingular' => __( 'Cart, %d item', 'tailwindscore' ),
-						'cartScreenReaderPlural'   => __( 'Cart, %d items', 'tailwindscore' ),
-						'cartSummarySingular'      => __( '%d item ready for checkout', 'tailwindscore' ),
-						'cartSummaryPlural'        => __( '%d items ready for checkout', 'tailwindscore' ),
-						'emptyCartMessage'         => __( 'Your cart is empty.', 'tailwindscore' ),
-						'browseProducts'           => __( 'Browse products', 'tailwindscore' ),
-						'subtotal'                 => __( 'Subtotal', 'tailwindscore' ),
-						'checkout'                 => __( 'Checkout', 'tailwindscore' ),
-						'viewCart'                 => __( 'View cart', 'tailwindscore' ),
-						'quantityLabel'            => __( 'Quantity', 'tailwindscore' ),
-						'decreaseQuantity'         => __( 'Decrease quantity', 'tailwindscore' ),
-						'increaseQuantity'         => __( 'Increase quantity', 'tailwindscore' ),
-						'removeItem'               => __( 'Remove item from your cart', 'tailwindscore' ),
-					),
-					'icons'       => array(
-						'plus'  => tailwindscore_icon( 'plus' ),
-						'minus' => tailwindscore_icon( 'minus' ),
-						'trash' => tailwindscore_icon( 'trash' ),
-					),
-				)
-			)
+			wp_json_encode( tailwindscore_purchase_flow_config() )
 		),
 		'before'
 	);

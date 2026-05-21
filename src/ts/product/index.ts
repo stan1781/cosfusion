@@ -1,4 +1,4 @@
-import { addCartItem } from '../cart/index';
+import { addCartItem, notify } from '../cart/index';
 
 function getProductForms() {
 	return document.querySelectorAll<HTMLFormElement>('form.cart, form.variations_form');
@@ -74,6 +74,12 @@ async function handleAddToCart(form: HTMLFormElement, submitter: HTMLButtonEleme
 
 	try {
 		await addCartItem(request);
+		const config = window.tailwindscoreCart;
+		notify({
+			type: 'success',
+			message: config?.i18n.addedToCart ?? 'Added to your cart.',
+			surface: 'toast',
+		});
 		return true;
 	} catch (error) {
 		console.error(error);

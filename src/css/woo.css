@@ -64,8 +64,35 @@
 		gap: var(--ts-space-md);
 	}
 
+	.ts-wc-cart__header {
+		display: grid;
+		gap: var(--ts-space-xs);
+	}
+
+	.ts-wc-cart__title {
+		font-size: clamp(1.5rem, 2vw, 2rem);
+		font-weight: 700;
+	}
+
+	.ts-wc-cart__summary {
+		color: var(--ts-colors-text-muted);
+	}
+
+	.ts-wc-cart__items {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: var(--ts-space-md);
+	}
+
+	.ts-wc-cart__form .ts-cart-drawer-cart__footer--cart-page .ts-button {
+		width: 100%;
+		min-height: 3rem;
+	}
+
 	.ts-wc-cart__collaterals {
-		margin-top: var(--ts-space-lg);
+		display: none;
 	}
 
 	.ts-wc-checkout__layout,
@@ -99,16 +126,29 @@
 
 	.woocommerce form .input-text,
 	.woocommerce form select,
-	.woocommerce form textarea,
 	.woocommerce-page form .input-text,
-	.woocommerce-page form select,
+	.woocommerce-page form select {
+		box-sizing: border-box;
+		width: 100%;
+		height: var(--ts-form-min-height);
+		min-height: var(--ts-form-min-height);
+		border: 1px solid var(--ts-colors-border-strong);
+		border-radius: var(--ts-radius-sm);
+		padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
+		background: var(--ts-colors-surface);
+		line-height: 1.25;
+	}
+
+	.woocommerce form textarea,
 	.woocommerce-page form textarea {
+		box-sizing: border-box;
 		width: 100%;
 		min-height: var(--ts-form-min-height);
 		border: 1px solid var(--ts-colors-border-strong);
 		border-radius: var(--ts-radius-sm);
 		padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
 		background: var(--ts-colors-surface);
+		line-height: 1.25;
 	}
 
 	/* Select2 / SelectWoo (country, state, etc.) — replaces woocommerce/assets/css/select2.css */
@@ -140,6 +180,7 @@
 		box-sizing: border-box;
 		cursor: pointer;
 		display: block;
+		height: var(--ts-form-min-height);
 		min-height: var(--ts-form-min-height);
 		user-select: none;
 	}

@@ -13,6 +13,9 @@ declare(strict_types=1);
 		</div>
 	</footer>
 </div>
+<?php if ( function_exists( 'WC' ) ) : ?>
+	<div class="ts-purchase-flow-toast-root" data-ts-purchase-flow-toast-root aria-live="polite" aria-relevant="additions"></div>
+<?php endif; ?>
 <?php wp_footer(); ?>
 </body>
 </html>

@@ -27,7 +27,7 @@ declare(strict_types=1);
 				data-shop-url="<?php echo esc_url( function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/' ) ); ?>"
 			>
 				<div data-ts-cart-drawer-inner>
-					<?php tailwindscore_render_cart_drawer(); ?>
+					<?php tailwindscore_render_cart_drawer_content(); ?>
 				</div>
 			</div>
 		</div>

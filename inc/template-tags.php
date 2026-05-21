@@ -1,12 +1,23 @@
 <?php
 declare(strict_types=1);
 
+// Purchase-flow rendering belongs in inc/woocommerce/cart-view.php.
+// Generic site helpers stay in inc/template-tags.php.
+
 function tailwindscore_site_name(): string {
 	return get_bloginfo( 'name' );
 }
 
 function tailwindscore_has_sidebar(): bool {
-	return is_active_sidebar( 'sidebar-1' ) && ! is_404();
+	if ( is_404() ) {
+		return false;
+	}
+
+	if ( function_exists( 'is_cart' ) && ( is_cart() || is_checkout() ) ) {
+		return false;
+	}
+
+	return is_active_sidebar( 'sidebar-1' );
 }
 
 function tailwindscore_icon( string $name ): string {
@@ -30,40 +41,6 @@ function tailwindscore_account_url(): string {
 	}
 
 	return wp_login_url( home_url( '/' ) );
-}
-
-function tailwindscore_cart_url(): string {
-	if ( function_exists( 'wc_get_cart_url' ) ) {
-		return wc_get_cart_url();
-	}
-
-	return home_url( '/' );
-}
-
-function tailwindscore_cart_count(): int {
-	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
-		return 0;
-	}
-
-	return (int) WC()->cart->get_cart_contents_count();
-}
-
-function tailwindscore_checkout_url(): string {
-	if ( function_exists( 'wc_get_checkout_url' ) ) {
-		return wc_get_checkout_url();
-	}
-
-	return home_url( '/' );
-}
-
-function tailwindscore_cart_summary_text(): string {
-	$count = tailwindscore_cart_count();
-
-	return sprintf(
-		/* translators: %d: cart item count */
-		_n( '%d item ready for checkout', '%d items ready for checkout', $count, 'tailwindscore' ),
-		$count
-	);
 }
 
 function tailwindscore_search_mode(): string {
@@ -156,123 +133,5 @@ function tailwindscore_render_cart_screen_reader_text(): void {
 		);
 		?>
 	</span>
-	<?php
-}
-
-function tailwindscore_get_cart_fragment( string $callback ): string {
-	ob_start();
-	$callback();
-
-	return (string) ob_get_clean();
-}
-
-function tailwindscore_render_cart_drawer(): void {
-	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
-		return;
-	}
-
-	$cart = WC()->cart;
-	?>
-	<div class="ts-cart-drawer-cart<?php echo $cart->is_empty() ? '' : ' ts-cart-drawer-cart--filled'; ?>">
-		<?php if ( $cart->is_empty() ) : ?>
-			<div class="ts-cart-drawer-cart__empty ts-stack">
-				<p><?php esc_html_e( 'Your cart is empty.', 'tailwindscore' ); ?></p>
-				<a class="ts-button" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php esc_html_e( 'Browse products', 'tailwindscore' ); ?></a>
-			</div>
-		<?php else : ?>
-			<div class="ts-cart-drawer-cart__body">
-				<ul class="ts-cart-drawer-cart__items">
-					<?php foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) : ?>
-						<?php
-						$product = $cart_item['data'] ?? null;
-
-						if ( ! $product instanceof WC_Product || ! $product->exists() || $cart_item['quantity'] <= 0 ) {
-							continue;
-						}
-
-						$product_name      = $product->get_name();
-						$product_permalink = $product->is_visible() ? $product->get_permalink( $cart_item ) : '';
-						$product_price     = WC()->cart->get_product_price( $product );
-						$product_thumbnail = $product->get_image( 'woocommerce_thumbnail' );
-						$product_subtotal  = WC()->cart->get_product_subtotal( $product, $cart_item['quantity'] );
-						$max_quantity      = $product->backorders_allowed() ? '' : (string) $product->get_max_purchase_quantity();
-						$remove_url        = wc_get_cart_remove_url( $cart_item_key );
-						?>
-						<li class="ts-cart-drawer-cart__item" data-ts-cart-item data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>">
-							<div class="ts-cart-drawer-cart__media">
-								<?php if ( $product_permalink ) : ?>
-									<a href="<?php echo esc_url( $product_permalink ); ?>"><?php echo wp_kses_post( $product_thumbnail ); ?></a>
-								<?php else : ?>
-									<?php echo wp_kses_post( $product_thumbnail ); ?>
-								<?php endif; ?>
-							</div>
-							<div class="ts-cart-drawer-cart__content ts-stack">
-								<div class="ts-cart-drawer-cart__row">
-									<div class="ts-cart-drawer-cart__meta ts-stack">
-										<?php if ( $product_permalink ) : ?>
-											<a class="ts-cart-drawer-cart__name" href="<?php echo esc_url( $product_permalink ); ?>"><?php echo esc_html( $product_name ); ?></a>
-										<?php else : ?>
-											<span class="ts-cart-drawer-cart__name"><?php echo esc_html( $product_name ); ?></span>
-										<?php endif; ?>
-										<span class="ts-cart-drawer-cart__quantity">
-											<?php
-											printf(
-												/* translators: 1: quantity 2: price */
-												esc_html__( '%1$d x %2$s', 'tailwindscore' ),
-												(int) $cart_item['quantity'],
-												wp_strip_all_tags( $product_price )
-											);
-											?>
-										</span>
-									</div>
-									<a
-										class="ts-cart-drawer-cart__remove"
-										href="<?php echo esc_url( $remove_url ); ?>"
-										data-ts-cart-remove
-										data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>"
-										aria-label="<?php echo esc_attr( sprintf( __( 'Remove %s from your cart', 'woocommerce' ), $product_name ) ); ?>"
-									>
-										<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'trash' ); ?></span>
-									</a>
-								</div>
-								<div class="ts-cart-drawer-cart__controls" data-ts-cart-quantity-controls>
-									<button type="button" class="ts-cart-drawer-cart__quantity-button" data-ts-cart-quantity-step="-1" data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>" aria-label="<?php esc_attr_e( 'Decrease quantity', 'tailwindscore' ); ?>">
-										<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'minus' ); ?></span>
-									</button>
-									<label class="screen-reader-text" for="ts-cart-qty-<?php echo esc_attr( $cart_item_key ); ?>"><?php esc_html_e( 'Quantity', 'tailwindscore' ); ?></label>
-									<input
-										id="ts-cart-qty-<?php echo esc_attr( $cart_item_key ); ?>"
-										class="ts-cart-drawer-cart__quantity-input"
-										type="number"
-										inputmode="numeric"
-										min="0"
-										<?php if ( '' !== $max_quantity ) : ?>
-											max="<?php echo esc_attr( $max_quantity ); ?>"
-										<?php endif; ?>
-										step="1"
-										value="<?php echo esc_attr( (string) $cart_item['quantity'] ); ?>"
-										data-ts-cart-quantity-input
-										data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>"
-									>
-									<button type="button" class="ts-cart-drawer-cart__quantity-button" data-ts-cart-quantity-step="1" data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>" aria-label="<?php esc_attr_e( 'Increase quantity', 'tailwindscore' ); ?>">
-										<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'plus' ); ?></span>
-									</button>
-								</div>
-								<div class="ts-cart-drawer-cart__subtotal"><?php echo wp_kses_post( $product_subtotal ); ?></div>
-							</div>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-			</div>
-			<div class="ts-cart-drawer-cart__footer ts-stack">
-				<div class="ts-cart-drawer-cart__totals">
-					<span><?php esc_html_e( 'Subtotal', 'tailwindscore' ); ?></span>
-					<strong><?php echo wp_kses_post( $cart->get_cart_subtotal() ); ?></strong>
-				</div>
-				<a class="ts-button" href="<?php echo esc_url( tailwindscore_checkout_url() ); ?>"><?php esc_html_e( 'Checkout', 'tailwindscore' ); ?></a>
-				<a class="ts-cart-drawer-cart__view-cart" href="<?php echo esc_url( tailwindscore_cart_url() ); ?>"><?php esc_html_e( 'View cart', 'tailwindscore' ); ?></a>
-			</div>
-		<?php endif; ?>
-	</div>
 	<?php
 }
