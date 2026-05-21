@@ -1,4 +1,5 @@
 import { addCartItem, notify } from '../cart/index';
+import { setButtonsLoading } from '../ui/button-loading';
 
 function getProductForms() {
 	return document.querySelectorAll<HTMLFormElement>('form.cart, form.variations_form');
@@ -11,11 +12,7 @@ function getSubmitButtons(form: HTMLFormElement) {
 }
 
 function setFormPending(form: HTMLFormElement, isPending: boolean) {
-	getSubmitButtons(form).forEach((button) => {
-		button.disabled = isPending;
-		button.toggleAttribute('aria-busy', isPending);
-		button.classList.toggle('loading', isPending);
-	});
+	setButtonsLoading(getSubmitButtons(form), isPending);
 }
 
 function collectVariation(formData: FormData) {

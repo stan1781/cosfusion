@@ -34,24 +34,7 @@ $cart = WC()->cart;
 			</ul>
 		</div>
 		<div class="ts-cart-drawer-cart__coupon" data-ts-cart-coupon>
-			<form class="ts-cart-drawer-cart__coupon-form ts-stack" data-ts-cart-coupon-form action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
-				<label for="ts-cart-coupon-code"><?php esc_html_e( 'Coupon code', 'tailwindscore' ); ?></label>
-				<div class="ts-input-group">
-					<input
-						id="ts-cart-coupon-code"
-						class="ts-input"
-						type="text"
-						name="coupon_code"
-						value=""
-						autocomplete="off"
-						data-ts-cart-coupon-input
-						placeholder="<?php esc_attr_e( 'Enter code', 'tailwindscore' ); ?>"
-					>
-					<button class="ts-button ts-button--secondary" type="submit" data-ts-cart-coupon-submit>
-						<?php esc_html_e( 'Apply', 'tailwindscore' ); ?>
-					</button>
-				</div>
-			</form>
+			<?php tailwindscore_render_coupon_form( array( 'context' => 'drawer' ) ); ?>
 		</div>
 		<?php tailwindscore_render_cart_summary( array( 'context' => 'drawer' ) ); ?>
 	<?php endif; ?>

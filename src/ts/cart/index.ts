@@ -1,4 +1,5 @@
 import { clearFeedback, notify } from './notifications';
+import { resolveCouponApplyButton, withControlLoading } from '../ui/button-loading';
 
 export { notify } from './notifications';
 
@@ -21,7 +22,9 @@ type CartI18nConfig = {
 	couponPlaceholder: string;
 	applyCoupon: string;
 	couponApplied: string;
+	couponRemoved: string;
 	couponInvalid: string;
+	couponRequired: string;
 	itemRemoved: string;
 	addedToCart: string;
 };
@@ -116,9 +119,27 @@ type AddCartItemRequest = {
 	}>;
 };
 
+type WooCommerceJQuery = {
+	(selector: string | Document | HTMLElement): {
+		replaceWith: (html: string) => void;
+		trigger: (event: string, data?: unknown) => void;
+	};
+	ajax: (settings: {
+		type: string;
+		url: string;
+		data: Record<string, unknown>;
+		success?: (response: { fragments?: Record<string, string> }) => void;
+		error?: () => void;
+	}) => void;
+};
+
 declare global {
 	interface Window {
 		tailwindscoreCart?: TailwindscoreCartConfig;
+		wc_checkout_params?: {
+			wc_ajax_url: string;
+			update_order_review_nonce: string;
+		};
 	}
 }
 
@@ -178,7 +199,9 @@ function getCartConfig() {
 			couponPlaceholder: 'Enter code',
 			applyCoupon: 'Apply',
 			couponApplied: 'Coupon applied.',
+			couponRemoved: 'Coupon removed.',
 			couponInvalid: 'That coupon code is not valid.',
+			couponRequired: 'Please enter a coupon code.',
 			itemRemoved: 'Item removed from your cart.',
 			addedToCart: 'Added to your cart.',
 		},
@@ -358,7 +381,7 @@ function renderCartFooterTotals(cart: StoreApiCart, config: TailwindscoreCartCon
 function renderCartCouponMarkup(config: TailwindscoreCartConfig) {
 	return `
 		<div class="ts-cart-drawer-cart__coupon" data-ts-cart-coupon>
-			<form class="ts-cart-drawer-cart__coupon-form ts-stack" data-ts-cart-coupon-form action="${escapeHtml(config.cartUrl)}" method="post">
+			<form class="ts-cart-drawer-cart__coupon-form ts-coupon-form ts-stack" data-ts-cart-coupon-form action="${escapeHtml(config.cartUrl)}" method="post">
 				<label for="ts-cart-coupon-code">${escapeHtml(config.i18n.couponLabel)}</label>
 				<div class="ts-input-group">
 					<input
@@ -370,7 +393,7 @@ function renderCartCouponMarkup(config: TailwindscoreCartConfig) {
 						data-ts-cart-coupon-input
 						placeholder="${escapeHtml(config.i18n.couponPlaceholder)}"
 					>
-					<button class="ts-button ts-button--secondary" type="submit" data-ts-cart-coupon-submit>${escapeHtml(config.i18n.applyCoupon)}</button>
+					<button class="ts-button ts-button--secondary" type="submit" data-ts-button-loading data-ts-cart-coupon-submit>${escapeHtml(config.i18n.applyCoupon)}</button>
 				</div>
 			</form>
 		</div>
@@ -408,7 +431,7 @@ function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 	`;
 }
 
-function reportCartError(error: unknown, surface: 'drawer' | 'toast' = 'drawer') {
+function reportCartError(error: unknown, surface: 'drawer' | 'toast' | 'page' = 'drawer') {
 	const message = error instanceof Error ? error.message : 'Store API request failed.';
 
 	notify({
@@ -607,14 +630,18 @@ async function removeCartItem(cartItemKey: string) {
 	}
 }
 
-async function applyCartCoupon(code: string) {
+async function applyCartCoupon(code: string, surface: 'drawer' | 'toast' | 'page' = 'drawer') {
 	const trimmed = code.trim();
+	const config = getConfigOrThrow();
 
 	if ('' === trimmed) {
+		notify({
+			type: 'error',
+			message: config.i18n.couponRequired,
+			surface,
+		});
 		return;
 	}
-
-	const config = getConfigOrThrow();
 
 	try {
 		const cart = await requestStoreApi<StoreApiCart>('cart/apply-coupon', {
@@ -628,15 +655,177 @@ async function applyCartCoupon(code: string) {
 		notify({
 			type: 'success',
 			message: config.i18n.couponApplied,
-			surface: 'toast',
+			surface,
 		});
 	} catch (error) {
 		notify({
 			type: 'error',
 			message: error instanceof Error && error.message ? error.message : config.i18n.couponInvalid,
-			surface: 'drawer',
+			surface,
 		});
+		throw error;
 	}
+}
+
+async function removeCartCoupon(code: string) {
+	const trimmed = code.trim();
+
+	if ('' === trimmed) {
+		return;
+	}
+
+	const config = getConfigOrThrow();
+
+	const cart = await requestStoreApi<StoreApiCart>('cart/remove-coupon', {
+		method: 'POST',
+		body: {
+			code: trimmed,
+		},
+	});
+	setCart(cart);
+	notify({
+		type: 'success',
+		message: config.i18n.couponRemoved,
+		surface: 'toast',
+	});
+}
+
+function getCheckoutCouponInput(scope?: ParentNode | null) {
+	return (
+		scope?.querySelector<HTMLInputElement>('[data-ts-checkout-coupon-input]') ??
+		document.querySelector<HTMLInputElement>(
+			'input[data-ts-checkout-coupon-input][form="woocommerce-checkout-form-coupon"]',
+		)
+	);
+}
+
+function clearCheckoutCouponInput(scope?: ParentNode | null) {
+	const input = getCheckoutCouponInput(scope);
+
+	if (input) {
+		input.value = '';
+	}
+}
+
+async function applyCheckoutCouponFromButton(submitButton: HTMLButtonElement | null): Promise<void> {
+	const fields = submitButton?.closest('[data-ts-checkout-coupon-fields]');
+	const input = getCheckoutCouponInput(fields ?? undefined);
+	const code = input?.value ?? '';
+
+	if (!code.trim()) {
+		await applyCartCoupon(code, 'toast');
+		return;
+	}
+
+	try {
+		await withControlLoading(submitButton, async () => {
+			await applyCartCoupon(code, 'toast');
+			clearFeedback('page');
+			clearCheckoutCouponInput(fields ?? undefined);
+		});
+		await refreshCheckoutOrderReview();
+	} catch {
+		// applyCartCoupon already surfaced the error.
+	}
+}
+
+function buildCheckoutOrderReviewPayload() {
+	const checkoutForm = document.querySelector<HTMLFormElement>('form.checkout');
+
+	if (!checkoutForm || !window.wc_checkout_params) {
+		return null;
+	}
+
+	const country = (document.querySelector<HTMLInputElement>('#billing_country')?.value ?? '').trim();
+	const state = (document.querySelector<HTMLInputElement>('#billing_state')?.value ?? '').trim();
+	const postcode = (document.querySelector<HTMLInputElement>('#billing_postcode')?.value ?? '').trim();
+	const city = (document.querySelector<HTMLInputElement>('#billing_city')?.value ?? '').trim();
+	const address = (document.querySelector<HTMLInputElement>('#billing_address_1')?.value ?? '').trim();
+	const address2 = (document.querySelector<HTMLInputElement>('#billing_address_2')?.value ?? '').trim();
+
+	let sCountry = '';
+	let sState = '';
+	let sPostcode = '';
+	let sCity = '';
+	let sAddress = '';
+	let sAddress2 = '';
+
+	if (document.querySelector<HTMLInputElement>('#ship-to-different-address')?.checked) {
+		sCountry = (document.querySelector<HTMLInputElement>('#shipping_country')?.value ?? '').trim();
+		sState = (document.querySelector<HTMLInputElement>('#shipping_state')?.value ?? '').trim();
+		sPostcode = (document.querySelector<HTMLInputElement>('#shipping_postcode')?.value ?? '').trim();
+		sCity = (document.querySelector<HTMLInputElement>('#shipping_city')?.value ?? '').trim();
+		sAddress = (document.querySelector<HTMLInputElement>('#shipping_address_1')?.value ?? '').trim();
+		sAddress2 = (document.querySelector<HTMLInputElement>('#shipping_address_2')?.value ?? '').trim();
+	}
+
+	const paymentMethod =
+		document.querySelector<HTMLInputElement>('input[name="payment_method"]:checked')?.value ??
+		document.querySelector<HTMLInputElement>('input[name="payment_method"][type="hidden"]')?.value ??
+		'';
+
+	const postData = new URLSearchParams();
+	new FormData(checkoutForm).forEach((value, key) => {
+		if ('string' === typeof value) {
+			postData.append(key, value);
+		}
+	});
+
+	return {
+		security: window.wc_checkout_params.update_order_review_nonce,
+		payment_method: paymentMethod,
+		country,
+		state,
+		postcode,
+		city,
+		address,
+		address_2: address2,
+		s_country: sCountry,
+		s_state: sState,
+		s_postcode: sPostcode,
+		s_city: sCity,
+		s_address: sAddress,
+		s_address_2: sAddress2,
+		has_full_address: Boolean(country && address && city),
+		post_data: postData.toString(),
+	};
+}
+
+async function refreshCheckoutOrderReview(): Promise<void> {
+	const $ = (window as unknown as { jQuery?: WooCommerceJQuery }).jQuery;
+	const checkoutParams = window.wc_checkout_params;
+	const payload = buildCheckoutOrderReviewPayload();
+
+	if (!payload || !checkoutParams || !$?.ajax) {
+		document.dispatchEvent(new CustomEvent('tailwindscore:checkout-updated'));
+		return;
+	}
+
+	await new Promise<void>((resolve) => {
+		$.ajax({
+			type: 'POST',
+			url: checkoutParams.wc_ajax_url.toString().replace('%%endpoint%%', 'update_order_review'),
+			data: payload,
+			success: (response: { fragments?: Record<string, string> }) => {
+				if (response?.fragments) {
+					Object.entries(response.fragments).forEach(([selector, markup]) => {
+						$(selector).replaceWith(markup);
+					});
+				}
+
+				$(document.body).trigger('updated_checkout');
+				document.dispatchEvent(new CustomEvent('tailwindscore:checkout-updated'));
+				resolve();
+			},
+			error: () => {
+				$(document.body).trigger('update_checkout', {
+					update_shipping_method: false,
+				});
+				document.dispatchEvent(new CustomEvent('tailwindscore:checkout-updated'));
+				resolve();
+			},
+		});
+	});
 }
 
 function getQuantityInput(cartItemKey: string) {
@@ -746,17 +935,120 @@ function bindCouponControls() {
 
 		const input = target.querySelector<HTMLInputElement>('[data-ts-cart-coupon-input]');
 		const code = input?.value ?? '';
+		const submitButton = resolveCouponApplyButton(target);
 
 		if (!code.trim()) {
+			await applyCartCoupon(code);
 			return;
 		}
 
-		await applyCartCoupon(code);
+		try {
+			await withControlLoading(submitButton, () => applyCartCoupon(code));
+		} catch {
+			return;
+		}
 
 		if (input) {
 			input.value = '';
 		}
 	});
+}
+
+function bindCheckoutCouponControls() {
+	if (!document.body.classList.contains('woocommerce-checkout')) {
+		return;
+	}
+
+	document.addEventListener(
+		'click',
+		async (event) => {
+			const target = event.target;
+
+			if (!(target instanceof Element)) {
+				return;
+			}
+
+			const removeLink = target.closest<HTMLElement>('.woocommerce-remove-coupon');
+
+			if (!removeLink) {
+				return;
+			}
+
+			event.preventDefault();
+			event.stopImmediatePropagation();
+
+			const coupon = removeLink.dataset.coupon;
+
+			if (!coupon) {
+				return;
+			}
+
+			const removeControl = removeLink instanceof HTMLAnchorElement ? removeLink : null;
+
+			try {
+				await withControlLoading(removeControl, async () => {
+					clearCheckoutCouponInput();
+					clearFeedback('page');
+					await removeCartCoupon(coupon);
+					await refreshCheckoutOrderReview();
+				});
+			} catch (error) {
+				reportCartError(error, 'toast');
+			}
+		},
+		true,
+	);
+
+	document.addEventListener(
+		'click',
+		async (event) => {
+			const target = event.target;
+
+			if (!(target instanceof Element)) {
+				return;
+			}
+
+			const applyButton = target.closest<HTMLButtonElement>(
+				'button[data-ts-cart-coupon-submit][form="woocommerce-checkout-form-coupon"]',
+			);
+
+			if (!applyButton) {
+				return;
+			}
+
+			event.preventDefault();
+			event.stopImmediatePropagation();
+
+			await applyCheckoutCouponFromButton(applyButton);
+		},
+		true,
+	);
+
+	document.addEventListener(
+		'submit',
+		async (event) => {
+			const target = event.target;
+
+			if (!(target instanceof HTMLFormElement)) {
+				return;
+			}
+
+			const isCheckoutCouponForm =
+				target.id === 'woocommerce-checkout-form-coupon' || target.matches('[data-ts-checkout-coupon-form]');
+
+			if (!isCheckoutCouponForm) {
+				return;
+			}
+
+			event.preventDefault();
+			event.stopPropagation();
+			event.stopImmediatePropagation();
+
+			const submitButton = resolveCouponApplyButton(target, event.submitter);
+			await applyCheckoutCouponFromButton(submitButton);
+		},
+		true,
+	);
 }
 
 function initializeCartUi() {
@@ -766,12 +1058,20 @@ function initializeCartUi() {
 		return;
 	}
 
+	const isCheckout = document.body.classList.contains('woocommerce-checkout');
+
 	storeApiNonce = config.nonce;
 	bindQuantityControls();
 	bindCouponControls();
-	void refreshCart().catch((error) => {
-		reportCartError(error);
-	});
+	bindCheckoutCouponControls();
+
+	// Avoid Store API GET /cart on checkout: calculate_totals() can persist a stale coupon
+	// back to the session after a concurrent remove (classic WC AJAX vs Store API race).
+	if (!isCheckout) {
+		void refreshCart().catch((error) => {
+			reportCartError(error);
+		});
+	}
 }
 
 initializeCartUi();

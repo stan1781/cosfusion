@@ -1,0 +1,14 @@
+<?php
+declare(strict_types=1);
+
+defined( 'ABSPATH' ) || exit;
+
+if ( ! wc_coupons_enabled() ) {
+	return;
+}
+
+tailwindscore_render_coupon_form(
+	array(
+		'context' => 'checkout',
+	)
+);

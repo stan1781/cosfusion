@@ -24,6 +24,19 @@
 	a {
 		color: inherit;
 	}
+
+	.screen-reader-text {
+		border: 0;
+		clip: rect(1px, 1px, 1px, 1px);
+		clip-path: inset(50%);
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		width: 1px;
+		word-wrap: normal !important;
+	}
 }
 
 @layer components {
@@ -34,8 +47,12 @@
 	}
 
 	.ts-container {
+		--ts-container-inline-gutter: 1rem;
 		margin-inline: auto;
-		width: min(100% - 2rem, var(--ts-layout-container));
+		width: min(
+			100% - 2 * var(--ts-container-inline-gutter),
+			var(--ts-layout-container)
+		);
 	}
 
 	.ts-section {
@@ -91,6 +108,86 @@
 		background: var(--ts-colors-surface);
 		color: var(--ts-colors-text);
 		border-color: var(--ts-colors-border);
+	}
+
+	.ts-button--outline {
+		background: transparent;
+		color: var(--ts-colors-text);
+		border-color: var(--ts-colors-border-strong);
+	}
+
+	.ts-button--outline:hover {
+		background: var(--ts-colors-surface-muted);
+	}
+
+	.ts-button--sm {
+		min-height: auto;
+		padding: 0.3125rem 0.625rem;
+		border-radius: 0.4rem;
+		font-size: 0.8125rem;
+		line-height: 1.25;
+		font-weight: 600;
+	}
+
+	@keyframes ts-button-spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	/* Shared AJAX loading state (coupon, add to cart, checkout, etc.) */
+	.ts-button.is-loading,
+	.ts-button.loading,
+	button.ts-button.is-loading,
+	button.ts-button.loading,
+	a.ts-button.is-loading,
+	a[role="button"].is-loading {
+		position: relative;
+		pointer-events: none;
+		cursor: wait;
+	}
+
+	.ts-button.is-loading:not(.ts-icon-button),
+	.ts-button.loading:not(.ts-icon-button),
+	button.ts-button.is-loading:not(.ts-icon-button),
+	button.ts-button.loading:not(.ts-icon-button),
+	a.ts-button.is-loading,
+	a[role="button"].is-loading {
+		color: transparent;
+	}
+
+	.ts-button.is-loading:not(.ts-icon-button)::after,
+	.ts-button.loading:not(.ts-icon-button)::after,
+	button.ts-button.is-loading:not(.ts-icon-button)::after,
+	button.ts-button.loading:not(.ts-icon-button)::after,
+	a.ts-button.is-loading::after,
+	a[role="button"].is-loading::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		width: 1rem;
+		height: 1rem;
+		margin: auto;
+		border: 2px solid transparent;
+		border-top-color: var(--ts-button-spinner-color, var(--ts-colors-primary-foreground));
+		border-inline-end-color: var(--ts-button-spinner-color, var(--ts-colors-primary-foreground));
+		border-radius: 50%;
+		animation: ts-button-spin 0.65s linear infinite;
+	}
+
+	.ts-button--secondary.is-loading,
+	.ts-button--secondary.loading,
+	.ts-button--outline.is-loading,
+	.ts-button--outline.loading,
+	.ts-button--ghost.is-loading,
+	.ts-button--ghost.loading {
+		--ts-button-spinner-color: var(--ts-colors-text);
+	}
+
+	.ts-input-group .ts-button.is-loading:not(.ts-icon-button)::after,
+	.ts-input-group .ts-button.loading:not(.ts-icon-button)::after {
+		width: 0.875rem;
+		height: 0.875rem;
 	}
 
 	.ts-icon-button {
@@ -505,7 +602,7 @@
 
 	.ts-cart-drawer-cart--filled {
 		grid-template-rows: minmax(0, 1fr) auto;
-		gap: var(--ts-space-md);
+		/* gap: var(--ts-space-md); */
 	}
 
 	.ts-cart-drawer-cart__body {
@@ -520,7 +617,7 @@
 		margin: 0;
 		padding: 0;
 		display: grid;
-		gap: var(--ts-space-md);
+		/* gap: var(--ts-space-md); */
 	}
 
 	.ts-cart-drawer-cart__item {

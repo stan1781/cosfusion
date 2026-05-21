@@ -10,3 +10,5 @@ require_once get_template_directory() . '/inc/woocommerce/hooks.php';
 require_once get_template_directory() . '/inc/woocommerce/helpers.php';
 require_once get_template_directory() . '/inc/woocommerce/cart-view.php';
 require_once get_template_directory() . '/inc/woocommerce/cart-config.php';
+require_once get_template_directory() . '/inc/woocommerce/checkout.php';
+require_once get_template_directory() . '/inc/woocommerce/checkout-coupon.php';
