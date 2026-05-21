@@ -25,7 +25,7 @@ $ts_footer_info_classes .= ( ! $ts_use_footer_info_sidebar || $ts_footer_info_wi
 				<?php
 				printf(
 					/* translators: 1: year, 2: site name */
-					esc_html__( '© %1$s %2$s. All rights reserved.', 'tailwindscore' ),
+					esc_html__( 'Copyright %1$s %2$s. All rights reserved.', 'tailwindscore' ),
 					esc_html( gmdate( 'Y' ) ),
 					esc_html( $ts_site_name )
 				);
