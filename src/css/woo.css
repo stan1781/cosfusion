@@ -113,20 +113,31 @@
 	.woocommerce button.button,
 	.woocommerce input.button,
 	.woocommerce #respond input#submit {
+		box-sizing: border-box;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
+		min-height: var(--ts-form-min-height);
+		padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
 		border-radius: var(--ts-radius-sm);
 		background: var(--ts-colors-primary);
 		color: var(--ts-colors-primary-foreground);
-		padding: var(--ts-space-xs) var(--ts-space-sm);
+		line-height: 1.25;
+		font-size: inherit;
 		text-decoration: none;
 		border: 1px solid var(--ts-colors-primary);
+		cursor: pointer;
 	}
 
-	.woocommerce form .input-text,
+	.woocommerce form .button,
+	.woocommerce form button.button,
+	.woocommerce form input.button {
+		height: var(--ts-form-min-height);
+	}
+
+	.woocommerce form input.input-text,
 	.woocommerce form select,
-	.woocommerce-page form .input-text,
+	.woocommerce-page form input.input-text,
 	.woocommerce-page form select {
 		box-sizing: border-box;
 		width: 100%;
@@ -143,12 +154,16 @@
 	.woocommerce-page form textarea {
 		box-sizing: border-box;
 		width: 100%;
-		min-height: var(--ts-form-min-height);
+		height: auto;
+		min-height: calc(
+			var(--ts-form-textarea-min-rows) * 1.25em + 2 * var(--ts-form-padding-y)
+		);
 		border: 1px solid var(--ts-colors-border-strong);
 		border-radius: var(--ts-radius-sm);
 		padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
 		background: var(--ts-colors-surface);
 		line-height: 1.25;
+		resize: vertical;
 	}
 
 	/* Select2 / SelectWoo (country, state, etc.) — replaces woocommerce/assets/css/select2.css */
@@ -392,6 +407,94 @@
 
 	.woocommerce form .form-row {
 		margin-bottom: var(--ts-space-sm);
+	}
+
+	/* Replaces woocommerce-layout: input + button (checkout/cart coupon) */
+	.woocommerce form.checkout_coupon,
+	.woocommerce form.woocommerce-form-coupon {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--ts-space-sm);
+		align-items: flex-end;
+	}
+
+	.woocommerce form.checkout_coupon .form-row,
+	.woocommerce form.woocommerce-form-coupon .form-row {
+		margin-bottom: 0;
+	}
+
+	.woocommerce form.checkout_coupon .form-row-first,
+	.woocommerce form.woocommerce-form-coupon .form-row-first {
+		flex: 1 1 12rem;
+		min-width: 0;
+	}
+
+	.woocommerce form.checkout_coupon .form-row-last,
+	.woocommerce form.woocommerce-form-coupon .form-row-last {
+		flex: 0 0 auto;
+		align-self: flex-end;
+	}
+
+	.woocommerce form.checkout_coupon .form-row-last .button,
+	.woocommerce form.woocommerce-form-coupon .form-row-last .button {
+		white-space: nowrap;
+	}
+
+	.woocommerce form.checkout_coupon .clear,
+	.woocommerce form.woocommerce-form-coupon .clear {
+		display: none;
+	}
+
+	/* Replaces woocommerce-layout: paired fields (e.g. first / last name) */
+	.woocommerce-checkout #customer_details .form-row-first,
+	.woocommerce-checkout #customer_details .form-row-last,
+	.woocommerce form.woocommerce-form-login .form-row-first,
+	.woocommerce form.woocommerce-form-login .form-row-last,
+	.woocommerce-account .woocommerce-EditAccountForm .form-row-first,
+	.woocommerce-account .woocommerce-EditAccountForm .form-row-last,
+	.woocommerce-account .woocommerce-address-fields .form-row-first,
+	.woocommerce-account .woocommerce-address-fields .form-row-last {
+		box-sizing: border-box;
+		width: calc(50% - var(--ts-space-sm) / 2);
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	.woocommerce-checkout #customer_details .form-row-first,
+	.woocommerce form.woocommerce-form-login .form-row-first,
+	.woocommerce-account .woocommerce-EditAccountForm .form-row-first,
+	.woocommerce-account .woocommerce-address-fields .form-row-first {
+		margin-inline-end: var(--ts-space-sm);
+	}
+
+	.woocommerce-checkout #customer_details .form-row-wide,
+	.woocommerce form.woocommerce-form-login .form-row-wide,
+	.woocommerce-account .woocommerce-EditAccountForm .form-row-wide,
+	.woocommerce-account .woocommerce-address-fields .form-row-wide {
+		width: 100%;
+		display: block;
+	}
+
+	.woocommerce-checkout #customer_details .clear,
+	.woocommerce form.woocommerce-form-login .clear,
+	.woocommerce-account .woocommerce-EditAccountForm .clear,
+	.woocommerce-account .woocommerce-address-fields .clear {
+		clear: both;
+	}
+
+	@media (width < 40rem) {
+		.woocommerce-checkout #customer_details .form-row-first,
+		.woocommerce-checkout #customer_details .form-row-last,
+		.woocommerce form.woocommerce-form-login .form-row-first,
+		.woocommerce form.woocommerce-form-login .form-row-last,
+		.woocommerce-account .woocommerce-EditAccountForm .form-row-first,
+		.woocommerce-account .woocommerce-EditAccountForm .form-row-last,
+		.woocommerce-account .woocommerce-address-fields .form-row-first,
+		.woocommerce-account .woocommerce-address-fields .form-row-last {
+			width: 100%;
+			display: block;
+			margin-inline-end: 0;
+		}
 	}
 
 	.woocommerce table.shop_table,

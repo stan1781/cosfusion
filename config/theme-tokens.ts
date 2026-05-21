@@ -37,6 +37,8 @@ export const themeTokens = {
 		paddingX: '0.75rem',
 		/** Unified control height: 38px at 16px root (2.375rem). */
 		minHeight: '2.375rem',
+		/** Default visible rows for multi-line fields (e.g. order notes). */
+		textareaMinRows: '2',
 	},
 	layout: {
 		container: '72rem',

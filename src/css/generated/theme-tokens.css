@@ -32,6 +32,7 @@
 	--ts-form-padding-y: 0.5rem;
 	--ts-form-padding-x: 0.75rem;
 	--ts-form-min-height: 2.375rem;
+	--ts-form-textarea-min-rows: 2;
 	--ts-layout-container: 72rem;
 	--ts-layout-search: 32rem;
 	--ts-type-body: ui-sans-serif, system-ui, sans-serif;
