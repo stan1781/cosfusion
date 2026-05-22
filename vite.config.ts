@@ -2,10 +2,12 @@ import path from 'node:path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+	// WordPress serves built files from the theme path, not site root (/assets/...).
+	base: './',
 	build: {
 		manifest: 'manifest.json',
 		outDir: path.resolve(__dirname, 'assets/dist'),
-		// false avoids EBUSY on Windows when dist is watched by another process.
+		// Keep false: emptyOutDir hits EBUSY on Windows when dist is locked. Orphans are pruned after build.
 		emptyOutDir: false,
 		rollupOptions: {
 			input: {

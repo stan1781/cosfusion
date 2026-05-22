@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/prune-dist.mjs",
+    "clean:dist": "node -e \"import('node:fs').then(fs=>fs.rmSync('assets/dist',{recursive:true,force:true}))\"",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
