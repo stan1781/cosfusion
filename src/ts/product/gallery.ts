@@ -7,6 +7,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 
+import { createLightboxController, type GalleryLightboxController } from './gallery-photoswipe';
 import {
 	findMatchingVariation,
 	gallerySetsEqual,
@@ -31,11 +32,18 @@ function parseConfigFromRoot(root: HTMLElement): TailwindscoreProductGalleryConf
 }
 
 function getConfig(root: HTMLElement): TailwindscoreProductGalleryConfig | null {
+	const fromAttr = parseConfigFromRoot(root);
 	const cfg = window.tailwindscoreProduct;
+
 	if (cfg?.parent?.length) {
-		return cfg;
+		return {
+			...cfg,
+			productTitle: cfg.productTitle ?? fromAttr?.productTitle,
+			attributeLabels: cfg.attributeLabels ?? fromAttr?.attributeLabels,
+		};
 	}
-	return parseConfigFromRoot(root);
+
+	return fromAttr;
 }
 
 function slideImageUrls(img: GalleryImage, forThumb = false): {
@@ -116,6 +124,8 @@ class ProductGallery {
 
 	private mainSwiper: SwiperInstance | null = null;
 	private thumbsSwiper: SwiperInstance | null = null;
+	private readonly lightbox: GalleryLightboxController;
+	private mainClickHandler: ((swiper: SwiperInstance) => void) | null = null;
 	private desktopMq: MediaQueryList;
 	private currentImages: GalleryImage[] = [];
 	private mode: 'parent' | 'custom' = 'parent';
@@ -133,6 +143,7 @@ class ProductGallery {
 		this.navPrev = root.querySelector<HTMLButtonElement>('[data-ts-gallery-prev]');
 		this.navNext = root.querySelector<HTMLButtonElement>('[data-ts-gallery-next]');
 		this.form = document.querySelector<HTMLFormElement>('form.variations_form');
+		this.lightbox = createLightboxController();
 		this.desktopMq = window.matchMedia(DESKTOP_MQ);
 	}
 
@@ -179,10 +190,41 @@ class ProductGallery {
 	}
 
 	private destroySwipers(): void {
+		if (this.mainSwiper && this.mainClickHandler) {
+			this.mainSwiper.off('click', this.mainClickHandler);
+		}
+		this.mainClickHandler = null;
 		this.mainSwiper?.destroy(true, true);
 		this.thumbsSwiper?.destroy(true, true);
 		this.mainSwiper = null;
 		this.thumbsSwiper = null;
+	}
+
+	private bindMainLightboxClick(): void {
+		if (!this.mainSwiper) {
+			return;
+		}
+
+		this.mainClickHandler = (swiper: SwiperInstance) => {
+			const clickedIndex = swiper.clickedIndex;
+			if (clickedIndex === undefined || clickedIndex < 0) {
+				return;
+			}
+
+			if (!this.currentImages[clickedIndex]) {
+				return;
+			}
+
+			const slide = swiper.slides[clickedIndex] as HTMLElement | undefined;
+			const img = slide?.querySelector('img') ?? null;
+			void this.lightbox.open(clickedIndex, this.currentImages, img, {
+				productTitle: this.config.productTitle,
+				attributeLabels: this.config.attributeLabels,
+				variationsForm: this.form,
+			});
+		};
+
+		this.mainSwiper.on('click', this.mainClickHandler);
 	}
 
 	private isDesktopThumbs(): boolean {
@@ -246,6 +288,7 @@ class ProductGallery {
 		});
 
 		this.toggleNavVisibility(hasMultiple);
+		this.bindMainLightboxClick();
 
 		this.updateCounter();
 	}

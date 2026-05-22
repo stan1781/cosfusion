@@ -1,0 +1,33 @@
+/* PhotoSwipe caption overrides (base + skin CSS enqueued from WooCommerce in PHP). */
+.pswp__caption {
+	background: rgb(0 0 0 / 0.55);
+}
+
+.pswp__caption__center {
+	max-width: 42rem;
+	padding: 0.75rem 1rem 1rem;
+	font-size: 0.875rem;
+	line-height: 1.45;
+	color: #fff;
+	text-align: center;
+}
+
+.ts-pswp-caption__title {
+	margin: 0 0 0.35rem;
+	font-size: 1rem;
+	font-weight: 600;
+}
+
+.ts-pswp-caption__variation {
+	margin: 0;
+	opacity: 0.92;
+}
+
+/* Keep caption visible when using HTML title payload (not plain alt text). */
+.pswp__caption--empty {
+	display: block;
+}
+
+.pswp__caption--empty .pswp__caption__center {
+	display: block;
+}

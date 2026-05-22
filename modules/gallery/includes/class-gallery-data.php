@@ -229,12 +229,21 @@ function tailwindscore_product_gallery_config( ?int $product_id = null ): array 
 		return array();
 	}
 
-	$parent = tailwindscore_gallery_parent_images( $product );
+	$parent           = tailwindscore_gallery_parent_images( $product );
+	$attribute_labels = array();
+
+	if ( $product->is_type( 'variable' ) ) {
+		foreach ( $product->get_variation_attributes() as $attribute_name => $values ) {
+			$attribute_labels[ sanitize_title( (string) $attribute_name ) ] = wc_attribute_label( (string) $attribute_name );
+		}
+	}
 
 	return array(
-		'productId'   => $product->get_id(),
-		'isVariable'  => $product->is_type( 'variable' ),
-		'parent'      => $parent,
+		'productId'        => $product->get_id(),
+		'productTitle'     => $product->get_name(),
+		'isVariable'       => $product->is_type( 'variable' ),
+		'attributeLabels'  => $attribute_labels,
+		'parent'           => $parent,
 		'layout'    => array(
 			'desktopThumbs' => 'left',
 			'mobileThumbs'  => false,

@@ -1,5 +1,13 @@
 # 相册模块更新日志
 
+## 0.2.0
+
+- 主图点击打开 PhotoSwipe 4 全屏灯箱（`full` 尺寸），库与样式首次点击再加载。
+- 灯箱图片列表随 `currentImages` 同步（含变体 patch / 整组替换）。
+- 单品页 footer 输出 Woo `.pswp` 标记；不恢复 `wc-single-product` / Woo PhotoSwipe 脚本。
+- 修复 Vite 下 default-skin 精灵图 404，恢复左右切换按钮（单品页由 Woo CSS 提供 skin，Vite 仅保留 caption 样式）。
+- 灯箱底部显示产品名称与已选变体属性（与变体选择器 UI 同步）；标题写入 `item.title` 避免 `caption--empty` 隐藏。
+
 ## 0.1.0
 
 - 单品页 Swiper 图库：桌面端左侧缩略图，移动端分页圆点（dots）。

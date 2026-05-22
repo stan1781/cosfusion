@@ -18,6 +18,8 @@ export interface GalleryImage {
 
 export interface TailwindscoreProductGalleryConfig {
 	productId: number;
+	productTitle?: string;
+	attributeLabels?: Record<string, string>;
 	parent: GalleryImage[];
 	layout: {
 		desktopThumbs: string;

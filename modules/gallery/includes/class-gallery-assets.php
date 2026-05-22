@@ -21,7 +21,9 @@ class Tailwindscore_Gallery_Assets {
 		add_action( 'after_setup_theme', array( $this, 'remove_wc_gallery_support' ), 100 );
 		add_action( 'wp', array( $this, 'remove_default_gallery_render' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_wc_gallery_scripts' ), 100 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_variation_scripts' ), 101 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_photoswipe_skin_styles' ), 101 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_variation_scripts' ), 102 );
+		add_action( 'wp_footer', array( $this, 'render_photoswipe_markup' ), 10 );
 		add_filter( 'body_class', array( $this, 'body_class' ) );
 	}
 
@@ -66,6 +68,38 @@ class Tailwindscore_Gallery_Assets {
 	}
 
 	/**
+	 * PhotoSwipe layout + default skin from WooCommerce (correct sprite URLs in dev and prod).
+	 * Scripts stay dequeued; UI is bundled via Vite.
+	 *
+	 * @return void
+	 */
+	public function enqueue_photoswipe_skin_styles(): void {
+		if ( ! function_exists( 'is_product' ) || ! is_product() || ! function_exists( 'WC' ) ) {
+			return;
+		}
+
+		$base = WC()->plugin_url() . '/assets/css/photoswipe/';
+		$ver  = defined( 'WC_VERSION' ) ? WC_VERSION : null;
+
+		wp_enqueue_style( 'tailwindscore-photoswipe', $base . 'photoswipe.css', array(), $ver );
+		wp_enqueue_style(
+			'tailwindscore-photoswipe-skin',
+			$base . 'default-skin/default-skin.css',
+			array( 'tailwindscore-photoswipe' ),
+			$ver
+		);
+
+		$skin_svg = $base . 'default-skin/default-skin.svg';
+		wp_add_inline_style(
+			'tailwindscore-photoswipe-skin',
+			sprintf(
+				'.pswp__button,.pswp__button--arrow--left:before,.pswp__button--arrow--right:before{background-image:url(%1$s);}',
+				esc_url( $skin_svg )
+			)
+		);
+	}
+
+	/**
 	 * Keep variation form behavior (price, variation_id) without wc-single-product bundle.
 	 *
 	 * @return void
@@ -81,6 +115,19 @@ class Tailwindscore_Gallery_Assets {
 		}
 
 		wp_enqueue_script( 'wc-add-to-cart-variation' );
+	}
+
+	/**
+	 * PhotoSwipe root markup for theme-bundled lightbox (scripts/styles via Vite).
+	 *
+	 * @return void
+	 */
+	public function render_photoswipe_markup(): void {
+		if ( ! function_exists( 'is_product' ) || ! is_product() ) {
+			return;
+		}
+
+		wc_get_template( 'single-product/photoswipe.php' );
 	}
 
 	/**
