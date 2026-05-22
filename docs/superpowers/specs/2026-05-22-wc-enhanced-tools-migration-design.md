@@ -113,6 +113,7 @@ modules/{slug}/
 | Variation selector | ✅ 已迁 `modules/variations` | — |
 | Size guide | ⏸ 未迁 | `do_action( 'tailwindscore_after_size_attribute_label', $attribute_name, $product )`；meta/表保留 |
 | Quick View 变体 UI | ⏸ | 不 enqueue 归档页选择器脚本 |
+| Related products | ✅ 已迁 `modules/related-products` | `Related_Products_Manager` |
 | Gift wrap 等其它插件类 | ⏸ | 按本规范独立 `modules/{slug}` |
 
 ### Size Guide 特别说明（未迁）
@@ -131,6 +132,7 @@ modules/{slug}/
 | variations | `modules/variations` | ✅ v0.1.0 | `Variation_Selector` |
 | size-guide | — | ⏸ | `Product_Size_Guide` |
 | quick-view | — | ⏸ | 插件 Quick View |
+| related-products | `modules/related-products` | ✅ v0.1.0 | `Related_Products_Manager` |
 
 ---
 
@@ -149,6 +151,7 @@ npm run build
 4. 未选全 → 加购拦截  
 5. 插件 inactive → 无重复脚本/样式  
 6. URL `?attribute_pa_color=slug` 预填  
+7. 单品页相关产品数量 ≈ Customizer 设置；子分类不足时含父分类商品；插件 inactive 无重复区块  
 
 ---
 
