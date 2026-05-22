@@ -1,4 +1,4 @@
-@use "abstracts/variables";
+// Woo styles use CSS custom properties from app.scss → abstracts/_root.scss.
 @use "abstracts/mixins";
 @use "woocommerce/shell";
 @use "woocommerce/archive";

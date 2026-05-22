@@ -1,4 +1,5 @@
 import './site/index';
+import './shop/loop-swatches';
 import './search/index';
 import './product/index';
 import './cart/index';
