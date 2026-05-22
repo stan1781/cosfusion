@@ -1,0 +1,31 @@
+# Variations 模块变更记录
+
+## 0.1.4
+
+- 文本/尺码 `text-selector` 同步 `shape-square` / `shape-round`；选中态改为加粗边框（浅色底），对齐尺码圆钮参考样式。
+
+## 0.1.3
+
+- Grid「显示文案」Customizer 默认关闭（`variation_grid_show_text`）。
+- 圆形仅作用于 grid：`li` 与 `.variation-media` 同步 `border-radius: 50%`。
+- List 模式固定方角缩略图 + 属性名称（忽略圆形设置，隐藏描述行）。
+
+## 0.1.2
+
+- 修复：表单 `data-tailwindscore-variations-config` SSR 配置，不依赖 `window.tailwindscoreProduct` 也能初始化。
+- 修复：`variations.ts` 静态打入 `app` bundle；点击用 capture 阶段；`findAttributeSelect()` 兼容 `attribute_pa_*` 命名。
+- 修复：`wc_get_template` 优先级 20 强制使用主题 `variable.php`（避免插件仍激活时抢走模板且无 JS）。
+
+## 0.1.1
+
+- 修复：显式 enqueue `jquery` + `wc-add-to-cart-variation`；`variations.ts` 等待 jQuery 后再绑定 WC 事件，点击/grid 切换不再因 jQuery 未就绪而静默失败。
+- 修复：从隐藏 `select` 同步 `li.disabled` 状态；`variation_selector_enabled` 兼容 Kirki 布尔值。
+
+## 0.1.0
+
+- 从 `wc-enhanced-tools` 迁入自定义变体选择器（不含 Size Guide）。
+- Kirki：`variation_selector_enabled`、颜色/尺寸属性名、grid/list、形状、grid 文案开关。
+- 主题模板 `woocommerce/single-product/add-to-cart/variable.php`；关闭时回退 Woo 核心模板。
+- 产品 meta：`_wc_variation_selector_disabled_image_attributes`、`_wc_variation_selector_color_default_mode`。
+- 前台 `src/ts/product/variations.ts`；配置经 `window.tailwindscoreProduct.variations`。
+- 预留 hook：`tailwindscore_after_size_attribute_label`（供未来 Size Guide 模块）。

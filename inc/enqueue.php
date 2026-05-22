@@ -22,11 +22,18 @@ function tailwindscore_localize_app_script(): void {
 		wp_json_encode( tailwindscore_purchase_flow_config() )
 	);
 
-	if ( function_exists( 'is_product' ) && is_product() && function_exists( 'tailwindscore_product_gallery_config' ) ) {
-		$inline .= sprintf(
-			'window.tailwindscoreProduct = %s;',
-			wp_json_encode( tailwindscore_product_gallery_config() )
-		);
+	if ( function_exists( 'is_product' ) && is_product() ) {
+		if ( function_exists( 'tailwindscore_product_page_config' ) ) {
+			$inline .= sprintf(
+				'window.tailwindscoreProduct = %s;',
+				wp_json_encode( tailwindscore_product_page_config() )
+			);
+		} elseif ( function_exists( 'tailwindscore_product_gallery_config' ) ) {
+			$inline .= sprintf(
+				'window.tailwindscoreProduct = %s;',
+				wp_json_encode( tailwindscore_product_gallery_config() )
+			);
+		}
 	}
 
 	wp_add_inline_script( 'tailwindscore-app', $inline, 'before' );

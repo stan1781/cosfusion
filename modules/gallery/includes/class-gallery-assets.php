@@ -95,21 +95,4 @@ class Tailwindscore_Gallery_Assets {
 	}
 }
 
-/**
- * Localize window.tailwindscoreProduct on single product pages.
- */
-function tailwindscore_localize_product_script(): void {
-	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
-		return;
-	}
-
-	wp_add_inline_script(
-		'tailwindscore-app',
-		sprintf(
-			'window.tailwindscoreProduct = %s;',
-			wp_json_encode( tailwindscore_product_gallery_config() )
-		),
-		'before'
-	);
-}
-add_action( 'wp_enqueue_scripts', 'tailwindscore_localize_product_script', 102 );
+// Product page config (gallery + variations) is localized in inc/enqueue.php via tailwindscore_product_page_config().
