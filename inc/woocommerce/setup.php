@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 function tailwindscore_woocommerce_setup(): void {
 	add_theme_support( 'woocommerce' );
-	add_theme_support( 'wc-product-gallery-zoom' );
-	add_theme_support( 'wc-product-gallery-lightbox' );
-	add_theme_support( 'wc-product-gallery-slider' );
+	// Product gallery UI is provided by modules/gallery (Swiper); no WC flexslider stack.
 }
 add_action( 'after_setup_theme', 'tailwindscore_woocommerce_setup' );
 

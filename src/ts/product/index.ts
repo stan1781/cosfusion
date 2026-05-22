@@ -86,7 +86,11 @@ async function handleAddToCart(form: HTMLFormElement, submitter: HTMLButtonEleme
 	}
 }
 
-if (document.body.classList.contains('single-product')) {
+const isProductPage =
+	document.body.classList.contains('single-product') || document.body.classList.contains('product');
+
+if (isProductPage) {
+	void import('./gallery');
 	document.documentElement.classList.add('has-product-ui');
 
 	getProductForms().forEach((form) => {

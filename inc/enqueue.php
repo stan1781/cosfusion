@@ -17,14 +17,19 @@ function tailwindscore_module_script_handles(): array {
 }
 
 function tailwindscore_localize_app_script(): void {
-	wp_add_inline_script(
-		'tailwindscore-app',
-		sprintf(
-			'window.tailwindscoreCart = %s;',
-			wp_json_encode( tailwindscore_purchase_flow_config() )
-		),
-		'before'
+	$inline = sprintf(
+		'window.tailwindscoreCart = %s;',
+		wp_json_encode( tailwindscore_purchase_flow_config() )
 	);
+
+	if ( function_exists( 'is_product' ) && is_product() && function_exists( 'tailwindscore_product_gallery_config' ) ) {
+		$inline .= sprintf(
+			'window.tailwindscoreProduct = %s;',
+			wp_json_encode( tailwindscore_product_gallery_config() )
+		);
+	}
+
+	wp_add_inline_script( 'tailwindscore-app', $inline, 'before' );
 }
 
 function tailwindscore_manifest_path(): string {
@@ -108,6 +113,7 @@ function tailwindscore_enqueue_assets(): void {
 		tailwindscore_enqueue_vite_dev_script( 'tailwindscore-vite-client', '@vite/client', array(), false );
 		tailwindscore_enqueue_vite_dev_script( 'tailwindscore-app', 'src/ts/app.ts' );
 		tailwindscore_localize_app_script();
+		// Product gallery config is included in tailwindscore_localize_app_script() on is_product().
 		return;
 	}
 

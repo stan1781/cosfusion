@@ -5,7 +5,8 @@ export default defineConfig({
 	build: {
 		manifest: 'manifest.json',
 		outDir: path.resolve(__dirname, 'assets/dist'),
-		emptyOutDir: true,
+		// false avoids EBUSY on Windows when dist is watched by another process.
+		emptyOutDir: false,
 		rollupOptions: {
 			input: {
 				app: path.resolve(__dirname, 'src/ts/app.ts'),
