@@ -15,6 +15,10 @@
 	--ts-colors-border-strong: #{variables.$ts-colors-border-strong};
 	--ts-colors-primary: #{variables.$ts-colors-primary};
 	--ts-colors-primary-foreground: #{variables.$ts-colors-primary-foreground};
+	--ts-colors-info: #{variables.$ts-colors-info};
+	--ts-colors-success: #{variables.$ts-colors-success};
+	--ts-colors-warning: #{variables.$ts-colors-warning};
+	--ts-colors-danger: #{variables.$ts-colors-danger};
 	--ts-radius-sm: #{variables.$ts-radius-sm};
 	--ts-radius-md: #{variables.$ts-radius-md};
 	--ts-space-xs: #{variables.$ts-space-xs};
@@ -27,12 +31,11 @@
 	--ts-form-textarea-min-rows: #{variables.$ts-form-textarea-min-rows};
 	--ts-layout-container: #{variables.$ts-layout-container};
 	--ts-layout-search: #{variables.$ts-layout-search};
+	--ts-layout-drawer: #{variables.$ts-layout-drawer};
 	--ts-type-body: #{variables.$ts-type-body};
 	--ts-type-brand-size: #{variables.$ts-type-brand-size};
 	--ts-type-heading-size: #{variables.$ts-type-heading-size};
 	--ts-type-heading-line-height: #{variables.$ts-type-heading-line-height};
 	--ts-shadow-card: #{variables.$ts-shadow-card};
-	--ts-woocommerce-notice-background: #{variables.$ts-woocommerce-notice-background};
-	--ts-woocommerce-price: #{variables.$ts-woocommerce-price};
 	color-scheme: light;
 }

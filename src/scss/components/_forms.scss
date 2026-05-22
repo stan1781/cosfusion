@@ -1,14 +1,8 @@
+@use "../abstracts/mixins";
+
 .ts-form-control,
 .ts-input {
-	box-sizing: border-box;
-	width: 100%;
-	height: var(--ts-form-min-height);
-	min-height: var(--ts-form-min-height);
-	border: 1px solid var(--ts-colors-border-strong);
-	border-radius: var(--ts-radius-sm);
-	padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
-	background: var(--ts-colors-surface);
-	line-height: 1.25;
+	@include mixins.ts-control-field-base;
 }
 
 .ts-form-control:focus,

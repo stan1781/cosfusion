@@ -77,3 +77,46 @@ $ts-animation-slide-duration: 0.22s;
 @mixin ts-animation-slide-up-in($duration: $ts-animation-slide-duration, $timing: ease) {
 	animation: ts-slide-up-in $duration $timing both;
 }
+
+/// Primary action button base (`.ts-button`, WooCommerce `.button`).
+@mixin ts-control-button-base($padding: var(--ts-space-xs) var(--ts-space-sm), $min-height: null) {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--ts-radius-sm);
+	background: var(--ts-colors-primary);
+	color: var(--ts-colors-primary-foreground);
+	padding: $padding;
+	line-height: 1.25;
+	border: 1px solid var(--ts-colors-primary);
+	cursor: pointer;
+	transition:
+		background-color 0.15s ease,
+		border-color 0.15s ease,
+		color 0.15s ease;
+
+	@if $min-height {
+		min-height: $min-height;
+	}
+}
+
+/// Primary button hover (pair inside `@media (hover: hover)`).
+@mixin ts-control-button-primary-hover {
+	background: color-mix(in srgb, var(--ts-colors-primary) 88%, white);
+	border-color: color-mix(in srgb, var(--ts-colors-primary) 88%, white);
+	color: var(--ts-colors-primary-foreground);
+}
+
+/// Text field base (`.ts-input`, WooCommerce `.input-text`).
+@mixin ts-control-field-base {
+	box-sizing: border-box;
+	width: 100%;
+	height: var(--ts-form-min-height);
+	min-height: var(--ts-form-min-height);
+	border: 1px solid var(--ts-colors-border-strong);
+	border-radius: var(--ts-radius-sm);
+	padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
+	background: var(--ts-colors-surface);
+	line-height: 1.25;
+}

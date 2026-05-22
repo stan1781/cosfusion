@@ -20,5 +20,5 @@
 
 .ts-cart-feedback__message--error,
 .ts-cart-feedback__message--warning {
-	background: color-mix(in srgb, #b42318 10%, var(--ts-colors-surface));
+	background: color-mix(in srgb, var(--ts-colors-danger) 10%, var(--ts-colors-surface));
 }

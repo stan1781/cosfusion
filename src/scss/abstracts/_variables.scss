@@ -18,6 +18,12 @@ $ts-colors-border-strong: #d4d4d8;
 $ts-colors-primary: #18181b;
 $ts-colors-primary-foreground: #ffffff;
 
+// Feedback / status (toasts, inline alerts)
+$ts-colors-info: #0d6efd;
+$ts-colors-success: #198754;
+$ts-colors-warning: #ffc107;
+$ts-colors-danger: #dc3545;
+
 // Radius
 $ts-radius-sm: 0.5rem;
 $ts-radius-md: 0.75rem;
@@ -37,6 +43,7 @@ $ts-form-textarea-min-rows: 2;
 // Layout
 $ts-layout-container: 72rem;
 $ts-layout-search: 32rem;
+$ts-layout-drawer: 22rem;
 
 // Type
 $ts-type-body: ui-sans-serif, system-ui, sans-serif;
@@ -46,7 +53,3 @@ $ts-type-heading-line-height: 1.2;
 
 // Shadow
 $ts-shadow-card: 0 1px 2px rgb(24 24 27 / 0.06);
-
-// WooCommerce semantics
-$ts-woocommerce-notice-background: #fafafa;
-$ts-woocommerce-price: #85bb65;

@@ -17,6 +17,12 @@
 	padding-block: var(--ts-space-lg);
 }
 
+.ts-heading {
+	font-size: var(--ts-type-heading-size);
+	line-height: var(--ts-type-heading-line-height);
+	font-weight: 600;
+}
+
 .ts-stack {
 	display: grid;
 	gap: var(--ts-space-md);
