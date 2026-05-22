@@ -68,6 +68,24 @@
 	}
 }
 
+// Loops using woocommerce/loop/loop-start.php (related, upsells, cross-sells, shortcodes).
+.related.products,
+.upsells.products,
+.cross-sells {
+	display: grid;
+	gap: var(--ts-space-md);
+	margin-top: var(--ts-space-md);
+}
+
+.related.products > h2,
+.upsells.products > h2,
+.cross-sells > h2 {
+	margin: 0;
+	font-size: var(--ts-type-heading-size);
+	line-height: var(--ts-type-heading-line-height);
+	font-weight: 600;
+}
+
 .ts-wc-product-card {
 	position: relative;
 	display: grid;
