@@ -299,37 +299,39 @@ function renderCartItem(item: StoreApiCartItem, config: TailwindscoreCartConfig)
 						<span class="ts-icon" aria-hidden="true">${config.icons.trash}</span>
 					</button>
 				</div>
-				<div class="ts-cart-drawer-cart__controls" data-ts-cart-quantity-controls>
-					<button
-						type="button"
-						class="ts-cart-drawer-cart__quantity-button"
-						data-ts-cart-quantity-step="-1"
-						data-cart-item-key="${escapeHtml(item.key)}"
-						aria-label="${escapeHtml(config.i18n.decreaseQuantity)}"
-					>
-						<span class="ts-icon" aria-hidden="true">${config.icons.minus}</span>
-					</button>
-					<label class="screen-reader-text" for="ts-cart-qty-${escapeHtml(item.key)}">${escapeHtml(config.i18n.quantityLabel)}</label>
-					<input
-						id="ts-cart-qty-${escapeHtml(item.key)}"
-						class="ts-cart-drawer-cart__quantity-input"
-						type="number"
-						inputmode="numeric"
-						min="0"${maxAttribute}
-						step="1"
-						value="${item.quantity}"
-						data-ts-cart-quantity-input
-						data-cart-item-key="${escapeHtml(item.key)}"
-					>
-					<button
-						type="button"
-						class="ts-cart-drawer-cart__quantity-button"
-						data-ts-cart-quantity-step="1"
-						data-cart-item-key="${escapeHtml(item.key)}"
-						aria-label="${escapeHtml(config.i18n.increaseQuantity)}"
-					>
-						<span class="ts-icon" aria-hidden="true">${config.icons.plus}</span>
-					</button>
+				<div class="ts-cart-drawer-cart__controls">
+					<div class="ts-quantity quantity ts-quantity--compact" data-ts-quantity data-ts-cart-quantity-controls>
+						<button
+							type="button"
+							class="ts-quantity__step"
+							data-ts-quantity-step="-1"
+							data-cart-item-key="${escapeHtml(item.key)}"
+							aria-label="${escapeHtml(config.i18n.decreaseQuantity)}"
+						>
+							<span class="ts-icon" aria-hidden="true">${config.icons.minus}</span>
+						</button>
+						<label class="screen-reader-text" for="ts-cart-qty-${escapeHtml(item.key)}">${escapeHtml(config.i18n.quantityLabel)}</label>
+						<input
+							id="ts-cart-qty-${escapeHtml(item.key)}"
+							class="ts-quantity__input qty"
+							type="number"
+							inputmode="numeric"
+							min="0"${maxAttribute}
+							step="1"
+							value="${item.quantity}"
+							data-ts-quantity-input
+							data-cart-item-key="${escapeHtml(item.key)}"
+						>
+						<button
+							type="button"
+							class="ts-quantity__step"
+							data-ts-quantity-step="1"
+							data-cart-item-key="${escapeHtml(item.key)}"
+							aria-label="${escapeHtml(config.i18n.increaseQuantity)}"
+						>
+							<span class="ts-icon" aria-hidden="true">${config.icons.plus}</span>
+						</button>
+					</div>
 				</div>
 				<div class="ts-cart-drawer-cart__subtotal">${escapeHtml(subtotal)}</div>
 			</div>
@@ -445,7 +447,7 @@ function syncPendingCartItems() {
 
 		item
 			.querySelectorAll<HTMLButtonElement | HTMLInputElement>(
-				'[data-ts-cart-quantity-step], [data-ts-cart-quantity-input], [data-ts-cart-remove]',
+				'[data-ts-quantity-step], [data-ts-quantity-input], [data-ts-cart-remove]',
 			)
 			.forEach((control) => {
 				control.disabled = isPending;
@@ -811,7 +813,7 @@ async function refreshCheckoutOrderReview(): Promise<void> {
 }
 
 function getQuantityInput(cartItemKey: string) {
-	return document.querySelector<HTMLInputElement>(`[data-ts-cart-quantity-input][data-cart-item-key="${cartItemKey}"]`);
+	return document.querySelector<HTMLInputElement>(`[data-ts-quantity-input][data-cart-item-key="${cartItemKey}"]`);
 }
 
 function bindQuantityControls() {
@@ -822,13 +824,13 @@ function bindQuantityControls() {
 			return;
 		}
 
-		const stepButton = target.closest<HTMLButtonElement>('[data-ts-cart-quantity-step]');
+		const stepButton = target.closest<HTMLButtonElement>('[data-ts-quantity-step]');
 
-		if (stepButton) {
+		if (stepButton?.closest('[data-ts-cart-quantity-controls]')) {
 			event.preventDefault();
 
 			const cartItemKey = stepButton.dataset.cartItemKey;
-			const step = Number(stepButton.dataset.tsCartQuantityStep ?? '0');
+			const step = Number(stepButton.dataset.tsQuantityStep ?? '0');
 
 			if (!cartItemKey || Number.isNaN(step)) {
 				return;
@@ -880,7 +882,11 @@ function bindQuantityControls() {
 	document.addEventListener('change', async (event) => {
 		const target = event.target;
 
-		if (!(target instanceof HTMLInputElement) || !target.matches('[data-ts-cart-quantity-input]')) {
+		if (!(target instanceof HTMLInputElement) || !target.matches('[data-ts-quantity-input]')) {
+			return;
+		}
+
+		if (!target.closest('[data-ts-cart-quantity-controls]')) {
 			return;
 		}
 

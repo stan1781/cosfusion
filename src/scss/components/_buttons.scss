@@ -61,7 +61,15 @@
 button.ts-button.is-loading,
 button.ts-button.loading,
 a.ts-button.is-loading,
-a[role="button"].is-loading {
+a[role="button"].is-loading,
+.woocommerce .button.is-loading,
+.woocommerce .button.loading,
+.woocommerce button.button.is-loading,
+.woocommerce button.button.loading,
+.woocommerce .single_add_to_cart_button.is-loading,
+.woocommerce .single_add_to_cart_button.loading,
+.woocommerce #respond input#submit.is-loading,
+.woocommerce #respond input#submit.loading {
 	position: relative;
 	pointer-events: none;
 	cursor: wait;
@@ -72,7 +80,15 @@ a[role="button"].is-loading {
 button.ts-button.is-loading:not(.ts-icon-button),
 button.ts-button.loading:not(.ts-icon-button),
 a.ts-button.is-loading,
-a[role="button"].is-loading {
+a[role="button"].is-loading,
+.woocommerce .button.is-loading,
+.woocommerce .button.loading,
+.woocommerce button.button.is-loading,
+.woocommerce button.button.loading,
+.woocommerce .single_add_to_cart_button.is-loading,
+.woocommerce .single_add_to_cart_button.loading,
+.woocommerce #respond input#submit.is-loading,
+.woocommerce #respond input#submit.loading {
 	color: transparent;
 }
 
@@ -81,7 +97,15 @@ a[role="button"].is-loading {
 button.ts-button.is-loading:not(.ts-icon-button)::after,
 button.ts-button.loading:not(.ts-icon-button)::after,
 a.ts-button.is-loading::after,
-a[role="button"].is-loading::after {
+a[role="button"].is-loading::after,
+.woocommerce .button.is-loading::after,
+.woocommerce .button.loading::after,
+.woocommerce button.button.is-loading::after,
+.woocommerce button.button.loading::after,
+.woocommerce .single_add_to_cart_button.is-loading::after,
+.woocommerce .single_add_to_cart_button.loading::after,
+.woocommerce #respond input#submit.is-loading::after,
+.woocommerce #respond input#submit.loading::after {
 	content: '';
 	position: absolute;
 	inset: 0;

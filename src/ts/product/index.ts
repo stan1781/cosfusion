@@ -1,5 +1,5 @@
 import { addCartItem, notify } from '../cart/index';
-import { setButtonsLoading } from '../ui/button-loading';
+import { resolveSubmitButton, setButtonsLoading } from '../ui/button-loading';
 import './variations';
 
 function getProductForms() {
@@ -12,8 +12,11 @@ function getSubmitButtons(form: HTMLFormElement) {
 	);
 }
 
-function setFormPending(form: HTMLFormElement, isPending: boolean) {
-	setButtonsLoading(getSubmitButtons(form), isPending);
+function setFormPending(form: HTMLFormElement, isPending: boolean, submitter: HTMLButtonElement | null = null) {
+	const button = resolveSubmitButton(form, submitter, 'button.single_add_to_cart_button');
+	const buttons = button ? [button] : getSubmitButtons(form);
+
+	setButtonsLoading(buttons, isPending);
 }
 
 function collectVariation(formData: FormData) {
@@ -68,7 +71,7 @@ async function handleAddToCart(form: HTMLFormElement, submitter: HTMLButtonEleme
 		return false;
 	}
 
-	setFormPending(form, true);
+	setFormPending(form, true, submitter);
 
 	try {
 		await addCartItem(request);
@@ -83,7 +86,7 @@ async function handleAddToCart(form: HTMLFormElement, submitter: HTMLButtonEleme
 		console.error(error);
 		return false;
 	} finally {
-		setFormPending(form, false);
+		setFormPending(form, false, submitter);
 	}
 }
 

@@ -1,3 +1,4 @@
+import './ui/quantity-input';
 import './site/index';
 import './shop/loop-swatches';
 import './search/index';

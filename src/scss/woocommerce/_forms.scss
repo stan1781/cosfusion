@@ -31,9 +31,9 @@
 	height: var(--ts-form-min-height);
 }
 
-.woocommerce form input.input-text,
+.woocommerce form input.input-text:not(.ts-quantity__input),
 .woocommerce form select,
-.woocommerce-page form input.input-text,
+.woocommerce-page form input.input-text:not(.ts-quantity__input),
 .woocommerce-page form select {
 	@include mixins.ts-control-field-base;
 }

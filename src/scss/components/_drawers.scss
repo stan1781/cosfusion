@@ -303,54 +303,15 @@
 
 .ts-cart-drawer-cart__controls {
 	grid-area: controls;
-	display: inline-grid;
-	grid-template-columns: 2rem minmax(3rem, 4.5rem) 2rem;
-	align-items: center;
-	gap: 0;
-	width: fit-content;
-	border: 1px solid var(--ts-colors-border);
-	border-radius: var(--ts-radius-sm);
-	overflow: hidden;
 }
 
-.ts-cart-drawer-cart__quantity-button,
-.ts-cart-drawer-cart__quantity-input,
+// Cart drawer uses .ts-quantity--compact; keep layout hook here for drawer-only tweaks.
+.ts-site-cart-drawer .ts-quantity--compact {
+	max-width: 100%;
+}
+
 .ts-cart-drawer-cart__remove {
 	font: inherit;
-}
-
-.ts-cart-drawer-cart__quantity-button {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 2rem;
-	border: 0;
-	background: var(--ts-colors-surface);
-	cursor: pointer;
-}
-
-.ts-cart-drawer-cart__quantity-button .ts-icon {
-	width: 0.875rem;
-	height: 0.875rem;
-}
-
-.ts-cart-drawer-cart__quantity-input {
-	width: 100%;
-	min-height: 2rem;
-	appearance: textfield;
-	-moz-appearance: textfield;
-	border: 0;
-	border-inline: 1px solid var(--ts-colors-border);
-	border-radius: 0;
-	padding: 0 0.5rem;
-	background: var(--ts-colors-surface);
-	text-align: center;
-}
-
-.ts-cart-drawer-cart__quantity-input::-webkit-outer-spin-button,
-.ts-cart-drawer-cart__quantity-input::-webkit-inner-spin-button {
-	margin: 0;
-	-webkit-appearance: none;
 }
 
 .ts-cart-drawer-cart__quantity {
@@ -385,8 +346,6 @@
 	height: 0.875rem;
 }
 
-.ts-cart-drawer-cart__quantity-button:disabled,
-.ts-cart-drawer-cart__quantity-input:disabled,
 .ts-cart-drawer-cart__remove[aria-disabled="true"] {
 	cursor: wait;
 }

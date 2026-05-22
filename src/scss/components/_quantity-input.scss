@@ -1,0 +1,123 @@
+// Quantity stepper: minus | input | plus. Extend via --ts-quantity-* on .ts-quantity or a parent.
+
+.ts-quantity {
+	--ts-quantity-step-width: 1.8rem;
+	--ts-quantity-input-min: 2rem;
+	--ts-quantity-height: var(--ts-form-min-height);
+
+	box-sizing: border-box;
+	display: inline-grid;
+	grid-template-columns: var(--ts-quantity-step-width) minmax(var(--ts-quantity-input-min), 1fr) var(--ts-quantity-step-width);
+	align-items: stretch;
+	width: fit-content;
+	max-width: 100%;
+	border: 1px solid var(--ts-colors-border);
+	border-radius: var(--ts-radius-sm);
+	background: var(--ts-colors-surface);
+	overflow: hidden;
+}
+
+// Drawer / compact cart rows (smaller than product-page default).
+.ts-quantity--compact {
+	--ts-quantity-step-width: 1.5rem;
+	--ts-quantity-input-min: 1.75rem;
+	--ts-quantity-height: 2rem;
+}
+
+.ts-quantity--compact .ts-quantity__input {
+	padding-inline: 0.25rem;
+	font-size: 0.875rem;
+}
+
+.ts-quantity--compact .ts-quantity__step .ts-icon {
+	width: 0.75rem;
+	height: 0.75rem;
+}
+
+.ts-quantity__step,
+.ts-quantity__input {
+	font: inherit;
+}
+
+.ts-quantity__step {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: var(--ts-quantity-height);
+	min-height: var(--ts-quantity-height);
+	padding: 0;
+	border: 0;
+	background: var(--ts-colors-surface);
+	color: var(--ts-colors-text);
+	cursor: pointer;
+}
+
+.ts-quantity__step .ts-icon {
+	width: 0.875rem;
+	height: 0.875rem;
+}
+
+.ts-quantity__input {
+	box-sizing: border-box;
+	width: 100%;
+	height: var(--ts-quantity-height);
+	min-height: var(--ts-quantity-height);
+	appearance: textfield;
+	-moz-appearance: textfield;
+	border: 0;
+	border-inline: 1px solid var(--ts-colors-border);
+	border-radius: 0;
+	padding: 0 0.5rem;
+	background: var(--ts-colors-surface);
+	color: var(--ts-colors-text);
+	text-align: center;
+	line-height: 1.25;
+	box-shadow: none;
+}
+
+// WooCommerce adds .input-text; keep stepper field styles when that class is present.
+.woocommerce form .ts-quantity .ts-quantity__input,
+.woocommerce-page form .ts-quantity .ts-quantity__input {
+	width: 100%;
+	height: var(--ts-quantity-height);
+	min-height: var(--ts-quantity-height);
+	border: 0;
+	border-inline: 1px solid var(--ts-colors-border);
+	border-radius: 0;
+	padding: 0 0.5rem;
+	box-shadow: none;
+}
+
+.ts-quantity__input::-webkit-outer-spin-button,
+.ts-quantity__input::-webkit-inner-spin-button {
+	margin: 0;
+	-webkit-appearance: none;
+}
+
+.ts-quantity__input:focus {
+	outline: none;
+}
+
+.ts-quantity__input:focus-visible {
+	box-shadow: inset 0 0 0 2px var(--ts-colors-text);
+}
+
+.ts-quantity__step:focus {
+	outline: none;
+}
+
+.ts-quantity__step:focus-visible {
+	box-shadow: inset 0 0 0 2px var(--ts-colors-text);
+}
+
+.ts-quantity__step:disabled,
+.ts-quantity__input:disabled {
+	cursor: wait;
+	opacity: 0.65;
+}
+
+@media (hover: hover) {
+	.ts-quantity__step:not(:disabled):hover {
+		background: var(--ts-colors-surface-muted);
+	}
+}

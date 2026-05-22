@@ -80,31 +80,21 @@ $quantity_name     = 'cart' === $context ? 'cart[' . $cart_item_key . '][qty]' :
 				</a>
 			<?php endif; ?>
 		</div>
-		<div class="ts-cart-drawer-cart__controls" data-ts-cart-quantity-controls>
-			<button type="button" class="ts-cart-drawer-cart__quantity-button" data-ts-cart-quantity-step="-1" data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>" aria-label="<?php esc_attr_e( 'Decrease quantity', 'tailwindscore' ); ?>">
-				<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'minus' ); ?></span>
-			</button>
-			<label class="screen-reader-text" for="ts-cart-qty-<?php echo esc_attr( $cart_item_key ); ?>"><?php esc_html_e( 'Quantity', 'tailwindscore' ); ?></label>
-			<input
-				id="ts-cart-qty-<?php echo esc_attr( $cart_item_key ); ?>"
-				class="ts-cart-drawer-cart__quantity-input"
-				type="number"
-				inputmode="numeric"
-				min="0"
-				<?php if ( '' !== $max_quantity ) : ?>
-					max="<?php echo esc_attr( $max_quantity ); ?>"
-				<?php endif; ?>
-				step="1"
-				value="<?php echo esc_attr( (string) $cart_item['quantity'] ); ?>"
-				<?php if ( '' !== $quantity_name ) : ?>
-					name="<?php echo esc_attr( $quantity_name ); ?>"
-				<?php endif; ?>
-				data-ts-cart-quantity-input
-				data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>"
-			>
-			<button type="button" class="ts-cart-drawer-cart__quantity-button" data-ts-cart-quantity-step="1" data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>" aria-label="<?php esc_attr_e( 'Increase quantity', 'tailwindscore' ); ?>">
-				<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'plus' ); ?></span>
-			</button>
+		<div class="ts-cart-drawer-cart__controls">
+			<?php
+			tailwindscore_render_quantity_input(
+				array(
+					'input_id'       => 'ts-cart-qty-' . $cart_item_key,
+					'input_name'     => $quantity_name,
+					'input_value'    => (string) $cart_item['quantity'],
+					'min_value'      => '0',
+					'max_value'      => $max_quantity,
+					'cart_item_key'  => $cart_item_key,
+					'context'        => $context,
+					'aria_label'     => __( 'Product quantity', 'woocommerce' ),
+				)
+			);
+			?>
 		</div>
 		<div class="ts-cart-drawer-cart__subtotal"><?php echo wp_kses_post( $product_subtotal ); ?></div>
 	</div>
