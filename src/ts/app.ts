@@ -1,6 +1,7 @@
 import './ui/quantity-input';
 import './site/index';
 import './shop/loop-swatches';
+import './shop/loop-add-to-cart';
 import './search/index';
 import './product/index';
 import './cart/index';

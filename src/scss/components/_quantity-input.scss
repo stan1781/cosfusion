@@ -2,14 +2,21 @@
 
 .ts-quantity {
 	--ts-quantity-step-width: 1.8rem;
-	--ts-quantity-input-min: 2rem;
+	--ts-quantity-input-width: 2.5rem;
 	--ts-quantity-height: var(--ts-form-min-height);
+	--ts-quantity-width: calc(
+		var(--ts-quantity-step-width) * 2 + var(--ts-quantity-input-width)
+	);
 
 	box-sizing: border-box;
 	display: inline-grid;
-	grid-template-columns: var(--ts-quantity-step-width) minmax(var(--ts-quantity-input-min), 1fr) var(--ts-quantity-step-width);
+	flex: 0 0 auto;
+	grid-template-columns:
+		var(--ts-quantity-step-width)
+		var(--ts-quantity-input-width)
+		var(--ts-quantity-step-width);
 	align-items: stretch;
-	width: fit-content;
+	width: var(--ts-quantity-width);
 	max-width: 100%;
 	border: 1px solid var(--ts-colors-border);
 	border-radius: var(--ts-radius-sm);
@@ -20,7 +27,7 @@
 // Drawer / compact cart rows (smaller than product-page default).
 .ts-quantity--compact {
 	--ts-quantity-step-width: 1.5rem;
-	--ts-quantity-input-min: 1.75rem;
+	--ts-quantity-input-width: 2rem;
 	--ts-quantity-height: 2rem;
 }
 
@@ -60,6 +67,7 @@
 .ts-quantity__input {
 	box-sizing: border-box;
 	width: 100%;
+	min-width: 0;
 	height: var(--ts-quantity-height);
 	min-height: var(--ts-quantity-height);
 	appearance: textfield;
@@ -79,6 +87,7 @@
 .woocommerce form .ts-quantity .ts-quantity__input,
 .woocommerce-page form .ts-quantity .ts-quantity__input {
 	width: 100%;
+	min-width: 0;
 	height: var(--ts-quantity-height);
 	min-height: var(--ts-quantity-height);
 	border: 0;
@@ -86,6 +95,12 @@
 	border-radius: 0;
 	padding: 0 0.5rem;
 	box-shadow: none;
+}
+
+.woocommerce form .quantity.ts-quantity,
+.woocommerce-page form .quantity.ts-quantity {
+	width: var(--ts-quantity-width);
+	flex: 0 0 auto;
 }
 
 .ts-quantity__input::-webkit-outer-spin-button,
