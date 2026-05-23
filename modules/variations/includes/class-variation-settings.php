@@ -226,5 +226,11 @@ function tailwindscore_product_page_config( ?int $product_id = null ): array {
 	$config['variations'] = $variations['variations'];
 	$config['variationsI18n'] = $variations['i18n'];
 
+	if ( function_exists( 'tailwindscore_review_images_config' ) ) {
+		$review = tailwindscore_review_images_config();
+		$config['reviewImages'] = $review['reviewImages'];
+		$config['reviewImagesI18n'] = $review['i18n'];
+	}
+
 	return $config;
 }

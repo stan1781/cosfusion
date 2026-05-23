@@ -98,6 +98,11 @@ const isProductPage =
 
 if (isProductPage) {
 	void import('./gallery');
+	void import('./review-images').then(({ initReviewImages, shouldInitReviewImages }) => {
+		if (shouldInitReviewImages()) {
+			initReviewImages();
+		}
+	});
 	document.documentElement.classList.add('has-product-ui');
 
 	getProductForms().forEach((form) => {

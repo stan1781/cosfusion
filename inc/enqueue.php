@@ -16,7 +16,7 @@ function tailwindscore_module_script_handles(): array {
 	);
 }
 
-function tailwindscore_localize_app_script(): void {
+function tailwindscore_runtime_config_inline(): string {
 	$inline = sprintf(
 		'window.tailwindscoreCart = %s;',
 		wp_json_encode( tailwindscore_purchase_flow_config() )
@@ -36,7 +36,18 @@ function tailwindscore_localize_app_script(): void {
 		}
 	}
 
-	wp_add_inline_script( 'tailwindscore-app', $inline, 'before' );
+	return $inline;
+}
+
+function tailwindscore_enqueue_runtime_config(): void {
+	wp_register_script( 'tailwindscore-runtime-config', false, array(), null, true );
+	wp_enqueue_script( 'tailwindscore-runtime-config' );
+	wp_add_inline_script( 'tailwindscore-runtime-config', tailwindscore_runtime_config_inline() );
+}
+
+function tailwindscore_localize_app_script(): void {
+	// Module scripts do not reliably print wp_add_inline_script output in WordPress.
+	// Runtime config is emitted via tailwindscore-runtime-config instead.
 }
 
 function tailwindscore_manifest_path(): string {
@@ -118,7 +129,8 @@ function tailwindscore_enqueue_assets(): void {
 		}
 
 		tailwindscore_enqueue_vite_dev_script( 'tailwindscore-vite-client', '@vite/client', array(), false );
-		tailwindscore_enqueue_vite_dev_script( 'tailwindscore-app', 'src/ts/app.ts' );
+		tailwindscore_enqueue_runtime_config();
+		tailwindscore_enqueue_vite_dev_script( 'tailwindscore-app', 'src/ts/app.ts', array( 'tailwindscore-runtime-config' ) );
 		tailwindscore_localize_app_script();
 		// Product gallery config is included in tailwindscore_localize_app_script() on is_product().
 		return;
@@ -133,10 +145,11 @@ function tailwindscore_enqueue_assets(): void {
 	}
 
 	if ( ! empty( $manifest['src/ts/app.ts']['file'] ) ) {
+		tailwindscore_enqueue_runtime_config();
 		wp_enqueue_script(
 			'tailwindscore-app',
 			get_template_directory_uri() . '/assets/dist/' . $manifest['src/ts/app.ts']['file'],
-			array(),
+			array( 'tailwindscore-runtime-config' ),
 			null,
 			true
 		);

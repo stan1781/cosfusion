@@ -12,10 +12,16 @@ declare(strict_types=1);
 						<?php echo esc_html( tailwindscore_cart_summary_text() ); ?>
 					</p>
 				</div>
-				<button class="ts-icon-button ts-site-cart-drawer__close" type="button" @click="closeCart()" aria-label="<?php esc_attr_e( 'Close cart', 'tailwindscore' ); ?>">
-					<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'close' ); ?></span>
-					<span class="screen-reader-text"><?php esc_html_e( 'Close cart', 'tailwindscore' ); ?></span>
-				</button>
+				<?php
+				tailwindscore_render_close_button(
+					__( 'Close cart', 'tailwindscore' ),
+					array(
+						'attrs' => array(
+							'@click' => 'closeCart()',
+						),
+					)
+				);
+				?>
 			</div>
 			<div
 				data-ts-cart-drawer-content

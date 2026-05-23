@@ -137,3 +137,45 @@ function tailwindscore_render_cart_screen_reader_text(): void {
 	</span>
 	<?php
 }
+
+/**
+ * Render the sitewide dismiss/close control (icon + screen-reader label).
+ *
+ * @param string               $label Accessible label.
+ * @param array<string, mixed> $args  Optional class and extra attributes.
+ * @return void
+ */
+function tailwindscore_render_close_button( string $label, array $args = array() ): void {
+	$classes = array( 'ts-close-button' );
+
+	if ( ! empty( $args['class'] ) && is_string( $args['class'] ) ) {
+		$classes[] = $args['class'];
+	}
+
+	$attributes = array(
+		'type'       => 'button',
+		'class'      => implode( ' ', $classes ),
+		'aria-label' => $label,
+	);
+
+	if ( ! empty( $args['attrs'] ) && is_array( $args['attrs'] ) ) {
+		foreach ( $args['attrs'] as $key => $value ) {
+			if ( is_string( $key ) && ( is_string( $value ) || is_numeric( $value ) ) ) {
+				$attributes[ $key ] = (string) $value;
+			}
+		}
+	}
+
+	echo '<button';
+	foreach ( $attributes as $key => $value ) {
+		printf( ' %s="%s"', esc_attr( $key ), esc_attr( $value ) );
+	}
+	echo '>';
+	echo '<span class="ts-icon" aria-hidden="true">';
+	echo tailwindscore_icon( 'close' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	echo '</span>';
+	echo '<span class="screen-reader-text">';
+	echo esc_html( $label );
+	echo '</span>';
+	echo '</button>';
+}

@@ -100,7 +100,7 @@ function showToast(notification: PurchaseFlowNotification) {
 		<div class="ts-purchase-flow-toast__header">
 			<span class="ts-purchase-flow-toast__accent" aria-hidden="true"></span>
 			<strong class="ts-purchase-flow-toast__title">${escapeHtml(toastTitles[notification.type])}</strong>
-			<button type="button" class="ts-purchase-flow-toast__close" aria-label="Close">&times;</button>
+			<button type="button" class="ts-close-button ts-close-button--sm" aria-label="Close"><span class="ts-icon" aria-hidden="true">${window.tailwindscoreCart?.icons?.close ?? ''}</span><span class="screen-reader-text">Close</span></button>
 		</div>
 		<div class="ts-purchase-flow-toast__body">${escapeHtml(notification.message)}</div>
 	`;
@@ -109,7 +109,7 @@ function showToast(notification: PurchaseFlowNotification) {
 		dismissToast(toast, timeoutId);
 	}, toastDismissMs);
 
-	toast.querySelector<HTMLButtonElement>('.ts-purchase-flow-toast__close')?.addEventListener('click', () => {
+	toast.querySelector<HTMLButtonElement>('.ts-close-button')?.addEventListener('click', () => {
 		dismissToast(toast, timeoutId);
 	});
 

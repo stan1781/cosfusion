@@ -66,8 +66,41 @@ export interface GalleryAction {
 	patchImage?: GalleryImage;
 }
 
+export interface TailwindscoreReviewImagesIcons {
+	close?: string;
+}
+
+export interface TailwindscoreReviewImagesConfig {
+	enabled?: boolean;
+	maxImages?: number;
+	maxFileSize?: number;
+	ajaxUrl?: string;
+	icons?: TailwindscoreReviewImagesIcons;
+}
+
+export interface TailwindscoreReviewImagesI18n {
+	uploading?: string;
+	uploadFailed?: string;
+	maxImagesReached?: string;
+	invalidFileType?: string;
+	fileTooLarge?: string;
+	remove?: string;
+	addPhotos?: string;
+	selectImages?: string;
+	dragHere?: string;
+	closeLightbox?: string;
+	previousImage?: string;
+	nextImage?: string;
+	verifiedOwner?: string;
+}
+
 declare global {
 	interface Window {
-		tailwindscoreProduct?: TailwindscoreProductGalleryConfig;
+		tailwindscoreProduct?: TailwindscoreProductGalleryConfig & {
+			variations?: unknown;
+			variationsI18n?: Record<string, string>;
+			reviewImages?: TailwindscoreReviewImagesConfig;
+			reviewImagesI18n?: TailwindscoreReviewImagesI18n;
+		};
 	}
 }

@@ -19,6 +19,46 @@ $ts-icon-stroke-width: 1.75;
 	cursor: pointer;
 }
 
+// Sitewide dismiss control — modals, drawers, lightbox, toasts, etc.
+.ts-close-button {
+	box-sizing: border-box;
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: var(--ts-form-min-height);
+	height: var(--ts-form-min-height);
+	padding: 0;
+	border: 1px solid var(--ts-colors-border);
+	border-radius: 999px;
+	background: var(--ts-colors-surface);
+	color: var(--ts-colors-text);
+	text-decoration: none;
+	cursor: pointer;
+
+	@media (hover: hover) {
+		&:hover {
+			background: var(--ts-colors-surface-muted);
+		}
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--ts-colors-text);
+		outline-offset: 2px;
+	}
+}
+
+.ts-close-button--sm {
+	width: 1.5rem;
+	height: 1.5rem;
+
+	.ts-icon {
+		width: 0.875rem;
+		height: 0.875rem;
+	}
+}
+
 .ts-icon {
 	display: inline-flex;
 	align-items: center;

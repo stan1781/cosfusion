@@ -1,0 +1,310 @@
+@use "../abstracts/variables" as *;
+
+// WooCommerce star-rating (wc_get_rating_html) — shared in review list + summary card.
+@mixin ts-wc-star-rating-block {
+	.star-rating {
+		position: relative;
+		display: inline-block;
+		overflow: hidden;
+		height: var(--ts-wc-star-size);
+		width: calc(var(--ts-wc-star-size) * 5 + 0.35rem * 4);
+		font-size: var(--ts-wc-star-size);
+		line-height: 1;
+		vertical-align: middle;
+
+		&::before {
+			content: "★★★★★";
+			position: absolute;
+			inset: 0 auto auto 0;
+			letter-spacing: 0.35rem;
+			color: $ts-colors-border;
+		}
+
+		span {
+			position: absolute;
+			inset: 0 auto auto 0;
+			overflow: hidden;
+			padding-top: 1.5em;
+			height: 0;
+			line-height: 1;
+
+			&::before {
+				content: "★★★★★";
+				position: absolute;
+				inset: 0 auto auto 0;
+				letter-spacing: 0.35rem;
+				color: $ts-colors-rating;
+			}
+		}
+	}
+}
+
+// Product summary + reviews tab summary — same star block as WooCommerce rating markup.
+.woocommerce-product-rating {
+	@include ts-wc-star-rating-block;
+
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.375rem 0.5rem;
+
+	.star-rating {
+		float: none;
+		margin: 0;
+	}
+
+	.woocommerce-review-link {
+		font-size: 0.875rem;
+		color: $ts-colors-text-muted;
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+	}
+}
+
+#reviews.woocommerce-Reviews,
+.woocommerce-Reviews#reviews {
+	.woocommerce-Reviews-title {
+		font-size: 1.125rem;
+		font-weight: 600;
+		margin: 0 0 $ts-space-md;
+	}
+
+	.woocommerce-noreviews {
+		margin: $ts-space-md 0 0;
+		color: $ts-colors-text-muted;
+		font-size: 0.875rem;
+	}
+
+	.woocommerce-pagination {
+		margin-top: $ts-space-md;
+
+		ul.page-numbers {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		ul.page-numbers > li {
+			margin: 0;
+		}
+
+		a.page-numbers,
+		span.page-numbers {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			min-width: 2rem;
+			min-height: 2rem;
+			padding: 0 0.5rem;
+			border: 1px solid $ts-colors-border;
+			border-radius: $ts-radius-sm;
+			font-size: 0.875rem;
+			text-decoration: none;
+		}
+
+		span.page-numbers.current {
+			border-color: $ts-colors-primary;
+			background: $ts-colors-primary;
+			color: $ts-colors-primary-foreground;
+		}
+	}
+
+	@include ts-wc-star-rating-block;
+}
+
+.ts-wc-review-list.commentlist {
+	display: grid;
+	gap: 0;
+	list-style: none;
+	margin: $ts-space-md 0 0;
+	padding: 0;
+}
+.commentlist {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.ts-wc-review {
+	padding-block: $ts-space-md;
+	border-bottom: 1px solid $ts-colors-border;
+
+	&:last-child {
+		border-bottom: 0;
+		padding-bottom: 0;
+	}
+
+	&:first-child {
+		padding-top: 0;
+	}
+
+	.comment-body {
+		margin: 0;
+	}
+
+	.comment-meta,
+	.reply {
+		display: none;
+	}
+
+	// Align review body with meta column (beside avatar, not under it).
+	&:not(.ts-wc-review--lightbox) .comment-body {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		column-gap: 0.75rem;
+		row-gap: 0.75rem;
+	}
+
+	&:not(.ts-wc-review--lightbox) .ts-wc-review__header {
+		display: contents;
+	}
+
+	&:not(.ts-wc-review--lightbox) .ts-wc-review__body {
+		grid-column: 2;
+		margin-top: 0;
+	}
+}
+
+.ts-wc-review__header {
+	display: flex;
+	gap: 0.75rem;
+	align-items: flex-start;
+}
+
+.ts-wc-review__avatar {
+	flex: 0 0 auto;
+
+	img {
+		display: block;
+		border-radius: 999px;
+	}
+}
+
+.ts-wc-review__meta {
+	flex: 1;
+	min-width: 0;
+}
+
+.ts-wc-review__author-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.375rem 0.5rem;
+
+	strong {
+		font-size: 0.9375rem;
+		font-weight: 600;
+	}
+}
+
+.ts-wc-review__country {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	font-size: 0.75rem;
+	color: $ts-colors-text-muted;
+
+	img {
+		display: block;
+		width: 1.25rem;
+		height: auto;
+		border-radius: 2px;
+	}
+}
+
+.ts-wc-review__verified {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.125rem 0.5rem;
+	border-radius: 999px;
+	background: color-mix(in srgb, #46b450 12%, transparent);
+	color: #2f7a36;
+	font-size: 0.6875rem;
+	font-weight: 600;
+	line-height: 1.4;
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+}
+
+.ts-wc-review__rating-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem 0.75rem;
+	margin-top: 0.25rem;
+
+	time {
+		font-size: 0.8125rem;
+		color: $ts-colors-text-muted;
+	}
+}
+
+.ts-wc-review__rating {
+	line-height: 0;
+
+	.star-rating {
+		float: none;
+		margin: 0;
+	}
+}
+
+.ts-wc-review__body {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	margin-top: 0.75rem;
+
+}
+
+.ts-wc-review__text {
+	flex: 1;
+	min-width: 0;
+	font-size: 0.9375rem;
+	line-height: 1.5;
+	color: $ts-colors-text;
+
+	p {
+		margin: 0;
+
+		+ p {
+			margin-top: 0.5rem;
+		}
+	}
+}
+
+.ts-wc-review__media {
+	flex: 0 0 auto;
+
+	.ts-review-images-display {
+		margin-top: 0;
+	}
+}
+
+// Lightbox sidebar — reuse review list typography and badges.
+.ts-review-lightbox__sidebar {
+	@include ts-wc-star-rating-block;
+
+	.ts-wc-review--lightbox {
+		padding: 0;
+		border: 0;
+	}
+
+	.ts-wc-review__meta {
+		display: block;
+	}
+
+	.ts-wc-review__rating-row {
+		margin-top: 0.375rem;
+	}
+
+	.ts-wc-review__body {
+		margin-top: $ts-space-sm;
+		flex-direction: column;
+	}
+
+	.ts-wc-review__text {
+		white-space: pre-wrap;
+	}
+}

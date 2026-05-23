@@ -30,6 +30,7 @@ type CartI18nConfig = {
 };
 
 type CartIconConfig = {
+	close?: string;
 	plus: string;
 	minus: string;
 	trash: string;

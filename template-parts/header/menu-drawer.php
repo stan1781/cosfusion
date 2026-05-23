@@ -6,10 +6,16 @@ declare(strict_types=1);
 	<div id="ts-site-menu-panel" class="ts-site-menu-drawer__panel ts-stack" role="dialog" aria-modal="true" aria-labelledby="ts-site-menu-title">
 		<div class="ts-site-menu-drawer__header">
 			<h2 id="ts-site-menu-title" class="ts-site-menu-drawer__title"><?php esc_html_e( 'Menu', 'tailwindscore' ); ?></h2>
-			<button class="ts-icon-button ts-site-menu-drawer__close" type="button" @click="closeMenu()" aria-label="<?php esc_attr_e( 'Close menu', 'tailwindscore' ); ?>">
-				<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'close' ); ?></span>
-				<span class="screen-reader-text"><?php esc_html_e( 'Close menu', 'tailwindscore' ); ?></span>
-			</button>
+			<?php
+			tailwindscore_render_close_button(
+				__( 'Close menu', 'tailwindscore' ),
+				array(
+					'attrs' => array(
+						'@click' => 'closeMenu()',
+					),
+				)
+			);
+			?>
 		</div>
 		<?php
 		get_template_part(

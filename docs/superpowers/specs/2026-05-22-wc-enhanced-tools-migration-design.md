@@ -135,7 +135,7 @@ modules/{slug}/
 | size-guide | — | ⏸ | `Product_Size_Guide` |
 | quick-view | — | ⏸ | 插件 Quick View |
 | related-products | `modules/related-products` | ✅ v0.1.0 | `Related_Products_Manager` |
-| review-images | `modules/review-images`（规划） | ⏸ | `Review_Images`、`Showcase_Gallery` |
+| review-images | `modules/review-images` | ✅ v0.1.0 | `Review_Images`、`Showcase_Gallery` |
 
 ### 独立插件（不迁入 modules）
 

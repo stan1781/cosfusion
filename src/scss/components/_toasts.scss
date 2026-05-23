@@ -33,7 +33,7 @@
 	grid-template-columns: auto 1fr auto;
 	align-items: center;
 	gap: var(--ts-space-xs);
-	padding: var(--ts-space-xs) var(--ts-space-sm);
+	padding: 0.375rem var(--ts-space-sm);
 	border-bottom: 1px solid var(--ts-colors-border);
 	background: color-mix(in srgb, var(--ts-colors-surface) 92%, var(--ts-colors-border));
 }
@@ -60,26 +60,11 @@
 .ts-purchase-flow-toast__title {
 	font-size: 0.875rem;
 	font-weight: 600;
-	line-height: 1.3;
+	line-height: 1.25;
 }
 
-.ts-purchase-flow-toast__close {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 1.5rem;
-	height: 1.5rem;
-	border: 0;
-	padding: 0;
-	background: transparent;
-	color: var(--ts-colors-text-muted);
-	font-size: 1.25rem;
-	line-height: 1;
-	cursor: pointer;
-}
-
-.ts-purchase-flow-toast__close:hover {
-	color: var(--ts-colors-text);
+.ts-purchase-flow-toast__header .ts-close-button {
+	margin-inline-start: auto;
 }
 
 .ts-purchase-flow-toast__body {

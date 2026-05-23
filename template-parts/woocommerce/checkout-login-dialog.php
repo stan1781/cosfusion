@@ -25,14 +25,16 @@ defined( 'ABSPATH' ) || exit;
 	>
 		<div class="ts-checkout-login-modal__header">
 			<h2 id="ts-checkout-login-title" class="ts-checkout-login-modal__title"><?php esc_html_e( 'Login', 'tailwindscore' ); ?></h2>
-			<button
-				type="button"
-				class="ts-icon-button ts-checkout-login-modal__close"
-				data-ts-checkout-login-close
-				aria-label="<?php esc_attr_e( 'Close login', 'tailwindscore' ); ?>"
-			>
-				<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'close' ); ?></span>
-			</button>
+			<?php
+			tailwindscore_render_close_button(
+				__( 'Close login', 'tailwindscore' ),
+				array(
+					'attrs' => array(
+						'data-ts-checkout-login-close' => '',
+					),
+				)
+			);
+			?>
 		</div>
 		<div class="ts-checkout-login-modal__body">
 			<?php

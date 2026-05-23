@@ -19,10 +19,16 @@ declare(strict_types=1);
 	>
 		<div class="ts-site-search-modal__header">
 			<h2 id="ts-site-search-title" class="ts-site-search-modal__title"><?php esc_html_e( 'Search', 'tailwindscore' ); ?></h2>
-			<button class="ts-icon-button ts-site-search-modal__close" type="button" @click="closeSearch()" aria-label="<?php esc_attr_e( 'Close search', 'tailwindscore' ); ?>">
-				<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'close' ); ?></span>
-				<span class="screen-reader-text"><?php esc_html_e( 'Close search', 'tailwindscore' ); ?></span>
-			</button>
+			<?php
+			tailwindscore_render_close_button(
+				__( 'Close search', 'tailwindscore' ),
+				array(
+					'attrs' => array(
+						'@click' => 'closeSearch()',
+					),
+				)
+			);
+			?>
 		</div>
 		<?php get_search_form(); ?>
 	</div>

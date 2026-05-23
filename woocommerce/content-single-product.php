@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
 	<div class="ts-wc-product-detail__media ts-stack">
 		<?php get_template_part( 'template-parts/woocommerce/product-gallery' ); ?>
 	</div>
-	<div class="ts-wc-product-detail__summary ts-stack">
+	<div class="ts-wc-product-detail__summary">
 		<?php do_action( 'woocommerce_single_product_summary' ); ?>
 	</div>
 </div>

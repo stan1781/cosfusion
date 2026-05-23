@@ -42,6 +42,7 @@ function tailwindscore_purchase_flow_config(): array {
 			'addedToCart'              => __( 'Added to your cart.', 'tailwindscore' ),
 		),
 		'icons'         => array(
+			'close' => tailwindscore_icon( 'close' ),
 			'plus'  => tailwindscore_icon( 'plus' ),
 			'minus' => tailwindscore_icon( 'minus' ),
 			'trash' => tailwindscore_icon( 'trash' ),
