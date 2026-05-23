@@ -529,6 +529,7 @@ class Tailwindscore_Review_Images_Frontend {
 				<?php
 				$attachment_id = (int) ( $image['id'] ?? 0 );
 				$full_url      = $image['full'] ?? '';
+				$thumb_url     = $image['thumb'] ?? $full_url;
 				if ( ! $attachment_id || ! $full_url ) {
 					continue;
 				}
@@ -540,9 +541,10 @@ class Tailwindscore_Review_Images_Frontend {
 					data-image-index="<?php echo esc_attr( (string) $global_index ); ?>"
 				>
 					<img
-						src="<?php echo esc_url( $full_url ); ?>"
+						src="<?php echo esc_url( $thumb_url ); ?>"
 						alt=""
 						loading="lazy"
+						decoding="async"
 						width="80"
 						height="80"
 					>

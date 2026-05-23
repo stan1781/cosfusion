@@ -421,7 +421,7 @@ function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 			${renderCartCouponMarkup(config)}
 			<div class="ts-cart-drawer-cart__footer ts-stack" data-ts-cart-footer>
 				${renderCartFooterTotals(cart, config)}
-				<a class="ts-button" href="${escapeHtml(config.checkoutUrl)}">${escapeHtml(config.i18n.checkout)}</a>
+				<a class="ts-button" href="${escapeHtml(config.checkoutUrl)}" data-ts-button-loading>${escapeHtml(config.i18n.checkout)}</a>
 				<a class="ts-cart-drawer-cart__view-cart" href="${escapeHtml(config.cartUrl)}">${escapeHtml(config.i18n.viewCart)}</a>
 			</div>
 		</div>

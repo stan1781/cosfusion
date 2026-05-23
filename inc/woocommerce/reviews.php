@@ -174,15 +174,15 @@ function tailwindscore_render_review_form_fallback_cta(): void {
 	$label = tailwindscore_get_review_form_open_label();
 	?>
 	<p class="ts-reviews-fallback-cta">
-		<button
-			type="button"
-			class="ts-button"
+		<a
+			href="#"
 			data-ts-review-form-open
 			aria-haspopup="dialog"
 			aria-controls="ts-review-form-modal"
+			role="button"
 		>
 			<?php echo esc_html( $label ); ?>
-		</button>
+		</a>
 	</p>
 	<?php
 }

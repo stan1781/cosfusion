@@ -1,4 +1,5 @@
 import './ui/quantity-input';
+import './ui/button-loading';
 import './site/index';
 import './shop/loop-swatches';
 import './shop/loop-add-to-cart';

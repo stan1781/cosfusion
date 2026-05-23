@@ -89,7 +89,21 @@
 }
 
 .ts-reviews-fallback-cta {
-	margin-top: $ts-space-md;
+	margin: $ts-space-md 0 0;
+	font-size: 0.875rem;
+
+	a {
+		color: $ts-colors-text-muted;
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+		cursor: pointer;
+
+		@media (hover: hover) {
+			&:hover {
+				color: $ts-colors-text;
+			}
+		}
+	}
 }
 
 // Review form modal

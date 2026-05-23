@@ -109,3 +109,53 @@ export async function withButtonsLoading<T>(
 		list.forEach((button) => setControlLoading(button, false));
 	}
 }
+
+function isModifiedNavigationClick(event: MouseEvent): boolean {
+	return event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey;
+}
+
+/**
+ * Show loading on navigation links (e.g. drawer checkout) until the next page loads.
+ */
+export function initLoadingNavLinks(): void {
+	document.addEventListener(
+		'click',
+		(event) => {
+			if (!(event instanceof MouseEvent) || isModifiedNavigationClick(event)) {
+				return;
+			}
+
+			const target = event.target;
+
+			if (!(target instanceof Element)) {
+				return;
+			}
+
+			const link = target.closest<HTMLAnchorElement>('a[data-ts-button-loading][href]');
+
+			if (!link) {
+				return;
+			}
+
+			if (link.classList.contains('is-loading')) {
+				event.preventDefault();
+				return;
+			}
+
+			setControlLoading(link, true);
+		},
+		true,
+	);
+
+	window.addEventListener('pageshow', (event) => {
+		if (!event.persisted) {
+			return;
+		}
+
+		document
+			.querySelectorAll<HTMLAnchorElement>('a[data-ts-button-loading].is-loading')
+			.forEach((link) => setControlLoading(link, false));
+	});
+}
+
+initLoadingNavLinks();

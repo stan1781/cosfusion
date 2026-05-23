@@ -30,7 +30,7 @@ $subtotal_after  = max( 0, $subtotal_before - $discount_total );
 			<strong data-ts-cart-subtotal><?php echo wp_kses_post( wc_price( $subtotal_after ) ); ?></strong>
 		</div>
 	</div>
-	<a class="ts-button<?php echo $is_cart_page ? ' ts-button--primary' : ''; ?>" href="<?php echo esc_url( tailwindscore_checkout_url() ); ?>">
+	<a class="ts-button<?php echo $is_cart_page ? ' ts-button--primary' : ''; ?>" href="<?php echo esc_url( tailwindscore_checkout_url() ); ?>" data-ts-button-loading>
 		<?php esc_html_e( 'Checkout', 'tailwindscore' ); ?>
 	</a>
 	<?php if ( ! $is_cart_page ) : ?>
