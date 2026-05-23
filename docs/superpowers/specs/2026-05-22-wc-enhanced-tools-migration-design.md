@@ -10,7 +10,9 @@
 
 将 `wc-enhanced-tools` 中面向前台/单品的能力迁入主题的 `modules/` 目录，与 Vite + TypeScript + Tailwind 技术栈一致。目标站点为**新站**：配置只使用 Kirki `theme_mod`，**不**从插件 `get_option( 'wc_*' )` 做 legacy 回退。
 
-任何新会话在迁移插件功能前，应先阅读本文、对应 `docs/superpowers/plans/*-implementation.md`，以及相关模块的 `CHANGELOG.md`。
+任何新会话在迁移 **wc-enhanced-tools** 功能前，应先阅读本文、对应 `docs/superpowers/plans/*-implementation.md`，以及相关模块的 `CHANGELOG.md`。
+
+**其它独立插件**（用户、邮件、订单流程等）不按本文迁入 `modules/`，而按 [独立插件 × 主题资源整合规范](./2026-05-23-plugin-theme-asset-integration-design.md) 处理。
 
 ---
 
@@ -133,6 +135,18 @@ modules/{slug}/
 | size-guide | — | ⏸ | `Product_Size_Guide` |
 | quick-view | — | ⏸ | 插件 Quick View |
 | related-products | `modules/related-products` | ✅ v0.1.0 | `Related_Products_Manager` |
+| review-images | `modules/review-images`（规划） | ⏸ | `Review_Images`、`Showcase_Gallery` |
+
+### 独立插件（不迁入 modules）
+
+以下保持 `wp-content/plugins/` 安装；前台 JS/CSS 由主题按 [资源整合规范](./2026-05-23-plugin-theme-asset-integration-design.md) 接管：
+
+| 插件 | 整合状态 |
+|------|----------|
+| wc-enhanced-user | ⏸ 见资源整合登记表 |
+| wc-mailnest | ⏸ 见资源整合登记表 |
+| wc-order-process-manager | ⏸ 见资源整合登记表 |
+| feed-export | — 仅后台，跳过 |
 
 ---
 
@@ -158,13 +172,15 @@ npm run build
 ## 新会话 / AI 工作指引
 
 1. 阅读 **本文** 确认边界与登记表。  
-2. 阅读目标模块的 `plans/*-implementation.md` 与 `CHANGELOG.md`。  
-3. 对照插件源文件做**只读**参考，在主题中实现，不复制 Bootstrap/option 依赖。  
-4. 完成后更新本文 **模块登记表** 与模块 `CHANGELOG.md`。  
-5. 不要编辑 `.cursor/plans/*.plan.md`（计划附件仅供人类追溯）。
+2. 若任务来自 **独立插件**（非 wc-enhanced-tools），改读 [资源整合规范](./2026-05-23-plugin-theme-asset-integration-design.md)。  
+3. 阅读目标模块的 `plans/*-implementation.md` 与 `CHANGELOG.md`。  
+4. 对照插件源文件做**只读**参考，在主题中实现，不复制 Bootstrap/option 依赖。  
+5. 完成后更新对应 **模块登记表** 或 **插件整合登记表** 与 `CHANGELOG.md`。  
+6. 不要编辑 `.cursor/plans/*.plan.md`（计划附件仅供人类追溯）。
 
 ---
 
 ## 参考实施计划
 
 - [2026-05-22-variations-module-implementation.md](../plans/2026-05-22-variations-module-implementation.md)
+- [2026-05-23-plugin-theme-asset-integration-design.md](./2026-05-23-plugin-theme-asset-integration-design.md)（独立插件）
