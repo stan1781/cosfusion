@@ -1,0 +1,90 @@
+<?php
+declare(strict_types=1);
+
+/**
+ * Auth shell opening markup — split hero + form panel.
+ *
+ * @package TailwindScore
+ *
+ * @var string $subtitle   Panel subtitle.
+ * @var bool   $split_hero Whether to show the left hero column.
+ * @var string $context    login|register|recovery
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+$subtitle   = isset( $subtitle ) ? (string) $subtitle : '';
+$split_hero = ! empty( $split_hero );
+$context    = isset( $context ) ? sanitize_key( (string) $context ) : 'login';
+
+$hero_url    = Tailwindscore_Account_Auth_Settings::get_hero_image_url();
+$hero_bg     = Tailwindscore_Account_Auth_Settings::get_hero_bg_color();
+$hero_style  = '' !== $hero_bg ? '--ts-account-auth-hero-bg: ' . esc_attr( $hero_bg ) . ';' : '';
+
+if ( 'register' === $context ) {
+	$hero_heading = Tailwindscore_Account_Auth_Settings::get_register_hero_heading();
+	$hero_text    = Tailwindscore_Account_Auth_Settings::get_register_hero_text();
+} else {
+	$hero_heading = Tailwindscore_Account_Auth_Settings::get_hero_heading();
+	$hero_text    = Tailwindscore_Account_Auth_Settings::get_hero_text();
+}
+
+$header_class = $split_hero ? 'ts-account-auth__header ts-account-auth__header--split' : 'ts-account-auth__header';
+?>
+<div class="ts-account-auth">
+	<div class="ts-account-auth__viewport">
+		<div class="ts-account-auth__card">
+			<div class="ts-account-auth__layout<?php echo $split_hero ? ' ts-account-auth__layout--split' : ''; ?>">
+				<?php if ( $split_hero ) : ?>
+				<div class="ts-account-auth__hero"<?php echo $hero_style ? ' style="' . esc_attr( $hero_style ) . '"' : ''; ?>>
+					<div class="ts-account-auth__hero-inner">
+						<?php if ( $hero_url ) : ?>
+							<img
+								src="<?php echo esc_url( $hero_url ); ?>"
+								alt=""
+								class="ts-account-auth__hero-image"
+								width="520"
+								height="400"
+								loading="lazy"
+								decoding="async"
+							>
+						<?php endif; ?>
+						<h2 class="ts-account-auth__hero-title"><?php echo esc_html( $hero_heading ); ?></h2>
+						<p class="ts-account-auth__hero-text"><?php echo esc_html( $hero_text ); ?></p>
+					</div>
+				</div>
+				<?php endif; ?>
+
+				<div class="ts-account-auth__panel">
+					<div class="ts-account-auth__panel-inner">
+						<?php get_template_part( 'template-parts/account-auth/escape-links' ); ?>
+
+						<header class="<?php echo esc_attr( $header_class ); ?>">
+							<a class="ts-account-auth__brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+								<?php echo esc_html( tailwindscore_site_name() ); ?>
+							</a>
+							<?php if ( '' !== $subtitle ) : ?>
+								<p class="ts-account-auth__subtitle"><?php echo esc_html( $subtitle ); ?></p>
+							<?php endif; ?>
+						</header>
+
+						<?php
+						if ( 'login' === $context && isset( $_GET['registration'] ) && 'success' === $_GET['registration'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+							$auth_notices = wc_print_notice(
+								esc_html__( 'Registration successful. You can now sign in.', 'tailwindscore' ),
+								'success',
+								array(),
+								true
+							);
+						} else {
+							$auth_notices = wc_print_notices( true );
+						}
+
+						if ( $auth_notices ) :
+							?>
+						<div class="woocommerce-notices-wrapper" data-ts-auth-notices hidden>
+							<?php echo $auth_notices; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						</div>
+							<?php
+						endif;
+						?>

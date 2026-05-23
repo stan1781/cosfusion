@@ -1,0 +1,299 @@
+@use "../abstracts/mixins";
+
+html:has(body.ts-account-auth-surface),
+body.ts-account-auth-surface {
+	height: 100dvh;
+	overflow: hidden;
+}
+
+.ts-account-auth-root {
+	display: grid;
+	place-items: center;
+	width: 100%;
+	height: 100dvh;
+	min-height: 0;
+	overflow: hidden;
+	background: var(--ts-colors-surface-muted);
+}
+
+.ts-account-auth-root > .woocommerce {
+	display: grid;
+	place-items: center;
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+}
+
+.ts-account-auth {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	max-height: 100dvh;
+	padding: var(--ts-space-sm);
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.ts-account-auth__viewport {
+	width: 100%;
+	max-width: 56rem;
+	max-height: 100%;
+}
+
+.ts-account-auth__card {
+	background: var(--ts-colors-surface);
+	border-radius: var(--ts-radius-md);
+	box-shadow: var(--ts-shadow-card);
+	overflow: hidden;
+	max-height: calc(100dvh - (2 * var(--ts-space-sm)));
+}
+
+.ts-account-auth__layout {
+	display: grid;
+	grid-template-columns: 1fr;
+	max-height: inherit;
+}
+
+.ts-account-auth__layout--split {
+	@include mixins.ts-up("md") {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.ts-account-auth__hero {
+	display: none;
+	background: var(--ts-account-auth-hero-bg, var(--ts-colors-primary));
+	color: var(--ts-colors-primary-foreground);
+	padding: var(--ts-space-lg) var(--ts-space-md);
+}
+
+.ts-account-auth__layout--split .ts-account-auth__hero {
+	@include mixins.ts-up("md") {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+.ts-account-auth__hero-inner {
+	text-align: center;
+	max-width: 22rem;
+	margin: 0 auto;
+}
+
+.ts-account-auth__hero-image {
+	display: block;
+	max-width: 100%;
+	max-height: min(280px, 32dvh);
+	width: auto;
+	height: auto;
+	margin: 0 auto var(--ts-space-md);
+	object-fit: contain;
+}
+
+.ts-account-auth__hero-title {
+	margin: 0 0 var(--ts-space-sm);
+	font-size: 1.25rem;
+	font-weight: 600;
+	line-height: 1.3;
+}
+
+.ts-account-auth__hero-text {
+	margin: 0;
+	font-size: 0.9375rem;
+	line-height: 1.5;
+	opacity: 0.92;
+}
+
+.ts-account-auth__panel {
+	padding: var(--ts-space-md);
+	overflow-y: auto;
+	max-height: calc(100dvh - (2 * var(--ts-space-sm)));
+}
+
+.ts-account-auth__layout--split .ts-account-auth__panel {
+	@include mixins.ts-up("md") {
+		max-height: inherit;
+	}
+}
+
+.ts-account-auth__panel-inner {
+	max-width: 26rem;
+	margin: 0 auto;
+}
+
+.ts-account-auth__escape-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ts-space-xs);
+	margin-bottom: var(--ts-space-md);
+	font-size: 0.8125rem;
+}
+
+.ts-account-auth__escape-link {
+	color: var(--ts-colors-text-muted);
+	text-decoration: none;
+
+	&:hover,
+	&:focus-visible {
+		color: var(--ts-colors-text);
+		text-decoration: underline;
+	}
+}
+
+.ts-account-auth__brand {
+	display: inline-block;
+	margin-bottom: var(--ts-space-xs);
+	font-size: var(--ts-type-brand-size);
+	font-weight: 600;
+	color: var(--ts-colors-text);
+	text-decoration: none;
+}
+
+.ts-account-auth__subtitle {
+	margin: 0 0 var(--ts-space-md);
+	color: var(--ts-colors-text-muted);
+	font-size: 0.9375rem;
+}
+
+.ts-account-auth__header--split {
+	@include mixins.ts-up("md") {
+		text-align: left;
+	}
+}
+
+.ts-account-auth__form {
+	display: grid;
+	gap: var(--ts-space-sm);
+
+	.form-row,
+	.woocommerce-form-row {
+		margin: 0;
+		padding: 0;
+		float: none;
+		width: 100%;
+	}
+
+	.ts-input,
+	.input-text {
+		width: 100%;
+	}
+
+	.ts-button,
+	.button {
+		width: 100%;
+		justify-content: center;
+	}
+}
+
+.ts-account-auth__label {
+	display: block;
+	margin-bottom: 0.35rem;
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--ts-colors-text);
+
+	.required {
+		color: var(--ts-colors-danger);
+	}
+}
+
+.ts-account-auth__lost-password {
+	margin: 0;
+	text-align: right;
+	font-size: 0.875rem;
+
+	a {
+		color: var(--ts-colors-text-muted);
+		text-decoration: none;
+
+		&:hover,
+		&:focus-visible {
+			color: var(--ts-colors-text);
+			text-decoration: underline;
+		}
+	}
+}
+
+.ts-account-auth__remember {
+	margin: 0;
+	font-size: 0.875rem;
+
+	label {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		cursor: pointer;
+	}
+}
+
+.ts-account-auth__hint {
+	margin: 0;
+	font-size: 0.875rem;
+	color: var(--ts-colors-text-muted);
+	line-height: 1.5;
+}
+
+.ts-account-auth__switch {
+	margin: var(--ts-space-md) 0 0;
+	text-align: center;
+	font-size: 0.875rem;
+	color: var(--ts-colors-text-muted);
+
+	a {
+		color: var(--ts-colors-text);
+		font-weight: 600;
+		text-decoration: none;
+
+		&:hover,
+		&:focus-visible {
+			text-decoration: underline;
+		}
+	}
+}
+
+.ts-account-auth__divider {
+	position: relative;
+	margin: var(--ts-space-sm) 0;
+	text-align: center;
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 50% 0 auto;
+		height: 1px;
+		background: var(--ts-colors-border);
+	}
+
+	span {
+		position: relative;
+		display: inline-block;
+		padding: 0 0.75rem;
+		background: var(--ts-colors-surface);
+		color: var(--ts-colors-text-muted);
+		font-size: 0.8125rem;
+	}
+}
+
+.ts-account-auth__google-wrap {
+	display: grid;
+	gap: var(--ts-space-sm);
+}
+
+.ts-account-auth__google,
+.googlesitekit-sign-in-with-google__frontend-output-button {
+	width: 100%;
+}
+
+body.ts-account-auth-surface .ts-purchase-flow-toast-root {
+	z-index: 200;
+}
+
+.ts-account-auth-surface .woocommerce > .woocommerce-notices-wrapper {
+	display: none;
+}
+
+.ts-account-auth-surface [data-ts-auth-notices] {
+	display: none;
+}

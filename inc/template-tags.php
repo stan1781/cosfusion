@@ -17,6 +17,14 @@ function tailwindscore_has_sidebar(): bool {
 		return false;
 	}
 
+	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+		return false;
+	}
+
+	if ( is_page( 'register' ) ) {
+		return false;
+	}
+
 	return is_active_sidebar( 'sidebar-1' );
 }
 

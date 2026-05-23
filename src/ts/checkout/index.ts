@@ -1,5 +1,5 @@
 import { clearFeedback } from '../cart/notifications';
-import { setControlLoading } from '../ui/button-loading';
+import { resolveSubmitButton, setControlLoading } from '../ui/button-loading';
 
 const DESKTOP_SUMMARY_MQL = window.matchMedia('(width >= 64rem)');
 const CHECKOUT_SUMMARY_OPEN_KEY = 'ts-checkout-summary-open';
@@ -142,6 +142,22 @@ function initCheckoutLoginModal(): void {
 			closeCheckoutLoginModal();
 		}
 	});
+
+	document.addEventListener(
+		'submit',
+		(event) => {
+			if (!(event.target instanceof HTMLFormElement)) {
+				return;
+			}
+
+			if (!event.target.closest('.ts-checkout-login-modal')) {
+				return;
+			}
+
+			setControlLoading(resolveSubmitButton(event.target, event.submitter), true, { disable: false });
+		},
+		true,
+	);
 }
 
 function initCheckoutUi(): void {
@@ -159,7 +175,7 @@ function initCheckoutUi(): void {
 
 	checkoutForm?.addEventListener('submit', () => {
 		clearFeedback('page');
-		setControlLoading(placeOrderButton, true);
+		setControlLoading(placeOrderButton, true, { disable: false });
 	});
 
 	document.addEventListener('checkout_error', () => {

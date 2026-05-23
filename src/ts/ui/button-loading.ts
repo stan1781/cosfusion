@@ -1,20 +1,34 @@
 export type LoadableControl = HTMLButtonElement | HTMLAnchorElement;
 
+export type ControlLoadingOptions = {
+	/** When false, only show spinner — do not disable (keeps submit name in POST). */
+	disable?: boolean;
+};
+
 /**
  * Toggle AJAX loading state on buttons and button-like links.
  * Uses .is-loading (+ legacy .loading) with a CSS spinner (::after).
  */
-export function setControlLoading(control: LoadableControl | null | undefined, isLoading: boolean): void {
+export function setControlLoading(
+	control: LoadableControl | null | undefined,
+	isLoading: boolean,
+	options: ControlLoadingOptions = {},
+): void {
 	if (!control) {
 		return;
 	}
+
+	const shouldDisable = options.disable ?? true;
 
 	control.classList.toggle('is-loading', isLoading);
 	control.classList.toggle('loading', isLoading);
 	control.setAttribute('aria-busy', isLoading ? 'true' : 'false');
 
 	if (control instanceof HTMLButtonElement) {
-		control.disabled = isLoading;
+		if (shouldDisable) {
+			control.disabled = isLoading;
+		}
+
 		return;
 	}
 
@@ -159,3 +173,45 @@ export function initLoadingNavLinks(): void {
 }
 
 initLoadingNavLinks();
+
+function formHasLoadingSubmit(form: HTMLFormElement): boolean {
+	if (form.classList.contains('woocommerce-form-login') || form.classList.contains('woocommerce-form-register')) {
+		return false;
+	}
+
+	return (
+		form.classList.contains('ts-account-auth__form') ||
+		form.querySelector('[data-ts-button-loading]') !== null
+	);
+}
+
+/**
+ * Show loading on classic form POST submits until navigation completes.
+ */
+export function initLoadingFormSubmits(): void {
+	document.addEventListener(
+		'submit',
+		(event) => {
+			if (!(event.target instanceof HTMLFormElement) || !formHasLoadingSubmit(event.target)) {
+				return;
+			}
+
+			setControlLoading(resolveSubmitButton(event.target, event.submitter), true, { disable: false });
+		},
+		true,
+	);
+
+	window.addEventListener('pageshow', (event) => {
+		if (!event.persisted) {
+			return;
+		}
+
+		document
+			.querySelectorAll<HTMLButtonElement>(
+				'.ts-account-auth__form [type="submit"].is-loading, [data-ts-button-loading].is-loading',
+			)
+			.forEach((button) => setControlLoading(button, false));
+	});
+}
+
+initLoadingFormSubmits();

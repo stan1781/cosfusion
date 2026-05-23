@@ -17,10 +17,19 @@ function tailwindscore_module_script_handles(): array {
 }
 
 function tailwindscore_runtime_config_inline(): string {
+	$parts = apply_filters( 'tailwindscore_runtime_config_parts', array() );
+
 	$inline = sprintf(
 		'window.tailwindscoreCart = %s;',
 		wp_json_encode( tailwindscore_purchase_flow_config() )
 	);
+
+	if ( isset( $parts['accountAuth'] ) ) {
+		$inline .= sprintf(
+			'window.tailwindscoreAccountAuth = %s;',
+			wp_json_encode( $parts['accountAuth'] )
+		);
+	}
 
 	if ( function_exists( 'is_product' ) && is_product() ) {
 		if ( function_exists( 'tailwindscore_product_page_config' ) ) {

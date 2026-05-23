@@ -23,3 +23,4 @@ require_once get_template_directory() . '/modules/gallery/module.php';
 require_once get_template_directory() . '/modules/variations/module.php';
 require_once get_template_directory() . '/modules/related-products/module.php';
 require_once get_template_directory() . '/modules/review-images/module.php';
+require_once get_template_directory() . '/modules/account-auth/module.php';
