@@ -9,6 +9,10 @@ import './product/index';
 import './cart/index';
 import './checkout/index';
 
+if (document.body.classList.contains('woocommerce-account')) {
+	void import('./integrations/order-process');
+}
+
 import Alpine from 'alpinejs';
 
 declare global {

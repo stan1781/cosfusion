@@ -157,9 +157,9 @@ Vite [vite.config.ts](D:/www/base/wp-content/themes/tailwindscore/vite.config.ts
 | [wc-enhanced-user](D:/www/base/wp-content/plugins/wc-enhanced-user) | 插件 | `wc-user-login-ajax` | `wcUserEnhancedLogin` | `is_account_page()` && 未登录 | 档 B + `account-login.ts` | ⏸ 待做 |
 | 同上 | 插件 | `wc-points-redeem` | `wcUserEnhancedParams` | `is_product()` && 积分功能开启 | 档 B + `points-redeem.ts` | ⏸ 待做 |
 | 同上 | 插件 | `registration-form`（若 enqueue） | — | 注册页 | 可仅 dequeue（文件已空） | ⏸ 待做 |
-| [wc-order-process-manager](D:/www/base/wp-content/plugins/wc-order-process-manager) | 插件 | `wc-order-process-frontend`（CSS+JS） | `wcOrderProcessFrontend` | `is_account_page()` | 模板迁主题 `woocommerce/` + 去 Bootstrap + `order-process.ts` | ⏸ 待做 |
+| [wc-order-process-manager](D:/www/base/wp-content/plugins/wc-order-process-manager) | 插件 | `wc-order-process-frontend`（CSS+JS） | `wcOrderProcessFrontend` | `is_account_page()` | 模板迁主题 `woocommerce/` + 去 Bootstrap + `order-process.ts` | ✅ 已完成 |
 | [feed-export](D:/www/base/wp-content/plugins/feed-export) | 插件 | —（仅后台） | — | 不适用 | 不整合前台 | — 跳过 |
-| [wc-order-process-manager](D:/www/base/wp-content/plugins/wc-order-process-manager) | 插件 | 插件 `woocommerce_locate_template` | — | My Account | 业务留插件；模板逐步迁 `themes/tailwindscore/woocommerce/`，**停用**插件抢模板 | ⏸ 待做 |
+| [wc-order-process-manager](D:/www/base/wp-content/plugins/wc-order-process-manager) | 插件 | 插件 `woocommerce_locate_template` | — | My Account | 业务留插件；模板逐步迁 `themes/tailwindscore/woocommerce/`，**停用**插件抢模板 | ✅ 已完成 |
 
 ### 已知问题（改造时一并修复）
 

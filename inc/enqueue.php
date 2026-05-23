@@ -31,6 +31,13 @@ function tailwindscore_runtime_config_inline(): string {
 		);
 	}
 
+	if ( isset( $parts['orderProcess'] ) ) {
+		$inline .= sprintf(
+			'window.wcOrderProcessFrontend = %s;',
+			wp_json_encode( $parts['orderProcess'] )
+		);
+	}
+
 	if ( function_exists( 'is_product' ) && is_product() ) {
 		if ( function_exists( 'tailwindscore_product_page_config' ) ) {
 			$inline .= sprintf(
