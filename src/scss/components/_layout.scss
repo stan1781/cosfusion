@@ -35,7 +35,7 @@
 
 .ts-surface,
 .ts-card,
-.ts-site-search-modal__dialog,
+.ts-site-search-modal__dialog:not(.ts-site-search-modal__dialog--command),
 .ts-site-menu-drawer__panel,
 .ts-site-cart-drawer__panel {
 	border: 1px solid var(--ts-colors-border);

@@ -40,6 +40,16 @@
 	padding: var(--ts-space-md);
 }
 
+/* WP 7 admin command-palette search: floating card, no dialog chrome */
+.ts-site-search-modal__dialog--command {
+	width: min(100%, 36rem);
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+}
+
 .ts-site-search-modal__header,
 .ts-site-menu-drawer__header,
 .ts-site-cart-drawer__header {
@@ -212,16 +222,16 @@
 .ts-cart-drawer-cart__item[data-state="pending"]::before {
 	content: "";
 	position: absolute;
-	top: 50%;
-	right: var(--ts-space-xs);
+	inset: 0;
 	z-index: 1;
-	width: 1rem;
-	height: 1rem;
-	margin-top: -0.5rem;
+	width: 1.25rem;
+	height: 1.25rem;
+	margin: auto;
 	border: 2px solid var(--ts-colors-border-strong);
 	border-right-color: transparent;
 	border-radius: 9999px;
-		@include mixins.ts-animation-spin(mixins.$ts-animation-spin-duration-slow);
+	transform-origin: center;
+	@include mixins.ts-animation-spin(mixins.$ts-animation-spin-duration-slow);
 	pointer-events: none;
 }
 

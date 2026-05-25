@@ -360,6 +360,13 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 }
 
 /* Coupon forms use shared ts-coupon-form + ts-input-group (see template-parts/woocommerce/coupon-form.php). */
+.ts-coupon-form .ts-input-group .ts-input:focus,
+.ts-coupon-form .ts-input-group .ts-input:focus-visible,
+.ts-coupon-form .ts-input-group .ts-form-control:focus,
+.ts-coupon-form .ts-input-group .ts-form-control:focus-visible {
+	outline: none;
+	box-shadow: none;
+}
 
 /* Login / account edit: paired fields (checkout billing uses CSS grid below). */
 .woocommerce form.woocommerce-form-login .form-row-first,

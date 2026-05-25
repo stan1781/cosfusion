@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+
+set_query_var( 'ts_search_form_variant', 'command' );
 ?>
 <div
 	class="ts-site-search-modal"
@@ -11,25 +13,14 @@ declare(strict_types=1);
 	<button class="ts-site-search-modal__backdrop" type="button" @click="closeSearch()" aria-label="<?php esc_attr_e( 'Close search', 'tailwindscore' ); ?>"></button>
 	<div
 		id="ts-site-search-panel"
-		class="ts-site-search-modal__dialog ts-stack"
+		class="ts-site-search-modal__dialog ts-site-search-modal__dialog--command"
 		role="dialog"
 		aria-modal="true"
-		aria-labelledby="ts-site-search-title"
+		aria-label="<?php esc_attr_e( 'Search products', 'tailwindscore' ); ?>"
 		@click.outside="closeSearch()"
 	>
-		<div class="ts-site-search-modal__header">
-			<h2 id="ts-site-search-title" class="ts-site-search-modal__title"><?php esc_html_e( 'Search', 'tailwindscore' ); ?></h2>
-			<?php
-			tailwindscore_render_close_button(
-				__( 'Close search', 'tailwindscore' ),
-				array(
-					'attrs' => array(
-						'@click' => 'closeSearch()',
-					),
-				)
-			);
-			?>
-		</div>
 		<?php get_search_form(); ?>
 	</div>
 </div>
+<?php
+set_query_var( 'ts_search_form_variant', '' );

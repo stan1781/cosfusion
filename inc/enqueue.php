@@ -45,6 +45,13 @@ function tailwindscore_runtime_config_inline(): string {
 		);
 	}
 
+	if ( isset( $parts['ajaxSearch'] ) ) {
+		$inline .= sprintf(
+			'window.tailwindscoreAjaxSearch = %s;',
+			wp_json_encode( $parts['ajaxSearch'] )
+		);
+	}
+
 	if ( function_exists( 'is_product' ) && is_product() ) {
 		if ( function_exists( 'tailwindscore_product_page_config' ) ) {
 			$inline .= sprintf(
