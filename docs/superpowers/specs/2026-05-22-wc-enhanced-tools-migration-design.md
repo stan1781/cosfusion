@@ -114,7 +114,7 @@ modules/{slug}/
 | Product gallery | ✅ 已迁 `modules/gallery` | — |
 | Variation selector | ✅ 已迁 `modules/variations` | — |
 | Size guide | ⏸ 未迁 | `do_action( 'tailwindscore_after_size_attribute_label', $attribute_name, $product )`；meta/表保留 |
-| Quick View 变体 UI | ⏸ | 不 enqueue 归档页选择器脚本 |
+| Quick View 变体 UI | ✅ v0.1.0 方案 B（文字按钮，无变体图） | 不 enqueue 归档页 `variations.ts` |
 | Related products | ✅ 已迁 `modules/related-products` | `Related_Products_Manager` |
 | Gift wrap 等其它插件类 | ⏸ | 按本规范独立 `modules/{slug}` |
 
@@ -133,7 +133,7 @@ modules/{slug}/
 | gallery | `modules/gallery` | ✅ v0.1.0 | `Variation_Images_Manager` 等 |
 | variations | `modules/variations` | ✅ v0.1.0 | `Variation_Selector` |
 | size-guide | — | ⏸ | `Product_Size_Guide` |
-| quick-view | — | ⏸ | 插件 Quick View |
+| quick-view | `modules/quick-view` | ✅ v0.1.0 | 插件 `Quick_View` |
 | related-products | `modules/related-products` | ✅ v0.1.0 | `Related_Products_Manager` |
 | review-images | `modules/review-images` | ✅ v0.1.0 | `Review_Images`、`Showcase_Gallery` |
 

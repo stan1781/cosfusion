@@ -1,4 +1,5 @@
 import { addCartItem, notify } from '../cart/index';
+import { buildAddToCartRequest } from './add-to-cart-request';
 import { resolveSubmitButton, setButtonsLoading } from '../ui/button-loading';
 import './variations';
 
@@ -17,51 +18,6 @@ function setFormPending(form: HTMLFormElement, isPending: boolean, submitter: HT
 	const buttons = button ? [button] : getSubmitButtons(form);
 
 	setButtonsLoading(buttons, isPending);
-}
-
-function collectVariation(formData: FormData) {
-	const variation: Array<{
-		attribute: string;
-		value: string;
-	}> = [];
-
-	formData.forEach((value, key) => {
-		if (typeof value !== 'string' || !key.startsWith('attribute_') || '' === value) {
-			return;
-		}
-
-		variation.push({
-			attribute: key.replace(/^attribute_/, ''),
-			value,
-		});
-	});
-
-	return variation;
-}
-
-function buildAddToCartRequest(form: HTMLFormElement, submitter: HTMLButtonElement | null) {
-	const formData = submitter ? new FormData(form, submitter) : new FormData(form);
-	const submitterProductId =
-		submitter?.name === 'add-to-cart' ? Number(submitter.value || '0') : Number(submitter?.dataset.productId ?? '0');
-	const productId = Number(formData.get('add-to-cart') ?? formData.get('product_id') ?? submitterProductId ?? '0');
-	const quantity = Math.max(1, Number(formData.get('quantity') ?? '1'));
-	const variationId = Math.max(0, Number(formData.get('variation_id') ?? '0'));
-	const isVariationForm = form.classList.contains('variations_form');
-
-	if (productId < 1) {
-		return null;
-	}
-
-	if (isVariationForm && variationId < 1) {
-		return null;
-	}
-
-	return {
-		productId,
-		quantity,
-		variationId,
-		variation: collectVariation(formData),
-	};
 }
 
 async function handleAddToCart(form: HTMLFormElement, submitter: HTMLButtonElement | null) {

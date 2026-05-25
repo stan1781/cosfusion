@@ -9,6 +9,10 @@ import './product/index';
 import './cart/index';
 import './checkout/index';
 
+if (document.body.classList.contains('ts-quick-view-enabled')) {
+	void import('./shop/quick-view');
+}
+
 if (document.body.classList.contains('woocommerce-account')) {
 	void import('./integrations/order-process');
 }

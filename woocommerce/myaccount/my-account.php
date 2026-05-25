@@ -12,7 +12,7 @@ endif;
 	<nav class="ts-wc-account__nav ts-wc-account-nav">
 		<?php do_action( 'woocommerce_account_navigation' ); ?>
 	</nav>
-	<section class="ts-wc-account__content ts-stack">
+	<section class="ts-wc-account__content">
 		<?php do_action( 'woocommerce_account_content' ); ?>
 	</section>
 </div>
