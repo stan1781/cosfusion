@@ -210,6 +210,15 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 						}
 
 						echo '</ul>';
+						if ( $is_size_attribute ) {
+							/**
+							 * After size attribute value row (inline size guide measurements).
+							 *
+							 * @param string     $attribute_name Attribute key.
+							 * @param WC_Product $product        Product.
+							 */
+							do_action( 'tailwindscore_after_size_attribute_value', $attribute_name, $product );
+						}
 						?>
 					</div>
 				</div>

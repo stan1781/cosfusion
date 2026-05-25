@@ -232,5 +232,16 @@ function tailwindscore_product_page_config( ?int $product_id = null ): array {
 		$config['reviewImagesI18n'] = $review['i18n'];
 	}
 
-	return $config;
+	$product_id = (int) ( $product_id ?? 0 );
+	if ( $product_id < 1 && function_exists( 'is_product' ) && is_product() ) {
+		$product_id = (int) get_queried_object_id();
+	}
+	if ( $product_id < 1 && function_exists( 'wc_get_product' ) ) {
+		global $product;
+		if ( $product instanceof WC_Product ) {
+			$product_id = $product->get_id();
+		}
+	}
+
+	return apply_filters( 'tailwindscore_product_page_config', $config, $product_id );
 }

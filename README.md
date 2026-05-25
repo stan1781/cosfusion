@@ -28,7 +28,7 @@ TailwindScore 是一个基于 PHP、Tailwind CSS、TypeScript 和 WooCommerce �
 |------|------|
 | `modules/gallery` | 已迁入 |
 | `modules/variations` | 已迁入（变体选择器；不含 Size Guide） |
-| Size Guide 等 | 未迁入，数据保留在库中 |
+| `modules/size-guide` | 已迁入（JSON 尺码表 modal + 选码单行） |
 
 ## WooCommerce 相册模块 (`modules/gallery`)
 

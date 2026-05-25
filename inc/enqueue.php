@@ -54,9 +54,10 @@ function tailwindscore_runtime_config_inline(): string {
 
 	if ( function_exists( 'is_product' ) && is_product() ) {
 		if ( function_exists( 'tailwindscore_product_page_config' ) ) {
-			$inline .= sprintf(
+			$product_id = (int) get_queried_object_id();
+			$inline    .= sprintf(
 				'window.tailwindscoreProduct = %s;',
-				wp_json_encode( tailwindscore_product_page_config() )
+				wp_json_encode( tailwindscore_product_page_config( $product_id > 0 ? $product_id : null ) )
 			);
 		} elseif ( function_exists( 'tailwindscore_product_gallery_config' ) ) {
 			$inline .= sprintf(

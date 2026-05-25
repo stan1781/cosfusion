@@ -113,16 +113,17 @@ modules/{slug}/
 |------|------|------|
 | Product gallery | ✅ 已迁 `modules/gallery` | — |
 | Variation selector | ✅ 已迁 `modules/variations` | — |
-| Size guide | ⏸ 未迁 | `do_action( 'tailwindscore_after_size_attribute_label', $attribute_name, $product )`；meta/表保留 |
+| Size guide | ✅ v0.1.0 `modules/size-guide` | JSON v2 + `Product_Size_Guide::resolve()`；hooks: label + value row |
 | Quick View 变体 UI | ✅ v0.1.0 方案 B（文字按钮，无变体图） | 不 enqueue 归档页 `variations.ts` |
 | Related products | ✅ 已迁 `modules/related-products` | `Related_Products_Manager` |
 | Gift wrap 等其它插件类 | ⏸ | 按本规范独立 `modules/{slug}` |
 
-### Size Guide 特别说明（未迁）
+### Size Guide（已迁 v0.1.0）
 
-- 不实现 `#size-guide` modal、`Product_Size_Guide` 前台。
-- 数据 `_size_guide`、`_size_guide_template_id`、`wp_wc_size_guide_templates` 保留在库中。
-- 未来新建 `modules/size-guide`，独立 dialog + 解析函数 `tailwindscore_resolve_size_guide()`，仅挂上述 action，不写入 variations 模块。
+- 数据：`_size_guide`（JSON v2 或遗留 HTML）、`_size_guide_template_id`、`wp_wc_size_guide_templates`。
+- 插件：`Product_Size_Guide::resolve()`、后台表格编辑器、HTML→JSON 迁移（设置页 / `wp size-guide migrate`）。
+- 主题：`modules/size-guide`，`<dialog id="ts-size-guide-dialog">`，配置 `tailwindscoreProduct.sizeGuide`。
+- Hooks：`tailwindscore_after_size_attribute_label`（按钮）、`tailwindscore_after_size_attribute_value`（选中尺码单行）。
 
 ---
 
@@ -132,7 +133,7 @@ modules/{slug}/
 |------|------|------|----------|
 | gallery | `modules/gallery` | ✅ v0.1.0 | `Variation_Images_Manager` 等 |
 | variations | `modules/variations` | ✅ v0.1.0 | `Variation_Selector` |
-| size-guide | — | ⏸ | `Product_Size_Guide` |
+| size-guide | `modules/size-guide` | ✅ v0.1.0 | `Product_Size_Guide` |
 | quick-view | `modules/quick-view` | ✅ v0.1.0 | 插件 `Quick_View` |
 | related-products | `modules/related-products` | ✅ v0.1.0 | `Related_Products_Manager` |
 | review-images | `modules/review-images` | ✅ v0.1.0 | `Review_Images`、`Showcase_Gallery` |

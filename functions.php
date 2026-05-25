@@ -22,6 +22,7 @@ require_once get_template_directory() . '/inc/woocommerce/reviews.php';
 require_once get_template_directory() . '/inc/config/kirki-config.php';
 require_once get_template_directory() . '/modules/gallery/module.php';
 require_once get_template_directory() . '/modules/variations/module.php';
+require_once get_template_directory() . '/modules/size-guide/module.php';
 require_once get_template_directory() . '/modules/related-products/module.php';
 require_once get_template_directory() . '/modules/quick-view/module.php';
 require_once get_template_directory() . '/modules/review-images/module.php';

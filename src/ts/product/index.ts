@@ -2,6 +2,7 @@ import { addCartItem, notify } from '../cart/index';
 import { buildAddToCartRequest } from './add-to-cart-request';
 import { resolveSubmitButton, setButtonsLoading } from '../ui/button-loading';
 import './variations';
+import { initSizeGuide } from './size-guide';
 
 function getProductForms() {
 	return document.querySelectorAll<HTMLFormElement>('form.cart, form.variations_form');
@@ -53,6 +54,14 @@ const isProductPage =
 	document.querySelector('form.variations_form .custom-variation-selector') !== null;
 
 if (isProductPage) {
+	const bootSizeGuide = (): void => {
+		initSizeGuide();
+	};
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', bootSizeGuide);
+	} else {
+		bootSizeGuide();
+	}
 	void import('./gallery');
 	void import('./review-images').then(({ initReviewImages, shouldInitReviewImages }) => {
 		if (shouldInitReviewImages()) {
