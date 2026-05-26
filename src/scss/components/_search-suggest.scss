@@ -6,7 +6,7 @@
 /* Command palette field (WP 7 layout, theme tokens) */
 .ts-search-form--command .ts-search-form__wrap {
 	overflow: hidden;
-	border: 1px solid var(--ts-colors-border-strong);
+	border: 1px solid var(--ts-colors-border-field);
 	border-radius: var(--ts-radius-sm);
 	background: var(--ts-colors-surface);
 	box-shadow: var(--ts-shadow-card);

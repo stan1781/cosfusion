@@ -189,35 +189,7 @@ body.ts-mailnest-subscribe-open {
 	flex-shrink: 0;
 }
 
-.ts-mailnest-field {
-	display: flex;
-	flex-direction: column;
-	gap: var(--ts-space-xs);
-}
-
-.ts-mailnest-field__label,
-.ts-mailnest-field__legend {
-	font-size: 0.875rem;
-	font-weight: 500;
-}
-
-.ts-mailnest-field__required {
-	color: var(--ts-colors-danger, #b42318);
-}
-
-.ts-mailnest-field--choice {
-	gap: var(--ts-space-xs);
-}
-
-.ts-field-error {
-	margin: 0;
-	font-size: 0.8125rem;
-	color: var(--ts-colors-danger, #b42318);
-}
-
-.ts-field-error[hidden] {
-	display: none;
-}
+// Field layout: see _form-layout.scss (.ts-field, .ts-form-layout--stacked | --floating).
 
 .ts-mailnest-contact-form__actions {
 	margin-top: var(--ts-space-sm);
@@ -256,10 +228,6 @@ body.ts-mailnest-subscribe-open {
 
 .ts-mailnest-subscribe__feedback--error {
 	color: var(--ts-colors-danger, #b42318);
-}
-
-[aria-invalid="true"].ts-form-control {
-	border-color: var(--ts-colors-danger, #b42318);
 }
 
 // Narrow content column: stack email + button vertically in the popup.

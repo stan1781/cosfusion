@@ -18,7 +18,7 @@
 	align-items: stretch;
 	width: var(--ts-quantity-width);
 	max-width: 100%;
-	border: 1px solid var(--ts-colors-border);
+	border: 1px solid var(--ts-colors-border-field);
 	border-radius: var(--ts-radius-sm);
 	background: var(--ts-colors-surface);
 	overflow: hidden;
@@ -73,7 +73,7 @@
 	appearance: textfield;
 	-moz-appearance: textfield;
 	border: 0;
-	border-inline: 1px solid var(--ts-colors-border);
+	border-inline: 1px solid var(--ts-colors-border-field);
 	border-radius: 0;
 	padding: 0 0.5rem;
 	background: var(--ts-colors-surface);
@@ -91,7 +91,7 @@
 	height: var(--ts-quantity-height);
 	min-height: var(--ts-quantity-height);
 	border: 0;
-	border-inline: 1px solid var(--ts-colors-border);
+	border-inline: 1px solid var(--ts-colors-border-field);
 	border-radius: 0;
 	padding: 0 0.5rem;
 	box-shadow: none;

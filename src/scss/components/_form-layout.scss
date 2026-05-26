@@ -1,0 +1,185 @@
+// Reusable form field layouts: stacked (label above) and floating (label inside control).
+// Apply `.ts-form-layout--stacked` or `.ts-form-layout--floating` on the <form> or a wrapper.
+
+// --- Layout tokens (also exposed on :root for checkout / Woo later) ---
+
+:root {
+	--ts-form-floating-label-size: 0.75rem;
+	--ts-form-floating-label-active-top: 0.5625rem;
+	// Space below the shrunken label for the control value (used at 48px field height).
+	--ts-form-floating-value-padding-top: calc(
+		var(--ts-form-floating-label-active-top) + var(--ts-form-floating-label-size) + 0.125rem
+	);
+	--ts-form-floating-input-padding-bottom: 0.5rem;
+	// Native <select> clips text easily inside 48px; use a tighter bottom band than inputs.
+	--ts-form-floating-select-padding-bottom: 0.125rem;
+	--ts-form-floating-textarea-min-height: calc(
+		var(--ts-form-textarea-min-rows) * 1.25em + var(--ts-form-floating-value-padding-top) + 0.25rem +
+			var(--ts-form-floating-input-padding-bottom)
+	);
+}
+
+// --- Shared field shell ---
+
+.ts-field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-space-xs);
+	min-width: 0;
+}
+
+.ts-field--choice {
+	gap: var(--ts-space-xs);
+}
+
+.ts-field__label,
+.ts-field__legend {
+	font-size: 0.875rem;
+	font-weight: 500;
+	line-height: 1.35;
+	color: var(--ts-colors-text);
+}
+
+.ts-field__required {
+	color: var(--ts-colors-danger);
+	font-weight: 500;
+}
+
+.ts-field-error {
+	margin: 0;
+	font-size: 0.8125rem;
+	color: var(--ts-colors-danger);
+}
+
+.ts-field-error[hidden] {
+	display: none;
+}
+
+// --- Stacked: label above control ---
+
+.ts-form-layout--stacked .ts-field:not(.ts-field--choice) .ts-field__label {
+	display: block;
+}
+
+// --- Floating: label inside bordered control (48px controls) ---
+
+.ts-form-layout--floating {
+	--ts-form-min-height: var(--ts-form-floating-min-height);
+}
+
+.ts-form-layout--floating .ts-field__float {
+	position: relative;
+	display: block;
+	width: 100%;
+}
+
+.ts-form-layout--floating .ts-field__float :is(input, select).ts-form-control {
+	height: var(--ts-form-floating-min-height);
+	min-height: var(--ts-form-floating-min-height);
+}
+
+// Empty: room for centered label; filled/focused: value sits under top label (avoids select clipping).
+.ts-form-layout--floating .ts-field__float:not(.is-filled):not(:focus-within) :is(input, select).ts-form-control {
+	padding-block: var(--ts-form-padding-y);
+}
+
+.ts-form-layout--floating .ts-field__float:is(.is-filled, :focus-within) input.ts-form-control {
+	padding-top: var(--ts-form-floating-value-padding-top);
+	padding-bottom: var(--ts-form-floating-input-padding-bottom);
+	line-height: 1.25;
+}
+
+// Select: fixed 48px + large padding-top clips the option text on Windows/Chromium.
+.ts-form-layout--floating .ts-field__float:is(.is-filled, :focus-within) select.ts-form-control {
+	padding-top: var(--ts-form-floating-value-padding-top);
+	padding-bottom: var(--ts-form-floating-select-padding-bottom);
+	line-height: 1;
+}
+
+$ts-floating-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath stroke='%2352525b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+
+.ts-form-layout--floating .ts-field__float select.ts-form-control {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	padding-inline-end: 2.25rem;
+	background-color: var(--ts-colors-surface);
+	background-image: $ts-floating-select-chevron;
+	background-repeat: no-repeat;
+	background-position: right var(--ts-form-padding-x) center;
+	background-size: 1rem;
+}
+
+// Single min-height for all states — only padding changes on focus/fill (avoids height jump).
+.ts-form-layout--floating .ts-field__float textarea.ts-form-control {
+	min-height: var(--ts-form-floating-textarea-min-height);
+	height: auto;
+}
+
+.ts-form-layout--floating .ts-field__float:not(.is-filled):not(:focus-within) textarea.ts-form-control {
+	padding-block: var(--ts-form-padding-y);
+}
+
+.ts-form-layout--floating .ts-field__float:is(.is-filled, :focus-within) textarea.ts-form-control {
+	padding-top: calc(var(--ts-form-floating-value-padding-top) + 0.25rem);
+	padding-bottom: var(--ts-form-floating-input-padding-bottom);
+}
+
+.ts-form-layout--floating .ts-field__float .ts-field__label {
+	position: absolute;
+	z-index: 1;
+	inset-inline: var(--ts-form-padding-x);
+	top: 50%;
+	margin: 0;
+	transform: translateY(-50%);
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.2;
+	color: var(--ts-colors-text-muted);
+	pointer-events: none;
+	transition:
+		top 0.15s ease,
+		transform 0.15s ease,
+		font-size 0.15s ease,
+		color 0.15s ease;
+}
+
+// Textarea empty: align label with the first line (48px band), not the vertical center of the whole box.
+.ts-form-layout--floating
+	.ts-field__float:has(textarea):not(.is-filled):not(:focus-within)
+	.ts-field__label {
+	top: calc(var(--ts-form-floating-min-height) / 2);
+	transform: translateY(-50%);
+	font-size: 1rem;
+}
+
+.ts-form-layout--floating .ts-field__float:focus-within .ts-field__label,
+.ts-form-layout--floating .ts-field__float.is-filled .ts-field__label {
+	top: var(--ts-form-floating-label-active-top);
+	transform: none;
+	font-size: var(--ts-form-floating-label-size);
+}
+
+.ts-form-layout--floating .ts-field__float:focus-within .ts-field__label {
+	color: var(--ts-colors-text-muted);
+}
+
+.ts-form-layout--floating .ts-field__float.is-filled:not(:focus-within) .ts-field__label {
+	color: var(--ts-colors-text-muted);
+}
+
+// Autofill detection (paired with form-floating.ts)
+@keyframes ts-textfield-autofill {
+	from,
+	to {
+		/* property intentionally empty — hook for JS */
+	}
+}
+
+.ts-form-layout--floating .ts-field__float .ts-form-control:-webkit-autofill {
+	animation: ts-textfield-autofill 0.01s;
+}
+
+[aria-invalid="true"].ts-form-control {
+	border-color: var(--ts-colors-danger);
+}

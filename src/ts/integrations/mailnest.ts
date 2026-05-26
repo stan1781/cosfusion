@@ -1,5 +1,6 @@
 import { notify } from '../cart/notifications';
 import { setControlLoading } from '../ui/button-loading';
+import { initFormFloatingFields } from '../ui/form-floating';
 
 type SubscribeConfig = {
 	ajax_url: string;
@@ -528,6 +529,7 @@ export function initMailnest(): void {
 	bindSubscribeForms();
 	bindSubscribeModal();
 	bindContactForms();
+	initFormFloatingFields();
 }
 
 initMailnest();

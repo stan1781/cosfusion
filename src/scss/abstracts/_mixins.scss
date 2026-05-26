@@ -108,14 +108,19 @@ $ts-animation-slide-duration: 0.22s;
 	color: var(--ts-colors-primary-foreground);
 }
 
+/// Field chrome shared by inputs, selects, textareas, Select2, etc.
+@mixin ts-control-field-border {
+	border: 1px solid var(--ts-colors-border-field);
+	border-radius: var(--ts-radius-sm);
+}
+
 /// Text field base (`.ts-input`, WooCommerce `.input-text`).
 @mixin ts-control-field-base {
 	box-sizing: border-box;
 	width: 100%;
 	height: var(--ts-form-min-height);
 	min-height: var(--ts-form-min-height);
-	border: 1px solid var(--ts-colors-border-strong);
-	border-radius: var(--ts-radius-sm);
+	@include ts-control-field-border;
 	padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
 	background: var(--ts-colors-surface);
 	line-height: 1.25;

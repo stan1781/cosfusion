@@ -40,9 +40,11 @@ $ts-space-md: 1.5rem;
 $ts-space-lg: 2.5rem;
 
 // Form
+$ts-colors-border-field: $ts-colors-border; // inputs, selects, textareas, quantity, Select2
 $ts-form-padding-y: 0.5rem;
 $ts-form-padding-x: 0.75rem;
 $ts-form-min-height: 2.625rem; // 42px
+$ts-form-floating-min-height: 3rem; // 48px — floating label controls only
 $ts-form-textarea-min-rows: 2;
 
 // Layout

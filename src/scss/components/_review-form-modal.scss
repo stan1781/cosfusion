@@ -243,7 +243,7 @@ body.ts-review-form-modal-open {
 	background: transparent;
 	font-size: 1.5rem;
 	line-height: 1;
-	color: $ts-colors-border-strong;
+	color: $ts-colors-border-field;
 	cursor: pointer;
 
 	&.is-active {
@@ -258,7 +258,7 @@ body.ts-review-form-modal-open {
 .ts-review-form-modal .ts-review-images-upload {
 	margin-block: 0;
 	background: $ts-colors-surface-muted;
-	border: 1px dashed $ts-colors-border;
+	border: 1px dashed $ts-colors-border-field;
 	border-radius: $ts-radius-md;
 	padding: $ts-space-sm;
 }

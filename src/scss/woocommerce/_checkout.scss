@@ -358,7 +358,7 @@
 }
 
 .shipping-method-list .woocommerce-shipping-methods li label {
-	padding: 1rem 0.625rem;
+	// padding: var(--ts-space-xs);
 	width: 100%;
 	cursor: pointer;
 }
@@ -859,7 +859,7 @@ body.ts-checkout-login-open {
 .woocommerce-checkout #payment ul.payment_methods li label {
 	flex: 1;
 	min-width: 0;
-	padding: 0.625rem 0;
+	padding: var(--ts-space-xs) 0;
 	cursor: pointer;
 }
 
