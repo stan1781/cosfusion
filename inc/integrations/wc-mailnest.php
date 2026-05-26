@@ -17,31 +17,7 @@ function tailwindscore_should_load_mailnest(): bool {
 		return false;
 	}
 
-	if ( function_exists( 'is_cart' ) && ( is_cart() || is_checkout() ) ) {
-		return false;
-	}
-
-	if ( get_option( 'wc_subscribe_popup_enabled', '1' ) === '1' ) {
-		return true;
-	}
-
-	if ( ! is_singular() ) {
-		return false;
-	}
-
-	$post = get_post();
-	if ( ! $post instanceof WP_Post ) {
-		return false;
-	}
-
-	$shortcodes = array( 'wc_subscribe_form', 'wc_mailnest_form', 'mailnest_form' );
-	foreach ( $shortcodes as $shortcode ) {
-		if ( has_shortcode( $post->post_content, $shortcode ) ) {
-			return true;
-		}
-	}
-
-	return false;
+	return function_exists( 'wc_mailnest_is_frontend_needed' ) && wc_mailnest_is_frontend_needed();
 }
 
 /**

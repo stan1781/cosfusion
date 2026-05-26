@@ -28,69 +28,131 @@ body.ts-mailnest-subscribe-open {
 
 .ts-mailnest-subscribe-modal__dialog {
 	position: relative;
-	width: min(100%, 50rem);
-	max-height: min(90vh, 40rem);
-	overflow: auto;
+	display: flex;
+	flex-direction: column;
+	width: min(100%, 28rem);
+	max-height: min(90vh, 36rem);
+	overflow: hidden;
 	border-radius: var(--ts-radius-md);
 	background: var(--ts-colors-surface);
 	box-shadow: var(--ts-shadow-card);
 }
 
-.ts-mailnest-subscribe-modal__header {
-	display: flex;
-	justify-content: flex-end;
-	padding: var(--ts-space-xs) var(--ts-space-xs) 0;
+.ts-mailnest-subscribe-modal__dialog--split {
+	width: min(100%, 44rem);
+	max-height: min(90vh, 26rem);
+
+	@include mixins.ts-up("md") {
+		min-height: 18rem;
+	}
+}
+
+.ts-mailnest-subscribe-modal__close {
+	position: absolute;
+	z-index: 2;
+	inset-block-start: var(--ts-space-xs);
+	inset-inline-end: var(--ts-space-xs);
+	width: max-content;
+	max-width: max-content;
+	margin: 0;
+	padding: 0;
+	line-height: 0;
 }
 
 .ts-mailnest-subscribe-modal__body {
 	display: flex;
+	flex: 1 1 auto;
 	flex-direction: column;
+	min-height: 0;
 }
 
 .ts-mailnest-subscribe-modal__body--split {
 	@include mixins.ts-up("md") {
-		flex-direction: row;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 		align-items: stretch;
 	}
 }
 
 .ts-mailnest-subscribe-modal__media {
-	flex: 1 1 50%;
-	min-height: 12rem;
+	flex: none;
+	min-height: 10rem;
 	overflow: hidden;
+	background: var(--ts-colors-surface-muted);
 
 	@include mixins.ts-up("md") {
-		min-height: auto;
+		.ts-mailnest-subscribe-modal__body--split & {
+			min-height: 100%;
+		}
 	}
 }
 
 .ts-mailnest-subscribe-modal__media--stacked {
-	flex: none;
-	max-height: 14rem;
+	max-height: 12rem;
 }
 
 .ts-mailnest-subscribe-modal__image {
 	display: block;
 	width: 100%;
 	height: 100%;
+	min-height: 10rem;
 	object-fit: cover;
+
+	@include mixins.ts-up("md") {
+		.ts-mailnest-subscribe-modal__body--split & {
+			min-height: 100%;
+		}
+	}
 }
 
 .ts-mailnest-subscribe-modal__content {
+	display: flex;
 	flex: 1 1 auto;
+	flex-direction: column;
+	gap: var(--ts-space-sm);
+	min-width: 0;
 	padding: var(--ts-space-md);
+	overflow-y: auto;
 }
 
-.ts-mailnest-subscribe__title {
-	margin: 0 0 var(--ts-space-xs);
+.ts-mailnest-subscribe-modal__dialog--split .ts-mailnest-subscribe-modal__content {
+	@include mixins.ts-up("md") {
+		min-height: 100%;
+		padding: var(--ts-space-lg) var(--ts-space-md);
+		justify-content: flex-start;
+	}
+}
+
+// Split layout: pin dismiss checkbox to the bottom of the content column.
+.ts-mailnest-subscribe-modal__dialog--split .wc-subscribe-popup-dismiss-wrap {
+	@include mixins.ts-up("md") {
+		margin-top: auto;
+		padding-top: var(--ts-space-sm);
+		flex-shrink: 0;
+	}
+}
+
+.ts-mailnest-subscribe-modal__content .ts-mailnest-subscribe__title {
+	margin: 0;
 	font-size: 1.25rem;
 	font-weight: 600;
+	line-height: 1.3;
 }
 
-.ts-mailnest-subscribe__description {
-	margin: 0 0 var(--ts-space-sm);
+.ts-mailnest-subscribe-modal__content .ts-mailnest-subscribe__description {
+	margin: 0;
 	color: var(--ts-colors-text-muted, var(--ts-colors-text));
 	font-size: 0.9375rem;
+	line-height: 1.5;
+}
+
+.ts-mailnest-subscribe-modal__content .wc-subscribe-form {
+	margin: 0;
+}
+
+.ts-mailnest-subscribe-modal__content .ts-mailnest-check {
+	margin: 0;
+	font-size: 0.875rem;
 }
 
 .ts-mailnest-subscribe__description--on-dark {
@@ -119,9 +181,7 @@ body.ts-mailnest-subscribe-open {
 	display: flex;
 	align-items: flex-start;
 	gap: var(--ts-space-xs);
-	margin-top: var(--ts-space-sm);
 	cursor: pointer;
-	font-size: 0.875rem;
 }
 
 .ts-mailnest-check__input {
@@ -132,7 +192,7 @@ body.ts-mailnest-subscribe-open {
 .ts-mailnest-field {
 	display: flex;
 	flex-direction: column;
-	gap: var(--ts-space-2xs);
+	gap: var(--ts-space-xs);
 }
 
 .ts-mailnest-field__label,
@@ -180,6 +240,49 @@ body.ts-mailnest-subscribe-open {
 	color: var(--ts-colors-danger, #b42318);
 }
 
+.ts-mailnest-subscribe__feedback {
+	margin: 0;
+	font-size: 0.875rem;
+	line-height: 1.4;
+}
+
+.ts-mailnest-subscribe__feedback[hidden] {
+	display: none;
+}
+
+.ts-mailnest-subscribe__feedback--success {
+	color: var(--ts-colors-success, #067647);
+}
+
+.ts-mailnest-subscribe__feedback--error {
+	color: var(--ts-colors-danger, #b42318);
+}
+
 [aria-invalid="true"].ts-form-control {
 	border-color: var(--ts-colors-danger, #b42318);
+}
+
+// Narrow content column: stack email + button vertically in the popup.
+.ts-mailnest-subscribe-modal__content .ts-input-group {
+	@include mixins.ts-down("md") {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.ts-mailnest-subscribe-modal__dialog--split & {
+		@include mixins.ts-up("md") {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+}
+
+.ts-mailnest-subscribe-modal__content .ts-input-group .ts-button {
+	@include mixins.ts-down("md") {
+		width: 100%;
+	}
+
+	.ts-mailnest-subscribe-modal__dialog--split & {
+		@include mixins.ts-up("md") {
+			width: 100%;
+		}
+	}
 }

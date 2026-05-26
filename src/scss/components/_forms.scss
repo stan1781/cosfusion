@@ -20,17 +20,25 @@
 .ts-input-group {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) minmax(auto, max-content);
+	grid-template-rows: auto;
 	align-items: stretch;
 	gap: var(--ts-space-xs);
 	min-width: 0;
 }
 
-.ts-input-group .ts-input,
-.ts-input-group .ts-form-control {
+// Pin primary controls to two columns so injected siblings (LastPass, hidden fields) do not wrap the button.
+.ts-input-group > :is(.ts-input, .ts-form-control) {
+	grid-column: 1;
+	grid-row: 1;
 	width: 100%;
 	min-width: 0;
 	height: var(--ts-form-min-height);
 	min-height: var(--ts-form-min-height);
+}
+
+.ts-input-group > :is(.ts-button, .ts-icon-button) {
+	grid-column: 2;
+	grid-row: 1;
 }
 
 .ts-input-group .ts-button {
@@ -47,6 +55,43 @@
 	border: 1px solid var(--ts-colors-border-strong);
 	border-radius: var(--ts-radius-sm);
 	background: var(--ts-colors-surface);
+}
+
+// Password managers inject nodes between input and button (e.g. LastPass data-lastpass-icon-root).
+.ts-input-group > :is(
+	[data-lastpass-icon-root],
+	[data-lastpass-root],
+	[data-dashlane-root],
+	[data-dashlanecreated],
+	.com-onepassword-button
+) {
+	grid-column: 1;
+	grid-row: 1;
+	justify-self: end;
+	align-self: center;
+	z-index: 2;
+	width: 0 !important;
+	height: 0 !important;
+	min-width: 0 !important;
+	min-height: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	float: none !important;
+	display: block !important;
+	overflow: visible;
+	pointer-events: none;
+	border: 0;
+	background: transparent;
+}
+
+.ts-input-group > :is(
+	[data-lastpass-icon-root],
+	[data-lastpass-root],
+	[data-dashlane-root],
+	[data-dashlanecreated],
+	.com-onepassword-button
+) * {
+	pointer-events: auto;
 }
 
 .ts-input-group .ts-icon-button:focus-visible {

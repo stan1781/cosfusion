@@ -179,6 +179,14 @@ function formHasLoadingSubmit(form: HTMLFormElement): boolean {
 		return false;
 	}
 
+	// AJAX-handled forms manage their own loading state (see integrations/mailnest.ts, cart, etc.).
+	if (
+		form.classList.contains('wc-subscribe-form') ||
+		form.matches('[data-ts-mailnest-form], .mailnest-form')
+	) {
+		return false;
+	}
+
 	return (
 		form.classList.contains('ts-account-auth__form') ||
 		form.querySelector('[data-ts-button-loading]') !== null

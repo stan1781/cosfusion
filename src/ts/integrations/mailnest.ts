@@ -92,12 +92,57 @@ function closeSubscribeModal(permanent = false): void {
 	}
 }
 
-function showSubscribeMessage(message: string, type: 'success' | 'error'): void {
+function canUseSubscribeToast(): boolean {
+	return Boolean(document.querySelector('[data-ts-purchase-flow-toast-root]'));
+}
+
+function setSubscribeInlineFeedback(
+	form: HTMLFormElement | null,
+	message: string,
+	type: 'success' | 'error',
+): void {
+	if (!form) {
+		return;
+	}
+
+	const feedback = form.querySelector<HTMLElement>('[data-ts-mailnest-subscribe-feedback]');
+	if (!feedback) {
+		return;
+	}
+
+	feedback.textContent = message;
+	feedback.className = `ts-mailnest-subscribe__feedback ts-mailnest-subscribe__feedback--${type}`;
+	feedback.setAttribute('role', type === 'success' ? 'status' : 'alert');
+	feedback.hidden = false;
+}
+
+function clearSubscribeInlineFeedback(form: HTMLFormElement | null): void {
+	const feedback = form?.querySelector<HTMLElement>('[data-ts-mailnest-subscribe-feedback]');
+	if (!feedback) {
+		return;
+	}
+
+	feedback.hidden = true;
+	feedback.textContent = '';
+}
+
+function showSubscribeMessage(
+	message: string,
+	type: 'success' | 'error',
+	form: HTMLFormElement | null = null,
+): void {
 	notify({
 		type: type === 'success' ? 'success' : 'error',
 		message,
 		surface: 'toast',
 	});
+
+	// Toast is primary; inline feedback is only a fallback when the toast root is absent.
+	if (canUseSubscribeToast()) {
+		clearSubscribeInlineFeedback(form);
+	} else {
+		setSubscribeInlineFeedback(form, message, type);
+	}
 }
 
 function handleConfirmationQueryParams(): void {
@@ -107,31 +152,40 @@ function handleConfirmationQueryParams(): void {
 	}
 
 	const params = new URLSearchParams(window.location.search);
+	const footerForm = document.querySelector<HTMLFormElement>('.wc-subscribe-form');
 	if (params.has('wc_subscribe_confirmed')) {
-		showSubscribeMessage(config.messages.confirmed, 'success');
+		showSubscribeMessage(config.messages.confirmed, 'success', footerForm);
 	}
 	if (params.has('wc_subscribe_error')) {
-		showSubscribeMessage(config.messages.confirm_error, 'error');
+		showSubscribeMessage(config.messages.confirm_error, 'error', footerForm);
 	}
 }
 
 async function submitSubscribeForm(form: HTMLFormElement): Promise<void> {
 	const config = getSubscribeConfig();
+	const submitBtn = form.querySelector<HTMLButtonElement>('.wc-subscribe-form-submit');
+	setControlLoading(submitBtn, false);
+
 	if (!config) {
+		showSubscribeMessage(
+			'Subscription is unavailable. Please refresh the page and try again.',
+			'error',
+			form,
+		);
 		return;
 	}
 
 	const emailInput = form.querySelector<HTMLInputElement>('input[name="email"]');
-	const submitBtn = form.querySelector<HTMLButtonElement>('.wc-subscribe-form-submit');
 	const email = emailInput?.value.trim() ?? '';
+	clearSubscribeInlineFeedback(form);
 
 	if (!email) {
-		showSubscribeMessage(config.messages.email_required, 'error');
+		showSubscribeMessage(config.messages.email_required, 'error', form);
 		return;
 	}
 
 	if (!isValidEmail(email)) {
-		showSubscribeMessage(config.messages.email_invalid, 'error');
+		showSubscribeMessage(config.messages.email_invalid, 'error', form);
 		return;
 	}
 
@@ -158,7 +212,7 @@ async function submitSubscribeForm(form: HTMLFormElement): Promise<void> {
 
 		if (payload.success) {
 			const message = typeof payload.data === 'string' ? payload.data : config.messages.success;
-			showSubscribeMessage(message, 'success');
+			showSubscribeMessage(message, 'success', form);
 			form.reset();
 
 			if (form.closest('[data-ts-mailnest-subscribe-modal]')) {
@@ -166,25 +220,30 @@ async function submitSubscribeForm(form: HTMLFormElement): Promise<void> {
 			}
 		} else {
 			const message = typeof payload.data === 'string' ? payload.data : config.messages.error;
-			showSubscribeMessage(message, 'error');
+			showSubscribeMessage(message, 'error', form);
 		}
 	} catch {
-		showSubscribeMessage(config.messages.error, 'error');
+		showSubscribeMessage(config.messages.error, 'error', form);
 	} finally {
 		setControlLoading(submitBtn, false);
 	}
 }
 
 function bindSubscribeForms(): void {
-	document.addEventListener('submit', (event) => {
-		const form = (event.target as HTMLElement).closest<HTMLFormElement>('.wc-subscribe-form');
-		if (!form) {
-			return;
-		}
+	document.addEventListener(
+		'submit',
+		(event) => {
+			const form = (event.target as HTMLElement).closest<HTMLFormElement>('.wc-subscribe-form');
+			if (!form) {
+				return;
+			}
 
-		event.preventDefault();
-		void submitSubscribeForm(form);
-	});
+			event.preventDefault();
+			event.stopImmediatePropagation();
+			void submitSubscribeForm(form);
+		},
+		true,
+	);
 }
 
 function bindSubscribeModal(): void {

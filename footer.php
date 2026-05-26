@@ -13,7 +13,11 @@ declare(strict_types=1);
 		</div>
 	</footer>
 </div>
-<?php if ( function_exists( 'WC' ) ) : ?>
+<?php
+$ts_show_toast_root = function_exists( 'WC' )
+	|| ( function_exists( 'tailwindscore_should_load_mailnest' ) && tailwindscore_should_load_mailnest() );
+if ( $ts_show_toast_root ) :
+	?>
 	<div class="ts-purchase-flow-toast-root" data-ts-purchase-flow-toast-root aria-live="polite" aria-relevant="additions"></div>
 <?php endif; ?>
 <?php wp_footer(); ?>
