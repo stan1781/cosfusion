@@ -2,27 +2,7 @@
  * Custom variation selector (syncs with wc-add-to-cart-variation).
  */
 
-type VariationSettings = {
-	enabled: boolean | number | string;
-	colorAttributes: string[];
-	sizeAttributes: string[];
-	colorSelectorDefaultMode: 'grid' | 'list';
-	colorSelectorShape: string;
-	gridShowText: boolean;
-	priceSelector: string;
-};
-
-type VariationsI18n = {
-	list: string;
-	grid: string;
-	switchToList: string;
-	switchToGrid: string;
-};
-
-type ProductConfig = {
-	variations?: VariationSettings;
-	variationsI18n?: VariationsI18n;
-};
+import type { VariationSettings, VariationsI18n } from './types';
 
 type JqForm = {
 	trigger: (event: string) => JqForm;
@@ -79,7 +59,7 @@ function getConfig(): { settings: VariationSettings; i18n: VariationsI18n } | nu
 		}
 	}
 
-	const root = (window as Window & { tailwindscoreProduct?: ProductConfig }).tailwindscoreProduct;
+	const root = window.tailwindscoreProduct;
 	const settings = root?.variations;
 	if (isVariationSelectorEnabled(settings)) {
 		return {

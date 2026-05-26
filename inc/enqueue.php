@@ -52,6 +52,21 @@ function tailwindscore_runtime_config_inline(): string {
 		);
 	}
 
+	if ( isset( $parts['mailnest'] ) && is_array( $parts['mailnest'] ) ) {
+		if ( isset( $parts['mailnest']['subscribe'] ) ) {
+			$inline .= sprintf(
+				'window.wcSubscribeAjax = %s;',
+				wp_json_encode( $parts['mailnest']['subscribe'] )
+			);
+		}
+		if ( isset( $parts['mailnest']['form'] ) ) {
+			$inline .= sprintf(
+				'window.wcMailnestFormAjax = %s;',
+				wp_json_encode( $parts['mailnest']['form'] )
+			);
+		}
+	}
+
 	if ( function_exists( 'is_product' ) && is_product() ) {
 		if ( function_exists( 'tailwindscore_product_page_config' ) ) {
 			$product_id = (int) get_queried_object_id();

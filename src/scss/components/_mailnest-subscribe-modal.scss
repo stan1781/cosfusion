@@ -1,0 +1,185 @@
+@use "../abstracts/mixins";
+
+// Subscribe newsletter modal (wc-mailnest popup)
+.ts-mailnest-subscribe-modal {
+	position: fixed;
+	inset: 0;
+	z-index: var(--ts-z-modal, 1000);
+	display: grid;
+	place-items: center;
+	padding: var(--ts-space-sm);
+}
+
+.ts-mailnest-subscribe-modal[hidden] {
+	display: none;
+}
+
+body.ts-mailnest-subscribe-open {
+	overflow: hidden;
+}
+
+.ts-mailnest-subscribe-modal__backdrop {
+	position: absolute;
+	inset: 0;
+	border: 0;
+	background: rgb(0 0 0 / 45%);
+	cursor: pointer;
+}
+
+.ts-mailnest-subscribe-modal__dialog {
+	position: relative;
+	width: min(100%, 50rem);
+	max-height: min(90vh, 40rem);
+	overflow: auto;
+	border-radius: var(--ts-radius-md);
+	background: var(--ts-colors-surface);
+	box-shadow: var(--ts-shadow-card);
+}
+
+.ts-mailnest-subscribe-modal__header {
+	display: flex;
+	justify-content: flex-end;
+	padding: var(--ts-space-xs) var(--ts-space-xs) 0;
+}
+
+.ts-mailnest-subscribe-modal__body {
+	display: flex;
+	flex-direction: column;
+}
+
+.ts-mailnest-subscribe-modal__body--split {
+	@include mixins.ts-up("md") {
+		flex-direction: row;
+		align-items: stretch;
+	}
+}
+
+.ts-mailnest-subscribe-modal__media {
+	flex: 1 1 50%;
+	min-height: 12rem;
+	overflow: hidden;
+
+	@include mixins.ts-up("md") {
+		min-height: auto;
+	}
+}
+
+.ts-mailnest-subscribe-modal__media--stacked {
+	flex: none;
+	max-height: 14rem;
+}
+
+.ts-mailnest-subscribe-modal__image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.ts-mailnest-subscribe-modal__content {
+	flex: 1 1 auto;
+	padding: var(--ts-space-md);
+}
+
+.ts-mailnest-subscribe__title {
+	margin: 0 0 var(--ts-space-xs);
+	font-size: 1.25rem;
+	font-weight: 600;
+}
+
+.ts-mailnest-subscribe__description {
+	margin: 0 0 var(--ts-space-sm);
+	color: var(--ts-colors-text-muted, var(--ts-colors-text));
+	font-size: 0.9375rem;
+}
+
+.ts-mailnest-subscribe__description--on-dark {
+	color: rgb(255 255 255 / 70%);
+}
+
+.ts-mailnest-subscribe__layout--horizontal {
+	display: grid;
+	gap: var(--ts-space-md);
+
+	@include mixins.ts-up("md") {
+		grid-template-columns: 1fr 1fr;
+		align-items: center;
+	}
+}
+
+.ts-mailnest-subscribe--align-center {
+	margin-inline: auto;
+}
+
+.ts-mailnest-subscribe--align-right {
+	margin-inline-start: auto;
+}
+
+.ts-mailnest-check {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--ts-space-xs);
+	margin-top: var(--ts-space-sm);
+	cursor: pointer;
+	font-size: 0.875rem;
+}
+
+.ts-mailnest-check__input {
+	margin-top: 0.2rem;
+	flex-shrink: 0;
+}
+
+.ts-mailnest-field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-space-2xs);
+}
+
+.ts-mailnest-field__label,
+.ts-mailnest-field__legend {
+	font-size: 0.875rem;
+	font-weight: 500;
+}
+
+.ts-mailnest-field__required {
+	color: var(--ts-colors-danger, #b42318);
+}
+
+.ts-mailnest-field--choice {
+	gap: var(--ts-space-xs);
+}
+
+.ts-field-error {
+	margin: 0;
+	font-size: 0.8125rem;
+	color: var(--ts-colors-danger, #b42318);
+}
+
+.ts-field-error[hidden] {
+	display: none;
+}
+
+.ts-mailnest-contact-form__actions {
+	margin-top: var(--ts-space-sm);
+}
+
+.ts-mailnest-contact-form__feedback {
+	margin: var(--ts-space-sm) 0 0;
+	font-size: 0.875rem;
+}
+
+.ts-mailnest-contact-form__feedback[hidden] {
+	display: none;
+}
+
+.ts-mailnest-contact-form__feedback--success {
+	color: var(--ts-colors-success, #067647);
+}
+
+.ts-mailnest-contact-form__feedback--error {
+	color: var(--ts-colors-danger, #b42318);
+}
+
+[aria-invalid="true"].ts-form-control {
+	border-color: var(--ts-colors-danger, #b42318);
+}

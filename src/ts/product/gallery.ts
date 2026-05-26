@@ -40,7 +40,7 @@ function getConfig(root: HTMLElement): TailwindscoreProductGalleryConfig | null 
 			...cfg,
 			productTitle: cfg.productTitle ?? fromAttr?.productTitle,
 			attributeLabels: cfg.attributeLabels ?? fromAttr?.attributeLabels,
-		};
+		} as TailwindscoreProductGalleryConfig;
 	}
 
 	return fromAttr;

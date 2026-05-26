@@ -1,17 +1,6 @@
 import { notify } from '../cart/notifications';
 import { resolveSubmitButton, withControlLoading } from '../ui/button-loading';
-
-type AccountAuthConfig = {
-	ajaxUrl: string;
-	ajaxAction: string;
-	redirectUrl: string;
-	i18n: {
-		usernameRequired: string;
-		passwordRequired: string;
-		loginFailed: string;
-		networkError: string;
-	};
-};
+import type { AccountAuthLoginConfig } from './types';
 
 type AjaxLoginSuccess = {
 	success: true;
@@ -48,14 +37,19 @@ function getErrorMessage(payload: AjaxLoginError, fallback: string): string {
 	return fallback;
 }
 
-declare global {
-	interface Window {
-		tailwindscoreAccountAuth?: AccountAuthConfig;
-	}
-}
+function getConfig(): AccountAuthLoginConfig | null {
+	const config = window.tailwindscoreAccountAuth;
 
-function getConfig(): AccountAuthConfig | null {
-	return window.tailwindscoreAccountAuth ?? null;
+	if (!config?.ajaxUrl || !config.ajaxAction || !config.redirectUrl || !config.i18n) {
+		return null;
+	}
+
+	return {
+		ajaxUrl: config.ajaxUrl,
+		ajaxAction: config.ajaxAction,
+		redirectUrl: config.redirectUrl,
+		i18n: config.i18n,
+	};
 }
 
 function isAjaxLoginForm(form: HTMLFormElement): boolean {

@@ -94,13 +94,66 @@ export interface TailwindscoreReviewImagesI18n {
 	verifiedOwner?: string;
 }
 
-declare global {
-	interface Window {
-		tailwindscoreProduct?: TailwindscoreProductGalleryConfig & {
-			variations?: unknown;
-			variationsI18n?: Record<string, string>;
-			reviewImages?: TailwindscoreReviewImagesConfig;
-			reviewImagesI18n?: TailwindscoreReviewImagesI18n;
-		};
-	}
+export interface SizeGuideColumn {
+	key: string;
+	label: string;
+	type: 'size' | 'length' | 'text';
 }
+
+export interface SizeGuideRow {
+	sizeKey: string;
+	sizeLabel: string;
+	values: Record<string, number | string | null>;
+}
+
+export interface SizeGuideTable {
+	columns: SizeGuideColumn[];
+	rows: SizeGuideRow[];
+}
+
+export interface SizeGuideConfig {
+	enabled: boolean;
+	displayMode: 'conditional' | 'always';
+	hasContent: boolean;
+	showUnitSwitcher: boolean;
+	defaultUnit: 'cm' | 'inch';
+	bindAttribute: string;
+	inlineEnabled: boolean;
+	table: SizeGuideTable | null;
+	rowsBySizeKey: Record<string, SizeGuideRow>;
+	legacyHtml: string | null;
+	i18n: {
+		title: string;
+		cm: string;
+		inch: string;
+		close: string;
+		viewGuide: string;
+		noRow: string;
+	};
+}
+
+export type VariationSettings = {
+	enabled: boolean | number | string;
+	colorAttributes: string[];
+	sizeAttributes: string[];
+	colorSelectorDefaultMode: 'grid' | 'list';
+	colorSelectorShape: string;
+	gridShowText: boolean;
+	priceSelector: string;
+};
+
+export type VariationsI18n = {
+	list: string;
+	grid: string;
+	switchToList: string;
+	switchToGrid: string;
+};
+
+/** Merged single-product runtime config (gallery + modules). */
+export type TailwindscoreProductPageConfig = Partial<TailwindscoreProductGalleryConfig> & {
+	variations?: VariationSettings;
+	variationsI18n?: VariationsI18n;
+	reviewImages?: TailwindscoreReviewImagesConfig;
+	reviewImagesI18n?: TailwindscoreReviewImagesI18n;
+	sizeGuide?: SizeGuideConfig;
+};

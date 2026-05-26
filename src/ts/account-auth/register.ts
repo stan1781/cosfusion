@@ -1,21 +1,6 @@
 import { notify } from '../cart/notifications';
 import { resolveSubmitButton, withControlLoading } from '../ui/button-loading';
-
-type RegisterI18n = {
-	usernameRequired: string;
-	emailRequired: string;
-	passwordRequired: string;
-	passwordMismatch: string;
-	registerFailed: string;
-	networkError: string;
-};
-
-type AccountAuthRegisterConfig = {
-	ajaxUrl: string;
-	registerAjaxAction: string;
-	registerRedirectUrl: string;
-	registerI18n: RegisterI18n;
-};
+import type { AccountAuthRegisterConfig } from './types';
 
 type AjaxRegisterSuccess = {
 	success: true;
@@ -52,12 +37,6 @@ function getErrorMessage(payload: AjaxRegisterError, fallback: string): string {
 	return fallback;
 }
 
-declare global {
-	interface Window {
-		tailwindscoreAccountAuth?: Partial<AccountAuthRegisterConfig>;
-	}
-}
-
 function getRegisterConfig(): AccountAuthRegisterConfig | null {
 	const config = window.tailwindscoreAccountAuth;
 
@@ -70,7 +49,12 @@ function getRegisterConfig(): AccountAuthRegisterConfig | null {
 		return null;
 	}
 
-	return config as AccountAuthRegisterConfig;
+	return {
+		ajaxUrl: config.ajaxUrl,
+		registerAjaxAction: config.registerAjaxAction,
+		registerRedirectUrl: config.registerRedirectUrl,
+		registerI18n: config.registerI18n,
+	};
 }
 
 function readField(form: HTMLFormElement, selector: string): string {

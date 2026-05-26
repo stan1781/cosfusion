@@ -136,9 +136,8 @@ src/ts/integrations/
   points-redeem.ts          # 单品积分兑换
   order-process.ts          # 确认收货等
 
-src/scss/integrations/
-  _mailnest.scss
-  _order-process.scss
+src/scss/components/
+  _mailnest-subscribe-modal.scss   # 订阅弹窗 + 联系表单 ts-* 组件样式
 ```
 
 Vite [vite.config.ts](D:/www/base/wp-content/themes/tailwindscore/vite.config.ts) 可增加 `rollupOptions.input` 独立入口，或仅在 `app.ts` 内 `import()` 动态分包——按体积与是否全站需要选择。
@@ -153,7 +152,7 @@ Vite [vite.config.ts](D:/www/base/wp-content/themes/tailwindscore/vite.config.ts
 
 | 插件 | 业务归属 | 前台句柄（dequeue 目标） | 全局 config（须保持或迁移） | 主题加载条件 | 整合策略 | 状态 |
 |------|----------|--------------------------|----------------------------|--------------|----------|------|
-| [wc-mailnest](D:/www/base/wp-content/plugins/wc-mailnest) | 插件 | `wc-mailnest-frontend`（CSS+JS） | `wcSubscribeAjax`、`wcMailnestFormAjax` | 弹窗开启 / 含订阅短代码 / 联系表单页；**非** cart/checkout | 档 B + `integrations/mailnest.ts` | ⏸ 待做 |
+| [wc-mailnest](D:/www/base/wp-content/plugins/wc-mailnest) | 插件 | `wc-mailnest-frontend`（CSS+JS） | `wcSubscribeAjax`、`wcMailnestFormAjax` | 弹窗开启 / 含订阅短代码 / 联系表单页；**非** cart/checkout | 档 B + `integrations/mailnest.ts`；插件 PHP 输出 `ts-*` 模板 | ✅ 已完成 |
 | [wc-enhanced-user](D:/www/base/wp-content/plugins/wc-enhanced-user) | 插件 | `wc-user-login-ajax` | `wcUserEnhancedLogin` | `is_account_page()` && 未登录 | 档 B + `account-login.ts` | ⏸ 待做 |
 | 同上 | 插件 | `wc-points-redeem` | `wcUserEnhancedParams` | `is_product()` && 积分功能开启 | 档 B + `points-redeem.ts` | ⏸ 待做 |
 | 同上 | 插件 | `registration-form`（若 enqueue） | — | 注册页 | 可仅 dequeue（文件已空） | ⏸ 待做 |
@@ -165,8 +164,8 @@ Vite [vite.config.ts](D:/www/base/wp-content/themes/tailwindscore/vite.config.ts
 
 | 问题 | 位置 | 修复 |
 |------|------|------|
-| checkout/cart 未卸掉 mailnest | [inc/woocommerce/checkout.php](D:/www/base/wp-content/themes/tailwindscore/inc/woocommerce/checkout.php) 使用 `mailnest-frontend` | 改为 `wc-mailnest-frontend` 或改用语义化 `tailwindscore_dequeue_mailnest_assets()` |
-| mailnest 全站 enqueue | 插件 `Subscribe_Form` / `Contact_Form` | 插件加条件 enqueue 或主题 filter 关默认 + 主题按页加载 |
+| checkout/cart 未卸掉 mailnest | [inc/woocommerce/checkout.php](D:/www/base/wp-content/themes/tailwindscore/inc/woocommerce/checkout.php) | ✅ `tailwindscore_dequeue_mailnest_assets()` |
+| mailnest 全站 enqueue | 插件 `functions-frontend.php` + 主题 `tailwindscore_should_load_mailnest()` | ✅ 条件加载 + 档 B filter |
 
 ---
 

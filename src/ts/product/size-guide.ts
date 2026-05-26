@@ -2,51 +2,7 @@
  * Size guide modal and inline row for variable products.
  */
 
-type SizeGuideColumn = {
-	key: string;
-	label: string;
-	type: 'size' | 'length' | 'text';
-};
-
-type SizeGuideRow = {
-	sizeKey: string;
-	sizeLabel: string;
-	values: Record<string, number | string | null>;
-};
-
-type SizeGuideTable = {
-	columns: SizeGuideColumn[];
-	rows: SizeGuideRow[];
-};
-
-type SizeGuideConfig = {
-	enabled: boolean;
-	displayMode: 'conditional' | 'always';
-	hasContent: boolean;
-	showUnitSwitcher: boolean;
-	defaultUnit: 'cm' | 'inch';
-	bindAttribute: string;
-	inlineEnabled: boolean;
-	table: SizeGuideTable | null;
-	rowsBySizeKey: Record<string, SizeGuideRow>;
-	legacyHtml: string | null;
-	i18n: {
-		title: string;
-		cm: string;
-		inch: string;
-		close: string;
-		viewGuide: string;
-		noRow: string;
-	};
-};
-
-declare global {
-	interface Window {
-		tailwindscoreProduct?: {
-			sizeGuide?: SizeGuideConfig;
-		};
-	}
-}
+import type { SizeGuideConfig, SizeGuideRow, SizeGuideTable } from './types';
 
 const CM_PER_INCH = 2.54;
 

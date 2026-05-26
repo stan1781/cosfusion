@@ -35,10 +35,9 @@ function tailwindscore_dequeue_plugin_assets_on_checkout_cart(): void {
 	wp_deregister_style( 'wc-enhanced-ajax-search' );
 	wp_deregister_script( 'wc-enhanced-ajax-search' );
 
-	wp_dequeue_style( 'mailnest-frontend' );
-	wp_dequeue_script( 'mailnest-frontend' );
-	wp_deregister_style( 'mailnest-frontend' );
-	wp_deregister_script( 'mailnest-frontend' );
+	if ( function_exists( 'tailwindscore_dequeue_mailnest_assets' ) ) {
+		tailwindscore_dequeue_mailnest_assets();
+	}
 }
 add_action( 'wp_enqueue_scripts', 'tailwindscore_dequeue_plugin_assets_on_checkout_cart', 999 );
 

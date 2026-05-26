@@ -17,6 +17,10 @@ if (document.body.classList.contains('woocommerce-account')) {
 	void import('./integrations/order-process');
 }
 
+if (document.body.classList.contains('ts-mailnest')) {
+	void import('./integrations/mailnest');
+}
+
 import Alpine from 'alpinejs';
 
 declare global {

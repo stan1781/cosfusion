@@ -27,7 +27,8 @@ const sessionHtmlCache = new Map<number, string>();
 
 let pendingAbort: AbortController | null = null;
 let prefetchAbort: AbortController | null = null;
-let prefetchTimer: ReturnType<typeof setTimeout> | null = null;
+/** Browser timer id (`window.setTimeout`); not NodeJS.Timeout from @types/node. */
+let prefetchTimer: number | null = null;
 /** Product id for the active prefetch timer or in-flight request (same card, different elements). */
 let prefetchProductId: number | null = null;
 let returnFocusEl: HTMLElement | null = null;
