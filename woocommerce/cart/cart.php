@@ -47,8 +47,8 @@ $cart = WC()->cart;
 			<button type="submit" class="screen-reader-text" name="update_cart" value="<?php esc_attr_e( 'Update cart', 'woocommerce' ); ?>">
 				<?php esc_html_e( 'Update cart', 'woocommerce' ); ?>
 			</button>
-			<?php tailwindscore_render_cart_summary( array( 'context' => 'cart' ) ); ?>
 		</form>
+		<?php tailwindscore_render_cart_summary( array( 'context' => 'cart' ) ); ?>
 	<?php endif; ?>
 </section>
 <?php

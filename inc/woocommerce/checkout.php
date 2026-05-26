@@ -56,3 +56,17 @@ function tailwindscore_dequeue_plugin_assets_on_checkout_cart(): void {
 	wp_deregister_script( 'mailnest-frontend' );
 }
 add_action( 'wp_enqueue_scripts', 'tailwindscore_dequeue_plugin_assets_on_checkout_cart', 999 );
+
+/**
+ * Prevent cached checkout/cart HTML (stale AJAX nonces break update_order_review).
+ */
+function tailwindscore_nocache_woocommerce_flow_pages(): void {
+	if ( ! function_exists( 'is_cart' ) ) {
+		return;
+	}
+
+	if ( is_cart() || is_checkout() ) {
+		nocache_headers();
+	}
+}
+add_action( 'template_redirect', 'tailwindscore_nocache_woocommerce_flow_pages', 0 );

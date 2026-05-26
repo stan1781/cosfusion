@@ -61,6 +61,7 @@ document.addEventListener('alpine:init', () => {
 			if (this.cartOpen) {
 				this.menuOpen = false;
 				this.searchOpen = false;
+				document.dispatchEvent(new CustomEvent('tailwindscore:cart-drawer-opened'));
 			}
 
 			this.syncDocumentState();
@@ -104,6 +105,7 @@ document.addEventListener('tailwindscore:open-cart', () => {
 			shell.menuOpen = false;
 			shell.searchOpen = false;
 			shell.syncDocumentState();
+			document.dispatchEvent(new CustomEvent('tailwindscore:cart-drawer-opened'));
 			return;
 		}
 	}

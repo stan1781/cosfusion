@@ -243,10 +243,32 @@ class Tailwindscore_Quick_View_Ajax {
 	}
 
 	/**
-	 * @param int $product_id WooCommerce product ID.
+	 * @param int|\WC_Product $product Product ID or product object (stock/update hooks pass WC_Product).
 	 * @return void
 	 */
-	public function clear_cache_for_product( int $product_id ): void {
+	public function clear_cache_for_product( $product ): void {
+		$product_id = self::resolve_product_cache_id( $product );
+
+		if ( $product_id < 1 ) {
+			return;
+		}
+
 		self::invalidate_product_cache( $product_id );
+	}
+
+	/**
+	 * @param int|\WC_Product $product Product ID or product object.
+	 * @return int Parent product ID for variations, otherwise the product ID.
+	 */
+	private static function resolve_product_cache_id( $product ): int {
+		if ( $product instanceof WC_Product ) {
+			if ( $product->is_type( 'variation' ) ) {
+				return (int) $product->get_parent_id();
+			}
+
+			return (int) $product->get_id();
+		}
+
+		return (int) $product;
 	}
 }

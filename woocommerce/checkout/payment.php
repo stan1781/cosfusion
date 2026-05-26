@@ -31,11 +31,6 @@ if ( ! wp_doing_ajax() ) {
 			?>
 		</ul>
 	<?php endif; ?>
-	<?php
-	add_filter( 'bootscore_checkout_show_coupon_in_order_review', '__return_false' );
-	woocommerce_order_review();
-	remove_filter( 'bootscore_checkout_show_coupon_in_order_review', '__return_false' );
-	?>
 	<div class="form-row place-order">
 		<noscript>
 			<?php

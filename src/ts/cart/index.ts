@@ -148,7 +148,6 @@ const cartDrawerSelector = '[data-ts-cart-drawer-inner]';
 const pendingCartItemKeys = new Set<string>();
 let currentCart: StoreApiCart | null = null;
 let storeApiNonce: string | undefined;
-let cartToken: string | undefined;
 
 function escapeHtml(value: string) {
 	return value
@@ -483,14 +482,9 @@ function syncCartUi(cart: StoreApiCart) {
 
 function updateStoreApiHeaders(response: Response) {
 	const nextNonce = response.headers.get('Nonce');
-	const nextCartToken = response.headers.get('Cart-Token');
 
 	if (nextNonce) {
 		storeApiNonce = nextNonce;
-	}
-
-	if (nextCartToken) {
-		cartToken = nextCartToken;
 	}
 }
 
@@ -523,9 +517,8 @@ async function requestStoreApi<TResponse>(path: string, options?: { method?: str
 		headers.set('Nonce', storeApiNonce);
 	}
 
-	if (cartToken) {
-		headers.set('Cart-Token', cartToken);
-	}
+	// Always use the browser cookie session. Cart-Token switches to a separate session
+	// so add-to-cart via Store API would not appear on the PHP checkout page.
 
 	if (undefined !== options?.body) {
 		headers.set('Content-Type', 'application/json');
@@ -1040,6 +1033,14 @@ function bindCheckoutCouponControls() {
 	);
 }
 
+function bindDrawerCartRefresh() {
+	document.addEventListener('tailwindscore:cart-drawer-opened', () => {
+		void refreshCart().catch((error) => {
+			reportCartError(error);
+		});
+	});
+}
+
 function initializeCartUi() {
 	const config = getCartConfig();
 
@@ -1047,20 +1048,14 @@ function initializeCartUi() {
 		return;
 	}
 
-	const isCheckout = document.body.classList.contains('woocommerce-checkout');
-
 	storeApiNonce = config.nonce;
 	bindQuantityControls();
 	bindCouponControls();
 	bindCheckoutCouponControls();
+	bindDrawerCartRefresh();
 
-	// Avoid Store API GET /cart on checkout: calculate_totals() can persist a stale coupon
-	// back to the session after a concurrent remove (classic WC AJAX vs Store API race).
-	if (!isCheckout) {
-		void refreshCart().catch((error) => {
-			reportCartError(error);
-		});
-	}
+	// Do not GET /cart on every page load (checkout/cart especially). That can run
+	// calculate_totals() against the wrong session and empty the shopper's cart.
 }
 
 initializeCartUi();
