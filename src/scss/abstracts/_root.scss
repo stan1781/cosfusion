@@ -1,12 +1,8 @@
 @use "variables";
 
+// Runtime tokens for var() in components. Breakpoints / layout widths: use Sass in @use "variables" + mixins.ts-up().
 :root {
-	--ts-breakpoint-sm: #{variables.$ts-breakpoint-sm};
-	--ts-breakpoint-md: #{variables.$ts-breakpoint-md};
-	--ts-breakpoint-lg: #{variables.$ts-breakpoint-lg};
-	--ts-breakpoint-xl: #{variables.$ts-breakpoint-xl};
-	--ts-breakpoint-2xl: #{variables.$ts-breakpoint-2xl};
-	--ts-colors-background: #{variables.$ts-colors-background};
+	// Colors
 	--ts-colors-surface: #{variables.$ts-colors-surface};
 	--ts-colors-surface-muted: #{variables.$ts-colors-surface-muted};
 	--ts-colors-text: #{variables.$ts-colors-text};
@@ -19,28 +15,48 @@
 	--ts-colors-success: #{variables.$ts-colors-success};
 	--ts-colors-warning: #{variables.$ts-colors-warning};
 	--ts-colors-danger: #{variables.$ts-colors-danger};
-	--ts-colors-rating: #{variables.$ts-colors-rating};
-	--ts-colors-sale: #{variables.$ts-colors-sale};
-	--ts-wc-star-size: #{variables.$ts-wc-star-size};
+	--ts-colors-overlay: #{variables.$ts-colors-overlay};
+	--ts-colors-overlay-dark: #{variables.$ts-colors-overlay-dark};
+
+	// Radius, space, type, shadow
 	--ts-radius-sm: #{variables.$ts-radius-sm};
 	--ts-radius-md: #{variables.$ts-radius-md};
+	--ts-radius-full: #{variables.$ts-radius-full};
+	--ts-space-2xs: #{variables.$ts-space-2xs};
 	--ts-space-xs: #{variables.$ts-space-xs};
 	--ts-space-sm: #{variables.$ts-space-sm};
 	--ts-space-md: #{variables.$ts-space-md};
 	--ts-space-lg: #{variables.$ts-space-lg};
-	--ts-colors-border-field: #{variables.$ts-colors-border-field};
+	--ts-space-xl: #{variables.$ts-space-xl};
+	--ts-space-2xl: #{variables.$ts-space-2xl};
+	--ts-space-3xl: #{variables.$ts-space-3xl};
+	--ts-font-size-base: #{variables.$ts-font-size-base};
+	--ts-font-size-sm: #{variables.$ts-font-size-sm};
+	--ts-font-size-xs: #{variables.$ts-font-size-xs};
+	--ts-font-size-lg: #{variables.$ts-font-size-lg};
+	--ts-font-size-xl: #{variables.$ts-font-size-xl};
+	--ts-line-height: #{variables.$ts-line-height};
+	--ts-shadow-sm: #{variables.$ts-shadow-sm};
+	--ts-shadow-md: #{variables.$ts-shadow-md};
+	--ts-shadow-lg: #{variables.$ts-shadow-lg};
+
+	// Form (floating layout uses computed padding vars below)
 	--ts-form-padding-y: #{variables.$ts-form-padding-y};
 	--ts-form-padding-x: #{variables.$ts-form-padding-x};
 	--ts-form-min-height: #{variables.$ts-form-min-height};
 	--ts-form-floating-min-height: #{variables.$ts-form-floating-min-height};
-	--ts-form-textarea-min-rows: #{variables.$ts-form-textarea-min-rows};
+	--ts-form-floating-label-active-top: #{variables.$ts-form-floating-label-active-top};
+	--ts-form-floating-value-padding-top: calc(
+		var(--ts-form-floating-label-active-top) + var(--ts-font-size-xs) + var(--ts-space-2xs)
+	);
+	--ts-form-floating-textarea-min-height: calc(
+		#{variables.$ts-form-textarea-min-rows} * 1.25em + var(--ts-form-floating-value-padding-top) + var(--ts-space-sm) +
+			var(--ts-form-padding-y)
+	);
+
+	// Layout (page-level)
 	--ts-layout-container: #{variables.$ts-layout-container};
-	--ts-layout-search: #{variables.$ts-layout-search};
-	--ts-layout-drawer: #{variables.$ts-layout-drawer};
 	--ts-type-body: #{variables.$ts-type-body};
-	--ts-type-brand-size: #{variables.$ts-type-brand-size};
-	--ts-type-heading-size: #{variables.$ts-type-heading-size};
-	--ts-type-heading-line-height: #{variables.$ts-type-heading-line-height};
-	--ts-shadow-card: #{variables.$ts-shadow-card};
+
 	color-scheme: light;
 }

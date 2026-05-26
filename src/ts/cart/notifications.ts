@@ -71,6 +71,17 @@ function escapeHtml(value: string) {
 		.replace(/'/g, '&#039;');
 }
 
+/** Decode entities from WooCommerce / Store API messages before re-escaping for display. */
+export function decodeHtmlEntities(value: string): string {
+	if (!value || !value.includes('&')) {
+		return value;
+	}
+
+	const textarea = document.createElement('textarea');
+	textarea.innerHTML = value;
+	return textarea.value;
+}
+
 function dismissToast(toast: HTMLElement, timeoutId: number) {
 	window.clearTimeout(timeoutId);
 
@@ -144,11 +155,16 @@ export function clearFeedback(surface: NotificationSurface, context?: string) {
 }
 
 export function notify(notification: PurchaseFlowNotification) {
+	const normalized: PurchaseFlowNotification = {
+		...notification,
+		message: decodeHtmlEntities(notification.message),
+	};
+
 	// Drawer uses toast notifications; persistent inline feedback is for cart/checkout pages.
-	if ('toast' === notification.surface || 'drawer' === notification.surface) {
-		showToast(notification);
+	if ('toast' === normalized.surface || 'drawer' === normalized.surface) {
+		showToast(normalized);
 		return;
 	}
 
-	showPersistentFeedback(notification);
+	showPersistentFeedback(normalized);
 }

@@ -20,8 +20,8 @@
 	align-items: center;
 	justify-content: space-between;
 	flex-wrap: wrap;
-	gap: var(--ts-space-sm);
-	padding-block: var(--ts-space-sm);
+	gap: var(--ts-space-xl);
+	padding-block: var(--ts-space-xl);
 }
 
 .ts-site-footer__inner {
@@ -31,7 +31,7 @@
 }
 
 .ts-branding a {
-	font-size: var(--ts-type-brand-size);
+	font-size: var(--ts-font-size-xl);
 	font-weight: 600;
 	text-decoration: none;
 }
@@ -39,7 +39,7 @@
 .ts-site-header__actions {
 	display: flex;
 	align-items: center;
-	gap: var(--ts-space-xs);
+	gap: var(--ts-space-lg);
 	margin-left: auto;
 }
 
@@ -72,10 +72,10 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	border-radius: 999px;
+	border-radius: var(--ts-radius-full);
 	background: var(--ts-colors-primary);
 	color: var(--ts-colors-primary-foreground);
-	font-size: 0.6875rem;
+	font-size: var(--ts-font-size-xs);
 	line-height: 1;
 }
 

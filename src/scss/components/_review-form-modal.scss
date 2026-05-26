@@ -28,7 +28,7 @@
 }
 
 .ts-reviews-summary-card {
-	--ts-wc-star-size: 1.375rem;
+	--ts-font-size-base: 1.375rem;
 
 	display: flex;
 	flex-direction: column;
@@ -66,14 +66,14 @@
 }
 
 .ts-reviews-summary-card__score-out-of {
-	font-size: 0.8125rem;
+	font-size: var(--ts-font-size-xs);
 	font-weight: 500;
 	color: $ts-colors-text-muted;
 }
 
 .ts-reviews-summary-card__count {
 	margin: 0;
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 	color: $ts-colors-text-muted;
 }
 
@@ -84,13 +84,13 @@
 
 .ts-reviews-summary-card__notice {
 	margin: 0;
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 	color: $ts-colors-text-muted;
 }
 
 .ts-reviews-fallback-cta {
 	margin: $ts-space-md 0 0;
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 
 	a {
 		color: $ts-colors-text-muted;
@@ -142,7 +142,7 @@ body.ts-review-form-modal-open {
 	background: var(--ts-colors-surface);
 	border: 1px solid var(--ts-colors-border);
 	border-radius: var(--ts-radius-md);
-	box-shadow: 0 12px 40px rgb(0 0 0 / 12%);
+	box-shadow: var(--ts-shadow-lg);
 }
 
 .ts-review-form-modal__header {
@@ -154,7 +154,7 @@ body.ts-review-form-modal-open {
 }
 
 .ts-review-form-modal__title {
-	font-size: 1.125rem;
+	font-size: var(--ts-font-size-lg);
 	font-weight: 600;
 	margin: 0;
 }
@@ -179,19 +179,19 @@ body.ts-review-form-modal-open {
 
 .ts-review-form-modal .comment-form p.comment-notes {
 	color: $ts-colors-text-muted;
-	font-size: 0.75rem;
+	font-size: var(--ts-font-size-xs);
 	display: none;
 }
 .ts-review-form-modal .comment-form p.comment-form-cookies-consent {
 	display: flex;
 	align-items: flex-start;
-	gap: 0.375rem;
-	font-size: 0.875rem;
+	gap: var(--ts-space-sm);
+	font-size: var(--ts-font-size-sm);
 }
 
 .ts-review-form-modal .comment-form label {
 	display: block;
-	font-size: 0.825rem;
+	font-size: var(--ts-font-size-sm);
 	font-weight: 600;
 	color: $ts-colors-text-muted;
 	margin-bottom: 0.35rem;
@@ -217,7 +217,7 @@ body.ts-review-form-modal-open {
 .ts-review-form-modal .comment-form-rating {
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
+	gap: var(--ts-space-md);
 }
 
 .ts-review-form-rating__select {
@@ -243,7 +243,7 @@ body.ts-review-form-modal-open {
 	background: transparent;
 	font-size: 1.5rem;
 	line-height: 1;
-	color: $ts-colors-border-field;
+	color: var(--ts-colors-border);
 	cursor: pointer;
 
 	&.is-active {
@@ -258,13 +258,13 @@ body.ts-review-form-modal-open {
 .ts-review-form-modal .ts-review-images-upload {
 	margin-block: 0;
 	background: $ts-colors-surface-muted;
-	border: 1px dashed $ts-colors-border-field;
+	border: 1px dashed var(--ts-colors-border);
 	border-radius: $ts-radius-md;
 	padding: $ts-space-sm;
 }
 
 .ts-review-form-modal .ts-review-images-toolbar__row {
-	gap: 0.375rem;
+	gap: var(--ts-space-sm);
 }
 
 .ts-review-form-modal .ts-review-images-preview__item {

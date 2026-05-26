@@ -7,7 +7,7 @@
 	z-index: var(--ts-z-modal, 1000);
 	display: grid;
 	place-items: center;
-	padding: var(--ts-space-sm);
+	padding: var(--ts-space-xl);
 }
 
 .ts-mailnest-subscribe-modal[hidden] {
@@ -22,7 +22,7 @@ body.ts-mailnest-subscribe-open {
 	position: absolute;
 	inset: 0;
 	border: 0;
-	background: rgb(0 0 0 / 45%);
+	background: var(--ts-colors-overlay);
 	cursor: pointer;
 }
 
@@ -35,7 +35,7 @@ body.ts-mailnest-subscribe-open {
 	overflow: hidden;
 	border-radius: var(--ts-radius-md);
 	background: var(--ts-colors-surface);
-	box-shadow: var(--ts-shadow-card);
+	box-shadow: var(--ts-shadow-sm);
 }
 
 .ts-mailnest-subscribe-modal__dialog--split {
@@ -50,8 +50,8 @@ body.ts-mailnest-subscribe-open {
 .ts-mailnest-subscribe-modal__close {
 	position: absolute;
 	z-index: 2;
-	inset-block-start: var(--ts-space-xs);
-	inset-inline-end: var(--ts-space-xs);
+	inset-block-start: var(--ts-space-lg);
+	inset-inline-end: var(--ts-space-lg);
 	width: max-content;
 	max-width: max-content;
 	margin: 0;
@@ -109,16 +109,16 @@ body.ts-mailnest-subscribe-open {
 	display: flex;
 	flex: 1 1 auto;
 	flex-direction: column;
-	gap: var(--ts-space-sm);
+	gap: var(--ts-space-xl);
 	min-width: 0;
-	padding: var(--ts-space-md);
+	padding: var(--ts-space-2xl);
 	overflow-y: auto;
 }
 
 .ts-mailnest-subscribe-modal__dialog--split .ts-mailnest-subscribe-modal__content {
 	@include mixins.ts-up("md") {
 		min-height: 100%;
-		padding: var(--ts-space-lg) var(--ts-space-md);
+		padding: var(--ts-space-3xl) var(--ts-space-2xl);
 		justify-content: flex-start;
 	}
 }
@@ -127,14 +127,14 @@ body.ts-mailnest-subscribe-open {
 .ts-mailnest-subscribe-modal__dialog--split .wc-subscribe-popup-dismiss-wrap {
 	@include mixins.ts-up("md") {
 		margin-top: auto;
-		padding-top: var(--ts-space-sm);
+		padding-top: var(--ts-space-xl);
 		flex-shrink: 0;
 	}
 }
 
 .ts-mailnest-subscribe-modal__content .ts-mailnest-subscribe__title {
 	margin: 0;
-	font-size: 1.25rem;
+	font-size: var(--ts-font-size-xl);
 	font-weight: 600;
 	line-height: 1.3;
 }
@@ -142,7 +142,7 @@ body.ts-mailnest-subscribe-open {
 .ts-mailnest-subscribe-modal__content .ts-mailnest-subscribe__description {
 	margin: 0;
 	color: var(--ts-colors-text-muted, var(--ts-colors-text));
-	font-size: 0.9375rem;
+	font-size: var(--ts-font-size-sm);
 	line-height: 1.5;
 }
 
@@ -152,7 +152,7 @@ body.ts-mailnest-subscribe-open {
 
 .ts-mailnest-subscribe-modal__content .ts-mailnest-check {
 	margin: 0;
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 }
 
 .ts-mailnest-subscribe__description--on-dark {
@@ -161,7 +161,7 @@ body.ts-mailnest-subscribe-open {
 
 .ts-mailnest-subscribe__layout--horizontal {
 	display: grid;
-	gap: var(--ts-space-md);
+	gap: var(--ts-space-2xl);
 
 	@include mixins.ts-up("md") {
 		grid-template-columns: 1fr 1fr;
@@ -180,7 +180,7 @@ body.ts-mailnest-subscribe-open {
 .ts-mailnest-check {
 	display: flex;
 	align-items: flex-start;
-	gap: var(--ts-space-xs);
+	gap: var(--ts-space-lg);
 	cursor: pointer;
 }
 
@@ -192,12 +192,12 @@ body.ts-mailnest-subscribe-open {
 // Field layout: see _form-layout.scss (.ts-field, .ts-form-layout--stacked | --floating).
 
 .ts-mailnest-contact-form__actions {
-	margin-top: var(--ts-space-sm);
+	margin-top: var(--ts-space-xl);
 }
 
 .ts-mailnest-contact-form__feedback {
-	margin: var(--ts-space-sm) 0 0;
-	font-size: 0.875rem;
+	margin: var(--ts-space-xl) 0 0;
+	font-size: var(--ts-font-size-sm);
 }
 
 .ts-mailnest-contact-form__feedback[hidden] {
@@ -205,16 +205,16 @@ body.ts-mailnest-subscribe-open {
 }
 
 .ts-mailnest-contact-form__feedback--success {
-	color: var(--ts-colors-success, #067647);
+	color: var(--ts-colors-success);
 }
 
 .ts-mailnest-contact-form__feedback--error {
-	color: var(--ts-colors-danger, #b42318);
+	color: var(--ts-colors-danger);
 }
 
 .ts-mailnest-subscribe__feedback {
 	margin: 0;
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 	line-height: 1.4;
 }
 
@@ -223,11 +223,11 @@ body.ts-mailnest-subscribe-open {
 }
 
 .ts-mailnest-subscribe__feedback--success {
-	color: var(--ts-colors-success, #067647);
+	color: var(--ts-colors-success);
 }
 
 .ts-mailnest-subscribe__feedback--error {
-	color: var(--ts-colors-danger, #b42318);
+	color: var(--ts-colors-danger);
 }
 
 // Narrow content column: stack email + button vertically in the popup.

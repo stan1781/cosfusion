@@ -70,7 +70,7 @@
 	min-height: auto;
 	padding: 0.3125rem 0.625rem;
 	border-radius: 0.4rem;
-	font-size: 0.8125rem;
+	font-size: var(--ts-font-size-xs);
 	line-height: 1.25;
 	font-weight: 600;
 }
@@ -150,6 +150,6 @@ a[role="button"].is-loading::after,
 
 .ts-input-group .ts-button.is-loading:not(.ts-icon-button)::after,
 .ts-input-group .ts-button.loading:not(.ts-icon-button)::after {
-	width: 0.875rem;
-	height: 0.875rem;
+	width: var(--ts-font-size-sm);
+	height: var(--ts-font-size-sm);
 }

@@ -1,5 +1,10 @@
-import { clearFeedback, notify } from './notifications';
+import { clearFeedback, decodeHtmlEntities, notify } from './notifications';
 import { resolveCouponApplyButton, withControlLoading } from '../ui/button-loading';
+import {
+	bindCouponApplyDisabledState,
+	initCouponApplyDisabledState,
+	syncCouponApplyButtonForInput,
+} from '../ui/coupon-form';
 
 export { notify } from './notifications';
 
@@ -391,7 +396,7 @@ function renderCartCouponMarkup(config: TailwindscoreCartConfig) {
 						data-ts-cart-coupon-input
 						placeholder="${escapeHtml(config.i18n.couponPlaceholder)}"
 					>
-					<button class="ts-button ts-button--secondary" type="submit" data-ts-button-loading data-ts-cart-coupon-submit>${escapeHtml(config.i18n.applyCoupon)}</button>
+					<button class="ts-button ts-button--secondary" type="submit" disabled data-ts-button-loading data-ts-cart-coupon-submit>${escapeHtml(config.i18n.applyCoupon)}</button>
 				</div>
 			</form>
 		</div>
@@ -475,6 +480,7 @@ function syncCartUi(cart: StoreApiCart) {
 
 	document.querySelectorAll<HTMLElement>(cartDrawerSelector).forEach((element) => {
 		element.innerHTML = drawerMarkup;
+		initCouponApplyDisabledState(element);
 	});
 
 	syncPendingCartItems();
@@ -502,7 +508,7 @@ async function readErrorResponse(response: Response) {
 		syncCartUi(payload.data.cart);
 	}
 
-	throw new Error(payload?.message || 'Store API request failed.');
+	throw new Error(decodeHtmlEntities(payload?.message || 'Store API request failed.'));
 }
 
 async function requestStoreApi<TResponse>(path: string, options?: { method?: string; body?: unknown }) {
@@ -614,11 +620,6 @@ async function applyCartCoupon(code: string, surface: 'drawer' | 'toast' | 'page
 	const config = getConfigOrThrow();
 
 	if ('' === trimmed) {
-		notify({
-			type: 'error',
-			message: config.i18n.couponRequired,
-			surface,
-		});
 		return;
 	}
 
@@ -682,6 +683,7 @@ function clearCheckoutCouponInput(scope?: ParentNode | null) {
 
 	if (input) {
 		input.value = '';
+		syncCouponApplyButtonForInput(input);
 	}
 }
 
@@ -689,11 +691,6 @@ async function applyCheckoutCouponFromButton(submitButton: HTMLButtonElement | n
 	const fields = submitButton?.closest('[data-ts-checkout-coupon-fields]');
 	const input = getCheckoutCouponInput(fields ?? undefined);
 	const code = input?.value ?? '';
-
-	if (!code.trim()) {
-		await applyCartCoupon(code, 'toast');
-		return;
-	}
 
 	try {
 		await withControlLoading(submitButton, async () => {
@@ -919,19 +916,17 @@ function bindCouponControls() {
 		const code = input?.value ?? '';
 		const submitButton = resolveCouponApplyButton(target);
 
-		if (!code.trim()) {
-			await applyCartCoupon(code);
-			return;
-		}
-
 		try {
 			await withControlLoading(submitButton, () => applyCartCoupon(code));
+			if (input) {
+				input.value = '';
+			}
 		} catch {
 			return;
-		}
-
-		if (input) {
-			input.value = '';
+		} finally {
+			if (input) {
+				syncCouponApplyButtonForInput(input);
+			}
 		}
 	});
 }
@@ -1051,6 +1046,7 @@ function initializeCartUi() {
 	storeApiNonce = config.nonce;
 	bindQuantityControls();
 	bindCouponControls();
+	bindCouponApplyDisabledState();
 	bindCheckoutCouponControls();
 	bindDrawerCartRefresh();
 

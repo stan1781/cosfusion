@@ -1,5 +1,7 @@
 @use "../abstracts/mixins";
 
+// Control typography: --ts-font-size-base via mixins.ts-control-field-base (abstracts/_variables.scss).
+
 .ts-form-control,
 .ts-input {
 	@include mixins.ts-control-field-base;
@@ -22,7 +24,7 @@
 	grid-template-columns: minmax(0, 1fr) minmax(auto, max-content);
 	grid-template-rows: auto;
 	align-items: stretch;
-	gap: var(--ts-space-xs);
+	gap: var(--ts-space-lg);
 	min-width: 0;
 }
 
@@ -52,7 +54,7 @@
 	width: var(--ts-form-min-height);
 	height: var(--ts-form-min-height);
 	min-height: var(--ts-form-min-height);
-	border: 1px solid var(--ts-colors-border-field);
+	border: 1px solid var(--ts-colors-border);
 	border-radius: var(--ts-radius-sm);
 	background: var(--ts-colors-surface);
 }

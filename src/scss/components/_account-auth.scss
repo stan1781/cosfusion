@@ -30,7 +30,7 @@ body.ts-account-auth-surface {
 	justify-content: center;
 	width: 100%;
 	max-height: 100dvh;
-	padding: var(--ts-space-sm);
+	padding: var(--ts-space-xl);
 	box-sizing: border-box;
 	overflow: hidden;
 }
@@ -44,9 +44,9 @@ body.ts-account-auth-surface {
 .ts-account-auth__card {
 	background: var(--ts-colors-surface);
 	border-radius: var(--ts-radius-md);
-	box-shadow: var(--ts-shadow-card);
+	box-shadow: var(--ts-shadow-sm);
 	overflow: hidden;
-	max-height: calc(100dvh - (2 * var(--ts-space-sm)));
+	max-height: calc(100dvh - (2 * var(--ts-space-xl)));
 }
 
 .ts-account-auth__layout {
@@ -65,7 +65,7 @@ body.ts-account-auth-surface {
 	display: none;
 	background: var(--ts-account-auth-hero-bg, var(--ts-colors-primary));
 	color: var(--ts-colors-primary-foreground);
-	padding: var(--ts-space-lg) var(--ts-space-md);
+	padding: var(--ts-space-3xl) var(--ts-space-2xl);
 }
 
 .ts-account-auth__layout--split .ts-account-auth__hero {
@@ -88,28 +88,28 @@ body.ts-account-auth-surface {
 	max-height: min(280px, 32dvh);
 	width: auto;
 	height: auto;
-	margin: 0 auto var(--ts-space-md);
+	margin: 0 auto var(--ts-space-2xl);
 	object-fit: contain;
 }
 
 .ts-account-auth__hero-title {
-	margin: 0 0 var(--ts-space-sm);
-	font-size: 1.25rem;
+	margin: 0 0 var(--ts-space-xl);
+	font-size: var(--ts-font-size-xl);
 	font-weight: 600;
 	line-height: 1.3;
 }
 
 .ts-account-auth__hero-text {
 	margin: 0;
-	font-size: 0.9375rem;
+	font-size: var(--ts-font-size-sm);
 	line-height: 1.5;
 	opacity: 0.92;
 }
 
 .ts-account-auth__panel {
-	padding: var(--ts-space-md);
+	padding: var(--ts-space-2xl);
 	overflow-y: auto;
-	max-height: calc(100dvh - (2 * var(--ts-space-sm)));
+	max-height: calc(100dvh - (2 * var(--ts-space-xl)));
 }
 
 .ts-account-auth__layout--split .ts-account-auth__panel {
@@ -126,9 +126,9 @@ body.ts-account-auth-surface {
 .ts-account-auth__escape-links {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--ts-space-xs);
-	margin-bottom: var(--ts-space-md);
-	font-size: 0.8125rem;
+	gap: var(--ts-space-lg);
+	margin-bottom: var(--ts-space-2xl);
+	font-size: var(--ts-font-size-xs);
 }
 
 .ts-account-auth__escape-link {
@@ -144,17 +144,17 @@ body.ts-account-auth-surface {
 
 .ts-account-auth__brand {
 	display: inline-block;
-	margin-bottom: var(--ts-space-xs);
-	font-size: var(--ts-type-brand-size);
+	margin-bottom: var(--ts-space-lg);
+	font-size: var(--ts-font-size-xl);
 	font-weight: 600;
 	color: var(--ts-colors-text);
 	text-decoration: none;
 }
 
 .ts-account-auth__subtitle {
-	margin: 0 0 var(--ts-space-md);
+	margin: 0 0 var(--ts-space-2xl);
 	color: var(--ts-colors-text-muted);
-	font-size: 0.9375rem;
+	font-size: var(--ts-font-size-sm);
 }
 
 .ts-account-auth__header--split {
@@ -165,7 +165,7 @@ body.ts-account-auth-surface {
 
 .ts-account-auth__form {
 	display: grid;
-	gap: var(--ts-space-sm);
+	gap: var(--ts-space-xl);
 
 	.form-row,
 	.woocommerce-form-row {
@@ -190,7 +190,7 @@ body.ts-account-auth-surface {
 .ts-account-auth__label {
 	display: block;
 	margin-bottom: 0.35rem;
-	font-size: 0.875rem;
+	@include mixins.ts-form-label-text;
 	font-weight: 600;
 	color: var(--ts-colors-text);
 
@@ -202,7 +202,7 @@ body.ts-account-auth-surface {
 .ts-account-auth__lost-password {
 	margin: 0;
 	text-align: right;
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 
 	a {
 		color: var(--ts-colors-text-muted);
@@ -218,27 +218,27 @@ body.ts-account-auth-surface {
 
 .ts-account-auth__remember {
 	margin: 0;
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 
 	label {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--ts-space-md);
 		cursor: pointer;
 	}
 }
 
 .ts-account-auth__hint {
 	margin: 0;
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 	color: var(--ts-colors-text-muted);
 	line-height: 1.5;
 }
 
 .ts-account-auth__switch {
-	margin: var(--ts-space-md) 0 0;
+	margin: var(--ts-space-2xl) 0 0;
 	text-align: center;
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 	color: var(--ts-colors-text-muted);
 
 	a {
@@ -255,7 +255,7 @@ body.ts-account-auth-surface {
 
 .ts-account-auth__divider {
 	position: relative;
-	margin: var(--ts-space-sm) 0;
+	margin: var(--ts-space-xl) 0;
 	text-align: center;
 
 	&::before {
@@ -272,13 +272,13 @@ body.ts-account-auth-surface {
 		padding: 0 0.75rem;
 		background: var(--ts-colors-surface);
 		color: var(--ts-colors-text-muted);
-		font-size: 0.8125rem;
+		font-size: var(--ts-font-size-xs);
 	}
 }
 
 .ts-account-auth__google-wrap {
 	display: grid;
-	gap: var(--ts-space-sm);
+	gap: var(--ts-space-xl);
 }
 
 .ts-account-auth__google,

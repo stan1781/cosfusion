@@ -1,24 +1,26 @@
+@use "../abstracts/variables";
+
 .ts-sidebar {
 	width: 100%;
 }
 
 .ts-sidebar .widget-title {
-	font-size: 1rem;
+	font-size: var(--ts-font-size-base);
 	font-weight: 600;
-	margin-bottom: var(--ts-space-xs);
+	margin-bottom: var(--ts-space-lg);
 }
 
 .ts-sidebar .widget {
 	display: grid;
-	gap: var(--ts-space-xs);
+	gap: var(--ts-space-lg);
 }
 
 .ts-site-footer .widget {
 	display: grid;
-	gap: var(--ts-space-xs);
+	gap: var(--ts-space-lg);
 }
 
 .ts-search-form {
 	width: 100%;
-	max-width: var(--ts-layout-search);
+	max-width: variables.$ts-layout-search;
 }

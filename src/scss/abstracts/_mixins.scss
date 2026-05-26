@@ -79,7 +79,7 @@ $ts-animation-slide-duration: 0.22s;
 }
 
 /// Primary action button base (`.ts-button`, WooCommerce `.button`).
-@mixin ts-control-button-base($padding: var(--ts-space-xs) var(--ts-space-sm), $min-height: null) {
+@mixin ts-control-button-base($padding: var(--ts-space-lg) var(--ts-space-xl), $min-height: null) {
 	box-sizing: border-box;
 	display: inline-flex;
 	align-items: center;
@@ -88,7 +88,7 @@ $ts-animation-slide-duration: 0.22s;
 	background: var(--ts-colors-primary);
 	color: var(--ts-colors-primary-foreground);
 	padding: $padding;
-	line-height: 1.25;
+	line-height: var(--ts-line-height);
 	border: 1px solid var(--ts-colors-primary);
 	cursor: pointer;
 	transition:
@@ -110,8 +110,14 @@ $ts-animation-slide-duration: 0.22s;
 
 /// Field chrome shared by inputs, selects, textareas, Select2, etc.
 @mixin ts-control-field-border {
-	border: 1px solid var(--ts-colors-border-field);
+	border: 1px solid var(--ts-colors-border);
 	border-radius: var(--ts-radius-sm);
+}
+
+/// Stacked field label (above control).
+@mixin ts-form-label-text {
+	font-size: var(--ts-font-size-sm);
+	line-height: var(--ts-line-height);
 }
 
 /// Text field base (`.ts-input`, WooCommerce `.input-text`).
@@ -123,5 +129,6 @@ $ts-animation-slide-duration: 0.22s;
 	@include ts-control-field-border;
 	padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
 	background: var(--ts-colors-surface);
-	line-height: 1.25;
+	font-size: var(--ts-font-size-base);
+	line-height: var(--ts-line-height);
 }

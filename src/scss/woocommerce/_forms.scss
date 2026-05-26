@@ -1,4 +1,5 @@
 @use "../abstracts/mixins";
+@use "../abstracts/variables";
 
 .woocommerce .button,
 .woocommerce a.button,
@@ -81,8 +82,8 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 		&::before {
 			content: "";
 			display: block;
-			width: 1.125rem;
-			height: 1.125rem;
+			width: var(--ts-font-size-lg);
+			height: var(--ts-font-size-lg);
 			background-color: currentColor;
 			mask: $ts-password-eye-closed no-repeat center / contain;
 			-webkit-mask: $ts-password-eye-closed no-repeat center / contain;
@@ -105,12 +106,12 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 	@include mixins.ts-control-field-base;
 	height: auto;
 	min-height: calc(
-		var(--ts-form-textarea-min-rows) * 1.25em + 2 * var(--ts-form-padding-y)
+		#{variables.$ts-form-textarea-min-rows} * 1.25em + 2 * var(--ts-form-padding-y)
 	);
 	resize: vertical;
 }
 
-/* Select2 / SelectWoo (country, state, etc.) — replaces woocommerce/assets/css/select2.css */
+/* Select2 / SelectWoo (country, state, etc.) ? replaces woocommerce/assets/css/select2.css */
 .woocommerce .select2-container,
 .woocommerce-page .select2-container {
 	box-sizing: border-box;
@@ -146,7 +147,6 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 
 .woocommerce .select2-container--default .select2-selection--single,
 .woocommerce-page .select2-container--default .select2-selection--single {
-	background: var(--ts-colors-surface);
 	@include mixins.ts-control-field-border;
 }
 
@@ -161,7 +161,7 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 	display: block;
 	box-sizing: border-box;
 	height: 100%;
-	padding: var(--ts-form-padding-y) 2rem var(--ts-form-padding-y) var(--ts-form-padding-x);
+	padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -178,57 +178,6 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 	.select2-selection--single
 	.select2-selection__placeholder {
 	color: var(--ts-colors-text-muted);
-}
-
-.woocommerce
-	.select2-container--default
-	.select2-selection--single
-	.select2-selection__arrow,
-.woocommerce-page
-	.select2-container--default
-	.select2-selection--single
-	.select2-selection__arrow {
-	height: calc(100% - 2px);
-	position: absolute;
-	top: 1px;
-	right: var(--ts-space-xs);
-	width: 1.25rem;
-}
-
-.woocommerce
-	.select2-container--default
-	.select2-selection--single
-	.select2-selection__arrow
-	b,
-.woocommerce-page
-	.select2-container--default
-	.select2-selection--single
-	.select2-selection__arrow
-	b {
-	border-color: var(--ts-colors-text-muted) transparent transparent transparent;
-	border-style: solid;
-	border-width: 5px 4px 0;
-	height: 0;
-	left: 50%;
-	margin-left: -4px;
-	margin-top: -2px;
-	position: absolute;
-	top: 50%;
-	width: 0;
-}
-
-.woocommerce
-	.select2-container--default.select2-container--open
-	.select2-selection--single
-	.select2-selection__arrow
-	b,
-.woocommerce-page
-	.select2-container--default.select2-container--open
-	.select2-selection--single
-	.select2-selection__arrow
-	b {
-	border-color: transparent transparent var(--ts-colors-text-muted) transparent;
-	border-width: 0 4px 5px;
 }
 
 .woocommerce .select2-dropdown,
@@ -345,7 +294,7 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 }
 
 .woocommerce form .form-row {
-	margin-bottom: var(--ts-space-sm);
+	margin-bottom: var(--ts-space-xl);
 }
 
 /* Login / account edit: paired fields (checkout billing uses CSS grid below). */
@@ -354,14 +303,14 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 .woocommerce-account .woocommerce-EditAccountForm .form-row-first,
 .woocommerce-account .woocommerce-EditAccountForm .form-row-last {
 	box-sizing: border-box;
-	width: calc(50% - var(--ts-space-sm) / 2);
+	width: calc(50% - var(--ts-space-xl) / 2);
 	display: inline-block;
 	vertical-align: top;
 }
 
 .woocommerce form.woocommerce-form-login .form-row-first,
 .woocommerce-account .woocommerce-EditAccountForm .form-row-first {
-	margin-inline-end: var(--ts-space-sm);
+	margin-inline-end: var(--ts-space-xl);
 }
 
 .woocommerce form.woocommerce-form-login .form-row-wide,
@@ -398,6 +347,6 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 .woocommerce table.shop_attributes th,
 .woocommerce table.shop_attributes td {
 	border: 1px solid var(--ts-colors-border);
-	padding: 0.875rem var(--ts-space-sm);
+	padding: 0.875rem var(--ts-space-xl);
 	text-align: left;
 }

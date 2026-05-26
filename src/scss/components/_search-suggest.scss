@@ -6,16 +6,16 @@
 /* Command palette field (WP 7 layout, theme tokens) */
 .ts-search-form--command .ts-search-form__wrap {
 	overflow: hidden;
-	border: 1px solid var(--ts-colors-border-field);
+	border: 1px solid var(--ts-colors-border);
 	border-radius: var(--ts-radius-sm);
 	background: var(--ts-colors-surface);
-	box-shadow: var(--ts-shadow-card);
+	box-shadow: var(--ts-shadow-sm);
 }
 
 .ts-command-search-field {
 	display: flex;
 	align-items: center;
-	gap: var(--ts-space-xs);
+	gap: var(--ts-space-lg);
 	min-height: var(--ts-form-min-height);
 	padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
 }
@@ -25,16 +25,16 @@
 	flex-shrink: 0;
 	align-items: center;
 	justify-content: center;
-	width: 1.25rem;
-	height: 1.25rem;
+	width: var(--ts-font-size-xl);
+	height: var(--ts-font-size-xl);
 	color: var(--ts-colors-text);
 	opacity: 0.85;
 }
 
 .ts-command-search-field__icon svg {
 	display: block;
-	width: 1.25rem;
-	height: 1.25rem;
+	width: var(--ts-font-size-xl);
+	height: var(--ts-font-size-xl);
 }
 
 .ts-command-search-field__input {
@@ -45,7 +45,7 @@
 	border: 0;
 	background: transparent;
 	color: var(--ts-colors-text);
-	font-size: 1rem;
+	font-size: var(--ts-font-size-base);
 	line-height: 1.4;
 	box-shadow: none;
 }
@@ -72,7 +72,7 @@
 
 .ts-search-suggest {
 	position: absolute;
-	top: calc(100% + var(--ts-space-xs));
+	top: calc(100% + var(--ts-space-lg));
 	left: 0;
 	right: 0;
 	z-index: 30;
@@ -81,7 +81,7 @@
 	border: 1px solid var(--ts-colors-border);
 	border-radius: var(--ts-radius-md);
 	background: var(--ts-colors-surface);
-	box-shadow: var(--ts-shadow-card);
+	box-shadow: var(--ts-shadow-sm);
 }
 
 /* Suggest list attached inside command card (modal) */
@@ -98,20 +98,20 @@
 .ts-search-suggest__message,
 .ts-search-suggest__loading {
 	margin: 0;
-	padding: var(--ts-space-sm) var(--ts-space-md);
+	padding: var(--ts-space-xl) var(--ts-space-2xl);
 	color: var(--ts-colors-text-muted);
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 }
 
 .ts-search-suggest__loading {
 	display: flex;
 	align-items: center;
-	gap: var(--ts-space-xs);
+	gap: var(--ts-space-lg);
 }
 
 .ts-search-suggest__spinner {
-	width: 1.125rem;
-	height: 1.125rem;
+	width: var(--ts-font-size-lg);
+	height: var(--ts-font-size-lg);
 	border: 2px solid var(--ts-colors-border);
 	border-top-color: var(--ts-colors-primary);
 	border-radius: 50%;
@@ -136,8 +136,8 @@
 .ts-search-suggest__link {
 	display: flex;
 	align-items: center;
-	gap: var(--ts-space-sm);
-	padding: var(--ts-space-sm) var(--ts-space-md);
+	gap: var(--ts-space-xl);
+	padding: var(--ts-space-xl) var(--ts-space-2xl);
 	color: inherit;
 	text-decoration: none;
 	transition: background-color 0.15s ease;
@@ -173,7 +173,7 @@
 }
 
 .ts-search-suggest__title {
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 	font-weight: 600;
 	line-height: 1.3;
 	overflow: hidden;
@@ -182,7 +182,7 @@
 }
 
 .ts-search-suggest__price {
-	font-size: 0.8125rem;
+	font-size: var(--ts-font-size-xs);
 	color: var(--ts-colors-primary);
 }
 
@@ -194,9 +194,9 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: var(--ts-space-xs);
-	padding: var(--ts-space-sm) var(--ts-space-md);
-	font-size: 0.875rem;
+	gap: var(--ts-space-lg);
+	padding: var(--ts-space-xl) var(--ts-space-2xl);
+	font-size: var(--ts-font-size-sm);
 	font-weight: 500;
 	color: inherit;
 	text-decoration: none;

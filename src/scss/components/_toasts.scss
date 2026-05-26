@@ -1,12 +1,12 @@
 .ts-purchase-flow-toast-root {
 	position: fixed;
-	inset-inline-start: var(--ts-space-md);
-	bottom: var(--ts-space-md);
+	inset-inline-start: var(--ts-space-2xl);
+	bottom: var(--ts-space-2xl);
 	z-index: 80;
 	display: grid;
-	gap: var(--ts-space-xs);
+	gap: var(--ts-space-lg);
 	justify-items: stretch;
-	width: min(100% - (var(--ts-space-md) * 2), 22rem);
+	width: min(100% - (var(--ts-space-2xl) * 2), 22rem);
 	pointer-events: none;
 }
 
@@ -32,15 +32,15 @@
 	display: grid;
 	grid-template-columns: auto 1fr auto;
 	align-items: center;
-	gap: var(--ts-space-xs);
-	padding: 0.375rem var(--ts-space-sm);
+	gap: var(--ts-space-lg);
+	padding: var(--ts-space-sm) var(--ts-space-xl);
 	border-bottom: 1px solid var(--ts-colors-border);
 	background: color-mix(in srgb, var(--ts-colors-surface) 92%, var(--ts-colors-border));
 }
 
 .ts-purchase-flow-toast__accent {
-	width: 1.25rem;
-	height: 1.25rem;
+	width: var(--ts-font-size-xl);
+	height: var(--ts-font-size-xl);
 	border-radius: 0.2rem;
 	background: var(--ts-colors-info);
 }
@@ -58,7 +58,7 @@
 }
 
 .ts-purchase-flow-toast__title {
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 	font-weight: 600;
 	line-height: 1.25;
 }
@@ -68,7 +68,7 @@
 }
 
 .ts-purchase-flow-toast__body {
-	padding: var(--ts-space-sm);
-	font-size: 0.875rem;
+	padding: var(--ts-space-xl);
+	font-size: var(--ts-font-size-sm);
 	line-height: 1.5;
 }

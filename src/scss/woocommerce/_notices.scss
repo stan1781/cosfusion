@@ -1,8 +1,8 @@
 .woocommerce-message,
 .woocommerce-error,
 .woocommerce-info {
-	margin-bottom: var(--ts-space-md);
-	padding: var(--ts-space-sm);
+	margin-bottom: var(--ts-space-2xl);
+	padding: var(--ts-space-xl);
 	border: 1px solid var(--ts-colors-border);
 	border-radius: var(--ts-radius-sm);
 	background: var(--ts-colors-surface-muted);
@@ -11,9 +11,9 @@
 
 .woocommerce-tabs ul.tabs {
 	display: flex;
-	gap: var(--ts-space-xs);
+	gap: var(--ts-space-lg);
 	padding: 0;
-	margin: 0 0 var(--ts-space-md);
+	margin: 0 0 var(--ts-space-2xl);
 	list-style: none;
 }
 
@@ -23,7 +23,7 @@
 
 .woocommerce-tabs ul.tabs li a {
 	display: inline-flex;
-	padding: 0.625rem var(--ts-space-sm);
+	padding: 0.625rem var(--ts-space-xl);
 	border: 1px solid var(--ts-colors-border-strong);
 	border-radius: var(--ts-radius-sm);
 	text-decoration: none;
@@ -34,5 +34,5 @@
 	padding: 0;
 	margin: 0;
 	display: grid;
-	gap: var(--ts-space-xs);
+	gap: var(--ts-space-lg);
 }

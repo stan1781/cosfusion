@@ -1,8 +1,5 @@
 // Inline SVG icons (see tailwindscore_icon() in inc/template-tags.php).
 
-$ts-icon-size: 1.25rem;
-$ts-icon-stroke-width: 1.75;
-
 .ts-icon-button {
 	box-sizing: border-box;
 	position: relative;
@@ -19,7 +16,7 @@ $ts-icon-stroke-width: 1.75;
 	cursor: pointer;
 }
 
-// Sitewide dismiss control — modals, drawers, lightbox, toasts, etc.
+// Sitewide dismiss control ? modals, drawers, lightbox, toasts, etc.
 .ts-close-button {
 	box-sizing: border-box;
 	position: relative;
@@ -31,7 +28,7 @@ $ts-icon-stroke-width: 1.75;
 	height: var(--ts-form-min-height);
 	padding: 0;
 	border: 1px solid var(--ts-colors-border);
-	border-radius: 999px;
+	border-radius: var(--ts-radius-full);
 	background: var(--ts-colors-surface);
 	color: var(--ts-colors-text);
 	text-decoration: none;
@@ -50,12 +47,12 @@ $ts-icon-stroke-width: 1.75;
 }
 
 .ts-close-button--sm {
-	width: 1.5rem;
-	height: 1.5rem;
+	width: var(--ts-space-2xl);
+	height: var(--ts-space-2xl);
 
 	.ts-icon {
-		width: 0.875rem;
-		height: 0.875rem;
+		width: var(--ts-font-size-lg);
+		height: var(--ts-font-size-lg);
 	}
 }
 
@@ -63,8 +60,8 @@ $ts-icon-stroke-width: 1.75;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: $ts-icon-size;
-	height: $ts-icon-size;
+	width: var(--ts-font-size-xl);
+	height: var(--ts-font-size-xl);
 	flex-shrink: 0;
 }
 
@@ -75,5 +72,5 @@ $ts-icon-stroke-width: 1.75;
 	stroke: currentColor;
 	stroke-linecap: round;
 	stroke-linejoin: round;
-	stroke-width: $ts-icon-stroke-width;
+	stroke-width: 1.75;
 }

@@ -1,17 +1,17 @@
-.ts-cart-feedback[hidden] {
+﻿.ts-cart-feedback[hidden] {
 	display: none !important;
 }
 
 .ts-cart-feedback:not([hidden]) {
 	display: grid;
-	gap: var(--ts-space-xs);
+	gap: var(--ts-space-lg);
 }
 
 .ts-cart-feedback__message {
 	margin: 0;
-	padding: var(--ts-space-xs) var(--ts-space-sm);
+	padding: var(--ts-space-lg) var(--ts-space-xl);
 	border-radius: var(--ts-radius-sm);
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 }
 
 .ts-cart-feedback__message--success {

@@ -61,6 +61,7 @@ $control_markup = static function () use (
 		<button
 			class="ts-button ts-button--secondary"
 			type="submit"
+			disabled
 			data-ts-button-loading
 			<?php if ( $detached_form_id ) : ?>
 				form="<?php echo esc_attr( $detached_form_id ); ?>"

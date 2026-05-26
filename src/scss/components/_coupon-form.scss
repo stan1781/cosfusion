@@ -2,12 +2,12 @@
 
 .ts-coupon-form {
 	display: grid;
-	gap: var(--ts-space-xs);
+	gap: var(--ts-space-lg);
 	min-width: 0;
 }
 
 .ts-coupon-form__label {
-	font-size: 0.875rem;
+	@include mixins.ts-form-label-text;
 	font-weight: 500;
 	color: var(--ts-colors-text);
 }
@@ -17,6 +17,11 @@
 }
 
 .ts-checkout-review-order__coupon .ts-coupon-form--checkout {
-	padding-block-end: var(--ts-space-sm);
+	padding-block-end: var(--ts-space-xl);
 	border-block-end: 1px solid var(--ts-colors-border);
+}
+
+.ts-coupon-form .ts-button:disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
 }

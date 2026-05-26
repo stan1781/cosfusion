@@ -37,7 +37,7 @@ body.ts-quick-view-modal-open {
 	background: var(--ts-colors-surface);
 	border: 1px solid var(--ts-colors-border);
 	border-radius: var(--ts-radius-md);
-	box-shadow: 0 12px 40px rgb(0 0 0 / 12%);
+	box-shadow: var(--ts-shadow-lg);
 }
 
 .ts-quick-view-modal__header {
@@ -50,7 +50,7 @@ body.ts-quick-view-modal-open {
 }
 
 .ts-quick-view-modal__title {
-	font-size: 1.125rem;
+	font-size: var(--ts-font-size-lg);
 	font-weight: 600;
 	margin: 0;
 }
@@ -84,7 +84,7 @@ body.ts-quick-view-modal-open {
 }
 
 .ts-quick-view-modal__error {
-	color: var(--ts-colors-danger, #b91c1c);
+	color: var(--ts-colors-danger);
 	margin: 0;
 }
 
@@ -105,7 +105,7 @@ body.ts-quick-view-modal-open {
 }
 
 .ts-quick-view-product__title {
-	font-size: 1.125rem;
+	font-size: var(--ts-font-size-lg);
 	font-weight: 600;
 	margin: 0 0 $ts-space-xs;
 }
@@ -138,7 +138,7 @@ body.ts-quick-view-modal-open {
 		text-align: center;
 		background-color: var(--ts-colors-surface);
 		color: var(--ts-colors-text);
-		font-size: 0.875rem;
+		font-size: var(--ts-font-size-sm);
 		font-weight: 500;
 		line-height: 1;
 	}
@@ -158,7 +158,7 @@ body.ts-quick-view-modal-open {
 	}
 
 	.ts-variation-row__label label {
-		font-size: 0.875rem;
+		font-size: var(--ts-font-size-sm);
 		font-weight: 500;
 	}
 

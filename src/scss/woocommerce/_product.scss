@@ -1,7 +1,7 @@
 .ts-wc-product-detail {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-	gap: var(--ts-space-md);
+	gap: var(--ts-space-2xl);
 	align-items: start;
 }
 
@@ -14,7 +14,7 @@
 .ts-product-gallery__layout {
 	display: grid;
 	grid-template-columns: 5.5rem minmax(0, 1fr);
-	gap: var(--ts-space-sm);
+	gap: var(--ts-space-xl);
 	align-items: start;
 }
 
@@ -35,17 +35,17 @@
 	padding: 0;
 	margin: 0;
 	border: none;
-	border-radius: 999px;
-	background: rgb(255 255 255 / 0.92);
-	color: var(--ts-color-text, #18181b);
-	box-shadow: 0 1px 4px rgb(0 0 0 / 0.12);
+	border-radius: var(--ts-radius-full);
+	background: color-mix(in srgb, var(--ts-colors-surface) 92%, transparent);
+	color: var(--ts-colors-text);
+	box-shadow: var(--ts-shadow-sm);
 	cursor: pointer;
 	transform: translateY(-50%);
 	transition: background-color 0.15s ease, opacity 0.15s ease;
 }
 
 .ts-product-gallery__nav:hover {
-	background: #fff;
+	background: var(--ts-colors-surface);
 }
 
 .ts-product-gallery__nav:disabled,
@@ -56,17 +56,17 @@
 }
 
 .ts-product-gallery__nav--prev {
-	left: 0.5rem;
+	left: var(--ts-space-md);
 }
 
 .ts-product-gallery__nav--next {
-	right: 0.5rem;
+	right: var(--ts-space-md);
 }
 
 .ts-product-gallery__nav-icon {
 	display: inline-flex;
-	width: 1.25rem;
-	height: 1.25rem;
+	width: var(--ts-font-size-xl);
+	height: var(--ts-font-size-xl);
 }
 
 .ts-product-gallery__nav-icon svg {
@@ -86,8 +86,8 @@
 .ts-product-gallery__main {
 	width: 100%;
 	aspect-ratio: 1;
-	background: var(--ts-color-surface-muted, #f4f4f5);
-	border-radius: var(--ts-radius-md, 0.5rem);
+	background: var(--ts-colors-surface-muted);
+	border-radius: var(--ts-radius-md);
 	overflow: hidden;
 }
 
@@ -122,7 +122,7 @@
 	width: var(--ts-gallery-thumb-size) !important;
 	height: var(--ts-gallery-thumb-size) !important;
 	aspect-ratio: 1;
-	border-radius: var(--ts-radius-sm, 0.25rem);
+	border-radius: var(--ts-radius-sm);
 	overflow: hidden;
 	opacity: 0.55;
 	cursor: pointer;
@@ -132,7 +132,7 @@
 
 .ts-product-gallery__thumbs .swiper-slide-thumb-active {
 	opacity: 1;
-	border-color: var(--ts-color-accent, #18181b);
+	border-color: var(--ts-colors-primary);
 }
 
 .ts-product-gallery__thumbs .swiper-slide img {
@@ -147,7 +147,7 @@
 .ts-product-gallery__pagination {
 	display: flex;
 	justify-content: center;
-	margin-top: var(--ts-space-xs, 0.5rem);
+	margin-top: var(--ts-space-lg);
 }
 
 .ts-product-gallery__counter {
@@ -156,11 +156,11 @@
 	bottom: 0.75rem;
 	z-index: 2;
 	padding: 0.2rem 0.5rem;
-	font-size: 0.75rem;
+	font-size: var(--ts-font-size-xs);
 	line-height: 1.2;
-	border-radius: 999px;
-	background: rgb(0 0 0 / 0.55);
-	color: #fff;
+	border-radius: var(--ts-radius-full);
+	background: var(--ts-colors-overlay-dark);
+	color: var(--ts-colors-primary-foreground);
 	pointer-events: none;
 }
 

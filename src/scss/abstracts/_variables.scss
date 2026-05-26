@@ -7,56 +7,65 @@ $ts-breakpoint-lg: 64rem;
 $ts-breakpoint-xl: 80rem;
 $ts-breakpoint-2xl: 96rem;
 
-// Colors
-$ts-colors-background: #ffffff;
+// Colors — neutrals (6 literals; primary* derived below)
 $ts-colors-surface: #ffffff;
 $ts-colors-surface-muted: #fafafa;
 $ts-colors-text: #18181b;
 $ts-colors-text-muted: #52525b;
 $ts-colors-border: #e4e4e7;
 $ts-colors-border-strong: #d4d4d8;
-$ts-colors-primary: #18181b;
-$ts-colors-primary-foreground: #ffffff;
+$ts-colors-primary: $ts-colors-text;
+$ts-colors-primary-foreground: $ts-colors-surface;
 
-// Feedback / status (toasts, inline alerts)
+// Feedback
 $ts-colors-info: #0d6efd;
 $ts-colors-success: #198754;
 $ts-colors-warning: #ffc107;
 $ts-colors-danger: #dc3545;
 
-// WooCommerce semantics
-$ts-colors-rating: #ca8a04;
-$ts-colors-sale: #dc3545;
-$ts-wc-star-size: 1rem;
+// Overlays (modals, drawers, lightbox)
+$ts-colors-overlay: rgb(0 0 0 / 45%);
+$ts-colors-overlay-dark: rgb(0 0 0 / 60%);
 
 // Radius
 $ts-radius-sm: 0.5rem;
 $ts-radius-md: 0.75rem;
+$ts-radius-full: 9999px;
 
-// Space
-$ts-space-xs: 0.75rem;
-$ts-space-sm: 1rem;
-$ts-space-md: 1.5rem;
-$ts-space-lg: 2.5rem;
+// Space — 2xs … 3xl
+$ts-space-2xs: 0.125rem;
+$ts-space-xs: 0.25rem;
+$ts-space-sm: 0.375rem;
+$ts-space-md: 0.5rem;
+$ts-space-lg: 0.75rem;
+$ts-space-xl: 1rem;
+$ts-space-2xl: 1.5rem;
+$ts-space-3xl: 2.5rem;
 
 // Form
-$ts-colors-border-field: $ts-colors-border; // inputs, selects, textareas, quantity, Select2
-$ts-form-padding-y: 0.5rem;
-$ts-form-padding-x: 0.75rem;
-$ts-form-min-height: 2.625rem; // 42px
-$ts-form-floating-min-height: 3rem; // 48px — floating label controls only
+$ts-form-padding-y: $ts-space-md;
+$ts-form-padding-x: $ts-space-lg;
+$ts-form-min-height: 2.625rem;
+$ts-form-floating-min-height: 3rem;
 $ts-form-textarea-min-rows: 2;
+$ts-form-floating-label-active-top: 0.5625rem;
+
+// Type — base / sm / xs = UI; lg / xl = titles & icons
+$ts-font-size-base: 1rem;
+$ts-font-size-sm: 0.875rem;
+$ts-font-size-xs: 0.8125rem;
+$ts-font-size-lg: 1.125rem;
+$ts-font-size-xl: 1.25rem;
+$ts-line-height: 1.2;
 
 // Layout
 $ts-layout-container: 72rem;
 $ts-layout-search: 32rem;
 $ts-layout-drawer: 22rem;
 
-// Type
 $ts-type-body: ui-sans-serif, system-ui, sans-serif;
-$ts-type-brand-size: 1.25rem;
-$ts-type-heading-size: 1.875rem;
-$ts-type-heading-line-height: 1.2;
 
-// Shadow
-$ts-shadow-card: 0 1px 2px rgb(24 24 27 / 0.06);
+// Shadow — sm / md / lg
+$ts-shadow-sm: 0 1px 2px rgb(24 24 27 / 0.06);
+$ts-shadow-md: 0 6px 14px rgb(0 0 0 / 12%);
+$ts-shadow-lg: 0 12px 40px rgb(0 0 0 / 12%);

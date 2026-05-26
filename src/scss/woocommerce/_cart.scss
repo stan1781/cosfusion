@@ -1,11 +1,11 @@
 .ts-wc-cart {
 	display: grid;
-	gap: var(--ts-space-md);
+	gap: var(--ts-space-2xl);
 }
 
 .ts-wc-cart__header {
 	display: grid;
-	gap: var(--ts-space-xs);
+	gap: var(--ts-space-lg);
 }
 
 .ts-wc-cart__title {
@@ -22,7 +22,7 @@
 	margin: 0;
 	padding: 0;
 	display: grid;
-	gap: var(--ts-space-md);
+	gap: var(--ts-space-2xl);
 }
 
 .ts-wc-cart__form .ts-cart-drawer-cart__footer--cart-page .ts-button {

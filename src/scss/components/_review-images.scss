@@ -17,11 +17,11 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 0.5rem;
+	gap: var(--ts-space-md);
 }
 
 .ts-review-images-toolbar__label {
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 	font-weight: 600;
 }
 
@@ -33,14 +33,14 @@
 
 .ts-review-images-toolbar__count {
 	margin-inline-start: auto;
-	font-size: 0.8125rem;
+	font-size: var(--ts-font-size-xs);
 	color: $ts-colors-text-muted;
 	white-space: nowrap;
 }
 
 .ts-review-images-toolbar__meta {
 	margin: 0;
-	font-size: 0.75rem;
+	font-size: var(--ts-font-size-xs);
 	color: $ts-colors-text-muted;
 }
 
@@ -58,8 +58,8 @@
 .ts-review-images-preview {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.5rem;
-	margin-top: 0.5rem;
+	gap: var(--ts-space-md);
+	margin-top: var(--ts-space-md);
 
 	&.hidden {
 		display: none;
@@ -84,15 +84,15 @@
 	position: absolute;
 	inset-inline-end: -0.25rem;
 	top: -0.25rem;
-	width: 1.25rem;
-	height: 1.25rem;
+	width: var(--ts-font-size-xl);
+	height: var(--ts-font-size-xl);
 	padding: 0;
 	border: 0;
-	border-radius: 999px;
+	border-radius: var(--ts-radius-full);
 	background: $ts-colors-danger;
-	color: #fff;
-	font-size: 0.625rem;
-	line-height: 1.25rem;
+	color: var(--ts-colors-primary-foreground);
+	font-size: var(--ts-font-size-xs);
+	line-height: var(--ts-font-size-xl);
 	text-align: center;
 	cursor: pointer;
 }
@@ -106,9 +106,9 @@
 }
 
 .ts-review-images-progress__bar {
-	height: 0.375rem;
+	height: var(--ts-space-sm);
 	background: $ts-colors-border;
-	border-radius: 999px;
+	border-radius: var(--ts-radius-full);
 	overflow: hidden;
 }
 
@@ -123,7 +123,7 @@
 .ts-review-images-display {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.5rem;
+	gap: var(--ts-space-md);
 	margin-top: 0.75rem;
 }
 
@@ -150,15 +150,15 @@
 }
 
 .ts-showcase-gallery__title {
-	font-size: 1rem;
+	font-size: var(--ts-font-size-base);
 	font-weight: 600;
-	margin-bottom: 0.5rem;
+	margin-bottom: var(--ts-space-md);
 }
 
 .ts-showcase-gallery__strip {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.5rem;
+	gap: var(--ts-space-md);
 	overflow: visible;
 	align-content: flex-start;
 }
@@ -192,7 +192,7 @@
 	border-radius: $ts-radius-sm;
 	background: $ts-colors-surface-muted;
 	color: $ts-colors-text;
-	font-size: 0.875rem;
+	font-size: var(--ts-font-size-sm);
 	font-weight: 600;
 	line-height: 1;
 
@@ -214,13 +214,13 @@
 	color: $ts-colors-text;
 
 	&::backdrop {
-		background: rgb(0 0 0 / 0.65);
+		background: var(--ts-colors-overlay-dark);
 	}
 }
 
 .ts-review-lightbox__inner {
 	position: relative;
-	background: $ts-colors-background;
+	background: $ts-colors-surface;
 	border-radius: $ts-radius-md;
 	overflow: hidden;
 	max-height: 90vh;
@@ -248,8 +248,8 @@
 
 .ts-review-lightbox__close {
 	position: absolute;
-	top: 0.5rem;
-	right: 0.5rem;
+	top: var(--ts-space-md);
+	right: var(--ts-space-md);
 	z-index: 3;
 }
 
@@ -307,11 +307,11 @@
 	width: 2.25rem;
 	height: 2.25rem;
 	border: 0;
-	border-radius: 999px;
+	border-radius: var(--ts-radius-full);
 	background: rgb(255 255 255 / 0.85);
 	color: $ts-colors-text;
 	cursor: pointer;
-	font-size: 1.25rem;
+	font-size: var(--ts-font-size-xl);
 	line-height: 1;
 
 	&--prev {
@@ -325,7 +325,7 @@
 
 .ts-review-lightbox__thumbs {
 	flex: 0 0 auto;
-	margin-top: 0.5rem;
+	margin-top: var(--ts-space-md);
 	overflow: hidden;
 
 	.swiper-slide {
