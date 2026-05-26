@@ -1,0 +1,22 @@
+@use "../abstracts/mixins";
+
+.ts-coupon-form {
+	display: grid;
+	gap: var(--ts-space-xs);
+	min-width: 0;
+}
+
+.ts-coupon-form__label {
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: var(--ts-colors-text);
+}
+
+.ts-coupon-form--checkout {
+	margin-block: 0;
+}
+
+.ts-checkout-review-order__coupon .ts-coupon-form--checkout {
+	padding-block-end: var(--ts-space-sm);
+	border-block-end: 1px solid var(--ts-colors-border);
+}

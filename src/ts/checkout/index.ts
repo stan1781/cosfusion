@@ -1,8 +1,11 @@
 import { clearFeedback } from '../cart/notifications';
+import { initCheckoutLoading, refreshCheckoutLoadingHosts, setCheckoutPageLoading } from './loading';
 import { resolveSubmitButton, setControlLoading } from '../ui/button-loading';
 
 const DESKTOP_SUMMARY_MQL = window.matchMedia('(width >= 64rem)');
-const CHECKOUT_SUMMARY_OPEN_KEY = 'ts-checkout-summary-open';
+
+/** Primary order summary open state on mobile (persists across checkout AJAX updates only). */
+let mobilePrimarySummaryOpen = false;
 
 function isDesktopSummary(): boolean {
 	return DESKTOP_SUMMARY_MQL.matches;
@@ -12,9 +15,32 @@ function isPrimarySummary(details: HTMLDetailsElement): boolean {
 	return details.hasAttribute('data-ts-checkout-order-summary-primary');
 }
 
+function getPrimaryOrderSummary(): HTMLDetailsElement | null {
+	return document.querySelector<HTMLDetailsElement>('[data-ts-checkout-order-summary-primary]');
+}
+
+/** If a coupon is applied, keep the primary summary open on mobile. */
+function syncPrimarySummaryOpenForCoupon(): void {
+	if (isDesktopSummary()) {
+		return;
+	}
+
+	const details = getPrimaryOrderSummary();
+
+	if (!details) {
+		return;
+	}
+
+	const hasCoupon = details.querySelector('.cart-discount');
+
+	if (hasCoupon) {
+		mobilePrimarySummaryOpen = true;
+		details.open = true;
+	}
+}
+
 function syncCheckoutDetailsState(): void {
 	const desktop = isDesktopSummary();
-	const storedOpen = sessionStorage.getItem(CHECKOUT_SUMMARY_OPEN_KEY) === '1';
 
 	document.querySelectorAll<HTMLDetailsElement>('[data-ts-checkout-order-summary]').forEach((details) => {
 		if (desktop) {
@@ -23,12 +49,20 @@ function syncCheckoutDetailsState(): void {
 		}
 
 		if (isPrimarySummary(details)) {
-			details.open = storedOpen;
+			details.open = mobilePrimarySummaryOpen;
+			return;
 		}
+
+		details.open = false;
 	});
+
+	syncPrimarySummaryOpenForCoupon();
 }
 
 function initCheckoutDetails(): void {
+	// Drop legacy persisted state so mobile always starts collapsed on a fresh checkout load.
+	sessionStorage.removeItem('ts-checkout-summary-open');
+
 	document.addEventListener('toggle', (event) => {
 		const details = event.target;
 
@@ -40,7 +74,7 @@ function initCheckoutDetails(): void {
 			return;
 		}
 
-		sessionStorage.setItem(CHECKOUT_SUMMARY_OPEN_KEY, details.open ? '1' : '0');
+		mobilePrimarySummaryOpen = details.open;
 	});
 
 	syncCheckoutDetailsState();
@@ -114,6 +148,37 @@ function closeCheckoutLoginModal(): void {
 	checkoutLoginReturnFocus = null;
 }
 
+/** Clicking the payment method row (outside fields / payment_box) selects that gateway. */
+function initPaymentMethodListClick(): void {
+	document.addEventListener('click', (event) => {
+		const target = event.target;
+
+		if (!(target instanceof Element)) {
+			return;
+		}
+
+		const li = target.closest<HTMLLIElement>('#payment ul.payment_methods > li.wc_payment_method');
+
+		if (!li) {
+			return;
+		}
+
+		if (
+			target.closest('.payment_box, a, button, select, textarea, input[name="payment_method"], label')
+		) {
+			return;
+		}
+
+		const radio = li.querySelector<HTMLInputElement>('input.input-radio[name="payment_method"]');
+
+		if (!radio || radio.disabled) {
+			return;
+		}
+
+		radio.click();
+	});
+}
+
 function initCheckoutLoginModal(): void {
 	document.addEventListener('click', (event) => {
 		const target = event.target;
@@ -162,6 +227,8 @@ function initCheckoutLoginModal(): void {
 
 function initCheckoutUi(): void {
 	initCheckoutDetails();
+	initCheckoutLoading();
+	initPaymentMethodListClick();
 	initCheckoutLoginModal();
 
 	const checkoutForm = document.querySelector<HTMLFormElement>('form.checkout');
@@ -171,14 +238,30 @@ function initCheckoutUi(): void {
 		setControlLoading(placeOrderButton, false);
 	};
 
-	bindCheckoutFragments(releasePlaceOrderLoading);
+	bindCheckoutFragments(() => {
+		releasePlaceOrderLoading();
+		refreshCheckoutLoadingHosts();
+		syncPrimarySummaryOpenForCoupon();
+	});
 
 	checkoutForm?.addEventListener('submit', () => {
 		clearFeedback('page');
 		setControlLoading(placeOrderButton, true, { disable: false });
+		setCheckoutPageLoading(true);
 	});
 
+	const endCheckoutPageLoading = () => {
+		setCheckoutPageLoading(false);
+	};
+
+	const jQuery = (window as Window & {
+		jQuery?: (target: Document | Element) => { on: (event: string, handler: () => void) => void };
+	}).jQuery;
+
+	jQuery?.(document.body).on('checkout_error', endCheckoutPageLoading);
+
 	document.addEventListener('checkout_error', () => {
+		endCheckoutPageLoading();
 		releasePlaceOrderLoading();
 
 		const feedback = document.querySelector<HTMLElement>(

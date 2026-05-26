@@ -27,7 +27,11 @@ declare(strict_types=1);
 				?>
 			</div>
 		</div>
-		<?php get_template_part( 'template-parts/header/search-modal' ); ?>
+		<?php if ( tailwindscore_should_render_header_purchase_panels() ) : ?>
+			<?php get_template_part( 'template-parts/header/search-modal' ); ?>
+		<?php endif; ?>
 		<?php get_template_part( 'template-parts/header/menu-drawer' ); ?>
-		<?php get_template_part( 'template-parts/header/cart-drawer' ); ?>
+		<?php if ( tailwindscore_should_render_header_purchase_panels() ) : ?>
+			<?php get_template_part( 'template-parts/header/cart-drawer' ); ?>
+		<?php endif; ?>
 	</header>

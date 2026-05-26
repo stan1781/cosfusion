@@ -9,3 +9,5 @@
 @use "woocommerce/notices";
 @use "woocommerce/account";
 @use "woocommerce/checkout";
+@use "components/loading";
+@use "components/coupon-form";

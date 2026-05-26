@@ -379,8 +379,8 @@ function renderCartFooterTotals(cart: StoreApiCart, config: TailwindscoreCartCon
 function renderCartCouponMarkup(config: TailwindscoreCartConfig) {
 	return `
 		<div class="ts-cart-drawer-cart__coupon" data-ts-cart-coupon>
-			<form class="ts-cart-drawer-cart__coupon-form ts-coupon-form ts-stack" data-ts-cart-coupon-form action="${escapeHtml(config.cartUrl)}" method="post">
-				<label for="ts-cart-coupon-code">${escapeHtml(config.i18n.couponLabel)}</label>
+			<form class="ts-cart-drawer-cart__coupon-form ts-coupon-form ts-coupon-form--drawer" data-ts-cart-coupon-form action="${escapeHtml(config.cartUrl)}" method="post">
+				<label class="ts-coupon-form__label" for="ts-cart-coupon-code">${escapeHtml(config.i18n.couponLabel)}</label>
 				<div class="ts-input-group">
 					<input
 						id="ts-cart-coupon-code"

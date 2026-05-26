@@ -30,7 +30,7 @@ remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_paymen
 >
 	<div class="ts-wc-checkout__layout">
 		<?php if ( $checkout->get_checkout_fields() ) : ?>
-			<div class="ts-wc-checkout__details ts-stack">
+			<div class="ts-wc-checkout__details">
 				<div id="customer_details" class="ts-wc-checkout__customer-fields col2-set">
 					<?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
 					<?php do_action( 'woocommerce_checkout_billing' ); ?>
@@ -61,7 +61,7 @@ remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_paymen
 			</div>
 		<?php endif; ?>
 
-		<aside class="ts-wc-checkout__summary ts-stack">
+		<aside class="ts-wc-checkout__summary ts-stack ts-loading-host">
 			<?php
 			tailwindscore_render_cart_feedback( array( 'surface' => 'page' ) );
 			?>

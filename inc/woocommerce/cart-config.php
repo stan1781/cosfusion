@@ -32,7 +32,7 @@ function tailwindscore_purchase_flow_config(): array {
 			'increaseQuantity'         => __( 'Increase quantity', 'tailwindscore' ),
 			'removeItem'               => __( 'Remove item from your cart', 'tailwindscore' ),
 			'couponLabel'              => __( 'Coupon code', 'tailwindscore' ),
-			'couponPlaceholder'        => __( 'Enter code', 'tailwindscore' ),
+			'couponPlaceholder'        => __( 'Discount code or gift card', 'tailwindscore' ),
 			'applyCoupon'              => __( 'Apply', 'tailwindscore' ),
 			'couponApplied'            => __( 'Coupon applied.', 'tailwindscore' ),
 			'couponRemoved'            => __( 'Coupon removed.', 'tailwindscore' ),

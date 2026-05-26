@@ -22,7 +22,10 @@ $tailwindscore_is_primary_summary = ( 1 === $tailwindscore_checkout_order_review
 ?>
 <div class="shop_table woocommerce-checkout-review-order-table woocommerce-checkout-review-order ts-checkout-review-order">
 	<details
-		class="ts-checkout-order-summary"
+		<?php if ( $tailwindscore_is_primary_summary ) : ?>
+			id="ts-primary-checkout-order-summary"
+		<?php endif; ?>
+		class="ts-checkout-order-summary<?php echo $tailwindscore_is_primary_summary ? '' : ' ts-checkout-order-summary--payment'; ?>"
 		data-ts-checkout-order-summary
 		<?php echo $tailwindscore_is_primary_summary ? ' data-ts-checkout-order-summary-primary' : ''; ?>
 	>
@@ -63,24 +66,25 @@ $tailwindscore_is_primary_summary = ( 1 === $tailwindscore_checkout_order_review
 					?>
 				</span>
 				<span class="ts-checkout-order-summary__toggle-copy">
-				<?php if ( $tailwindscore_can_show_coupon_form ) : ?>
-					<span class="order-summary-add-coupon ts-button ts-button--outline ts-button--sm"><?php esc_html_e( 'Add Coupon', 'woocommerce' ); ?></span>
-					<span class="order-summary-title-expanded ts-checkout-order-summary__title-expanded"><?php esc_html_e( 'Order summary', 'woocommerce' ); ?></span>
-				<?php else : ?>
-					<span class="ts-checkout-order-summary__title"><?php esc_html_e( 'Order summary', 'woocommerce' ); ?></span>
-				<?php endif; ?>
-				<span class="ts-checkout-order-summary__item-count">
-					<?php
-					echo esc_html(
-						sprintf(
-							/* translators: %d: item count */
-							_n( '%d item', '%d items', WC()->cart ? WC()->cart->get_cart_contents_count() : 0, 'woocommerce' ),
-							WC()->cart ? WC()->cart->get_cart_contents_count() : 0
-						)
-					);
-					?>
+					<?php if ( $tailwindscore_is_primary_summary && $tailwindscore_can_show_coupon_form ) : ?>
+						<span class="order-summary-add-coupon"><?php esc_html_e( 'Add discount', 'tailwindscore' ); ?></span>
+						<span class="order-summary-title-expanded ts-checkout-order-summary__title-expanded"><?php esc_html_e( 'Order summary', 'woocommerce' ); ?></span>
+					<?php else : ?>
+						<span class="ts-checkout-order-summary__title"><?php esc_html_e( 'Order summary', 'woocommerce' ); ?></span>
+						<span class="order-summary-title-expanded ts-checkout-order-summary__title-expanded"><?php esc_html_e( 'Order summary', 'woocommerce' ); ?></span>
+					<?php endif; ?>
+					<span class="ts-checkout-order-summary__item-count">
+						<?php
+						echo esc_html(
+							sprintf(
+								/* translators: %d: item count */
+								_n( '%d item', '%d items', WC()->cart ? WC()->cart->get_cart_contents_count() : 0, 'woocommerce' ),
+								WC()->cart ? WC()->cart->get_cart_contents_count() : 0
+							)
+						);
+						?>
+					</span>
 				</span>
-			</span>
 			</span>
 			<span class="ts-checkout-order-summary__toggle-meta">
 				<span class="order-summary-total"><?php wc_cart_totals_order_total_html(); ?></span>

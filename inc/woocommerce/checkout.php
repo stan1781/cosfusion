@@ -19,21 +19,6 @@ function tailwindscore_checkout_login_dialog(): void {
 	get_template_part( 'template-parts/woocommerce/checkout-login-dialog' );
 }
 
-/**
- * Put billing email first in the checkout field order.
- *
- * @param array<string, mixed> $checkout_fields Checkout fields.
- * @return array<string, mixed>
- */
-function tailwindscore_checkout_email_first( array $checkout_fields ): array {
-	if ( isset( $checkout_fields['billing']['billing_email'] ) ) {
-		$checkout_fields['billing']['billing_email']['priority'] = 4;
-	}
-
-	return $checkout_fields;
-}
-add_filter( 'woocommerce_checkout_fields', 'tailwindscore_checkout_email_first' );
-
 add_filter( 'woocommerce_create_account_default_checked', '__return_true' );
 add_filter( 'woocommerce_enable_order_notes_field', '__return_false' );
 
@@ -56,6 +41,23 @@ function tailwindscore_dequeue_plugin_assets_on_checkout_cart(): void {
 	wp_deregister_script( 'mailnest-frontend' );
 }
 add_action( 'wp_enqueue_scripts', 'tailwindscore_dequeue_plugin_assets_on_checkout_cart', 999 );
+
+/**
+ * Drop nonessential runtime config globals on checkout (smaller inline script, no Ajax search init).
+ *
+ * @param array<string, mixed> $parts Runtime config fragments.
+ * @return array<string, mixed>
+ */
+function tailwindscore_checkout_runtime_config_parts( array $parts ): array {
+	if ( ! tailwindscore_is_checkout_page() ) {
+		return $parts;
+	}
+
+	unset( $parts['ajaxSearch'], $parts['quickView'] );
+
+	return $parts;
+}
+add_filter( 'tailwindscore_runtime_config_parts', 'tailwindscore_checkout_runtime_config_parts', 1000 );
 
 /**
  * Prevent cached checkout/cart HTML (stale AJAX nonces break update_order_review).

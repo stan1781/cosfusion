@@ -7,7 +7,7 @@ if ( ! wp_doing_ajax() ) {
 	do_action( 'woocommerce_review_order_before_payment' );
 }
 ?>
-<div id="payment" class="woocommerce-checkout-payment">
+<div id="payment" class="woocommerce-checkout-payment ts-loading-host">
 	<?php if ( WC()->cart && WC()->cart->needs_payment() ) : ?>
 		<ul class="wc_payment_methods payment_methods methods">
 			<?php
@@ -31,6 +31,12 @@ if ( ! wp_doing_ajax() ) {
 			?>
 		</ul>
 	<?php endif; ?>
+	<?php
+	// Mobile payment recap: same order summary without coupon input (see sidebar primary summary for discount).
+	add_filter( 'bootscore_checkout_show_coupon_in_order_review', '__return_false' );
+	woocommerce_order_review();
+	remove_filter( 'bootscore_checkout_show_coupon_in_order_review', '__return_false' );
+	?>
 	<div class="form-row place-order">
 		<noscript>
 			<?php

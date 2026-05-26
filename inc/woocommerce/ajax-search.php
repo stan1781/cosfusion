@@ -30,7 +30,7 @@ add_action( 'after_setup_theme', 'tailwindscore_ajax_search_init', 30 );
  * @return array<string, mixed>
  */
 function tailwindscore_ajax_search_runtime_config( array $parts ): array {
-	if ( ! tailwindscore_ajax_search_is_active() ) {
+	if ( ! tailwindscore_ajax_search_is_active() || tailwindscore_is_checkout_page() ) {
 		return $parts;
 	}
 
@@ -65,7 +65,7 @@ function tailwindscore_ajax_search_runtime_config( array $parts ): array {
  * @return string[]
  */
 function tailwindscore_ajax_search_body_class( array $classes ): array {
-	if ( tailwindscore_ajax_search_is_active() ) {
+	if ( tailwindscore_ajax_search_is_active() && ! tailwindscore_is_checkout_page() ) {
 		$classes[] = 'ts-ajax-search-enabled';
 	}
 
