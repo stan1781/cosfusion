@@ -24,7 +24,7 @@ get_header();
 						<p><?php esc_html_e( 'No content found.', 'tailwindscore' ); ?></p>
 					</section>
 				<?php endif; ?>
-				<?php echo do_shortcode('[wc_mailnest_form id="1"]'); ?>
+				
 			</section>
 			<?php if ( tailwindscore_has_sidebar() ) : ?>
 				<?php get_sidebar(); ?>
