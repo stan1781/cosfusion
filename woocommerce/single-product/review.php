@@ -1,8 +1,10 @@
 <?php
 /**
- * Review comment template.
+ * Review Comments Template
  *
- * @package TailwindScore
+ * @see https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 2.6.0
  */
 
 defined( 'ABSPATH' ) || exit;

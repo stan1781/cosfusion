@@ -8,6 +8,19 @@ body {
 	font-family: var(--ts-type-body);
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.ts-heading,
+.widget-title,
+[class*="__title"],
+[class*="__heading"] {
+	font-family: var(--ts-type-heading);
+}
+
 html.ts-has-overlay,
 html.ts-has-overlay body {
 	overflow: hidden;

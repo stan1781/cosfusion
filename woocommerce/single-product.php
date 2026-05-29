@@ -1,6 +1,14 @@
 <?php
 declare(strict_types=1);
 
+/**
+ * The Template for displaying all single products
+ *
+ * @see https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 1.6.4
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 get_header( 'shop' );

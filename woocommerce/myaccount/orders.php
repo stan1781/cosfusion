@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Orders
  *
  * @package TailwindScore
- * @version 1.0.0
+ * @version 9.5.0
  */
 
 defined( 'ABSPATH' ) || exit;

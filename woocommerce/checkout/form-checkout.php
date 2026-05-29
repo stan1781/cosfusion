@@ -1,6 +1,14 @@
 <?php
 declare(strict_types=1);
 
+/**
+ * Checkout Form
+ *
+ * @see https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 9.4.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 do_action( 'woocommerce_before_checkout_form', $checkout );

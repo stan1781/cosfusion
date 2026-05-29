@@ -1,6 +1,14 @@
 <?php
 declare(strict_types=1);
 
+/**
+ * Cart Page
+ *
+ * @see https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 10.8.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 // The cart page is a fallback summary/edit surface, not the primary cart workflow.

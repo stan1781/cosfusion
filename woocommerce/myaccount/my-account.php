@@ -1,6 +1,14 @@
 <?php
 declare(strict_types=1);
 
+/**
+ * My Account page
+ *
+ * @see https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 3.5.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 if ( tailwindscore_is_guest_account_page() ) :

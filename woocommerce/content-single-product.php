@@ -1,6 +1,14 @@
 <?php
 declare(strict_types=1);
 
+/**
+ * The template for displaying product content in the single-product.php template
+ *
+ * @see https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 3.6.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 ?>
 <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'ts-wc-product-detail', wc_get_product() ); ?>>

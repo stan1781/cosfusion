@@ -5,7 +5,7 @@ declare(strict_types=1);
  * My Account Dashboard
  *
  * @package TailwindScore
- * @version 1.0.0
+ * @version 4.4.0
  */
 
 defined( 'ABSPATH' ) || exit;

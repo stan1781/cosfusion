@@ -1,6 +1,14 @@
 <?php
 declare(strict_types=1);
 
+/**
+ * The Template for displaying product archives, including the main shop page which is a post type archive
+ *
+ * @see https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 8.6.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 get_header( 'shop' );

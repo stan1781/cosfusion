@@ -1,6 +1,14 @@
 <?php
 declare(strict_types=1);
 
+/**
+ * Review order table
+ *
+ * @see https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
+ * @version 5.2.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
