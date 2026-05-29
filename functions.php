@@ -16,6 +16,7 @@ require_once get_template_directory() . '/inc/woocommerce/loop-variant-swatches.
 require_once get_template_directory() . '/inc/woocommerce/price-display.php';
 require_once get_template_directory() . '/inc/woocommerce/cart-view.php';
 require_once get_template_directory() . '/inc/woocommerce/cart-config.php';
+require_once get_template_directory() . '/inc/woocommerce/cart-item-edit.php';
 require_once get_template_directory() . '/inc/woocommerce/checkout-layout.php';
 require_once get_template_directory() . '/inc/woocommerce/checkout.php';
 require_once get_template_directory() . '/inc/woocommerce/ajax-search.php';

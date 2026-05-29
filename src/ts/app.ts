@@ -7,6 +7,7 @@ import './shop/loop-add-to-cart';
 import './search/index';
 import './product/index';
 import './cart/index';
+import './cart/item-edit-modal';
 import './checkout/index';
 
 if (document.body.classList.contains('ts-quick-view-enabled')) {

@@ -15,6 +15,17 @@ function getJQuery(): JQueryLike | undefined {
 }
 
 function findAttributeSelect(form: Element, attribute: string): HTMLSelectElement | null {
+	const list = form.querySelector<HTMLElement>(
+		`.custom-variation-selector[data-attribute="${CSS.escape(attribute)}"]`,
+	);
+	const rowSelect = list
+		?.closest('.variation-row, .ts-variation-row')
+		?.querySelector<HTMLSelectElement>('select[name^="attribute_"]');
+
+	if (rowSelect) {
+		return rowSelect;
+	}
+
 	const candidates = [
 		`select[name="attribute_${attribute}"]`,
 		`select[name="attribute_pa_${attribute}"]`,
@@ -28,6 +39,13 @@ function findAttributeSelect(form: Element, attribute: string): HTMLSelectElemen
 
 	for (const selector of candidates) {
 		const select = form.querySelector<HTMLSelectElement>(`.variations ${selector}`);
+		if (select) {
+			return select;
+		}
+	}
+
+	for (const selector of candidates) {
+		const select = form.querySelector<HTMLSelectElement>(selector);
 		if (select) {
 			return select;
 		}
@@ -47,7 +65,11 @@ function updateSelectedLabel(form: Element, attribute: string, label: string): v
 	}
 }
 
-function syncDisabledFromSelects(form: Element): void {
+function formRequiresVariationSelection(form: Element): boolean {
+	return form.hasAttribute('data-ts-require-variation-selection');
+}
+
+function syncDisabledFromSelects(form: Element, jq?: JQueryLike): void {
 	form.querySelectorAll<HTMLElement>('.custom-variation-selector').forEach((list) => {
 		const attribute = list.getAttribute('data-attribute');
 		if (!attribute) {
@@ -72,6 +94,48 @@ function syncDisabledFromSelects(form: Element): void {
 				li.classList.remove('selected');
 			}
 		});
+	});
+
+	if (jq) {
+		ensureRequiredSelections(form, jq);
+	}
+}
+
+function ensureRequiredSelections(form: Element, jq: JQueryLike): void {
+	if (!formRequiresVariationSelection(form)) {
+		return;
+	}
+
+	form.querySelectorAll<HTMLElement>('.custom-variation-selector').forEach((list) => {
+		const attribute = list.getAttribute('data-attribute');
+		if (!attribute) {
+			return;
+		}
+
+		const select = findAttributeSelect(form, attribute);
+		if (!select) {
+			return;
+		}
+
+		let selectedLi = list.querySelector<HTMLLIElement>('li.selected:not(.disabled)');
+
+		if (!selectedLi) {
+			selectedLi = list.querySelector<HTMLLIElement>('li:not(.disabled)');
+			if (!selectedLi) {
+				return;
+			}
+
+			list.querySelectorAll('li').forEach((item) => item.classList.remove('selected'));
+			selectedLi.classList.add('selected');
+		}
+
+		const value = selectedLi.getAttribute('data-value') ?? '';
+		if (select.value !== value) {
+			select.value = value;
+			triggerSelectChange(select, jq);
+		}
+
+		updateSelectedLabel(form, attribute, selectedLi.getAttribute('data-name') ?? '');
 	});
 }
 
@@ -113,7 +177,13 @@ function bindTextButtons(root: HTMLElement): void {
 
 			event.preventDefault();
 
+			const requireSelection = formRequiresVariationSelection(form);
+
 			if (li.classList.contains('disabled')) {
+				if (requireSelection) {
+					return;
+				}
+
 				list.querySelectorAll('li').forEach((item) => item.classList.remove('selected'));
 				form.querySelectorAll<HTMLSelectElement>('.variations select').forEach((s) => {
 					s.value = '';
@@ -124,6 +194,10 @@ function bindTextButtons(root: HTMLElement): void {
 			}
 
 			if (li.classList.contains('selected')) {
+				if (requireSelection) {
+					return;
+				}
+
 				list.querySelectorAll('li').forEach((item) => item.classList.remove('selected'));
 				select.value = '';
 				triggerSelectChange(select, jq);
@@ -172,7 +246,7 @@ export async function initQuickViewVariations(root: HTMLElement): Promise<void> 
 		}
 
 		$form.on('woocommerce_update_variation_values', () => {
-			syncDisabledFromSelects(form);
+			syncDisabledFromSelects(form, jq);
 		});
 
 		$form.on('show_variation', (...args: unknown[]) => {
@@ -184,7 +258,7 @@ export async function initQuickViewVariations(root: HTMLElement): Promise<void> 
 		});
 
 		$form.trigger('check_variations');
-		syncDisabledFromSelects(form);
+		syncDisabledFromSelects(form, jq);
 
 		form.querySelectorAll<HTMLLIElement>('.custom-variation-selector li.selected').forEach((selected) => {
 			const attribute = selected.closest('.custom-variation-selector')?.getAttribute('data-attribute');
@@ -195,4 +269,31 @@ export async function initQuickViewVariations(root: HTMLElement): Promise<void> 
 	});
 
 	bindTextButtons(root);
+}
+
+/**
+ * Read selected variation attributes from the swatch UI for save requests.
+ */
+export function collectVariationFromUi(form: HTMLFormElement): Record<string, string> {
+	const variation: Record<string, string> = {};
+
+	form.querySelectorAll<HTMLElement>('.custom-variation-selector').forEach((list) => {
+		const attribute = list.getAttribute('data-attribute');
+		const selected = list.querySelector<HTMLLIElement>('li.selected:not(.disabled)');
+
+		if (!attribute || !selected) {
+			return;
+		}
+
+		const value = selected.getAttribute('data-value') ?? '';
+		if ('' === value) {
+			return;
+		}
+
+		const select = findAttributeSelect(form, attribute);
+		const key = select?.name ?? (attribute.startsWith('attribute_') ? attribute : `attribute_${attribute}`);
+		variation[key] = value;
+	});
+
+	return variation;
 }

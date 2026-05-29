@@ -16,12 +16,21 @@ if ( ! $product || ! $product->is_type( 'variable' ) ) {
 
 $product_id = $product->get_id();
 
+$context = isset( $context ) ? sanitize_key( (string) $context ) : 'quick-view';
+$is_cart_edit = 'cart-edit' === $context;
+
 // Reuse data from content-product-quick-view.php when provided (avoids duplicate get_available_variations()).
 if ( ! isset( $attributes ) || ! is_array( $attributes ) ) {
 	$attributes = $product->get_variation_attributes();
 }
 if ( ! isset( $available_variations ) || ! is_array( $available_variations ) ) {
 	$available_variations = $product->get_available_variations();
+}
+if ( ! isset( $selected_variation_attributes ) || ! is_array( $selected_variation_attributes ) ) {
+	$selected_variation_attributes = array();
+}
+if ( ! isset( $current_variation_id ) ) {
+	$current_variation_id = 0;
 }
 
 $variations_json = wp_json_encode( $available_variations );
@@ -30,7 +39,7 @@ $variations_attr = function_exists( 'wc_esc_json' ) ? wc_esc_json( $variations_j
 do_action( 'woocommerce_before_add_to_cart_form' );
 ?>
 
-<form class="variations_form cart" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype="multipart/form-data" data-product_id="<?php echo absint( $product_id ); ?>" data-product_variations="<?php echo $variations_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
+<form class="variations_form cart" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype="multipart/form-data" data-product_id="<?php echo absint( $product_id ); ?>" data-product_variations="<?php echo $variations_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"<?php echo $is_cart_edit ? ' data-ts-require-variation-selection' : ''; ?>>
 	<?php do_action( 'woocommerce_before_variations_form' ); ?>
 
 	<?php if ( empty( $available_variations ) && false !== $available_variations ) : ?>
@@ -40,7 +49,9 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 			<?php foreach ( $attributes as $attribute_name => $options ) : ?>
 				<?php
 				$attr_slug = sanitize_title( $attribute_name );
-				$selected  = isset( $_REQUEST[ 'attribute_' . $attr_slug ] ) ? wc_clean( wp_unslash( $_REQUEST[ 'attribute_' . $attr_slug ] ) ) : $product->get_variation_default_attribute( $attribute_name ); // phpcs:ignore WordPress.Security.NonceVerification
+				$selected  = $selected_variation_attributes[ $attribute_name ]
+					?? $selected_variation_attributes[ 'attribute_' . $attr_slug ]
+					?? ( isset( $_REQUEST[ 'attribute_' . $attr_slug ] ) ? wc_clean( wp_unslash( $_REQUEST[ 'attribute_' . $attr_slug ] ) ) : $product->get_variation_default_attribute( $attribute_name ) ); // phpcs:ignore WordPress.Security.NonceVerification
 				?>
 				<div class="variation-row ts-variation-row">
 					<div class="label ts-variation-row__label">
@@ -57,7 +68,7 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 								'attribute'        => $attribute_name,
 								'product'          => $product,
 								'class'            => 'hidden-variation-select',
-								'show_option_none' => __( 'Choose an option', 'woocommerce' ),
+								'show_option_none' => $is_cart_edit ? false : __( 'Choose an option', 'woocommerce' ),
 							)
 						);
 
@@ -110,7 +121,18 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 		<div class="single_variation_wrap">
 			<?php
 			do_action( 'woocommerce_before_single_variation' );
-			do_action( 'woocommerce_single_variation' );
+
+			if ( $is_cart_edit ) :
+				?>
+				<div class="woocommerce-variation single_variation" role="alert" aria-relevant="additions"></div>
+				<div class="woocommerce-variation-add-to-cart variations_button">
+					<input type="hidden" name="variation_id" class="variation_id" value="<?php echo absint( $current_variation_id ); ?>" />
+				</div>
+				<?php
+			else :
+				do_action( 'woocommerce_single_variation' );
+			endif;
+
 			do_action( 'woocommerce_after_single_variation' );
 			?>
 		</div>

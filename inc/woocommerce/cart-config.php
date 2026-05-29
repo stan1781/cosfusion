@@ -47,5 +47,23 @@ function tailwindscore_purchase_flow_config(): array {
 			'minus' => tailwindscore_icon( 'minus' ),
 			'trash' => tailwindscore_icon( 'trash' ),
 		),
+		'cartItemEdit'  => array(
+			'getFormUrl' => add_query_arg( 'wc-ajax', 'tailwindscore_get_cart_item_edit_form', home_url( '/' ) ),
+			'saveUrl'    => add_query_arg( 'wc-ajax', 'tailwindscore_update_cart_item_edit', home_url( '/' ) ),
+			'nonce'      => wp_create_nonce( 'tailwindscore_cart_item_edit' ),
+			'i18n'       => array(
+				'title'               => __( 'Edit options', 'tailwindscore' ),
+				'edit'                => __( 'Edit', 'tailwindscore' ),
+				'save'                => __( 'Save', 'tailwindscore' ),
+				'cancel'              => __( 'Cancel', 'tailwindscore' ),
+				'loading'             => __( 'Loading…', 'tailwindscore' ),
+				'loadFailed'          => __( 'Failed to load item options.', 'tailwindscore' ),
+				'saveFailed'          => __( 'Failed to save item options.', 'tailwindscore' ),
+				'saved'               => __( 'Item updated.', 'tailwindscore' ),
+				'noMatchingVariation' => __( 'No matching variation found.', 'tailwindscore' ),
+				'chooseOptions'       => __( 'Please choose product options.', 'woocommerce' ),
+				'close'               => __( 'Close edit options', 'tailwindscore' ),
+			),
+		),
 	);
 }

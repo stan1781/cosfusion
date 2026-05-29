@@ -272,7 +272,7 @@
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) auto;
 	align-items: start;
-	gap: var(--ts-space-xl);
+	gap: var(--ts-space-xs);
 }
 
 .ts-cart-drawer-cart__totals {
@@ -306,6 +306,35 @@
 	font-weight: 600;
 	line-height: 1.35;
 	text-decoration: none;
+}
+
+.ts-cart-drawer-cart__details {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	column-gap: var(--ts-space-sm);
+	row-gap: 0.125rem;
+}
+
+.ts-cart-drawer-cart__detail {
+	flex: 0 1 auto;
+	min-width: 0;
+	max-width: 100%;
+	color: var(--ts-colors-text-muted);
+	font-size: var(--ts-font-size-xs);
+	line-height: 1.35;
+}
+
+.ts-cart-drawer-cart__detail-label {
+	white-space: nowrap;
+}
+
+.ts-cart-drawer-cart__detail-value {
+	display: inline;
+	overflow-wrap: anywhere;
 }
 
 .ts-cart-drawer-cart__controls {

@@ -48,6 +48,27 @@ type NotificationSelectorConfig = {
 	page?: string;
 };
 
+type CartItemEditI18n = {
+	title: string;
+	edit: string;
+	save: string;
+	cancel: string;
+	loading: string;
+	loadFailed: string;
+	saveFailed: string;
+	saved: string;
+	noMatchingVariation: string;
+	chooseOptions: string;
+	close: string;
+};
+
+type CartItemEditConfig = {
+	getFormUrl: string;
+	saveUrl: string;
+	nonce: string;
+	i18n: CartItemEditI18n;
+};
+
 type TailwindscoreCartConfig = {
 	storeApiUrl: string;
 	nonce: string;
@@ -59,6 +80,7 @@ type TailwindscoreCartConfig = {
 	};
 	i18n: CartI18nConfig;
 	icons: CartIconConfig;
+	cartItemEdit?: CartItemEditConfig;
 };
 
 type StoreApiCurrency = {
@@ -77,13 +99,35 @@ type StoreApiImage = {
 	alt: string;
 };
 
+type StoreApiCartVariation = {
+	attribute: string;
+	value: string;
+};
+
+type StoreApiCartItemData = {
+	key?: string;
+	name?: string;
+	value?: string;
+	display?: string;
+	hidden?: boolean | string;
+};
+
+type CartLineItemMetaRow = {
+	type: 'variation' | 'custom';
+	label: string;
+	value: string;
+};
+
 type StoreApiCartItem = {
 	key: string;
 	id: number;
+	type?: string;
 	quantity: number;
 	name: string;
 	permalink: string;
 	images: StoreApiImage[];
+	variation?: StoreApiCartVariation[];
+	item_data?: StoreApiCartItemData[];
 	prices: StoreApiCurrency & {
 		price: string;
 	};
@@ -270,6 +314,95 @@ function renderCartSummary(count: number, config: TailwindscoreCartConfig) {
 	return replaceCount(template, count);
 }
 
+function isCartItemEditable(item: StoreApiCartItem): boolean {
+	if (item.type === 'variation') {
+		return true;
+	}
+
+	return Array.isArray(item.variation) && item.variation.length > 0;
+}
+
+function getCartLineItemMeta(item: StoreApiCartItem): CartLineItemMetaRow[] {
+	const meta: CartLineItemMetaRow[] = [];
+
+	if (Array.isArray(item.variation)) {
+		for (const row of item.variation) {
+			const label = row.attribute?.trim() ?? '';
+			const value = row.value?.trim() ?? '';
+
+			if (!label || !value) {
+				continue;
+			}
+
+			meta.push({
+				type: 'variation',
+				label,
+				value,
+			});
+		}
+	}
+
+	if (Array.isArray(item.item_data)) {
+		for (const row of item.item_data) {
+			if (row.hidden === true || row.hidden === '1') {
+				continue;
+			}
+
+			const label = (row.key || row.name || '').trim();
+			const value = (row.display || row.value || '').trim();
+
+			if (!label || !value) {
+				continue;
+			}
+
+			meta.push({
+				type: 'custom',
+				label,
+				value,
+			});
+		}
+	}
+
+	return meta;
+}
+
+function renderCartLineItemMeta(item: StoreApiCartItem): string {
+	const meta = getCartLineItemMeta(item);
+
+	if (meta.length === 0) {
+		return '';
+	}
+
+	const rows = meta
+		.map(
+			({ label, value }) => `
+		<li class="ts-cart-drawer-cart__detail">
+			<span class="ts-cart-drawer-cart__detail-label">${escapeHtml(label)}:</span>
+			<span class="ts-cart-drawer-cart__detail-value">${escapeHtml(value)}</span>
+		</li>`
+		)
+		.join('');
+
+	return `<ul class="ts-cart-drawer-cart__details">${rows}</ul>`;
+}
+
+function renderCartItemEditButton(item: StoreApiCartItem, config: TailwindscoreCartConfig): string {
+	if (!isCartItemEditable(item) || !config.cartItemEdit) {
+		return '';
+	}
+
+	const label = escapeHtml(config.cartItemEdit.i18n.edit);
+
+	return `
+		<button
+			type="button"
+			class="ts-cart-drawer-cart__edit"
+			data-ts-cart-item-edit
+			data-cart-item-key="${escapeHtml(item.key)}"
+		>${label}</button>
+	`;
+}
+
 function renderCartItem(item: StoreApiCartItem, config: TailwindscoreCartConfig) {
 	const image = item.images[0];
 	const imageMarkup = image
@@ -292,6 +425,7 @@ function renderCartItem(item: StoreApiCartItem, config: TailwindscoreCartConfig)
 				<div class="ts-cart-drawer-cart__row">
 					<div class="ts-cart-drawer-cart__meta ts-stack">
 						${productUrl ? `<a class="ts-cart-drawer-cart__name" href="${productUrl}">${productName}</a>` : `<span class="ts-cart-drawer-cart__name">${productName}</span>`}
+						${renderCartLineItemMeta(item)}
 						<span class="ts-cart-drawer-cart__quantity">${item.quantity} x ${escapeHtml(unitPrice)}</span>
 					</div>
 					<button
@@ -337,6 +471,7 @@ function renderCartItem(item: StoreApiCartItem, config: TailwindscoreCartConfig)
 							<span class="ts-icon" aria-hidden="true">${config.icons.plus}</span>
 						</button>
 					</div>
+					${renderCartItemEditButton(item, config)}
 				</div>
 				<div class="ts-cart-drawer-cart__subtotal">${escapeHtml(subtotal)}</div>
 			</div>
@@ -452,7 +587,7 @@ function syncPendingCartItems() {
 
 		item
 			.querySelectorAll<HTMLButtonElement | HTMLInputElement>(
-				'[data-ts-quantity-step], [data-ts-quantity-input], [data-ts-cart-remove]',
+				'[data-ts-quantity-step], [data-ts-quantity-input], [data-ts-cart-remove], [data-ts-cart-item-edit]',
 			)
 			.forEach((control) => {
 				control.disabled = isPending;

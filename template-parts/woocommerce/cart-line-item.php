@@ -32,6 +32,7 @@ $product_subtotal  = $line_subtotal > 0 ? wc_price( $line_subtotal ) : WC()->car
 $max_quantity      = $product->backorders_allowed() ? '' : (string) $product->get_max_purchase_quantity();
 $remove_url        = wc_get_cart_remove_url( $cart_item_key );
 $quantity_name     = 'cart' === $context ? 'cart[' . $cart_item_key . '][qty]' : '';
+$is_editable       = function_exists( 'tailwindscore_cart_item_is_editable' ) && tailwindscore_cart_item_is_editable( $cart_item, $cart_item_key );
 ?>
 <li class="ts-cart-drawer-cart__item" data-ts-cart-item data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>">
 	<div class="ts-cart-drawer-cart__media">
@@ -40,6 +41,7 @@ $quantity_name     = 'cart' === $context ? 'cart[' . $cart_item_key . '][qty]' :
 		<?php else : ?>
 			<?php echo wp_kses_post( $product_thumbnail ); ?>
 		<?php endif; ?>
+		
 	</div>
 	<div class="ts-cart-drawer-cart__content ts-stack">
 		<div class="ts-cart-drawer-cart__row">
@@ -49,6 +51,7 @@ $quantity_name     = 'cart' === $context ? 'cart[' . $cart_item_key . '][qty]' :
 				<?php else : ?>
 					<span class="ts-cart-drawer-cart__name"><?php echo esc_html( $product_name ); ?></span>
 				<?php endif; ?>
+				<?php tailwindscore_render_cart_line_item_meta( $cart_item, $cart_item_key ); ?>
 				<span class="ts-cart-drawer-cart__quantity">
 					<?php
 					printf(
@@ -95,6 +98,16 @@ $quantity_name     = 'cart' === $context ? 'cart[' . $cart_item_key . '][qty]' :
 				)
 			);
 			?>
+			<?php if ( $is_editable ) : ?>
+				<button
+					type="button"
+					class="ts-cart-drawer-cart__edit"
+					data-ts-cart-item-edit
+					data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>"
+				>
+					<?php esc_html_e( 'Edit', 'tailwindscore' ); ?>
+				</button>
+			<?php endif; ?>
 		</div>
 		<div class="ts-cart-drawer-cart__subtotal"><?php echo wp_kses_post( $product_subtotal ); ?></div>
 	</div>

@@ -608,12 +608,9 @@
 }
 
 .ts-checkout-line-item__variation .variation dt,
-.ts-checkout-line-item__variation .variation dd {
-	margin: 0;
-}
-
+.ts-checkout-line-item__variation .variation dd,
 .ts-checkout-line-item__variation .variation dd p {
-	margin-bottom: 0;
+	margin: 0;
 }
 
 .ts-checkout-line-item__price {
