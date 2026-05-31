@@ -10,16 +10,7 @@ $args = wp_parse_args(
 );
 
 if ( has_nav_menu( 'primary' ) ) {
-	wp_nav_menu(
-		array(
-			'theme_location' => 'primary',
-			'container'      => 'nav',
-			'container_id'   => $args['nav_id'],
-			'container_class'=> $args['nav_class'],
-			'menu_class'     => 'ts-nav__list',
-			'fallback_cb'    => false,
-		)
-	);
+	wp_nav_menu( tailwindscore_primary_nav_menu_args( $args ) );
 	return;
 }
 ?>

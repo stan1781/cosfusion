@@ -1,6 +1,52 @@
 export {};
 
+import {
+	MENU_DRAWER_TRANSITION_MS,
+	activateMenuDrawerPanel,
+	deactivateMenuDrawerPanel,
+	getMenuDrawerPanel,
+	isMenuDrawerPanelActive,
+} from './menu-drawer-panel';
+
 document.documentElement.classList.add('js');
+
+let mobileMenuResetTimer: number | undefined;
+let menuDrawerClosing = false;
+
+function cancelMobileMenuReset(): void {
+	if (mobileMenuResetTimer !== undefined) {
+		window.clearTimeout(mobileMenuResetTimer);
+		mobileMenuResetTimer = undefined;
+	}
+}
+
+function dispatchMobileMenuReset(): void {
+	document.dispatchEvent(new CustomEvent('tailwindscore:mobile-menu-reset'));
+}
+
+function scheduleMenuDrawerCloseFallback(shell: SiteShellState): void {
+	cancelMobileMenuReset();
+	mobileMenuResetTimer = window.setTimeout(() => {
+		mobileMenuResetTimer = undefined;
+		menuDrawerClosing = false;
+		finishMenuDrawerClose(shell);
+	}, MENU_DRAWER_TRANSITION_MS);
+}
+
+function finishMenuDrawerClose(shell: SiteShellState): void {
+	if (!shell.menuOpen) {
+		return;
+	}
+
+	menuDrawerClosing = false;
+	shell.menuOpen = false;
+	shell.syncDocumentState();
+	cancelMobileMenuReset();
+
+	window.requestAnimationFrame(() => {
+		dispatchMobileMenuReset();
+	});
+}
 
 type SiteShellState = {
 	menuOpen: boolean;
@@ -15,6 +61,7 @@ type SiteShellState = {
 	closeSearch: () => void;
 	closeCart: () => void;
 	closeAll: () => void;
+	onMenuDrawerTransitionEnd: (event: TransitionEvent) => void;
 };
 
 document.addEventListener('alpine:init', () => {
@@ -23,26 +70,51 @@ document.addEventListener('alpine:init', () => {
 		searchOpen: false,
 		cartOpen: false,
 		init(this: SiteShellState) {
+			menuDrawerClosing = false;
+			deactivateMenuDrawerPanel();
 			this.syncDocumentState();
 		},
 		syncDocumentState(this: SiteShellState) {
 			document.documentElement.classList.toggle('ts-has-overlay', this.menuOpen || this.searchOpen || this.cartOpen);
 		},
 		toggleMenu(this: SiteShellState) {
-			this.menuOpen = !this.menuOpen;
-
 			if (this.menuOpen) {
-				this.searchOpen = false;
-				this.cartOpen = false;
+				this.closeMenu();
+				return;
 			}
 
+			menuDrawerClosing = false;
+			cancelMobileMenuReset();
+			this.searchOpen = false;
+			this.cartOpen = false;
+			this.menuOpen = true;
 			this.syncDocumentState();
+
+			this.$nextTick(() => {
+				activateMenuDrawerPanel();
+			});
+		},
+		closeMenu(this: SiteShellState) {
+			if (!this.menuOpen) {
+				return;
+			}
+
+			if (!isMenuDrawerPanelActive()) {
+				finishMenuDrawerClose(this);
+				return;
+			}
+
+			menuDrawerClosing = true;
+			deactivateMenuDrawerPanel();
+			scheduleMenuDrawerCloseFallback(this);
 		},
 		toggleSearch(this: SiteShellState) {
 			this.searchOpen = !this.searchOpen;
 
 			if (this.searchOpen) {
-				this.menuOpen = false;
+				if (this.menuOpen) {
+					this.closeMenu();
+				}
 				this.cartOpen = false;
 				window.requestAnimationFrame(() => {
 					const field = document.getElementById('ts-search-field');
@@ -59,15 +131,13 @@ document.addEventListener('alpine:init', () => {
 			this.cartOpen = !this.cartOpen;
 
 			if (this.cartOpen) {
-				this.menuOpen = false;
+				if (this.menuOpen) {
+					this.closeMenu();
+				}
 				this.searchOpen = false;
 				document.dispatchEvent(new CustomEvent('tailwindscore:cart-drawer-opened'));
 			}
 
-			this.syncDocumentState();
-		},
-		closeMenu(this: SiteShellState) {
-			this.menuOpen = false;
 			this.syncDocumentState();
 		},
 		closeSearch(this: SiteShellState) {
@@ -79,10 +149,29 @@ document.addEventListener('alpine:init', () => {
 			this.syncDocumentState();
 		},
 		closeAll(this: SiteShellState) {
-			this.menuOpen = false;
 			this.searchOpen = false;
 			this.cartOpen = false;
+
+			if (this.menuOpen) {
+				this.closeMenu();
+				return;
+			}
+
 			this.syncDocumentState();
+		},
+		onMenuDrawerTransitionEnd(this: SiteShellState, event: TransitionEvent) {
+			const panel = getMenuDrawerPanel();
+
+			if (!panel || event.target !== panel || event.propertyName !== 'transform') {
+				return;
+			}
+
+			if (!menuDrawerClosing || isMenuDrawerPanelActive()) {
+				return;
+			}
+
+			cancelMobileMenuReset();
+			finishMenuDrawerClose(this);
 		},
 	}));
 });
@@ -101,8 +190,10 @@ document.addEventListener('tailwindscore:open-cart', () => {
 		const shell = alpine.$data(header) as SiteShellState | undefined;
 
 		if (shell && !shell.cartOpen) {
+			if (shell.menuOpen) {
+				shell.closeMenu();
+			}
 			shell.cartOpen = true;
-			shell.menuOpen = false;
 			shell.searchOpen = false;
 			shell.syncDocumentState();
 			document.dispatchEvent(new CustomEvent('tailwindscore:cart-drawer-opened'));
