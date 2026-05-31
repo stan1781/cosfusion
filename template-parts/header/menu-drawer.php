@@ -54,7 +54,7 @@ $menu_title = __( 'Menu', 'tailwindscore' );
 				);
 				?>
 			</div>
-			<div class="ts-site-menu-drawer__nav" x-ref="navViewport">
+			<div class="ts-site-menu-drawer__nav">
 				<?php
 				get_template_part(
 					'template-parts/navigation/primary-nav',
