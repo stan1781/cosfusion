@@ -345,6 +345,11 @@ async function initVariationSelector(): Promise<void> {
 			return;
 		}
 
+		// Quick View / cart edit modals inject their own forms; handled by quick-view-variations.ts.
+		if (li.closest('[data-ts-quick-view-content], [data-ts-cart-item-edit-content]')) {
+			return;
+		}
+
 		const form = li.closest('form.variations_form');
 		if (!form) {
 			return;

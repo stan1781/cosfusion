@@ -432,6 +432,11 @@ function initQuickView(): void {
 				return;
 			}
 
+			// Mouse often leaves the card when interacting with the open modal; prefetch is already done or cancelled on open.
+			if (isOpen()) {
+				return;
+			}
+
 			cancelPrefetch();
 		},
 		true,
