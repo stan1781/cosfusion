@@ -12,6 +12,19 @@
 	box-shadow: var(--ts-shadow-sm);
 }
 
+/* Inside search modal: single outer card — no nested box on the field */
+.ts-site-search-modal__dialog--command .ts-search-form--command .ts-search-form__wrap {
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	overflow: visible;
+}
+
+.ts-site-search-modal__dialog--command .ts-command-search-field {
+	padding-inline: 0;
+}
+
 .ts-command-search-field {
 	display: flex;
 	align-items: center;
@@ -84,15 +97,19 @@
 	box-shadow: var(--ts-shadow-sm);
 }
 
-/* Suggest list attached inside command card (modal) */
-.ts-search-form--command .ts-search-suggest {
-	position: static;
-	top: auto;
-	max-height: min(20rem, 50vh);
-	border: 0;
-	border-top: 1px solid var(--ts-colors-border);
-	border-radius: 0;
-	box-shadow: none;
+/* Search modal: float results over chips — height follows result count (maxResults) */
+.ts-site-search-modal__dialog--command .ts-search-form--command .ts-search-suggest {
+	position: absolute;
+	top: calc(100% + var(--ts-space-sm));
+	left: 0;
+	right: 0;
+	z-index: 3;
+	max-height: none;
+	overflow: visible;
+	border: 1px solid var(--ts-colors-border);
+	border-radius: var(--ts-radius-md);
+	background: var(--ts-colors-surface);
+	box-shadow: var(--ts-shadow-lg);
 }
 
 .ts-search-suggest__message,

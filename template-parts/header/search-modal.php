@@ -20,6 +20,7 @@ set_query_var( 'ts_search_form_variant', 'command' );
 		@click.outside="closeSearch()"
 	>
 		<?php get_search_form(); ?>
+		<?php get_template_part( 'template-parts/search/modal-chips' ); ?>
 	</div>
 </div>
 <?php

@@ -19,4 +19,5 @@ defined( 'ABSPATH' ) || exit;
 		<?php do_action( 'woocommerce_single_product_summary' ); ?>
 	</div>
 </div>
+<div class="ts-product-sticky-sentinel" aria-hidden="true"></div>
 <?php do_action( 'woocommerce_after_single_product_summary' ); ?>

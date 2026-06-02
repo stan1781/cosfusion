@@ -16,7 +16,12 @@ function getSubmitButtons(form: HTMLFormElement) {
 
 function setFormPending(form: HTMLFormElement, isPending: boolean, submitter: HTMLButtonElement | null = null) {
 	const button = resolveSubmitButton(form, submitter, 'button.single_add_to_cart_button');
-	const buttons = button ? [button] : getSubmitButtons(form);
+	const buttons = button ? [button] : Array.from(getSubmitButtons(form));
+	const stickyAtc = document.querySelector<HTMLButtonElement>('[data-ts-product-sticky-atc]');
+
+	if (stickyAtc && !buttons.includes(stickyAtc)) {
+		buttons.push(stickyAtc);
+	}
 
 	setButtonsLoading(buttons, isPending);
 }
@@ -67,6 +72,9 @@ if (isProductPage) {
 		if (shouldInitReviewImages()) {
 			initReviewImages();
 		}
+	});
+	void import('./sticky-bar').then(({ initProductStickyBar }) => {
+		initProductStickyBar();
 	});
 	document.documentElement.classList.add('has-product-ui');
 

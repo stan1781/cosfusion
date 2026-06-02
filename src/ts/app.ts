@@ -3,6 +3,7 @@ import './ui/quantity-input';
 import './ui/button-loading';
 import './site/index';
 import './site/mobile-nav';
+import './site/mobile-tab-bar';
 import './shop/loop-swatches';
 import './shop/loop-add-to-cart';
 import './search/index';

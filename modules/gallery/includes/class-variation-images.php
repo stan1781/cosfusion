@@ -31,6 +31,90 @@ class Tailwindscore_Gallery_Variation_Images {
 		add_filter( 'woocommerce_available_variation', array( $this, 'add_variation_images_to_variation_data' ), 10, 3 );
 		add_action( 'admin_footer', array( $this, 'admin_scripts' ) );
 		add_filter( 'wpo_get_multiple_image_ids_in_post_meta', array( $this, 'wp_optimize_fields' ) );
+		add_action( 'init', array( $this, 'register_rest_meta' ) );
+		add_filter( 'woocommerce_rest_prepare_product_variation_object', array( $this, 'add_variation_gallery_to_rest' ), 10, 3 );
+	}
+
+	/**
+	 * Expose `_variation_images` on variation REST meta_data (same key as wc-enhanced-tools).
+	 *
+	 * @return void
+	 */
+	public function register_rest_meta(): void {
+		register_post_meta(
+			'product_variation',
+			'_variation_images',
+			array(
+				'type'          => 'array',
+				'single'        => true,
+				'show_in_rest'  => array(
+					'schema' => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'integer' ),
+					),
+				),
+				'auth_callback' => static function (): bool {
+					return current_user_can( 'edit_products' );
+				},
+			)
+		);
+	}
+
+	/**
+	 * @param WP_REST_Response       $response REST response.
+	 * @param WC_Product_Variation   $object   Variation.
+	 * @param WP_REST_Request        $request  Request.
+	 * @return WP_REST_Response
+	 */
+	public function add_variation_gallery_to_rest( $response, $object, $request ) {
+		$data    = $response->get_data();
+		$gallery = array();
+		$seen    = array();
+
+		$main_id = $object->get_image_id();
+		if ( $main_id ) {
+			$item = $this->build_rest_image_item( (int) $main_id );
+			if ( $item ) {
+				$gallery[]       = $item;
+				$seen[ $main_id ] = true;
+			}
+		}
+
+		$variation_images = get_post_meta( $object->get_id(), '_variation_images', true );
+		if ( is_array( $variation_images ) ) {
+			foreach ( $variation_images as $attachment_id ) {
+				$attachment_id = absint( $attachment_id );
+				if ( ! $attachment_id || isset( $seen[ $attachment_id ] ) ) {
+					continue;
+				}
+				$item = $this->build_rest_image_item( $attachment_id );
+				if ( $item ) {
+					$gallery[]                 = $item;
+					$seen[ $attachment_id ] = true;
+				}
+			}
+		}
+
+		$data['variation_gallery'] = $gallery;
+		$response->set_data( $data );
+		return $response;
+	}
+
+	/**
+	 * @param int $attachment_id Attachment ID.
+	 * @return array<string, mixed>|null
+	 */
+	private function build_rest_image_item( int $attachment_id ): ?array {
+		$src = wp_get_attachment_url( $attachment_id );
+		if ( ! $src ) {
+			return null;
+		}
+		return array(
+			'id'   => $attachment_id,
+			'src'  => $src,
+			'name' => get_the_title( $attachment_id ),
+			'alt'  => get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ),
+		);
 	}
 
 	/**

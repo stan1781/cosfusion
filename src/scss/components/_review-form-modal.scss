@@ -138,7 +138,7 @@ body.ts-review-form-modal-open {
 	z-index: 1;
 	width: min(100%, 32rem);
 	max-height: min(90vh, 44rem);
-	padding: $ts-space-md;
+	padding: $ts-space-xl;
 	background: var(--ts-colors-surface);
 	border: 1px solid var(--ts-colors-border);
 	border-radius: var(--ts-radius-md);

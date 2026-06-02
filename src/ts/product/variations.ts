@@ -1,4 +1,108 @@
 /**
+ * Build sticky bar attribute summary from visible selection UI (color, size, etc.).
+ */
+function collectStickyAttributeSummary(form: HTMLFormElement): string {
+	const parts: string[] = [];
+
+	form.querySelectorAll<HTMLElement>('.selected-attribute-value').forEach((el) => {
+		const text = el.textContent?.trim() ?? '';
+
+		if (text) {
+			parts.push(text);
+		}
+	});
+
+	if (parts.length > 0) {
+		return parts.join(' / ');
+	}
+
+	form.querySelectorAll<HTMLLIElement>('.custom-variation-selector li.selected').forEach((li) => {
+		const name = li.getAttribute('data-name')?.trim() ?? li.textContent?.trim() ?? '';
+
+		if (name) {
+			parts.push(name);
+		}
+	});
+
+	return parts.join(' / ');
+}
+
+function syncStickyAttrsFromForm(form: HTMLFormElement): void {
+	const attrsEl = document.querySelector<HTMLElement>('[data-ts-product-sticky-attrs]');
+
+	if (!attrsEl) {
+		return;
+	}
+
+	const summary = collectStickyAttributeSummary(form);
+	attrsEl.textContent = summary || 'Select options';
+}
+
+/**
+ * Sync sticky purchase bar meta with variation state.
+ */
+function syncStickyPurchaseBar(
+	variation?: {
+		attributes?: Record<string, string>;
+		price_html?: string;
+		image?: { thumb_src?: string; src?: string };
+	},
+	reset = false,
+	originalPriceHtml: string | null = null,
+	form?: HTMLFormElement | null,
+): void {
+	const attrsEl = document.querySelector<HTMLElement>('[data-ts-product-sticky-attrs]');
+	const priceEl = document.querySelector<HTMLElement>('[data-ts-product-sticky-price]');
+	const thumbEl = document.querySelector<HTMLElement>('[data-ts-product-sticky-thumb]');
+	const targetForm = form ?? document.querySelector<HTMLFormElement>('form.variations_form');
+
+	if (reset) {
+		if (attrsEl) {
+			attrsEl.textContent = 'Select options';
+		}
+		if (priceEl && originalPriceHtml !== null) {
+			priceEl.innerHTML = originalPriceHtml;
+		}
+		if (thumbEl) {
+			const originalSrc = thumbEl.dataset.tsOriginalThumbSrc;
+			const img = thumbEl.querySelector<HTMLImageElement>('img');
+			if (img && originalSrc) {
+				img.src = originalSrc;
+			}
+		}
+		return;
+	}
+
+	if (targetForm) {
+		syncStickyAttrsFromForm(targetForm);
+	} else if (variation?.attributes && attrsEl) {
+		const values = Object.values(variation.attributes).filter((value) => Boolean(value));
+		attrsEl.textContent = values.length > 0 ? values.join(' / ') : 'Select options';
+	}
+
+	if (variation?.price_html && priceEl) {
+		priceEl.innerHTML = variation.price_html;
+	}
+
+	const imgSrc = variation?.image?.thumb_src ?? variation?.image?.src;
+	if (imgSrc && thumbEl) {
+		const img = thumbEl.querySelector<HTMLImageElement>('img');
+		if (img) {
+			img.src = imgSrc;
+		}
+	}
+}
+
+function initStickyThumbOriginal(): void {
+	const thumbEl = document.querySelector<HTMLElement>('[data-ts-product-sticky-thumb]');
+	const img = thumbEl?.querySelector<HTMLImageElement>('img');
+
+	if (thumbEl && img?.src) {
+		thumbEl.dataset.tsOriginalThumbSrc = img.src;
+	}
+}
+
+/**
  * Custom variation selector (syncs with wc-add-to-cart-variation).
  */
 
@@ -204,6 +308,9 @@ async function initVariationSelector(): Promise<void> {
 	const { settings, i18n } = config;
 	const priceEl = document.querySelector<HTMLElement>(settings.priceSelector);
 	const originalPriceHtml = priceEl?.innerHTML ?? null;
+	const stickyPriceEl = document.querySelector<HTMLElement>('[data-ts-product-sticky-price]');
+	const stickyOriginalPriceHtml = stickyPriceEl?.innerHTML ?? null;
+	initStickyThumbOriginal();
 	const globalMode = settings.colorSelectorDefaultMode === 'list' ? 'list' : 'grid';
 
 	let jq: JQueryLike | undefined;
@@ -269,6 +376,7 @@ async function initVariationSelector(): Promise<void> {
 				}
 			});
 			syncDisabledFromSelects(form);
+			syncStickyAttrsFromForm(form);
 		});
 	}
 
@@ -458,11 +566,14 @@ async function initVariationSelector(): Promise<void> {
 
 			$form.on('show_variation', (...args: unknown[]) => {
 				const variation = args[1] as
-					| { attributes?: Record<string, string>; price_html?: string }
+					| {
+							attributes?: Record<string, string>;
+							price_html?: string;
+							image?: { thumb_src?: string; src?: string };
+					  }
 					| undefined;
-				if (!variation?.attributes) {
-					return;
-				}
+
+				if (variation?.attributes) {
 				for (const attribute of Object.keys(variation.attributes)) {
 					const attributeName = attribute.replace('attribute_', '');
 					const val = variation.attributes[attribute];
@@ -484,9 +595,12 @@ async function initVariationSelector(): Promise<void> {
 						updateSelectedAttributeDisplay(form, attributeName, selectedLi.dataset.name ?? '');
 					}
 				}
-				if (priceEl && variation.price_html) {
+				}
+
+				if (priceEl && variation?.price_html) {
 					priceEl.innerHTML = variation.price_html;
 				}
+				syncStickyPurchaseBar(variation, false, stickyOriginalPriceHtml, form);
 			});
 
 			$form.on('hide_variation', () => {
@@ -499,6 +613,7 @@ async function initVariationSelector(): Promise<void> {
 				if (priceEl && originalPriceHtml !== null) {
 					priceEl.innerHTML = originalPriceHtml;
 				}
+				syncStickyPurchaseBar(undefined, true, stickyOriginalPriceHtml, form);
 			});
 
 			$form.trigger('check_variations');

@@ -41,14 +41,15 @@
 	padding: var(--ts-space-2xl);
 }
 
-/* WP 7 admin command-palette search: floating card, no dialog chrome */
+/* Command-palette search: solid floating card */
 .ts-site-search-modal__dialog--command {
 	width: min(100%, 36rem);
-	padding: 0;
-	border: 0;
-	border-radius: 0;
-	background: transparent;
-	box-shadow: none;
+	padding: var(--ts-space-xl);
+	border: 1px solid var(--ts-colors-border);
+	border-radius: var(--ts-radius-md);
+	background: var(--ts-colors-surface);
+	box-shadow: var(--ts-shadow-lg);
+	overflow: visible;
 }
 
 .ts-site-search-modal__header,
