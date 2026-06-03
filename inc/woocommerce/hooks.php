@@ -52,6 +52,22 @@ function tailwindscore_restrict_product_meta_to_admins(): void {
 }
 add_action( 'wp', 'tailwindscore_restrict_product_meta_to_admins' );
 
+/**
+ * Archive template renders notices outside the shop-loop toolbar.
+ */
+function tailwindscore_wc_archive_detach_loop_notices(): void {
+	if ( ! function_exists( 'is_woocommerce' ) || ! is_woocommerce() ) {
+		return;
+	}
+
+	if ( ! is_shop() && ! is_product_taxonomy() ) {
+		return;
+	}
+
+	remove_action( 'woocommerce_before_shop_loop', 'woocommerce_output_all_notices', 10 );
+}
+add_action( 'wp', 'tailwindscore_wc_archive_detach_loop_notices' );
+
 remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10 );
 remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10 );
 add_action( 'woocommerce_before_main_content', 'tailwindscore_wc_wrapper_open', 10 );

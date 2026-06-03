@@ -1,11 +1,12 @@
 import Swiper from 'swiper';
-import { A11y, Navigation, Pagination, Thumbs } from 'swiper/modules';
+import { A11y, Pagination, Thumbs } from 'swiper/modules';
 import type { Swiper as SwiperInstance } from 'swiper';
 
 import 'swiper/css';
-import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
+
+import { bindSwiperWrapNavigation } from '../swiper/wrap-navigation';
 
 import { createLightboxController, type GalleryLightboxController } from './gallery-photoswipe';
 import {
@@ -124,6 +125,7 @@ class ProductGallery {
 
 	private mainSwiper: SwiperInstance | null = null;
 	private thumbsSwiper: SwiperInstance | null = null;
+	private wrapNavCleanup: (() => void) | null = null;
 	private readonly lightbox: GalleryLightboxController;
 	private mainClickHandler: ((swiper: SwiperInstance) => void) | null = null;
 	private desktopMq: MediaQueryList;
@@ -190,6 +192,9 @@ class ProductGallery {
 	}
 
 	private destroySwipers(): void {
+		this.wrapNavCleanup?.();
+		this.wrapNavCleanup = null;
+
 		if (this.mainSwiper && this.mainClickHandler) {
 			this.mainSwiper.off('click', this.mainClickHandler);
 		}
@@ -249,7 +254,7 @@ class ProductGallery {
 		}
 
 		const hasMultiple = this.currentImages.length > 1;
-		const mainModules = [A11y, Navigation];
+		const mainModules = [A11y];
 		if (useThumbs) {
 			mainModules.push(Thumbs);
 		}
@@ -262,14 +267,6 @@ class ProductGallery {
 			spaceBetween: 0,
 			slidesPerView: 1,
 			...(useThumbs && this.thumbsSwiper ? { thumbs: { swiper: this.thumbsSwiper } } : {}),
-			...(hasMultiple && this.navPrev && this.navNext
-				? {
-						navigation: {
-							prevEl: this.navPrev,
-							nextEl: this.navNext,
-						},
-					}
-				: {}),
 			...(!useThumbs && hasMultiple
 				? {
 						pagination: {
@@ -286,6 +283,17 @@ class ProductGallery {
 				slideChange: () => this.updateCounter(),
 			},
 		});
+
+		if (hasMultiple && this.navPrev && this.navNext) {
+			const wrapNav = bindSwiperWrapNavigation(this.mainSwiper, {
+				prevEl: this.navPrev,
+				nextEl: this.navNext,
+				slideCount: this.currentImages.length,
+				keyboardRoot: document,
+				keyboardWithin: this.root,
+			});
+			this.wrapNavCleanup = wrapNav.destroy;
+		}
 
 		this.toggleNavVisibility(hasMultiple);
 		this.bindMainLightboxClick();

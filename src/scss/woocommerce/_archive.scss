@@ -16,6 +16,15 @@
 	line-height: 1.5;
 }
 
+.ts-wc-archive__notices {
+	width: 100%;
+}
+
+/* Remove from grid flow when WC only outputs an empty wrapper (no gap row). */
+.ts-wc-archive__notices:not(:has(.woocommerce-message, .woocommerce-info, .woocommerce-error)) {
+	display: none;
+}
+
 .ts-wc-archive__toolbar {
 	display: flex;
 	flex-wrap: wrap;

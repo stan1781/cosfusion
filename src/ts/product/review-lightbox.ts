@@ -1,11 +1,12 @@
 import Swiper from 'swiper';
-import { A11y, Keyboard, Navigation, Thumbs } from 'swiper/modules';
+import { A11y, Thumbs } from 'swiper/modules';
 import type { Swiper as SwiperInstance } from 'swiper';
 import type { TailwindscoreReviewImagesI18n } from './types';
 
 import 'swiper/css';
-import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
+
+import { bindSwiperWrapNavigation } from '../swiper/wrap-navigation';
 
 export interface ReviewLightboxImage {
 	full: string;
@@ -33,6 +34,7 @@ export interface ReviewLightboxPayload {
 let dialogEl: HTMLDialogElement | null = null;
 let mainSwiper: SwiperInstance | null = null;
 let thumbsSwiper: SwiperInstance | null = null;
+let wrapNavCleanup: (() => void) | null = null;
 let productLightboxCache: ReviewLightboxPayload | null | undefined;
 
 function getReviewImagesCloseIcon(): string {
@@ -225,15 +227,20 @@ function buildDialog(
 		}
 
 		mainSwiper = new Swiper(mainEl, {
-			modules: [Navigation, Keyboard, A11y, Thumbs],
+			modules: [A11y, Thumbs],
 			initialSlide: startIndex,
-			navigation: {
-				prevEl: dialog.querySelector<HTMLElement>('.ts-review-lightbox__nav--prev'),
-				nextEl: dialog.querySelector<HTMLElement>('.ts-review-lightbox__nav--next'),
-			},
-			keyboard: { enabled: true },
 			thumbs: thumbsSwiper ? { swiper: thumbsSwiper } : undefined,
 		});
+
+		if (data.images.length > 1) {
+			const wrapNav = bindSwiperWrapNavigation(mainSwiper, {
+				prevEl: dialog.querySelector<HTMLElement>('.ts-review-lightbox__nav--prev'),
+				nextEl: dialog.querySelector<HTMLElement>('.ts-review-lightbox__nav--next'),
+				slideCount: data.images.length,
+				keyboardRoot: dialog,
+			});
+			wrapNavCleanup = wrapNav.destroy;
+		}
 
 		if (showSidebarColumn && sidebarEl) {
 			mainSwiper.on('slideChange', () => {
@@ -255,6 +262,9 @@ function buildDialog(
 
 	dialogEl = dialog;
 	dialog.showModal();
+	if (!dialog.contains(document.activeElement)) {
+		dialog.focus();
+	}
 	document.documentElement.classList.add('ts-review-lightbox-open');
 
 	return dialog;
@@ -273,6 +283,8 @@ export function openReviewLightbox(trigger: HTMLElement, i18n: TailwindscoreRevi
 }
 
 export function closeReviewLightbox(): void {
+	wrapNavCleanup?.();
+	wrapNavCleanup = null;
 	mainSwiper?.destroy(true, true);
 	thumbsSwiper?.destroy(true, true);
 	mainSwiper = null;

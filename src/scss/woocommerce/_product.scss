@@ -48,13 +48,6 @@
 	background: var(--ts-colors-surface);
 }
 
-.ts-product-gallery__nav:disabled,
-.ts-product-gallery__nav.swiper-button-disabled {
-	opacity: 0.35;
-	cursor: not-allowed;
-	// pointer-events: none;
-}
-
 .ts-product-gallery__nav--prev {
 	left: var(--ts-space-md);
 }

@@ -22,6 +22,10 @@ do_action( 'woocommerce_before_main_content' );
 		<?php do_action( 'woocommerce_archive_description' ); ?>
 	</header>
 
+	<div class="ts-wc-archive__notices">
+		<?php woocommerce_output_all_notices(); ?>
+	</div>
+
 	<?php if ( woocommerce_product_loop() ) : ?>
 		<div class="ts-wc-archive__toolbar">
 			<?php do_action( 'woocommerce_before_shop_loop' ); ?>
