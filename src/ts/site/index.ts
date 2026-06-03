@@ -7,6 +7,7 @@ import {
 	getMenuDrawerPanel,
 	isMenuDrawerPanelActive,
 } from './menu-drawer-panel';
+import { closeLoginModal, isLoginModalOpen } from '../ui/login-modal';
 
 document.documentElement.classList.add('js');
 
@@ -52,23 +53,38 @@ type SiteShellState = {
 	menuOpen: boolean;
 	searchOpen: boolean;
 	cartOpen: boolean;
+	accountOpen: boolean;
 	init: () => void;
 	syncDocumentState: () => void;
 	toggleMenu: () => void;
 	toggleSearch: () => void;
 	toggleCart: () => void;
+	toggleAccount: () => void;
 	closeMenu: () => void;
 	closeSearch: () => void;
 	closeCart: () => void;
+	closeAccount: () => void;
 	closeAll: () => void;
 	onMenuDrawerTransitionEnd: (event: TransitionEvent) => void;
 };
+
+function getSiteShell(): SiteShellState | undefined {
+	const header = document.querySelector<HTMLElement>('.ts-site-header');
+	const alpine = window.Alpine;
+
+	if (!header || !alpine || typeof alpine.$data !== 'function') {
+		return undefined;
+	}
+
+	return alpine.$data(header) as SiteShellState | undefined;
+}
 
 document.addEventListener('alpine:init', () => {
 	window.Alpine.data('siteShell', (): SiteShellState => ({
 		menuOpen: false,
 		searchOpen: false,
 		cartOpen: false,
+		accountOpen: false,
 		init(this: SiteShellState) {
 			menuDrawerClosing = false;
 			deactivateMenuDrawerPanel();
@@ -87,6 +103,7 @@ document.addEventListener('alpine:init', () => {
 			cancelMobileMenuReset();
 			this.searchOpen = false;
 			this.cartOpen = false;
+			this.accountOpen = false;
 			this.menuOpen = true;
 			this.syncDocumentState();
 
@@ -116,6 +133,8 @@ document.addEventListener('alpine:init', () => {
 					this.closeMenu();
 				}
 				this.cartOpen = false;
+				this.accountOpen = false;
+				closeLoginModal();
 				window.requestAnimationFrame(() => {
 					const field = document.getElementById('ts-search-field');
 
@@ -135,6 +154,8 @@ document.addEventListener('alpine:init', () => {
 					this.closeMenu();
 				}
 				this.searchOpen = false;
+				this.accountOpen = false;
+				closeLoginModal();
 				document.dispatchEvent(new CustomEvent('tailwindscore:cart-drawer-opened'));
 			}
 
@@ -148,9 +169,32 @@ document.addEventListener('alpine:init', () => {
 			this.cartOpen = false;
 			this.syncDocumentState();
 		},
+		toggleAccount(this: SiteShellState) {
+			this.accountOpen = !this.accountOpen;
+
+			if (this.accountOpen) {
+				if (this.menuOpen) {
+					this.closeMenu();
+				}
+				this.searchOpen = false;
+				this.cartOpen = false;
+				closeLoginModal();
+			}
+
+			this.syncDocumentState();
+		},
+		closeAccount(this: SiteShellState) {
+			this.accountOpen = false;
+			this.syncDocumentState();
+		},
 		closeAll(this: SiteShellState) {
 			this.searchOpen = false;
 			this.cartOpen = false;
+			this.accountOpen = false;
+
+			if (isLoginModalOpen()) {
+				closeLoginModal();
+			}
 
 			if (this.menuOpen) {
 				this.closeMenu();
@@ -174,6 +218,24 @@ document.addEventListener('alpine:init', () => {
 			finishMenuDrawerClose(this);
 		},
 	}));
+});
+
+document.addEventListener('click', (event) => {
+	const target = event.target;
+
+	if (!(target instanceof Element)) {
+		return;
+	}
+
+	if (target.closest('.ts-site-header__account')) {
+		return;
+	}
+
+	const shell = getSiteShell();
+
+	if (shell?.accountOpen) {
+		shell.closeAccount();
+	}
 });
 
 document.addEventListener('tailwindscore:open-cart', () => {

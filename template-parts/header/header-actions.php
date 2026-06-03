@@ -30,10 +30,34 @@ $is_cart     = function_exists( 'is_cart' ) && is_cart();
 			<span class="screen-reader-text"><?php esc_html_e( 'Search', 'tailwindscore' ); ?></span>
 		</button>
 		<?php if ( ! ( function_exists( 'is_account_page' ) && is_account_page() ) ) : ?>
-			<a class="ts-icon-button ts-site-header__action ts-site-header__action--account" href="<?php echo esc_url( tailwindscore_account_url() ); ?>" aria-label="<?php esc_attr_e( 'My account', 'tailwindscore' ); ?>">
-				<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'user' ); ?></span>
-				<span class="screen-reader-text"><?php esc_html_e( 'My account', 'tailwindscore' ); ?></span>
-			</a>
+			<?php if ( is_user_logged_in() ) : ?>
+				<div class="ts-site-header__account" :class="{ 'is-open': accountOpen }">
+					<button
+						class="ts-icon-button ts-site-header__action ts-site-header__action--account"
+						type="button"
+						@click="toggleAccount()"
+						:aria-expanded="accountOpen.toString()"
+						aria-controls="ts-account-menu-panel"
+						aria-haspopup="true"
+						aria-label="<?php esc_attr_e( 'My account', 'tailwindscore' ); ?>"
+					>
+						<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'user' ); ?></span>
+						<span class="screen-reader-text"><?php esc_html_e( 'My account', 'tailwindscore' ); ?></span>
+					</button>
+					<?php get_template_part( 'template-parts/header/account-menu-dropdown' ); ?>
+				</div>
+			<?php else : ?>
+				<button
+					class="ts-icon-button ts-site-header__action ts-site-header__action--account"
+					type="button"
+					data-ts-login-modal-open
+					aria-controls="ts-account-login-modal"
+					aria-label="<?php esc_attr_e( 'My account', 'tailwindscore' ); ?>"
+				>
+					<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'user' ); ?></span>
+					<span class="screen-reader-text"><?php esc_html_e( 'My account', 'tailwindscore' ); ?></span>
+				</button>
+			<?php endif; ?>
 		<?php endif; ?>
 		<?php if ( function_exists( 'wc_get_cart_url' ) && ! $is_cart ) : ?>
 			<button

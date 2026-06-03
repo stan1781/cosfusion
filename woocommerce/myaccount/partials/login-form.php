@@ -10,11 +10,16 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
+/** @var string $redirect Optional redirect URL from wc_get_template(). */
+$redirect = isset( $redirect ) && is_string( $redirect ) && '' !== $redirect
+	? $redirect
+	: tailwindscore_account_auth_login_redirect_url();
+
 ?>
 <form class="woocommerce-form woocommerce-form-login login ts-account-auth__form" method="post" novalidate data-ts-auth-login-ajax>
 	<?php do_action( 'woocommerce_login_form_start' ); ?>
 
-	<input type="hidden" name="redirect" value="<?php echo esc_url( tailwindscore_account_auth_login_redirect_url() ); ?>">
+	<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect ); ?>">
 
 	<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 		<label class="ts-account-auth__label" for="username">

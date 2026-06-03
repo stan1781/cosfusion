@@ -242,7 +242,7 @@ function tailwindscore_prepare_checkout_billing_email_field( array $field ): arr
 
 	$email_label_text = isset( $field['label'] ) ? (string) $field['label'] : '';
 	$field['label']   = sprintf(
-		'<span class="checkout-email-label-text">%1$s</span><a class="checkout-email-signin-link" href="#" data-ts-checkout-login-open>%2$s</a>',
+		'<span class="checkout-email-label-text">%1$s</span><a class="checkout-email-signin-link" href="#" data-ts-login-modal-open>%2$s</a>',
 		esc_html( $email_label_text ),
 		esc_html__( 'Sign in', 'tailwindscore' )
 	);

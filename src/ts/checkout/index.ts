@@ -1,6 +1,6 @@
 import { clearFeedback } from '../cart/notifications';
 import { initCheckoutLoading, refreshCheckoutLoadingHosts, setCheckoutPageLoading } from './loading';
-import { resolveSubmitButton, setControlLoading } from '../ui/button-loading';
+import { setControlLoading } from '../ui/button-loading';
 
 const DESKTOP_SUMMARY_MQL = window.matchMedia('(width >= 64rem)');
 
@@ -95,59 +95,6 @@ function bindCheckoutFragments(onCheckoutUpdated?: () => void): void {
 	});
 }
 
-let checkoutLoginReturnFocus: HTMLElement | null = null;
-
-function getCheckoutLoginModal(): HTMLElement | null {
-	return document.querySelector<HTMLElement>('[data-ts-checkout-login-modal]');
-}
-
-function isCheckoutLoginOpen(): boolean {
-	const modal = getCheckoutLoginModal();
-	return modal !== null && !modal.hasAttribute('hidden');
-}
-
-function openCheckoutLoginModal(trigger?: HTMLElement): void {
-	const modal = getCheckoutLoginModal();
-
-	if (!modal || isCheckoutLoginOpen()) {
-		return;
-	}
-
-	checkoutLoginReturnFocus =
-		trigger ??
-		(document.activeElement instanceof HTMLElement ? document.activeElement : null);
-
-	modal.hidden = false;
-	modal.setAttribute('aria-hidden', 'false');
-	document.body.classList.add('ts-checkout-login-open');
-
-	window.requestAnimationFrame(() => {
-		const focusTarget =
-			modal.querySelector<HTMLElement>('#username, input:not([type="hidden"])') ??
-			modal.querySelector<HTMLElement>('button, a, input, select, textarea');
-
-		focusTarget?.focus();
-	});
-}
-
-function closeCheckoutLoginModal(): void {
-	const modal = getCheckoutLoginModal();
-
-	if (!modal || modal.hasAttribute('hidden')) {
-		return;
-	}
-
-	modal.hidden = true;
-	modal.setAttribute('aria-hidden', 'true');
-	document.body.classList.remove('ts-checkout-login-open');
-
-	if (checkoutLoginReturnFocus?.isConnected) {
-		checkoutLoginReturnFocus.focus();
-	}
-
-	checkoutLoginReturnFocus = null;
-}
-
 /** Clicking the payment method row (outside fields / payment_box) selects that gateway. */
 function initPaymentMethodListClick(): void {
 	document.addEventListener('click', (event) => {
@@ -179,57 +126,10 @@ function initPaymentMethodListClick(): void {
 	});
 }
 
-function initCheckoutLoginModal(): void {
-	document.addEventListener('click', (event) => {
-		const target = event.target;
-
-		if (!(target instanceof Element)) {
-			return;
-		}
-
-		const openTrigger = target.closest<HTMLElement>('[data-ts-checkout-login-open]');
-
-		if (openTrigger) {
-			event.preventDefault();
-			openCheckoutLoginModal(openTrigger);
-			return;
-		}
-
-		if (target.closest('[data-ts-checkout-login-close]')) {
-			event.preventDefault();
-			closeCheckoutLoginModal();
-		}
-	});
-
-	document.addEventListener('keydown', (event) => {
-		if (event.key === 'Escape' && isCheckoutLoginOpen()) {
-			event.preventDefault();
-			closeCheckoutLoginModal();
-		}
-	});
-
-	document.addEventListener(
-		'submit',
-		(event) => {
-			if (!(event.target instanceof HTMLFormElement)) {
-				return;
-			}
-
-			if (!event.target.closest('.ts-checkout-login-modal')) {
-				return;
-			}
-
-			setControlLoading(resolveSubmitButton(event.target, event.submitter), true, { disable: false });
-		},
-		true,
-	);
-}
-
 function initCheckoutUi(): void {
 	initCheckoutDetails();
 	initCheckoutLoading();
 	initPaymentMethodListClick();
-	initCheckoutLoginModal();
 
 	const checkoutForm = document.querySelector<HTMLFormElement>('form.checkout');
 	const placeOrderButton = document.querySelector<HTMLButtonElement>('#place_order');

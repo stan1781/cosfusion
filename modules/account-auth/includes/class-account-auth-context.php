@@ -53,7 +53,12 @@ function tailwindscore_account_auth_should_enqueue_ajax_login(): bool {
 		return true;
 	}
 
-	return function_exists( 'is_checkout' ) && is_checkout();
+	if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+		return true;
+	}
+
+	return function_exists( 'tailwindscore_should_render_header_account_ui' )
+		&& tailwindscore_should_render_header_account_ui();
 }
 
 /**
@@ -73,6 +78,10 @@ function tailwindscore_account_auth_should_enqueue_ajax_register(): bool {
 function tailwindscore_account_auth_login_redirect_url(): string {
 	if ( function_exists( 'is_checkout' ) && is_checkout() && function_exists( 'wc_get_checkout_url' ) ) {
 		return (string) wc_get_checkout_url();
+	}
+
+	if ( function_exists( 'tailwindscore_account_header_login_redirect_url' ) ) {
+		return tailwindscore_account_header_login_redirect_url();
 	}
 
 	return tailwindscore_account_login_url();

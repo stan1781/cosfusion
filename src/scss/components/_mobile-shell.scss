@@ -19,7 +19,7 @@
 
 .ts-mobile-tab-bar__list {
 	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
+	grid-template-columns: repeat(var(--ts-mobile-tab-count, 5), minmax(0, 1fr));
 	align-items: stretch;
 	list-style: none;
 	margin: 0;
@@ -85,8 +85,8 @@
 
 .ts-mobile-tab-bar__badge-slot {
 	position: absolute;
-	top: var(--ts-space-xs);
-	inset-inline-end: calc(50% - 1.25rem);
+	top: 0;
+	inset-inline-end: calc(50% - 1.35rem);
 }
 
 .ts-mobile-tab-bar__badge-slot .ts-site-header__badge,
@@ -109,8 +109,14 @@ body.ts-has-mobile-tab-bar .ts-main {
 	padding-bottom: calc(var(--ts-mobile-tab-bar-height) + env(safe-area-inset-bottom, 0));
 }
 
-html.ts-has-overlay .ts-mobile-tab-bar {
-	opacity: 0.6;
+// Drawers/search live inside .ts-site-header (z-index 30); tab bar is on body at 35.
+html.ts-has-overlay .ts-site-header {
+	z-index: 45;
+}
+
+html.ts-has-overlay .ts-mobile-tab-bar,
+html.ts-has-overlay .ts-product-sticky-bar {
+	visibility: hidden;
 	pointer-events: none;
 }
 

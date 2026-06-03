@@ -10,21 +10,8 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-$nav_icons = array(
-	'dashboard'       => 'package',
-	'orders'          => 'package',
-	'edit-address'    => 'map-pin',
-	'edit-account'    => 'user',
-	'customer-logout' => 'log-out',
-);
-
-$nav_short_labels = array(
-	'dashboard'       => __( 'Orders', 'tailwindscore' ),
-	'orders'          => __( 'Orders', 'tailwindscore' ),
-	'edit-address'    => __( 'Address', 'tailwindscore' ),
-	'edit-account'    => __( 'Profile', 'tailwindscore' ),
-	'customer-logout' => __( 'Log out', 'tailwindscore' ),
-);
+$nav_icons        = tailwindscore_account_nav_icons();
+$nav_short_labels = tailwindscore_account_nav_short_labels();
 
 do_action( 'woocommerce_before_account_navigation' );
 ?>

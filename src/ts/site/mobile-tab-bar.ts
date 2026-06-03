@@ -4,9 +4,11 @@ type SiteShellState = {
 	toggleSearch: () => void;
 	toggleCart: () => void;
 	closeMenu: () => void;
+	closeAccount: () => void;
 	menuOpen: boolean;
 	cartOpen: boolean;
 	searchOpen: boolean;
+	accountOpen: boolean;
 };
 
 function getSiteShell(): SiteShellState | undefined {
@@ -45,6 +47,9 @@ function initMobileTabBar(): void {
 				if (shell.menuOpen) {
 					shell.closeMenu();
 				}
+				if (shell.accountOpen) {
+					shell.closeAccount();
+				}
 				if (!shell.searchOpen) {
 					shell.toggleSearch();
 				}
@@ -59,6 +64,9 @@ function initMobileTabBar(): void {
 			if (shell) {
 				if (shell.menuOpen) {
 					shell.closeMenu();
+				}
+				if (shell.accountOpen) {
+					shell.closeAccount();
 				}
 				shell.toggleCart();
 				return;
