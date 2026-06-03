@@ -141,6 +141,10 @@ function tailwindscore_render_cart_drawer_content(): void {
 	tailwindscore_load_woocommerce_template_part( 'cart-drawer-content' );
 }
 
+function tailwindscore_render_cart_page_content(): void {
+	tailwindscore_load_woocommerce_template_part( 'cart-page-content' );
+}
+
 function tailwindscore_get_cart_fragment( string $callback ): string {
 	ob_start();
 	$callback();

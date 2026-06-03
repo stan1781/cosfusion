@@ -12,6 +12,7 @@ import './search/index';
 import './product/index';
 import './cart/index';
 import './cart/item-edit-modal';
+import './cart/cart-page';
 import './checkout/index';
 
 if (document.body.classList.contains('ts-quick-view-enabled')) {

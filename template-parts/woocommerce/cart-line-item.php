@@ -30,9 +30,13 @@ $product_thumbnail = $product->get_image( 'woocommerce_thumbnail' );
 $line_subtotal     = isset( $cart_item['line_subtotal'] ) ? (float) $cart_item['line_subtotal'] : 0;
 $product_subtotal  = $line_subtotal > 0 ? wc_price( $line_subtotal ) : WC()->cart->get_product_subtotal( $product, (int) $cart_item['quantity'] );
 $max_quantity      = $product->backorders_allowed() ? '' : (string) $product->get_max_purchase_quantity();
-$remove_url        = wc_get_cart_remove_url( $cart_item_key );
-$quantity_name     = 'cart' === $context ? 'cart[' . $cart_item_key . '][qty]' : '';
+$quantity_name     = '';
 $is_editable       = function_exists( 'tailwindscore_cart_item_is_editable' ) && tailwindscore_cart_item_is_editable( $cart_item, $cart_item_key );
+$remove_label      = sprintf(
+	/* translators: %s: product name */
+	__( 'Remove %s from your cart', 'woocommerce' ),
+	$product_name
+);
 ?>
 <li class="ts-cart-drawer-cart__item" data-ts-cart-item data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>">
 	<div class="ts-cart-drawer-cart__media">
@@ -63,25 +67,15 @@ $is_editable       = function_exists( 'tailwindscore_cart_item_is_editable' ) &&
 					?>
 				</span>
 			</div>
-			<?php if ( 'cart' === $context ) : ?>
-				<a
-					class="ts-cart-drawer-cart__remove"
-					href="<?php echo esc_url( $remove_url ); ?>"
-					aria-label="<?php echo esc_attr( sprintf( __( 'Remove %s from your cart', 'woocommerce' ), $product_name ) ); ?>"
-				>
-					<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'trash' ); ?></span>
-				</a>
-			<?php else : ?>
-				<a
-					class="ts-cart-drawer-cart__remove"
-					href="<?php echo esc_url( $remove_url ); ?>"
-					data-ts-cart-remove
-					data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>"
-					aria-label="<?php echo esc_attr( sprintf( __( 'Remove %s from your cart', 'woocommerce' ), $product_name ) ); ?>"
-				>
-					<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'trash' ); ?></span>
-				</a>
-			<?php endif; ?>
+			<button
+				type="button"
+				class="ts-cart-drawer-cart__remove"
+				data-ts-cart-remove
+				data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>"
+				aria-label="<?php echo esc_attr( $remove_label ); ?>"
+			>
+				<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'trash' ); ?></span>
+			</button>
 		</div>
 		<div class="ts-cart-drawer-cart__controls">
 			<?php

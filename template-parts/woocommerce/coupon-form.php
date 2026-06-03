@@ -4,18 +4,19 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Shared coupon form markup (checkout + cart drawer).
+ * Shared coupon form markup (checkout + cart drawer + cart page).
  *
  * @var array $args {
- *     @type string $context drawer|checkout
+ *     @type string $context drawer|cart|checkout
  * }
  */
 $context = isset( $args['context'] ) ? sanitize_key( (string) $args['context'] ) : 'drawer';
 
 $is_checkout = ( 'checkout' === $context );
+$is_cart_page = ( 'cart' === $context );
 
 $detached_form_id = $is_checkout ? 'woocommerce-checkout-form-coupon' : '';
-$input_id         = $is_checkout ? 'coupon_code' : 'ts-cart-coupon-code';
+$input_id         = $is_checkout ? 'coupon_code' : ( $is_cart_page ? 'ts-cart-page-coupon-code' : 'ts-cart-coupon-code' );
 $label_class      = $is_checkout ? 'screen-reader-text' : 'ts-coupon-form__label';
 $label_text       = $is_checkout
 	? __( 'Coupon:', 'woocommerce' )
@@ -26,7 +27,9 @@ $button_name      = $is_checkout ? 'apply_coupon' : '';
 $button_value     = $is_checkout ? __( 'Apply coupon', 'woocommerce' ) : '';
 $form_classes     = $is_checkout
 	? 'ts-coupon-form ts-coupon-form--checkout'
-	: 'ts-cart-drawer-cart__coupon-form ts-coupon-form ts-coupon-form--drawer';
+	: ( $is_cart_page
+		? 'ts-cart-drawer-cart__coupon-form ts-coupon-form ts-coupon-form--cart-page'
+		: 'ts-cart-drawer-cart__coupon-form ts-coupon-form ts-coupon-form--drawer' );
 $form_action      = $is_checkout ? '' : wc_get_cart_url();
 $form_id          = $is_checkout ? '' : '';
 $use_cart_ajax    = ! $is_checkout;

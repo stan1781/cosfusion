@@ -32,6 +32,7 @@ type CartI18nConfig = {
 	couponRequired: string;
 	itemRemoved: string;
 	addedToCart: string;
+	shippingAtCheckout: string;
 };
 
 type CartIconConfig = {
@@ -194,6 +195,7 @@ declare global {
 }
 
 const cartDrawerSelector = '[data-ts-cart-drawer-inner]';
+const cartPageSelector = '[data-ts-cart-page-inner]';
 const pendingCartItemKeys = new Set<string>();
 let currentCart: StoreApiCart | null = null;
 let storeApiNonce: string | undefined;
@@ -253,6 +255,7 @@ function getCartConfig() {
 			couponRequired: 'Please enter a coupon code.',
 			itemRemoved: 'Item removed from your cart.',
 			addedToCart: 'Added to your cart.',
+			shippingAtCheckout: 'Shipping and taxes calculated at checkout.',
 		},
 		icons: {
 			plus: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>',
@@ -492,7 +495,15 @@ function getCartSubtotalAfterDiscount(cart: StoreApiCart) {
 	return Math.max(0, itemsTotal - discount);
 }
 
-function renderCartFooterTotals(cart: StoreApiCart, config: TailwindscoreCartConfig) {
+function isCartPageActive() {
+	return document.querySelector('[data-ts-cart-page]') instanceof HTMLElement;
+}
+
+function getDefaultFeedbackSurface(): 'drawer' | 'toast' | 'page' {
+	return isCartPageActive() ? 'page' : 'toast';
+}
+
+function renderCartFooterTotals(cart: StoreApiCart, config: TailwindscoreCartConfig, includeShippingNote = false) {
 	const discount = Number(cart.totals.total_discount || 0);
 	const subtotalAfterDiscount = getCartSubtotalAfterDiscount(cart);
 	const discountRow =
@@ -504,6 +515,9 @@ function renderCartFooterTotals(cart: StoreApiCart, config: TailwindscoreCartCon
 				</div>
 			`
 			: '';
+	const shippingNote = includeShippingNote
+		? `<p class="ts-wc-cart__shipping-note">${escapeHtml(config.i18n.shippingAtCheckout)}</p>`
+		: '';
 
 	return `
 		<div class="ts-cart-drawer-cart__totals-group ts-stack">
@@ -512,18 +526,22 @@ function renderCartFooterTotals(cart: StoreApiCart, config: TailwindscoreCartCon
 				<span>${escapeHtml(config.i18n.subtotal)}</span>
 				<strong data-ts-cart-subtotal>${escapeHtml(formatMoney(String(subtotalAfterDiscount), cart.totals))}</strong>
 			</div>
+			${shippingNote}
 		</div>
 	`;
 }
 
-function renderCartCouponMarkup(config: TailwindscoreCartConfig) {
+function renderCartCouponMarkup(config: TailwindscoreCartConfig, surface: 'drawer' | 'page' = 'drawer') {
+	const inputId = 'page' === surface ? 'ts-cart-page-coupon-code' : 'ts-cart-coupon-code';
+	const formModifier = 'page' === surface ? 'ts-coupon-form--cart-page' : 'ts-coupon-form--drawer';
+
 	return `
 		<div class="ts-cart-drawer-cart__coupon" data-ts-cart-coupon>
-			<form class="ts-cart-drawer-cart__coupon-form ts-coupon-form ts-coupon-form--drawer" data-ts-cart-coupon-form action="${escapeHtml(config.cartUrl)}" method="post">
-				<label class="ts-coupon-form__label" for="ts-cart-coupon-code">${escapeHtml(config.i18n.couponLabel)}</label>
+			<form class="ts-cart-drawer-cart__coupon-form ts-coupon-form ${formModifier}" data-ts-cart-coupon-form action="${escapeHtml(config.cartUrl)}" method="post">
+				<label class="ts-coupon-form__label" for="${inputId}">${escapeHtml(config.i18n.couponLabel)}</label>
 				<div class="ts-input-group">
 					<input
-						id="ts-cart-coupon-code"
+						id="${inputId}"
 						class="ts-input"
 						type="text"
 						name="coupon_code"
@@ -567,13 +585,47 @@ function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 	`;
 }
 
-function reportCartError(error: unknown, surface: 'drawer' | 'toast' | 'page' = 'toast') {
+function renderCartPage(cart: StoreApiCart, config: TailwindscoreCartConfig) {
+	if (cart.items.length < 1) {
+		return `
+			<div class="ts-cart-page-cart">
+				<div class="ts-cart-drawer-cart__empty ts-stack">
+					<p>${escapeHtml(config.i18n.emptyCartMessage)}</p>
+					<a class="ts-button" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
+				</div>
+			</div>
+		`;
+	}
+
+	return `
+		<div class="ts-cart-page-cart ts-cart-page-cart--filled">
+			<div class="ts-wc-cart__scroll">
+				<div class="ts-cart-drawer-cart__body">
+					<ul class="ts-cart-drawer-cart__items ts-wc-cart__items" data-ts-cart-items>
+						${cart.items.map((item) => renderCartItem(item, config)).join('')}
+					</ul>
+				</div>
+			</div>
+			<aside class="ts-wc-cart__aside">
+				${renderCartCouponMarkup(config, 'page')}
+				<div class="ts-wc-cart__footer-bar">
+					<div class="ts-cart-drawer-cart__footer ts-stack ts-cart-drawer-cart__footer--cart-page" data-ts-cart-footer>
+						${renderCartFooterTotals(cart, config, true)}
+						<a class="ts-button ts-button--primary" href="${escapeHtml(config.checkoutUrl)}" data-ts-button-loading>${escapeHtml(config.i18n.checkout)}</a>
+					</div>
+				</div>
+			</aside>
+		</div>
+	`;
+}
+
+function reportCartError(error: unknown, surface?: 'drawer' | 'toast' | 'page') {
 	const message = error instanceof Error ? error.message : 'Store API request failed.';
 
 	notify({
 		type: 'error',
 		message,
-		surface,
+		surface: surface ?? getDefaultFeedbackSurface(),
 	});
 }
 
@@ -600,6 +652,7 @@ function syncCartUi(cart: StoreApiCart) {
 	const count = Number(cart.items_count || 0);
 	const summary = renderCartSummary(count, config);
 	const drawerMarkup = renderCartDrawer(cart, config);
+	const pageMarkup = renderCartPage(cart, config);
 
 	document.querySelectorAll<HTMLElement>('[data-ts-cart-badge]').forEach((element) => {
 		element.innerHTML = renderCartBadge(count);
@@ -615,6 +668,11 @@ function syncCartUi(cart: StoreApiCart) {
 
 	document.querySelectorAll<HTMLElement>(cartDrawerSelector).forEach((element) => {
 		element.innerHTML = drawerMarkup;
+		initCouponApplyDisabledState(element);
+	});
+
+	document.querySelectorAll<HTMLElement>(cartPageSelector).forEach((element) => {
+		element.innerHTML = pageMarkup;
 		initCouponApplyDisabledState(element);
 	});
 
@@ -750,7 +808,7 @@ async function removeCartItem(cartItemKey: string) {
 	}
 }
 
-async function applyCartCoupon(code: string, surface: 'drawer' | 'toast' | 'page' = 'toast') {
+async function applyCartCoupon(code: string, errorSurface: 'drawer' | 'toast' | 'page' = 'toast') {
 	const trimmed = code.trim();
 	const config = getConfigOrThrow();
 
@@ -766,16 +824,17 @@ async function applyCartCoupon(code: string, surface: 'drawer' | 'toast' | 'page
 			},
 		});
 		setCart(cart);
+		clearFeedback('page');
 		notify({
 			type: 'success',
 			message: config.i18n.couponApplied,
-			surface,
+			surface: 'toast',
 		});
 	} catch (error) {
 		notify({
 			type: 'error',
 			message: error instanceof Error && error.message ? error.message : config.i18n.couponInvalid,
-			surface,
+			surface: errorSurface,
 		});
 		throw error;
 	}
@@ -1052,7 +1111,7 @@ function bindCouponControls() {
 		const submitButton = resolveCouponApplyButton(target);
 
 		try {
-			await withControlLoading(submitButton, () => applyCartCoupon(code));
+			await withControlLoading(submitButton, () => applyCartCoupon(code, getDefaultFeedbackSurface()));
 			if (input) {
 				input.value = '';
 			}

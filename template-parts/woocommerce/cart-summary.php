@@ -29,6 +29,9 @@ $subtotal_after  = max( 0, $subtotal_before - $discount_total );
 			<span><?php esc_html_e( 'Subtotal', 'tailwindscore' ); ?></span>
 			<strong data-ts-cart-subtotal><?php echo wp_kses_post( wc_price( $subtotal_after ) ); ?></strong>
 		</div>
+		<?php if ( $is_cart_page ) : ?>
+			<p class="ts-wc-cart__shipping-note"><?php esc_html_e( 'Shipping and taxes calculated at checkout.', 'tailwindscore' ); ?></p>
+		<?php endif; ?>
 	</div>
 	<a class="ts-button<?php echo $is_cart_page ? ' ts-button--primary' : ''; ?>" href="<?php echo esc_url( tailwindscore_checkout_url() ); ?>" data-ts-button-loading>
 		<?php esc_html_e( 'Checkout', 'tailwindscore' ); ?>

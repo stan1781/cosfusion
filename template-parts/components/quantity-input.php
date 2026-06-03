@@ -27,9 +27,9 @@ $increase_label = isset( $args['increase_label'] ) ? (string) $args['increase_la
 $aria_label     = isset( $args['aria_label'] ) ? (string) $args['aria_label'] : __( 'Product quantity', 'woocommerce' );
 
 $step_attrs       = '' !== $cart_item_key ? sprintf( ' data-cart-item-key="%s"', esc_attr( $cart_item_key ) ) : '';
-// Cart page uses classic form POST; drawer uses Store API (see cart/index.ts).
-$is_cart_context  = in_array( $context, array( 'cart-drawer', 'drawer' ), true );
-$is_compact       = in_array( $context, array( 'cart-drawer', 'drawer' ), true );
+// Cart page and drawer use Store API quantity controls (see cart/index.ts).
+$is_cart_context  = in_array( $context, array( 'cart', 'cart-drawer', 'drawer' ), true );
+$is_compact       = in_array( $context, array( 'cart', 'cart-drawer', 'drawer' ), true );
 $wrapper_classes  = 'ts-quantity quantity' . ( $is_compact ? ' ts-quantity--compact' : '' );
 ?>
 <div class="<?php echo esc_attr( $wrapper_classes ); ?>" data-ts-quantity<?php echo $is_cart_context ? ' data-ts-cart-quantity-controls' : ''; ?>>

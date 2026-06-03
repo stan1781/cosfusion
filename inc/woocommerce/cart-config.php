@@ -40,6 +40,7 @@ function tailwindscore_purchase_flow_config(): array {
 			'couponRequired'           => __( 'Please enter a coupon code.', 'tailwindscore' ),
 			'itemRemoved'              => __( 'Item removed from your cart.', 'tailwindscore' ),
 			'addedToCart'              => __( 'Added to your cart.', 'tailwindscore' ),
+			'shippingAtCheckout'       => __( 'Shipping and taxes calculated at checkout.', 'tailwindscore' ),
 		),
 		'icons'         => array(
 			'close' => tailwindscore_icon( 'close' ),
