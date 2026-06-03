@@ -8,14 +8,18 @@
 }
 
 .ts-form-control:focus,
-.ts-input:focus {
-	outline: none;
-}
-
+.ts-input:focus,
 .ts-form-control:focus-visible,
 .ts-input:focus-visible {
-	outline: 2px solid var(--ts-colors-text);
-	outline-offset: 0;
+	outline: none;
+	border-color: var(--ts-colors-primary);
+}
+
+[aria-invalid="true"].ts-form-control:focus,
+[aria-invalid="true"].ts-form-control:focus-visible,
+[aria-invalid="true"].ts-input:focus,
+[aria-invalid="true"].ts-input:focus-visible {
+	border-color: var(--ts-colors-danger);
 }
 
 // Input + action side-by-side (Shopify-style): separate bordered controls, not merged.
@@ -96,7 +100,8 @@
 	pointer-events: auto;
 }
 
+.ts-input-group .ts-icon-button:focus,
 .ts-input-group .ts-icon-button:focus-visible {
-	outline: 2px solid var(--ts-colors-text);
-	outline-offset: 0;
+	outline: none;
+	border-color: var(--ts-colors-primary);
 }

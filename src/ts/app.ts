@@ -2,6 +2,7 @@ import './account-auth/index';
 import './ui/quantity-input';
 import './ui/button-loading';
 import './site/index';
+import './site/header-sticky';
 import './site/mobile-nav';
 import './site/mobile-tab-bar';
 import './shop/loop-swatches';

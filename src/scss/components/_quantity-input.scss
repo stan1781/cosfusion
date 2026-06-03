@@ -28,7 +28,7 @@
 .ts-quantity--compact {
 	--ts-quantity-step-width: 1.5rem;
 	--ts-quantity-input-width: 2rem;
-	--ts-quantity-height: 2rem;
+	--ts-quantity-height: 1.6rem;
 }
 
 .ts-quantity--compact .ts-quantity__input {
@@ -73,7 +73,7 @@
 	appearance: textfield;
 	-moz-appearance: textfield;
 	border: 0;
-	border-inline: 1px solid var(--ts-colors-border);
+	// border-inline: 1px solid var(--ts-colors-border);
 	border-radius: 0;
 	padding: 0 var(--ts-space-md);
 	background: var(--ts-colors-surface);
@@ -91,7 +91,7 @@
 	height: var(--ts-quantity-height);
 	min-height: var(--ts-quantity-height);
 	border: 0;
-	border-inline: 1px solid var(--ts-colors-border);
+	// border-inline: 1px solid var(--ts-colors-border);
 	border-radius: 0;
 	padding: 0 var(--ts-space-md);
 	box-shadow: none;

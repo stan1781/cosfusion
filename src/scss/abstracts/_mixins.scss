@@ -1,3 +1,4 @@
+@use "sass:list";
 @use "variables";
 
 @mixin ts-up($name) {
@@ -71,6 +72,21 @@ $ts-animation-slide-duration: 0.22s;
 /// Fade out (toasts leaving — also set `.is-leaving` transition in component CSS).
 @mixin ts-animation-fade-out($duration: $ts-animation-fade-duration, $timing: ease) {
 	animation: ts-fade-out $duration $timing both;
+}
+
+/// Reusable transition for layout/chrome properties (respects reduced motion).
+@mixin ts-transition($properties, $duration: 0.2s, $timing: ease) {
+	$transition-list: ();
+
+	@each $property in $properties {
+		$transition-list: list.append($transition-list, #{$property} $duration $timing, comma);
+	}
+
+	transition: $transition-list;
+
+	@media (prefers-reduced-motion: reduce) {
+		transition: none;
+	}
 }
 
 /// Subtle enter from below (inline notices, small overlays).

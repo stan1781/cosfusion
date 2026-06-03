@@ -10,6 +10,8 @@ declare(strict_types=1);
 <body <?php body_class( 'ts-site-body' ); ?>>
 <?php wp_body_open(); ?>
 <div id="page" class="ts-site">
+	<?php get_template_part( 'template-parts/header/header-bar' ); ?>
+	<div class="ts-site-header__scroll-sentinel" aria-hidden="true"></div>
 	<header class="ts-site-header" x-data="siteShell()" @keydown.escape.window="closeAll();">
 		<div class="ts-container ts-site-header__inner">
 			<?php get_template_part( 'template-parts/header/site-branding' ); ?>

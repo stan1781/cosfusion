@@ -1,9 +1,8 @@
 @use "../abstracts/mixins";
 
 .ts-wc-checkout {
-	--ts-checkout-field-min-height: 2.625rem; // 42px
+	--ts-checkout-field-min-height: 2.375rem; // 38px
 	--ts-form-min-height: var(--ts-checkout-field-min-height);
-	--ts-form-padding-y: 0.6875rem;
 	max-width: 100%;
 	min-width: 0;
 }
@@ -812,7 +811,7 @@ body.ts-checkout-login-open {
 
 #payment .place-order .button {
 	width: 100%;
-	min-height: 3.25rem;
+	min-height: var(--ts-form-min-height);
 	font-size: var(--ts-font-size-base);
 	font-weight: 600;
 	border-radius: var(--ts-radius-sm);

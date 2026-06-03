@@ -46,9 +46,8 @@
 }
 
 .custom-variation-selector.text-selector.shape-square li {
-	border-radius: var(--ts-radius-sm);
-	min-height: 2.75rem;
-	padding: 0.5rem 0.75rem;
+	
+	
 }
 
 .custom-variation-selector.text-selector.shape-round li {
@@ -64,7 +63,6 @@
 }
 
 .custom-variation-selector.text-selector li.selected {
-	border-width: 2px;
 	border-color: var(--ts-colors-text);
 	background-color: var(--ts-colors-surface);
 	color: var(--ts-colors-text);

@@ -1,8 +1,38 @@
 <?php
 declare(strict_types=1);
 
-function tailwindscore_is_vite_dev_enabled(): bool {
+function tailwindscore_is_vite_dev_flag_on(): bool {
 	return defined( 'TAILWINDSCORE_VITE_DEV' ) && true === TAILWINDSCORE_VITE_DEV;
+}
+
+/**
+ * Whether the Vite dev server is reachable (cached per request).
+ */
+function tailwindscore_is_vite_dev_server_live(): bool {
+	static $live = null;
+
+	if ( null !== $live ) {
+		return $live;
+	}
+
+	$response = wp_remote_get(
+		trailingslashit( tailwindscore_vite_dev_server_url() ) . '@vite/client',
+		array(
+			'timeout'   => 0.35,
+			'sslverify' => false,
+		)
+	);
+
+	$live = ! is_wp_error( $response ) && 200 === (int) wp_remote_retrieve_response_code( $response );
+
+	return $live;
+}
+
+/**
+ * Use Vite dev assets only when the flag is on and the dev server is running.
+ */
+function tailwindscore_is_vite_dev_enabled(): bool {
+	return tailwindscore_is_vite_dev_flag_on() && tailwindscore_is_vite_dev_server_live();
 }
 
 function tailwindscore_vite_dev_server_url(): string {

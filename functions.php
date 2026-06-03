@@ -4,6 +4,7 @@ declare(strict_types=1);
 require_once get_template_directory() . '/inc/setup.php';
 require_once get_template_directory() . '/inc/navigation/nav.php';
 require_once get_template_directory() . '/inc/navigation/mobile-shell.php';
+require_once get_template_directory() . '/inc/navigation/header-bar.php';
 require_once get_template_directory() . '/inc/enqueue.php';
 require_once get_template_directory() . '/inc/cleanup.php';
 require_once get_template_directory() . '/inc/template-tags.php';

@@ -42,10 +42,10 @@ $ts-space-xl: 1rem;
 $ts-space-2xl: 1.5rem;
 $ts-space-3xl: 2.5rem;
 
-// Form
+// Form — default control height 38px; floating-label controls 48px @ 16px root
 $ts-form-padding-y: $ts-space-md;
 $ts-form-padding-x: $ts-space-lg;
-$ts-form-min-height: 2.625rem;
+$ts-form-min-height: 2.375rem;
 $ts-form-floating-min-height: 3rem;
 $ts-form-textarea-min-rows: 2;
 $ts-form-floating-label-active-top: 0.5625rem;
