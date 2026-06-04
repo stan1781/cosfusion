@@ -29,6 +29,24 @@
 	font-weight: 600;
 }
 
+// Chevron icon appended to top-level links that have a dropdown.
+.ts-nav__chevron {
+	flex-shrink: 0;
+	width: var(--ts-font-size-base);
+	height: var(--ts-font-size-base);
+	fill: none;
+	stroke: currentColor;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 2.5;
+	transition: transform 0.15s ease;
+}
+
+.ts-nav__item--has-children:hover > a > .ts-nav__chevron,
+.ts-nav__item--has-children:focus-within > a > .ts-nav__chevron {
+	transform: rotate(180deg);
+}
+
 .ts-nav__badge {
 	font-size: var(--ts-font-size-xs);
 	line-height: 1;

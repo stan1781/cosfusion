@@ -14,7 +14,7 @@ $cart = WC()->cart;
 	<?php if ( $cart->is_empty() ) : ?>
 		<div class="ts-cart-drawer-cart__empty ts-stack">
 			<p><?php esc_html_e( 'Your cart is empty.', 'tailwindscore' ); ?></p>
-			<a class="ts-button" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php esc_html_e( 'Browse products', 'tailwindscore' ); ?></a>
+			<a class="ts-button ts-button--outline" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php esc_html_e( 'Browse products', 'tailwindscore' ); ?></a>
 		</div>
 	<?php else : ?>
 		<div class="ts-cart-drawer-cart__body">

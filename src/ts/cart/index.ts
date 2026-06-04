@@ -562,7 +562,7 @@ function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 			<div class="ts-cart-drawer-cart">
 				<div class="ts-cart-drawer-cart__empty ts-stack">
 					<p>${escapeHtml(config.i18n.emptyCartMessage)}</p>
-					<a class="ts-button" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
+					<a class="ts-button ts-button--outline" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
 				</div>
 			</div>
 		`;
@@ -591,7 +591,7 @@ function renderCartPage(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 			<div class="ts-cart-page-cart">
 				<div class="ts-cart-drawer-cart__empty ts-stack">
 					<p>${escapeHtml(config.i18n.emptyCartMessage)}</p>
-					<a class="ts-button" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
+					<a class="ts-button ts-button--outline" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
 				</div>
 			</div>
 		`;

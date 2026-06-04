@@ -28,8 +28,8 @@ function tailwindscore_has_sidebar(): bool {
 	return is_active_sidebar( 'sidebar-1' );
 }
 
-function tailwindscore_icon( string $name ): string {
-	$icons = array(
+function _tailwindscore_icon_map(): array {
+	return array(
 		'home'     => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>',
 		'sparkles' => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l1.2 4.2L17.5 8.5 13.2 9.7 12 14l-1.2-4.3L6.5 8.5l4.3-1.3z"></path><path d="M5 14l.8 2.8L8.5 17.5 5.8 18.3 5 21l-.8-2.7L1.5 17.5l2.7-.7z"></path><path d="M19 14l.8 2.8 2.7.7-2.7.8L19 21l-.8-2.7-2.7-.8 2.7-.7z"></path></svg>',
 		'search' => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"></circle><path d="M20 20L16.65 16.65"></path></svg>',
@@ -40,6 +40,7 @@ function tailwindscore_icon( string $name ): string {
 		'plus'   => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>',
 		'minus'  => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"></path></svg>',
 		'trash'         => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M6 7l1 12h10l1-12"></path><path d="M9 7V5h6v2"></path></svg>',
+		'chevron-down'  => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"></path></svg>',
 		'chevron-left'  => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 6l-6 6 6 6"></path></svg>',
 		'chevron-right' => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 6l6 6-6 6"></path></svg>',
 		'package'       => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3 3 7.5v9L12 21l9-4.5v-9L12 3z"></path><path d="M12 12 21 7.5"></path><path d="M12 12v9"></path><path d="M12 12 3 7.5"></path></svg>',
@@ -49,8 +50,29 @@ function tailwindscore_icon( string $name ): string {
 		'clipboard'     => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5h6a2 2 0 0 1 2 2v1H7V7a2 2 0 0 1 2-2z"></path><path d="M7 8h10v11H7z"></path></svg>',
 		'log-out'       => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 7V5a2 2 0 0 1 2-2h7v18h-7a2 2 0 0 1-2-2v-2"></path><path d="M15 12H3"></path><path d="M6 9l-3 3 3 3"></path></svg>',
 	);
+}
 
-	return $icons[ $name ] ?? '';
+/**
+ * Return SVG icon markup by name, with an optional extra CSS class injected
+ * into the <svg> element.
+ *
+ * All icons share the base attributes (viewBox, aria-hidden, focusable).
+ * Pass $class to add a modifier — e.g. tailwindscore_icon( 'chevron-down', 'ts-nav__chevron' ).
+ */
+function tailwindscore_icon( string $name, string $class = '' ): string {
+	$svg = _tailwindscore_icon_map()[ $name ] ?? '';
+
+	if ( '' === $svg || '' === $class ) {
+		return $svg;
+	}
+
+	// Inject the extra class into the opening <svg ...> tag.
+	return preg_replace(
+		'/^<svg /',
+		'<svg class="' . esc_attr( $class ) . '" ',
+		$svg,
+		1
+	) ?? $svg;
 }
 
 function tailwindscore_account_url(): string {

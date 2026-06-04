@@ -115,6 +115,13 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	}
 
 	/**
+	 * Chevron-down SVG icon for items that open a dropdown.
+	 */
+	private function render_chevron_icon(): string {
+		return tailwindscore_icon( 'chevron-down', 'ts-nav__chevron' );
+	}
+
+	/**
 	 * @param object $item Menu item.
 	 */
 	private function render_link( object $item, int $depth, object $args, string $link_class ): string {
@@ -128,6 +135,13 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 			if ( in_array( 'current-menu-item', $item->classes, true ) ) {
 				$classes[] = 'ts-nav__link--current';
 			}
+		}
+
+		$has_children = tailwindscore_nav_item_has_children( $item, $args );
+
+		// Add modifier class when the link has a dropdown, for CSS targeting.
+		if ( 0 === $depth && $has_children ) {
+			$classes[] = 'ts-nav__link--has-children';
 		}
 
 		$atts           = array();
@@ -156,7 +170,12 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 		$link_before = isset( $args->link_before ) ? $args->link_before : '';
 		$link_after  = isset( $args->link_after ) ? $args->link_after : '';
 
-		return '<a' . $attributes . '>' . $badge . $link_before . esc_html( $title ) . $link_after . '</a>';
+		// Append chevron icon for top-level items with a dropdown (desktop only).
+		$chevron = ( 0 === $depth && $has_children && 'desktop' === $this->variant )
+			? $this->render_chevron_icon()
+			: '';
+
+		return '<a' . $attributes . '>' . $badge . $link_before . esc_html( $title ) . $link_after . $chevron . '</a>';
 	}
 
 	/**
