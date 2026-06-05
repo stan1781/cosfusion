@@ -17,6 +17,8 @@
 		var(--ts-quantity-step-width);
 	align-items: stretch;
 	width: var(--ts-quantity-width);
+	height: var(--ts-quantity-height);
+	min-height: var(--ts-quantity-height);
 	max-width: 100%;
 	border: 1px solid var(--ts-colors-border);
 	border-radius: var(--ts-radius-sm);
@@ -50,8 +52,8 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	height: var(--ts-quantity-height);
-	min-height: var(--ts-quantity-height);
+	height: 100%;
+	min-height: 0;
 	padding: 0;
 	border: 0;
 	background: var(--ts-colors-surface);
@@ -68,8 +70,8 @@
 	box-sizing: border-box;
 	width: 100%;
 	min-width: 0;
-	height: var(--ts-quantity-height);
-	min-height: var(--ts-quantity-height);
+	height: 100%;
+	min-height: 0;
 	appearance: textfield;
 	-moz-appearance: textfield;
 	border: 0;
@@ -88,8 +90,8 @@
 .woocommerce-page form .ts-quantity .ts-quantity__input {
 	width: 100%;
 	min-width: 0;
-	height: var(--ts-quantity-height);
-	min-height: var(--ts-quantity-height);
+	height: 100%;
+	min-height: 0;
 	border: 0;
 	// border-inline: 1px solid var(--ts-colors-border);
 	border-radius: 0;

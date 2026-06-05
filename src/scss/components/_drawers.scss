@@ -6,7 +6,7 @@
 .ts-site-cart-drawer {
 	position: fixed;
 	inset: 0;
-	z-index: 40;
+	z-index: var(--ts-z-panel);
 	pointer-events: none;
 }
 

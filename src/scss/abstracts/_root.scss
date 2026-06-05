@@ -40,6 +40,17 @@
 	--ts-shadow-md: #{variables.$ts-shadow-md};
 	--ts-shadow-lg: #{variables.$ts-shadow-lg};
 
+	// Z-index (global stacking; component-local layers use small integers)
+	--ts-z-sticky: #{variables.$ts-z-sticky};
+	--ts-z-fixed: #{variables.$ts-z-fixed};
+	--ts-z-panel: #{variables.$ts-z-panel};
+	--ts-z-sticky-raised: #{variables.$ts-z-sticky-raised};
+	--ts-z-popover: #{variables.$ts-z-popover};
+	--ts-z-modal: #{variables.$ts-z-modal};
+	--ts-z-toast: #{variables.$ts-z-toast};
+	--ts-z-max: #{variables.$ts-z-max};
+	--ts-z-blocking: #{variables.$ts-z-blocking};
+
 	// Form (floating layout uses computed padding vars below)
 	--ts-form-padding-y: #{variables.$ts-form-padding-y};
 	--ts-form-padding-x: #{variables.$ts-form-padding-x};

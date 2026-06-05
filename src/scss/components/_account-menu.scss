@@ -9,7 +9,7 @@
 	position: absolute;
 	top: calc(100% + var(--ts-space-sm));
 	right: 0;
-	z-index: 50;
+	z-index: var(--ts-z-modal);
 	min-width: 12rem;
 	padding: var(--ts-space-md);
 	background: var(--ts-colors-surface);

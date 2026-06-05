@@ -757,7 +757,7 @@ body.ts-checkout-processing::after {
 	content: "";
 	position: fixed;
 	inset: 0;
-	z-index: 9999;
+	z-index: var(--ts-z-blocking);
 	background: color-mix(in srgb, var(--ts-colors-surface) 52%, transparent);
 	backdrop-filter: blur(2px);
 	pointer-events: all;
@@ -768,7 +768,7 @@ body.ts-checkout-processing::before {
 	position: fixed;
 	top: 50%;
 	left: 50%;
-	z-index: 10000;
+	z-index: calc(var(--ts-z-blocking) + 1);
 	width: 2.5rem;
 	height: 2.5rem;
 	margin: calc(-1 * var(--ts-font-size-xl)) 0 0 calc(-1 * var(--ts-font-size-xl));

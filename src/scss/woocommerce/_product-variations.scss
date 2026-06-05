@@ -257,6 +257,23 @@
 	color: var(--ts-colors-primary);
 }
 
+.woocommerce-variation-add-to-cart {
+	--ts-variation-add-to-cart-gap: var(--ts-space-md);
+
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: var(--ts-variation-add-to-cart-gap);
+
+	.single_add_to_cart_button {
+		min-width: 0;
+		flex: 1 1 auto;
+		@media (min-width: 48rem) {
+			height: 3rem !important;
+		}
+	}
+}
+
 .single-product .woocommerce-variation.single_variation .woocommerce-variation-price,
 .single-product .woocommerce-variation-price {
 	display: none !important;

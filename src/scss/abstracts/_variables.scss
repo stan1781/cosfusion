@@ -70,3 +70,16 @@ $ts-type-heading: $ts-type-body;
 $ts-shadow-sm: 0 1px 2px rgb(24 24 27 / 0.06);
 $ts-shadow-md: 0 6px 14px rgb(0 0 0 / 12%);
 $ts-shadow-lg: 0 12px 40px rgb(0 0 0 / 12%);
+
+// Z-index scale — single source of truth (exported as --ts-z-* in _root.scss).
+// PayPal / WooCommerce payment iframes typically inject z-index: 100.
+// All interactive UI layers are set above 100 to prevent third-party overlap.
+$ts-z-sticky:        110; // sticky chrome (site header, etc.)
+$ts-z-fixed:         115; // fixed viewport bars (mobile tab bar, product sticky bar)
+$ts-z-panel:         120; // slide-over panels (cart / menu / search drawers)
+$ts-z-sticky-raised: 125; // sticky chrome elevated while a panel or overlay is open
+$ts-z-popover:       128; // dropdowns, flyouts, search suggest
+$ts-z-modal:         130; // modal dialogs
+$ts-z-toast:         140; // toast notifications
+$ts-z-max:           200; // highest routine layer (full-page auth surfaces)
+$ts-z-blocking:      300; // full-viewport blocking overlay (e.g. checkout processing)

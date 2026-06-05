@@ -218,7 +218,7 @@
 			position: absolute;
 			top: 100%;
 			left: 0;
-			z-index: 50;
+			z-index: var(--ts-z-popover);
 			min-width: 12rem;
 			margin: 0;
 			padding: var(--ts-space-md);
@@ -227,8 +227,8 @@
 			flex-direction: column;
 			gap: var(--ts-space-sm);
 			background: var(--ts-colors-surface);
-			border: 1px solid var(--ts-colors-border);
-			border-radius: var(--ts-radius-md);
+			// border: 1px solid var(--ts-colors-border);
+			// border-radius: var(--ts-radius-md);
 			box-shadow: var(--ts-shadow-md);
 			opacity: 0;
 			visibility: hidden;
@@ -270,7 +270,7 @@
 			position: absolute;
 			top: 100%;
 			left: 0;
-			z-index: 50;
+			z-index: var(--ts-z-popover);
 			min-width: min(100%, 28rem);
 			padding: var(--ts-space-lg);
 			background: var(--ts-colors-surface);

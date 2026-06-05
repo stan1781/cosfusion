@@ -10,7 +10,7 @@
 	position: fixed;
 	inset-inline: 0;
 	bottom: 0;
-	z-index: 35;
+	z-index: var(--ts-z-fixed);
 	padding-bottom: env(safe-area-inset-bottom, 0);
 	border-top: 1px solid var(--ts-colors-border);
 	background: var(--ts-colors-surface);
@@ -109,9 +109,9 @@ body.ts-has-mobile-tab-bar .ts-main {
 	padding-bottom: calc(var(--ts-mobile-tab-bar-height) + env(safe-area-inset-bottom, 0));
 }
 
-// Drawers/search live inside .ts-site-header (z-index 30); tab bar is on body at 35.
+// Panels/search live inside .ts-site-header (--ts-z-sticky); tab bar is on body at --ts-z-fixed.
 html.ts-has-overlay .ts-site-header {
-	z-index: 45;
+	z-index: var(--ts-z-sticky-raised);
 }
 
 html.ts-has-overlay .ts-mobile-tab-bar,
@@ -139,7 +139,7 @@ body.ts-has-mobile-tab-bar .ts-purchase-flow-toast-root {
 	position: fixed;
 	inset-inline: 0;
 	bottom: 0;
-	z-index: 35;
+	z-index: var(--ts-z-fixed);
 	padding-bottom: env(safe-area-inset-bottom, 0);
 	border-top: 1px solid var(--ts-colors-border);
 	background: var(--ts-colors-surface);

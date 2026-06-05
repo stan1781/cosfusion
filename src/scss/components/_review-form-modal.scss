@@ -110,7 +110,7 @@
 .ts-review-form-modal {
 	position: fixed;
 	inset: 0;
-	z-index: 50;
+	z-index: var(--ts-z-modal);
 	display: grid;
 	place-items: center;
 	padding: $ts-space-md;

@@ -88,7 +88,7 @@
 	top: calc(100% + var(--ts-space-lg));
 	left: 0;
 	right: 0;
-	z-index: 30;
+	z-index: var(--ts-z-popover);
 	max-height: min(24rem, 60vh);
 	overflow-y: auto;
 	border: 1px solid var(--ts-colors-border);

@@ -4,7 +4,7 @@
 .ts-mailnest-subscribe-modal {
 	position: fixed;
 	inset: 0;
-	z-index: var(--ts-z-modal, 1000);
+	z-index: var(--ts-z-modal);
 	display: grid;
 	place-items: center;
 	padding: var(--ts-space-xl);
