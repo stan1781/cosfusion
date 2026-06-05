@@ -78,7 +78,7 @@
 
 .ts-product-gallery__main {
 	width: 100%;
-	aspect-ratio: 1;
+	aspect-ratio: var(--ts-product-image-aspect-ratio, 1);
 	background: var(--ts-colors-surface-muted);
 	border-radius: var(--ts-radius-md);
 	overflow: hidden;

@@ -128,7 +128,7 @@
 
 .ts-wc-product-card__media {
 	position: relative;
-	aspect-ratio: 1;
+	aspect-ratio: var(--ts-product-image-aspect-ratio, 1);
 	overflow: hidden;
 	border-radius: calc(var(--ts-radius-sm) - 2px);
 	background: var(--ts-colors-surface-muted);
