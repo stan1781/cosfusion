@@ -70,9 +70,6 @@ remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_paymen
 		<?php endif; ?>
 
 		<aside class="ts-wc-checkout__summary ts-stack ts-loading-host">
-			<?php
-			tailwindscore_render_cart_feedback( array( 'surface' => 'page' ) );
-			?>
 			<?php do_action( 'woocommerce_checkout_before_order_review_heading' ); ?>
 			<h3 id="order_review_heading" class="screen-reader-text"><?php esc_html_e( 'Your order', 'woocommerce' ); ?></h3>
 			<?php do_action( 'woocommerce_checkout_before_order_review' ); ?>

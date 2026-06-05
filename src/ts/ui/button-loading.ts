@@ -175,7 +175,11 @@ export function initLoadingNavLinks(): void {
 initLoadingNavLinks();
 
 function formHasLoadingSubmit(form: HTMLFormElement): boolean {
-	if (form.classList.contains('woocommerce-form-login') || form.classList.contains('woocommerce-form-register')) {
+	if (
+		form.classList.contains('woocommerce-form-login') ||
+		form.classList.contains('woocommerce-form-register') ||
+		form.classList.contains('checkout')
+	) {
 		return false;
 	}
 

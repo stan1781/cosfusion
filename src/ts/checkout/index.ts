@@ -1,4 +1,3 @@
-import { clearFeedback } from '../cart/notifications';
 import { initCheckoutLoading, refreshCheckoutLoadingHosts, setCheckoutPageLoading } from './loading';
 import { setControlLoading } from '../ui/button-loading';
 
@@ -126,63 +125,54 @@ function initPaymentMethodListClick(): void {
 	});
 }
 
+function getPlaceOrderButton(): HTMLButtonElement | null {
+	return document.querySelector<HTMLButtonElement>('#place_order');
+}
+
+function releaseCheckoutSubmitLoading(): void {
+	setControlLoading(getPlaceOrderButton(), false);
+	setCheckoutPageLoading(false);
+}
+
+function beginCheckoutSubmitLoading(): void {
+	setControlLoading(getPlaceOrderButton(), true, { disable: false });
+	setCheckoutPageLoading(true);
+}
+
 function initCheckoutUi(): void {
 	initCheckoutDetails();
 	initCheckoutLoading();
 	initPaymentMethodListClick();
 
 	const checkoutForm = document.querySelector<HTMLFormElement>('form.checkout');
-	const placeOrderButton = document.querySelector<HTMLButtonElement>('#place_order');
-
-	const releasePlaceOrderLoading = () => {
-		setControlLoading(placeOrderButton, false);
-	};
 
 	bindCheckoutFragments(() => {
-		releasePlaceOrderLoading();
+		if (!checkoutForm?.classList.contains('processing')) {
+			releaseCheckoutSubmitLoading();
+		}
+
 		refreshCheckoutLoadingHosts();
 		syncPrimarySummaryOpenForCoupon();
 	});
 
 	checkoutForm?.addEventListener('submit', () => {
-		clearFeedback('page');
-		setControlLoading(placeOrderButton, true, { disable: false });
-		setCheckoutPageLoading(true);
-	});
+		beginCheckoutSubmitLoading();
 
-	const endCheckoutPageLoading = () => {
-		setCheckoutPageLoading(false);
-	};
+		// WooCommerce may abort submit before adding `.processing` (e.g. gateway hook).
+		requestAnimationFrame(() => {
+			if (!checkoutForm.classList.contains('processing')) {
+				releaseCheckoutSubmitLoading();
+			}
+		});
+	});
 
 	const jQuery = (window as Window & {
 		jQuery?: (target: Document | Element) => { on: (event: string, handler: () => void) => void };
 	}).jQuery;
 
-	jQuery?.(document.body).on('checkout_error', endCheckoutPageLoading);
-
-	document.addEventListener('checkout_error', () => {
-		endCheckoutPageLoading();
-		releasePlaceOrderLoading();
-
-		const feedback = document.querySelector<HTMLElement>(
-			'[data-ts-cart-feedback][data-ts-cart-feedback-surface="page"]',
-		);
-
-		if (!feedback) {
-			return;
-		}
-
-		const notice = document.querySelector<HTMLElement>(
-			'.woocommerce-NoticeGroup-checkout, .woocommerce-error',
-		);
-
-		if (!notice?.textContent?.trim()) {
-			return;
-		}
-
-		feedback.hidden = false;
-		feedback.innerHTML = `<p class="ts-cart-feedback__message ts-cart-feedback__message--error">${notice.textContent.trim()}</p>`;
-		feedback.dataset.tsCartFeedbackType = 'error';
+	// WooCommerce triggers `checkout_error` via jQuery — native listeners never receive it.
+	jQuery?.(document.body).on('checkout_error', () => {
+		releaseCheckoutSubmitLoading();
 	});
 
 	DESKTOP_SUMMARY_MQL.addEventListener('change', () => {
