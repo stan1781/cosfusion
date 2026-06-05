@@ -58,7 +58,7 @@ if ( $show_downloads ) {
 
 	<h2 class="woocommerce-order-details__title ts-heading"><?php esc_html_e( 'Order details', 'woocommerce' ); ?></h2>
 
-	<div class="ts-wc-account-order-card">
+	<div class="ts-wc-account-order-card ts-wc-account-order-card--details">
 		<div class="ts-wc-account-order-details__items">
 			<?php
 			do_action( 'woocommerce_order_details_before_order_table_items', $order );

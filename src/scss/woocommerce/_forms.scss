@@ -297,38 +297,31 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 	margin-bottom: var(--ts-space-xl);
 }
 
-/* Login / account edit: paired fields (checkout billing uses CSS grid below). */
+/* Login: paired fields (account edit + checkout billing use CSS grid). */
 .woocommerce form.woocommerce-form-login .form-row-first,
-.woocommerce form.woocommerce-form-login .form-row-last,
-.woocommerce-account .woocommerce-EditAccountForm .form-row-first,
-.woocommerce-account .woocommerce-EditAccountForm .form-row-last {
+.woocommerce form.woocommerce-form-login .form-row-last {
 	box-sizing: border-box;
 	width: calc(50% - var(--ts-space-xl) / 2);
 	display: inline-block;
 	vertical-align: top;
 }
 
-.woocommerce form.woocommerce-form-login .form-row-first,
-.woocommerce-account .woocommerce-EditAccountForm .form-row-first {
+.woocommerce form.woocommerce-form-login .form-row-first {
 	margin-inline-end: var(--ts-space-xl);
 }
 
-.woocommerce form.woocommerce-form-login .form-row-wide,
-.woocommerce-account .woocommerce-EditAccountForm .form-row-wide {
+.woocommerce form.woocommerce-form-login .form-row-wide {
 	width: 100%;
 	display: block;
 }
 
-.woocommerce form.woocommerce-form-login .clear,
-.woocommerce-account .woocommerce-EditAccountForm .clear {
+.woocommerce form.woocommerce-form-login .clear {
 	clear: both;
 }
 
 @include mixins.ts-down('sm') {
 	.woocommerce form.woocommerce-form-login .form-row-first,
-	.woocommerce form.woocommerce-form-login .form-row-last,
-	.woocommerce-account .woocommerce-EditAccountForm .form-row-first,
-	.woocommerce-account .woocommerce-EditAccountForm .form-row-last {
+	.woocommerce form.woocommerce-form-login .form-row-last {
 		width: 100%;
 		display: block;
 		margin-inline-end: 0;

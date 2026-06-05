@@ -1,0 +1,146 @@
+@use "../abstracts/mixins";
+
+// Order received / thank-you page
+.woocommerce-order-received .ts-wc-thankyou {
+	max-width: var(--ts-layout-container);
+	margin-inline: auto;
+	width: 100%;
+}
+
+.ts-wc-thankyou__hero {
+	display: grid;
+	gap: var(--ts-space-md);
+	padding: var(--ts-space-2xl);
+	border-radius: var(--ts-radius-md);
+	background: color-mix(in srgb, var(--ts-colors-success) 8%, var(--ts-colors-surface));
+	border: 1px solid color-mix(in srgb, var(--ts-colors-success) 22%, var(--ts-colors-border));
+}
+
+.ts-wc-thankyou__hero--failed {
+	background: color-mix(in srgb, var(--ts-colors-danger) 8%, var(--ts-colors-surface));
+	border-color: color-mix(in srgb, var(--ts-colors-danger) 22%, var(--ts-colors-border));
+}
+
+.ts-wc-thankyou__title {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	font-size: var(--ts-font-size-xl);
+	font-weight: 600;
+	line-height: var(--ts-line-height);
+	color: var(--ts-colors-text);
+}
+
+.ts-wc-thankyou__hero--failed .ts-wc-thankyou__title {
+	color: var(--ts-colors-danger);
+}
+
+.ts-wc-thankyou__subtitle {
+	margin: 0;
+	font-size: var(--ts-font-size-sm);
+	line-height: var(--ts-line-height);
+	color: var(--ts-colors-text-muted);
+}
+
+.ts-wc-thankyou__overview {
+	margin: 0;
+}
+
+.ts-wc-thankyou__overview .woocommerce-order-overview {
+	display: grid;
+	gap: var(--ts-space-xl);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+@include mixins.ts-up("sm") {
+	.ts-wc-thankyou__overview .woocommerce-order-overview {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.ts-wc-thankyou__overview .woocommerce-order-overview li {
+	display: grid;
+	gap: var(--ts-space-xs);
+	margin: 0;
+	font-size: var(--ts-font-size-sm);
+	color: var(--ts-colors-text-muted);
+}
+
+.ts-wc-thankyou__overview .woocommerce-order-overview li strong {
+	font-size: var(--ts-font-size-base);
+	font-weight: 600;
+	color: var(--ts-colors-text);
+}
+
+.ts-wc-thankyou__overview .woocommerce-order-overview__total strong {
+	font-size: var(--ts-font-size-lg);
+}
+
+.ts-wc-thankyou__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--ts-space-md);
+}
+
+.ts-wc-thankyou .woocommerce-order-details {
+	gap: var(--ts-space-xl);
+}
+
+.ts-wc-thankyou .woocommerce-order-details__title {
+	margin: 0;
+}
+
+.ts-wc-thankyou .ts-wc-account-stepper--full {
+	margin-block: 0;
+}
+
+// Payment gateway instructions (COD, BACS, cheque, etc.)
+.ts-wc-thankyou > p {
+	margin: 0;
+	padding: var(--ts-space-xl);
+	border-radius: var(--ts-radius-md);
+	background: var(--ts-colors-surface-muted);
+	font-size: var(--ts-font-size-sm);
+	line-height: var(--ts-line-height);
+	color: var(--ts-colors-text-muted);
+}
+
+.ts-wc-thankyou > p:last-child {
+	margin-bottom: 0;
+}
+
+// Customer address block on thank-you page
+.ts-wc-thankyou .woocommerce-customer-details {
+	display: grid;
+	gap: var(--ts-space-xl);
+}
+
+.ts-wc-thankyou .woocommerce-columns--addresses {
+	display: grid;
+	gap: var(--ts-space-xl);
+}
+
+@include mixins.ts-up("md") {
+	.ts-wc-thankyou .woocommerce-columns--addresses {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.ts-wc-thankyou .woocommerce-column__title {
+	margin: 0 0 var(--ts-space-md);
+	font-size: var(--ts-font-size-base);
+	font-weight: 600;
+}
+
+.ts-wc-thankyou .woocommerce-customer-details address {
+	margin: 0;
+	padding: var(--ts-space-xl);
+	border-radius: var(--ts-radius-md);
+	background: var(--ts-colors-surface-muted);
+	font-style: normal;
+	font-size: var(--ts-font-size-sm);
+	line-height: var(--ts-line-height);
+}
