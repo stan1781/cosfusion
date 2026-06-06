@@ -1,8 +1,18 @@
 .ts-wc-product-detail {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--ts-space-2xl);
 	align-items: start;
+}
+
+@media (width >= 48rem) {
+	.ts-wc-product-detail {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.ts-wc-product-detail > * {
+	min-width: 0;
 }
 
 /* Single product Swiper gallery */
