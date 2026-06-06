@@ -210,6 +210,12 @@
 		}
 
 		.ts-nav__link {
+			padding-block: var(--ts-space-sm);
+		}
+
+		// Underline hover only on top-level links, not inside dropdowns
+		> .ts-nav__list > .ts-nav__item > .ts-nav__link,
+		> .ts-nav__list > li > a {
 			@include mixins.ts-underline-hover;
 		}
 

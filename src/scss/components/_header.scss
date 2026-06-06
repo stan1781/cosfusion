@@ -70,7 +70,7 @@
 
 // Sticky site header — sticky on <header> so the scroll parent is #page, not a ~100px wrapper.
 .ts-site-header {
-	--ts-header-padding-y: var(--ts-space-xl);
+	--ts-header-padding-y: var(--ts-space-sm);
 	--ts-header-inner-gap: var(--ts-space-xl);
 	--ts-header-brand-size: var(--ts-font-size-xl);
 	--ts-header-action-size: 2.5rem;
@@ -126,6 +126,26 @@
 	text-decoration: none;
 
 	@include mixins.ts-transition((font-size), 0.22s, ease);
+}
+
+// Logo display logic: pc logo on md+, mobile logo below md.
+// Falls back gracefully when only one logo is uploaded.
+.ts-branding__logo {
+	display: block;
+	max-height: 2rem;  // ~56px — prevents oversized uploads breaking layout
+	width: auto;
+}
+
+.ts-branding__logo--pc {
+	@include mixins.ts-down(md) {
+		display: none;
+	}
+}
+
+.ts-branding__logo--mobile {
+	@include mixins.ts-up(md) {
+		display: none;
+	}
 }
 
 .ts-site-header__actions {
