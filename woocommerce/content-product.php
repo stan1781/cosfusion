@@ -23,7 +23,7 @@ $permalink_label = sprintf(
 	wp_strip_all_tags( get_the_title() )
 );
 ?>
-<li <?php wc_product_class( 'ts-card ts-wc-product-card', $product ); ?> data-product-card data-product-id="<?php echo esc_attr( (string) $product->get_id() ); ?>">
+<li <?php wc_product_class( 'ts-wc-product-card', $product ); ?> data-product-card data-product-id="<?php echo esc_attr( (string) $product->get_id() ); ?>">
 	<div class="ts-wc-product-card__media-wrap">
 		<a href="<?php the_permalink(); ?>" class="ts-wc-product-card__media-link" aria-label="<?php echo esc_attr( $permalink_label ); ?>">
 			<?php tailwindscore_render_loop_product_images( $product ); ?>

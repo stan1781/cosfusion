@@ -14,12 +14,15 @@
 		border: 1px solid var(--ts-colors-border);
 		padding: 0.875rem var(--ts-space-xl);
 		text-align: left;
+		p {
+			margin:0;
+		}
 	}
 
 	th {
 		background: var(--ts-colors-surface-muted);
 		font-weight: 600;
-	}
+	}	
 
 	@include mixins.ts-down('sm') {
 		font-size: var(--ts-font-size-sm);
