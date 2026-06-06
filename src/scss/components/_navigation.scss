@@ -209,6 +209,10 @@
 			gap: var(--ts-space-lg);
 		}
 
+		.ts-nav__link {
+			@include mixins.ts-underline-hover;
+		}
+
 		.ts-nav__item--has-children,
 		.menu-item-has-children {
 			position: relative;
@@ -225,10 +229,8 @@
 			list-style: none;
 			display: flex;
 			flex-direction: column;
-			gap: var(--ts-space-sm);
+			gap: var(--ts-space-lg);
 			background: var(--ts-colors-surface);
-			// border: 1px solid var(--ts-colors-border);
-			// border-radius: var(--ts-radius-md);
 			box-shadow: var(--ts-shadow-md);
 			opacity: 0;
 			visibility: hidden;

@@ -90,7 +90,6 @@
 	width: 100%;
 	aspect-ratio: var(--ts-product-image-aspect-ratio, 1);
 	background: var(--ts-colors-surface-muted);
-	border-radius: var(--ts-radius-md);
 	overflow: hidden;
 }
 
@@ -125,7 +124,6 @@
 	width: var(--ts-gallery-thumb-size) !important;
 	height: var(--ts-gallery-thumb-size) !important;
 	aspect-ratio: 1;
-	border-radius: var(--ts-radius-sm);
 	overflow: hidden;
 	opacity: 0.55;
 	cursor: pointer;
