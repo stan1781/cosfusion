@@ -41,7 +41,17 @@ $menu_title = __( 'Menu', 'tailwindscore' );
 					>
 						<span aria-hidden="true">&larr;</span>
 					</button>
-					<h2 id="ts-site-menu-title" class="ts-site-menu-drawer__title" x-text="headerTitle"><?php echo esc_html( $menu_title ); ?></h2>
+					<template x-if="headerUrl && headerUrl !== '#'">
+						<a
+							id="ts-site-menu-title"
+							class="ts-site-menu-drawer__title ts-site-menu-drawer__title--link"
+							:href="headerUrl"
+							x-text="headerTitle"
+						></a>
+					</template>
+					<template x-if="!headerUrl || headerUrl === '#'">
+						<h2 id="ts-site-menu-title" class="ts-site-menu-drawer__title" x-text="headerTitle"><?php echo esc_html( $menu_title ); ?></h2>
+					</template>
 				</div>
 				<?php
 				tailwindscore_render_close_button(

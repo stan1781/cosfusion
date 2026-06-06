@@ -3,6 +3,7 @@ export {};
 type MobileNavPanel = {
 	id: string;
 	title: string;
+	url?: string;
 };
 
 type MobileNavConfig = {
@@ -96,8 +97,9 @@ document.addEventListener('alpine:init', () => {
 
 				const panelId = trigger.dataset.tsNavPanel ?? '';
 				const title = trigger.dataset.tsNavTitle ?? '';
+				const url = trigger.dataset.tsNavUrl ?? '';
 
-				this.openPanel(panelId, title);
+				this.openPanel(panelId, title, url);
 			},
 
 			get headerTitle() {
@@ -105,11 +107,16 @@ document.addEventListener('alpine:init', () => {
 				return current?.title ?? this.rootTitle;
 			},
 
+			get headerUrl() {
+				const current = this.panelStack[this.panelStack.length - 1];
+				return current?.url ?? '';
+			},
+
 			get canGoBack() {
 				return this.panelStack.length > 1;
 			},
 
-			openPanel(this: MobileNavState, panelId: string, title: string) {
+			openPanel(this: MobileNavState, panelId: string, title: string, url?: string) {
 				if (!panelId || panelId === 'root') {
 					return;
 				}
@@ -118,7 +125,7 @@ document.addEventListener('alpine:init', () => {
 					this.bindNav();
 				}
 
-				this.panelStack.push({ id: panelId, title });
+				this.panelStack.push({ id: panelId, title, url });
 				this.syncTrack();
 			},
 

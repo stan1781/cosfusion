@@ -184,6 +184,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	private function render_mobile_drill_button( object $item, array $item_classes, string $id_attr ): string {
 		$panel_id = 'menu-item-' . $item->ID;
 		$title    = apply_filters( 'the_title', $item->title, $item->ID );
+		$url      = ! empty( $item->url ) ? $item->url : '';
 		$classes  = array( 'ts-nav__link', 'ts-nav__link--drill' );
 
 		if ( tailwindscore_nav_item_is_mega( $item ) ) {
@@ -196,6 +197,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 			. '<button type="button" class="' . esc_attr( implode( ' ', $classes ) ) . '"'
 			. ' data-ts-nav-panel-trigger data-ts-nav-panel="' . esc_attr( $panel_id ) . '"'
 			. ' data-ts-nav-title="' . esc_attr( $title ) . '"'
+			. ' data-ts-nav-url="' . esc_url( $url ) . '"'
 			. ' aria-haspopup="true" aria-expanded="false">'
 			. $badge
 			. esc_html( $title )
