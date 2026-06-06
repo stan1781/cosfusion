@@ -1,3 +1,4 @@
+@use "../abstracts/mixins";
 .ts-site {
 	min-height: 100vh;
 	display: flex;
@@ -14,7 +15,12 @@
 }
 
 .ts-section {
-	padding-block: var(--ts-space-3xl);
+	padding-block: var(--ts-space-md);
+}
+@include mixins.ts-up("sm") {
+	.ts-section {
+		padding-block: var(--ts-space-3xl);
+	}
 }
 
 .ts-heading {

@@ -9,15 +9,9 @@
 
 .ts-wc-account__nav,
 .ts-wc-account__content {
-	background: var(--ts-colors-surface);
-	border-radius: var(--ts-radius-md);
-	box-shadow: var(--ts-shadow-sm);
+	background: var(--ts-colors-surface);	
 }
 
-.ts-wc-account__content {
-	padding: var(--ts-space-xl);
-	overflow: hidden;
-}
 
 .ts-wc-account__content > .woocommerce-order-details,
 .ts-wc-account__content > .woocommerce-MyAccount-content > .ts-stack {
@@ -188,8 +182,8 @@
 }
 
 .ts-wc-account-status-grid__icon .ts-icon {
-	width: var(--ts-font-size-lg);
-	height: var(--ts-font-size-lg);
+	width: 1.875rem;
+	height: 1.875rem;
 }
 
 .ts-wc-account-status-grid__icon--confirmed {
@@ -283,11 +277,10 @@
 	position: relative;
 	display: flex;
 	align-items: stretch;
-	gap: var(--ts-space-lg);
-	padding: var(--ts-space-xl);
+	gap: var(--ts-space-xs);
+	padding: 0 0 var(--ts-space-md);
 	background: var(--ts-colors-surface);
-	border-radius: var(--ts-radius-md);
-	box-shadow: var(--ts-shadow-sm);
+	border-bottom: 1px solid var(--ts-colors-border);
 }
 
 .ts-wc-account-order-card__main {
@@ -299,6 +292,10 @@
 }
 
 @include mixins.ts-up("sm") {
+	.ts-wc-account-order-card {
+		gap: var(--ts-space-lg);
+		padding: var(--ts-space-xl);
+	}
 	.ts-wc-account-order-card__main {
 		flex-direction: row;
 		align-items: flex-start;
@@ -519,11 +516,12 @@
 	flex-direction: unset;
 	align-items: stretch;
 	gap: var(--ts-space-xl);
+	font-size: var(--ts-font-size-sm);
 }
 
 .ts-wc-account-order-details__items {
 	display: grid;
-	gap: var(--ts-space-xl);
+	gap: var(--ts-space-xl);	
 }
 
 .ts-wc-account-order-details__item {
@@ -542,7 +540,23 @@
 	border-radius: var(--ts-radius-sm);
 	object-fit: cover;
 }
-
+.ts-wc-account-order-details__item-body {
+	.wc-item-meta {
+		padding:var(--ts-space-md) 0;
+		margin:0;
+		list-style: none;
+		display: flex;
+		align-items: center;
+		li {
+			display: flex;
+			gap: var(--ts-space-sm);
+			align-items: center;
+			p {
+				margin: 0;
+			}
+		}
+	}
+}
 .ts-wc-account-order-card.ts-card,
 .woocommerce-order-details .ts-card {
 	border: none;
@@ -552,7 +566,6 @@
 .ts-wc-account-order-details__totals {
 	display: grid;
 	gap: var(--ts-space-sm);
-	margin-top: var(--ts-space-xl);
 	padding-top: var(--ts-space-xl);
 	border-top: 1px solid color-mix(in srgb, var(--ts-colors-border) 55%, transparent);
 }
@@ -583,14 +596,8 @@
 	align-items: center;
 	gap: var(--ts-space-md);
 	padding: 0;
-	font-size: 0.8125rem;
+	margin-top: var(--ts-space-xl);
 	color: var(--ts-colors-text-muted);
-}
-
-.ts-wc-account-shortcuts a {
-	text-decoration: none;
-	font-weight: 600;
-	color: var(--ts-colors-text);
 }
 
 .ts-wc-account-pagination {
@@ -834,8 +841,8 @@ body.ts-confirm-receipt-open {
 	.ts-wc-account-nav__icon {
 		display: grid;
 		place-items: center;
-		width: 2.75rem;
-		height: 2.75rem;
+		width: 2rem;
+		height: 2rem;
 		border-radius: var(--ts-radius-md);
 		background: var(--ts-colors-surface-muted);
 		transition: background-color 0.15s ease;

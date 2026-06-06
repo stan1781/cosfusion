@@ -5,6 +5,12 @@ defined( 'ABSPATH' ) || exit;
 
 $nav_icons        = tailwindscore_account_nav_icons();
 $nav_short_labels = tailwindscore_account_nav_short_labels();
+
+// Remove payment methods from account menu dropdown
+add_filter( 'woocommerce_account_menu_items', function( $items ) {
+	unset( $items['payment-methods'] );
+	return $items;
+} );
 ?>
 <div
 	id="ts-account-menu-panel"
