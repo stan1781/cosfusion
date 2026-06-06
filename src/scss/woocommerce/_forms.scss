@@ -327,19 +327,3 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 		margin-inline-end: 0;
 	}
 }
-
-.woocommerce table.shop_table,
-.woocommerce table.shop_attributes {
-	width: 100%;
-	border-collapse: collapse;
-	border: 1px solid var(--ts-colors-border);
-}
-
-.woocommerce table.shop_table th,
-.woocommerce table.shop_table td,
-.woocommerce table.shop_attributes th,
-.woocommerce table.shop_attributes td {
-	border: 1px solid var(--ts-colors-border);
-	padding: 0.875rem var(--ts-space-xl);
-	text-align: left;
-}
