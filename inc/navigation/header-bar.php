@@ -64,10 +64,10 @@ function tailwindscore_header_bar_link_label(): string {
 }
 
 /**
- * @param string $cfg   Kirki config id.
- * @param string $panel Kirki panel id.
+ * @param string $cfg    Kirki config id.
+ * @param array<string, string> $targets Customizer panel/section IDs keyed by area.
  */
-function tailwindscore_header_kirki_register( string $cfg, string $panel ): void {
+function tailwindscore_header_kirki_register( string $cfg, array $targets ): void {
 	if ( ! class_exists( 'Kirki' ) ) {
 		return;
 	}
@@ -77,7 +77,7 @@ function tailwindscore_header_kirki_register( string $cfg, string $panel ): void
 		array(
 			'title'       => esc_html__( 'Header', 'tailwindscore' ),
 			'description' => esc_html__( 'Top announcement bar and header chrome.', 'tailwindscore' ),
-			'panel'       => $panel,
+			'panel'       => $targets['header'],
 			'priority'    => 35,
 		)
 	);

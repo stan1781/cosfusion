@@ -10,10 +10,10 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * @param string $cfg   Kirki config id.
- * @param string $panel Kirki panel id.
+ * @param string $cfg    Kirki config id.
+ * @param array<string, string> $targets Customizer panel/section IDs keyed by area.
  */
-function tailwindscore_variations_kirki_register( string $cfg, string $panel ): void {
+function tailwindscore_variations_kirki_register( string $cfg, array $targets ): void {
 	if ( ! class_exists( 'Kirki' ) || ! class_exists( 'WooCommerce' ) ) {
 		return;
 	}
@@ -23,7 +23,7 @@ function tailwindscore_variations_kirki_register( string $cfg, string $panel ): 
 		array(
 			'title'       => esc_html__( 'Variation selector', 'tailwindscore' ),
 			'description' => esc_html__( 'Custom swatches and layout on single product variable forms.', 'tailwindscore' ),
-			'panel'       => $panel,
+			'panel'       => $targets['product'],
 			'priority'    => 66,
 		)
 	);

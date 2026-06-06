@@ -11,10 +11,88 @@ function tailwindscore_kirki_config_id(): string {
 }
 
 /**
- * Kirki panel id.
+ * Kirki panel id (legacy, for backward compatibility).
  */
 function tailwindscore_kirki_panel_id(): string {
 	return 'tailwindscore';
+}
+
+/**
+ * Kirki panel id: Header.
+ */
+function tailwindscore_kirki_panel_header(): string {
+	return 'tailwindscore_header';
+}
+
+/**
+ * Kirki panel id: Footer.
+ */
+function tailwindscore_kirki_panel_footer(): string {
+	return 'tailwindscore_footer';
+}
+
+/**
+ * Customizer target IDs: theme panels plus native WordPress / WooCommerce panels and sections.
+ *
+ * @return array<string, string>
+ */
+function tailwindscore_kirki_customizer_targets(): array {
+	return array(
+		'header'      => tailwindscore_kirki_panel_header(),
+		'footer'      => tailwindscore_kirki_panel_footer(),
+		'woocommerce' => 'woocommerce',
+		'product'     => 'woocommerce',
+		'account'     => 'woocommerce',
+		'homepage'    => 'static_front_page',
+		'shop'        => 'woocommerce_product_catalog',
+		'checkout'    => 'woocommerce_checkout',
+	);
+}
+
+/**
+ * Register a placeholder section with an informational custom field.
+ *
+ * Customizer hides sections that have no controls, so a custom field keeps the section visible.
+ *
+ * @param string      $cfg         Kirki config id.
+ * @param string      $section_id  Section id.
+ * @param string|null $panel_id    Parent panel id, or null for a top-level section.
+ * @param string      $title       Section title.
+ * @param string      $description Placeholder copy.
+ * @param int         $priority    Section priority.
+ */
+function tailwindscore_kirki_register_section_placeholder(
+	string $cfg,
+	string $section_id,
+	?string $panel_id,
+	string $title,
+	string $description,
+	int $priority = 10
+): void {
+	$section_args = array(
+		'title'       => $title,
+		'description' => $description,
+		'priority'    => $priority,
+	);
+
+	if ( null !== $panel_id ) {
+		$section_args['panel'] = $panel_id;
+	}
+
+	Kirki::add_section(
+		$section_id,
+		$section_args
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'     => 'custom',
+			'settings' => $section_id . '_notice',
+			'section'  => $section_id,
+			'default'  => '<p class="description">' . esc_html( $description ) . '</p>',
+		)
+	);
 }
 
 /**

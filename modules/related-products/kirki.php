@@ -10,10 +10,10 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * @param string $cfg   Kirki config id.
- * @param string $panel Kirki panel id.
+ * @param string $cfg    Kirki config id.
+ * @param array<string, string> $targets Customizer panel/section IDs keyed by area.
  */
-function tailwindscore_related_products_kirki_register( string $cfg, string $panel ): void {
+function tailwindscore_related_products_kirki_register( string $cfg, array $targets ): void {
 	if ( ! class_exists( 'Kirki' ) || ! class_exists( 'WooCommerce' ) ) {
 		return;
 	}
@@ -23,7 +23,7 @@ function tailwindscore_related_products_kirki_register( string $cfg, string $pan
 		array(
 			'title'       => esc_html__( 'Related products', 'tailwindscore' ),
 			'description' => esc_html__( 'Single product related recommendations (tags, categories, title keywords).', 'tailwindscore' ),
-			'panel'       => $panel,
+			'panel'       => $targets['product'],
 			'priority'    => 67,
 		)
 	);

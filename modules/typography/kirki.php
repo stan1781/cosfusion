@@ -10,10 +10,10 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * @param string $cfg   Kirki config id.
- * @param string $panel Kirki panel id.
+ * @param string $cfg    Kirki config id.
+ * @param array<string, string> $targets Customizer panel/section IDs keyed by area.
  */
-function tailwindscore_typography_kirki_register( string $cfg, string $panel ): void {
+function tailwindscore_typography_kirki_register( string $cfg, array $targets ): void {
 	if ( ! class_exists( 'Kirki' ) ) {
 		return;
 	}
@@ -25,7 +25,7 @@ function tailwindscore_typography_kirki_register( string $cfg, string $panel ): 
 		array(
 			'title'       => esc_html__( 'Typography', 'tailwindscore' ),
 			'description' => esc_html__( 'Choose body and heading fonts from bundled theme fonts (assets/fonts). Add fonts via the theme manifest; download woff2 from Google Webfonts Helper.', 'tailwindscore' ),
-			'panel'       => $panel,
+			'panel'       => $targets['header'],
 			'priority'    => 10,
 		)
 	);

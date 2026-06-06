@@ -183,10 +183,10 @@ function tailwindscore_render_mobile_shell(): void {
 add_action( 'wp_footer', 'tailwindscore_render_mobile_shell', 5 );
 
 /**
- * @param string $cfg   Kirki config id.
- * @param string $panel Kirki panel id.
+ * @param string $cfg    Kirki config id.
+ * @param array<string, string> $targets Customizer panel/section IDs keyed by area.
  */
-function tailwindscore_mobile_shell_kirki_register( string $cfg, string $panel ): void {
+function tailwindscore_mobile_shell_kirki_register( string $cfg, array $targets ): void {
 	if ( ! class_exists( 'Kirki' ) ) {
 		return;
 	}
@@ -196,7 +196,7 @@ function tailwindscore_mobile_shell_kirki_register( string $cfg, string $panel )
 		array(
 			'title'       => esc_html__( 'Search Modal', 'tailwindscore' ),
 			'description' => esc_html__( 'Hot searches and categories shown in the search dialog.', 'tailwindscore' ),
-			'panel'       => $panel,
+			'panel'       => $targets['header'],
 			'priority'    => 45,
 		)
 	);
