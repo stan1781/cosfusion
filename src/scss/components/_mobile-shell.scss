@@ -83,6 +83,10 @@
 	stroke-linejoin: round;
 }
 
+.ts-mobile-tab-bar__label {
+	font-size: var(--ts-font-size-xs);
+}
+
 .ts-mobile-tab-bar__badge-slot {
 	position: absolute;
 	top: 0;

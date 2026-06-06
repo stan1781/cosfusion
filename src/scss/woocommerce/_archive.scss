@@ -59,7 +59,7 @@
 .ts-wc-product-grid {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: var(--ts-space-2xl);
+	gap: var(--ts-space-xl);
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -68,6 +68,7 @@
 @include mixins.ts-up(md) {
 	.ts-wc-product-grid {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--ts-space-2xl);
 	}
 }
 
@@ -98,7 +99,7 @@
 .ts-wc-product-card {
 	position: relative;
 	display: grid;
-	gap: var(--ts-space-xl);
+	gap: var(--ts-space-xs);
 	height: 100%;
 }
 
@@ -115,7 +116,7 @@
 
 .ts-wc-product-card__link {
 	display: grid;
-	gap: var(--ts-space-xl);
+	gap: var(--ts-space-md);
 	text-decoration: none;
 	color: inherit;
 }

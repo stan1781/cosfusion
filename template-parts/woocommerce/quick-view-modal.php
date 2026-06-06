@@ -27,21 +27,17 @@ defined( 'ABSPATH' ) || exit;
 		class="ts-quick-view-modal__dialog"
 		role="dialog"
 		aria-modal="true"
-		aria-labelledby="ts-quick-view-modal-title"
 	>
-		<div class="ts-quick-view-modal__header">
-			<h2 id="ts-quick-view-modal-title" class="ts-quick-view-modal__title"><?php esc_html_e( 'Quick view', 'tailwindscore' ); ?></h2>
-			<?php
-			tailwindscore_render_close_button(
-				__( 'Close quick view', 'tailwindscore' ),
-				array(
-					'attrs' => array(
-						'data-ts-quick-view-close' => '',
-					),
-				)
-			);
-			?>
-		</div>
+		<?php
+		tailwindscore_render_close_button(
+			__( 'Close quick view', 'tailwindscore' ),
+			array(
+				'attrs' => array(
+					'data-ts-quick-view-close' => '',
+				),
+			)
+		);
+		?>
 		<div class="ts-quick-view-modal__body" data-ts-quick-view-body>
 			<div class="ts-quick-view-modal__loading" data-ts-quick-view-loading hidden>
 				<span class="ts-quick-view-modal__spinner" aria-hidden="true"></span>
