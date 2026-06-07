@@ -8,6 +8,7 @@ set_query_var( 'ts_search_form_variant', 'command' );
 	x-cloak
 	x-show="searchOpen"
 	x-transition.opacity
+	x-effect="searchOpen && $nextTick(() => { $el.querySelector('#ts-search-field')?.focus({ preventScroll: true }) })"
 	@click.self="closeSearch()"
 >
 	<button class="ts-site-search-modal__backdrop" type="button" @click="closeSearch()" aria-label="<?php esc_attr_e( 'Close search', 'tailwindscore' ); ?>"></button>

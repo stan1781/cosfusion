@@ -68,6 +68,19 @@ type SiteShellState = {
 	onMenuDrawerTransitionEnd: (event: TransitionEvent) => void;
 };
 
+function focusSearchInput(scheduleTick: (callback: () => void) => void): void {
+	const focus = (): void => {
+		const field = document.getElementById('ts-search-field');
+
+		if (field instanceof HTMLInputElement) {
+			field.focus({ preventScroll: true });
+		}
+	};
+
+	focus();
+	scheduleTick(focus);
+}
+
 function getSiteShell(): SiteShellState | undefined {
 	const header = document.querySelector<HTMLElement>('.ts-site-header');
 	const alpine = window.Alpine;
@@ -135,13 +148,8 @@ document.addEventListener('alpine:init', () => {
 				this.cartOpen = false;
 				this.accountOpen = false;
 				closeLoginModal();
-				window.requestAnimationFrame(() => {
-					const field = document.getElementById('ts-search-field');
-
-					if (field instanceof HTMLInputElement) {
-						field.focus();
-					}
-				});
+				const shell = this as SiteShellState & { $nextTick: (callback: () => void) => void };
+				focusSearchInput((callback) => shell.$nextTick(callback));
 			}
 
 			this.syncDocumentState();

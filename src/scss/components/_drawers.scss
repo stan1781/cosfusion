@@ -463,8 +463,9 @@
 }
 
 .ts-cart-drawer-cart__empty {
-	align-content: start;
-	padding-block: var(--ts-space-xl);
+	text-align: center;
+	align-content: center;
+	padding: var(--ts-space-xl);
 	color: var(--ts-colors-text-muted);
 }
 
