@@ -149,6 +149,36 @@ $ts-animation-slide-duration: 0.22s;
 	line-height: var(--ts-line-height);
 }
 
+/// Thin scrollbar styled with theme tokens (WebKit + Firefox).
+@mixin ts-scrollbar($width: 5px) {
+	scrollbar-width: thin;
+	scrollbar-color: color-mix(in srgb, var(--ts-colors-border-strong) 80%, transparent) transparent;
+
+	&::-webkit-scrollbar {
+		width: $width;
+		height: $width;
+	}
+
+	&::-webkit-scrollbar-track {
+		margin-block: var(--ts-space-xs);
+		background: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		border: 1px solid transparent;
+		border-radius: var(--ts-radius-full);
+		background: color-mix(in srgb, var(--ts-colors-border-strong) 72%, transparent);
+		background-clip: padding-box;
+	}
+
+	@media (hover: hover) {
+		&::-webkit-scrollbar-thumb:hover {
+			background: color-mix(in srgb, var(--ts-colors-text-muted) 55%, var(--ts-colors-border-strong));
+			background-clip: padding-box;
+		}
+	}
+}
+
 /// Underline animation from left to right on hover.
 /// Usage: @include ts-underline-hover($color: currentColor, $height: 2px, $duration: 0.3s);
 @mixin ts-underline-hover($color: currentColor, $height: 2px, $duration: 0.3s) {

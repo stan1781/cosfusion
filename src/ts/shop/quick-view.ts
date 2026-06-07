@@ -335,15 +335,6 @@ function bindCartForms(root: HTMLElement): void {
 
 			try {
 				await addCartItem(request);
-				const message =
-					getConfig()?.i18n.addedToCart ??
-					window.tailwindscoreCart?.i18n.addedToCart ??
-					'Added to your cart.';
-				notify({
-					type: 'success',
-					message,
-					surface: 'toast',
-				});
 				document.dispatchEvent(new CustomEvent('tailwindscore:open-cart'));
 				closeModal();
 			} catch (error) {

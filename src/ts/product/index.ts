@@ -1,4 +1,4 @@
-import { addCartItem, notify } from '../cart/index';
+import { addCartItem } from '../cart/index';
 import { buildAddToCartRequest } from './add-to-cart-request';
 import { resolveSubmitButton, setButtonsLoading } from '../ui/button-loading';
 import './variations';
@@ -37,12 +37,6 @@ async function handleAddToCart(form: HTMLFormElement, submitter: HTMLButtonEleme
 
 	try {
 		await addCartItem(request);
-		const config = window.tailwindscoreCart;
-		notify({
-			type: 'success',
-			message: config?.i18n.addedToCart ?? 'Added to your cart.',
-			surface: 'toast',
-		});
 		return true;
 	} catch (error) {
 		console.error(error);

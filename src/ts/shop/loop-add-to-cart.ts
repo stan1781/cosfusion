@@ -39,11 +39,6 @@ function bindLoopAddToCart() {
 			try {
 				await addCartItem({ productId, quantity });
 				button.classList.add('added');
-				notify({
-					type: 'success',
-					message: window.tailwindscoreCart.i18n.addedToCart ?? 'Added to your cart.',
-					surface: 'toast',
-				});
 			} catch (error) {
 				console.error(error);
 				notify({

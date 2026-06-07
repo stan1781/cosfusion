@@ -126,7 +126,6 @@
 	gap: var(--ts-space-2xl);
 	width: min(100%, variables.$ts-layout-drawer);
 	height: 100%;
-	padding: var(--ts-drawer-panel-padding);
 	overflow: hidden;
 }
 
@@ -192,14 +191,14 @@
 }
 
 .ts-site-cart-drawer__heading {
-	gap: 0.25rem;
+	gap: 0;
 }
 
 .ts-site-cart-drawer__header {
 	flex-shrink: 0;
 	align-items: flex-start;
-	margin-bottom: 1rem;
-	padding-bottom: 1rem;
+	margin-bottom: var(--ts-space-lg);
+	padding: var(--ts-space-lg) var(--ts-space-lg) 0 var(--ts-space-lg);
 	border-bottom: 1px solid var(--ts-colors-border);
 }
 
@@ -220,7 +219,13 @@
 [data-ts-cart-drawer-content] {
 	display: grid;
 	min-height: 0;
+	height: 100%;
 	overflow: hidden;
+}
+
+[data-ts-cart-drawer-inner] {
+	min-height: 0;
+	height: 100%;
 }
 
 .ts-cart-drawer-cart {
@@ -230,15 +235,14 @@
 }
 
 .ts-cart-drawer-cart--filled {
-	grid-template-rows: minmax(0, 1fr) auto;
-	/* gap: var(--ts-space-2xl); */
+	grid-template-rows: minmax(0, 1fr) auto auto;
 }
 
 .ts-cart-drawer-cart__body {
 	min-height: 0;
 	overflow-y: auto;
-	padding-right: 0.25rem;
-	padding-bottom: var(--ts-space-lg);
+	padding: var(--ts-space-lg);
+	@include mixins.ts-scrollbar;
 }
 
 .ts-cart-drawer-cart__items {
@@ -452,10 +456,8 @@
 }
 
 .ts-cart-drawer-cart__footer {
-	gap: 0.875rem;
-	margin-inline: calc(var(--ts-drawer-panel-padding) * -1);
-	margin-bottom: calc(var(--ts-drawer-panel-padding) * -1);
-	padding: 1rem var(--ts-drawer-panel-padding) var(--ts-drawer-panel-padding);
+	gap: var(--ts-space-lg);
+	padding: var(--ts-space-lg) var(--ts-space-lg) var(--ts-space-lg);
 	border-top: 1px solid var(--ts-colors-border);
 	background: var(--ts-colors-surface);
 }
@@ -487,7 +489,7 @@
 .ts-cart-drawer-cart__coupon {
 	display: grid;
 	gap: var(--ts-space-lg);
-	padding-block: 1rem;
+	padding: var(--ts-space-lg);
 	border-top: 1px solid var(--ts-colors-border);
 }
 

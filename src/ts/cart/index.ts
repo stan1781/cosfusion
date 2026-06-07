@@ -70,9 +70,10 @@ type CartItemEditConfig = {
 	i18n: CartItemEditI18n;
 };
 
-type TailwindscoreCartConfig = {
-	storeApiUrl: string;
-	nonce: string;
+	type TailwindscoreCartConfig = {
+		storeApiUrl: string;
+		storeNonceUrl?: string;
+		nonce: string;
 	cartUrl: string;
 	checkoutUrl: string;
 	shopUrl: string;
@@ -199,6 +200,7 @@ const cartPageSelector = '[data-ts-cart-page-inner]';
 const pendingCartItemKeys = new Set<string>();
 let currentCart: StoreApiCart | null = null;
 let storeApiNonce: string | undefined;
+let lastCartSyncAt = 0;
 
 function escapeHtml(value: string) {
 	return value
@@ -723,10 +725,15 @@ async function requestStoreApi<TResponse>(path: string, options?: { method?: str
 		headers.set('Content-Type', 'application/json');
 	}
 
+	if ('GET' === method) {
+		url.searchParams.set('_', String(Date.now()));
+	}
+
 	const response = await fetch(url.toString(), {
 		method,
 		headers,
 		credentials: 'same-origin',
+		cache: 'no-store',
 		body: undefined === options?.body ? undefined : JSON.stringify(options.body),
 	});
 
@@ -751,7 +758,51 @@ function setPendingState(cartItemKey: string, isPending: boolean) {
 
 function setCart(cart: StoreApiCart) {
 	currentCart = cart;
+	lastCartSyncAt = Date.now();
 	syncCartUi(cart);
+}
+
+async function bootstrapStoreApiNonce() {
+	if (
+		document.body.classList.contains('woocommerce-checkout') ||
+		document.body.classList.contains('woocommerce-cart')
+	) {
+		return;
+	}
+
+	const config = getCartConfig();
+
+	if (!config) {
+		return;
+	}
+
+	const nonceUrl =
+		config.storeNonceUrl ?? config.storeApiUrl.replace(/wc\/store\/v1\/?$/, 'tailwindscore/v1/store-nonce');
+
+	try {
+		const response = await fetch(nonceUrl, {
+			method: 'GET',
+			credentials: 'same-origin',
+			cache: 'no-store',
+			headers: {
+				Accept: 'application/json',
+			},
+		});
+
+		updateStoreApiHeaders(response);
+
+		if (!response.ok) {
+			return;
+		}
+
+		const payload = (await response.json()) as { nonce?: string };
+
+		if (payload.nonce) {
+			storeApiNonce = payload.nonce;
+		}
+	} catch {
+		// Nonce bootstrap is best-effort; Store API responses also rotate the nonce header.
+	}
 }
 
 export async function refreshCart() {
@@ -1224,6 +1275,11 @@ function bindCheckoutCouponControls() {
 
 function bindDrawerCartRefresh() {
 	document.addEventListener('tailwindscore:cart-drawer-opened', () => {
+		// add-to-cart already synced the drawer; avoid a stale cached GET overwriting it.
+		if (Date.now() - lastCartSyncAt < 2000) {
+			return;
+		}
+
 		void refreshCart().catch((error) => {
 			reportCartError(error);
 		});
@@ -1243,6 +1299,7 @@ function initializeCartUi() {
 	bindCouponApplyDisabledState();
 	bindCheckoutCouponControls();
 	bindDrawerCartRefresh();
+	void bootstrapStoreApiNonce();
 
 	// Do not GET /cart on every page load (checkout/cart especially). That can run
 	// calculate_totals() against the wrong session and empty the shopper's cart.
