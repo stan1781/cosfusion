@@ -10,7 +10,12 @@ function tailwindscore_is_woo_page(): bool {
 		return false;
 	}
 
-	return is_woocommerce() || is_cart() || is_checkout() || is_account_page() || is_page( 'register' );
+	return is_woocommerce()
+		|| is_cart()
+		|| is_checkout()
+		|| is_account_page()
+		|| is_page( 'register' )
+		|| is_front_page();
 }
 
 /**

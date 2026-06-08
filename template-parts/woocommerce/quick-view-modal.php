@@ -43,7 +43,7 @@ defined( 'ABSPATH' ) || exit;
 				<span class="ts-quick-view-modal__spinner" aria-hidden="true"></span>
 				<span class="screen-reader-text"><?php esc_html_e( 'Loading…', 'tailwindscore' ); ?></span>
 			</div>
-			<div class="ts-quick-view-modal__content" data-ts-quick-view-content></div>
+			<div class="ts-quick-view-modal__content woocommerce" data-ts-quick-view-content></div>
 		</div>
 	</div>
 </div>

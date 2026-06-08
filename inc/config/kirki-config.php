@@ -118,24 +118,6 @@ function tailwindscore_kirki_register(): void {
 
 
 
-	tailwindscore_kirki_register_section_placeholder(
-
-		$cfg,
-
-		'tailwindscore_homepage_display',
-
-		null,
-
-		esc_html__( 'Homepage display', 'tailwindscore' ),
-
-		esc_html__( 'Homepage layout and category options will appear here. Use Homepage Settings above to choose which page is the front page.', 'tailwindscore' ),
-
-		125
-
-	);
-
-
-
 	if ( class_exists( 'WooCommerce' ) ) {
 
 		tailwindscore_kirki_register_section_placeholder(

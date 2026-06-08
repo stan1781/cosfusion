@@ -31,12 +31,20 @@
 
 .ts-stack {
 	display: grid;
-	gap: var(--ts-space-2xl);
+	gap: var(--ts-space-md);
 }
 
 .ts-grid {
 	display: grid;
-	gap: var(--ts-space-2xl);
+	gap: var(--ts-space-xl);
+}
+@include mixins.ts-up("sm") {
+	.ts-stack {
+		gap: var(--ts-space-xl);
+	}
+	.ts-grid {
+		gap: var(--ts-space-2xl);
+	}
 }
 
 .ts-surface,

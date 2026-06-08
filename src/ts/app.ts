@@ -27,6 +27,10 @@ if (document.body.classList.contains('ts-mailnest')) {
 	void import('./integrations/mailnest');
 }
 
+if (document.querySelector('.ts-home')) {
+	void import('./home/index');
+}
+
 import Alpine from 'alpinejs';
 
 declare global {
