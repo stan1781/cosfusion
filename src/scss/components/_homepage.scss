@@ -183,6 +183,8 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: var(--ts-space-xl);
+	padding-block: var(--ts-space-xl);
+	text-transform: uppercase;
 }
 
 .ts-home-products__header .ts-heading {
@@ -319,4 +321,183 @@
 .ts-home-products__pagination .swiper-pagination-bullet-active {
 	background: var(--ts-colors-text);
 	transform: scale(1.15);
+}
+
+.ts-home-section-title {
+	margin: 0;
+	font-size: clamp(var(--ts-font-size-xl), 3vw, calc(var(--ts-font-size-xl) * 1.35));
+	line-height: var(--ts-line-height);
+	padding-bottom: var(--ts-space-xl);
+	font-weight: 600;
+	letter-spacing: 0.12em;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.ts-home-occasion__grid,
+.ts-home-trending__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--ts-space-md);
+}
+
+@include mixins.ts-up(sm) {
+	.ts-home-occasion__grid,
+	.ts-home-trending__grid {
+		gap: var(--ts-space-xl);
+	}
+}
+
+@include mixins.ts-up(md) {
+	.ts-home-occasion__grid,
+	.ts-home-trending__grid {
+		grid-template-columns: repeat(var(--ts-home-grid-columns, 1), minmax(0, 1fr));
+	}
+}
+
+.ts-home-occasion__card,
+.ts-home-trending__card {
+	position: relative;
+	display: grid;
+	min-height: 0;
+	overflow: hidden;
+	color: var(--ts-colors-surface);
+	text-decoration: none;
+	background: var(--ts-colors-surface-muted);
+}
+
+.ts-home-occasion__card {
+	aspect-ratio: 3 / 4;
+}
+
+.ts-home-trending__card {
+	aspect-ratio: 3 / 4;
+}
+
+.ts-home-occasion__media,
+.ts-home-trending__media {
+	grid-area: 1 / 1;
+	min-height: 0;
+}
+
+.ts-home-occasion__image,
+.ts-home-trending__image {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center top;
+}
+
+.ts-home-occasion__overlay,
+.ts-home-trending__overlay {
+	grid-area: 1 / 1;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	padding: var(--ts-space-xl);
+	background: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--ts-colors-text) 8%, transparent) 0%,
+		color-mix(in srgb, var(--ts-colors-text) 28%, transparent) 100%
+	);
+}
+
+.ts-home-occasion__overlay {
+	justify-content: center;
+	text-align: center;
+}
+
+.ts-home-trending__overlay {
+	justify-content: flex-start;
+	align-items: center;
+	text-align: start;
+}
+
+.ts-home-occasion__copy,
+.ts-home-trending__copy {
+	display: grid;
+	gap: var(--ts-space-md);
+	justify-items: center;
+}
+
+.ts-home-trending__copy {
+	justify-items: start;
+}
+
+.ts-home-occasion__title {
+	margin: 0;
+	font-size: clamp(var(--ts-font-size-lg), 1.9vw, calc(var(--ts-font-size-xl) * 1.2));
+	line-height: 1.05;
+	text-transform: uppercase;
+}
+
+.ts-home-trending__title {
+	margin: 0;
+	display: grid;
+	gap: var(--ts-space-2xs);
+	line-height: 1.05;
+	text-transform: uppercase;
+}
+
+.ts-home-trending__title-line {
+	display: block;
+}
+
+.ts-home-trending__title-line--heading {
+	font-family: var(--ts-type-heading);
+	font-size: clamp(var(--ts-font-size-lg), 1.9vw, calc(var(--ts-font-size-xl) * 1.2));
+	font-weight: 600;
+	letter-spacing: 0.06em;
+}
+
+.ts-home-trending__title-line--body {
+	font-family: var(--ts-type-body);
+	font-size: clamp(var(--ts-font-size-sm), 1.5vw, var(--ts-font-size-base));
+	font-weight: 600;
+	letter-spacing: 0.1em;
+}
+
+.ts-home-occasion__subtitle {
+	margin: 0;
+	font-size: var(--ts-font-size-xs);
+	line-height: var(--ts-line-height);
+	font-weight: 600;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+.ts-home-occasion__button {
+	padding: var(--ts-space-sm) var(--ts-space-xl);
+	margin-top: var(--ts-space-sm);
+	border-radius: 0;
+	background: transparent;
+	border-color: var(--ts-colors-surface);
+	color: var(--ts-colors-surface);
+	font-size: var(--ts-font-size-xs);
+	font-weight: 600;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	pointer-events: none;
+}
+
+@media (hover: hover) {
+	.ts-home-occasion__card:hover .ts-home-occasion__button {
+		background: color-mix(in srgb, var(--ts-colors-surface) 12%, transparent);
+	}
+}
+
+.ts-home-trending__link {
+	font-size: var(--ts-font-size-xs);
+	font-weight: 600;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	text-decoration: underline;
+	text-underline-offset: 0.25em;
+}
+
+@media (hover: hover) {
+	.ts-home-trending__card:hover .ts-home-trending__link {
+		text-decoration-thickness: 2px;
+	}
 }

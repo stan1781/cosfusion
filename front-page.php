@@ -11,9 +11,13 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 
-$ts_hero_slides     = tailwindscore_homepage_hero_slides();
-$ts_products_title  = tailwindscore_homepage_products_title();
-$ts_products_output = tailwindscore_homepage_should_render_products()
+$ts_hero_slides      = tailwindscore_homepage_hero_slides();
+$ts_occasion_title   = tailwindscore_homepage_occasion_title();
+$ts_occasion_items   = tailwindscore_homepage_occasion_items();
+$ts_trending_title   = tailwindscore_homepage_trending_title();
+$ts_trending_items   = tailwindscore_homepage_trending_items();
+$ts_products_title   = tailwindscore_homepage_products_title();
+$ts_products_output  = tailwindscore_homepage_should_render_products()
 	? do_shortcode( tailwindscore_homepage_products_shortcode() )
 	: '';
 ?>
@@ -52,7 +56,7 @@ $ts_products_output = tailwindscore_homepage_should_render_products()
 												<p class="ts-home-hero__eyebrow"><?php echo esc_html( $ts_slide['subtitle'] ); ?></p>
 											<?php endif; ?>
 											<?php if ( '' !== $ts_slide['title'] ) : ?>
-												<h1 class="ts-home-hero__title"><?php echo esc_html( $ts_slide['title'] ); ?></h1>
+												<h2 class="ts-home-hero__title"><?php echo esc_html( $ts_slide['title'] ); ?></h2>
 											<?php endif; ?>
 											<?php if ( '' !== $ts_slide['description'] ) : ?>
 												<p class="ts-home-hero__description"><?php echo esc_html( $ts_slide['description'] ); ?></p>
@@ -75,6 +79,129 @@ $ts_products_output = tailwindscore_homepage_should_render_products()
 					<?php endforeach; ?>
 				</div>
 				<div class="swiper-pagination ts-home-hero__pagination"></div>
+			</div>
+		</section>
+	<?php endif; ?>
+
+	<?php if ( tailwindscore_homepage_should_render_occasion() ) : ?>
+		<?php $ts_occasion_count = count( $ts_occasion_items ); ?>
+		<section class="ts-home-occasion ts-section" aria-labelledby="ts-home-occasion-title">
+			<div class="ts-container ts-stack">
+				<?php if ( '' !== $ts_occasion_title ) : ?>
+					<h2 id="ts-home-occasion-title" class="ts-home-section-title">
+						<?php echo esc_html( $ts_occasion_title ); ?>
+					</h2>
+				<?php endif; ?>
+				<div
+					class="ts-home-occasion__grid"
+					role="list"
+					style="<?php echo esc_attr( tailwindscore_homepage_grid_style_attr( $ts_occasion_count ) ); ?>"
+				>
+				<?php foreach ( $ts_occasion_items as $ts_occasion_item ) : ?>
+					<?php
+					$ts_occasion_alt = '' !== $ts_occasion_item['title']
+						? $ts_occasion_item['title']
+						: __( 'Shop by occasion', 'tailwindscore' );
+					$ts_occasion_href = $ts_occasion_item['link_url'];
+					$ts_occasion_tag  = '' !== $ts_occasion_href ? 'a' : 'article';
+					?>
+					<<?php echo esc_attr( $ts_occasion_tag ); ?>
+						class="ts-home-occasion__card"
+						role="listitem"
+						<?php if ( '' !== $ts_occasion_href ) : ?>
+							href="<?php echo esc_url( $ts_occasion_href ); ?>"
+						<?php endif; ?>
+					>
+						<div class="ts-home-occasion__media">
+							<?php
+							echo tailwindscore_homepage_grid_card_image_markup( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in helper.
+								$ts_occasion_item,
+								'ts-home-occasion__image',
+								$ts_occasion_alt,
+								tailwindscore_homepage_grid_image_sizes( $ts_occasion_count )
+							);
+							?>
+						</div>
+						<div class="ts-home-occasion__overlay">
+							<div class="ts-home-occasion__copy">
+								<?php if ( '' !== $ts_occasion_item['title'] ) : ?>
+									<h3 class="ts-home-occasion__title"><?php echo esc_html( $ts_occasion_item['title'] ); ?></h3>
+								<?php endif; ?>
+								<?php if ( '' !== $ts_occasion_item['subtitle'] ) : ?>
+									<p class="ts-home-occasion__subtitle"><?php echo esc_html( $ts_occasion_item['subtitle'] ); ?></p>
+								<?php endif; ?>
+								<?php if ( '' !== $ts_occasion_item['link_label'] ) : ?>
+									<span class="ts-button ts-home-occasion__button"><?php echo esc_html( $ts_occasion_item['link_label'] ); ?></span>
+								<?php endif; ?>
+							</div>
+						</div>
+					</<?php echo esc_attr( $ts_occasion_tag ); ?>>
+				<?php endforeach; ?>
+				</div>
+			</div>
+		</section>
+	<?php endif; ?>
+
+	<?php if ( tailwindscore_homepage_should_render_trending() ) : ?>
+		<?php $ts_trending_count = count( $ts_trending_items ); ?>
+		<section class="ts-home-trending ts-section" aria-labelledby="ts-home-trending-title">
+			<div class="ts-container ts-stack">
+				<?php if ( '' !== $ts_trending_title ) : ?>
+					<h2 id="ts-home-trending-title" class="ts-home-section-title">
+						<?php echo esc_html( $ts_trending_title ); ?>
+					</h2>
+				<?php endif; ?>
+				<div
+					class="ts-home-trending__grid"
+					role="list"
+					style="<?php echo esc_attr( tailwindscore_homepage_grid_style_attr( $ts_trending_count ) ); ?>"
+				>
+				<?php foreach ( $ts_trending_items as $ts_trending_item ) : ?>
+					<?php
+					$ts_trending_alt   = '' !== $ts_trending_item['title']
+						? $ts_trending_item['title']
+						: __( 'Trending collection', 'tailwindscore' );
+					$ts_trending_href  = $ts_trending_item['link_url'];
+					$ts_trending_tag   = '' !== $ts_trending_href ? 'a' : 'article';
+					$ts_trending_lines = tailwindscore_homepage_split_trending_title( $ts_trending_item['title'] );
+					?>
+					<<?php echo esc_attr( $ts_trending_tag ); ?>
+						class="ts-home-trending__card"
+						role="listitem"
+						<?php if ( '' !== $ts_trending_href ) : ?>
+							href="<?php echo esc_url( $ts_trending_href ); ?>"
+						<?php endif; ?>
+					>
+						<div class="ts-home-trending__media">
+							<?php
+							echo tailwindscore_homepage_grid_card_image_markup( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in helper.
+								$ts_trending_item,
+								'ts-home-trending__image',
+								$ts_trending_alt,
+								tailwindscore_homepage_grid_image_sizes( $ts_trending_count )
+							);
+							?>
+						</div>
+						<div class="ts-home-trending__overlay">
+							<div class="ts-home-trending__copy">
+								<?php if ( '' !== $ts_trending_lines['line1'] || '' !== $ts_trending_lines['line2'] ) : ?>
+									<h3 class="ts-home-trending__title">
+										<?php if ( '' !== $ts_trending_lines['line1'] ) : ?>
+											<span class="ts-home-trending__title-line ts-home-trending__title-line--heading"><?php echo esc_html( $ts_trending_lines['line1'] ); ?></span>
+										<?php endif; ?>
+										<?php if ( '' !== $ts_trending_lines['line2'] ) : ?>
+											<span class="ts-home-trending__title-line ts-home-trending__title-line--body"><?php echo esc_html( $ts_trending_lines['line2'] ); ?></span>
+										<?php endif; ?>
+									</h3>
+								<?php endif; ?>
+								<?php if ( '' !== $ts_trending_item['link_label'] ) : ?>
+									<span class="ts-home-trending__link"><?php echo esc_html( $ts_trending_item['link_label'] ); ?></span>
+								<?php endif; ?>
+							</div>
+						</div>
+					</<?php echo esc_attr( $ts_trending_tag ); ?>>
+				<?php endforeach; ?>
+				</div>
 			</div>
 		</section>
 	<?php endif; ?>

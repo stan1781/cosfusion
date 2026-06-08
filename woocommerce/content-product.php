@@ -32,8 +32,14 @@ $permalink_label = sprintf(
 			<?php woocommerce_template_loop_add_to_cart(); ?>
 		</div>
 	</div>
+	<?php
+	$ts_title_tag = apply_filters( 'woocommerce_loop_product_title_tag', 'h2' );
+	$ts_title_tag = in_array( $ts_title_tag, array( 'h2', 'h3', 'h4', 'h5', 'h6' ), true ) ? $ts_title_tag : 'h2';
+	?>
 	<a href="<?php the_permalink(); ?>" class="ts-wc-product-card__link">
-		<h2 class="ts-wc-product-card__title"><?php the_title(); ?></h2>
+		<?php echo '<' . esc_attr( $ts_title_tag ) . ' class="ts-wc-product-card__title">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Tag name validated above. ?>
+		<?php the_title(); ?>
+		<?php echo '</' . esc_attr( $ts_title_tag ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Tag name validated above. ?>
 		<div class="ts-wc-product-card__meta">
 			<span class="ts-wc-product-card__price"><?php echo wp_kses_post( $product->get_price_html() ); ?></span>
 			<?php tailwindscore_render_loop_rating( $product ); ?>

@@ -15,7 +15,7 @@
 }
 
 .ts-section {
-	padding-block: var(--ts-space-md);
+	padding-block: var(--ts-space-2xl);
 }
 @include mixins.ts-up("sm") {
 	.ts-section {

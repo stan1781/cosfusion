@@ -24,6 +24,92 @@ function tailwindscore_homepage_default_products_title(): string {
 }
 
 /**
+ * Default Shop by Occasion section title.
+ */
+function tailwindscore_homepage_default_occasion_title(): string {
+	return __( 'Shop by occasion', 'tailwindscore' );
+}
+
+/**
+ * Default Trending Collections section title.
+ */
+function tailwindscore_homepage_default_trending_title(): string {
+	return __( 'Trending collections', 'tailwindscore' );
+}
+
+/**
+ * Default Shop by Occasion grid items.
+ *
+ * @return array<int, array<string, string>>
+ */
+function tailwindscore_homepage_default_occasion_items(): array {
+	return array(
+		array(
+			'image'      => '',
+			'title'      => __( 'Prom night', 'tailwindscore' ),
+			'subtitle'   => __( '200+ styles', 'tailwindscore' ),
+			'link_url'   => '',
+			'link_label' => __( 'Shop now', 'tailwindscore' ),
+		),
+		array(
+			'image'      => '',
+			'title'      => __( 'Bridesmaid', 'tailwindscore' ),
+			'subtitle'   => __( '200+ styles', 'tailwindscore' ),
+			'link_url'   => '',
+			'link_label' => __( 'Shop now', 'tailwindscore' ),
+		),
+		array(
+			'image'      => '',
+			'title'      => __( 'Evening gala', 'tailwindscore' ),
+			'subtitle'   => __( '250+ styles', 'tailwindscore' ),
+			'link_url'   => '',
+			'link_label' => __( 'Shop now', 'tailwindscore' ),
+		),
+		array(
+			'image'      => '',
+			'title'      => __( 'Homecoming', 'tailwindscore' ),
+			'subtitle'   => __( '150+ styles', 'tailwindscore' ),
+			'link_url'   => '',
+			'link_label' => __( 'Shop now', 'tailwindscore' ),
+		),
+	);
+}
+
+/**
+ * Default Trending Collections grid items.
+ *
+ * @return array<int, array<string, string>>
+ */
+function tailwindscore_homepage_default_trending_items(): array {
+	return array(
+		array(
+			'image'      => '',
+			'title'      => __( 'Satin dresses', 'tailwindscore' ),
+			'link_url'   => '',
+			'link_label' => __( 'Shop now', 'tailwindscore' ),
+		),
+		array(
+			'image'      => '',
+			'title'      => __( 'Sequin dresses', 'tailwindscore' ),
+			'link_url'   => '',
+			'link_label' => __( 'Shop now', 'tailwindscore' ),
+		),
+		array(
+			'image'      => '',
+			'title'      => __( 'Floral dresses', 'tailwindscore' ),
+			'link_url'   => '',
+			'link_label' => __( 'Shop now', 'tailwindscore' ),
+		),
+		array(
+			'image'      => '',
+			'title'      => __( 'Corset dresses', 'tailwindscore' ),
+			'link_url'   => '',
+			'link_label' => __( 'Shop now', 'tailwindscore' ),
+		),
+	);
+}
+
+/**
  * Allowed hero CTA button styles.
  *
  * @return list<string>
@@ -176,6 +262,247 @@ function tailwindscore_homepage_hero_slides(): array {
 }
 
 /**
+ * WooCommerce placeholder image URL for homepage grid cards.
+ */
+function tailwindscore_homepage_grid_placeholder_image_url(): string {
+	if ( function_exists( 'wc_placeholder_img_src' ) ) {
+		return trim( (string) wc_placeholder_img_src( 'woocommerce_single' ) );
+	}
+
+	if ( defined( 'WC_PLUGIN_FILE' ) ) {
+		return (string) plugins_url( 'assets/images/placeholder.webp', WC_PLUGIN_FILE );
+	}
+
+	return '';
+}
+
+/**
+ * Normalize homepage grid card rows from theme_mod.
+ *
+ * Rows without a custom image use the WooCommerce placeholder when available.
+ *
+ * @param mixed                $items   Raw repeater value.
+ * @param array<string, mixed> $schema  Field keys to copy from each row.
+ * @return array<int, array<string, mixed>>
+ */
+function tailwindscore_homepage_normalize_grid_items( $items, array $schema ): array {
+	if ( ! is_array( $items ) ) {
+		return array();
+	}
+
+	$placeholder_url = tailwindscore_homepage_grid_placeholder_image_url();
+	$normalized      = array();
+
+	foreach ( $items as $item ) {
+		if ( ! is_array( $item ) ) {
+			continue;
+		}
+
+		$image_raw       = $item['image'] ?? '';
+		$image_id        = tailwindscore_homepage_hero_resolve_attachment_id( $image_raw );
+		$image_url       = '';
+		$is_placeholder  = false;
+
+		if ( $image_id > 0 ) {
+			$image_url = (string) wp_get_attachment_image_url( $image_id, 'full' );
+		}
+
+		if ( '' === $image_url && is_string( $image_raw ) ) {
+			$image_url = trim( $image_raw );
+		}
+
+		if ( '' === $image_url && '' !== $placeholder_url ) {
+			$image_url      = $placeholder_url;
+			$is_placeholder = true;
+		}
+
+		if ( '' === $image_url ) {
+			continue;
+		}
+
+		$row = array(
+			'image'          => $image_url,
+			'image_id'       => $image_id,
+			'is_placeholder' => $is_placeholder,
+		);
+
+		foreach ( $schema as $key => $default ) {
+			$row[ $key ] = isset( $item[ $key ] ) ? trim( (string) $item[ $key ] ) : $default;
+		}
+
+		$normalized[] = $row;
+	}
+
+	return $normalized;
+}
+
+/**
+ * Responsive grid card image markup.
+ *
+ * @param array<string, mixed> $item      Normalized card data.
+ * @param string               $class     Image class attribute.
+ * @param string               $alt       Alt text.
+ * @param string               $sizes     Sizes attribute for srcset images.
+ */
+function tailwindscore_homepage_grid_card_image_markup( array $item, string $class, string $alt, string $sizes = '25vw' ): string {
+	$classes = $class;
+
+	if ( ! empty( $item['is_placeholder'] ) ) {
+		$classes .= ' woocommerce-placeholder';
+	}
+
+	$attrs = array(
+		'class'    => trim( $classes ),
+		'alt'      => $alt,
+		'decoding' => 'async',
+		'loading'  => 'lazy',
+		'sizes'    => $sizes,
+	);
+
+	$image_id = isset( $item['image_id'] ) ? absint( $item['image_id'] ) : 0;
+
+	if ( $image_id > 0 && wp_attachment_is_image( $image_id ) ) {
+		return (string) wp_get_attachment_image( $image_id, 'large', false, $attrs );
+	}
+
+	$src = isset( $item['image'] ) ? trim( (string) $item['image'] ) : '';
+
+	if ( '' === $src ) {
+		return '';
+	}
+
+	$html = sprintf( '<img src="%s"', esc_url( $src ) );
+
+	foreach ( $attrs as $name => $value ) {
+		$html .= sprintf( ' %s="%s"', esc_attr( (string) $name ), esc_attr( (string) $value ) );
+	}
+
+	$html .= '>';
+
+	return $html;
+}
+
+/**
+ * Inline CSS custom properties for a homepage card grid based on item count.
+ */
+function tailwindscore_homepage_grid_style_attr( int $count ): string {
+	$count = max( 1, $count );
+
+	return sprintf( '--ts-home-grid-columns:%d', $count );
+}
+
+/**
+ * Responsive sizes attribute for homepage grid card images.
+ */
+function tailwindscore_homepage_grid_image_sizes( int $count ): string {
+	$count         = max( 1, $count );
+	$desktop_width = (int) ceil( 100 / $count );
+
+	return sprintf( '(max-width: 767px) 50vw, %dvw', $desktop_width );
+}
+
+/**
+ * Split a trending collection title into two display lines (last word on line two).
+ *
+ * @return array{line1: string, line2: string}
+ */
+function tailwindscore_homepage_split_trending_title( string $title ): array {
+	$title = trim( $title );
+
+	if ( '' === $title ) {
+		return array(
+			'line1' => '',
+			'line2' => '',
+		);
+	}
+
+	$position = strrpos( $title, ' ' );
+
+	if ( false === $position ) {
+		return array(
+			'line1' => $title,
+			'line2' => '',
+		);
+	}
+
+	return array(
+		'line1' => substr( $title, 0, $position ),
+		'line2' => substr( $title, $position + 1 ),
+	);
+}
+
+/**
+ * Shop by Occasion section heading.
+ */
+function tailwindscore_homepage_occasion_title(): string {
+	return trim(
+		(string) tailwindscore_mod(
+			'homepage_occasion_title',
+			tailwindscore_homepage_default_occasion_title()
+		)
+	);
+}
+
+/**
+ * Shop by Occasion grid items.
+ *
+ * @return array<int, array{image: string, image_id: int, title: string, subtitle: string, link_url: string, link_label: string}>
+ */
+function tailwindscore_homepage_occasion_items(): array {
+	return tailwindscore_homepage_normalize_grid_items(
+		tailwindscore_mod( 'homepage_occasion_items', tailwindscore_homepage_default_occasion_items() ),
+		array(
+			'title'      => '',
+			'subtitle'   => '',
+			'link_url'   => '',
+			'link_label' => __( 'Shop now', 'tailwindscore' ),
+		)
+	);
+}
+
+/**
+ * Whether the Shop by Occasion block should render.
+ */
+function tailwindscore_homepage_should_render_occasion(): bool {
+	return ! empty( tailwindscore_homepage_occasion_items() );
+}
+
+/**
+ * Trending Collections section heading.
+ */
+function tailwindscore_homepage_trending_title(): string {
+	return trim(
+		(string) tailwindscore_mod(
+			'homepage_trending_title',
+			tailwindscore_homepage_default_trending_title()
+		)
+	);
+}
+
+/**
+ * Trending Collections grid items.
+ *
+ * @return array<int, array{image: string, image_id: int, title: string, link_url: string, link_label: string}>
+ */
+function tailwindscore_homepage_trending_items(): array {
+	return tailwindscore_homepage_normalize_grid_items(
+		tailwindscore_mod( 'homepage_trending_items', tailwindscore_homepage_default_trending_items() ),
+		array(
+			'title'      => '',
+			'link_url'   => '',
+			'link_label' => __( 'Shop now', 'tailwindscore' ),
+		)
+	);
+}
+
+/**
+ * Whether the Trending Collections block should render.
+ */
+function tailwindscore_homepage_should_render_trending(): bool {
+	return ! empty( tailwindscore_homepage_trending_items() );
+}
+
+/**
  * Whether the homepage products block is enabled.
  */
 function tailwindscore_homepage_products_enabled(): bool {
@@ -316,7 +643,7 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		'tailwindscore_homepage_display',
 		array(
 			'title'       => esc_html__( 'Homepage display', 'tailwindscore' ),
-			'description' => esc_html__( 'Hero banner slides and product blocks for the front page.', 'tailwindscore' ),
+			'description' => esc_html__( 'Hero banner slides, category grids, and product blocks for the front page.', 'tailwindscore' ),
 			'priority'    => 125,
 		)
 	);
@@ -402,6 +729,121 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 			'section'     => 'tailwindscore_homepage_display',
 			'priority'    => 15,
 			'default'     => false,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'     => 'text',
+			'settings' => 'homepage_occasion_title',
+			'label'    => esc_html__( 'Shop by Occasion title', 'tailwindscore' ),
+			'section'  => 'tailwindscore_homepage_display',
+			'priority' => 16,
+			'default'  => tailwindscore_homepage_default_occasion_title(),
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'        => 'repeater',
+			'settings'    => 'homepage_occasion_items',
+			'label'       => esc_html__( 'Shop by Occasion items', 'tailwindscore' ),
+			'description' => esc_html__( 'Add cards below the hero. Cards without a custom image use the WooCommerce placeholder.', 'tailwindscore' ),
+			'section'     => 'tailwindscore_homepage_display',
+			'priority'    => 17,
+			'row_label'   => array(
+				'type'  => 'field',
+				'value' => esc_html__( 'Occasion', 'tailwindscore' ),
+				'field' => 'title',
+			),
+			'default'     => tailwindscore_homepage_default_occasion_items(),
+			'fields'      => array(
+				'image'      => array(
+					'type'    => 'image',
+					'label'   => esc_html__( 'Image', 'tailwindscore' ),
+					'default' => '',
+					'choices' => array(
+						'save_as' => 'id',
+					),
+				),
+				'title'      => array(
+					'type'    => 'text',
+					'label'   => esc_html__( 'Title', 'tailwindscore' ),
+					'default' => '',
+				),
+				'subtitle'   => array(
+					'type'    => 'text',
+					'label'   => esc_html__( 'Subtitle', 'tailwindscore' ),
+					'default' => '',
+				),
+				'link_url'   => array(
+					'type'    => 'text',
+					'label'   => esc_html__( 'Link URL', 'tailwindscore' ),
+					'default' => '',
+				),
+				'link_label' => array(
+					'type'    => 'text',
+					'label'   => esc_html__( 'Button label', 'tailwindscore' ),
+					'default' => __( 'Shop now', 'tailwindscore' ),
+				),
+			),
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'     => 'text',
+			'settings' => 'homepage_trending_title',
+			'label'    => esc_html__( 'Trending Collections title', 'tailwindscore' ),
+			'section'  => 'tailwindscore_homepage_display',
+			'priority' => 18,
+			'default'  => tailwindscore_homepage_default_trending_title(),
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'        => 'repeater',
+			'settings'    => 'homepage_trending_items',
+			'label'       => esc_html__( 'Trending Collections items', 'tailwindscore' ),
+			'description' => esc_html__( 'Add cards below Shop by Occasion. Cards without a custom image use the WooCommerce placeholder.', 'tailwindscore' ),
+			'section'     => 'tailwindscore_homepage_display',
+			'priority'    => 19,
+			'row_label'   => array(
+				'type'  => 'field',
+				'value' => esc_html__( 'Collection', 'tailwindscore' ),
+				'field' => 'title',
+			),
+			'default'     => tailwindscore_homepage_default_trending_items(),
+			'fields'      => array(
+				'image'      => array(
+					'type'    => 'image',
+					'label'   => esc_html__( 'Image', 'tailwindscore' ),
+					'default' => '',
+					'choices' => array(
+						'save_as' => 'id',
+					),
+				),
+				'title'      => array(
+					'type'    => 'text',
+					'label'   => esc_html__( 'Title', 'tailwindscore' ),
+					'default' => '',
+				),
+				'link_url'   => array(
+					'type'    => 'text',
+					'label'   => esc_html__( 'Link URL', 'tailwindscore' ),
+					'default' => '',
+				),
+				'link_label' => array(
+					'type'    => 'text',
+					'label'   => esc_html__( 'Link label', 'tailwindscore' ),
+					'default' => __( 'Shop now', 'tailwindscore' ),
+				),
+			),
 		)
 	);
 
