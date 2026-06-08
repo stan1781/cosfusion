@@ -569,21 +569,77 @@ function tailwindscore_homepage_hero_autoplay(): bool {
 }
 
 /**
- * Visible product slides on viewports below the md breakpoint (supports 2.5 peek).
+ * Default responsive slide counts for the homepage products carousel.
+ *
+ * @return array{mobile: float, tablet: float, desktop: float}
  */
-function tailwindscore_homepage_products_slides_mobile(): float {
-	return tailwindscore_homepage_sanitize_slide_count(
-		tailwindscore_mod( 'homepage_products_slides_mobile', 2.5 )
+function tailwindscore_homepage_default_products_slide_counts(): array {
+	return array(
+		'mobile'  => 2.5,
+		'tablet'  => 4.0,
+		'desktop' => 6.0,
 	);
 }
 
 /**
- * Visible product slides on md breakpoint and up.
+ * Read Kirki responsive slide counts (mobile / tablet / desktop), with legacy per-breakpoint mods.
+ *
+ * @return array{mobile: float, tablet: float, desktop: float}
+ */
+function tailwindscore_homepage_products_slide_counts(): array {
+	static $counts = null;
+
+	if ( null !== $counts ) {
+		return $counts;
+	}
+
+	$defaults = tailwindscore_homepage_default_products_slide_counts();
+	$stored   = tailwindscore_mod( 'homepage_products_slides', null );
+
+	if ( is_array( $stored ) && ( isset( $stored['mobile'] ) || isset( $stored['tablet'] ) || isset( $stored['desktop'] ) ) ) {
+		$counts = array(
+			'mobile'  => tailwindscore_homepage_sanitize_slide_count( $stored['mobile'] ?? $defaults['mobile'] ),
+			'tablet'  => tailwindscore_homepage_sanitize_slide_count( $stored['tablet'] ?? $defaults['tablet'] ),
+			'desktop' => tailwindscore_homepage_sanitize_slide_count( $stored['desktop'] ?? $defaults['desktop'] ),
+		);
+
+		return $counts;
+	}
+
+	$tablet_fallback = tailwindscore_mod( 'homepage_products_slides_desktop', $defaults['tablet'] );
+
+	$counts = array(
+		'mobile'  => tailwindscore_homepage_sanitize_slide_count(
+			tailwindscore_mod( 'homepage_products_slides_mobile', $defaults['mobile'] )
+		),
+		'tablet'  => tailwindscore_homepage_sanitize_slide_count( $tablet_fallback ),
+		'desktop' => tailwindscore_homepage_sanitize_slide_count(
+			tailwindscore_mod( 'homepage_products_slides_wide', $tablet_fallback )
+		),
+	);
+
+	return $counts;
+}
+
+/**
+ * Visible product slides on viewports below the md breakpoint (supports 2.5 peek).
+ */
+function tailwindscore_homepage_products_slides_mobile(): float {
+	return tailwindscore_homepage_products_slide_counts()['mobile'];
+}
+
+/**
+ * Visible product slides from the md breakpoint up to below xl (768px–1279px).
  */
 function tailwindscore_homepage_products_slides_desktop(): float {
-	return tailwindscore_homepage_sanitize_slide_count(
-		tailwindscore_mod( 'homepage_products_slides_desktop', 4.0 )
-	);
+	return tailwindscore_homepage_products_slide_counts()['tablet'];
+}
+
+/**
+ * Visible product slides from the xl breakpoint and up (1280px+).
+ */
+function tailwindscore_homepage_products_slides_wide(): float {
+	return tailwindscore_homepage_products_slide_counts()['desktop'];
 }
 
 /**
@@ -607,10 +663,12 @@ function tailwindscore_homepage_swiper_config(): array {
 			'autoplayDelay' => 5000,
 		),
 		'products' => array(
-			'slidesMobile'  => tailwindscore_homepage_products_slides_mobile(),
-			'slidesDesktop' => tailwindscore_homepage_products_slides_desktop(),
-			'spaceBetween'  => tailwindscore_homepage_products_slide_gap(),
-			'breakpoint'    => 768,
+			'slidesMobile'   => tailwindscore_homepage_products_slides_mobile(),
+			'slidesDesktop'  => tailwindscore_homepage_products_slides_desktop(),
+			'slidesWide'     => tailwindscore_homepage_products_slides_wide(),
+			'spaceBetween'   => tailwindscore_homepage_products_slide_gap(),
+			'breakpoint'     => 768,
+			'breakpointWide' => 1280,
 		),
 	);
 }
@@ -898,55 +956,38 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		)
 	);
 
-	Kirki::add_field(
-		$cfg,
+	$products_active = array(
 		array(
-			'type'              => 'slider',
-			'settings'          => 'homepage_products_slides_mobile',
-			'label'             => esc_html__( 'Products visible (mobile)', 'tailwindscore' ),
-			'description'       => esc_html__( 'Slides per view below 768px. Use decimals (e.g. 2.5) to peek the next card.', 'tailwindscore' ),
-			'section'           => 'tailwindscore_homepage_display',
-			'priority'          => 50,
-			'default'           => 2.5,
-			'choices'           => array(
-				'min'  => 1,
-				'max'  => 6,
-				'step' => 0.5,
-			),
-			'sanitize_callback' => 'tailwindscore_homepage_sanitize_slide_count',
-			'active_callback'   => array(
-				array(
-					'setting'  => 'homepage_products_enable',
-					'operator' => '==',
-					'value'    => true,
-				),
-			),
-		)
+			'setting'  => 'homepage_products_enable',
+			'operator' => '==',
+			'value'    => true,
+		),
+	);
+
+	$responsive_slides = array(
+		'type'              => 'select',
+		'section'           => 'tailwindscore_homepage_display',
+		'choices'           => tailwindscore_kirki_slide_count_choices(),
+		'responsive'        => true,
+		'sanitize_callback' => 'tailwindscore_kirki_sanitize_slide_count_choice',
+		'active_callback'   => $products_active,
 	);
 
 	Kirki::add_field(
 		$cfg,
-		array(
-			'type'              => 'slider',
-			'settings'          => 'homepage_products_slides_desktop',
-			'label'             => esc_html__( 'Products visible (desktop)', 'tailwindscore' ),
-			'description'       => esc_html__( 'Slides per view from 768px up. Use decimals (e.g. 4.5) to peek the next card.', 'tailwindscore' ),
-			'section'           => 'tailwindscore_homepage_display',
-			'priority'          => 51,
-			'default'           => 4,
-			'choices'           => array(
-				'min'  => 1,
-				'max'  => 6,
-				'step' => 0.5,
-			),
-			'sanitize_callback' => 'tailwindscore_homepage_sanitize_slide_count',
-			'active_callback'   => array(
-				array(
-					'setting'  => 'homepage_products_enable',
-					'operator' => '==',
-					'value'    => true,
+		array_merge(
+			array(
+				'settings'    => 'homepage_products_slides',
+				'label'       => esc_html__( 'Products visible', 'tailwindscore' ),
+				'description' => esc_html__( 'Slides per view — mobile / tablet / desktop. Use 2.5 on mobile to peek the next card.', 'tailwindscore' ),
+				'default'     => array(
+					'mobile'  => '2.5',
+					'tablet'  => '4',
+					'desktop' => '6',
 				),
+				'priority'    => 50,
 			),
+			$responsive_slides
 		)
 	);
 
@@ -958,7 +999,7 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 			'label'             => esc_html__( 'Product slide gap', 'tailwindscore' ),
 			'description'       => esc_html__( 'Space between product cards in pixels.', 'tailwindscore' ),
 			'section'           => 'tailwindscore_homepage_display',
-			'priority'          => 52,
+			'priority'          => 51,
 			'default'           => 24,
 			'choices'           => array(
 				'min'  => 0,
@@ -966,13 +1007,7 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 				'step' => 4,
 			),
 			'sanitize_callback' => 'tailwindscore_homepage_sanitize_slide_gap',
-			'active_callback'   => array(
-				array(
-					'setting'  => 'homepage_products_enable',
-					'operator' => '==',
-					'value'    => true,
-				),
-			),
+			'active_callback'   => $products_active,
 		)
 	);
 }

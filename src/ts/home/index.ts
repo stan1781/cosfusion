@@ -17,8 +17,10 @@ const DEFAULT_CONFIG: TailwindscoreHomeConfig = {
 	products: {
 		slidesMobile: 2.5,
 		slidesDesktop: 4,
+		slidesWide: 6,
 		spaceBetween: 24,
 		breakpoint: 768,
+		breakpointWide: 1280,
 	},
 };
 
@@ -118,7 +120,14 @@ function initProductsSwiper(config: TailwindscoreHomeConfig): void {
 		item.classList.add('swiper-slide');
 	});
 
-	const { slidesMobile, slidesDesktop, spaceBetween, breakpoint } = config.products;
+	const {
+		slidesMobile,
+		slidesDesktop,
+		slidesWide,
+		spaceBetween,
+		breakpoint,
+		breakpointWide,
+	} = config.products;
 	const slideCount = items.length;
 
 	const mountSwiper = (): void => {
@@ -136,6 +145,10 @@ function initProductsSwiper(config: TailwindscoreHomeConfig): void {
 				breakpoints: {
 					[breakpoint]: {
 						slidesPerView: slidesDesktop,
+						spaceBetween,
+					},
+					[breakpointWide]: {
+						slidesPerView: slidesWide,
 						spaceBetween,
 					},
 				},

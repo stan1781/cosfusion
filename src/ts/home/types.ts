@@ -6,8 +6,10 @@ export interface TailwindscoreHomeHeroConfig {
 export interface TailwindscoreHomeProductsConfig {
 	slidesMobile: number;
 	slidesDesktop: number;
+	slidesWide: number;
 	spaceBetween: number;
 	breakpoint: number;
+	breakpointWide: number;
 }
 
 export interface TailwindscoreHomeConfig {

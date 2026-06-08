@@ -158,3 +158,57 @@ function tailwindscore_register_child_theme_mods_inherit(): void {
 	);
 }
 add_action( 'after_setup_theme', 'tailwindscore_register_child_theme_mods_inherit', 1 );
+
+/**
+ * Select choices for carousel slide counts (1–6 in 0.5 steps).
+ *
+ * @return array<string, string>
+ */
+function tailwindscore_kirki_slide_count_choices(): array {
+	$choices = array();
+
+	for ( $step = 2; $step <= 12; $step++ ) {
+		$value            = (string) ( $step / 2 );
+		$choices[ $value ] = $value;
+	}
+
+	return $choices;
+}
+
+/**
+ * Sanitize a single slide-count value for Kirki responsive select fields.
+ *
+ * @param mixed $value Raw value.
+ */
+function tailwindscore_kirki_sanitize_slide_count_choice( $value ): string {
+	if ( ! function_exists( 'tailwindscore_homepage_sanitize_slide_count' ) ) {
+		$number = is_numeric( $value ) ? (float) $value : 1.0;
+		$number = max( 1.0, min( 6.0, $number ) );
+
+		return (string) ( round( $number * 2.0 ) / 2.0 );
+	}
+
+	return (string) tailwindscore_homepage_sanitize_slide_count( $value );
+}
+
+/**
+ * Collapse Kirki repeater rows by default in the Customizer.
+ *
+ * Kirki has no PHP option for this; addRow() always expands rows after render.
+ */
+function tailwindscore_kirki_enqueue_repeater_collapsed_script(): void {
+	if ( ! class_exists( 'Kirki' ) ) {
+		return;
+	}
+
+	$path = get_template_directory() . '/inc/config/kirki/repeater-collapsed.js';
+
+	wp_enqueue_script(
+		'tailwindscore-kirki-repeater-collapsed',
+		get_template_directory_uri() . '/inc/config/kirki/repeater-collapsed.js',
+		array( 'customize-controls' ),
+		file_exists( $path ) ? (string) filemtime( $path ) : '1.0.0',
+		true
+	);
+}
+add_action( 'customize_controls_enqueue_scripts', 'tailwindscore_kirki_enqueue_repeater_collapsed_script' );
