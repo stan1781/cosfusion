@@ -7,7 +7,7 @@
 .custom-variation-selector {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.625rem;
+	gap: var(--ts-space-md);
 	list-style: none;
 	padding: 0;
 	margin: 0;
@@ -15,7 +15,7 @@
 
 .custom-variation-selector li {
 	box-sizing: border-box;
-	padding: 0.35rem 0.65rem;
+	padding: var(--ts-space-md);
 	cursor: pointer;
 	border: 1px solid var(--ts-colors-border);
 	border-radius: var(--ts-radius-sm);
@@ -240,7 +240,7 @@
 }
 
 .ts-variation-row {
-	margin-bottom: var(--ts-space-2xl);
+	margin-bottom: var(--ts-space-xl);
 }
 
 .ts-variation-row__label {
@@ -274,8 +274,23 @@
 	}
 }
 
+.single_variation_wrap {
+	.woocommerce-variation-availability {
+		.stock {
+			&.in-stock {
+				color: var(--ts-colors-success);
+			}
+			&.out-of-stock {
+				color: var(--ts-colors-danger);
+			}
+		}
+	}
+}
+
 .single-product .woocommerce-variation.single_variation .woocommerce-variation-price,
-.single-product .woocommerce-variation-price {
+.single-product .woocommerce-variation-price,
+.ts-quick-view-modal .woocommerce-variation.single_variation .woocommerce-variation-price,
+.ts-quick-view-modal .woocommerce-variation-price {
 	display: none !important;
 }
 
@@ -376,7 +391,7 @@
 
 .ts-size-guide-trigger {
 	margin-inline-start: var(--ts-space-md);
-	font-size: var(--ts-font-size-sm);
+	font-size: var(--ts-font-size-sm) !important;
 	text-decoration: underline;
 	text-underline-offset: 2px;
 	cursor: pointer;

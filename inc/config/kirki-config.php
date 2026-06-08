@@ -120,19 +120,21 @@ function tailwindscore_kirki_register(): void {
 
 	if ( class_exists( 'WooCommerce' ) ) {
 
-		tailwindscore_kirki_register_section_placeholder(
-
-			$cfg,
+		Kirki::add_section(
 
 			'tailwindscore_shop_archive',
 
-			$targets['woocommerce'],
+			array(
 
-			esc_html__( 'Shop & Archive', 'tailwindscore' ),
+				'title'       => esc_html__( 'Shop & Archive', 'tailwindscore' ),
 
-			esc_html__( 'Shop and archive page theme options will appear here.', 'tailwindscore' ),
+				'description' => esc_html__( 'Archive hero backgrounds and related shop listing options.', 'tailwindscore' ),
 
-			15
+				'panel'       => $targets['woocommerce'],
+
+				'priority'    => 15,
+
+			)
 
 		);
 

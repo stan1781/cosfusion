@@ -64,6 +64,8 @@ $ts-layout-search: 32rem;
 $ts-layout-drawer: 22rem;
 $ts-layout-hero-height-mobile: 20rem;
 $ts-layout-hero-height-desktop: 37.5rem;
+$ts-layout-wc-archive-hero-height-mobile: 7rem; // 112px @ 16px root (70% of desktop)
+$ts-layout-wc-archive-hero-height-desktop: 10rem; // 160px @ 16px root
 
 $ts-type-body: ui-sans-serif, system-ui, sans-serif;
 $ts-type-heading: $ts-type-body;

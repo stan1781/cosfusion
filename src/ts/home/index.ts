@@ -84,6 +84,8 @@ function unwrapProductsList(root: HTMLElement, list: HTMLElement): void {
 		return;
 	}
 
+	// Keep WooCommerce loop button styles after removing the shortcode wrapper.
+	root.classList.add('woocommerce');
 	root.insertBefore(list, parent);
 	parent.remove();
 }

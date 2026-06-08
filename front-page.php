@@ -236,7 +236,7 @@ $ts_products_output  = tailwindscore_homepage_should_render_products()
 				</div>
 				<div class="ts-home-products__content">
 					<div class="ts-home-products__viewport">
-						<div class="swiper ts-home-products__swiper" data-ts-home-products>
+						<div class="swiper ts-home-products__swiper woocommerce" data-ts-home-products>
 							<?php echo $ts_products_output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Shortcode HTML. ?>
 						</div>
 					</div>

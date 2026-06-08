@@ -34,6 +34,17 @@ $ts_tab_style  = '--ts-mobile-tab-count: ' . (int) $ts_tab_count;
 			<button
 				class="ts-mobile-tab-bar__link ts-mobile-tab-bar__link--button"
 				type="button"
+				data-ts-mobile-tab-search
+				aria-label="<?php esc_attr_e( 'Search', 'tailwindscore' ); ?>"
+			>
+				<span class="ts-mobile-tab-bar__icon ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'search' ); ?></span>
+				<span class="ts-mobile-tab-bar__label"><?php esc_html_e( 'Search', 'tailwindscore' ); ?></span>
+			</button>
+		</li>
+		<li class="ts-mobile-tab-bar__item">
+			<button
+				class="ts-mobile-tab-bar__link ts-mobile-tab-bar__link--button"
+				type="button"
 				data-ts-mobile-tab-cart
 				aria-label="<?php esc_attr_e( 'Cart', 'tailwindscore' ); ?>"
 			>
@@ -42,17 +53,6 @@ $ts_tab_style  = '--ts-mobile-tab-count: ' . (int) $ts_tab_count;
 					<?php tailwindscore_render_cart_badge(); ?>
 				</span>
 				<span class="ts-mobile-tab-bar__label"><?php esc_html_e( 'Cart', 'tailwindscore' ); ?></span>
-			</button>
-		</li>
-		<li class="ts-mobile-tab-bar__item">
-			<button
-				class="ts-mobile-tab-bar__link ts-mobile-tab-bar__link--button"
-				type="button"
-				data-ts-mobile-tab-search
-				aria-label="<?php esc_attr_e( 'Search', 'tailwindscore' ); ?>"
-			>
-				<span class="ts-mobile-tab-bar__icon ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'search' ); ?></span>
-				<span class="ts-mobile-tab-bar__label"><?php esc_html_e( 'Search', 'tailwindscore' ); ?></span>
 			</button>
 		</li>		
 		<?php if ( class_exists( 'WooCommerce' ) ) : ?>

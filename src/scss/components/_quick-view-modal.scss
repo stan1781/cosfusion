@@ -42,12 +42,10 @@ body.ts-quick-view-modal-open {
 }
 
 .ts-quick-view-modal__dialog .ts-close-button {
-
 	position: absolute;
 	top: $ts-space-md;
 	right: $ts-space-md;
 	z-index: 10;
-
 }
 
 .ts-quick-view-modal__body {
@@ -83,140 +81,29 @@ body.ts-quick-view-modal-open {
 	margin: 0;
 }
 
-.ts-quick-view-product__grid {
-	display: grid;
-	gap: $ts-space-md;
-
-	@media (min-width: $ts-breakpoint-md) {
-		grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-		align-items: start;
+// Quick View product content: reuse ts-wc-product-detail + loop card media; only modal-specific overrides here.
+.ts-quick-view-modal {
+	.ts-wc-product-card__media {
+		border-radius: var(--ts-radius-sm);
 	}
 }
 
-.ts-quick-view-product__media {
-	position: relative;
-}
-
-.ts-quick-view-product__media-inner {
-	position: relative;
-	aspect-ratio: var(--ts-product-image-aspect-ratio, 1);
-	overflow: hidden;
-	background: var(--ts-colors-surface-muted);
-	border-radius: var(--ts-radius-sm);
-}
-
-.ts-quick-view-product__image {
-	display: block;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	transition:
-		opacity 0.25s ease,
-		transform 0.25s ease;
-}
-
-.ts-quick-view-product__image--secondary {
-	position: absolute;
-	inset: 0;
-	opacity: 0;
-	pointer-events: none;
-}
-
-// PC端悬停显示第二张图
-@media (hover: hover) {
-	.ts-quick-view-product__media-inner.has-secondary-image:hover .ts-quick-view-product__image--primary,
-	.ts-quick-view-product__media-inner.has-secondary-image:focus-within .ts-quick-view-product__image--primary {
-		opacity: 0;
-		transform: scale(1.02);
-	}
-
-	.ts-quick-view-product__media-inner.has-secondary-image:hover .ts-quick-view-product__image--secondary,
-	.ts-quick-view-product__media-inner.has-secondary-image:focus-within .ts-quick-view-product__image--secondary {
-		opacity: 1;
-		transform: scale(1.02);
-	}
-}
-
-// 移动端两张图片平铺为一行
 @include mixins.ts-down(md) {
-	.ts-quick-view-product__media-inner {
+	.ts-quick-view-modal .ts-wc-product-card__media.has-secondary-image {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		gap: 0.5rem;
+		gap: var(--ts-space-sm);
 		aspect-ratio: auto;
-	}
 
-	.ts-quick-view-product__image {
-		position: relative;
-		aspect-ratio: var(--ts-product-image-aspect-ratio, 1);
-	}
+		.ts-wc-product-card__image {
+			position: relative;
+			aspect-ratio: var(--ts-product-image-aspect-ratio, 1);
+		}
 
-	.ts-quick-view-product__image--secondary {
-		position: relative;
-		opacity: 1;
-		pointer-events: auto;
-	}
-}
-
-.ts-quick-view-product__title {
-	font-size: var(--ts-font-size-lg);
-	font-weight: 600;
-	margin: 0 0 $ts-space-xs;
-}
-
-.ts-quick-view-product__price {
-	margin-bottom: $ts-space-md;
-}
-
-.ts-quick-view-modal {
-	.hidden-variation-select {
-		display: none !important;
-	}
-
-	.custom-variation-selector {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.625rem;
-		list-style: none;
-		padding: 0;
-		margin: 0.5rem 0 0;
-	}
-
-	.custom-variation-selector li {
-		box-sizing: border-box;
-		padding: 0.5rem 0.75rem;
-		cursor: pointer;
-		border: 1px solid var(--ts-colors-border);
-		border-radius: var(--ts-radius-sm);
-		min-width: 2.75rem;
-		text-align: center;
-		background-color: var(--ts-colors-surface);
-		color: var(--ts-colors-text);
-		font-size: var(--ts-font-size-sm);
-		font-weight: 500;
-		line-height: 1;
-	}
-
-	.custom-variation-selector li.disabled {
-		opacity: 0.35;
-		cursor: not-allowed;
-	}
-
-	.custom-variation-selector li.selected {
-		border-color: var(--ts-colors-text);
-	}
-
-	.ts-variation-row {
-		margin-bottom: $ts-space-sm;
-	}
-
-	.ts-variation-row__label label {
-		font-size: var(--ts-font-size-sm);
-		font-weight: 500;
-	}
-
-	.selected-attribute-value {
-		font-weight: 400;
-		color: var(--ts-colors-text-muted);
+		.ts-wc-product-card__image--secondary {
+			position: relative;
+			opacity: 1;
+			pointer-events: auto;
+		}
 	}
 }

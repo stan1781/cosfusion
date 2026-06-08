@@ -15,13 +15,6 @@ get_header( 'shop' );
 do_action( 'woocommerce_before_main_content' );
 ?>
 <section class="ts-wc-archive ts-stack">
-	<header class="ts-wc-archive__header ts-stack">
-		<?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
-			<h1 class="ts-heading"><?php woocommerce_page_title(); ?></h1>
-		<?php endif; ?>
-		<?php do_action( 'woocommerce_archive_description' ); ?>
-	</header>
-
 	<div class="ts-wc-archive__notices">
 		<?php woocommerce_output_all_notices(); ?>
 	</div>

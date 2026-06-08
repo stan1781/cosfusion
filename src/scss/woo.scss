@@ -1,6 +1,7 @@
 // Woo styles use CSS custom properties from app.scss → abstracts/_root.scss.
 @use "abstracts/mixins";
 @use "woocommerce/shell";
+@use "woocommerce/archive-hero";
 @use "woocommerce/archive";
 @use "woocommerce/product";
 @use "woocommerce/product-variations";

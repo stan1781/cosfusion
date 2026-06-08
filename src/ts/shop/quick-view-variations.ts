@@ -251,7 +251,7 @@ export async function initQuickViewVariations(root: HTMLElement): Promise<void> 
 
 		$form.on('show_variation', (...args: unknown[]) => {
 			const variation = args[1] as { price_html?: string } | undefined;
-			const priceEl = root.querySelector<HTMLElement>('.ts-quick-view-product__price');
+			const priceEl = root.querySelector<HTMLElement>('.ts-wc-product-detail__summary .price');
 			if (priceEl && variation?.price_html) {
 				priceEl.innerHTML = variation.price_html;
 			}
