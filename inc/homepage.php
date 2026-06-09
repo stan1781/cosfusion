@@ -46,21 +46,21 @@ function tailwindscore_homepage_default_occasion_items(): array {
 	return array(
 		array(
 			'image'      => '',
-			'title'      => __( 'Prom night', 'tailwindscore' ),
+			'title'      => __( 'Party Club', 'tailwindscore' ),
 			'subtitle'   => __( '200+ styles', 'tailwindscore' ),
 			'link_url'   => '',
 			'link_label' => __( 'Shop now', 'tailwindscore' ),
 		),
 		array(
 			'image'      => '',
-			'title'      => __( 'Bridesmaid', 'tailwindscore' ),
+			'title'      => __( 'Prom', 'tailwindscore' ),
 			'subtitle'   => __( '200+ styles', 'tailwindscore' ),
 			'link_url'   => '',
 			'link_label' => __( 'Shop now', 'tailwindscore' ),
 		),
 		array(
 			'image'      => '',
-			'title'      => __( 'Evening gala', 'tailwindscore' ),
+			'title'      => __( 'Work', 'tailwindscore' ),
 			'subtitle'   => __( '250+ styles', 'tailwindscore' ),
 			'link_url'   => '',
 			'link_label' => __( 'Shop now', 'tailwindscore' ),
@@ -84,25 +84,25 @@ function tailwindscore_homepage_default_trending_items(): array {
 	return array(
 		array(
 			'image'      => '',
-			'title'      => __( 'Satin dresses', 'tailwindscore' ),
+			'title'      => __( 'Maxi Dresses', 'tailwindscore' ),
 			'link_url'   => '',
 			'link_label' => __( 'Shop now', 'tailwindscore' ),
 		),
 		array(
 			'image'      => '',
-			'title'      => __( 'Sequin dresses', 'tailwindscore' ),
+			'title'      => __( 'Midi Dresses', 'tailwindscore' ),
 			'link_url'   => '',
 			'link_label' => __( 'Shop now', 'tailwindscore' ),
 		),
 		array(
 			'image'      => '',
-			'title'      => __( 'Floral dresses', 'tailwindscore' ),
+			'title'      => __( 'Bodycon Dresses', 'tailwindscore' ),
 			'link_url'   => '',
 			'link_label' => __( 'Shop now', 'tailwindscore' ),
 		),
 		array(
 			'image'      => '',
-			'title'      => __( 'Corset dresses', 'tailwindscore' ),
+			'title'      => __( 'Summer Dresses', 'tailwindscore' ),
 			'link_url'   => '',
 			'link_label' => __( 'Shop now', 'tailwindscore' ),
 		),

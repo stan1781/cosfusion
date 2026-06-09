@@ -12,25 +12,24 @@ if ( $ts_use_footer_info_sidebar ) {
 }
 
 $ts_footer_info_classes  = 'ts-site-footer__info';
-$ts_footer_info_classes .= ( ! $ts_use_footer_info_sidebar || $ts_footer_info_widget_count <= 1 )
+$ts_footer_info_classes .= ( 0 === $ts_footer_info_widget_count )
 	? ' ts-site-footer__info--centered'
 	: ' ts-site-footer__info--split';
 ?>
 <div class="<?php echo esc_attr( $ts_footer_info_classes ); ?>">
+	<section class="widget ts-site-footer__widget ts-stack">
+		<p>
+			<?php
+			printf(
+				/* translators: 1: year, 2: site name */
+				esc_html__( 'Copyright %1$s %2$s. All rights reserved.', 'tailwindscore' ),
+				esc_html( gmdate( 'Y' ) ),
+				esc_html( $ts_site_name )
+			);
+			?>
+		</p>
+	</section>
 	<?php if ( $ts_use_footer_info_sidebar ) : ?>
 		<?php dynamic_sidebar( 'footer-info' ); ?>
-	<?php else : ?>
-		<section class="widget ts-site-footer__widget ts-stack">
-			<p>
-				<?php
-				printf(
-					/* translators: 1: year, 2: site name */
-					esc_html__( 'Copyright %1$s %2$s. All rights reserved.', 'tailwindscore' ),
-					esc_html( gmdate( 'Y' ) ),
-					esc_html( $ts_site_name )
-				);
-				?>
-			</p>
-		</section>
 	<?php endif; ?>
 </div>
