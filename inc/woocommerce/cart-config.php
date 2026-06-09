@@ -3,9 +3,8 @@ declare(strict_types=1);
 
 function tailwindscore_purchase_flow_config(): array {
 	return array(
-		'storeApiUrl'   => rest_url( 'wc/store/v1/' ),
-		'storeNonceUrl' => rest_url( 'tailwindscore/v1/store-nonce' ),
-		'nonce'         => wp_create_nonce( 'wc_store_api' ),
+		'storeApiUrl' => rest_url( 'wc/store/v1/' ),
+		'nonce'       => wp_create_nonce( 'wc_store_api' ),
 		'cartUrl'       => tailwindscore_cart_url(),
 		'checkoutUrl'   => tailwindscore_checkout_url(),
 		'shopUrl'       => function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/' ),

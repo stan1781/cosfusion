@@ -70,10 +70,9 @@ type CartItemEditConfig = {
 	i18n: CartItemEditI18n;
 };
 
-	type TailwindscoreCartConfig = {
-		storeApiUrl: string;
-		storeNonceUrl?: string;
-		nonce: string;
+type TailwindscoreCartConfig = {
+	storeApiUrl: string;
+	nonce: string;
 	cartUrl: string;
 	checkoutUrl: string;
 	shopUrl: string;
@@ -200,6 +199,9 @@ const cartPageSelector = '[data-ts-cart-page-inner]';
 const pendingCartItemKeys = new Set<string>();
 let currentCart: StoreApiCart | null = null;
 let storeApiNonce: string | undefined;
+let storeApiNonceRefresh: Promise<void> | null = null;
+let storeApiNonceFreshAt = 0;
+const STORE_API_NONCE_TTL_MS = 15_000;
 let lastCartSyncAt = 0;
 
 function escapeHtml(value: string) {
@@ -686,29 +688,41 @@ function updateStoreApiHeaders(response: Response) {
 
 	if (nextNonce) {
 		storeApiNonce = nextNonce;
+		storeApiNonceFreshAt = Date.now();
 	}
 }
 
-async function readErrorResponse(response: Response) {
-	let payload: StoreApiErrorResponse | null = null;
-
+async function parseStoreApiError(response: Response): Promise<StoreApiErrorResponse | null> {
 	try {
-		payload = (await response.json()) as StoreApiErrorResponse;
+		return (await response.json()) as StoreApiErrorResponse;
 	} catch {
-		payload = null;
+		return null;
 	}
-
-	if (payload?.data?.cart) {
-		currentCart = payload.data.cart;
-		syncCartUi(payload.data.cart);
-	}
-
-	throw new Error(decodeHtmlEntities(payload?.message || 'Store API request failed.'));
 }
 
-async function requestStoreApi<TResponse>(path: string, options?: { method?: string; body?: unknown }) {
+async function readErrorResponse(response: Response, payload: StoreApiErrorResponse | null = null) {
+	const errorPayload = payload ?? (await parseStoreApiError(response));
+
+	if (errorPayload?.data?.cart) {
+		currentCart = errorPayload.data.cart;
+		syncCartUi(errorPayload.data.cart);
+	}
+
+	throw new Error(decodeHtmlEntities(errorPayload?.message || 'Store API request failed.'));
+}
+
+async function requestStoreApi<TResponse>(
+	path: string,
+	options?: { method?: string; body?: unknown },
+	allowNonceRetry = true,
+) {
 	const config = getConfigOrThrow();
 	const method = options?.method ?? 'GET';
+
+	if ('GET' !== method) {
+		await refreshStoreApiNonce();
+	}
+
 	const url = new URL(path, config.storeApiUrl);
 	const headers = new Headers({
 		Accept: 'application/json',
@@ -740,7 +754,22 @@ async function requestStoreApi<TResponse>(path: string, options?: { method?: str
 	updateStoreApiHeaders(response);
 
 	if (!response.ok) {
-		await readErrorResponse(response);
+		const payload = await parseStoreApiError(response);
+
+		if (
+			allowNonceRetry &&
+			'GET' !== method &&
+			response.status === 403 &&
+			payload?.code === 'woocommerce_rest_invalid_nonce'
+		) {
+			// WooCommerce returns a fresh nonce in the response header; reuse it once.
+			if (!response.headers.get('Nonce')) {
+				await refreshStoreApiNonce();
+			}
+			return requestStoreApi<TResponse>(path, options, false);
+		}
+
+		await readErrorResponse(response, payload);
 	}
 
 	return (await response.json()) as TResponse;
@@ -762,46 +791,49 @@ function setCart(cart: StoreApiCart) {
 	syncCartUi(cart);
 }
 
-async function bootstrapStoreApiNonce() {
-	if (
-		document.body.classList.contains('woocommerce-checkout') ||
-		document.body.classList.contains('woocommerce-cart')
-	) {
+async function refreshStoreApiNonce(): Promise<void> {
+	if (storeApiNonce && Date.now() - storeApiNonceFreshAt < STORE_API_NONCE_TTL_MS) {
 		return;
 	}
 
-	const config = getCartConfig();
-
-	if (!config) {
-		return;
+	if (storeApiNonceRefresh) {
+		return storeApiNonceRefresh;
 	}
 
-	const nonceUrl =
-		config.storeNonceUrl ?? config.storeApiUrl.replace(/wc\/store\/v1\/?$/, 'tailwindscore/v1/store-nonce');
+	storeApiNonceRefresh = (async () => {
+		const config = getCartConfig();
 
-	try {
-		const response = await fetch(nonceUrl, {
-			method: 'GET',
-			credentials: 'same-origin',
-			cache: 'no-store',
-			headers: {
-				Accept: 'application/json',
-			},
-		});
-
-		updateStoreApiHeaders(response);
-
-		if (!response.ok) {
+		if (!config) {
 			return;
 		}
 
-		const payload = (await response.json()) as { nonce?: string };
+		const url = new URL('cart', config.storeApiUrl);
+		url.searchParams.set('_', String(Date.now()));
 
-		if (payload.nonce) {
-			storeApiNonce = payload.nonce;
+		try {
+			const response = await fetch(url.toString(), {
+				method: 'GET',
+				credentials: 'same-origin',
+				cache: 'no-store',
+				headers: {
+					Accept: 'application/json',
+				},
+			});
+
+			updateStoreApiHeaders(response);
+
+			if (response.ok) {
+				await response.json().catch(() => null);
+			}
+		} catch {
+			// Best-effort; Store API responses also rotate the nonce header.
 		}
-	} catch {
-		// Nonce bootstrap is best-effort; Store API responses also rotate the nonce header.
+	})();
+
+	try {
+		return await storeApiNonceRefresh;
+	} finally {
+		storeApiNonceRefresh = null;
 	}
 }
 
@@ -1299,10 +1331,9 @@ function initializeCartUi() {
 	bindCouponApplyDisabledState();
 	bindCheckoutCouponControls();
 	bindDrawerCartRefresh();
-	void bootstrapStoreApiNonce();
 
-	// Do not GET /cart on every page load (checkout/cart especially). That can run
-	// calculate_totals() against the wrong session and empty the shopper's cart.
+	// Store API nonce is refreshed on demand before cart mutations (see refreshStoreApiNonce).
+	// Avoid GET /cart on every page load; that can run calculate_totals() against the wrong session.
 }
 
 initializeCartUi();

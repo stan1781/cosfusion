@@ -33,7 +33,7 @@ body.ts-quick-view-modal-open {
 	display: flex;
 	flex-direction: column;
 	width: min(100%, 48rem);
-	max-height: min(90vh, 40rem);
+	max-height: min(90vh, 45rem);
 	padding: $ts-space-md;
 	background: var(--ts-colors-surface);
 	border: 1px solid var(--ts-colors-border);
