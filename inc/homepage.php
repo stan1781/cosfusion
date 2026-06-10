@@ -1066,5 +1066,39 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 			'active_callback'   => $products_active,
 		)
 	);
+
+	$shop_by_color_active = array(
+		array(
+			'setting'  => 'homepage_shop_by_color_enable',
+			'operator' => '==',
+			'value'    => true,
+		),
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'        => 'toggle',
+			'settings'    => 'homepage_shop_by_color_enable',
+			'label'       => esc_html__( 'Show Shop by Color block', 'tailwindscore' ),
+			'description' => esc_html__( 'Display color swatches from the WooCommerce color attribute below the products block.', 'tailwindscore' ),
+			'section'     => 'tailwindscore_homepage_display',
+			'priority'    => 55,
+			'default'     => true,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'            => 'text',
+			'settings'        => 'homepage_shop_by_color_title',
+			'label'           => esc_html__( 'Shop by Color title', 'tailwindscore' ),
+			'section'         => 'tailwindscore_homepage_display',
+			'priority'        => 56,
+			'default'         => tailwindscore_homepage_default_shop_by_color_title(),
+			'active_callback' => $shop_by_color_active,
+		)
+	);
 }
 add_action( 'tailwindscore/kirki/register', 'tailwindscore_homepage_kirki_register', 10, 2 );

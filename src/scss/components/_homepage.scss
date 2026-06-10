@@ -502,3 +502,119 @@
 		text-decoration-thickness: 2px;
 	}
 }
+
+.ts-home-colors {
+	background: var(--ts-colors-surface-warm);
+}
+
+.ts-home-colors__list {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: flex-start;
+	gap: var(--ts-space-xl);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow-x: auto;
+	scroll-snap-type: x proximity;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	@include mixins.ts-up(md) {
+		flex-wrap: wrap;
+		overflow-x: visible;
+		scroll-snap-type: none;
+		gap: var(--ts-space-2xl);
+	}
+}
+
+.ts-home-colors__item {
+	flex: 0 0 auto;
+	scroll-snap-align: center;
+}
+
+.ts-home-colors__item--more {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--ts-space-xl);
+}
+
+.ts-home-colors__divider {
+	align-self: center;
+	width: 1px;
+	height: 3.5rem;
+	background: var(--ts-colors-border);
+}
+
+.ts-home-colors__link {
+	display: grid;
+	justify-items: center;
+	gap: var(--ts-space-md);
+	color: var(--ts-colors-text);
+	text-decoration: none;
+}
+
+.ts-home-colors__swatch {
+	display: block;
+	width: 3.25rem;
+	height: 3.25rem;
+	border-radius: var(--ts-radius-full);
+	background-color: var(--ts-home-color-swatch);
+}
+
+.ts-home-colors__swatch--light {
+	border: 1px solid var(--ts-colors-border);
+}
+
+.ts-home-colors__swatch--more {
+	display: grid;
+	place-items: center;
+	background: conic-gradient(
+		from 0deg,
+		#f4c2c2,
+		#ffd700,
+		#98ff98,
+		#87ceeb,
+		#d4b896,
+		#f4c2c2
+	);
+}
+
+.ts-home-colors__more-icon {
+	display: inline-flex;
+	width: var(--ts-font-size-lg);
+	height: var(--ts-font-size-lg);
+	color: var(--ts-colors-surface);
+
+	svg {
+		width: 100%;
+		height: 100%;
+		stroke: currentColor;
+		fill: none;
+		stroke-width: 2.5;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+}
+
+.ts-home-colors__label {
+	font-size: var(--ts-font-size-xs);
+	font-weight: 600;
+	line-height: var(--ts-line-height);
+	letter-spacing: 0.1em;
+	text-align: center;
+	text-transform: uppercase;
+	color: var(--ts-colors-text-muted);
+}
+
+@media (hover: hover) {
+	.ts-home-colors__link:hover .ts-home-colors__label {
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+}

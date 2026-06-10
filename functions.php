@@ -19,6 +19,7 @@ require_once get_template_directory() . '/inc/woocommerce/loop-image.php';
 require_once get_template_directory() . '/inc/woocommerce/loop-badge.php';
 require_once get_template_directory() . '/inc/woocommerce/loop-rating.php';
 require_once get_template_directory() . '/inc/woocommerce/loop-variant-swatches.php';
+require_once get_template_directory() . '/inc/woocommerce/homepage-shop-by-color.php';
 require_once get_template_directory() . '/inc/woocommerce/price-display.php';
 require_once get_template_directory() . '/inc/woocommerce/cart-view.php';
 require_once get_template_directory() . '/inc/woocommerce/cart-config.php';

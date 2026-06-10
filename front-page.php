@@ -20,6 +20,8 @@ $ts_products_title   = tailwindscore_homepage_products_title();
 $ts_products_output  = tailwindscore_homepage_should_render_products()
 	? do_shortcode( tailwindscore_homepage_products_shortcode() )
 	: '';
+$ts_shop_by_color_title = tailwindscore_homepage_shop_by_color_title();
+$ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 ?>
 <main id="primary" class="site-main ts-main ts-home">
 	<?php if ( ! empty( $ts_hero_slides ) ) : ?>
@@ -248,7 +250,41 @@ $ts_products_output  = tailwindscore_homepage_should_render_products()
 		</section>
 	<?php endif; ?>
 
-	
+	<?php if ( tailwindscore_homepage_should_render_shop_by_color() ) : ?>
+		<section class="ts-home-colors ts-section" aria-labelledby="ts-home-colors-title">
+			<div class="ts-container ts-stack">
+				<?php if ( '' !== $ts_shop_by_color_title ) : ?>
+					<h2 id="ts-home-colors-title" class="ts-home-section-title">
+						<?php echo esc_html( $ts_shop_by_color_title ); ?>
+					</h2>
+				<?php endif; ?>
+				<ul class="ts-home-colors__list" role="list">
+					<?php foreach ( $ts_shop_by_color_items as $ts_color_item ) : ?>
+						<li class="ts-home-colors__item" role="listitem">
+							<a class="ts-home-colors__link" href="<?php echo esc_url( $ts_color_item['url'] ); ?>">
+								<span
+									class="ts-home-colors__swatch<?php echo $ts_color_item['is_light'] ? ' ts-home-colors__swatch--light' : ''; ?>"
+									style="--ts-home-color-swatch: <?php echo esc_attr( $ts_color_item['hex'] ); ?>;"
+								></span>
+								<span class="ts-home-colors__label"><?php echo esc_html( $ts_color_item['label'] ); ?></span>
+							</a>
+						</li>
+					<?php endforeach; ?>
+					<li class="ts-home-colors__item ts-home-colors__item--more" role="listitem">
+						<span class="ts-home-colors__divider" aria-hidden="true"></span>
+						<a class="ts-home-colors__link" href="<?php echo esc_url( tailwindscore_homepage_shop_by_color_more_url() ); ?>">
+							<span class="ts-home-colors__swatch ts-home-colors__swatch--more">
+								<span class="ts-home-colors__more-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'plus' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+							</span>
+							<span class="ts-home-colors__label"><?php esc_html_e( 'More', 'tailwindscore' ); ?></span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</section>
+	<?php endif; ?>
+
+
 </main>
 <?php
 get_footer();
