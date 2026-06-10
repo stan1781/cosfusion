@@ -250,6 +250,7 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 		</section>
 	<?php endif; ?>
 
+	<!-- Shop by color -->
 	<?php if ( tailwindscore_homepage_should_render_shop_by_color() ) : ?>
 		<section class="ts-home-colors ts-section" aria-labelledby="ts-home-colors-title">
 			<div class="ts-container ts-stack">
@@ -284,6 +285,26 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 		</section>
 	<?php endif; ?>
 
+	<?php if ( tailwindscore_homepage_should_render_trust() ) : ?>
+		<?php $ts_trust_items = tailwindscore_homepage_trust_items(); ?>
+		<section class="ts-home-trust" aria-label="<?php esc_attr_e( 'Store benefits', 'tailwindscore' ); ?>">
+			<div class="ts-container">
+				<ul class="ts-home-trust__list" role="list">
+					<?php foreach ( $ts_trust_items as $ts_trust_item ) : ?>
+						<li class="ts-home-trust__item" role="listitem">
+							<div class="ts-home-trust__card">
+								<span class="ts-home-trust__icon ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( $ts_trust_item['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+								<h3 class="ts-home-trust__title"><?php echo esc_html( $ts_trust_item['title'] ); ?></h3>
+								<?php if ( '' !== $ts_trust_item['description'] ) : ?>
+									<p class="ts-home-trust__description"><?php echo esc_html( $ts_trust_item['description'] ); ?></p>
+								<?php endif; ?>
+							</div>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		</section>
+	<?php endif; ?>
 
 </main>
 <?php

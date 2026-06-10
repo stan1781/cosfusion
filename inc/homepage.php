@@ -559,6 +559,120 @@ function tailwindscore_homepage_should_render_trending(): bool {
 }
 
 /**
+ * Default Trust Bar items.
+ *
+ * @return array<int, array{icon: string, title: string, description: string}>
+ */
+function tailwindscore_homepage_default_trust_items(): array {
+	return array(
+		array(
+			'icon'        => 'truck',
+			'title'       => __( 'Free shipping', 'tailwindscore' ),
+			'description' => __( 'On orders over $79', 'tailwindscore' ),
+		),
+		array(
+			'icon'        => 'ruler',
+			'title'       => __( 'Custom sizing', 'tailwindscore' ),
+			'description' => __( 'Made to fit you perfectly', 'tailwindscore' ),
+		),
+		array(
+			'icon'        => 'lock',
+			'title'       => __( 'Secure checkout', 'tailwindscore' ),
+			'description' => __( '100% secure & trusted', 'tailwindscore' ),
+		),
+		array(
+			'icon'        => 'box-return',
+			'title'       => __( 'Easy returns', 'tailwindscore' ),
+			'description' => __( 'Hassle-free returns', 'tailwindscore' ),
+		),
+	);
+}
+
+/**
+ * Trust Bar icon choices for Customizer and normalization.
+ *
+ * @return array<string, string>
+ */
+function tailwindscore_homepage_trust_icon_choices(): array {
+	return array(
+		'truck'      => esc_html__( 'Shipping truck', 'tailwindscore' ),
+		'ruler'      => esc_html__( 'Measuring tape', 'tailwindscore' ),
+		'lock'       => esc_html__( 'Padlock', 'tailwindscore' ),
+		'box-return' => esc_html__( 'Return box', 'tailwindscore' ),
+	);
+}
+
+/**
+ * Whether the Trust Bar block is enabled in Customizer.
+ */
+function tailwindscore_homepage_trust_enabled(): bool {
+	return (bool) tailwindscore_mod( 'homepage_trust_enable', true );
+}
+
+/**
+ * Normalize Trust Bar repeater rows from theme_mod.
+ *
+ * @param mixed $items Raw repeater value.
+ * @return array<int, array{icon: string, title: string, description: string}>
+ */
+function tailwindscore_homepage_normalize_trust_items( $items ): array {
+	if ( ! is_array( $items ) ) {
+		return array();
+	}
+
+	$icon_choices = tailwindscore_homepage_trust_icon_choices();
+	$normalized   = array();
+
+	foreach ( $items as $item ) {
+		if ( ! is_array( $item ) ) {
+			continue;
+		}
+
+		$title = isset( $item['title'] ) ? trim( sanitize_text_field( (string) $item['title'] ) ) : '';
+
+		if ( '' === $title ) {
+			continue;
+		}
+
+		$icon = isset( $item['icon'] ) ? sanitize_key( (string) $item['icon'] ) : 'truck';
+
+		if ( ! array_key_exists( $icon, $icon_choices ) ) {
+			$icon = 'truck';
+		}
+
+		$normalized[] = array(
+			'icon'        => $icon,
+			'title'       => $title,
+			'description' => isset( $item['description'] ) ? trim( sanitize_text_field( (string) $item['description'] ) ) : '',
+		);
+	}
+
+	return $normalized;
+}
+
+/**
+ * Trust Bar items from Customizer.
+ *
+ * @return array<int, array{icon: string, title: string, description: string}>
+ */
+function tailwindscore_homepage_trust_items(): array {
+	return tailwindscore_homepage_normalize_trust_items(
+		tailwindscore_mod( 'homepage_trust_items', tailwindscore_homepage_default_trust_items() )
+	);
+}
+
+/**
+ * Whether the Trust Bar block should render.
+ */
+function tailwindscore_homepage_should_render_trust(): bool {
+	if ( ! tailwindscore_homepage_trust_enabled() ) {
+		return false;
+	}
+
+	return ! empty( tailwindscore_homepage_trust_items() );
+}
+
+/**
  * Whether the homepage products block is enabled.
  */
 function tailwindscore_homepage_products_enabled(): bool {
@@ -1098,6 +1212,64 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 			'priority'        => 56,
 			'default'         => tailwindscore_homepage_default_shop_by_color_title(),
 			'active_callback' => $shop_by_color_active,
+		)
+	);
+
+	$trust_active = array(
+		array(
+			'setting'  => 'homepage_trust_enable',
+			'operator' => '==',
+			'value'    => true,
+		),
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'        => 'toggle',
+			'settings'    => 'homepage_trust_enable',
+			'label'       => esc_html__( 'Show trust bar', 'tailwindscore' ),
+			'description' => esc_html__( 'Display value proposition items below Shop by Color.', 'tailwindscore' ),
+			'section'     => 'tailwindscore_homepage_display',
+			'priority'    => 57,
+			'default'     => true,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'            => 'repeater',
+			'settings'        => 'homepage_trust_items',
+			'label'           => esc_html__( 'Trust bar items', 'tailwindscore' ),
+			'description'     => esc_html__( 'Add value proposition items. Rows without a title are ignored on the front page.', 'tailwindscore' ),
+			'section'         => 'tailwindscore_homepage_display',
+			'priority'        => 58,
+			'row_label'       => array(
+				'type'  => 'field',
+				'value' => esc_html__( 'Item', 'tailwindscore' ),
+				'field' => 'title',
+			),
+			'default'         => tailwindscore_homepage_default_trust_items(),
+			'active_callback' => $trust_active,
+			'fields'          => array(
+				'icon'        => array(
+					'type'    => 'select',
+					'label'   => esc_html__( 'Icon', 'tailwindscore' ),
+					'default' => 'truck',
+					'choices' => tailwindscore_homepage_trust_icon_choices(),
+				),
+				'title'       => array(
+					'type'    => 'text',
+					'label'   => esc_html__( 'Title', 'tailwindscore' ),
+					'default' => '',
+				),
+				'description' => array(
+					'type'    => 'text',
+					'label'   => esc_html__( 'Description', 'tailwindscore' ),
+					'default' => '',
+				),
+			),
 		)
 	);
 }
