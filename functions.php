@@ -14,6 +14,7 @@ require_once get_template_directory() . '/inc/woocommerce/archive-hero.php';
 require_once get_template_directory() . '/inc/woocommerce/helpers.php';
 require_once get_template_directory() . '/inc/woocommerce/quantity-input.php';
 require_once get_template_directory() . '/inc/woocommerce/product-image-aspect.php';
+require_once get_template_directory() . '/inc/woocommerce/product-tabs.php';
 require_once get_template_directory() . '/inc/woocommerce/loop-image.php';
 require_once get_template_directory() . '/inc/woocommerce/loop-badge.php';
 require_once get_template_directory() . '/inc/woocommerce/loop-rating.php';
