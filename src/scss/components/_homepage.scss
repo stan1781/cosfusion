@@ -84,7 +84,7 @@
 
 .ts-home-hero__eyebrow {
 	margin: 0;
-	font-family: ui-serif, Georgia, 'Times New Roman', serif;
+	font-family: var(--ts-type-heading);
 	font-size: var(--ts-font-size-lg);
 	line-height: var(--ts-line-height);
 	font-weight: 400;
@@ -94,7 +94,7 @@
 
 .ts-home-hero__title {
 	margin: 0;
-	font-family: ui-serif, Georgia, 'Times New Roman', serif;
+	font-family: var(--ts-type-heading);
 	font-size: clamp(calc(var(--ts-font-size-xl) * 2.4), 8vw, calc(var(--ts-font-size-xl) * 3.6));
 	line-height: 1;
 	font-weight: 400;
@@ -189,6 +189,7 @@
 
 .ts-home-products__header .ts-heading {
 	margin: 0;
+	font-size: clamp(var(--ts-font-size-xl), 3vw, var(--ts-font-size-xl) * 1.35);
 }
 
 .ts-home-products__nav-group {

@@ -67,6 +67,8 @@
 
 	// Layout (page-level)
 	--ts-layout-container: #{variables.$ts-layout-container};
+	--ts-layout-section-y-mobile: #{variables.$ts-layout-section-y-mobile};
+	--ts-layout-section-y: #{variables.$ts-layout-section-y};
 	--ts-type-body: #{variables.$ts-type-body};
 	--ts-type-heading: #{variables.$ts-type-heading};
 

@@ -247,6 +247,8 @@ $ts_products_output  = tailwindscore_homepage_should_render_products()
 			</div>
 		</section>
 	<?php endif; ?>
+
+	
 </main>
 <?php
 get_footer();

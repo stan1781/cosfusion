@@ -15,11 +15,10 @@
 }
 
 .ts-section {
-	padding-block: var(--ts-space-2xl);
-}
-@include mixins.ts-up("sm") {
-	.ts-section {
-		padding-block: var(--ts-space-3xl);
+	padding-block: var(--ts-layout-section-y-mobile);
+
+	@include mixins.ts-up(sm) {
+		padding-block: var(--ts-layout-section-y);
 	}
 }
 
