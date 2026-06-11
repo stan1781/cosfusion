@@ -9,6 +9,7 @@ declare(strict_types=1);
 				</div>
 			<?php endif; ?>
 			<?php get_template_part( 'template-parts/footer/footer-widgets' ); ?>
+			<?php get_template_part( 'template-parts/footer/footer-nav' ); ?>
 			<?php get_template_part( 'template-parts/footer/footer-info' ); ?>
 		</div>
 	</footer>

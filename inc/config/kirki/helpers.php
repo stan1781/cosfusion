@@ -25,7 +25,7 @@ function tailwindscore_kirki_panel_header(): string {
 }
 
 /**
- * Kirki panel id: Footer.
+ * Customizer section id: Footer.
  */
 function tailwindscore_kirki_panel_footer(): string {
 	return 'tailwindscore_footer';

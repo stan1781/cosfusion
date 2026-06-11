@@ -20,6 +20,7 @@ function tailwindscore_setup(): void {
 	register_nav_menus(
 		array(
 			'primary' => __( 'Primary Menu', 'tailwindscore' ),
+			'footer'  => __( 'Footer Menu', 'tailwindscore' ),
 		)
 	);
 }

@@ -84,40 +84,6 @@ function tailwindscore_kirki_register(): void {
 
 
 
-	Kirki::add_panel(
-
-		$targets['footer'],
-
-		array(
-
-			'title'       => esc_html__( 'Footer', 'tailwindscore' ),
-
-			'description' => esc_html__( 'Footer area settings (copyright, widgets, social links).', 'tailwindscore' ),
-
-			'priority'    => 20,
-
-		)
-
-	);
-
-
-
-	tailwindscore_kirki_register_section_placeholder(
-
-		$cfg,
-
-		'tailwindscore_footer_placeholder',
-
-		$targets['footer'],
-
-		esc_html__( 'Footer Settings', 'tailwindscore' ),
-
-		esc_html__( 'Footer customization options will appear here.', 'tailwindscore' )
-
-	);
-
-
-
 	if ( class_exists( 'WooCommerce' ) ) {
 
 		Kirki::add_section(
