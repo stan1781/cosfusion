@@ -63,32 +63,15 @@ function handleStickyAddToCart(): void {
 	button.click();
 }
 
-function initStickyBarObserver(): void {
-	const sentinel = document.querySelector<HTMLElement>('.ts-product-sticky-sentinel');
+export function initProductStickyBar(): void {
 	const bar = document.querySelector<HTMLElement>('[data-ts-product-sticky-bar]');
 
-	if (!sentinel || !bar) {
+	if (!bar) {
 		return;
 	}
 
-	const observer = new IntersectionObserver(
-		(entries) => {
-			const entry = entries[0];
-
-			if (!entry) {
-				return;
-			}
-
-			const show = !entry.isIntersecting && entry.boundingClientRect.top < 0;
-			document.body.classList.toggle('ts-product-sticky-bar--visible', show);
-		},
-		{
-			root: null,
-			threshold: 0,
-		},
-	);
-
-	observer.observe(sentinel);
+	// Always show the sticky bar on product pages
+	document.body.classList.add('ts-product-sticky-bar--visible');
 
 	const atc = bar.querySelector<HTMLButtonElement>('[data-ts-product-sticky-atc]');
 
@@ -96,8 +79,4 @@ function initStickyBarObserver(): void {
 		event.preventDefault();
 		handleStickyAddToCart();
 	});
-}
-
-export function initProductStickyBar(): void {
-	initStickyBarObserver();
 }

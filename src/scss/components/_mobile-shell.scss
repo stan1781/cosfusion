@@ -2,7 +2,7 @@
 
 :root {
 	--ts-mobile-tab-bar-height: 3.5rem;
-	--ts-product-sticky-bar-height: 4rem;
+	--ts-product-sticky-bar-height: 3.5rem;
 }
 
 // Mobile tab bar
@@ -129,16 +129,6 @@ body.ts-has-mobile-tab-bar .ts-purchase-flow-toast-root {
 }
 
 // Product sticky purchase bar
-.ts-product-sticky-sentinel {
-	display: block;
-	width: 100%;
-	height: 1px;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	pointer-events: none;
-}
-
 .ts-product-sticky-bar {
 	position: fixed;
 	inset-inline: 0;
@@ -168,7 +158,8 @@ body.ts-product-sticky-bar--visible .ts-product-sticky-bar {
 	align-items: center;
 	gap: var(--ts-space-md);
 	min-height: var(--ts-product-sticky-bar-height);
-	padding: var(--ts-space-sm) var(--ts-space-md);
+	padding-block: var(--ts-space-sm);
+	padding-inline-start: var(--ts-space-md);
 }
 
 .ts-product-sticky-bar__thumb {
@@ -215,10 +206,21 @@ body.ts-product-sticky-bar--visible .ts-product-sticky-bar {
 	margin: 0;
 }
 
+.ts-product-sticky-bar__atc-wrapper {
+	display: flex;
+	align-self: stretch;
+	margin-block: calc(var(--ts-space-sm) * -1);
+	margin-inline-end: calc(var(--ts-space-md) * -1);
+}
+
 .ts-product-sticky-bar__atc {
-	flex-shrink: 0;
+	flex: 1;
 	min-width: 7.5rem;
 	white-space: nowrap;
+	margin: 0;
+	padding-inline: var(--ts-space-lg);
+	border-radius: 0;
+	height: 100%;
 }
 
 body.ts-product-sticky-bar--visible.ts-has-product-sticky-bar .ts-main {

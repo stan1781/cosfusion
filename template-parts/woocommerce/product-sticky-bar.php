@@ -35,12 +35,14 @@ $ts_button_label  = $product->is_purchasable() && $product->is_in_stock()
 			<?php endif; ?>
 			<div class="ts-product-sticky-bar__price" data-ts-product-sticky-price><?php echo wp_kses_post( $ts_price_html ); ?></div>
 		</div>
-		<button
-			type="button"
-			class="button single_add_to_cart_button ts-product-sticky-bar__atc"
-			data-ts-product-sticky-atc
-		>
-			<?php echo esc_html( $ts_button_label ); ?>
-		</button>
+		<div class="ts-product-sticky-bar__atc-wrapper">
+			<button
+				type="button"
+				class="button single_add_to_cart_button ts-product-sticky-bar__atc"
+				data-ts-product-sticky-atc
+			>
+				<?php echo esc_html( $ts_button_label ); ?>
+			</button>
+		</div>
 	</div>
 </div>
