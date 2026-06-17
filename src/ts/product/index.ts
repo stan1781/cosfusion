@@ -3,6 +3,7 @@ import { buildAddToCartRequest } from './add-to-cart-request';
 import { resolveSubmitButton, setButtonsLoading } from '../ui/button-loading';
 import './variations';
 import { initSizeGuide } from './size-guide';
+import { initProductDetailTabs } from './product-detail-tabs';
 
 function getProductForms() {
 	return document.querySelectorAll<HTMLFormElement>('form.cart, form.variations_form');
@@ -56,10 +57,17 @@ if (isProductPage) {
 	const bootSizeGuide = (): void => {
 		initSizeGuide();
 	};
+	const bootProductDetailTabs = (): void => {
+		initProductDetailTabs();
+	};
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', bootSizeGuide);
+		document.addEventListener('DOMContentLoaded', () => {
+			bootSizeGuide();
+			bootProductDetailTabs();
+		});
 	} else {
 		bootSizeGuide();
+		bootProductDetailTabs();
 	}
 	void import('./gallery');
 	void import('./review-images').then(({ initReviewImages, shouldInitReviewImages }) => {

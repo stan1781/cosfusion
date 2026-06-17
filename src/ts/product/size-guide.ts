@@ -314,3 +314,10 @@ export function initSizeGuide(): void {
 		bindVariationListeners(cfg, getUnit);
 	}
 }
+
+/**
+ * Export renderTable for reuse in product-detail-tabs
+ */
+export function renderTableHTML(table: SizeGuideTable, unit: 'cm' | 'inch', showUnitLabel = false): string {
+	return renderTable(table, unit, showUnitLabel);
+}

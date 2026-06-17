@@ -1,0 +1,220 @@
+/**
+ * Product detail tabs custom layout
+ * - PC: Two columns (description + size guide), reviews full width below
+ * - Mobile: Accordion style
+ */
+
+.ts-product-detail-sections {
+	margin-block-start: var(--ts-space-2xl);
+}
+
+// Desktop Layout
+.ts-product-detail-row {
+	display: none;
+
+	@media (min-width: 768px) {
+		display: grid;
+		gap: var(--ts-space-xl);
+		margin-block-end: var(--ts-space-2xl);
+	}
+
+	&--desktop {
+		@media (min-width: 768px) {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	&--full {
+		@media (min-width: 768px) {
+			grid-template-columns: 1fr;
+		}
+	}
+}
+
+.ts-product-detail-column {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-space-md);
+
+	&--description,
+	&--size-guide,
+	&--reviews {
+		padding: var(--ts-space-lg);
+		background-color: var(--ts-colors-surface-muted);
+		border-radius: var(--ts-radius-md);
+	}
+}
+
+.ts-product-detail-heading {
+	font-size: var(--ts-font-size-xl);
+	font-weight: var(--ts-font-weight-semibold);
+	line-height: var(--ts-line-height);
+	margin: 0;
+	color: var(--ts-colors-text);
+}
+
+.ts-product-detail-content {
+	font-size: var(--ts-font-size-base);
+	line-height: var(--ts-line-height);
+	color: var(--ts-colors-text-muted);
+    .wp-block-paragraph {
+        line-height: 1.5;
+    }
+
+	p {
+		margin-block-end: var(--ts-space-md);
+
+		&:last-child {
+			margin-block-end: 0;
+		}
+	}
+
+	ul,
+	ol {
+		margin-block-end: var(--ts-space-md);
+		padding-inline-start: var(--ts-space-lg);
+
+		&:last-child {
+			margin-block-end: 0;
+		}
+	}
+
+	li {
+		margin-block-end: var(--ts-space-sm);
+	}
+}
+
+// Size guide embedded - reuse dialog styles
+.ts-product-detail-size-guide-embed {
+	// Embed uses the same structure as .ts-size-guide-dialog__inner
+	// All styles are inherited from _product-variations.scss
+	
+	// Prevent content from being stretched vertically by flex parent
+	align-self: flex-start; // Don't stretch in height
+	
+	// Override header alignment for embedded version
+	.ts-size-guide-dialog__header {
+		justify-content: flex-end;
+	}
+
+	// Remove dialog-specific height constraints
+	.ts-size-guide-dialog__body {
+		max-height: none;
+		overflow: visible;
+	}
+}
+
+// Mobile Accordion Layout
+.ts-product-detail-accordion {
+	display: block;
+	margin-inline: calc(var(--ts-layout-section-y-mobile) * -1);
+
+	@media (min-width: 768px) {
+		display: none;
+	}
+}
+
+.ts-product-detail-accordion-item {
+	border-block-end: 1px solid var(--ts-colors-border);
+
+	&:first-child {
+		border-block-start: 1px solid var(--ts-colors-border);
+	}
+}
+
+.ts-product-detail-accordion-trigger {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: var(--ts-space-lg) var(--ts-space-md);
+	background: none;
+	border: none;
+	cursor: pointer;
+	text-align: left;
+	transition: background-color 0.2s ease;
+
+	&:hover {
+		background-color: var(--ts-colors-surface-muted);
+	}
+
+	&[aria-expanded="true"] {
+		.ts-product-detail-accordion-icon {
+			transform: rotate(0deg); // Expanded: point down (original SVG direction)
+		}
+	}
+}
+
+.ts-product-detail-accordion-title {
+	font-size: var(--ts-font-size-lg);
+	font-weight: var(--ts-font-weight-semibold);
+	color: var(--ts-colors-text);
+	line-height: var(--ts-line-height);
+}
+
+.ts-product-detail-accordion-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: calc(var(--ts-space-lg) * 1.5);
+	height: calc(var(--ts-space-lg) * 1.5);
+	flex-shrink: 0;
+	transform: rotate(-90deg); // Default: point right
+	transition: transform 0.3s ease;
+	color: var(--ts-colors-text-muted);
+
+	svg {
+		display: block;
+		width: var(--ts-font-size-base);
+		height: var(--ts-font-size-base);
+	}
+}
+
+.ts-product-detail-accordion-content {
+	overflow: hidden;
+	transition: height 0.3s ease;
+
+	&[hidden] {
+		display: none;
+	}
+}
+
+.ts-product-detail-accordion-body {
+	padding: 0 var(--ts-space-md) var(--ts-space-lg);
+	font-size: var(--ts-font-size-base);
+	line-height: var(--ts-line-height);
+	color: var(--ts-colors-text-muted);
+
+	p {
+		margin-block-end: var(--ts-space-md);
+
+		&:last-child {
+			margin-block-end: 0;
+		}
+	}
+
+	ul,
+	ol {
+		margin-block-end: var(--ts-space-md);
+		padding-inline-start: var(--ts-space-lg);
+
+		&:last-child {
+			margin-block-end: 0;
+		}
+	}
+
+	li {
+		margin-block-end: var(--ts-space-sm);
+	}
+
+	// Reviews specific styles
+	.woocommerce-Reviews {
+		margin: 0;
+	}
+
+	.woocommerce-Reviews-title {
+		font-size: var(--ts-font-size-lg);
+		margin-block-end: var(--ts-space-md);
+        display: none;
+	}
+}
