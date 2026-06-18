@@ -1,5 +1,7 @@
 /* Variable product custom selector (modules/variations) */
 
+@use "../abstracts/mixins";
+
 .hidden-variation-select {
 	display: none !important;
 }
@@ -268,7 +270,7 @@
 	.single_add_to_cart_button {
 		min-width: 0;
 		flex: 1 1 auto;
-		@media (min-width: 48rem) {
+		@include mixins.ts-up(md) {
 			height: 3rem !important;
 		}
 	}
@@ -294,7 +296,7 @@
 	display: none !important;
 }
 
-@media (max-width: 48rem) {
+@include mixins.ts-down(md) {
 	.color-selector.mode-list li {
 		width: calc(50% - 0.3125rem);
 	}

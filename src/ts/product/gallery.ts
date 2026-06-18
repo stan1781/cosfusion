@@ -16,8 +16,9 @@ import {
 	resolveGalleryAction,
 } from './gallery-variations';
 import type { GalleryAction, GalleryImage, TailwindscoreProductGalleryConfig, WcVariationRow } from './types';
+import { TS_MEDIA_UP } from '../breakpoints';
 
-const DESKTOP_MQ = '(min-width: 1024px)';
+const DESKTOP_MQ = TS_MEDIA_UP.lg;
 
 function parseConfigFromRoot(root: HTMLElement): TailwindscoreProductGalleryConfig | null {
 	const raw = root.getAttribute('data-product-gallery');

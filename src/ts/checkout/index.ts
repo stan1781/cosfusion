@@ -1,7 +1,9 @@
 import { initCheckoutLoading, refreshCheckoutLoadingHosts, setCheckoutPageLoading } from './loading';
 import { setControlLoading } from '../ui/button-loading';
 
-const DESKTOP_SUMMARY_MQL = window.matchMedia('(width >= 64rem)');
+import { TS_MEDIA_UP } from '../breakpoints';
+
+const DESKTOP_SUMMARY_MQL = window.matchMedia(TS_MEDIA_UP.lg);
 
 /** Primary order summary open state on mobile (persists across checkout AJAX updates only). */
 let mobilePrimarySummaryOpen = false;

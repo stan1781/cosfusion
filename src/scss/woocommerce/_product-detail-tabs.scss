@@ -4,28 +4,27 @@
  * - Mobile: Accordion style
  */
 
-.ts-product-detail-sections {
-	margin-block-start: var(--ts-space-2xl);
-}
+@use "../abstracts/mixins";
+
 
 // Desktop Layout
 .ts-product-detail-row {
 	display: none;
 
-	@media (min-width: 768px) {
+	@include mixins.ts-up(md) {
 		display: grid;
 		gap: var(--ts-space-xl);
 		margin-block-end: var(--ts-space-2xl);
 	}
 
 	&--desktop {
-		@media (min-width: 768px) {
+		@include mixins.ts-up(md) {
 			grid-template-columns: 1fr 1fr;
 		}
 	}
 
 	&--full {
-		@media (min-width: 768px) {
+		@include mixins.ts-up(md) {
 			grid-template-columns: 1fr;
 		}
 	}
@@ -109,7 +108,7 @@
 	display: block;
 	margin-inline: calc(var(--ts-layout-section-y-mobile) * -1);
 
-	@media (min-width: 768px) {
+	@include mixins.ts-up(md) {
 		display: none;
 	}
 }

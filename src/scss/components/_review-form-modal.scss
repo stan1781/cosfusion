@@ -7,7 +7,7 @@
 	gap: $ts-space-md;
 	margin-bottom: $ts-space-lg;
 
-	@media (min-width: $ts-breakpoint-md) {
+	@include mixins.ts-up(md) {
 		grid-template-columns: minmax(0, 1fr) minmax(12rem, 24rem);
 		align-items: start;
 	}

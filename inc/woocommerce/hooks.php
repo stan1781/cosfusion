@@ -47,18 +47,6 @@ function tailwindscore_redirect_product_add_to_cart_post(): void {
 }
 
 /**
- * Hide product meta (SKU, categories, tags) from non-administrators on single product pages.
- */
-function tailwindscore_restrict_product_meta_to_admins(): void {
-	if ( is_admin() || current_user_can( 'manage_options' ) ) {
-		return;
-	}
-
-	remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
-}
-add_action( 'wp', 'tailwindscore_restrict_product_meta_to_admins' );
-
-/**
  * Archive template renders notices outside the shop-loop toolbar.
  */
 function tailwindscore_wc_archive_detach_loop_notices(): void {
