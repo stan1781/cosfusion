@@ -568,7 +568,7 @@ function tailwindscore_homepage_default_trust_items(): array {
 		array(
 			'icon'        => 'truck',
 			'title'       => __( 'Free shipping', 'tailwindscore' ),
-			'description' => __( 'On orders over $79', 'tailwindscore' ),
+			'description' => __( 'On orders over $39', 'tailwindscore' ),
 		),
 		array(
 			'icon'        => 'ruler',

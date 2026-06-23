@@ -84,7 +84,7 @@ function tailwindscore_render_product_detail_sections(): void {
 					<button 
 						type="button" 
 						class="ts-product-detail-accordion-trigger" 
-						aria-expanded="false"
+						aria-expanded="true"
 						data-ts-accordion-trigger
 					>
 						<span class="ts-product-detail-accordion-title"><?php esc_html_e( 'Description', 'tailwindscore' ); ?></span>
@@ -94,7 +94,7 @@ function tailwindscore_render_product_detail_sections(): void {
 							</svg>
 						</span>
 					</button>
-					<div class="ts-product-detail-accordion-content" data-ts-accordion-content hidden>
+					<div class="ts-product-detail-accordion-content" data-ts-accordion-content>
 						<div class="ts-product-detail-accordion-body">
 							<?php echo wp_kses_post( $description ); ?>
 						</div>
