@@ -116,7 +116,7 @@ function tailwindscore_kirki_register(): void {
 
 			esc_html__( 'Checkout layout', 'tailwindscore' ),
 
-			esc_html__( 'Checkout page theme options will appear here.', 'tailwindscore' ),
+			esc_html__( 'Checkout shipping rules and other checkout theme options.', 'tailwindscore' ),
 
 			25
 
