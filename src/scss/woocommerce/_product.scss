@@ -27,6 +27,9 @@
 .ts-wc-product-detail__summary {
 	display: grid;
 	gap: var(--ts-space-md);
+	@include mixins.ts-up(md) {
+		gap: var(--ts-space-xl);
+	}
 
 	.product_title {
 		margin: 0;
