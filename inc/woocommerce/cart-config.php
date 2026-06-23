@@ -45,10 +45,11 @@ function tailwindscore_purchase_flow_config(): array {
 			'shippingAtCheckout'       => __( 'Shipping and taxes calculated at checkout.', 'tailwindscore' ),
 		),
 		'icons'         => array(
-			'close' => tailwindscore_icon( 'close' ),
-			'plus'  => tailwindscore_icon( 'plus' ),
-			'minus' => tailwindscore_icon( 'minus' ),
-			'trash' => tailwindscore_icon( 'trash' ),
+			'close'  => tailwindscore_icon( 'close' ),
+			'plus'   => tailwindscore_icon( 'plus' ),
+			'minus'  => tailwindscore_icon( 'minus' ),
+			'trash'  => tailwindscore_icon( 'trash' ),
+			'pencil' => tailwindscore_icon( 'pencil' ),
 		),
 		'cartItemEdit'  => array(
 			'getFormUrl' => add_query_arg( 'wc-ajax', 'tailwindscore_get_cart_item_edit_form', home_url( '/' ) ),

@@ -98,8 +98,9 @@ $remove_label      = sprintf(
 					class="ts-cart-drawer-cart__edit"
 					data-ts-cart-item-edit
 					data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>"
+					aria-label="<?php esc_attr_e( 'Edit options', 'tailwindscore' ); ?>"
 				>
-					<?php esc_html_e( 'Edit', 'tailwindscore' ); ?>
+					<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'pencil' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 				</button>
 			<?php endif; ?>
 		</div>
