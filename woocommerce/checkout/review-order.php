@@ -75,7 +75,9 @@ $tailwindscore_is_primary_summary = ( 1 === $tailwindscore_checkout_order_review
 				</span>
 				<span class="ts-checkout-order-summary__toggle-copy">
 					<?php if ( $tailwindscore_is_primary_summary && $tailwindscore_can_show_coupon_form ) : ?>
-						<span class="order-summary-add-coupon"><?php esc_html_e( 'Add discount', 'tailwindscore' ); ?></span>
+						<!-- TODO: Add discount (only for primary summary) -->
+						 <!-- 原本是为了在手机端显示可以添加优惠卷，因需求改为显示订单摘要 -->
+						<span class="order-summary-add-coupon"><?php esc_html_e( 'Order summary', 'tailwindscore' ); ?></span>
 						<span class="order-summary-title-expanded ts-checkout-order-summary__title-expanded"><?php esc_html_e( 'Order summary', 'woocommerce' ); ?></span>
 					<?php else : ?>
 						<span class="ts-checkout-order-summary__title"><?php esc_html_e( 'Order summary', 'woocommerce' ); ?></span>

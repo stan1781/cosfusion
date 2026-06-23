@@ -261,6 +261,7 @@
 
 .woocommerce-additional-fields {
 	margin-top: var(--ts-space-xl);
+	display: none;
 }
 
 // Desktop two-column checkout (must follow base flex rules in this file — import order).
