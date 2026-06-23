@@ -1,61 +1,16 @@
 import type { GalleryAction, GalleryImage, WcVariationRow } from './types';
 
+export {
+	findMatchingVariation,
+	getChosenAttributes,
+	parseVariationsForm,
+} from './variation-engine';
+
 export function normalizeBaseSrc(src: string | undefined): string {
 	if (!src) {
 		return '';
 	}
 	return src.split('?')[0].split('#')[0];
-}
-
-export function parseVariationsForm(form: HTMLFormElement): WcVariationRow[] {
-	const raw = form.getAttribute('data-product_variations');
-	if (!raw) {
-		return [];
-	}
-	try {
-		const parsed = JSON.parse(raw) as WcVariationRow[];
-		return Array.isArray(parsed) ? parsed : [];
-	} catch {
-		return [];
-	}
-}
-
-export function getChosenAttributes(form: HTMLFormElement): Record<string, string> {
-	const data: Record<string, string> = {};
-	form.querySelectorAll<HTMLSelectElement>('select[name^="attribute_"]').forEach((select) => {
-		const name = select.getAttribute('name');
-		if (!name) {
-			return;
-		}
-		data[name] = select.value;
-	});
-	return data;
-}
-
-function attributesMatch(
-	variationAttrs: Record<string, string>,
-	chosen: Record<string, string>,
-): boolean {
-	for (const key of Object.keys(variationAttrs)) {
-		const expected = variationAttrs[key] ?? '';
-		const selected = chosen[key] ?? '';
-		if (expected !== '' && expected !== selected) {
-			return false;
-		}
-	}
-	return true;
-}
-
-export function findMatchingVariation(
-	form: HTMLFormElement,
-	variations: WcVariationRow[],
-): WcVariationRow | null {
-	const chosen = getChosenAttributes(form);
-	const hasEmpty = Object.values(chosen).some((v) => v === '');
-	if (hasEmpty) {
-		return null;
-	}
-	return variations.find((v) => attributesMatch(v.attributes, chosen)) ?? null;
 }
 
 export function wcVariationToGalleryImage(variation: WcVariationRow): GalleryImage | null {

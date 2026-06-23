@@ -423,18 +423,6 @@ class ProductGallery {
 			this.restoreParent();
 		});
 
-		const jq = (window as Window & { jQuery?: (sel: Element) => { on: (ev: string, fn: (...args: unknown[]) => void) => void } }).jQuery;
-		if (jq) {
-			jq(this.form).on('show_variation', (_event: unknown, variation: unknown) => {
-				const action = resolveGalleryAction(variation as WcVariationRow, this.parentGallery);
-				this.applyAction(action);
-			});
-			jq(this.form).on('hide_variation reset_data', () => {
-				this.lastActionKey = '';
-				this.restoreParent();
-			});
-		}
-
 		// Initial state if attributes pre-selected from URL.
 		this.syncFromForm();
 	}

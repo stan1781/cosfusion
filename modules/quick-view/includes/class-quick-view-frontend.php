@@ -23,7 +23,6 @@ class Tailwindscore_Quick_View_Frontend {
 		}
 
 		add_filter( 'body_class', array( $this, 'body_class' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 20 );
 		add_action( 'wp_footer', array( $this, 'render_modal_shell' ), 50 );
 		add_filter( 'woocommerce_loop_add_to_cart_link', array( $this, 'filter_loop_add_to_cart_link' ), 20, 3 );
 		add_filter( 'tailwindscore_runtime_config_parts', array( $this, 'filter_runtime_config' ) );
@@ -39,18 +38,6 @@ class Tailwindscore_Quick_View_Frontend {
 		}
 
 		return $classes;
-	}
-
-	/**
-	 * @return void
-	 */
-	public function enqueue_scripts(): void {
-		if ( ! Tailwindscore_Quick_View_Settings::should_load_frontend() ) {
-			return;
-		}
-
-		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'wc-add-to-cart-variation' );
 	}
 
 	/**

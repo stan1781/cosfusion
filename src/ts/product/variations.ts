@@ -106,14 +106,13 @@ function initStickyThumbOriginal(): void {
  * Custom variation selector (syncs with wc-add-to-cart-variation).
  */
 
-import type { VariationSettings, VariationsI18n } from './types';
-
-type JqForm = {
-	trigger: (event: string) => JqForm;
-	on: (events: string, handler: (...args: unknown[]) => void) => JqForm;
-};
-
-type JQueryLike = (target: Document | Element) => JqForm;
+import type { VariationSettings, VariationsI18n, WcVariationRow } from './types';
+import {
+	findAttributeSelect,
+	initVariationForm,
+	refreshVariationForm,
+	type VariationFormCallbacks,
+} from './variation-engine';
 
 function isVariationSelectorEnabled(settings: VariationSettings | undefined): boolean {
 	if (!settings) {
@@ -192,48 +191,8 @@ function getConfig(): { settings: VariationSettings; i18n: VariationsI18n } | nu
 	return null;
 }
 
-function findAttributeSelect(form: Element, attribute: string): HTMLSelectElement | null {
-	const candidates = [
-		`select[name="attribute_${attribute}"]`,
-		`select[name="attribute_pa_${attribute}"]`,
-	];
-	if (attribute.startsWith('pa_')) {
-		candidates.unshift(`select[name="attribute_${attribute}"]`);
-	} else {
-		candidates.push(`select[name="attribute_pa_${attribute}"]`);
-	}
-
-	for (const selector of candidates) {
-		const select = form.querySelector<HTMLSelectElement>(`.variations ${selector}`);
-		if (select) {
-			return select;
-		}
-	}
-
-	return null;
-}
-
-function getJQuery(): JQueryLike | undefined {
-	return (window as Window & { jQuery?: JQueryLike }).jQuery;
-}
-
-function waitForJQuery(timeoutMs = 8000): Promise<JQueryLike> {
-	return new Promise((resolve, reject) => {
-		const started = Date.now();
-		const tick = (): void => {
-			const jq = getJQuery();
-			if (jq) {
-				resolve(jq);
-				return;
-			}
-			if (Date.now() - started >= timeoutMs) {
-				reject(new Error('jQuery not available'));
-				return;
-			}
-			window.setTimeout(tick, 50);
-		};
-		tick();
-	});
+function triggerSelectChange(select: HTMLSelectElement): void {
+	select.dispatchEvent(new Event('change', { bubbles: true }));
 }
 
 function slugify(val: string): string {
@@ -265,14 +224,6 @@ function updateSelectedAttributeDisplay(form: Element, attributeName: string, se
 	}
 }
 
-function triggerSelectChange(select: HTMLSelectElement, jq?: JQueryLike): void {
-	if (jq) {
-		jq(select).trigger('change');
-		return;
-	}
-	select.dispatchEvent(new Event('change', { bubbles: true }));
-}
-
 function syncDisabledFromSelects(form: Element): void {
 	form.querySelectorAll<HTMLElement>('.custom-variation-selector').forEach((list) => {
 		const attribute = list.getAttribute('data-attribute');
@@ -294,7 +245,7 @@ function syncDisabledFromSelects(form: Element): void {
 	});
 }
 
-async function initVariationSelector(): Promise<void> {
+function initVariationSelector(): void {
 	const config = getConfig();
 	if (!config) {
 		return;
@@ -313,12 +264,51 @@ async function initVariationSelector(): Promise<void> {
 	initStickyThumbOriginal();
 	const globalMode = settings.colorSelectorDefaultMode === 'list' ? 'list' : 'grid';
 
-	let jq: JQueryLike | undefined;
-	try {
-		jq = await waitForJQuery();
-	} catch {
-		console.warn('[tailwindscore] variations: jQuery unavailable; limited WooCommerce sync.');
-	}
+	const callbacks: VariationFormCallbacks = {
+		onShowVariation(variation: WcVariationRow) {
+			if (variation.attributes) {
+				for (const attribute of Object.keys(variation.attributes)) {
+					const attributeName = attribute.replace('attribute_', '');
+					const val = variation.attributes[attribute];
+					if (!val) {
+						continue;
+					}
+					const selector = document.querySelector(
+						`form.variations_form .custom-variation-selector[data-attribute="${attributeName}"]`,
+					);
+					if (!selector) {
+						continue;
+					}
+					selector.querySelectorAll('li').forEach((item) => item.classList.remove('selected'));
+					const selectedLi = selector.querySelector<HTMLLIElement>(`li[data-value="${CSS.escape(val)}"]`);
+					if (selectedLi) {
+						const form = selector.closest('form.variations_form');
+						selectedLi.classList.add('selected');
+						if (form) {
+							updateSelectedAttributeDisplay(form, attributeName, selectedLi.dataset.name ?? '');
+						}
+					}
+				}
+			}
+
+			if (priceEl && variation.price_html) {
+				priceEl.innerHTML = variation.price_html;
+			}
+			syncStickyPurchaseBar(variation, false, stickyOriginalPriceHtml);
+		},
+		onHideVariation() {
+			document.querySelectorAll('form.variations_form .custom-variation-selector li').forEach((item) => {
+				item.classList.remove('selected');
+			});
+			document.querySelectorAll('form.variations_form .selected-attribute-value').forEach((el) => {
+				el.textContent = '';
+			});
+			if (priceEl && originalPriceHtml !== null) {
+				priceEl.innerHTML = originalPriceHtml;
+			}
+			syncStickyPurchaseBar(undefined, true, stickyOriginalPriceHtml);
+		},
+	};
 
 	function initDisplayModes(): void {
 		forms.forEach((form) => {
@@ -430,88 +420,13 @@ async function initVariationSelector(): Promise<void> {
 
 				if (option && foundValue) {
 					select.value = foundValue;
-					triggerSelectChange(select, jq);
+					triggerSelectChange(select);
 				}
 			});
 
-			if (jq) {
-				jq(form).trigger('woocommerce_update_variation_values');
-				jq(form).trigger('check_variations');
-			}
+			refreshVariationForm(form, callbacks);
 		});
 	}
-
-	document.addEventListener(
-		'click',
-		(event) => {
-		const target = event.target;
-		if (!(target instanceof Element)) {
-			return;
-		}
-		const li = target.closest('.variations_form .variations .custom-variation-selector li');
-		if (!li) {
-			return;
-		}
-
-		// Quick View / cart edit modals inject their own forms; handled by quick-view-variations.ts.
-		if (li.closest('[data-ts-quick-view-content], [data-ts-cart-item-edit-content]')) {
-			return;
-		}
-
-		const form = li.closest('form.variations_form');
-		if (!form) {
-			return;
-		}
-
-		const list = li.parentElement;
-		if (!list?.classList.contains('custom-variation-selector')) {
-			return;
-		}
-
-		const attribute = list.getAttribute('data-attribute');
-		const value = li.getAttribute('data-value');
-		if (!attribute || !value) {
-			return;
-		}
-
-		const select = findAttributeSelect(form, attribute);
-
-		if (li.classList.contains('disabled')) {
-			form.querySelectorAll('.custom-variation-selector li').forEach((item) => {
-				item.classList.remove('selected');
-			});
-			form.querySelectorAll('.selected-attribute-value').forEach((el) => {
-				el.textContent = '';
-			});
-			form.querySelectorAll<HTMLSelectElement>('.variations select').forEach((s) => {
-				s.value = '';
-				triggerSelectChange(s, jq);
-			});
-			return;
-		}
-
-		if (li.classList.contains('selected')) {
-			list.querySelectorAll('li').forEach((item) => item.classList.remove('selected'));
-			if (select) {
-				select.value = '';
-				triggerSelectChange(select, jq);
-			}
-			updateSelectedAttributeDisplay(form, attribute, '');
-			return;
-		}
-
-		list.querySelectorAll('li').forEach((item) => item.classList.remove('selected'));
-		li.classList.add('selected');
-		if (select) {
-			select.value = value;
-			triggerSelectChange(select, jq);
-		}
-		updateSelectedAttributeDisplay(form, attribute, li.getAttribute('data-name') ?? '');
-
-		window.setTimeout(() => syncAllSelectedStates(), 50);
-		},
-		true,
-	);
 
 	document.addEventListener(
 		'click',
@@ -548,91 +463,7 @@ async function initVariationSelector(): Promise<void> {
 		true,
 	);
 
-	forms.forEach((form) => {
-		form.addEventListener('change', (event) => {
-			const target = event.target;
-			if (!(target instanceof HTMLSelectElement) || !target.name.startsWith('attribute_')) {
-				return;
-			}
-			syncAllSelectedStates();
-		});
-
-		if (jq) {
-			const $form = jq(form);
-
-			$form.on('woocommerce_update_variation_values', () => {
-				syncAllSelectedStates();
-			});
-
-			$form.on('show_variation', (...args: unknown[]) => {
-				const variation = args[1] as
-					| {
-							attributes?: Record<string, string>;
-							price_html?: string;
-							image?: { thumb_src?: string; src?: string };
-					  }
-					| undefined;
-
-				if (variation?.attributes) {
-				for (const attribute of Object.keys(variation.attributes)) {
-					const attributeName = attribute.replace('attribute_', '');
-					const val = variation.attributes[attribute];
-					if (!val) {
-						continue;
-					}
-					const selector = form.querySelector(
-						`.custom-variation-selector[data-attribute="${attributeName}"]`,
-					);
-					if (!selector) {
-						continue;
-					}
-					selector.querySelectorAll('li').forEach((item) => item.classList.remove('selected'));
-					const selectedLi = selector.querySelector<HTMLLIElement>(
-						`li[data-value="${CSS.escape(val)}"]`,
-					);
-					if (selectedLi) {
-						selectedLi.classList.add('selected');
-						updateSelectedAttributeDisplay(form, attributeName, selectedLi.dataset.name ?? '');
-					}
-				}
-				}
-
-				if (priceEl && variation?.price_html) {
-					priceEl.innerHTML = variation.price_html;
-				}
-				syncStickyPurchaseBar(variation, false, stickyOriginalPriceHtml, form);
-			});
-
-			$form.on('hide_variation', () => {
-				form.querySelectorAll('.custom-variation-selector li').forEach((item) => {
-					item.classList.remove('selected');
-				});
-				form.querySelectorAll('.selected-attribute-value').forEach((el) => {
-					el.textContent = '';
-				});
-				if (priceEl && originalPriceHtml !== null) {
-					priceEl.innerHTML = originalPriceHtml;
-				}
-				syncStickyPurchaseBar(undefined, true, stickyOriginalPriceHtml, form);
-			});
-
-			$form.trigger('check_variations');
-		}
-
-		form.querySelectorAll<HTMLLIElement>('.custom-variation-selector li.selected').forEach((selected) => {
-			const attributeName = selected.closest('.custom-variation-selector')?.getAttribute('data-attribute');
-			const selectedName = selected.getAttribute('data-name');
-			if (attributeName && selectedName) {
-				updateSelectedAttributeDisplay(form, attributeName, selectedName);
-			}
-		});
-
-		form.querySelectorAll<HTMLLIElement>('.custom-variation-selector li').forEach((item) => {
-			item.setAttribute('tabindex', '0');
-			item.setAttribute('role', 'button');
-		});
-	});
-
+	initVariationForm(document.body, callbacks);
 	preselectFromURL();
 	initDisplayModes();
 	syncAllSelectedStates();
@@ -642,7 +473,7 @@ function bootVariations(): void {
 	if (!document.querySelector('form.variations_form .custom-variation-selector')) {
 		return;
 	}
-	void initVariationSelector();
+	initVariationSelector();
 }
 
 if (document.readyState === 'loading') {

@@ -80,17 +80,43 @@ function tailwindscore_performance_dequeue_legacy_wc_scripts(): void {
 add_action( 'wp_enqueue_scripts', 'tailwindscore_performance_dequeue_legacy_wc_scripts', 99 );
 
 /**
- * Dequeue third-party plugin assets outside the views that need them.
+ * Whether any remaining frontend feature still requires jQuery on this request.
  */
-function tailwindscore_performance_dequeue_third_party_assets(): void {
-	if ( function_exists( 'is_product' ) && ! is_product() ) {
-		wp_dequeue_style( 'iconic-wlv' );
-		wp_dequeue_script( 'iconic-wlv' );
-		wp_deregister_style( 'iconic-wlv' );
-		wp_deregister_script( 'iconic-wlv' );
+function tailwindscore_theme_needs_jquery(): bool {
+	if ( tailwindscore_needs_wc_core_script() ) {
+		return true;
+	}
+
+	// Iconic Linked Variations still ships a small jQuery script on product pages.
+	if ( function_exists( 'tailwindscore_should_load_iconic_wlv_assets' ) && tailwindscore_should_load_iconic_wlv_assets() ) {
+		return true;
+	}
+
+	return (bool) apply_filters( 'tailwindscore_theme_needs_jquery', false );
+}
+
+/**
+ * Drop jQuery and wc-add-to-cart-variation when the theme no longer uses them.
+ */
+function tailwindscore_performance_dequeue_unused_jquery(): void {
+	if ( is_admin() || tailwindscore_theme_needs_jquery() ) {
+		return;
+	}
+
+	$handles = array(
+		'jquery',
+		'jquery-core',
+		'jquery-migrate',
+		'wc-add-to-cart-variation',
+		'wp-util',
+		'underscore',
+	);
+
+	foreach ( $handles as $handle ) {
+		wp_dequeue_script( $handle );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'tailwindscore_performance_dequeue_third_party_assets', 999 );
+add_action( 'wp_enqueue_scripts', 'tailwindscore_performance_dequeue_unused_jquery', 1001 );
 
 /**
  * Load non-critical stylesheets without blocking render (print media swap).

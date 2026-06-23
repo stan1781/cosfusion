@@ -105,16 +105,7 @@ class Tailwindscore_Gallery_Assets {
 	 * @return void
 	 */
 	public function enqueue_variation_scripts(): void {
-		if ( ! function_exists( 'is_product' ) || ! is_product() ) {
-			return;
-		}
-
-		global $product;
-		if ( ! $product instanceof WC_Product || ! $product->is_type( 'variable' ) ) {
-			return;
-		}
-
-		wp_enqueue_script( 'wc-add-to-cart-variation' );
+		// Variation matching is handled by variation-engine.ts (Vite bundle).
 	}
 
 	/**

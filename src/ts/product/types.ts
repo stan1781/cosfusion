@@ -37,6 +37,9 @@ export interface TailwindscoreProductGalleryConfig {
 export interface WcVariationRow {
 	variation_id: number;
 	attributes: Record<string, string>;
+	price_html?: string;
+	variation_is_visible?: boolean;
+	variation_is_active?: boolean;
 	image?: {
 		src?: string;
 		full_src?: string;

@@ -62,20 +62,6 @@ class Tailwindscore_Variation_Assets {
 	 * @return void
 	 */
 	public function enqueue_scripts(): void {
-		if ( ! function_exists( 'is_product' ) || ! is_product() ) {
-			return;
-		}
-
-		if ( ! tailwindscore_variations_enabled() ) {
-			return;
-		}
-
-		global $product;
-		if ( ! $product instanceof WC_Product || ! $product->is_type( 'variable' ) ) {
-			return;
-		}
-
-		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'wc-add-to-cart-variation' );
+		// Variation UI is handled by variation-engine.ts (Vite bundle).
 	}
 }

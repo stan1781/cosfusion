@@ -524,18 +524,6 @@ function tailwindscore_ajax_update_cart_item_edit(): void {
 }
 
 /**
- * Enqueue variation scripts required by the edit modal.
- */
-function tailwindscore_cart_item_edit_enqueue_scripts(): void {
-	if ( is_admin() ) {
-		return;
-	}
-
-	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'wc-add-to-cart-variation' );
-}
-
-/**
  * Render cart item edit modal shell in footer.
  */
 function tailwindscore_render_cart_item_edit_modal(): void {
@@ -549,6 +537,5 @@ function tailwindscore_render_cart_item_edit_modal(): void {
 if ( class_exists( 'WooCommerce' ) ) {
 	add_action( 'wc_ajax_tailwindscore_get_cart_item_edit_form', 'tailwindscore_ajax_get_cart_item_edit_form' );
 	add_action( 'wc_ajax_tailwindscore_update_cart_item_edit', 'tailwindscore_ajax_update_cart_item_edit' );
-	add_action( 'wp_enqueue_scripts', 'tailwindscore_cart_item_edit_enqueue_scripts', 20 );
 	add_action( 'wp_footer', 'tailwindscore_render_cart_item_edit_modal', 55 );
 }
