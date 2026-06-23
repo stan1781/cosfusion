@@ -1,7 +1,6 @@
 import { addCartItem } from '../cart/index';
 import { buildAddToCartRequest } from './add-to-cart-request';
 import { resolveSubmitButton, setButtonsLoading } from '../ui/button-loading';
-import './variations';
 import { initSizeGuide } from './size-guide';
 import { initProductDetailTabs } from './product-detail-tabs';
 
@@ -69,6 +68,7 @@ if (isProductPage) {
 		bootSizeGuide();
 		bootProductDetailTabs();
 	}
+	void import('./variations');
 	void import('./gallery');
 	void import('./review-images').then(({ initReviewImages, shouldInitReviewImages }) => {
 		if (shouldInitReviewImages()) {

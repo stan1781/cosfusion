@@ -157,6 +157,59 @@ function tailwindscore_manifest(): array {
 	return $manifest;
 }
 
+function tailwindscore_dist_url( string $relative_file ): string {
+	return get_template_directory_uri() . '/assets/dist/' . ltrim( $relative_file, '/' );
+}
+
+/**
+ * Collect built asset paths for a manifest entry (file, css, nested imports).
+ *
+ * @return string[]
+ */
+function tailwindscore_manifest_bundle_files( string $entry_key ): array {
+	$manifest = tailwindscore_manifest();
+
+	if ( empty( $manifest[ $entry_key ] ) ) {
+		return array();
+	}
+
+	$files = array();
+	$seen  = array();
+
+	$walk = static function ( string $key ) use ( &$walk, &$files, &$seen, $manifest ): void {
+		if ( isset( $seen[ $key ] ) || empty( $manifest[ $key ] ) ) {
+			return;
+		}
+
+		$seen[ $key ] = true;
+		$entry        = $manifest[ $key ];
+
+		if ( ! empty( $entry['file'] ) && is_string( $entry['file'] ) ) {
+			$files[] = $entry['file'];
+		}
+
+		if ( ! empty( $entry['css'] ) && is_array( $entry['css'] ) ) {
+			foreach ( $entry['css'] as $css_file ) {
+				if ( is_string( $css_file ) && '' !== $css_file ) {
+					$files[] = $css_file;
+				}
+			}
+		}
+
+		if ( ! empty( $entry['imports'] ) && is_array( $entry['imports'] ) ) {
+			foreach ( $entry['imports'] as $import_key ) {
+				if ( is_string( $import_key ) ) {
+					$walk( $import_key );
+				}
+			}
+		}
+	};
+
+	$walk( $entry_key );
+
+	return array_values( array_unique( $files ) );
+}
+
 function tailwindscore_enqueue_manifest_style( string $handle, string $entry, array $deps = array() ): void {
 	$manifest = tailwindscore_manifest();
 

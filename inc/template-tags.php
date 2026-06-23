@@ -8,6 +8,43 @@ function tailwindscore_site_name(): string {
 	return get_bloginfo( 'name' );
 }
 
+/**
+ * Intrinsic dimensions for an image URL stored in the media library.
+ *
+ * Used for width/height attributes so the browser can reserve layout space
+ * before the image loads (PageSpeed / CLS).
+ *
+ * @return array{width: int, height: int}
+ */
+function tailwindscore_image_url_dimensions( string $url, int $fallback_width, int $fallback_height ): array {
+	$url = trim( $url );
+
+	if ( '' === $url ) {
+		return array(
+			'width'  => $fallback_width,
+			'height' => $fallback_height,
+		);
+	}
+
+	$attachment_id = attachment_url_to_postid( $url );
+
+	if ( $attachment_id > 0 && wp_attachment_is_image( $attachment_id ) ) {
+		$meta = wp_get_attachment_metadata( $attachment_id );
+
+		if ( is_array( $meta ) && ! empty( $meta['width'] ) && ! empty( $meta['height'] ) ) {
+			return array(
+				'width'  => (int) $meta['width'],
+				'height' => (int) $meta['height'],
+			);
+		}
+	}
+
+	return array(
+		'width'  => $fallback_width,
+		'height' => $fallback_height,
+	);
+}
+
 function tailwindscore_has_sidebar(): bool {
 	if ( is_404() ) {
 		return false;

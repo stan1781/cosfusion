@@ -94,9 +94,8 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 						<?php echo esc_html( $ts_occasion_title ); ?>
 					</h2>
 				<?php endif; ?>
-				<div
+				<ul
 					class="ts-home-occasion__grid"
-					role="list"
 					style="<?php echo esc_attr( tailwindscore_homepage_grid_style_attr( $ts_occasion_count ) ); ?>"
 				>
 				<?php foreach ( $ts_occasion_items as $ts_occasion_item ) : ?>
@@ -107,9 +106,9 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 					$ts_occasion_href = $ts_occasion_item['link_url'];
 					$ts_occasion_tag  = '' !== $ts_occasion_href ? 'a' : 'article';
 					?>
+					<li class="ts-home-occasion__item">
 					<<?php echo esc_attr( $ts_occasion_tag ); ?>
 						class="ts-home-occasion__card"
-						role="listitem"
 						<?php if ( '' !== $ts_occasion_href ) : ?>
 							href="<?php echo esc_url( $ts_occasion_href ); ?>"
 						<?php endif; ?>
@@ -138,8 +137,9 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 							</div>
 						</div>
 					</<?php echo esc_attr( $ts_occasion_tag ); ?>>
+					</li>
 				<?php endforeach; ?>
-				</div>
+				</ul>
 			</div>
 		</section>
 	<?php endif; ?>
@@ -153,9 +153,8 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 						<?php echo esc_html( $ts_trending_title ); ?>
 					</h2>
 				<?php endif; ?>
-				<div
+				<ul
 					class="ts-home-trending__grid"
-					role="list"
 					style="<?php echo esc_attr( tailwindscore_homepage_grid_style_attr( $ts_trending_count ) ); ?>"
 				>
 				<?php foreach ( $ts_trending_items as $ts_trending_item ) : ?>
@@ -167,9 +166,9 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 					$ts_trending_tag   = '' !== $ts_trending_href ? 'a' : 'article';
 					$ts_trending_lines = tailwindscore_homepage_split_trending_title( $ts_trending_item['title'] );
 					?>
+					<li class="ts-home-trending__item">
 					<<?php echo esc_attr( $ts_trending_tag ); ?>
 						class="ts-home-trending__card"
-						role="listitem"
 						<?php if ( '' !== $ts_trending_href ) : ?>
 							href="<?php echo esc_url( $ts_trending_href ); ?>"
 						<?php endif; ?>
@@ -202,8 +201,9 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 							</div>
 						</div>
 					</<?php echo esc_attr( $ts_trending_tag ); ?>>
+					</li>
 				<?php endforeach; ?>
-				</div>
+				</ul>
 			</div>
 		</section>
 	<?php endif; ?>
@@ -259,9 +259,9 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 						<?php echo esc_html( $ts_shop_by_color_title ); ?>
 					</h2>
 				<?php endif; ?>
-				<ul class="ts-home-colors__list" role="list">
+				<ul class="ts-home-colors__list">
 					<?php foreach ( $ts_shop_by_color_items as $ts_color_item ) : ?>
-						<li class="ts-home-colors__item" role="listitem">
+						<li class="ts-home-colors__item">
 							<a class="ts-home-colors__link" href="<?php echo esc_url( $ts_color_item['url'] ); ?>">
 								<span
 									class="ts-home-colors__swatch<?php echo $ts_color_item['is_light'] ? ' ts-home-colors__swatch--light' : ''; ?>"
@@ -271,7 +271,7 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 							</a>
 						</li>
 					<?php endforeach; ?>
-					<li class="ts-home-colors__item ts-home-colors__item--more" role="listitem">
+					<li class="ts-home-colors__item ts-home-colors__item--more">
 						<span class="ts-home-colors__divider" aria-hidden="true"></span>
 						<a class="ts-home-colors__link" href="<?php echo esc_url( tailwindscore_homepage_shop_by_color_more_url() ); ?>">
 							<span class="ts-home-colors__swatch ts-home-colors__swatch--more">
@@ -289,9 +289,9 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 		<?php $ts_trust_items = tailwindscore_homepage_trust_items(); ?>
 		<section class="ts-home-trust" aria-label="<?php esc_attr_e( 'Store benefits', 'tailwindscore' ); ?>">
 			<div class="ts-container">
-				<ul class="ts-home-trust__list" role="list">
+				<ul class="ts-home-trust__list">
 					<?php foreach ( $ts_trust_items as $ts_trust_item ) : ?>
-						<li class="ts-home-trust__item" role="listitem">
+						<li class="ts-home-trust__item">
 							<div class="ts-home-trust__card">
 								<span class="ts-home-trust__icon ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( $ts_trust_item['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 								<h3 class="ts-home-trust__title"><?php echo esc_html( $ts_trust_item['title'] ); ?></h3>
