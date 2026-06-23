@@ -73,6 +73,8 @@ type CartItemEditConfig = {
 type TailwindscoreCartConfig = {
 	storeApiUrl: string;
 	nonce: string;
+	showDrawerCoupon?: boolean;
+	couponJs?: boolean;
 	cartUrl: string;
 	checkoutUrl: string;
 	shopUrl: string;
@@ -579,7 +581,7 @@ function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 					${cart.items.map((item) => renderCartItem(item, config)).join('')}
 				</ul>
 			</div>
-			${renderCartCouponMarkup(config)}
+			${config.showDrawerCoupon !== false ? renderCartCouponMarkup(config) : ''}
 			<div class="ts-cart-drawer-cart__footer ts-stack" data-ts-cart-footer>
 				${renderCartFooterTotals(cart, config)}
 				<a class="ts-button" href="${escapeHtml(config.checkoutUrl)}" data-ts-button-loading>${escapeHtml(config.i18n.checkout)}</a>
@@ -1327,9 +1329,13 @@ function initializeCartUi() {
 
 	storeApiNonce = config.nonce;
 	bindQuantityControls();
-	bindCouponControls();
-	bindCouponApplyDisabledState();
-	bindCheckoutCouponControls();
+
+	if (config.couponJs !== false) {
+		bindCouponControls();
+		bindCouponApplyDisabledState();
+		bindCheckoutCouponControls();
+	}
+
 	bindDrawerCartRefresh();
 
 	// Store API nonce is refreshed on demand before cart mutations (see refreshStoreApiNonce).

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 function tailwindscore_purchase_flow_config(): array {
 	return array(
+		'showDrawerCoupon' => tailwindscore_cart_drawer_coupon_is_enabled(),
+		'couponJs'           => tailwindscore_purchase_flow_needs_coupon_js(),
 		'storeApiUrl' => rest_url( 'wc/store/v1/' ),
 		'nonce'       => wp_create_nonce( 'wc_store_api' ),
 		'cartUrl'       => tailwindscore_cart_url(),

@@ -26,6 +26,7 @@ require_once get_template_directory() . '/inc/woocommerce/homepage-shop-by-color
 require_once get_template_directory() . '/inc/woocommerce/price-display.php';
 require_once get_template_directory() . '/inc/woocommerce/cart-view.php';
 require_once get_template_directory() . '/inc/woocommerce/cart-config.php';
+require_once get_template_directory() . '/inc/woocommerce/cart-drawer-coupon.php';
 require_once get_template_directory() . '/inc/woocommerce/store-api-cache.php';
 require_once get_template_directory() . '/inc/woocommerce/cart-item-edit.php';
 require_once get_template_directory() . '/inc/woocommerce/checkout-layout.php';

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-// The drawer is the primary place for cart edits and coupon entry; transient feedback uses toast.
+// The drawer is the primary place for cart edits; coupon entry is optional (Customizer).
 // The drawer and lightweight cart page must render line items through the same partial.
 
 if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
@@ -32,9 +32,11 @@ $cart = WC()->cart;
 				<?php endforeach; ?>
 			</ul>
 		</div>
-		<div class="ts-cart-drawer-cart__coupon" data-ts-cart-coupon>
-			<?php tailwindscore_render_coupon_form( array( 'context' => 'drawer' ) ); ?>
-		</div>
+		<?php if ( tailwindscore_cart_drawer_coupon_is_enabled() ) : ?>
+			<div class="ts-cart-drawer-cart__coupon" data-ts-cart-coupon>
+				<?php tailwindscore_render_coupon_form( array( 'context' => 'drawer' ) ); ?>
+			</div>
+		<?php endif; ?>
 		<?php tailwindscore_render_cart_summary( array( 'context' => 'drawer' ) ); ?>
 	<?php endif; ?>
 </div>
