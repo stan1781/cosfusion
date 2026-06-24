@@ -33,10 +33,22 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 						$ts_slide_alt = '' !== $ts_slide['title']
 							? $ts_slide['title']
 							: __( 'Homepage banner', 'tailwindscore' );
-						$ts_link_url   = $ts_slide['link_url'];
-						$ts_link_label = '' !== $ts_slide['link_label']
+						$ts_link_url        = $ts_slide['link_url'];
+						$ts_link_label      = '' !== $ts_slide['link_label']
 							? $ts_slide['link_label']
 							: __( 'Shop now', 'tailwindscore' );
+						$ts_link_context      = '' !== $ts_slide['title']
+							? $ts_slide['title']
+							: $ts_slide['subtitle'];
+						$ts_link_aria_label   = $ts_link_label;
+						if ( '' !== $ts_link_context ) {
+							$ts_link_aria_label = sprintf(
+								/* translators: 1: call-to-action label, 2: slide heading or eyebrow */
+								__( '%1$s: %2$s', 'tailwindscore' ),
+								$ts_link_label,
+								$ts_link_context
+							);
+						}
 						?>
 						<div class="swiper-slide">
 							<article class="ts-home-hero__slide ts-home-hero__slide--text-<?php echo esc_attr( $ts_slide['text_color'] ); ?>">
@@ -68,6 +80,7 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 													<a
 														class="ts-button ts-home-hero__button ts-home-hero__button--<?php echo esc_attr( $ts_slide['link_style'] ); ?>"
 														href="<?php echo esc_url( $ts_link_url ); ?>"
+														aria-label="<?php echo esc_attr( $ts_link_aria_label ); ?>"
 													>
 														<?php echo esc_html( $ts_link_label ); ?>
 													</a>

@@ -80,7 +80,6 @@
 	gap: var(--ts-space-xl);
 }
 
-.ts-entry__header,
 .ts-empty-state {
 	gap: var(--ts-space-lg);
 }
@@ -88,6 +87,8 @@
 .ts-entry__content {
 	display: grid;
 	gap: var(--ts-space-xl);
+	color: var(--ts-colors-text-muted);
+	line-height: 1.6;
 }
 
 .ts-entry__content > * {

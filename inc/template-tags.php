@@ -45,6 +45,59 @@ function tailwindscore_image_url_dimensions( string $url, int $fallback_width, i
 	);
 }
 
+/**
+ * Breadcrumb trail for the current entry (Home + ancestors / category + title).
+ *
+ * @return list<array{label: string, url: string}>
+ */
+function tailwindscore_entry_breadcrumb_items(): array {
+	$items = array(
+		array(
+			'label' => __( 'Home', 'tailwindscore' ),
+			'url'   => home_url( '/' ),
+		),
+	);
+
+	if ( is_page() && ! is_front_page() ) {
+		$ancestors = array_reverse( array_map( 'absint', get_post_ancestors( get_the_ID() ) ) );
+
+		foreach ( $ancestors as $ancestor_id ) {
+			$items[] = array(
+				'label' => get_the_title( $ancestor_id ),
+				'url'   => get_permalink( $ancestor_id ),
+			);
+		}
+	} elseif ( is_single() && 'post' === get_post_type() ) {
+		$categories = get_the_category();
+
+		if ( ! empty( $categories ) ) {
+			$category = $categories[0];
+			$items[]    = array(
+				'label' => $category->name,
+				'url'   => get_category_link( $category->term_id ),
+			);
+		}
+	}
+
+	$items[] = array(
+		'label' => get_the_title(),
+		'url'   => '',
+	);
+
+	return $items;
+}
+
+/**
+ * Whether the decorative entry header (title band) should render.
+ */
+function tailwindscore_show_entry_header(): bool {
+	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+		return false;
+	}
+
+	return true;
+}
+
 function tailwindscore_has_sidebar(): bool {
 	if ( is_404() ) {
 		return false;

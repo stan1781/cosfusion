@@ -10,9 +10,9 @@ get_header();
 				<?php if ( have_posts() ) : ?>
 					<?php while ( have_posts() ) : the_post(); ?>
 						<article <?php post_class( 'ts-entry ts-stack' ); ?>>
-							<header class="ts-entry__header ts-stack d-none">
-								<h1 class="ts-heading"><?php the_title(); ?></h1>
-							</header>
+							<?php if ( tailwindscore_show_entry_header() ) : ?>
+								<?php get_template_part( 'template-parts/content/entry-header' ); ?>
+							<?php endif; ?>
 							<div class="entry-content ts-entry__content">
 								<?php the_content(); ?>
 							</div>
