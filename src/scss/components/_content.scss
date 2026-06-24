@@ -15,7 +15,7 @@
 	gap: var(--ts-space-lg);
 }
 
-.ts-site-footer .widget {
+.ts-site-footer .widget:not(.ts-site-footer__copyright--has-icons) {
 	display: grid;
 	gap: var(--ts-space-lg);
 }

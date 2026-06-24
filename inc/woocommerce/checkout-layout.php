@@ -500,6 +500,15 @@ function tailwindscore_checkout_render_billing_account_fields( string $key, arra
 	if ( 'billing' !== $group || 'billing_email' !== $key || is_user_logged_in() || ! $checkout->is_registration_enabled() ) {
 		return;
 	}
+
+	$account_fields = $checkout->get_checkout_fields( 'account' );
+
+	// Optional registration uses the Sign in link; skip the grid row when there are no account fields.
+	if ( empty( $account_fields ) ) {
+		do_action( 'woocommerce_before_checkout_registration_form', $checkout );
+		do_action( 'woocommerce_after_checkout_registration_form', $checkout );
+		return;
+	}
 	?>
 	<div class="woocommerce-account-fields checkout-grid-full">
 		<?php if ( ! $checkout->is_registration_required() ) : ?>
@@ -528,14 +537,12 @@ function tailwindscore_checkout_render_billing_account_fields( string $key, arra
 
 		<?php do_action( 'woocommerce_before_checkout_registration_form', $checkout ); ?>
 
-		<?php if ( $checkout->get_checkout_fields( 'account' ) ) : ?>
-			<div class="create-account">
-				<?php foreach ( $checkout->get_checkout_fields( 'account' ) as $account_key => $account_field ) : ?>
-					<?php woocommerce_form_field( $account_key, $account_field, $checkout->get_value( $account_key ) ); ?>
-				<?php endforeach; ?>
-				<div class="clear"></div>
-			</div>
-		<?php endif; ?>
+		<div class="create-account">
+			<?php foreach ( $account_fields as $account_key => $account_field ) : ?>
+				<?php woocommerce_form_field( $account_key, $account_field, $checkout->get_value( $account_key ) ); ?>
+			<?php endforeach; ?>
+			<div class="clear"></div>
+		</div>
 
 		<?php do_action( 'woocommerce_after_checkout_registration_form', $checkout ); ?>
 	</div>

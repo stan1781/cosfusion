@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Footer navigation menu and Kirki settings.
+ * Footer navigation, payment icons, and Kirki settings.
  *
  * @package TailwindScore
  */
@@ -77,6 +77,45 @@ function tailwindscore_footer_nav_menu_args(): array {
 }
 
 /**
+ * Resolve a theme_mod image value to a valid attachment id.
+ *
+ * @param mixed $image Raw value from theme_mod.
+ */
+function tailwindscore_footer_payment_image_attachment_id( $image ): int {
+	if ( is_numeric( $image ) ) {
+		$attachment_id = absint( $image );
+
+		return $attachment_id > 0 && wp_attachment_is_image( $attachment_id ) ? $attachment_id : 0;
+	}
+
+	$url = is_string( $image ) ? trim( $image ) : '';
+
+	if ( '' === $url ) {
+		return 0;
+	}
+
+	$attachment_id = attachment_url_to_postid( $url );
+
+	return $attachment_id > 0 && wp_attachment_is_image( $attachment_id ) ? $attachment_id : 0;
+}
+
+/**
+ * Footer payment image attachment id from Customizer.
+ */
+function tailwindscore_footer_payment_image_id(): int {
+	return tailwindscore_footer_payment_image_attachment_id(
+		tailwindscore_mod( 'footer_payment_image', '' )
+	);
+}
+
+/**
+ * Whether a footer payment image is configured.
+ */
+function tailwindscore_footer_has_payment_image(): bool {
+	return tailwindscore_footer_payment_image_id() > 0;
+}
+
+/**
  * @param string               $cfg     Kirki config id.
  * @param array<string, string> $targets Customizer panel/section IDs keyed by area.
  */
@@ -114,6 +153,22 @@ function tailwindscore_footer_nav_kirki_register( string $cfg, array $targets ):
 			'default'           => 'center',
 			'choices'           => tailwindscore_footer_nav_alignment_choices(),
 			'sanitize_callback' => 'tailwindscore_footer_nav_alignment_sanitize',
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'        => 'image',
+			'settings'    => 'footer_payment_image',
+			'label'       => esc_html__( 'Payment icons', 'tailwindscore' ),
+			'description' => esc_html__( 'Upload a single composite image of accepted payment methods, shown beside the copyright line.', 'tailwindscore' ),
+			'section'     => $targets['footer'],
+			'priority'    => 20,
+			'default'     => '',
+			'choices'     => array(
+				'save_as' => 'id',
+			),
 		)
 	);
 }

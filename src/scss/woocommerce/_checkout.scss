@@ -3,6 +3,7 @@
 .ts-wc-checkout {
 	--ts-checkout-field-min-height: 2.375rem; // 38px
 	--ts-form-min-height: var(--ts-checkout-field-min-height);
+	--ts-checkout-section-title-gap: var(--ts-space-xl);
 	max-width: 100%;
 	min-width: 0;
 }
@@ -35,22 +36,35 @@
 .ts-wc-checkout .woocommerce-checkout-shipping-methods > .ts-wc-checkout__section-title {
 	font-size: var(--ts-font-size-lg);
 	font-weight: 600;
-	letter-spacing: -0.01em;
-	margin: 0 0 var(--ts-space-xl);
+	margin: 0;
 	color: var(--ts-colors-text);
 }
 
+// Unified title-to-content spacing regardless of inner markup (fields, shipping list, payment).
+.ts-checkout-layout__section,
+.ts-wc-checkout__shipping-methods,
+.ts-wc-checkout__payment-wrap {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-checkout-section-title-gap);
+}
+
 .ts-checkout-layout__section + .ts-checkout-layout__section {
-	margin-top: var(--ts-space-3xl);
+	margin-top: var(--ts-space-xl);
 }
 
 .ts-wc-checkout__details > .woocommerce-checkout-shipping-methods,
 .ts-wc-checkout__details > .woocommerce-checkout-payment-wrap {
-	margin-top: var(--ts-space-3xl);
+	margin-top: var(--ts-space-xl);
 }
 
 .woocommerce-checkout .woocommerce-account-fields {
 	grid-column: 1 / -1;
+}
+
+// Empty account wrapper still occupies a grid row and adds row gap after the email field.
+.woocommerce-checkout .woocommerce-billing-fields__field-wrapper > .woocommerce-account-fields:not(:has(.create-account .form-row)) {
+	display: none;
 }
 
 .ts-wc-checkout__hint {
@@ -155,8 +169,9 @@
 	margin-top: var(--ts-space-xl);
 }
 
-.woocommerce-checkout .woocommerce-shipping-fields__field-wrapper {
-	margin-top: var(--ts-space-xl);
+.ts-checkout-layout__section > .woocommerce-billing-fields__field-wrapper,
+.ts-checkout-layout__section > .woocommerce-shipping-fields__field-wrapper {
+	margin-top: 0;
 }
 
 .woocommerce-checkout .woocommerce-billing-fields__field-wrapper,
@@ -335,6 +350,7 @@
 .shipping-method-list .woocommerce-shipping-methods {
 	font-size: var(--ts-font-size-sm);
 	padding:0;
+	margin:0;
 }
 
 .shipping-method-list .woocommerce-shipping-methods li {

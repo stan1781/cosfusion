@@ -15,10 +15,20 @@ $ts_footer_info_classes  = 'ts-site-footer__info';
 $ts_footer_info_classes .= ( 0 === $ts_footer_info_widget_count )
 	? ' ts-site-footer__info--centered'
 	: ' ts-site-footer__info--split';
+
+$ts_footer_payment_image_id = tailwindscore_footer_payment_image_id();
+$ts_has_payment_image       = $ts_footer_payment_image_id > 0;
+
+$ts_copyright_classes = 'widget ts-site-footer__widget ts-site-footer__copyright';
+if ( $ts_has_payment_image ) {
+	$ts_copyright_classes .= ' ts-site-footer__copyright--has-icons';
+} else {
+	$ts_copyright_classes .= ' ts-stack';
+}
 ?>
 <div class="<?php echo esc_attr( $ts_footer_info_classes ); ?>">
-	<section class="widget ts-site-footer__widget ts-stack">
-		<p>
+	<section class="<?php echo esc_attr( $ts_copyright_classes ); ?>">
+		<p class="ts-site-footer__copyright-text">
 			<?php
 			printf(
 				/* translators: 1: year, 2: site name */
@@ -28,6 +38,22 @@ $ts_footer_info_classes .= ( 0 === $ts_footer_info_widget_count )
 			);
 			?>
 		</p>
+		<?php if ( $ts_has_payment_image ) : ?>
+			<div class="ts-site-footer__payment-image">
+				<?php
+				echo wp_get_attachment_image(
+					$ts_footer_payment_image_id,
+					'full',
+					false,
+					array(
+						'class'    => 'ts-site-footer__payment-image-img',
+						'loading'  => 'lazy',
+						'decoding' => 'async',
+					)
+				); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				?>
+			</div>
+		<?php endif; ?>
 	</section>
 	<?php if ( $ts_use_footer_info_sidebar ) : ?>
 		<?php dynamic_sidebar( 'footer-info' ); ?>
