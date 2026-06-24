@@ -1,5 +1,7 @@
 # 站点通用骨架与主题设计令牌方案
 
+> **归档说明**：本文档已归档。日常开发请以 [docs/architecture/design-tokens.md](../../../architecture/design-tokens.md) 与 [docs/features/site-shell.md](../../../features/site-shell.md) 为准。
+
 日期：2026-05-19
 
 ## 背景

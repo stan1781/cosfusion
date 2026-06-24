@@ -1,7 +1,9 @@
 # 独立插件 × TailwindScore 资源整合规范
 
-**状态**：长期有效  
-**适用主题**：[tailwindscore](D:/www/base/wp-content/themes/tailwindscore)  
+> **归档说明**：本文档已归档。日常开发请以 [docs/integrations/README.md](../../../integrations/README.md) 为准。
+
+**状态**：归档（原长期有效）  
+**适用主题**：`wp-content/themes/tailwindscore`  
 **适用插件**：站点级 WooCommerce 扩展（保持 `wp-content/plugins/` 独立安装，不并入主题 `modules/`）
 
 ---

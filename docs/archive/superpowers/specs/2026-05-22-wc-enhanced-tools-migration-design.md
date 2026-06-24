@@ -1,8 +1,10 @@
 # wc-enhanced-tools → TailwindScore 迁移设计规范
 
-**状态**：长期有效  
-**适用主题**：[tailwindscore](D:/www/base/wp-content/themes/tailwindscore)  
-**源插件**：[wc-enhanced-tools](D:/www/base/wp-content/plugins/wc-enhanced-tools)
+> **归档说明**：本文档已归档。日常开发请以 [docs/modules/README.md](../../../modules/README.md) 与 [docs/development/migration-from-wc-enhanced-tools.md](../../../development/migration-from-wc-enhanced-tools.md) 为准。
+
+**状态**：归档（原长期有效）  
+**适用主题**：`wp-content/themes/tailwindscore`  
+**源插件**：`wp-content/plugins/wc-enhanced-tools`
 
 ---
 
@@ -10,7 +12,7 @@
 
 将 `wc-enhanced-tools` 中面向前台/单品的能力迁入主题的 `modules/` 目录，与 Vite + TypeScript + Tailwind 技术栈一致。目标站点为**新站**：配置只使用 Kirki `theme_mod`，**不**从插件 `get_option( 'wc_*' )` 做 legacy 回退。
 
-任何新会话在迁移 **wc-enhanced-tools** 功能前，应先阅读本文、对应 `docs/superpowers/plans/*-implementation.md`，以及相关模块的 `CHANGELOG.md`。
+任何新会话在迁移 **wc-enhanced-tools** 功能前，应先阅读 [docs/modules/README.md](../../../modules/README.md)、对应 `docs/archive/superpowers/plans/*-implementation.md`，以及相关模块的 `CHANGELOG.md`。
 
 **其它独立插件**（用户、邮件、订单流程等）不按本文迁入 `modules/`，而按 [独立插件 × 主题资源整合规范](./2026-05-23-plugin-theme-asset-integration-design.md) 处理。
 

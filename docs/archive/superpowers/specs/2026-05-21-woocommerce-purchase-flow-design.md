@@ -1,5 +1,7 @@
 # WooCommerce 购买流程设计
 
+> **归档说明**：本文档已归档。日常开发请以 [docs/features/purchase-flow.md](../../../features/purchase-flow.md) 为准。
+
 **目标**
 
 重构主题中的 WooCommerce 购买流程，使主要用户路径变为 `product -> cart drawer -> checkout`，同时将 `cart` 页面降级为轻量级兜底页面。`drawer` 将成为购物车的主要交互界面，而 `checkout` 继续承担正式下单流程的职责。
