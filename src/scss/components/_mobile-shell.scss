@@ -135,7 +135,7 @@ body.ts-has-mobile-tab-bar .ts-purchase-flow-toast-root {
 	bottom: 0;
 	z-index: var(--ts-z-fixed);
 	padding-bottom: env(safe-area-inset-bottom, 0);
-	border-top: 1px solid var(--ts-colors-border);
+	// border-top: 1px solid var(--ts-colors-border);
 	background: var(--ts-colors-surface);
 	box-shadow: 0 -0.125rem 0.5rem color-mix(in srgb, var(--ts-colors-text) 6%, transparent);
 	transform: translateY(100%);
@@ -157,9 +157,9 @@ body.ts-product-sticky-bar--visible .ts-product-sticky-bar {
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	align-items: center;
 	gap: var(--ts-space-md);
-	min-height: var(--ts-product-sticky-bar-height);
-	padding-block: var(--ts-space-sm);
-	padding-inline-start: var(--ts-space-md);
+	// min-height: var(--ts-product-sticky-bar-height);
+	// padding-block: var(--ts-space-sm);
+	// padding-inline-start: var(--ts-space-md);
 }
 
 .ts-product-sticky-bar__thumb {
@@ -209,7 +209,7 @@ body.ts-product-sticky-bar--visible .ts-product-sticky-bar {
 .ts-product-sticky-bar__atc-wrapper {
 	display: flex;
 	align-self: stretch;
-	margin-block: calc(var(--ts-space-sm) * -1);
+	// margin-block: calc(var(--ts-space-sm) * -1);
 	margin-inline-end: calc(var(--ts-space-md) * -1);
 }
 
