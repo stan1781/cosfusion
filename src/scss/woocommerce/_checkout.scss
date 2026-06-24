@@ -735,13 +735,16 @@
 .woocommerce-checkout #payment ul.payment_methods li input {
 	margin: 0 !important;
 	flex-shrink: 0;
+	display: block !important;
 }
 
 .woocommerce-checkout #payment ul.payment_methods li label {
 	flex: 1;
 	min-width: 0;
-	padding: var(--ts-space-lg) 0;
+	padding: 0;
 	cursor: pointer;
+	display: flex;
+	line-height: 1.4;
 }
 
 .woocommerce-checkout #payment ul.payment_methods li .payment_box {
@@ -751,12 +754,15 @@
 }
 
 .woocommerce-checkout #payment div.payment_box {
-	margin-top: var(--ts-space-lg);
-	padding: var(--ts-space-xl);
+	margin-top: var(--ts-space-md);
+	padding: var(--ts-space-md);
 	border-radius: var(--ts-radius-sm);
 	background: var(--ts-colors-surface-muted);
 	color: var(--ts-colors-text-muted);
 	font-size: var(--ts-font-size-sm);
+	p {
+		margin: 0;
+	}
 }
 
 // Hide WooCommerce blockUI fog — theme loading overlays provide the spinner.
