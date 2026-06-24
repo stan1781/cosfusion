@@ -178,7 +178,7 @@
 .ts-site-menu-drawer__content {
 	display: grid;
 	grid-template-rows: auto minmax(0, 1fr);
-	gap: var(--ts-space-2xl);
+	gap: var(--ts-space-md);
 	min-height: 0;
 	height: 100%;
 }

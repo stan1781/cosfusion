@@ -262,55 +262,6 @@ function tailwindscore_homepage_hero_slides(): array {
 }
 
 /**
- * Primary registered image size for homepage grid cards (3:4 hard crop).
- */
-function tailwindscore_homepage_grid_image_size(): string {
-	return 'tailwindscore-home-grid';
-}
-
-/**
- * Register 3:4 image sizes for homepage occasion/trending cards.
- *
- * Cards use aspect-ratio 3/4 in CSS; square catalog thumbs (e.g. 280x280) upscale
- * and look soft when object-fit: cover fills the taller slot.
- */
-function tailwindscore_homepage_register_image_sizes(): void {
-	add_image_size( 'tailwindscore-home-grid', 300, 400, true );
-	add_image_size( 'tailwindscore-home-grid-lg', 600, 800, true );
-}
-add_action( 'after_setup_theme', 'tailwindscore_homepage_register_image_sizes' );
-
-/**
- * Srcset for homepage grid cards — only 3:4 theme sizes and larger uncropped fallbacks.
- *
- * Excludes square WooCommerce thumbnails so the browser cannot pick a 280w source
- * for a ~276x368 display slot.
- */
-function tailwindscore_homepage_grid_image_srcset( int $image_id ): string {
-	$sources = array();
-
-	foreach ( array( 'tailwindscore-home-grid', 'tailwindscore-home-grid-lg', 'large', 'full' ) as $size ) {
-		$src = wp_get_attachment_image_src( $image_id, $size );
-
-		if ( ! is_array( $src ) || empty( $src[0] ) || empty( $src[1] ) ) {
-			continue;
-		}
-
-		$width = (int) $src[1];
-
-		$sources[ $width ] = sprintf( '%s %dw', esc_url( (string) $src[0] ), $width );
-	}
-
-	if ( empty( $sources ) ) {
-		return '';
-	}
-
-	ksort( $sources, SORT_NUMERIC );
-
-	return implode( ', ', $sources );
-}
-
-/**
  * WooCommerce placeholder image URL for homepage grid cards.
  */
 function tailwindscore_homepage_grid_placeholder_image_url(): string {
@@ -411,14 +362,7 @@ function tailwindscore_homepage_grid_card_image_markup( array $item, string $cla
 	$image_id = isset( $item['image_id'] ) ? absint( $item['image_id'] ) : 0;
 
 	if ( $image_id > 0 && wp_attachment_is_image( $image_id ) ) {
-		$size   = tailwindscore_homepage_grid_image_size();
-		$srcset = tailwindscore_homepage_grid_image_srcset( $image_id );
-
-		if ( '' !== $srcset ) {
-			$attrs['srcset'] = $srcset;
-		}
-
-		return (string) wp_get_attachment_image( $image_id, $size, false, $attrs );
+		return (string) wp_get_attachment_image( $image_id, 'full', false, $attrs );
 	}
 
 	$src = isset( $item['image'] ) ? trim( (string) $item['image'] ) : '';
