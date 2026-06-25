@@ -95,6 +95,10 @@ function tailwindscore_show_entry_header(): bool {
 		return false;
 	}
 
+	if ( function_exists( 'is_cart' ) && ( is_cart() || is_checkout() ) ) {
+		return false;
+	}
+
 	return true;
 }
 
