@@ -85,6 +85,7 @@ tailwindscore/
 2. 可变商品保留隐藏 `select[name^="attribute_"]` 与 `wc-add-to-cart-variation`；自定义变体 UI 是「皮肤」，通过写 select + `trigger('change')` 驱动 WC 核心。
 3. 变体图仅由 `modules/gallery` + `gallery-variations.ts` 处理，不在 variations 模块重复实现。
 4. 购买主路径：`product → cart drawer → checkout`；`cart` 页为轻量兜底。
+5. 归档页等场景通过 `inc/performance.php` dequeue `woocommerce` / `wc-add-to-cart` 与 jQuery；原先依赖 `woocommerce.js` 的归档排序表单（`form.woocommerce-ordering` → `select.orderby` change 即 submit）由 `src/ts/shop/ordering.ts` 用原生 JS 承接。
 
 ## 与 Bootscore 的关系
 

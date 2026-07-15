@@ -8,6 +8,7 @@ import './site/mobile-nav';
 import './site/mobile-tab-bar';
 import './shop/loop-swatches';
 import './shop/loop-add-to-cart';
+import './shop/ordering';
 import { initProductCarousels } from './shop/product-carousel';
 import './search/index';
 import './product/index';
