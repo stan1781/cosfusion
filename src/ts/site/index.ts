@@ -73,7 +73,7 @@ type SiteShellState = AlpineMagics & SiteShellData;
 
 function focusSearchInput(scheduleTick: (callback: () => void) => void): void {
 	const focus = (): void => {
-		const field = document.getElementById('search-field');
+		const field = document.getElementById('ts-search-field');
 
 		if (field instanceof HTMLInputElement) {
 			field.focus({ preventScroll: true });

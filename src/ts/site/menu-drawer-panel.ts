@@ -1,4 +1,5 @@
-export const MENU_DRAWER_PANEL_ID = 'site-menu-panel';
+// 元素 id 保留 ts- 前缀（见 docs/conventions.md）；勿与类名去前缀一并改掉。
+export const MENU_DRAWER_PANEL_ID = 'ts-site-menu-panel';
 
 export const MENU_DRAWER_TRANSITION_MS = 380;
 

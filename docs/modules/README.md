@@ -35,9 +35,9 @@ modules/{slug}/
 | typography | `modules/typography` | 0.1.0 | ✅ | 字体加载与 Kirki 排版设置 |
 | gallery | `modules/gallery` | 0.1.0 | ✅ | Swiper 单品图库、变体相册 `_variation_images` |
 | variations | `modules/variations` | 0.1.0 | ✅ | 图片/色块 swatch、grid/list 布局 |
-| size-guide | `modules/size-guide` | 0.1.0 | ✅ | JSON 尺码表 modal + 选码单行 |
+| size-guide | `modules/size-guide` | 0.1.1 | ✅ | JSON 尺码表 modal + 选码单行 |
 | related-products | `modules/related-products` | 0.1.0 | ✅ | 单品页相关产品引擎 |
-| quick-view | `modules/quick-view` | 0.1.5 | ✅ | 归档页 Quick View（方案 B：文字按钮变体） |
+| quick-view | `modules/quick-view` | 0.1.6 | ✅ | 归档页 Quick View（方案 B：文字按钮变体） |
 | review-images | `modules/review-images` | 0.1.0 | ✅ | 评论附图、买家秀 Showcase |
 | account-auth | `modules/account-auth` | 0.1.0 | ✅ | 分屏登录、独立注册页、Google 登录预设 |
 

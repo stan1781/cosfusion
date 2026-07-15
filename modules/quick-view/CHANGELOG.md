@@ -1,5 +1,9 @@
 # Quick View 模块变更记录
 
+## 0.1.6 — 2026-07-15
+
+- 修复：去除 HTML 类名 `ts-` 前缀后，bump 版本以使 QV HTML transient 缓存键失效；避免继续下发旧类名（如 `ts-wc-product-card__media`）导致样式失效。
+
 ## 0.1.5 — 2026-07-15
 
 - 性能：悬停预读改为 fire-and-forget（移开不 abort）；打开与预读共享同一 Promise 缓存。

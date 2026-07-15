@@ -30,6 +30,7 @@
 - 订阅弹窗、联系表单前台交互
 - cart/checkout 通过 `tailwindscore_dequeue_mailnest_assets()` 卸载无关资源
 - 样式：`src/scss/components/_mailnest-subscribe-modal.scss`
+- 插件 SSR 类名须对齐主题约定（**无** `ts-` 前缀）：`mailnest-subscribe*`、`btn` / `form-control` / `input-group` / `stack`、`field` / `form-layout-*`；行为钩子仍用 `data-ts-mailnest-*`
 
 ### wc-order-process-manager
 

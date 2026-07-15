@@ -153,7 +153,7 @@ function getProductLightboxData(): ReviewLightboxPayload | null {
 		return productLightboxCache;
 	}
 
-	const scriptEl = document.getElementById('product-lightbox-data');
+	const scriptEl = document.getElementById('ts-product-lightbox-data');
 	if (!scriptEl?.textContent) {
 		productLightboxCache = null;
 		return null;

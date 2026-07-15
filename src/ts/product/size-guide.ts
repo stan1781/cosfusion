@@ -120,10 +120,11 @@ function syncUnitToggle(unitToggle: Element | null, unit: 'cm' | 'inch'): void {
 }
 
 function initModal(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inch', setUnit: (u: 'cm' | 'inch') => void): void {
-	const dialog = document.getElementById('size-guide-dialog') as HTMLDialogElement | null;
+	const dialog = document.getElementById('ts-size-guide-dialog') as HTMLDialogElement | null;
 	const body = document.querySelector('[data-ts-size-guide-body]');
 	const unitToggle = document.querySelector('[data-ts-size-guide-unit-toggle]');
 	if (!dialog || !body) {
+		console.warn('[tailwindscore] size guide: dialog shell missing in DOM');
 		return;
 	}
 
@@ -255,39 +256,6 @@ function bindVariationListeners(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inc
 	onChange();
 }
 
-function bindOpenDelegation(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inch', setUnit: (u: 'cm' | 'inch') => void): void {
-	document.addEventListener('click', (event) => {
-		const target = event.target;
-		if (!(target instanceof Element)) {
-			return;
-		}
-		const trigger = target.closest('[data-ts-size-guide-open]');
-		if (!trigger) {
-			return;
-		}
-		event.preventDefault();
-		const dialog = document.getElementById('size-guide-dialog') as HTMLDialogElement | null;
-		const body = document.querySelector('[data-ts-size-guide-body]');
-		if (!dialog || !body) {
-			console.warn('[tailwindscore] size guide: dialog shell missing in DOM');
-			return;
-		}
-		const unit = getUnit();
-		const unitToggle = document.querySelector('[data-ts-size-guide-unit-toggle]');
-		syncUnitToggle(unitToggle, unit);
-		if (cfg.legacyHtml) {
-			body.innerHTML = `<div class="size-guide-legacy">${cfg.legacyHtml}</div>`;
-		} else if (cfg.table) {
-			body.innerHTML = renderTable(cfg.table, unit, !cfg.showUnitSwitcher);
-		}
-		if (typeof dialog.showModal === 'function') {
-			dialog.showModal();
-		} else {
-			dialog.setAttribute('open', '');
-		}
-	});
-}
-
 export function initSizeGuide(): void {
 	const cfg = getConfig();
 	if (!cfg) {
@@ -309,7 +277,6 @@ export function initSizeGuide(): void {
 	};
 
 	initModal(cfg, getUnit, setUnit);
-	bindOpenDelegation(cfg, getUnit, setUnit);
 	if (cfg.inlineEnabled && cfg.table) {
 		bindVariationListeners(cfg, getUnit);
 	}
