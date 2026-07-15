@@ -8,12 +8,15 @@ import './site/mobile-nav';
 import './site/mobile-tab-bar';
 import './shop/loop-swatches';
 import './shop/loop-add-to-cart';
+import { initProductCarousels } from './shop/product-carousel';
 import './search/index';
 import './product/index';
 import './cart/index';
 import './cart/item-edit-modal';
 import './cart/cart-page';
 import './checkout/index';
+
+initProductCarousels();
 
 function scheduleIdleTask(task: () => void, timeoutMs = 4000): void {
 	if ('requestIdleCallback' in window) {

@@ -10,6 +10,9 @@ function tailwindscore_purchase_flow_config(): array {
 		'cartUrl'       => tailwindscore_cart_url(),
 		'checkoutUrl'   => tailwindscore_checkout_url(),
 		'shopUrl'       => function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/' ),
+		'productSuggestionsHtml' => function_exists( 'tailwindscore_get_cart_product_suggestions_html' )
+			? tailwindscore_get_cart_product_suggestions_html()
+			: '',
 		'notifications' => array(
 			'selectors' => array(
 				'toast'  => '[data-ts-purchase-flow-toast-root]',

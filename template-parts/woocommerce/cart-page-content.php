@@ -32,6 +32,9 @@ $cart = WC()->cart;
 					<?php endforeach; ?>
 				</ul>
 			</div>
+			<?php if ( function_exists( 'tailwindscore_render_cart_product_suggestions' ) ) : ?>
+				<?php tailwindscore_render_cart_product_suggestions(); ?>
+			<?php endif; ?>
 		</div>
 		<aside class="wc-cart__aside">
 			<div class="cart-drawer-cart__coupon" data-ts-cart-coupon>

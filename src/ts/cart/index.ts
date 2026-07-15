@@ -5,6 +5,7 @@ import {
 	initCouponApplyDisabledState,
 	syncCouponApplyButtonForInput,
 } from '../ui/coupon-form';
+import { initProductCarousels } from '../shop/product-carousel';
 
 export { notify } from './notifications';
 
@@ -79,6 +80,7 @@ type TailwindscoreCartConfig = {
 	cartUrl: string;
 	checkoutUrl: string;
 	shopUrl: string;
+	productSuggestionsHtml?: string;
 	notifications?: {
 		selectors?: NotificationSelectorConfig;
 	};
@@ -618,6 +620,7 @@ function renderCartPage(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 						${cart.items.map((item) => renderCartItem(item, config)).join('')}
 					</ul>
 				</div>
+				${config.productSuggestionsHtml ?? ''}
 			</div>
 			<aside class="wc-cart__aside">
 				${renderCartCouponMarkup(config, 'page')}
@@ -687,6 +690,7 @@ function syncCartUi(cart: StoreApiCart) {
 	document.querySelectorAll<HTMLElement>(cartPageSelector).forEach((element) => {
 		element.innerHTML = pageMarkup;
 		initCouponApplyDisabledState(element);
+		initProductCarousels(element);
 	});
 
 	syncPendingCartItems();

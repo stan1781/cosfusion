@@ -16,10 +16,7 @@ $ts_occasion_title   = tailwindscore_homepage_occasion_title();
 $ts_occasion_items   = tailwindscore_homepage_occasion_items();
 $ts_trending_title   = tailwindscore_homepage_trending_title();
 $ts_trending_items   = tailwindscore_homepage_trending_items();
-$ts_products_title   = tailwindscore_homepage_products_title();
-$ts_products_output  = tailwindscore_homepage_should_render_products()
-	? do_shortcode( tailwindscore_homepage_products_shortcode() )
-	: '';
+$ts_products_output  = tailwindscore_homepage_render_products_carousel();
 $ts_shop_by_color_title = tailwindscore_homepage_shop_by_color_title();
 $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 ?>
@@ -222,45 +219,11 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 	<?php endif; ?>
 
 	<?php if ( '' !== $ts_products_output ) : ?>
-		<section class="home-products section" aria-labelledby="ts-home-products-title">
+		<div class="section">
 			<div class="container stack">
-				<div class="home-products__header">
-					<?php if ( '' !== $ts_products_title ) : ?>
-						<h2 id="ts-home-products-title" class="heading">
-							<?php echo esc_html( $ts_products_title ); ?>
-						</h2>
-					<?php endif; ?>
-					<div class="home-products__nav-group" data-ts-home-products-nav hidden>
-						<button
-							type="button"
-							class="home-products__nav home-products__nav--prev"
-							data-ts-home-products-prev
-							aria-label="<?php esc_attr_e( 'Previous products', 'tailwindscore' ); ?>"
-						>
-							<span class="home-products__nav-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-left' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-						</button>
-						<button
-							type="button"
-							class="home-products__nav home-products__nav--next"
-							data-ts-home-products-next
-							aria-label="<?php esc_attr_e( 'Next products', 'tailwindscore' ); ?>"
-						>
-							<span class="home-products__nav-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-right' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-						</button>
-					</div>
-				</div>
-				<div class="home-products__content">
-					<div class="home-products__viewport">
-						<div class="swiper home-products__swiper woocommerce" data-ts-home-products>
-							<?php echo $ts_products_output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 短代码 HTML。 ?>
-						</div>
-					</div>
-					<div class="home-products__footer" data-ts-home-products-controls hidden>
-						<div class="swiper-pagination home-products__pagination" data-ts-home-products-pagination></div>
-					</div>
-				</div>
+				<?php echo $ts_products_output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 产品轮播壳层 HTML。 ?>
 			</div>
-		</section>
+		</div>
 	<?php endif; ?>
 
 	<!-- 按颜色选购 -->

@@ -21,6 +21,7 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 | [主导航](features/navigation.md) | 下拉菜单、Mega 菜单、移动端钻取抽屉 |
 | [购买流程](features/purchase-flow.md) | Drawer-first 购物车、结账、通知策略 |
 | [首页](features/homepage.md) | Kirki 配置区块与 `front-page.php` |
+| [产品轮播](features/product-carousel.md) | `[ts_products_carousel]`、首页 / 购物车共享 Swiper 壳层 |
 | [产品详情 Tab](features/product-detail-tabs.md) | 响应式描述 / Size Guide / 评论布局 |
 
 ## 模块与整合
@@ -37,6 +38,7 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 | 归档 | 说明 |
 |------|------|
 | [wc-enhanced-tools 迁移](archive/superpowers/specs/2026-05-22-wc-enhanced-tools-migration-design.md) | 插件能力迁入 `modules/` 的原始规范 |
+| [产品轮播壳层](archive/superpowers/specs/2026-07-15-product-carousel-design.md) | 短代码 / 首页 / 购物车共享 Swiper 设计 |
 | [插件资源整合](archive/superpowers/specs/2026-05-23-plugin-theme-asset-integration-design.md) | 独立插件前台 JS/CSS 整合原始规范 |
 | [站点壳层与令牌设计](archive/superpowers/specs/2026-05-19-site-shell-and-theme-tokens-design.md) | 设计令牌与壳层原始方案 |
 | [购买流程设计](archive/superpowers/specs/2026-05-21-woocommerce-purchase-flow-design.md) | Drawer-first 购买路径原始设计 |

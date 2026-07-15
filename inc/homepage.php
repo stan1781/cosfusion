@@ -10,10 +10,10 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * 默认精选商品 shortcode（WooCommerce）。
+ * 默认精选商品 shortcode。
  */
 function tailwindscore_homepage_default_products_shortcode(): string {
-	return '[products limit="8" columns="4" orderby="date"]';
+	return '[ts_products_carousel limit="8" orderby="date"]';
 }
 
 /**
@@ -659,6 +659,65 @@ function tailwindscore_homepage_should_render_products(): bool {
 }
 
 /**
+ * 从首页 shortcode 字符串解析轮播属性（支持 [products] / [ts_products_carousel]）。
+ *
+ * @return array<string, mixed>
+ */
+function tailwindscore_homepage_parse_products_shortcode_atts( string $shortcode ): array {
+	$atts = array();
+
+	if ( preg_match( '/\[(ts_products_carousel|products)\s*([^\]]*)\]/i', $shortcode, $matches ) ) {
+		$parsed = shortcode_parse_atts( trim( (string) $matches[2] ) );
+		if ( is_array( $parsed ) ) {
+			$atts = $parsed;
+		}
+	}
+
+	if ( isset( $atts['columns'] ) && ! isset( $atts['columns_desktop'] ) ) {
+		$atts['columns_desktop'] = $atts['columns'];
+	}
+
+	return tailwindscore_parse_products_carousel_atts( $atts );
+}
+
+/**
+ * 渲染首页精选商品轮播（共享壳层）。
+ */
+function tailwindscore_homepage_render_products_carousel(): string {
+	if ( ! tailwindscore_homepage_should_render_products() || ! function_exists( 'tailwindscore_render_products_carousel_shell' ) ) {
+		return '';
+	}
+
+	$atts = tailwindscore_homepage_parse_products_shortcode_atts( tailwindscore_homepage_products_shortcode() );
+
+	$atts['title']           = tailwindscore_homepage_products_title();
+	$atts['columns_mobile']  = tailwindscore_homepage_products_slides_mobile();
+	$atts['columns_desktop'] = tailwindscore_homepage_products_slides_desktop();
+	$atts['columns_wide']    = tailwindscore_homepage_products_slides_wide();
+	$atts['gap']             = tailwindscore_homepage_products_slide_gap();
+
+	$product_ids = tailwindscore_get_products_carousel_ids( $atts );
+
+	if ( array() === $product_ids ) {
+		return '';
+	}
+
+	return tailwindscore_render_products_carousel_shell(
+		array(
+			'product_ids'     => $product_ids,
+			'title'           => (string) $atts['title'],
+			'columns_mobile'  => (float) $atts['columns_mobile'],
+			'columns_desktop' => (float) $atts['columns_desktop'],
+			'columns_wide'    => (float) $atts['columns_wide'],
+			'gap'             => (int) $atts['gap'],
+			'section_class'   => 'home-products',
+			'section_id'      => 'ts-home-products-title',
+			'title_class'     => 'heading',
+		)
+	);
+}
+
+/**
  * 将 slide 数值在 1–6 范围内对齐到 0.5 步长。
  */
 function tailwindscore_homepage_sanitize_slide_count( $value ): float {
@@ -766,23 +825,15 @@ function tailwindscore_homepage_products_slide_gap(): int {
 }
 
 /**
- * 首页 Swiper 运行时配置。
+ * 首页 Swiper 运行时配置（仅 Hero；产品轮播由 data 属性驱动）。
  *
  * @return array<string, mixed>
  */
 function tailwindscore_homepage_swiper_config(): array {
 	return array(
-		'hero'     => array(
+		'hero' => array(
 			'autoplay'      => tailwindscore_homepage_hero_autoplay(),
 			'autoplayDelay' => 5000,
-		),
-		'products' => array(
-			'slidesMobile'   => tailwindscore_homepage_products_slides_mobile(),
-			'slidesDesktop'  => tailwindscore_homepage_products_slides_desktop(),
-			'slidesWide'     => tailwindscore_homepage_products_slides_wide(),
-			'spaceBetween'   => tailwindscore_homepage_products_slide_gap(),
-			'breakpoint'     => 768,
-			'breakpointWide' => 1280,
 		),
 	);
 }
@@ -1056,7 +1107,7 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 			'type'            => 'textarea',
 			'settings'        => 'homepage_products_shortcode',
 			'label'           => esc_html__( 'Products shortcode', 'tailwindscore' ),
-			'description'     => esc_html__( 'WooCommerce product shortcode, e.g. [products limit="8" columns="4"].', 'tailwindscore' ),
+			'description'     => esc_html__( 'Product query shortcode, e.g. [ts_products_carousel limit="8" orderby="date"] or [products limit="8"]. Slide counts come from the settings below.', 'tailwindscore' ),
 			'section'         => 'tailwindscore_homepage_display',
 			'priority'        => 40,
 			'default'         => tailwindscore_homepage_default_products_shortcode(),

@@ -1,0 +1,60 @@
+# 产品轮播
+
+共享产品列表 Swiper 壳层，供短代码、首页精选商品与购物车推荐复用。
+
+## 短代码
+
+```text
+[ts_products_carousel category="" limit="8" columns_mobile="2.5" columns_desktop="4" columns_wide="" gap="16" orderby="date" order="DESC" title=""]
+```
+
+| 属性 | 默认 | 说明 |
+|------|------|------|
+| `category` | 空 | 逗号分隔的 `product_cat` slug 或 term ID |
+| `limit` | `8` | 1–24 |
+| `columns_mobile` | `2.5` | 1–6，0.5 步进 |
+| `columns_desktop` | `4` | md 断点及以上 |
+| `columns_wide` | 空 | 可选；设值后在 xl 断点生效（首页会传） |
+| `gap` | `16` | 间距 px，0–48 |
+| `orderby` | `date` | `date` / `popularity` / `menu_order` / `title` |
+| `order` | `DESC` | `ASC` / `DESC` |
+| `title` | 空 | 区块标题；空则仅保留导航位 |
+
+查询可过滤：`tailwindscore_products_carousel_query_args`。
+
+## 首页
+
+- Customizer → Homepage：标题、shortcode、响应式 slide 数、间距
+- 默认 shortcode：`[ts_products_carousel limit="8" orderby="date"]`
+- 仍兼容 `[products …]`（属性映射进同一壳层）；列数以 Kirki slides 为准
+- 渲染：`tailwindscore_homepage_render_products_carousel()`
+
+## 购物车推荐
+
+- Customizer → Cart：开关、标题、数量、排序、分类 ID（`0` = 不限）
+- 挂载：**仅购物车页**行项列表下方（不进 Drawer）
+- 运行时：`window.tailwindscoreCart.productSuggestionsHtml`；购物车页 Store API 重绘后再次 `initProductCarousels`
+- 排除购物车内已有 product / variation ID
+
+## 前台资源
+
+| 层 | 路径 |
+|----|------|
+| PHP | `inc/woocommerce/product-carousel.php`、`cart-product-suggestions.php` |
+| 模板 | `template-parts/woocommerce/product-carousel.php` |
+| TS | `src/ts/shop/product-carousel.ts`（`app.ts` 全局初始化） |
+| SCSS | `src/scss/components/_product-carousel.scss` |
+
+选择器：`[data-ts-product-carousel]`、`data-ts-columns-mobile|desktop|wide`、`data-ts-gap`。
+
+## 降级行为
+
+- WooCommerce 未启用或无可见产品 → 不输出
+- 仅 1 个产品 → 不启 Swiper
+- Swiper 初始化失败 → 回退普通 `ul.products` 列表
+
+## 相关文档
+
+- [首页](homepage.md)
+- [购买流程](purchase-flow.md)
+- 设计归档：`docs/archive/superpowers/specs/2026-07-15-product-carousel-design.md`
