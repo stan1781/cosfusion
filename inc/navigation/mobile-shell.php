@@ -4,7 +4,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Whether the mobile bottom tab bar should render.
+ * 是否渲染移动端底部 Tab 栏。
  */
 function tailwindscore_should_render_mobile_tab_bar(): bool {
 	if ( is_admin() ) {
@@ -42,13 +42,13 @@ function tailwindscore_should_render_mobile_tab_bar(): bool {
 	}
 
 	/**
-	 * @param bool $show Whether to render the mobile tab bar.
+	 * @param bool $show 是否渲染移动端 Tab 栏。
 	 */
 	return (bool) apply_filters( 'tailwindscore_should_render_mobile_tab_bar', $show );
 }
 
 /**
- * Whether the product sticky purchase bar should render.
+ * 是否渲染单品 sticky 购买栏。
  */
 function tailwindscore_should_render_product_sticky_bar(): bool {
 	if ( is_admin() ) {
@@ -59,7 +59,7 @@ function tailwindscore_should_render_product_sticky_bar(): bool {
 }
 
 /**
- * URL for the "New" tab (new arrivals page or latest products).
+ * "New" Tab 的 URL（新品页或最新商品）。
  */
 function tailwindscore_new_arrivals_url(): string {
 	$page = get_page_by_path( 'new-arrivals' );
@@ -76,10 +76,10 @@ function tailwindscore_new_arrivals_url(): string {
 }
 
 /**
- * Parse theme_mod textarea lines into a trimmed string list.
+ * 将 theme_mod textarea 行解析为去空白字符串列表。
  *
- * @param string $key     Theme mod key.
- * @param string $default Default multiline value.
+ * @param string $key     theme_mod 键名。
+ * @param string $default 默认多行值。
  * @return string[]
  */
 function tailwindscore_mod_lines( string $key, string $default = '' ): array {
@@ -103,7 +103,7 @@ function tailwindscore_mod_lines( string $key, string $default = '' ): array {
 }
 
 /**
- * Hot search terms for the search modal chips.
+ * 搜索弹窗 chip 的热门搜索词。
  *
  * @return string[]
  */
@@ -114,7 +114,7 @@ function tailwindscore_search_modal_hot_terms(): array {
 }
 
 /**
- * Hot product categories for the search modal chips.
+ * 搜索弹窗 chip 的热门商品分类。
  *
  * @return WP_Term[]
  */
@@ -139,7 +139,7 @@ function tailwindscore_search_modal_hot_categories(): array {
 }
 
 /**
- * Search URL for a hot term (WooCommerce product search when available).
+ * 热门词的搜索 URL（可用时为 WooCommerce 商品搜索）。
  */
 function tailwindscore_search_modal_term_url( string $term ): string {
 	$args = array( 's' => $term );
@@ -152,7 +152,7 @@ function tailwindscore_search_modal_term_url( string $term ): string {
 }
 
 /**
- * @param string[] $classes Body classes.
+ * @param string[] $classes body class 列表。
  * @return string[]
  */
 function tailwindscore_mobile_shell_body_class( array $classes ): array {
@@ -169,7 +169,7 @@ function tailwindscore_mobile_shell_body_class( array $classes ): array {
 add_filter( 'body_class', 'tailwindscore_mobile_shell_body_class' );
 
 /**
- * Render mobile shell template parts before wp_footer scripts.
+ * 在 wp_footer 脚本前渲染 mobile shell 模板片段。
  */
 function tailwindscore_render_mobile_shell(): void {
 	if ( tailwindscore_should_render_mobile_tab_bar() ) {
@@ -183,8 +183,8 @@ function tailwindscore_render_mobile_shell(): void {
 add_action( 'wp_footer', 'tailwindscore_render_mobile_shell', 5 );
 
 /**
- * @param string $cfg    Kirki config id.
- * @param array<string, string> $targets Customizer panel/section IDs keyed by area.
+ * @param string $cfg    Kirki 配置 ID。
+ * @param array<string, string> $targets 按区域索引的 Customizer 面板 / 区块 ID。
  */
 function tailwindscore_mobile_shell_kirki_register( string $cfg, array $targets ): void {
 	if ( ! class_exists( 'Kirki' ) ) {

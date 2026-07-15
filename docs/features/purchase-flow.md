@@ -24,11 +24,12 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 
 - 头部 **购物车 Drawer** 为主要交互界面（数量、删除、小计、Checkout CTA）
 - 单品加购成功后 **自动打开 Drawer**
-- Drawer / 购物车页 **优惠码**（`cart-drawer-coupon.php`、`ui/coupon-form.ts`）
+- Drawer / 购物车页 **优惠码**（`cart-config.php` 中 drawer coupon 设置、`ui/coupon-form.ts`）
 - **统一通知**接口（`src/ts/cart/notifications.ts`）：支持 toast 与 inline/drawer 反馈
 - 购物车行项 **编辑 modal**（`cart-item-edit.ts`）
 - 结账页布局与登录 dialog（`checkout-layout.php`、`ui/login-modal.ts`）
 - Store API 缓存优化（`store-api-cache.php`）
+- Store API nonce：页注入 nonce 视为新鲜（TTL 60s），冷加购默认 **单次 POST**；仅 TTL 过期或 `woocommerce_rest_invalid_nonce` 时才先 `GET /cart`
 - 运费规则展示（`shipping-rules.php`）
 
 ## 通知策略

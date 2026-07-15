@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Size guide frontend hooks and markup.
+ * 尺码指南前台 Hook 与 markup。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Registers size guide UI hooks.
+ * 注册尺码指南 UI Hook。
  */
 final class Tailwindscore_Size_Guide_Frontend {
 
@@ -22,8 +22,8 @@ final class Tailwindscore_Size_Guide_Frontend {
 	}
 
 	/**
-	 * @param array<string, mixed> $config   Product config.
-	 * @param int                  $product_id Product ID.
+	 * @param array<string, mixed> $config   商品配置。
+	 * @param int                  $product_id 商品 ID。
 	 * @return array<string, mixed>
 	 */
 	public function merge_product_config( array $config, int $product_id ): array {
@@ -35,8 +35,8 @@ final class Tailwindscore_Size_Guide_Frontend {
 	}
 
 	/**
-	 * @param string     $attribute_name Attribute key.
-	 * @param WC_Product $product        Product.
+	 * @param string     $attribute_name 属性键。
+	 * @param WC_Product $product        商品。
 	 */
 	public function render_trigger_button( string $attribute_name, WC_Product $product ): void {
 		if ( ! Tailwindscore_Size_Guide_Settings::is_enabled() || ! class_exists( 'Product_Size_Guide' ) ) {
@@ -58,8 +58,8 @@ final class Tailwindscore_Size_Guide_Frontend {
 	}
 
 	/**
-	 * @param string     $attribute_name Attribute key.
-	 * @param WC_Product $product        Product.
+	 * @param string     $attribute_name 属性键。
+	 * @param WC_Product $product        商品。
 	 */
 	public function render_inline_container( string $attribute_name, WC_Product $product ): void {
 		if ( ! Tailwindscore_Size_Guide_Settings::is_enabled() || ! Tailwindscore_Size_Guide_Settings::inline_enabled() ) {
@@ -72,7 +72,7 @@ final class Tailwindscore_Size_Guide_Frontend {
 	}
 
 	/**
-	 * Dialog shell (content filled by TS).
+	 * 对话框壳（内容由 TS 填充）。
 	 */
 	public function render_dialog_shell(): void {
 		if ( ! is_product() || ! Tailwindscore_Size_Guide_Settings::is_enabled() ) {

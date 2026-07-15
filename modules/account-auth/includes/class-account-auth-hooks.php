@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Account auth hooks — templates, Site Kit, register page bootstrap.
+ * 账户认证 Hook — 模板、Site Kit、注册页引导。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Registers account-auth WordPress / WooCommerce hooks.
+ * 注册 account-auth 的 WordPress / WooCommerce Hook。
  */
 class Tailwindscore_Account_Auth_Hooks {
 
@@ -24,7 +24,7 @@ class Tailwindscore_Account_Auth_Hooks {
 	}
 
 	/**
-	 * Render notices only inside the auth shell wrapper (avoid duplicate wrappers / layout shift).
+	 * 仅在认证壳 wrapper 内渲染通知（避免重复 wrapper / 布局偏移）。
 	 *
 	 * @return void
 	 */
@@ -46,7 +46,7 @@ class Tailwindscore_Account_Auth_Hooks {
 	}
 
 	/**
-	 * @param string $template Current template path.
+	 * @param string $template 当前模板路径。
 	 * @return string
 	 */
 	public function filter_template_include( string $template ): string {
@@ -103,7 +103,7 @@ class Tailwindscore_Account_Auth_Hooks {
 	}
 
 	/**
-	 * Remove Site Kit default button on woocommerce_login_form_start (strategy B uses auth-google-slot).
+	 * 移除 woocommerce_login_form_start 上的 Site Kit 默认按钮（策略 B 使用 auth-google-slot）。
 	 *
 	 * @return void
 	 */
@@ -132,7 +132,7 @@ class Tailwindscore_Account_Auth_Hooks {
 	}
 
 	/**
-	 * @param mixed $function Hook callback.
+	 * @param mixed $function Hook 回调。
 	 * @return bool
 	 */
 	private function is_sitekit_sign_in_callback( $function ): bool {
@@ -152,7 +152,7 @@ class Tailwindscore_Account_Auth_Hooks {
 	}
 
 	/**
-	 * Avoid duplicate register link when wc-enhanced-user is active.
+	 * wc-enhanced-user 启用时避免重复注册链接。
 	 *
 	 * @return void
 	 */

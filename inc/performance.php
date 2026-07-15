@@ -2,8 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Frontend asset performance: reduce render-blocking CSS/JS where the theme
- * already replaces WooCommerce / plugin behaviour (Store API cart, classic notices).
+ * 前台资源性能：在主题已替代 WooCommerce / 插件行为（Store API 购物车、经典通知）时，减少阻塞渲染的 CSS/JS。
  */
 
 /**
@@ -20,7 +19,7 @@ function tailwindscore_async_style_handles(): array {
 }
 
 /**
- * Cart/checkout/account still rely on WooCommerce's legacy script bundle.
+ * 购物车 / 结账 / 账户页仍依赖 WooCommerce 旧版脚本包。
  */
 function tailwindscore_needs_wc_core_script(): bool {
 	return function_exists( 'is_cart' )
@@ -28,7 +27,7 @@ function tailwindscore_needs_wc_core_script(): bool {
 }
 
 /**
- * Drop jquery-migrate on the frontend (WooCommerce + theme do not require it).
+ * 前台移除 jquery-migrate（WooCommerce + 主题不需要）。
  */
 function tailwindscore_performance_remove_jquery_migrate( WP_Scripts $scripts ): void {
 	if ( is_admin() || ! isset( $scripts->registered['jquery'] ) ) {
@@ -43,7 +42,7 @@ function tailwindscore_performance_remove_jquery_migrate( WP_Scripts $scripts ):
 add_action( 'wp_default_scripts', 'tailwindscore_performance_remove_jquery_migrate' );
 
 /**
- * Load jQuery in the footer instead of the head (unblocks first paint).
+ * 将 jQuery 加载到页脚而非 head（避免阻塞首屏绘制）。
  */
 function tailwindscore_performance_move_jquery_to_footer(): void {
 	if ( is_admin() ) {
@@ -57,7 +56,7 @@ function tailwindscore_performance_move_jquery_to_footer(): void {
 add_action( 'wp_enqueue_scripts', 'tailwindscore_performance_move_jquery_to_footer', 1 );
 
 /**
- * Classic theme notice styles live in woo.scss — block notice CSS is unused.
+ * 经典主题通知样式在 woo.scss 中 — 区块通知 CSS 未使用。
  */
 function tailwindscore_performance_dequeue_wc_block_styles(): void {
 	wp_dequeue_style( 'wc-blocks-style' );
@@ -67,7 +66,7 @@ add_action( 'wp_enqueue_scripts', 'tailwindscore_performance_dequeue_wc_block_st
 add_action( 'wp_head', 'tailwindscore_performance_dequeue_wc_block_styles', 100 );
 
 /**
- * Theme cart / loop add-to-cart uses the Store API; WC's global add-to-cart script is redundant.
+ * 主题购物车 / 列表加购使用 Store API；WC 全局 add-to-cart 脚本冗余。
  */
 function tailwindscore_performance_dequeue_legacy_wc_scripts(): void {
 	if ( ! function_exists( 'WC' ) || tailwindscore_needs_wc_core_script() ) {
@@ -80,14 +79,14 @@ function tailwindscore_performance_dequeue_legacy_wc_scripts(): void {
 add_action( 'wp_enqueue_scripts', 'tailwindscore_performance_dequeue_legacy_wc_scripts', 99 );
 
 /**
- * Whether any remaining frontend feature still requires jQuery on this request.
+ * 当前请求是否仍有前台功能依赖 jQuery。
  */
 function tailwindscore_theme_needs_jquery(): bool {
 	if ( tailwindscore_needs_wc_core_script() ) {
 		return true;
 	}
 
-	// Iconic Linked Variations still ships a small jQuery script on product pages.
+	// Iconic Linked Variations 在单品页仍会加载小型 jQuery 脚本。
 	if ( function_exists( 'tailwindscore_should_load_iconic_wlv_assets' ) && tailwindscore_should_load_iconic_wlv_assets() ) {
 		return true;
 	}
@@ -96,7 +95,7 @@ function tailwindscore_theme_needs_jquery(): bool {
 }
 
 /**
- * Drop jQuery and wc-add-to-cart-variation when the theme no longer uses them.
+ * 主题不再使用时移除 jQuery 与 wc-add-to-cart-variation。
  */
 function tailwindscore_performance_dequeue_unused_jquery(): void {
 	if ( is_admin() || tailwindscore_theme_needs_jquery() ) {
@@ -119,7 +118,7 @@ function tailwindscore_performance_dequeue_unused_jquery(): void {
 add_action( 'wp_enqueue_scripts', 'tailwindscore_performance_dequeue_unused_jquery', 1001 );
 
 /**
- * Load non-critical stylesheets without blocking render (print media swap).
+ * 以 print media swap 方式加载非关键样式表，不阻塞渲染。
  */
 function tailwindscore_performance_async_style_loader_tag( string $html, string $handle, string $href, string $media ): string {
 	if ( ! in_array( $handle, tailwindscore_async_style_handles(), true ) ) {
@@ -200,7 +199,7 @@ function tailwindscore_performance_resource_hint_entries(): array {
 }
 
 /**
- * Emit preload/modulepreload hints so critical assets fetch in parallel with HTML.
+ * 输出 preload/modulepreload 提示，使关键资源与 HTML 并行获取。
  */
 function tailwindscore_performance_resource_hints(): void {
 	if ( is_admin() || tailwindscore_is_vite_dev_enabled() ) {
@@ -261,7 +260,7 @@ function tailwindscore_performance_resource_hints(): void {
 add_action( 'wp_head', 'tailwindscore_performance_resource_hints', 1 );
 
 /**
- * Defer WooCommerce order-attribution scripts (not needed for first paint).
+ * 延迟加载 WooCommerce 订单归因脚本（首屏不需要）。
  */
 function tailwindscore_performance_defer_script_loader_tag( string $tag, string $handle, string $src ): string {
 	$defer_handles = apply_filters(
@@ -276,3 +275,29 @@ function tailwindscore_performance_defer_script_loader_tag( string $tag, string 
 	return str_replace( ' src=', ' defer src=', $tag );
 }
 add_filter( 'script_loader_tag', 'tailwindscore_performance_defer_script_loader_tag', 10, 3 );
+
+/**
+ * 清理默认 WP 头部噪音，并禁用附件固定链接页。
+ */
+function tailwindscore_cleanup(): void {
+	remove_action( 'wp_head', 'wp_generator' );
+	remove_action( 'wp_enqueue_scripts', 'wp_enqueue_global_styles' );
+	remove_action( 'wp_footer', 'wp_enqueue_global_styles', 1 );
+}
+add_action( 'init', 'tailwindscore_cleanup' );
+
+/**
+ * 附件固定链接页返回 404（媒体文件仍可通过 URL 访问）。
+ */
+function tailwindscore_disable_attachment_pages(): void {
+	if ( ! is_attachment() ) {
+		return;
+	}
+
+	global $wp_query;
+
+	$wp_query->set_404();
+	status_header( 404 );
+	nocache_headers();
+}
+add_action( 'template_redirect', 'tailwindscore_disable_attachment_pages' );

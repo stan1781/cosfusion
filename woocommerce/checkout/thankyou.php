@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Thankyou page
+ * 感谢页
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package TailwindScore

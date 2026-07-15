@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Homepage "Shop by Color" block — WooCommerce attribute terms.
+ * 首页 "Shop by Color" 区块 — WooCommerce 属性 term。
  *
  * @package TailwindScore
  */
@@ -10,14 +10,14 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Default section title.
+ * 默认区块标题。
  */
 function tailwindscore_homepage_default_shop_by_color_title(): string {
 	return __( 'Shop by color', 'tailwindscore' );
 }
 
 /**
- * Section title from Customizer.
+ * 来自 Customizer 的区块标题。
  */
 function tailwindscore_homepage_shop_by_color_title(): string {
 	return trim(
@@ -29,14 +29,14 @@ function tailwindscore_homepage_shop_by_color_title(): string {
 }
 
 /**
- * Whether the block is enabled in Customizer.
+ * Customizer 中是否启用该区块。
  */
 function tailwindscore_homepage_shop_by_color_enabled(): bool {
 	return (bool) tailwindscore_mod( 'homepage_shop_by_color_enable', true );
 }
 
 /**
- * Resolve the color attribute taxonomy (pa_color preferred over pa_colour).
+ * 解析颜色属性分类法（pa_color 优先于 pa_colour）。
  */
 function tailwindscore_resolve_color_attribute_taxonomy(): string {
 	$candidates = apply_filters(
@@ -55,7 +55,7 @@ function tailwindscore_resolve_color_attribute_taxonomy(): string {
 }
 
 /**
- * Single-word color name → hex map for swatches without term meta.
+ * 单词颜色名 → hex 映射，用于无 term meta 的色块。
  *
  * @return array<string, string>
  */
@@ -91,15 +91,15 @@ function tailwindscore_pure_color_hex_map(): array {
 	);
 
 	/**
-	 * Filter the pure-color hex map used for homepage swatches.
+	 * 过滤首页色块用的纯色 hex 映射。
 	 *
-	 * @param array<string, string> $map Color name (lowercase) => hex.
+	 * @param array<string, string> $map 颜色名（小写）=> hex。
 	 */
 	return apply_filters( 'tailwindscore/homepage_pure_color_hex_map', $map );
 }
 
 /**
- * Normalize a color term name for lookup (lowercase, no punctuation).
+ * 规范化颜色 term 名以供查找（小写、无标点）。
  */
 function tailwindscore_normalize_color_term_name( string $name ): string {
 	$normalized = strtolower( trim( $name ) );
@@ -111,7 +111,7 @@ function tailwindscore_normalize_color_term_name( string $name ): string {
 }
 
 /**
- * Whether a term name is a single mappable word (not "Sky Blue", etc.).
+ * term 名是否为可映射单词（非 "Sky Blue" 等）。
  */
 function tailwindscore_is_single_word_color_name( string $name ): bool {
 	$normalized = tailwindscore_normalize_color_term_name( $name );
@@ -120,7 +120,7 @@ function tailwindscore_is_single_word_color_name( string $name ): bool {
 }
 
 /**
- * Resolve swatch hex for a color attribute term.
+ * 解析颜色属性 term 的色块 hex。
  */
 function tailwindscore_get_color_term_swatch_hex( WP_Term $term, string $taxonomy ): string {
 	$dim = array(
@@ -150,14 +150,14 @@ function tailwindscore_get_color_term_swatch_hex( WP_Term $term, string $taxonom
 }
 
 /**
- * Whether a term can be rendered as a solid-color swatch.
+ * term 是否可渲染为纯色色块。
  */
 function tailwindscore_is_mappable_color_term( WP_Term $term, string $taxonomy ): bool {
 	return tailwindscore_get_color_term_swatch_hex( $term, $taxonomy ) !== '';
 }
 
 /**
- * Build a shop URL filtered by this color term.
+ * 构建按该颜色 term 筛选的商店 URL。
  */
 function tailwindscore_get_color_filter_url( WP_Term $term, string $taxonomy ): string {
 	$shop_url = function_exists( 'wc_get_page_permalink' )
@@ -183,7 +183,7 @@ function tailwindscore_get_color_filter_url( WP_Term $term, string $taxonomy ): 
 }
 
 /**
- * Shop page URL for the "More" swatch.
+ * "More" 色块的商店页 URL。
  */
 function tailwindscore_homepage_shop_by_color_more_url(): string {
 	if ( function_exists( 'wc_get_page_permalink' ) ) {
@@ -197,7 +197,7 @@ function tailwindscore_homepage_shop_by_color_more_url(): string {
 }
 
 /**
- * Collect homepage color swatch items sorted by product count.
+ * 收集按商品数排序的首页颜色色块项。
  *
  * @return list<array{slug: string, label: string, hex: string, url: string, count: int, is_light: bool}>
  */
@@ -264,7 +264,7 @@ function tailwindscore_homepage_shop_by_color_items( int $limit = 10 ): array {
 }
 
 /**
- * Heuristic: light swatches need a visible border on pale backgrounds.
+ * 启发式：浅色色块在浅背景上需可见边框。
  */
 function tailwindscore_is_light_swatch_hex( string $hex ): bool {
 	$hex = ltrim( $hex, '#' );
@@ -280,14 +280,14 @@ function tailwindscore_is_light_swatch_hex( string $hex ): bool {
 	$g = hexdec( substr( $hex, 2, 2 ) );
 	$b = hexdec( substr( $hex, 4, 2 ) );
 
-	// Relative luminance approximation.
+	// 相对亮度近似。
 	$luminance = ( 0.299 * $r + 0.587 * $g + 0.114 * $b ) / 255;
 
 	return $luminance > 0.85;
 }
 
 /**
- * Whether the Shop by Color block should render.
+ * 是否渲染 Shop by Color 区块。
  */
 function tailwindscore_homepage_should_render_shop_by_color(): bool {
 	if ( ! tailwindscore_homepage_shop_by_color_enabled() ) {

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-// Lightweight cart page body — same line items and Store API hooks as the drawer.
+// 轻量购物车页主体 — 与抽屉使用相同的行项目与 Store API 钩子。
 
 if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
 	return;

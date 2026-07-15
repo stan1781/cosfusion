@@ -5,30 +5,30 @@
 .ts-field {
 	display: flex;
 	flex-direction: column;
-	gap: var(--ts-space-lg);
+	gap: var(--ts-spacer-2);
 	min-width: 0;
 }
 
 .ts-field--choice {
-	gap: var(--ts-space-lg);
+	gap: var(--ts-spacer-2);
 }
 
 .ts-field__label,
 .ts-field__legend {
 	@include mixins.ts-form-label-text;
 	font-weight: 500;
-	color: var(--ts-colors-text);
+	color: var(--ts-text-primary);
 }
 
 .ts-field__required {
-	color: var(--ts-colors-danger);
+	color: var(--ts-danger);
 	font-weight: 500;
 }
 
 .ts-field-error {
 	margin: 0;
 	font-size: var(--ts-font-size-xs);
-	color: var(--ts-colors-danger);
+	color: var(--ts-danger);
 }
 
 .ts-field-error[hidden] {
@@ -44,7 +44,7 @@
 // --- Floating: label inside bordered control (48px / 3rem controls) ---
 
 .ts-form-layout--floating {
-	--ts-form-min-height: var(--ts-form-floating-min-height);
+	--ts-control-min-height: var(--ts-form-floating-min-height);
 }
 
 .ts-form-layout--floating .ts-field__float {
@@ -72,11 +72,11 @@
 // Select: fixed 48px + large padding-top clips the option text on Windows/Chromium.
 .ts-form-layout--floating .ts-field__float:is(.is-filled, :focus-within) select.ts-form-control {
 	padding-top: var(--ts-form-floating-value-padding-top);
-	padding-bottom: var(--ts-space-2xs);
+	padding-bottom: calc(var(--ts-spacer-1) / 2);
 	line-height: 1;
 }
 
-// Chevron + appearance: components/_select-control.scss (global on select.ts-form-control).
+// Chevron + appearance: components/_forms.scss (global on select.ts-form-control).
 
 // Single min-height for all states — only padding changes on focus/fill (avoids height jump).
 .ts-form-layout--floating .ts-field__float textarea.ts-form-control {
@@ -104,7 +104,7 @@
 	font-size: var(--ts-font-size-base);
 	font-weight: 400;
 	line-height: 1.2;
-	color: var(--ts-colors-text-muted);
+	color: var(--ts-text-secondary);
 	pointer-events: none;
 	transition:
 		top 0.15s ease,
@@ -130,11 +130,11 @@
 }
 
 .ts-form-layout--floating .ts-field__float:focus-within .ts-field__label {
-	color: var(--ts-colors-text-muted);
+	color: var(--ts-text-secondary);
 }
 
 .ts-form-layout--floating .ts-field__float.is-filled:not(:focus-within) .ts-field__label {
-	color: var(--ts-colors-text-muted);
+	color: var(--ts-text-secondary);
 }
 
 // Autofill detection (paired with form-floating.ts)
@@ -150,5 +150,5 @@
 }
 
 [aria-invalid="true"].ts-form-control {
-	border-color: var(--ts-colors-danger);
+	border-color: var(--ts-danger);
 }

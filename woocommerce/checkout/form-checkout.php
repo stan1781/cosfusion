@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Checkout Form
+ * 结账表单
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
@@ -24,7 +24,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 }
 
 /**
- * Payment renders in the left column; the right column is order summary only.
+ * 支付区渲染在左栏；右栏仅显示订单摘要。
  */
 remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20 );
 ?>

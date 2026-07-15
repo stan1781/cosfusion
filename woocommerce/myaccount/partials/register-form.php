@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Registration form fields.
+ * 注册表单字段。
  *
  * @package TailwindScore
  */

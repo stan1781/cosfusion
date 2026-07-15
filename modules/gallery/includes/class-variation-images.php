@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Variation gallery meta + admin UI + available_variation payload.
+ * 变体画廊 meta、后台 UI 与 available_variation payload。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Variation images (no frontend jQuery).
+ * 变体图片（前台无 jQuery）。
  */
 class Tailwindscore_Gallery_Variation_Images {
 
@@ -36,7 +36,7 @@ class Tailwindscore_Gallery_Variation_Images {
 	}
 
 	/**
-	 * Expose `_variation_images` on variation REST meta_data (same key as wc-enhanced-tools).
+	 * 在变体 REST meta_data 暴露 `_variation_images`（与 wc-enhanced-tools 同键）。
 	 *
 	 * @return void
 	 */
@@ -61,9 +61,9 @@ class Tailwindscore_Gallery_Variation_Images {
 	}
 
 	/**
-	 * @param WP_REST_Response       $response REST response.
-	 * @param WC_Product_Variation   $object   Variation.
-	 * @param WP_REST_Request        $request  Request.
+	 * @param WP_REST_Response       $response REST 响应。
+	 * @param WC_Product_Variation   $object   变体。
+	 * @param WP_REST_Request        $request  请求。
 	 * @return WP_REST_Response
 	 */
 	public function add_variation_gallery_to_rest( $response, $object, $request ) {
@@ -101,7 +101,7 @@ class Tailwindscore_Gallery_Variation_Images {
 	}
 
 	/**
-	 * @param int $attachment_id Attachment ID.
+	 * @param int $attachment_id 附件 ID。
 	 * @return array<string, mixed>|null
 	 */
 	private function build_rest_image_item( int $attachment_id ): ?array {
@@ -118,8 +118,8 @@ class Tailwindscore_Gallery_Variation_Images {
 	}
 
 	/**
-	 * @param int    $image_id     Attachment ID.
-	 * @param bool   $is_main      Main flag.
+	 * @param int    $image_id     附件 ID。
+	 * @param bool   $is_main      主图标记。
 	 * @return array<string, mixed>|null
 	 */
 	private function build_image_data( int $image_id, bool $is_main = false ): ?array {
@@ -127,9 +127,9 @@ class Tailwindscore_Gallery_Variation_Images {
 	}
 
 	/**
-	 * @param int        $loop           Loop index.
-	 * @param array      $variation_data Variation data.
-	 * @param WP_Post    $variation      Variation post.
+	 * @param int        $loop           循环索引。
+	 * @param array      $variation_data 变体数据。
+	 * @param WP_Post    $variation      变体文章。
 	 * @return void
 	 */
 	public function render_variation_field( int $loop, array $variation_data, WP_Post $variation ): void {
@@ -176,7 +176,7 @@ class Tailwindscore_Gallery_Variation_Images {
 	}
 
 	/**
-	 * @param int $variation_id Variation ID.
+	 * @param int $variation_id 变体 ID。
 	 * @return void
 	 */
 	public function save_variation_images( int $variation_id ): void {
@@ -190,9 +190,9 @@ class Tailwindscore_Gallery_Variation_Images {
 	}
 
 	/**
-	 * @param array      $variation_data Variation data.
-	 * @param WC_Product $product        Parent product.
-	 * @param WC_Product $variation      Variation product.
+	 * @param array      $variation_data 变体数据。
+	 * @param WC_Product $product        父商品。
+	 * @param WC_Product $variation      变体商品。
 	 * @return array
 	 */
 	public function add_variation_images_to_variation_data( array $variation_data, WC_Product $product, WC_Product $variation ): array {
@@ -344,7 +344,7 @@ class Tailwindscore_Gallery_Variation_Images {
 	}
 
 	/**
-	 * @param array<int, string> $fields Fields.
+	 * @param array<int, string> $fields 字段。
 	 * @return array<int, string>
 	 */
 	public function wp_optimize_fields( array $fields ): array {

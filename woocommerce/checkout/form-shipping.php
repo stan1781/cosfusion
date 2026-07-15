@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Checkout shipping information form.
+ * 结账配送信息表单。
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates

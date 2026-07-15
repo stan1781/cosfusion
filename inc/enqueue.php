@@ -6,7 +6,7 @@ function tailwindscore_is_vite_dev_flag_on(): bool {
 }
 
 /**
- * Whether the Vite dev server is reachable (cached per request).
+ * Vite 开发服务器是否可达（每请求缓存）。
  */
 function tailwindscore_is_vite_dev_server_live(): bool {
 	static $live = null;
@@ -29,7 +29,7 @@ function tailwindscore_is_vite_dev_server_live(): bool {
 }
 
 /**
- * Use Vite dev assets only when the flag is on and the dev server is running.
+ * 仅当开关开启且开发服务器运行时使用 Vite 开发资源。
  */
 function tailwindscore_is_vite_dev_enabled(): bool {
 	return tailwindscore_is_vite_dev_flag_on() && tailwindscore_is_vite_dev_server_live();
@@ -129,8 +129,8 @@ function tailwindscore_enqueue_runtime_config(): void {
 }
 
 function tailwindscore_localize_app_script(): void {
-	// Module scripts do not reliably print wp_add_inline_script output in WordPress.
-	// Runtime config is emitted via tailwindscore-runtime-config instead.
+	// WordPress 对 module 脚本不会可靠输出 wp_add_inline_script 内容。
+	// 运行时配置改由 tailwindscore-runtime-config 输出。
 }
 
 function tailwindscore_manifest_path(): string {
@@ -162,7 +162,7 @@ function tailwindscore_dist_url( string $relative_file ): string {
 }
 
 /**
- * Collect built asset paths for a manifest entry (file, css, nested imports).
+ * 收集 manifest 条目的构建资源路径（file、css、嵌套 imports）。
  *
  * @return string[]
  */
@@ -268,7 +268,7 @@ function tailwindscore_enqueue_assets(): void {
 		tailwindscore_enqueue_runtime_config();
 		tailwindscore_enqueue_vite_dev_script( 'tailwindscore-app', 'src/ts/app.ts', array( 'tailwindscore-runtime-config' ) );
 		tailwindscore_localize_app_script();
-		// Product gallery config is included in tailwindscore_localize_app_script() on is_product().
+		// 单品页图库配置已包含在 tailwindscore_localize_app_script() 的 is_product() 分支中。
 		return;
 	}
 

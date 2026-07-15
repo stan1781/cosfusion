@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
 $nav_icons        = tailwindscore_account_nav_icons();
 $nav_short_labels = tailwindscore_account_nav_short_labels();
 
-// Remove payment methods from account menu dropdown
+// 从账户菜单下拉中移除支付方式
 add_filter( 'woocommerce_account_menu_items', function( $items ) {
 	unset( $items['payment-methods'] );
 	return $items;

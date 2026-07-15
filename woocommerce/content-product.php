@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * The template for displaying product content within loops
+ * 在循环中展示商品内容的模板
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
@@ -37,9 +37,9 @@ $permalink_label = sprintf(
 	$ts_title_tag = in_array( $ts_title_tag, array( 'h2', 'h3', 'h4', 'h5', 'h6' ), true ) ? $ts_title_tag : 'h2';
 	?>
 	<a href="<?php the_permalink(); ?>" class="ts-wc-product-card__link">
-		<?php echo '<' . esc_attr( $ts_title_tag ) . ' class="ts-wc-product-card__title">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Tag name validated above. ?>
+		<?php echo '<' . esc_attr( $ts_title_tag ) . ' class="ts-wc-product-card__title">'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 标签名已在上方校验。 ?>
 		<?php the_title(); ?>
-		<?php echo '</' . esc_attr( $ts_title_tag ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Tag name validated above. ?>
+		<?php echo '</' . esc_attr( $ts_title_tag ) . '>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 标签名已在上方校验。 ?>
 		<div class="ts-wc-product-card__meta">
 			<span class="ts-wc-product-card__price"><?php echo wp_kses_post( $product->get_price_html() ); ?></span>
 			<?php tailwindscore_render_loop_rating( $product ); ?>

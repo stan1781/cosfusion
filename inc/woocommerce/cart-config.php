@@ -71,3 +71,87 @@ function tailwindscore_purchase_flow_config(): array {
 		),
 	);
 }
+
+/**
+ * 是否在购物车抽屉中显示优惠券表单。
+ *
+ * 购物车页与结账页保留各自优惠券 UI，不受此设置影响。
+ */
+function tailwindscore_cart_drawer_coupon_is_enabled(): bool {
+	if ( ! function_exists( 'wc_coupons_enabled' ) || ! wc_coupons_enabled() ) {
+		return false;
+	}
+
+	$enabled = (bool) tailwindscore_mod( 'cart_drawer_coupon_enable', true );
+
+	/**
+	 * 过滤迷你购物车抽屉是否显示优惠券输入框。
+	 *
+	 * @param bool $enabled 主题设置值。
+	 */
+	return (bool) apply_filters( 'tailwindscore_cart_drawer_show_coupon', $enabled );
+}
+
+/**
+ * 当前请求是否应初始化购买流程优惠券处理器。
+ *
+ * 用于在不渲染优惠券表单的页面上跳过优惠券事件绑定。
+ * 注意：除非单独拆包，优惠券逻辑仍随主 app bundle 下发。
+ */
+function tailwindscore_purchase_flow_needs_coupon_js(): bool {
+	if ( ! function_exists( 'wc_coupons_enabled' ) || ! wc_coupons_enabled() ) {
+		return false;
+	}
+
+	if ( tailwindscore_cart_drawer_coupon_is_enabled() ) {
+		return true;
+	}
+
+	if ( function_exists( 'is_cart' ) && is_cart() ) {
+		return true;
+	}
+
+	if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+		return true;
+	}
+
+	/**
+	 * 过滤当前请求是否应初始化优惠券 JS。
+	 *
+	 * @param bool $needs 未渲染优惠券 UI 时默认为 false。
+	 */
+	return (bool) apply_filters( 'tailwindscore_purchase_flow_needs_coupon_js', false );
+}
+
+/**
+ * @param string               $cfg     Kirki 配置 ID。
+ * @param array<string, string> $targets 按区域索引的 Customizer 面板 / 区块 ID。
+ */
+function tailwindscore_cart_drawer_coupon_kirki_register( string $cfg, array $targets ): void {
+	if ( ! class_exists( 'Kirki' ) || ! class_exists( 'WooCommerce' ) ) {
+		return;
+	}
+
+	Kirki::add_section(
+		'tailwindscore_cart_settings',
+		array(
+			'title'       => esc_html__( 'Cart', 'tailwindscore' ),
+			'description' => esc_html__( 'Mini cart drawer and cart page options.', 'tailwindscore' ),
+			'panel'       => $targets['woocommerce'],
+			'priority'    => 20,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'        => 'toggle',
+			'settings'    => 'cart_drawer_coupon_enable',
+			'label'       => esc_html__( 'Show coupon field in mini cart', 'tailwindscore' ),
+			'description' => esc_html__( 'Hides the discount code input in the cart drawer. Cart page and checkout coupon fields are not affected.', 'tailwindscore' ),
+			'section'     => 'tailwindscore_cart_settings',
+			'default'     => true,
+		)
+	);
+}
+add_action( 'tailwindscore/kirki/register', 'tailwindscore_cart_drawer_coupon_kirki_register', 10, 2 );

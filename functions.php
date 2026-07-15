@@ -1,53 +1,12 @@
 <?php
 declare(strict_types=1);
 
-require_once get_template_directory() . '/inc/setup.php';
-require_once get_template_directory() . '/inc/navigation/nav.php';
-require_once get_template_directory() . '/inc/navigation/mobile-shell.php';
-require_once get_template_directory() . '/inc/navigation/header-bar.php';
-require_once get_template_directory() . '/inc/navigation/footer-nav.php';
-require_once get_template_directory() . '/inc/enqueue.php';
-require_once get_template_directory() . '/inc/performance.php';
-require_once get_template_directory() . '/inc/cleanup.php';
-require_once get_template_directory() . '/inc/template-tags.php';
-require_once get_template_directory() . '/inc/woocommerce/setup.php';
-require_once get_template_directory() . '/inc/woocommerce/hooks.php';
-require_once get_template_directory() . '/inc/woocommerce/product-price-row.php';
-require_once get_template_directory() . '/inc/woocommerce/archive-hero.php';
-require_once get_template_directory() . '/inc/woocommerce/helpers.php';
-require_once get_template_directory() . '/inc/woocommerce/quantity-input.php';
-require_once get_template_directory() . '/inc/woocommerce/product-image-aspect.php';
-require_once get_template_directory() . '/inc/woocommerce/product-tabs.php';
-require_once get_template_directory() . '/inc/woocommerce/product-detail-tabs.php';
-require_once get_template_directory() . '/inc/woocommerce/loop-image.php';
-require_once get_template_directory() . '/inc/woocommerce/loop-badge.php';
-require_once get_template_directory() . '/inc/woocommerce/loop-rating.php';
-require_once get_template_directory() . '/inc/woocommerce/loop-variant-swatches.php';
-require_once get_template_directory() . '/inc/woocommerce/homepage-shop-by-color.php';
-require_once get_template_directory() . '/inc/woocommerce/price-display.php';
-require_once get_template_directory() . '/inc/woocommerce/cart-view.php';
-require_once get_template_directory() . '/inc/woocommerce/cart-config.php';
-require_once get_template_directory() . '/inc/woocommerce/cart-drawer-coupon.php';
-require_once get_template_directory() . '/inc/woocommerce/shipping-rules.php';
-require_once get_template_directory() . '/inc/woocommerce/store-api-cache.php';
-require_once get_template_directory() . '/inc/woocommerce/cart-item-edit.php';
-require_once get_template_directory() . '/inc/woocommerce/checkout-layout.php';
-require_once get_template_directory() . '/inc/woocommerce/checkout.php';
-require_once get_template_directory() . '/inc/woocommerce/account-nav.php';
-require_once get_template_directory() . '/inc/woocommerce/account-header.php';
-require_once get_template_directory() . '/inc/woocommerce/ajax-search.php';
-require_once get_template_directory() . '/inc/woocommerce/checkout-coupon.php';
-require_once get_template_directory() . '/inc/woocommerce/reviews.php';
-require_once get_template_directory() . '/inc/config/kirki-config.php';
-require_once get_template_directory() . '/inc/homepage.php';
-require_once get_template_directory() . '/modules/typography/module.php';
-require_once get_template_directory() . '/modules/gallery/module.php';
-require_once get_template_directory() . '/modules/variations/module.php';
-require_once get_template_directory() . '/modules/size-guide/module.php';
-require_once get_template_directory() . '/modules/related-products/module.php';
-require_once get_template_directory() . '/modules/quick-view/module.php';
-require_once get_template_directory() . '/modules/review-images/module.php';
-require_once get_template_directory() . '/modules/account-auth/module.php';
-require_once get_template_directory() . '/inc/integrations/wc-order-process-manager.php';
-require_once get_template_directory() . '/inc/integrations/wc-mailnest.php';
-require_once get_template_directory() . '/inc/integrations/iconic-linked-variations.php';
+/**
+ * TailwindScore — WordPress 主题引导。
+ *
+ * 所有 require 集中在 inc/bootstrap.php，勿在此文件继续堆叠。
+ *
+ * @package TailwindScore
+ */
+
+require_once get_template_directory() . '/inc/bootstrap.php';

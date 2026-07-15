@@ -1,6 +1,6 @@
 <?php
 /**
- * Variable product add to cart — Quick View (text buttons, no variation images).
+ * 可变商品加入购物车 — Quick View（文字按钮，无变体图片）。
  *
  * @package TailwindScore
  * @version 0.1.0
@@ -19,7 +19,7 @@ $product_id = $product->get_id();
 $context = isset( $context ) ? sanitize_key( (string) $context ) : 'quick-view';
 $is_cart_edit = 'cart-edit' === $context;
 
-// Reuse data from content-product-quick-view.php when provided (avoids duplicate get_available_variations()).
+// 复用 content-product-quick-view.php 传入的数据（避免重复调用 get_available_variations()）。
 if ( ! isset( $attributes ) || ! is_array( $attributes ) ) {
 	$attributes = $product->get_variation_attributes();
 }

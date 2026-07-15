@@ -13,8 +13,8 @@
 
 	@include mixins.ts-up(md) {
 		display: grid;
-		gap: var(--ts-space-xl);
-		margin-block-end: var(--ts-space-2xl);
+		gap: var(--ts-spacer-3);
+		margin-block-end: var(--ts-spacer-4);
 	}
 
 	&--desktop {
@@ -33,35 +33,35 @@
 .ts-product-detail-column {
 	display: flex;
 	flex-direction: column;
-	gap: var(--ts-space-md);
+	gap: var(--ts-spacer-2);
 
 	&--description,
 	&--size-guide,
 	&--reviews {
-		padding: var(--ts-space-lg);
-		background-color: var(--ts-colors-surface-muted);
-		border-radius: var(--ts-radius-md);
+		padding: var(--ts-spacer-2);
+		background-color: var(--ts-surface-muted);
+		border-radius: var(--ts-border-radius);
 	}
 }
 
 .ts-product-detail-heading {
-	font-size: var(--ts-font-size-xl);
+	font-size: var(--ts-font-size-lg);
 	font-weight: var(--ts-font-weight-semibold);
-	line-height: var(--ts-line-height);
+	line-height: var(--ts-line-height-base);
 	margin: 0;
-	color: var(--ts-colors-text);
+	color: var(--ts-text-primary);
 }
 
 .ts-product-detail-content {
 	font-size: var(--ts-font-size-base);
-	line-height: var(--ts-line-height);
-	color: var(--ts-colors-text-muted);
+	line-height: var(--ts-line-height-base);
+	color: var(--ts-text-secondary);
     .wp-block-paragraph {
         line-height: 1.5;
     }
 
 	p {
-		margin-block-end: var(--ts-space-md);
+		margin-block-end: var(--ts-spacer-2);
 
 		&:last-child {
 			margin-block-end: 0;
@@ -70,8 +70,8 @@
 
 	ul,
 	ol {
-		margin-block-end: var(--ts-space-md);
-		padding-inline-start: var(--ts-space-lg);
+		margin-block-end: var(--ts-spacer-2);
+		padding-inline-start: var(--ts-spacer-2);
 
 		&:last-child {
 			margin-block-end: 0;
@@ -79,7 +79,7 @@
 	}
 
 	li {
-		margin-block-end: var(--ts-space-sm);
+		margin-block-end: var(--ts-spacer-1);
 	}
 }
 
@@ -106,7 +106,7 @@
 // Mobile Accordion Layout
 .ts-product-detail-accordion {
 	display: block;
-	margin-inline: calc(var(--ts-layout-section-y-mobile) * -1);
+	margin-inline: calc(var(--ts-section-y-mobile) * -1);
 
 	@include mixins.ts-up(md) {
 		display: none;
@@ -114,10 +114,10 @@
 }
 
 .ts-product-detail-accordion-item {
-	border-block-end: 1px solid var(--ts-colors-border);
+	border-block-end: 1px solid var(--ts-border-color);
 
 	&:first-child {
-		border-block-start: 1px solid var(--ts-colors-border);
+		border-block-start: 1px solid var(--ts-border-color);
 	}
 }
 
@@ -126,7 +126,7 @@
 	align-items: center;
 	justify-content: space-between;
 	width: 100%;
-	padding: var(--ts-space-lg) var(--ts-space-md);
+	padding: var(--ts-spacer-2) var(--ts-spacer-2);
 	background: none;
 	border: none;
 	cursor: pointer;
@@ -134,7 +134,7 @@
 	transition: background-color 0.2s ease;
 
 	&:hover {
-		background-color: var(--ts-colors-surface-muted);
+		background-color: var(--ts-surface-muted);
 	}
 
 	&[aria-expanded="true"] {
@@ -147,20 +147,20 @@
 .ts-product-detail-accordion-title {
 	font-size: var(--ts-font-size-lg);
 	font-weight: var(--ts-font-weight-semibold);
-	color: var(--ts-colors-text);
-	line-height: var(--ts-line-height);
+	color: var(--ts-text-primary);
+	line-height: var(--ts-line-height-base);
 }
 
 .ts-product-detail-accordion-icon {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: calc(var(--ts-space-lg) * 1.5);
-	height: calc(var(--ts-space-lg) * 1.5);
+	width: calc(var(--ts-spacer-2) * 1.5);
+	height: calc(var(--ts-spacer-2) * 1.5);
 	flex-shrink: 0;
 	transform: rotate(-90deg); // Default: point right
 	transition: transform 0.3s ease;
-	color: var(--ts-colors-text-muted);
+	color: var(--ts-text-secondary);
 
 	svg {
 		display: block;
@@ -179,13 +179,13 @@
 }
 
 .ts-product-detail-accordion-body {
-	padding: 0 var(--ts-space-md) var(--ts-space-lg);
+	padding: 0 var(--ts-spacer-2) var(--ts-spacer-2);
 	font-size: var(--ts-font-size-base);
-	line-height: var(--ts-line-height);
-	color: var(--ts-colors-text-muted);
+	line-height: var(--ts-line-height-base);
+	color: var(--ts-text-secondary);
 
 	p {
-		margin-block-end: var(--ts-space-md);
+		margin-block-end: var(--ts-spacer-2);
 
 		&:last-child {
 			margin-block-end: 0;
@@ -194,8 +194,8 @@
 
 	ul,
 	ol {
-		margin-block-end: var(--ts-space-md);
-		padding-inline-start: var(--ts-space-lg);
+		margin-block-end: var(--ts-spacer-2);
+		padding-inline-start: var(--ts-spacer-2);
 
 		&:last-child {
 			margin-block-end: 0;
@@ -203,7 +203,7 @@
 	}
 
 	li {
-		margin-block-end: var(--ts-space-sm);
+		margin-block-end: var(--ts-spacer-1);
 	}
 
 	// Reviews specific styles
@@ -213,7 +213,7 @@
 
 	.woocommerce-Reviews-title {
 		font-size: var(--ts-font-size-lg);
-		margin-block-end: var(--ts-space-md);
+		margin-block-end: var(--ts-spacer-2);
         display: none;
 	}
 }

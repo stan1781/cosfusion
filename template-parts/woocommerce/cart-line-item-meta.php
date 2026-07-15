@@ -27,7 +27,7 @@ if ( empty( $meta ) ) {
 </ul>
 <?php
 /**
- * Fires after cart line item meta is rendered.
+ * 购物车行项目 meta 渲染完成后触发。
  *
  * @param array<int, array{type: string, label: string, value: string}> $meta
  * @param array<string, mixed>                                           $cart_item

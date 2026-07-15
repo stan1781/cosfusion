@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-/** @var string $variant mini|full */
+/** @var string $variant 变体：mini|full */
 $variant = isset( $variant ) ? (string) $variant : 'mini';
-/** @var WC_Order|null $order */
+/** @var WC_Order|null $order 订单对象，可为 null */
 $order = isset( $order ) && $order instanceof WC_Order ? $order : null;
 
 if ( ! $order || ! class_exists( 'WC_Order_Process_Customer_View' ) ) {

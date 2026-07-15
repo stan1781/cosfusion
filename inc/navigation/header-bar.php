@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Site header bar (announcement strip) and Kirki settings.
+ * 站点头部栏（公告条）与 Kirki 设置。
  *
  * @package TailwindScore
  */
@@ -10,14 +10,14 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Default header bar copy (must match Kirki field default).
+ * 头部栏默认文案（须与 Kirki 字段默认值一致）。
  */
 function tailwindscore_header_bar_default_text(): string {
 	return __( 'Free shipping on qualifying orders', 'tailwindscore' );
 }
 
 /**
- * Whether the header bar toggle is on (unset theme_mod defaults to enabled).
+ * 头部栏开关是否开启（未设置 theme_mod 时默认启用）。
  */
 function tailwindscore_header_bar_is_enabled(): bool {
 	$mods = get_theme_mods();
@@ -30,7 +30,7 @@ function tailwindscore_header_bar_is_enabled(): bool {
 }
 
 /**
- * Whether the top header bar should render.
+ * 是否渲染顶部头部栏。
  */
 function tailwindscore_should_render_header_bar(): bool {
 	if ( ! tailwindscore_header_bar_is_enabled() ) {
@@ -41,7 +41,7 @@ function tailwindscore_should_render_header_bar(): bool {
 }
 
 /**
- * Header bar message text.
+ * 头部栏消息文本。
  */
 function tailwindscore_header_bar_text(): string {
 	return trim(
@@ -50,22 +50,22 @@ function tailwindscore_header_bar_text(): string {
 }
 
 /**
- * Optional header bar link URL (empty when unset).
+ * 可选头部栏链接 URL（未设置时为空）。
  */
 function tailwindscore_header_bar_link_url(): string {
 	return trim( (string) tailwindscore_mod( 'header_bar_link_url', '' ) );
 }
 
 /**
- * Optional header bar link label.
+ * 可选头部栏链接标签。
  */
 function tailwindscore_header_bar_link_label(): string {
 	return trim( (string) tailwindscore_mod( 'header_bar_link_label', '' ) );
 }
 
 /**
- * @param string $cfg    Kirki config id.
- * @param array<string, string> $targets Customizer panel/section IDs keyed by area.
+ * @param string $cfg    Kirki 配置 ID。
+ * @param array<string, string> $targets 按区域索引的 Customizer 面板 / 区块 ID。
  */
 function tailwindscore_header_kirki_register( string $cfg, array $targets ): void {
 	if ( ! class_exists( 'Kirki' ) ) {

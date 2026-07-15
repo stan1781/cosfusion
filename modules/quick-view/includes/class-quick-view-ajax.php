@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Quick View WC-Ajax handler and HTML cache.
+ * Quick View WC-Ajax 处理器与 HTML 缓存。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Renders Quick View product HTML via wc-ajax.
+ * 通过 wc-ajax 渲染 Quick View 商品 HTML。
  */
 class Tailwindscore_Quick_View_Ajax {
 
@@ -31,11 +31,11 @@ class Tailwindscore_Quick_View_Ajax {
 	}
 
 	/**
-	 * Strip heavy variation fields when rendering Quick View (smaller JSON in HTML).
+	 * 渲染 Quick View 时剥离重型变体字段（HTML 中 JSON 更小）。
 	 *
-	 * @param array<string, mixed> $data      Variation data.
-	 * @param WC_Product           $product   Parent product.
-	 * @param WC_Product           $variation Variation.
+	 * @param array<string, mixed> $data      变体数据。
+	 * @param WC_Product           $product   父商品。
+	 * @param WC_Product           $variation 变体。
 	 * @return array<string, mixed>
 	 */
 	public function slim_variation_for_quick_view( $data, $product, $variation ): array {
@@ -45,7 +45,7 @@ class Tailwindscore_Quick_View_Ajax {
 
 		unset( $data['image'], $data['variation_description'], $data['weight_html'], $data['dimensions_html'] );
 
-		// WC onFoundVariation reads dimensions_html when dimensions is truthy — avoid undefined.data errors.
+		// WC onFoundVariation 在 dimensions 为真时读取 dimensions_html — 避免 undefined.data 错误。
 		$data['dimensions'] = false;
 		$data['weight']       = false;
 
@@ -61,7 +61,7 @@ class Tailwindscore_Quick_View_Ajax {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return void
 	 */
 	private function send_response( int $product_id ): void {
@@ -80,7 +80,7 @@ class Tailwindscore_Quick_View_Ajax {
 
 			$lock_key = 'ts_qv_lock_' . $cache_key;
 			if ( get_transient( $lock_key ) ) {
-				// Another request is rendering; wait briefly and retry cache.
+				// 另一请求正在渲染；短暂等待后重试缓存。
 				usleep( 150000 );
 				$cached_html = get_transient( $cache_key );
 				if ( is_string( $cached_html ) && '' !== $cached_html ) {
@@ -155,7 +155,7 @@ class Tailwindscore_Quick_View_Ajax {
 	}
 
 	/**
-	 * @param string $cache_key Full transient key.
+	 * @param string $cache_key 完整 transient 键。
 	 * @return void
 	 */
 	private function release_render_lock( string $cache_key ): void {
@@ -166,9 +166,9 @@ class Tailwindscore_Quick_View_Ajax {
 	}
 
 	/**
-	 * Cache key: product + per-product version + locale/currency/module context.
+	 * 缓存键：商品 + 每商品版本 + 语言/货币/模块上下文。
 	 *
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return string
 	 */
 	public static function cache_key( int $product_id ): string {
@@ -179,7 +179,7 @@ class Tailwindscore_Quick_View_Ajax {
 	}
 
 	/**
-	 * @return string Short hash for locale, currency, and module template version.
+	 * @return string 语言、货币与模块模板版本的短哈希。
 	 */
 	private static function cache_context_suffix(): string {
 		$currency = function_exists( 'get_woocommerce_currency' ) ? (string) get_woocommerce_currency() : '';
@@ -194,7 +194,7 @@ class Tailwindscore_Quick_View_Ajax {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return bool
 	 */
 	private function should_bypass_cache( int $product_id ): bool {
@@ -203,9 +203,9 @@ class Tailwindscore_Quick_View_Ajax {
 	}
 
 	/**
-	 * Invalidate cached HTML for a product (all locale/currency keys via version bump).
+	 * 使商品缓存 HTML 失效（通过版本号递增覆盖所有语言/货币键）。
 	 *
-	 * @param int $post_id Product post ID.
+	 * @param int $post_id 商品文章 ID。
 	 * @return void
 	 */
 	public static function invalidate_product_cache( int $post_id ): void {
@@ -227,7 +227,7 @@ class Tailwindscore_Quick_View_Ajax {
 	}
 
 	/**
-	 * @param int $post_id Product post ID.
+	 * @param int $post_id 商品文章 ID。
 	 * @return void
 	 */
 	public function clear_cache( int $post_id ): void {
@@ -243,7 +243,7 @@ class Tailwindscore_Quick_View_Ajax {
 	}
 
 	/**
-	 * @param int|\WC_Product $product Product ID or product object (stock/update hooks pass WC_Product).
+	 * @param int|\WC_Product $product 商品 ID 或商品对象（库存/更新 Hook 传入 WC_Product）。
 	 * @return void
 	 */
 	public function clear_cache_for_product( $product ): void {
@@ -257,8 +257,8 @@ class Tailwindscore_Quick_View_Ajax {
 	}
 
 	/**
-	 * @param int|\WC_Product $product Product ID or product object.
-	 * @return int Parent product ID for variations, otherwise the product ID.
+	 * @param int|\WC_Product $product 商品 ID 或商品对象。
+	 * @return int 变体返回父商品 ID，否则返回商品 ID。
 	 */
 	private static function resolve_product_cache_id( $product ): int {
 		if ( $product instanceof WC_Product ) {

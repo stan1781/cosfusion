@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Checkout billing information form
+ * 结账账单信息表单
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates

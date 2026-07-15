@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "../abstracts/variables" as *;
 
 .ts-cart-item-edit-modal {
@@ -6,7 +7,7 @@
 	z-index: var(--ts-z-modal);
 	display: grid;
 	place-items: center;
-	padding: $ts-space-md;
+	padding: map.get($ts-spacers, 2);
 }
 
 .ts-cart-item-edit-modal[hidden] {
@@ -22,7 +23,7 @@ body.ts-cart-item-edit-modal-open {
 	inset: 0;
 	border: 0;
 	padding: 0;
-	background: color-mix(in srgb, var(--ts-colors-text) 24%, transparent);
+	background: color-mix(in srgb, var(--ts-text-primary) 24%, transparent);
 	cursor: pointer;
 }
 
@@ -33,10 +34,10 @@ body.ts-cart-item-edit-modal-open {
 	flex-direction: column;
 	width: min(100%, 28rem);
 	max-height: min(90vh, 36rem);
-	padding: $ts-space-md;
-	background: var(--ts-colors-surface);
-	border: 1px solid var(--ts-colors-border);
-	border-radius: var(--ts-radius-md);
+	padding: map.get($ts-spacers, 2);
+	background: var(--ts-surface);
+	border: 1px solid var(--ts-border-color);
+	border-radius: var(--ts-border-radius);
 	box-shadow: var(--ts-shadow-lg);
 }
 
@@ -44,8 +45,8 @@ body.ts-cart-item-edit-modal-open {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: var(--ts-space-xl);
-	margin-bottom: var(--ts-space-lg);
+	gap: var(--ts-spacer-3);
+	margin-bottom: var(--ts-spacer-2);
 }
 
 .ts-cart-item-edit-modal__title {
@@ -62,7 +63,7 @@ body.ts-cart-item-edit-modal-open {
 .ts-cart-item-edit-modal__loading {
 	display: grid;
 	place-items: center;
-	padding: var(--ts-space-3xl);
+	padding: var(--ts-spacer-5);
 }
 
 .ts-cart-item-edit-modal__loading[hidden] {
@@ -72,23 +73,23 @@ body.ts-cart-item-edit-modal-open {
 .ts-cart-item-edit-modal__spinner {
 	width: 1.5rem;
 	height: 1.5rem;
-	border: 2px solid var(--ts-colors-border-strong);
+	border: 2px solid var(--ts-border-color-strong);
 	border-right-color: transparent;
-	border-radius: var(--ts-radius-full);
+	border-radius: var(--ts-border-radius-pill);
 	animation: ts-spin 0.8s linear infinite;
 }
 
 .ts-cart-item-edit-modal__footer {
 	display: flex;
 	justify-content: flex-end;
-	gap: var(--ts-space-md);
-	margin-top: var(--ts-space-lg);
-	padding-top: var(--ts-space-lg);
-	border-top: 1px solid var(--ts-colors-border);
+	gap: var(--ts-spacer-2);
+	margin-top: var(--ts-spacer-2);
+	padding-top: var(--ts-spacer-2);
+	border-top: 1px solid var(--ts-border-color);
 }
 
 .ts-cart-item-edit-form__name {
-	margin: 0 0 var(--ts-space-lg);
+	margin: 0 0 var(--ts-spacer-2);
 	font-size: var(--ts-font-size-sm);
 	font-weight: 600;
 }
@@ -97,7 +98,7 @@ body.ts-cart-item-edit-modal-open {
 	.custom-variation-selector {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--ts-space-sm);
+		gap: var(--ts-spacer-1);
 		margin: 0;
 		padding: 0;
 		list-style: none;
@@ -108,16 +109,16 @@ body.ts-cart-item-edit-modal-open {
 		align-items: center;
 		justify-content: center;
 		min-width: 2rem;
-		padding: var(--ts-space-sm) var(--ts-space-md);
+		padding: var(--ts-spacer-1) var(--ts-spacer-2);
 		font-size: var(--ts-font-size-sm);
-		border: 1px solid var(--ts-colors-border);
-		border-radius: var(--ts-radius-sm);
+		border: 1px solid var(--ts-border-color);
+		border-radius: var(--ts-border-radius-sm);
 		cursor: pointer;
 	}
 
 	.custom-variation-selector li.selected {
-		border-color: var(--ts-colors-text);
-		background: var(--ts-colors-surface-muted);
+		border-color: var(--ts-text-primary);
+		background: var(--ts-surface-muted);
 	}
 
 	.custom-variation-selector li.disabled {
@@ -142,7 +143,7 @@ body.ts-cart-item-edit-modal-open {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: var(--ts-space-sm);
+	gap: var(--ts-spacer-1);
 }
 
 .ts-cart-drawer-cart__edit {
@@ -154,10 +155,10 @@ body.ts-cart-item-edit-modal-open {
 	height: 1.6rem;
 	padding: 0;
 	font: inherit;
-	color: var(--ts-colors-text-muted);
-	background: var(--ts-colors-surface);
-	border: 1px solid var(--ts-colors-border);
-	border-radius: var(--ts-radius-sm);
+	color: var(--ts-text-secondary);
+	background: var(--ts-surface);
+	border: 1px solid var(--ts-border-color);
+	border-radius: var(--ts-border-radius-sm);
 	cursor: pointer;
 }
 
@@ -167,8 +168,8 @@ body.ts-cart-item-edit-modal-open {
 }
 
 .ts-cart-drawer-cart__edit:hover:not(:disabled) {
-	border-color: var(--ts-colors-border-strong);
-	color: var(--ts-colors-text);
+	border-color: var(--ts-border-color-strong);
+	color: var(--ts-text-primary);
 }
 
 .ts-cart-drawer-cart__edit:disabled {

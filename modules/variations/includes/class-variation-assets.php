@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Enqueue WooCommerce variation scripts for the custom selector.
+ * 为自定义选择器入队 WooCommerce 变体脚本。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Variation selector frontend dependencies.
+ * 变体选择器前台依赖。
  */
 class Tailwindscore_Variation_Assets {
 
@@ -24,10 +24,10 @@ class Tailwindscore_Variation_Assets {
 	}
 
 	/**
-	 * Use theme variable.php even if wc-enhanced-tools is still active (its filter runs at 10).
+	 * 即使 wc-enhanced-tools 仍启用也使用主题 variable.php（其 filter 在优先级 10 运行）。
 	 *
-	 * @param string $located       Path.
-	 * @param string $template_name Template.
+	 * @param string $located       路径。
+	 * @param string $template_name 模板。
 	 * @return string
 	 */
 	public function prefer_theme_variable_template( string $located, string $template_name ): string {
@@ -48,7 +48,7 @@ class Tailwindscore_Variation_Assets {
 	}
 
 	/**
-	 * @param string[] $classes Body classes.
+	 * @param string[] $classes body 类名。
 	 * @return string[]
 	 */
 	public function body_class( array $classes ): array {
@@ -62,6 +62,6 @@ class Tailwindscore_Variation_Assets {
 	 * @return void
 	 */
 	public function enqueue_scripts(): void {
-		// Variation UI is handled by variation-engine.ts (Vite bundle).
+		// 变体 UI 由 variation-engine.ts（Vite bundle）处理。
 	}
 }

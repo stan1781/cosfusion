@@ -2,15 +2,15 @@
 declare(strict_types=1);
 
 /**
- * Nav menu item helpers.
+ * 导航菜单项辅助函数。
  *
- * Menu editor CSS classes:
- * - mega-menu or ts-mega-menu — mega panel (3-level: top → column → links)
- * - hot, new, sale — badge labels (styled in a later phase)
+ * 菜单编辑器 CSS class：
+ * - mega-menu 或 ts-mega-menu — mega panel（三级：顶栏 → 列 → 链接）
+ * - hot、new、sale — 徽章标签（样式于后续阶段）
  */
 
 /**
- * @param object $item Nav menu item.
+ * @param object $item 导航菜单项。
  */
 function tailwindscore_nav_item_has_class( object $item, string $class_name ): bool {
 	if ( empty( $item->classes ) || ! is_array( $item->classes ) ) {
@@ -29,8 +29,8 @@ function tailwindscore_nav_item_has_class( object $item, string $class_name ): b
 }
 
 /**
- * @param object $item Nav menu item.
- * @param object $args Walker args.
+ * @param object $item 导航菜单项。
+ * @param object $args Walker 参数。
  */
 function tailwindscore_nav_item_has_children( object $item, object $args ): bool {
 	$has_children = ! empty( $args->has_children )
@@ -40,7 +40,7 @@ function tailwindscore_nav_item_has_children( object $item, object $args ): bool
 }
 
 /**
- * @param object $item Nav menu item.
+ * @param object $item 导航菜单项。
  */
 function tailwindscore_nav_item_is_mega( object $item ): bool {
 	$is_mega = tailwindscore_nav_item_has_class( $item, 'mega-menu' )
@@ -57,9 +57,9 @@ function tailwindscore_nav_badge_classes(): array {
 }
 
 /**
- * Badge HTML for menu labels (structure only; styles in phase 2).
+ * 菜单标签徽章 HTML（仅结构；样式于阶段 2）。
  *
- * @param object $item Nav menu item.
+ * @param object $item 导航菜单项。
  */
 function tailwindscore_nav_item_badge_html( object $item, string $position = 'top' ): string {
 	if ( empty( $item->classes ) || ! is_array( $item->classes ) ) {

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * The template for displaying product content in the single-product.php template
+ * 在 single-product.php 模板中展示商品内容的模板
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates

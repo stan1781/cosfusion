@@ -37,7 +37,7 @@ modules/{slug}/
 | variations | `modules/variations` | 0.1.0 | ✅ | 图片/色块 swatch、grid/list 布局 |
 | size-guide | `modules/size-guide` | 0.1.0 | ✅ | JSON 尺码表 modal + 选码单行 |
 | related-products | `modules/related-products` | 0.1.0 | ✅ | 单品页相关产品引擎 |
-| quick-view | `modules/quick-view` | 0.1.0 | ✅ | 归档页 Quick View（方案 B：文字按钮变体） |
+| quick-view | `modules/quick-view` | 0.1.5 | ✅ | 归档页 Quick View（方案 B：文字按钮变体） |
 | review-images | `modules/review-images` | 0.1.0 | ✅ | 评论附图、买家秀 Showcase |
 | account-auth | `modules/account-auth` | 0.1.0 | ✅ | 分屏登录、独立注册页、Google 登录预设 |
 
@@ -69,6 +69,7 @@ modules/{slug}/
 
 - 归档页 AJAX 加载单品摘要
 - 变体 UI 为文字按钮方案，不 enqueue 归档页完整 `variations.ts`
+- 卡片悬停预读（180ms 延迟）：移开不取消；打开复用同一 in-flight Promise；`saveData` / 2g 跳过
 - TS：`src/ts/shop/quick-view.ts`、`quick-view-variations.ts`
 
 ### related-products

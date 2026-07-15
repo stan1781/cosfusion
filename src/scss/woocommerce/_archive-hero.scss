@@ -1,32 +1,35 @@
 @use "../abstracts/mixins";
-@use "../abstracts/variables";
+
+// 归档 hero 高度（不进全局 token）
+$ts-archive-hero-height-mobile: 7rem;
+$ts-archive-hero-height-desktop: 10rem;
 
 .ts-wc-archive-hero {
-	--ts-wc-archive-hero-height: #{variables.$ts-layout-wc-archive-hero-height-mobile};
-	--ts-wc-archive-hero-text: var(--ts-colors-surface);
+	--ts-wc-archive-hero-height: #{$ts-archive-hero-height-mobile};
+	--ts-wc-archive-hero-text: var(--ts-surface);
 	position: relative;
 	display: grid;
 	width: 100%;
 	min-height: var(--ts-wc-archive-hero-height);
 	overflow: hidden;
-	background-color: var(--ts-colors-surface-muted);
+	background-color: var(--ts-surface-muted);
 	background-image: var(--ts-wc-archive-hero-bg);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
 
 	@include mixins.ts-up(md) {
-		--ts-wc-archive-hero-height: #{variables.$ts-layout-wc-archive-hero-height-desktop};
+		--ts-wc-archive-hero-height: #{$ts-archive-hero-height-desktop};
 	}
 
 	&--no-media {
-		--ts-wc-archive-hero-text: var(--ts-colors-text);
+		--ts-wc-archive-hero-text: var(--ts-text-primary);
 	}
 }
 
 .ts-wc-archive-hero__overlay {
 	grid-area: 1 / 1;
-	background: color-mix(in srgb, var(--ts-colors-text) 36%, transparent);
+	background: color-mix(in srgb, var(--ts-text-primary) 36%, transparent);
 
 	.ts-wc-archive-hero--no-media & {
 		display: none;
@@ -41,8 +44,8 @@
 	justify-content: center;
 	align-self: stretch;
 	min-height: var(--ts-wc-archive-hero-height);
-	padding-block: var(--ts-space-2xl);
-	gap: var(--ts-space-md);
+	padding-block: var(--ts-spacer-4);
+	gap: var(--ts-spacer-2);
 	color: var(--ts-wc-archive-hero-text);
 }
 
@@ -64,5 +67,5 @@
 }
 
 .ts-main--commerce .ts-wc-shell--archive > .woocommerce-breadcrumb {
-	margin-block-start: var(--ts-space-xl);
+	margin-block-start: var(--ts-spacer-3);
 }

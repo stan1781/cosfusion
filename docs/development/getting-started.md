@@ -48,9 +48,14 @@ define( 'TAILWINDSCORE_VITE_DEV', true );
 | `npm run build` | 生产构建 + 清理孤儿 dist 文件 |
 | `npm run typecheck` | TypeScript 类型检查 |
 | `npm run clean:dist` | 删除 `assets/dist/` |
+| `npm run package` | 打可上传 zip（不 bump 版本，须已 build） |
+| `npm run release` | patch +1 → build → `release/tailwindscore-{ver}.zip` |
+| `npm run release:minor` | minor +1 → build → zip |
+| `npm run release:major` | major +1 → build → zip |
 
 ## 代码规范速查
 
+- **语言**：注释与 `docs/` 用简体中文；前台默认可视文案用英文（见 [conventions.md](../conventions.md)）
 - **PHP**：`declare(strict_types=1);`，WordPress 编码规范，转义输出
 - **SCSS**：遵循 [设计令牌](../architecture/design-tokens.md)，组件用 `ts-up`/`ts-down` mixin
 - **TypeScript**：断点用 `src/ts/breakpoints.ts`，商城逻辑放 `src/ts/` 对应域目录

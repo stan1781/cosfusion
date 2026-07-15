@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Account auth module bootstrap.
+ * 账户认证模块引导。
  *
  * @package TailwindScore
  */

@@ -2,13 +2,13 @@
 declare(strict_types=1);
 
 /**
- * Simplify variable product price HTML for loop cards, quick view, and search.
+ * 简化可变商品价格 HTML，用于列表卡片、快速查看与搜索。
  *
- * Runs before wc-enhanced-tools multi-currency (priority 10) so converted prices
- * receive consistent markup.
+ * 在 wc-enhanced-tools 多币种（优先级 10）之前运行，使转换后价格
+ * 获得一致的 markup。
  *
- * @param string     $price   Default WooCommerce price HTML.
- * @param WC_Product $product Product instance.
+ * @param string     $price   WooCommerce 默认价格 HTML。
+ * @param WC_Product $product 商品实例。
  */
 function tailwindscore_simplify_variable_price_display( string $price, WC_Product $product ): string {
 	if ( ! function_exists( 'get_woocommerce_currency_symbol' ) || ! $product->is_type( 'variable' ) ) {

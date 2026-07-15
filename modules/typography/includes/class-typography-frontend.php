@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Enqueue bundled fonts and runtime typography CSS variables.
+ * 入队内置字体与运行时排版 CSS 变量。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Front-end typography output.
+ * 前台排版输出。
  */
 class Tailwindscore_Typography_Frontend {
 

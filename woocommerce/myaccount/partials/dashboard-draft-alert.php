@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-/** @var WC_Order[] $draft_orders */
+/** @var WC_Order[] $draft_orders 草稿订单列表 */
 $draft_orders = isset( $draft_orders ) && is_array( $draft_orders ) ? $draft_orders : array();
 
 if ( empty( $draft_orders ) ) {

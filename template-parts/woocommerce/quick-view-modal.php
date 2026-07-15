@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Quick View modal shell (content loaded via AJAX).
+ * Quick View 弹窗外壳（内容通过 AJAX 加载）。
  *
  * @package TailwindScore
  */

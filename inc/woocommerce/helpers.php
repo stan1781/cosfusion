@@ -19,7 +19,7 @@ function tailwindscore_is_woo_page(): bool {
 }
 
 /**
- * Whether optional header panels (search modal, cart drawer) should render.
+ * 是否渲染可选头部面板（搜索弹窗、购物车抽屉）。
  */
 function tailwindscore_should_render_header_purchase_panels(): bool {
 	return ! tailwindscore_is_checkout_page();

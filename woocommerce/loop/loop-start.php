@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Product loop start — shared grid class for archive-adjacent loops (related, upsells, etc.).
+ * 商品循环开头 — 归档相邻循环（相关商品、追加销售等）共用的网格类。
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates

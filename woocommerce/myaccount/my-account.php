@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * My Account page
+ * 我的账户页面
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates

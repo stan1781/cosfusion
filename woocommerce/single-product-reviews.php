@@ -1,6 +1,6 @@
 <?php
 /**
- * Single product reviews.
+ * 单品商品评价。
  *
  * @package TailwindScore
  * @see     woocommerce/templates/single-product-reviews.php
@@ -35,7 +35,7 @@ if ( ! comments_open() ) {
 
 		<?php
 		/**
-		 * Fires before the product review list (customer photo showcase hero, etc.).
+		 * 在商品评价列表之前触发（客户照片展示 hero 等）。
 		 */
 		do_action( 'woocommerce_before_single_product_reviews' );
 		?>

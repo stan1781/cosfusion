@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Orders
+ * 订单列表
  *
  * @package TailwindScore
  * @version 9.5.0
@@ -11,7 +11,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 if ( ! class_exists( 'WC_Order_Process_Customer_View' ) ) {
-	// Fallback to WooCommerce default behavior variables from shortcode.
+	// 回退到短代码中的 WooCommerce 默认行为变量。
 	do_action( 'woocommerce_before_account_orders', $has_orders );
 
 	if ( $has_orders ) {

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Product gallery module bootstrap.
+ * 商品画廊模块引导。
  *
  * @package TailwindScore
  */

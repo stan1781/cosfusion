@@ -2,9 +2,9 @@
 declare(strict_types=1);
 
 /**
- * Product image aspect ratio from WooCommerce > Customize > Product Images.
+ * 来自 WooCommerce > 自定义 > 产品图片 的图片宽高比。
  *
- * Mirrors catalog thumbnail cropping (1:1, custom e.g. 3:4, or uncropped).
+ * 与目录缩略图裁剪一致（1:1、自定义如 3:4，或未裁剪）。
  *
  * @package TailwindScore
  */
@@ -12,7 +12,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * CSS aspect-ratio value for product media containers, or null when uncropped.
+ * 商品媒体容器的 CSS aspect-ratio 值；未裁剪时为 null。
  */
 function tailwindscore_wc_product_image_aspect_ratio_css(): ?string {
 	if ( ! function_exists( 'wc_get_image_size' ) ) {
@@ -29,8 +29,8 @@ function tailwindscore_wc_product_image_aspect_ratio_css(): ?string {
 	$height = max( 1, (int) $size['height'] );
 
 	/**
-	 * @param string $css_value e.g. "3 / 4".
-	 * @param array{width:int,height:int,crop:int} $size WooCommerce thumbnail size.
+	 * @param string $css_value 例如 "3 / 4"。
+	 * @param array{width:int,height:int,crop:int} $size WooCommerce 缩略图尺寸。
 	 */
 	return (string) apply_filters(
 		'tailwindscore_wc_product_image_aspect_ratio_css',
@@ -40,7 +40,7 @@ function tailwindscore_wc_product_image_aspect_ratio_css(): ?string {
 }
 
 /**
- * Output --ts-product-image-aspect-ratio on :root from WooCommerce customizer settings.
+ * 根据 WooCommerce 自定义设置向 :root 输出 --ts-product-image-aspect-ratio。
  */
 function tailwindscore_enqueue_product_image_aspect_ratio(): void {
 	if ( ! class_exists( 'WooCommerce' ) ) {

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Guest My Account page shell — uses auth document without site header/footer.
+ * 访客我的账户页面外壳 — 使用认证文档，不含站点 header/footer。
  *
  * @package TailwindScore
  */

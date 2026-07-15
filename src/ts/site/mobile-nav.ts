@@ -1,5 +1,7 @@
 export {};
 
+import type { AlpineMagics } from '../types/alpine';
+
 type MobileNavPanel = {
 	id: string;
 	title: string;
@@ -10,21 +12,26 @@ type MobileNavConfig = {
 	rootTitle?: string;
 };
 
-type MobileNavState = {
+type MobileNavData = {
 	rootTitle: string;
 	panelStack: MobileNavPanel[];
 	trackEl: HTMLElement | null;
 	_clickBound: boolean;
 	_onTrackTransitionEnd: ((event: TransitionEvent) => void) | null;
+	readonly headerTitle: string;
+	readonly headerUrl: string;
+	readonly canGoBack: boolean;
 	init(this: MobileNavState): void;
 	bindNav(this: MobileNavState): void;
 	handlePanelClick(this: MobileNavState, event: Event): void;
-	openPanel(this: MobileNavState, panelId: string, title: string): void;
+	openPanel(this: MobileNavState, panelId: string, title: string, url?: string): void;
 	goBack(this: MobileNavState): void;
 	reset(this: MobileNavState): void;
 	syncTrack(this: MobileNavState, snap?: boolean): void;
 	focusFirstLink(this: MobileNavState, panelId: string): void;
 };
+
+type MobileNavState = AlpineMagics & MobileNavData;
 
 function getNavViewport(trackEl: HTMLElement): HTMLElement | null {
 	return trackEl.parentElement instanceof HTMLElement ? trackEl.parentElement : null;
@@ -52,7 +59,7 @@ function syncPanelA11y(panels: HTMLElement[], activeIndex: number): void {
 document.addEventListener('alpine:init', () => {
 	window.Alpine.data(
 		'mobileNav',
-		(config: MobileNavConfig = {}): MobileNavState => ({
+		(config: MobileNavConfig = {}): MobileNavData => ({
 			rootTitle: config.rootTitle ?? 'Menu',
 			panelStack: [],
 			trackEl: null,

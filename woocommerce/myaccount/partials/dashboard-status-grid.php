@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-/** @var array<string, int> $counts */
+/** @var array<string, int> $counts 各状态订单数量 */
 $counts      = isset( $counts ) && is_array( $counts ) ? $counts : array();
 $current     = function_exists( 'tailwindscore_account_current_bucket' ) ? tailwindscore_account_current_bucket() : '';
 $endpoint    = isset( $bucket_endpoint ) ? (string) $bucket_endpoint : 'dashboard';

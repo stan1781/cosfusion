@@ -6,11 +6,11 @@ declare(strict_types=1);
 
 /**
 
- * Kirki entry: config, panel, module field registration.
+ * Kirki 入口：config、panel、模块字段注册。
 
  *
 
- * Requires the Kirki Framework plugin. When absent, tailwindscore_mod() uses defaults only.
+ * 需要 Kirki Framework 插件。未安装时 tailwindscore_mod() 仅使用默认值。
 
  *
 
@@ -30,7 +30,7 @@ require_once __DIR__ . '/kirki/helpers.php';
 
 /**
 
- * Register Kirki config and panels; modules hook tailwindscore/kirki/register.
+ * 注册 Kirki config 与 panel；模块挂载 tailwindscore/kirki/register。
 
  */
 
@@ -127,9 +127,9 @@ function tailwindscore_kirki_register(): void {
 
 
 	// -------------------------------------------------------------------------
-	// Site Identity – custom logo fields (PC + mobile)
-	// Added to the native "title_tagline" section so they appear alongside
-	// the built-in Site Icon and Tagline controls.
+	// 站点身份 – 自定义 logo 字段（PC + 移动端）
+	// 添加到原生 "title_tagline" 区块，与
+	// 内置站点图标与副标题控件并列显示。
 	// -------------------------------------------------------------------------
 	Kirki::add_field(
 		$cfg,
@@ -165,13 +165,13 @@ function tailwindscore_kirki_register(): void {
 
 	/**
 
-	 * Modules register Customizer fields here.
+	 * 模块在此注册 Customizer 字段。
 
 	 *
 
-	 * @param string               $cfg     Config id.
+	 * @param string               $cfg     配置 ID。
 
-	 * @param array<string, string> $targets Customizer panel/section IDs keyed by area.
+	 * @param array<string, string> $targets 按区域索引的 Customizer 面板 / 区块 ID。
 
 	 */
 

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Homepage Kirki settings and helpers.
+ * 首页 Kirki 设置与辅助函数。
  *
  * @package TailwindScore
  */
@@ -10,35 +10,35 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Default featured products shortcode (WooCommerce).
+ * 默认精选商品 shortcode（WooCommerce）。
  */
 function tailwindscore_homepage_default_products_shortcode(): string {
 	return '[products limit="8" columns="4" orderby="date"]';
 }
 
 /**
- * Default homepage products section title.
+ * 默认首页商品区块标题。
  */
 function tailwindscore_homepage_default_products_title(): string {
 	return __( 'Featured products', 'tailwindscore' );
 }
 
 /**
- * Default Shop by Occasion section title.
+ * 默认 Shop by Occasion 区块标题。
  */
 function tailwindscore_homepage_default_occasion_title(): string {
 	return __( 'Shop by occasion', 'tailwindscore' );
 }
 
 /**
- * Default Trending Collections section title.
+ * 默认 Trending Collections 区块标题。
  */
 function tailwindscore_homepage_default_trending_title(): string {
 	return __( 'Trending collections', 'tailwindscore' );
 }
 
 /**
- * Default Shop by Occasion grid items.
+ * 默认 Shop by Occasion 网格项。
  *
  * @return array<int, array<string, string>>
  */
@@ -76,7 +76,7 @@ function tailwindscore_homepage_default_occasion_items(): array {
 }
 
 /**
- * Default Trending Collections grid items.
+ * 默认 Trending Collections 网格项。
  *
  * @return array<int, array<string, string>>
  */
@@ -110,7 +110,7 @@ function tailwindscore_homepage_default_trending_items(): array {
 }
 
 /**
- * Allowed hero CTA button styles.
+ * 允许的 hero CTA 按钮样式。
  *
  * @return list<string>
  */
@@ -119,7 +119,7 @@ function tailwindscore_homepage_hero_link_styles(): array {
 }
 
 /**
- * Allowed hero text color modes.
+ * 允许的 hero 文字颜色模式。
  *
  * @return list<string>
  */
@@ -128,7 +128,7 @@ function tailwindscore_homepage_hero_text_colors(): array {
 }
 
 /**
- * Sanitize hero slide CTA button style.
+ * 消毒 hero slide CTA 按钮样式。
  */
 function tailwindscore_homepage_sanitize_hero_link_style( $value ): string {
 	$style = is_string( $value ) ? sanitize_key( $value ) : 'solid';
@@ -137,7 +137,7 @@ function tailwindscore_homepage_sanitize_hero_link_style( $value ): string {
 }
 
 /**
- * Sanitize hero slide text color mode.
+ * 消毒 hero slide 文字颜色模式。
  */
 function tailwindscore_homepage_sanitize_hero_text_color( $value ): string {
 	$color = is_string( $value ) ? sanitize_key( $value ) : 'light';
@@ -146,9 +146,9 @@ function tailwindscore_homepage_sanitize_hero_text_color( $value ): string {
 }
 
 /**
- * Resolve a hero image value (attachment ID or legacy URL) to an attachment ID.
+ * 将 hero 图片值（attachment ID 或旧版 URL）解析为 attachment ID。
  *
- * @param mixed $image Raw value from theme_mod.
+ * @param mixed $image 来自 theme_mod 的原始值。
  */
 function tailwindscore_homepage_hero_resolve_attachment_id( $image ): int {
 	if ( is_numeric( $image ) ) {
@@ -169,10 +169,10 @@ function tailwindscore_homepage_hero_resolve_attachment_id( $image ): int {
 }
 
 /**
- * Responsive hero slide image markup (srcset when the image is in the media library).
+ * 响应式 hero slide 图片 markup（媒体库图片时使用 srcset）。
  *
- * @param array<string, mixed> $slide       Normalized slide data.
- * @param int                  $slide_index Zero-based slide index.
+ * @param array<string, mixed> $slide       规范化 slide 数据。
+ * @param int                  $slide_index 从 0 开始的 slide 索引。
  */
 function tailwindscore_homepage_hero_slide_image_markup( array $slide, int $slide_index, string $alt ): string {
 	$attrs = array(
@@ -211,7 +211,7 @@ function tailwindscore_homepage_hero_slide_image_markup( array $slide, int $slid
 }
 
 /**
- * Normalized hero slides from theme_mod (skips rows without an image).
+ * 来自 theme_mod 的规范化 hero slides（跳过无图片行）。
  *
  * @return array<int, array{image: string, image_id: int, title: string, subtitle: string, description: string, link_url: string, link_label: string, link_style: string, text_color: string}>
  */
@@ -262,7 +262,7 @@ function tailwindscore_homepage_hero_slides(): array {
 }
 
 /**
- * WooCommerce placeholder image URL for homepage grid cards.
+ * 首页网格卡片的 WooCommerce 占位图 URL。
  */
 function tailwindscore_homepage_grid_placeholder_image_url(): string {
 	if ( function_exists( 'wc_placeholder_img_src' ) ) {
@@ -277,12 +277,12 @@ function tailwindscore_homepage_grid_placeholder_image_url(): string {
 }
 
 /**
- * Normalize homepage grid card rows from theme_mod.
+ * 从 theme_mod 规范化首页网格卡片行。
  *
- * Rows without a custom image use the WooCommerce placeholder when available.
+ * 无自定义图片的行在可用时使用 WooCommerce 占位图。
  *
- * @param mixed                $items   Raw repeater value.
- * @param array<string, mixed> $schema  Field keys to copy from each row.
+ * @param mixed                $items   原始 repeater 值。
+ * @param array<string, mixed> $schema  从每行复制的字段 key。
  * @return array<int, array<string, mixed>>
  */
 function tailwindscore_homepage_normalize_grid_items( $items, array $schema ): array {
@@ -337,12 +337,12 @@ function tailwindscore_homepage_normalize_grid_items( $items, array $schema ): a
 }
 
 /**
- * Responsive grid card image markup.
+ * 响应式网格卡片图片 markup。
  *
- * @param array<string, mixed> $item      Normalized card data.
- * @param string               $class     Image class attribute.
- * @param string               $alt       Alt text.
- * @param string               $sizes     Sizes attribute for srcset images.
+ * @param array<string, mixed> $item      规范化卡片数据。
+ * @param string               $class     图片 class 属性。
+ * @param string               $alt       Alt 文本。
+ * @param string               $sizes     srcset 图片的 sizes 属性。
  */
 function tailwindscore_homepage_grid_card_image_markup( array $item, string $class, string $alt, string $sizes = '25vw' ): string {
 	$classes = $class;
@@ -383,7 +383,7 @@ function tailwindscore_homepage_grid_card_image_markup( array $item, string $cla
 }
 
 /**
- * Inline CSS custom properties for a homepage card grid based on item count.
+ * 按项数为首页卡片网格输出内联 CSS 自定义属性。
  */
 function tailwindscore_homepage_grid_style_attr( int $count ): string {
 	$count = max( 1, $count );
@@ -392,7 +392,7 @@ function tailwindscore_homepage_grid_style_attr( int $count ): string {
 }
 
 /**
- * Responsive sizes attribute for homepage grid card images.
+ * 首页网格卡片图片的响应式 sizes 属性。
  */
 function tailwindscore_homepage_grid_image_sizes( int $count ): string {
 	$count         = max( 1, $count );
@@ -402,7 +402,7 @@ function tailwindscore_homepage_grid_image_sizes( int $count ): string {
 }
 
 /**
- * Split a trending collection title into two display lines (last word on line two).
+ * 将 Trending Collection 标题拆为两行显示（最后一词在第二行）。
  *
  * @return array{line1: string, line2: string}
  */
@@ -432,7 +432,7 @@ function tailwindscore_homepage_split_trending_title( string $title ): array {
 }
 
 /**
- * Shop by Occasion section heading.
+ * Shop by Occasion 区块标题。
  */
 function tailwindscore_homepage_occasion_title(): string {
 	return trim(
@@ -444,7 +444,7 @@ function tailwindscore_homepage_occasion_title(): string {
 }
 
 /**
- * Shop by Occasion grid items.
+ * Shop by Occasion 网格项。
  *
  * @return array<int, array{image: string, image_id: int, title: string, subtitle: string, link_url: string, link_label: string}>
  */
@@ -461,14 +461,14 @@ function tailwindscore_homepage_occasion_items(): array {
 }
 
 /**
- * Whether the Shop by Occasion block should render.
+ * 是否渲染 Shop by Occasion 区块。
  */
 function tailwindscore_homepage_should_render_occasion(): bool {
 	return ! empty( tailwindscore_homepage_occasion_items() );
 }
 
 /**
- * Trending Collections section heading.
+ * Trending Collections 区块标题。
  */
 function tailwindscore_homepage_trending_title(): string {
 	return trim(
@@ -480,7 +480,7 @@ function tailwindscore_homepage_trending_title(): string {
 }
 
 /**
- * Trending Collections grid items.
+ * Trending Collections 网格项。
  *
  * @return array<int, array{image: string, image_id: int, title: string, link_url: string, link_label: string}>
  */
@@ -496,14 +496,14 @@ function tailwindscore_homepage_trending_items(): array {
 }
 
 /**
- * Whether the Trending Collections block should render.
+ * 是否渲染 Trending Collections 区块。
  */
 function tailwindscore_homepage_should_render_trending(): bool {
 	return ! empty( tailwindscore_homepage_trending_items() );
 }
 
 /**
- * Default Trust Bar items.
+ * 默认 Trust Bar 项。
  *
  * @return array<int, array{icon: string, title: string, description: string}>
  */
@@ -533,7 +533,7 @@ function tailwindscore_homepage_default_trust_items(): array {
 }
 
 /**
- * Trust Bar icon choices for Customizer and normalization.
+ * Customizer 与规范化用的 Trust Bar 图标选项。
  *
  * @return array<string, string>
  */
@@ -547,16 +547,16 @@ function tailwindscore_homepage_trust_icon_choices(): array {
 }
 
 /**
- * Whether the Trust Bar block is enabled in Customizer.
+ * Customizer 中是否启用 Trust Bar 区块。
  */
 function tailwindscore_homepage_trust_enabled(): bool {
 	return (bool) tailwindscore_mod( 'homepage_trust_enable', true );
 }
 
 /**
- * Normalize Trust Bar repeater rows from theme_mod.
+ * 从 theme_mod 规范化 Trust Bar repeater 行。
  *
- * @param mixed $items Raw repeater value.
+ * @param mixed $items 原始 repeater 值。
  * @return array<int, array{icon: string, title: string, description: string}>
  */
 function tailwindscore_homepage_normalize_trust_items( $items ): array {
@@ -595,7 +595,7 @@ function tailwindscore_homepage_normalize_trust_items( $items ): array {
 }
 
 /**
- * Trust Bar items from Customizer.
+ * 来自 Customizer 的 Trust Bar 项。
  *
  * @return array<int, array{icon: string, title: string, description: string}>
  */
@@ -606,7 +606,7 @@ function tailwindscore_homepage_trust_items(): array {
 }
 
 /**
- * Whether the Trust Bar block should render.
+ * 是否渲染 Trust Bar 区块。
  */
 function tailwindscore_homepage_should_render_trust(): bool {
 	if ( ! tailwindscore_homepage_trust_enabled() ) {
@@ -617,14 +617,14 @@ function tailwindscore_homepage_should_render_trust(): bool {
 }
 
 /**
- * Whether the homepage products block is enabled.
+ * 是否启用首页商品区块。
  */
 function tailwindscore_homepage_products_enabled(): bool {
 	return (bool) tailwindscore_mod( 'homepage_products_enable', true );
 }
 
 /**
- * Homepage products section heading.
+ * 首页商品区块标题。
  */
 function tailwindscore_homepage_products_title(): string {
 	return trim(
@@ -636,7 +636,7 @@ function tailwindscore_homepage_products_title(): string {
 }
 
 /**
- * Shortcode string for the homepage products block.
+ * 首页商品区块的 shortcode 字符串。
  */
 function tailwindscore_homepage_products_shortcode(): string {
 	return trim(
@@ -648,7 +648,7 @@ function tailwindscore_homepage_products_shortcode(): string {
 }
 
 /**
- * Whether the homepage products block should render.
+ * 是否渲染首页商品区块。
  */
 function tailwindscore_homepage_should_render_products(): bool {
 	if ( ! tailwindscore_homepage_products_enabled() ) {
@@ -659,7 +659,7 @@ function tailwindscore_homepage_should_render_products(): bool {
 }
 
 /**
- * Snap a slide-count value to 0.5 steps within 1–6.
+ * 将 slide 数值在 1–6 范围内对齐到 0.5 步长。
  */
 function tailwindscore_homepage_sanitize_slide_count( $value ): float {
 	$number = is_numeric( $value ) ? (float) $value : 1.0;
@@ -669,21 +669,21 @@ function tailwindscore_homepage_sanitize_slide_count( $value ): float {
 }
 
 /**
- * Product carousel gap in pixels (0–48).
+ * 商品轮播间距（像素，0–48）。
  */
 function tailwindscore_homepage_sanitize_slide_gap( $value ): int {
 	return max( 0, min( 48, absint( $value ) ) );
 }
 
 /**
- * Whether the hero banner should autoplay (only applies when there are 2+ slides).
+ * hero 横幅是否自动播放（仅 2+ slides 时生效）。
  */
 function tailwindscore_homepage_hero_autoplay(): bool {
 	return (bool) tailwindscore_mod( 'homepage_hero_autoplay', false );
 }
 
 /**
- * Default responsive slide counts for the homepage products carousel.
+ * 首页商品轮播默认响应式可见 slide 数。
  *
  * @return array{mobile: float, tablet: float, desktop: float}
  */
@@ -696,7 +696,7 @@ function tailwindscore_homepage_default_products_slide_counts(): array {
 }
 
 /**
- * Read Kirki responsive slide counts (mobile / tablet / desktop), with legacy per-breakpoint mods.
+ * 读取 Kirki 响应式 slide 数（mobile / tablet / desktop），含旧版按断点 mod。
  *
  * @return array{mobile: float, tablet: float, desktop: float}
  */
@@ -736,28 +736,28 @@ function tailwindscore_homepage_products_slide_counts(): array {
 }
 
 /**
- * Visible product slides on viewports below the md breakpoint (supports 2.5 peek).
+ * md 断点以下视口可见商品 slide 数（支持 2.5 peek）。
  */
 function tailwindscore_homepage_products_slides_mobile(): float {
 	return tailwindscore_homepage_products_slide_counts()['mobile'];
 }
 
 /**
- * Visible product slides from the md breakpoint up to below xl (768px–1279px).
+ * md 至 xl 以下（768px–1279px）可见商品 slide 数。
  */
 function tailwindscore_homepage_products_slides_desktop(): float {
 	return tailwindscore_homepage_products_slide_counts()['tablet'];
 }
 
 /**
- * Visible product slides from the xl breakpoint and up (1280px+).
+ * xl 及以上（1280px+）可见商品 slide 数。
  */
 function tailwindscore_homepage_products_slides_wide(): float {
 	return tailwindscore_homepage_products_slide_counts()['desktop'];
 }
 
 /**
- * Gap between product slides in pixels.
+ * 商品 slide 间距（像素）。
  */
 function tailwindscore_homepage_products_slide_gap(): int {
 	return tailwindscore_homepage_sanitize_slide_gap(
@@ -766,7 +766,7 @@ function tailwindscore_homepage_products_slide_gap(): int {
 }
 
 /**
- * Swiper runtime config for the front page.
+ * 首页 Swiper 运行时配置。
  *
  * @return array<string, mixed>
  */
@@ -788,7 +788,7 @@ function tailwindscore_homepage_swiper_config(): array {
 }
 
 /**
- * @param array<string, mixed> $parts Runtime config fragments.
+ * @param array<string, mixed> $parts 运行时配置片段。
  * @return array<string, mixed>
  */
 function tailwindscore_homepage_runtime_config_parts( array $parts ): array {
@@ -803,8 +803,8 @@ function tailwindscore_homepage_runtime_config_parts( array $parts ): array {
 add_filter( 'tailwindscore_runtime_config_parts', 'tailwindscore_homepage_runtime_config_parts' );
 
 /**
- * @param string               $cfg     Kirki config id.
- * @param array<string, string> $targets Customizer panel/section IDs keyed by area.
+ * @param string               $cfg     Kirki 配置 ID。
+ * @param array<string, string> $targets 按区域索引的 Customizer 面板 / 区块 ID。
  */
 function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): void {
 	if ( ! class_exists( 'Kirki' ) ) {

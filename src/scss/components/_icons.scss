@@ -1,4 +1,4 @@
-// Inline SVG icons (see tailwindscore_icon() in inc/template-tags.php).
+// Inline SVG icons (see tailwindscore_icon() in inc/icons.php).
 
 .ts-icon-button {
 	box-sizing: border-box;
@@ -6,12 +6,12 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: var(--ts-form-min-height);
-	height: var(--ts-form-min-height);
-	border: 1px solid var(--ts-colors-border);
-	border-radius: var(--ts-radius-sm);
-	background: var(--ts-colors-surface);
-	color: var(--ts-colors-text);
+	width: var(--ts-control-min-height);
+	height: var(--ts-control-min-height);
+	border: 1px solid var(--ts-border-color);
+	border-radius: var(--ts-border-radius-sm);
+	background: var(--ts-surface);
+	color: var(--ts-text-primary);
 	text-decoration: none;
 	cursor: pointer;
 }
@@ -24,31 +24,31 @@
 	align-items: center;
 	justify-content: center;
 	flex-shrink: 0;
-	width: var(--ts-form-min-height);
-	height: var(--ts-form-min-height);
+	width: var(--ts-control-min-height);
+	height: var(--ts-control-min-height);
 	padding: 0;
-	border: 1px solid var(--ts-colors-border);
-	border-radius: var(--ts-radius-full);
-	background: var(--ts-colors-surface);
-	color: var(--ts-colors-text);
+	border: 1px solid var(--ts-border-color);
+	border-radius: var(--ts-border-radius-pill);
+	background: var(--ts-surface);
+	color: var(--ts-text-primary);
 	text-decoration: none;
 	cursor: pointer;
 
 	@media (hover: hover) {
 		&:hover {
-			background: var(--ts-colors-surface-muted);
+			background: var(--ts-surface-muted);
 		}
 	}
 
 	&:focus-visible {
-		outline: 2px solid var(--ts-colors-text);
+		outline: 2px solid var(--ts-text-primary);
 		outline-offset: 2px;
 	}
 }
 
 .ts-close-button--sm {
-	width: var(--ts-space-2xl);
-	height: var(--ts-space-2xl);
+	width: var(--ts-spacer-4);
+	height: var(--ts-spacer-4);
 
 	.ts-icon {
 		width: var(--ts-font-size-lg);
@@ -60,8 +60,8 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: var(--ts-font-size-xl);
-	height: var(--ts-font-size-xl);
+	width: var(--ts-font-size-lg);
+	height: var(--ts-font-size-lg);
 	flex-shrink: 0;
 }
 

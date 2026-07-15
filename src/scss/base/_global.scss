@@ -3,9 +3,9 @@
 }
 
 body {
-	background: var(--ts-colors-surface);
-	color: var(--ts-colors-text);
-	font-family: var(--ts-type-body);
+	background: var(--ts-surface);
+	color: var(--ts-text-primary);
+	font-family: var(--ts-font-body);
 }
 
 h1,
@@ -18,7 +18,7 @@ h6,
 .widget-title,
 [class*="__title"],
 [class*="__heading"] {
-	font-family: var(--ts-type-heading);
+	font-family: var(--ts-font-heading);
 }
 
 html.ts-has-overlay,

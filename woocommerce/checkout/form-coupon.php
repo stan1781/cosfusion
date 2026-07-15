@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Checkout coupon form
+ * 结账优惠券表单
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates

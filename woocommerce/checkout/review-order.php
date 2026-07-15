@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Review order table
+ * 订单审核表格
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
@@ -12,7 +12,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Unique collapse target per review-order instance (sidebar + payment duplicate).
+ * 每个 review-order 实例使用独立的折叠目标（侧栏与支付区各有一份）。
  */
 static $tailwindscore_checkout_order_review_index = 0;
 ++$tailwindscore_checkout_order_review_index;
@@ -75,7 +75,7 @@ $tailwindscore_is_primary_summary = ( 1 === $tailwindscore_checkout_order_review
 				</span>
 				<span class="ts-checkout-order-summary__toggle-copy">
 					<?php if ( $tailwindscore_is_primary_summary && $tailwindscore_can_show_coupon_form ) : ?>
-						<!-- TODO: Add discount (only for primary summary) -->
+						<!-- TODO：添加折扣（仅主摘要） -->
 						 <!-- 原本是为了在手机端显示可以添加优惠卷，因需求改为显示订单摘要 -->
 						<span class="order-summary-add-coupon"><?php esc_html_e( 'Order summary', 'tailwindscore' ); ?></span>
 						<span class="order-summary-title-expanded ts-checkout-order-summary__title-expanded"><?php esc_html_e( 'Order summary', 'woocommerce' ); ?></span>

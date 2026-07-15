@@ -10,7 +10,7 @@
 .woocommerce button.single_add_to_cart_button {
 	@include mixins.ts-control-button-base(
 		var(--ts-form-padding-y) var(--ts-form-padding-x),
-		var(--ts-form-min-height)
+		var(--ts-control-min-height)
 	);
 }
 
@@ -29,7 +29,7 @@
 .woocommerce form .button,
 .woocommerce form button.button,
 .woocommerce form input.button {
-	height: var(--ts-form-min-height);
+	height: var(--ts-control-min-height);
 }
 
 .woocommerce form input.input-text:not(.ts-quantity__input),
@@ -74,7 +74,7 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 		border: 0;
 		border-radius: 0;
 		background: none;
-		color: var(--ts-colors-text-muted);
+		color: var(--ts-text-secondary);
 		cursor: pointer;
 		-webkit-appearance: none;
 		appearance: none;
@@ -95,7 +95,7 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 		}
 
 		&:focus-visible {
-			outline: 2px solid var(--ts-colors-text);
+			outline: 2px solid var(--ts-text-primary);
 			outline-offset: 2px;
 		}
 	}
@@ -140,8 +140,8 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 	box-sizing: border-box;
 	cursor: pointer;
 	display: block;
-	height: var(--ts-form-min-height);
-	min-height: var(--ts-form-min-height);
+	height: var(--ts-control-min-height);
+	min-height: var(--ts-control-min-height);
 	user-select: none;
 }
 
@@ -165,7 +165,7 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	color: var(--ts-colors-text);
+	color: var(--ts-text-primary);
 	line-height: 1.25;
 }
 
@@ -177,12 +177,12 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 	.select2-container--default
 	.select2-selection--single
 	.select2-selection__placeholder {
-	color: var(--ts-colors-text-muted);
+	color: var(--ts-text-secondary);
 }
 
 .woocommerce .select2-dropdown,
 .woocommerce-page .select2-dropdown {
-	background: var(--ts-colors-surface);
+	background: var(--ts-surface);
 	@include mixins.ts-control-field-border;
 	box-sizing: border-box;
 	display: block;
@@ -190,7 +190,7 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 	left: -100000px;
 	width: 100%;
 	z-index: 1051;
-	color: var(--ts-colors-text);
+	color: var(--ts-text-primary);
 }
 
 .woocommerce .select2-container--open .select2-dropdown,
@@ -271,8 +271,8 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 .woocommerce-page
 	.select2-container--default
 	.select2-results__option--highlighted[data-selected] {
-	background: var(--ts-colors-primary);
-	color: var(--ts-colors-primary-foreground);
+	background: var(--ts-primary);
+	color: var(--ts-on-primary);
 }
 
 .woocommerce .select2-search--dropdown,
@@ -288,26 +288,26 @@ $ts-password-eye-open: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2
 
 .woocommerce .select2-container--default.select2-container--disabled .select2-selection--single,
 .woocommerce-page .select2-container--default.select2-container--disabled .select2-selection--single {
-	background: var(--ts-colors-surface-muted);
+	background: var(--ts-surface-muted);
 	cursor: not-allowed;
 	opacity: 0.72;
 }
 
 .woocommerce form .form-row {
-	margin-bottom: var(--ts-space-xl);
+	margin-bottom: var(--ts-spacer-3);
 }
 
 /* Login: paired fields (account edit + checkout billing use CSS grid). */
 .woocommerce form.woocommerce-form-login .form-row-first,
 .woocommerce form.woocommerce-form-login .form-row-last {
 	box-sizing: border-box;
-	width: calc(50% - var(--ts-space-xl) / 2);
+	width: calc(50% - var(--ts-spacer-3) / 2);
 	display: inline-block;
 	vertical-align: top;
 }
 
 .woocommerce form.woocommerce-form-login .form-row-first {
-	margin-inline-end: var(--ts-space-xl);
+	margin-inline-end: var(--ts-spacer-3);
 }
 
 .woocommerce form.woocommerce-form-login .form-row-wide {

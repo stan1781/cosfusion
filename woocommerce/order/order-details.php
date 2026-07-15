@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Order details
+ * 订单详情
  *
  * @package TailwindScore
  * @version 10.1.0

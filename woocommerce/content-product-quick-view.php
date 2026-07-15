@@ -1,6 +1,6 @@
 <?php
 /**
- * Quick View modal product content.
+ * Quick View 弹窗商品内容。
  *
  * @package TailwindScore
  * @version 0.1.0
@@ -34,7 +34,7 @@ if ( ! $product instanceof WC_Product || ! $product->is_purchasable() ) {
 		<div class="ts-wc-product-detail__cart">
 			<?php
 			if ( $product->is_type( 'variable' ) ) {
-				// Compute available variations once; passed into variable-quick-view.php.
+				// 仅计算一次可用变体，并传入 variable-quick-view.php。
 				$qv_attributes           = $product->get_variation_attributes();
 				$qv_available_variations = $product->get_available_variations();
 				wc_get_template(

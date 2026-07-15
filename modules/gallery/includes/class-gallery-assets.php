@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Dequeue WC default gallery; localize product gallery config.
+ * 取消入队 WC 默认画廊；本地化商品画廊配置。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Gallery assets and hooks.
+ * 画廊资源与 Hook。
  */
 class Tailwindscore_Gallery_Assets {
 
@@ -68,8 +68,8 @@ class Tailwindscore_Gallery_Assets {
 	}
 
 	/**
-	 * PhotoSwipe layout + default skin from WooCommerce (correct sprite URLs in dev and prod).
-	 * Scripts stay dequeued; UI is bundled via Vite.
+	 * PhotoSwipe 布局与 WooCommerce 默认皮肤（开发与生产环境 sprite URL 正确）。
+	 * 脚本保持 dequeue；UI 由 Vite 打包。
 	 *
 	 * @return void
 	 */
@@ -100,16 +100,16 @@ class Tailwindscore_Gallery_Assets {
 	}
 
 	/**
-	 * Keep variation form behavior (price, variation_id) without wc-single-product bundle.
+	 * 保留变体表单行为（price、variation_id），不加载 wc-single-product bundle。
 	 *
 	 * @return void
 	 */
 	public function enqueue_variation_scripts(): void {
-		// Variation matching is handled by variation-engine.ts (Vite bundle).
+		// 变体匹配由 variation-engine.ts（Vite bundle）处理。
 	}
 
 	/**
-	 * PhotoSwipe root markup for theme-bundled lightbox (scripts/styles via Vite).
+	 * 主题打包 lightbox 的 PhotoSwipe 根 markup（脚本/样式经 Vite）。
 	 *
 	 * @return void
 	 */
@@ -122,7 +122,7 @@ class Tailwindscore_Gallery_Assets {
 	}
 
 	/**
-	 * @param string[] $classes Body classes.
+	 * @param string[] $classes body 类名。
 	 * @return string[]
 	 */
 	public function body_class( array $classes ): array {
@@ -133,4 +133,4 @@ class Tailwindscore_Gallery_Assets {
 	}
 }
 
-// Product page config (gallery + variations) is localized in inc/enqueue.php via tailwindscore_product_page_config().
+// 商品页配置（画廊 + 变体）在 inc/enqueue.php 中通过 tailwindscore_product_page_config() 本地化。

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Related products module bootstrap.
+ * 相关产品模块引导。
  *
  * @package TailwindScore
  */

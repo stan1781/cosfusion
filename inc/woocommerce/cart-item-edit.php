@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Cart drawer line-item edit (variable products).
+ * 购物车抽屉行项目编辑（可变商品）。
  *
  * @package TailwindScore
  */
@@ -10,10 +10,10 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Whether a cart line item can be edited in the drawer modal.
+ * 购物车行项目是否可在抽屉弹窗中编辑。
  *
- * @param array<string, mixed> $cart_item Cart item.
- * @param string               $key       Cart item key.
+ * @param array<string, mixed> $cart_item 购物车行项目。
+ * @param string               $key       购物车行项目 key。
  */
 function tailwindscore_cart_item_is_editable( array $cart_item, string $key = '' ): bool {
 	$product = $cart_item['data'] ?? null;
@@ -25,19 +25,19 @@ function tailwindscore_cart_item_is_editable( array $cart_item, string $key = ''
 	$editable = $product->is_type( 'variation' );
 
 	/**
-	 * Filter whether a cart line item shows the edit control.
+	 * 过滤购物车行项目是否显示编辑控件。
 	 *
-	 * @param bool                 $editable  Default editability.
-	 * @param array<string, mixed> $cart_item Cart item.
-	 * @param string               $key       Cart item key.
+	 * @param bool                 $editable  默认可编辑性。
+	 * @param array<string, mixed> $cart_item 购物车行项目。
+	 * @param string               $key       购物车行项目 key。
 	 */
 	return (bool) apply_filters( 'tailwindscore_cart_item_is_editable', $editable, $cart_item, $key );
 }
 
 /**
- * Extract cart_item_data to preserve when replacing a variation line.
+ * 提取替换变体行时需保留的 cart_item_data。
  *
- * @param array<string, mixed> $item Cart item.
+ * @param array<string, mixed> $item 购物车行项目。
  * @return array<string, mixed>
  */
 function tailwindscore_cart_item_edit_preserve_data( array $item ): array {
@@ -67,19 +67,19 @@ function tailwindscore_cart_item_edit_preserve_data( array $item ): array {
 	}
 
 	/**
-	 * Filter cart item data preserved when editing a line item variation.
+	 * 过滤编辑行项目变体时保留的 cart item data。
 	 *
-	 * @param array<string, mixed> $custom Preserved data.
-	 * @param array<string, mixed> $item   Full cart item.
+	 * @param array<string, mixed> $custom 保留的数据。
+	 * @param array<string, mixed> $item   完整购物车行项目。
 	 */
 	return (array) apply_filters( 'tailwindscore_cart_item_edit_preserve_data', $custom, $item );
 }
 
 /**
- * Find a matching variation ID for attribute selection.
+ * 根据属性选择查找匹配的 variation ID。
  *
- * @param WC_Product_Variable  $product Variable parent product.
- * @param array<string,string> $desired Attribute key => value.
+ * @param WC_Product_Variable  $product 可变父商品。
+ * @param array<string,string> $desired 属性 key => value。
  */
 function tailwindscore_find_matching_variation_id( WC_Product_Variable $product, array $desired ): int {
 	if ( class_exists( 'WC_Data_Store' ) ) {
@@ -138,7 +138,7 @@ function tailwindscore_find_matching_variation_id( WC_Product_Variable $product,
 }
 
 /**
- * Normalize a variation attribute key to attribute_* form.
+ * 将变体属性 key 规范化为 attribute_* 形式。
  */
 function tailwindscore_normalize_variation_attr_key( string $key ): string {
 	$key = (string) $key;
@@ -151,7 +151,7 @@ function tailwindscore_normalize_variation_attr_key( string $key ): string {
 }
 
 /**
- * Whether two variation attribute values refer to the same option.
+ * 两个变体属性值是否指向同一选项。
  */
 function tailwindscore_variation_value_matches( string $stored, string $desired, string $attr_key ): bool {
 	$stored  = wc_clean( $stored );
@@ -190,10 +190,10 @@ function tailwindscore_variation_value_matches( string $stored, string $desired,
 }
 
 /**
- * Whether selected variation attributes differ from what is stored on the cart line.
+ * 所选变体属性是否与购物车行上存储的不一致。
  *
- * @param array<string, mixed> $item    Cart line item.
- * @param array<string, string> $desired Desired attributes.
+ * @param array<string, mixed> $item    购物车行项目。
+ * @param array<string, string> $desired 期望属性。
  */
 function tailwindscore_cart_item_variation_changed( array $item, array $desired ): bool {
 	$stored_raw = (array) ( $item['variation'] ?? array() );
@@ -223,9 +223,9 @@ function tailwindscore_cart_item_variation_changed( array $item, array $desired 
 }
 
 /**
- * Normalize cart item variation array for template preselection.
+ * 规范化购物车行变体数组以供模板预选。
  *
- * @param array<string, mixed> $item Cart item.
+ * @param array<string, mixed> $item 购物车行项目。
  * @return array<string, string>
  */
 function tailwindscore_cart_item_edit_selected_attributes( array $item ): array {
@@ -248,7 +248,7 @@ function tailwindscore_cart_item_edit_selected_attributes( array $item ): array 
 }
 
 /**
- * Read JSON or POST payload for cart item edit requests.
+ * 读取购物车行编辑请求的 JSON 或 POST payload。
  *
  * @return array<string, mixed>
  */
@@ -268,9 +268,9 @@ function tailwindscore_cart_item_edit_read_payload(): array {
 }
 
 /**
- * Verify cart item edit nonce from payload.
+ * 从 payload 验证购物车行编辑 nonce。
  *
- * @param array<string, mixed> $payload Request payload.
+ * @param array<string, mixed> $payload 请求 payload。
  */
 function tailwindscore_cart_item_edit_verify_nonce( array $payload ): bool {
 	$nonce = isset( $payload['nonce'] ) ? sanitize_text_field( (string) $payload['nonce'] ) : '';
@@ -279,7 +279,7 @@ function tailwindscore_cart_item_edit_verify_nonce( array $payload ): bool {
 }
 
 /**
- * WC-Ajax: load edit form HTML for a cart line item.
+ * WC-Ajax：加载购物车行编辑表单 HTML。
  */
 function tailwindscore_ajax_get_cart_item_edit_form(): void {
 	if ( ! defined( 'WC_DOING_AJAX' ) ) {
@@ -374,7 +374,7 @@ function tailwindscore_ajax_get_cart_item_edit_form(): void {
 }
 
 /**
- * WC-Ajax: save cart line item variation changes.
+ * WC-Ajax：保存购物车行变体变更。
  */
 function tailwindscore_ajax_update_cart_item_edit(): void {
 	if ( ! defined( 'WC_DOING_AJAX' ) ) {
@@ -507,11 +507,11 @@ function tailwindscore_ajax_update_cart_item_edit(): void {
 	$cart->set_session();
 
 	/**
-	 * Fires after a cart line item was edited via the drawer modal.
+	 * 通过抽屉弹窗编辑购物车行后触发。
 	 *
-	 * @param string               $new_key New cart item key.
-	 * @param string               $old_key Previous cart item key.
-	 * @param array<string, mixed> $item    Original cart item before replacement.
+	 * @param string               $new_key 新购物车行 key。
+	 * @param string               $old_key 原购物车行 key。
+	 * @param array<string, mixed> $item    替换前的原始购物车行。
 	 */
 	do_action( 'tailwindscore_cart_item_edit_saved', $new_key, $key, $item );
 
@@ -524,7 +524,7 @@ function tailwindscore_ajax_update_cart_item_edit(): void {
 }
 
 /**
- * Render cart item edit modal shell in footer.
+ * 在页脚渲染购物车行编辑弹窗外壳。
  */
 function tailwindscore_render_cart_item_edit_modal(): void {
 	if ( ! function_exists( 'wc_get_cart_url' ) ) {

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Account auth module — theme_mod settings.
+ * 账户认证模块 — theme_mod 设置。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Kirki theme_mod accessors for account auth surfaces.
+ * 账户认证页面的 Kirki theme_mod 访问器。
  */
 class Tailwindscore_Account_Auth_Settings {
 
@@ -38,7 +38,7 @@ class Tailwindscore_Account_Auth_Settings {
 	}
 
 	/**
-	 * @return string Hero image URL or empty.
+	 * @return string Hero 图片 URL，无则为空。
 	 */
 	public static function get_hero_image_url(): string {
 		$url = (string) tailwindscore_mod( 'account_auth_hero_image', '' );
@@ -77,7 +77,7 @@ class Tailwindscore_Account_Auth_Settings {
 	}
 
 	/**
-	 * @return string Register-page hero heading.
+	 * @return string 注册页 hero 标题。
 	 */
 	public static function get_register_hero_heading(): string {
 		$value = (string) tailwindscore_mod( 'account_auth_register_hero_heading', '' );
@@ -85,7 +85,7 @@ class Tailwindscore_Account_Auth_Settings {
 	}
 
 	/**
-	 * @return string Register-page hero text.
+	 * @return string 注册页 hero 文案。
 	 */
 	public static function get_register_hero_text(): string {
 		$value = (string) tailwindscore_mod( 'account_auth_register_hero_text', '' );
@@ -93,7 +93,7 @@ class Tailwindscore_Account_Auth_Settings {
 	}
 
 	/**
-	 * Custom hero background color or empty (SCSS token fallback).
+	 * 自定义 hero 背景色或空（回退 SCSS token）。
 	 *
 	 * @return string
 	 */
@@ -126,7 +126,7 @@ class Tailwindscore_Account_Auth_Settings {
 	}
 
 	/**
-	 * Standalone /register/ page is the theme's registration path (not inline My Account).
+	 * 独立 /register/ 页面为主题注册路径（非 My Account 内联）。
 	 *
 	 * @return bool
 	 */
@@ -160,8 +160,8 @@ class Tailwindscore_Account_Auth_Settings {
 	}
 
 	/**
-	 * @param mixed $value   Raw theme_mod.
-	 * @param bool  $default Default when empty.
+	 * @param mixed $value   原始 theme_mod。
+	 * @param bool  $default 为空时的默认值。
 	 * @return bool
 	 */
 	private static function to_bool( $value, bool $default ): bool {

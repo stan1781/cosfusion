@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Checkout Payment Section
+ * 结账支付区块
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
@@ -40,7 +40,7 @@ if ( ! wp_doing_ajax() ) {
 		</ul>
 	<?php endif; ?>
 	<?php
-	// Mobile payment recap: same order summary without coupon input (see sidebar primary summary for discount).
+	// 移动端支付回顾：与侧栏主摘要相同的订单摘要，但不含优惠券输入（折扣见侧栏主摘要）。
 	add_filter( 'bootscore_checkout_show_coupon_in_order_review', '__return_false' );
 	woocommerce_order_review();
 	remove_filter( 'bootscore_checkout_show_coupon_in_order_review', '__return_false' );

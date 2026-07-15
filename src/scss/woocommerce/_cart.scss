@@ -2,12 +2,12 @@
 
 .ts-wc-cart {
 	display: grid;
-	gap: var(--ts-space-2xl);
+	gap: var(--ts-spacer-4);
 }
 
 .ts-wc-cart__header {
 	display: grid;
-	gap: var(--ts-space-lg);
+	gap: var(--ts-spacer-2);
 }
 
 .ts-wc-cart__title {
@@ -16,7 +16,7 @@
 }
 
 .ts-wc-cart__summary {
-	color: var(--ts-colors-text-muted);
+	color: var(--ts-text-secondary);
 }
 
 .ts-wc-cart__items {
@@ -24,19 +24,19 @@
 	margin: 0;
 	padding: 0;
 	display: grid;
-	gap: var(--ts-space-2xl);
+	gap: var(--ts-spacer-4);
 }
 
 .ts-wc-cart__shipping-note {
 	margin: 0;
-	color: var(--ts-colors-text-muted);
+	color: var(--ts-text-secondary);
 	font-size: var(--ts-font-size-xs);
 	line-height: 1.4;
 }
 
 .ts-cart-page-cart--filled {
 	display: grid;
-	gap: var(--ts-space-2xl);
+	gap: var(--ts-spacer-4);
 }
 
 .ts-wc-cart__scroll {
@@ -45,15 +45,15 @@
 
 .ts-wc-cart__aside {
 	display: grid;
-	gap: var(--ts-space-xl);
+	gap: var(--ts-spacer-3);
 	position: sticky;
 	bottom: 0;
 	z-index: 2;
 	margin-inline: calc(-1 * var(--ts-container-inline-gutter, 1rem));
-	padding: var(--ts-space-xl) var(--ts-container-inline-gutter, 1rem);
-	padding-bottom: calc(var(--ts-space-xl) + env(safe-area-inset-bottom, 0));
-	border-top: 1px solid var(--ts-colors-border);
-	background: var(--ts-colors-surface);
+	padding: var(--ts-spacer-3) var(--ts-container-inline-gutter, 1rem);
+	padding-bottom: calc(var(--ts-spacer-3) + env(safe-area-inset-bottom, 0));
+	border-top: 1px solid var(--ts-border-color);
+	background: var(--ts-surface);
 	box-shadow: var(--ts-shadow-sm);
 }
 
@@ -86,7 +86,7 @@
 
 .woocommerce-cart .site-content,
 .woocommerce-cart .ts-main--commerce {
-	max-width: var(--ts-layout-container);
+	max-width: var(--ts-container-max);
 	margin-inline: auto;
 }
 
@@ -103,7 +103,7 @@
 	.ts-cart-page-cart--filled {
 		grid-template-columns: minmax(0, 1.75fr) minmax(18rem, 1fr);
 		align-items: start;
-		gap: var(--ts-space-3xl);
+		gap: var(--ts-spacer-5);
 	}
 
 	.ts-wc-cart__scroll {
@@ -113,13 +113,13 @@
 	.ts-wc-cart__aside {
 		grid-column: 2;
 		position: sticky;
-		top: var(--ts-space-2xl);
+		top: var(--ts-spacer-4);
 		bottom: auto;
 		margin-inline: 0;
-		padding: var(--ts-space-xl);
-		border: 1px solid var(--ts-colors-border);
-		border-radius: var(--ts-radius-md);
-		background: var(--ts-colors-surface-muted);
+		padding: var(--ts-spacer-3);
+		border: 1px solid var(--ts-border-color);
+		border-radius: var(--ts-border-radius);
+		background: var(--ts-surface-muted);
 		box-shadow: none;
 	}
 }

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Login form on My Account (guest only — no inline register).
+ * 我的账户登录表单（仅访客 — 无内联注册）。
  *
  * @package WooCommerce\Templates
  * @version 9.9.0

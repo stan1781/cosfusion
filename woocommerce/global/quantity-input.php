@@ -1,13 +1,13 @@
 <?php
 /**
- * Product quantity inputs (theme stepper).
+ * 商品数量输入（主题步进器）。
  *
  * @see     https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
  * @version 10.1.0
  *
- * @var bool   $readonly If the input should be set to readonly mode.
- * @var string $type     The input type attribute.
+ * @var bool   $readonly 输入框是否设为只读。
+ * @var string $type     input 的 type 属性。
  */
 
 defined( 'ABSPATH' ) || exit;

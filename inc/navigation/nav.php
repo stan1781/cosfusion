@@ -5,9 +5,9 @@ require_once get_template_directory() . '/inc/navigation/menu-item-helpers.php';
 require_once get_template_directory() . '/inc/navigation/class-nav-menu-walker.php';
 
 /**
- * Build wp_nav_menu() args for the primary location.
+ * 构建 primary 位置的 wp_nav_menu() 参数。
  *
- * @param array<string, mixed> $part_args From get_template_part( ..., null, $args ).
+ * @param array<string, mixed> $part_args 来自 get_template_part( ..., null, $args )。
  * @return array<string, mixed>
  */
 function tailwindscore_primary_nav_menu_args( array $part_args = array() ): array {
@@ -43,14 +43,14 @@ function tailwindscore_primary_nav_menu_args( array $part_args = array() ): arra
 	}
 
 	/**
-	 * @param array<string, mixed> $menu_args
-	 * @param string               $variant desktop|mobile
+	 * @param array<string, mixed> $menu_args wp_nav_menu 参数。
+	 * @param string               $variant desktop|mobile 变体。
 	 */
 	return apply_filters( 'tailwindscore_nav_menu_args', $menu_args, $variant );
 }
 
 /**
- * One-time cleanup after removing wp-enhanced-tools Mega Menu.
+ * 移除 wp-enhanced-tools Mega Menu 后的一次性清理。
  */
 function tailwindscore_maybe_delete_legacy_mega_menu_option(): void {
 	if ( get_option( 'tailwindscore_legacy_mega_option_removed' ) ) {

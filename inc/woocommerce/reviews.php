@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Product review form helpers.
+ * 商品评价表单辅助函数。
  *
  * @package TailwindScore
  */
@@ -10,9 +10,9 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Whether the current user may leave a review on the product.
+ * 当前用户是否可在该商品下留评。
  *
- * @param WC_Product|null $product Product.
+ * @param WC_Product|null $product 商品。
  * @return bool
  */
 function tailwindscore_can_leave_product_review( ?WC_Product $product = null ): bool {
@@ -29,9 +29,9 @@ function tailwindscore_can_leave_product_review( ?WC_Product $product = null ): 
 }
 
 /**
- * Whether the product has customer photos for the showcase strip.
+ * 商品是否有客户照片用于展示条。
  *
- * @param int $product_id Product ID.
+ * @param int $product_id 商品 ID。
  * @return bool
  */
 function tailwindscore_product_has_showcase_images( int $product_id ): bool {
@@ -41,7 +41,7 @@ function tailwindscore_product_has_showcase_images( int $product_id ): bool {
 }
 
 /**
- * Label for opening the review form modal.
+ * 打开评价表单弹窗的标签文案。
  *
  * @return string
  */
@@ -58,7 +58,7 @@ function tailwindscore_get_review_form_open_label(): string {
 }
 
 /**
- * WooCommerce product review comment_form arguments.
+ * WooCommerce 商品评价 comment_form 参数。
  *
  * @return array<string, mixed>
  */
@@ -137,7 +137,7 @@ function tailwindscore_get_product_review_comment_form_args(): array {
 }
 
 /**
- * Render the product review comment form markup.
+ * 渲染商品评价 comment 表单 markup。
  *
  * @return void
  */
@@ -152,7 +152,7 @@ function tailwindscore_render_product_review_form(): void {
 }
 
 /**
- * Fallback CTA below the review list when there is no customer photo showcase.
+ * 无客户照片展示条时，评价列表下方的回退 CTA。
  *
  * @return void
  */

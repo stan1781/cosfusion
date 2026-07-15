@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Front page template (Kirki-driven homepage).
+ * 首页模板（由 Kirki 驱动的首页）。
  *
  * @package TailwindScore
  */
@@ -54,7 +54,7 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 							<article class="ts-home-hero__slide ts-home-hero__slide--text-<?php echo esc_attr( $ts_slide['text_color'] ); ?>">
 								<div class="ts-home-hero__media">
 									<?php
-									echo tailwindscore_homepage_hero_slide_image_markup( $ts_slide, $ts_slide_index, $ts_slide_alt ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in helper.
+									echo tailwindscore_homepage_hero_slide_image_markup( $ts_slide, $ts_slide_index, $ts_slide_alt ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 已在 helper 中转义。
 									?>
 								</div>
 								<?php
@@ -128,7 +128,7 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 					>
 						<div class="ts-home-occasion__media">
 							<?php
-							echo tailwindscore_homepage_grid_card_image_markup( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in helper.
+							echo tailwindscore_homepage_grid_card_image_markup( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 已在 helper 中转义。
 								$ts_occasion_item,
 								'ts-home-occasion__image',
 								$ts_occasion_alt,
@@ -188,7 +188,7 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 					>
 						<div class="ts-home-trending__media">
 							<?php
-							echo tailwindscore_homepage_grid_card_image_markup( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in helper.
+							echo tailwindscore_homepage_grid_card_image_markup( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 已在 helper 中转义。
 								$ts_trending_item,
 								'ts-home-trending__image',
 								$ts_trending_alt,
@@ -252,7 +252,7 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 				<div class="ts-home-products__content">
 					<div class="ts-home-products__viewport">
 						<div class="swiper ts-home-products__swiper woocommerce" data-ts-home-products>
-							<?php echo $ts_products_output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Shortcode HTML. ?>
+							<?php echo $ts_products_output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 短代码 HTML。 ?>
 						</div>
 					</div>
 					<div class="ts-home-products__footer" data-ts-home-products-controls hidden>
@@ -263,7 +263,7 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 		</section>
 	<?php endif; ?>
 
-	<!-- Shop by color -->
+	<!-- 按颜色选购 -->
 	<?php if ( tailwindscore_homepage_should_render_shop_by_color() ) : ?>
 		<section class="ts-home-colors ts-section" aria-labelledby="ts-home-colors-title">
 			<div class="ts-container ts-stack">

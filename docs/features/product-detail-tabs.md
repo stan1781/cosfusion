@@ -21,13 +21,14 @@
 
 | 层 | 路径 |
 |----|------|
-| PHP | `inc/woocommerce/product-detail-tabs.php` |
+| PHP | `inc/woocommerce/product-tabs.php`（含 detail sections 布局） |
 | TypeScript | `src/ts/product/product-detail-tabs.ts` |
 | SCSS | `src/scss/woocommerce/_product-detail-tabs.scss` |
 
-加载关系：
+加载经 `inc/bootstrap.php`。
 
-- `functions.php` → `require` product-detail-tabs.php
+前台联动：
+
 - `src/ts/product/index.ts` → `initProductDetailTabs()`
 - `src/scss/woo.scss` → `@use "woocommerce/product-detail-tabs"`
 
@@ -57,7 +58,7 @@ add_action( 'wp', 'tailwindscore_remove_default_product_tabs', 99 );
 | `.ts-size-guide-dialog__header`、`.ts-size-guide-dialog__controls` | `_product-variations.scss` |
 | `.ts-size-guide-unit-toggle`、`.ts-size-guide-unit-btn` | 同上 |
 | `.ts-size-guide-dialog__body` | 同上 |
-| `.ts-size-guide-table` | `_tables.scss` |
+| `.ts-size-guide-table` | `_shell.scss`（原 `_tables.scss`） |
 | `.ts-size-guide-legacy` | 传统 HTML 内容 |
 
 内嵌容器：`[data-ts-product-size-guide-embed]`。
@@ -91,7 +92,7 @@ npm run build
 ## 维护注意事项
 
 1. 样式修改使用 `_variables.scss` token，禁止组件内硬编码数值
-2. 修改 Size Guide 视觉时，在 `_product-variations.scss` 与 `_tables.scss` 统一修改，弹窗与内嵌同步
+2. 修改 Size Guide 视觉时，在 `_product-variations.scss` 与 `_shell.scss`（表格段）统一修改，弹窗与内嵌同步
 3. 测试 `md` 断点前后布局切换
 4. 不影响现有 Size Guide `<dialog>` 弹窗功能
 

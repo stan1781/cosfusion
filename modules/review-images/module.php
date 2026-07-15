@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Review images module bootstrap.
+ * 评论图片模块引导。
  *
  * @package TailwindScore
  */

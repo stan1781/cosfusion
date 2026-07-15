@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Typography theme_mod accessors.
+ * 排版 theme_mod 访问器。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Heading and body font selections.
+ * 标题与正文字体选择。
  */
 class Tailwindscore_Typography_Settings {
 
@@ -34,7 +34,7 @@ class Tailwindscore_Typography_Settings {
 	
 
 	/**
-	 * @param mixed $value Raw theme_mod.
+	 * @param mixed $value 原始 theme_mod。
 	 * @return string
 	 */
 	private static function sanitize_slug( $value ): string {
