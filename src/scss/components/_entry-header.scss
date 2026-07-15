@@ -1,6 +1,6 @@
 @use "../abstracts/mixins";
 
-.ts-entry__header {
+.entry__header {
 	--ts-entry-header-accent: var(--ts-text-primary);
 	display: grid;
 	gap: var(--ts-spacer-2);
@@ -15,7 +15,7 @@
 	border-inline-start: 3px solid var(--ts-entry-header-accent);
 }
 
-.ts-entry__breadcrumb-list {
+.entry__breadcrumb-list {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -31,7 +31,7 @@
 	color: var(--ts-text-secondary);
 }
 
-.ts-entry__breadcrumb-item {
+.entry__breadcrumb-item {
 	display: inline-flex;
 	align-items: center;
 	min-width: 0;
@@ -44,7 +44,7 @@
 	}
 }
 
-.ts-entry__breadcrumb-link {
+.entry__breadcrumb-link {
 	color: inherit;
 	text-decoration: none;
 	transition: color 0.15s ease;
@@ -56,17 +56,17 @@
 	}
 }
 
-.ts-entry__breadcrumb-current {
+.entry__breadcrumb-current {
 	color: var(--ts-text-primary);
 }
 
-.ts-entry__header-body {
+.entry__header-body {
 	display: grid;
 	gap: var(--ts-spacer-2);
 	min-width: 0;
 }
 
-.ts-entry__title {
+.entry__title {
 	margin: 0;
 	font-size: clamp(1.75rem, 3.5vw, 2.5rem);
 	font-weight: 500;
@@ -74,7 +74,7 @@
 	letter-spacing: -0.02em;
 }
 
-.ts-entry__lead {
+.entry__lead {
 	margin: 0;
 	max-width: 42rem;
 	font-family: var(--ts-font-body);
@@ -84,7 +84,7 @@
 }
 
 @include mixins.ts-up(sm) {
-	.ts-entry__header {
+	.entry__header {
 		padding-block: var(--ts-spacer-5);
 		padding-inline: var(--ts-spacer-5);
 	}

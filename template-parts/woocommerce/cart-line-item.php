@@ -38,8 +38,8 @@ $remove_label      = sprintf(
 	$product_name
 );
 ?>
-<li class="ts-cart-drawer-cart__item" data-ts-cart-item data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>">
-	<div class="ts-cart-drawer-cart__media">
+<li class="cart-drawer-cart__item" data-ts-cart-item data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>">
+	<div class="cart-drawer-cart__media">
 		<?php if ( $product_permalink ) : ?>
 			<a href="<?php echo esc_url( $product_permalink ); ?>"><?php echo wp_kses_post( $product_thumbnail ); ?></a>
 		<?php else : ?>
@@ -47,16 +47,16 @@ $remove_label      = sprintf(
 		<?php endif; ?>
 		
 	</div>
-	<div class="ts-cart-drawer-cart__content ts-stack">
-		<div class="ts-cart-drawer-cart__row">
-			<div class="ts-cart-drawer-cart__meta ts-stack">
+	<div class="cart-drawer-cart__content stack">
+		<div class="cart-drawer-cart__row">
+			<div class="cart-drawer-cart__meta stack">
 				<?php if ( $product_permalink ) : ?>
-					<a class="ts-cart-drawer-cart__name" href="<?php echo esc_url( $product_permalink ); ?>"><?php echo esc_html( $product_name ); ?></a>
+					<a class="cart-drawer-cart__name" href="<?php echo esc_url( $product_permalink ); ?>"><?php echo esc_html( $product_name ); ?></a>
 				<?php else : ?>
-					<span class="ts-cart-drawer-cart__name"><?php echo esc_html( $product_name ); ?></span>
+					<span class="cart-drawer-cart__name"><?php echo esc_html( $product_name ); ?></span>
 				<?php endif; ?>
 				<?php tailwindscore_render_cart_line_item_meta( $cart_item, $cart_item_key ); ?>
-				<span class="ts-cart-drawer-cart__quantity">
+				<span class="cart-drawer-cart__quantity">
 					<?php
 					printf(
 						/* translators: 1: quantity 2: price */
@@ -69,19 +69,19 @@ $remove_label      = sprintf(
 			</div>
 			<button
 				type="button"
-				class="ts-cart-drawer-cart__remove"
+				class="cart-drawer-cart__remove"
 				data-ts-cart-remove
 				data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>"
 				aria-label="<?php echo esc_attr( $remove_label ); ?>"
 			>
-				<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'trash' ); ?></span>
+				<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'trash' ); ?></span>
 			</button>
 		</div>
-		<div class="ts-cart-drawer-cart__controls">
+		<div class="cart-drawer-cart__controls">
 			<?php
 			tailwindscore_render_quantity_input(
 				array(
-					'input_id'       => 'ts-cart-qty-' . $cart_item_key,
+					'input_id'       => 'cart-qty-' . $cart_item_key,
 					'input_name'     => $quantity_name,
 					'input_value'    => (string) $cart_item['quantity'],
 					'min_value'      => '0',
@@ -95,15 +95,15 @@ $remove_label      = sprintf(
 			<?php if ( $is_editable ) : ?>
 				<button
 					type="button"
-					class="ts-cart-drawer-cart__edit"
+					class="cart-drawer-cart__edit"
 					data-ts-cart-item-edit
 					data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>"
 					aria-label="<?php esc_attr_e( 'Edit options', 'tailwindscore' ); ?>"
 				>
-					<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'pencil' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+					<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'pencil' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 				</button>
 			<?php endif; ?>
 		</div>
-		<div class="ts-cart-drawer-cart__subtotal"><?php echo wp_kses_post( $product_subtotal ); ?></div>
+		<div class="cart-drawer-cart__subtotal"><?php echo wp_kses_post( $product_subtotal ); ?></div>
 	</div>
 </li>

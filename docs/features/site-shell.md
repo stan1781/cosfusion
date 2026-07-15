@@ -31,7 +31,7 @@
 - 支付方式图标 repeater
 - Widget 区域与版权信息
 
-对齐修饰符类：`.ts-site-footer__nav--align-{left|center|right}`。
+对齐修饰符类：`.site-footer__nav--align-{left|center|right}`。
 
 ## 搜索
 

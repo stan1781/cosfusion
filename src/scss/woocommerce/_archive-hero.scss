@@ -4,7 +4,7 @@
 $ts-archive-hero-height-mobile: 7rem;
 $ts-archive-hero-height-desktop: 10rem;
 
-.ts-wc-archive-hero {
+.wc-archive-hero {
 	--ts-wc-archive-hero-height: #{$ts-archive-hero-height-mobile};
 	--ts-wc-archive-hero-text: var(--ts-surface);
 	position: relative;
@@ -27,16 +27,16 @@ $ts-archive-hero-height-desktop: 10rem;
 	}
 }
 
-.ts-wc-archive-hero__overlay {
+.wc-archive-hero__overlay {
 	grid-area: 1 / 1;
 	background: color-mix(in srgb, var(--ts-text-primary) 36%, transparent);
 
-	.ts-wc-archive-hero--no-media & {
+	.wc-archive-hero--no-media & {
 		display: none;
 	}
 }
 
-.ts-wc-archive-hero__inner {
+.wc-archive-hero__inner {
 	grid-area: 1 / 1;
 	z-index: 1;
 	display: flex;
@@ -49,12 +49,12 @@ $ts-archive-hero-height-desktop: 10rem;
 	color: var(--ts-wc-archive-hero-text);
 }
 
-.ts-wc-archive-hero__title {
+.wc-archive-hero__title {
 	margin: 0;
 	color: inherit;
 }
 
-.ts-wc-archive-hero__inner .term-description {
+.wc-archive-hero__inner .term-description {
 	margin: 0;
 	max-width: 42rem;
 	color: color-mix(in srgb, var(--ts-wc-archive-hero-text) 84%, transparent);
@@ -62,10 +62,10 @@ $ts-archive-hero-height-desktop: 10rem;
 	line-height: 1.5;
 }
 
-.ts-main--commerce .ts-wc-shell--archive {
+.main--commerce .wc-shell--archive {
 	padding-block-start: 0;
 }
 
-.ts-main--commerce .ts-wc-shell--archive > .woocommerce-breadcrumb {
+.main--commerce .wc-shell--archive > .woocommerce-breadcrumb {
 	margin-block-start: var(--ts-spacer-3);
 }

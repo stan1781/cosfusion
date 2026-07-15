@@ -49,17 +49,17 @@ add_action( 'wp', 'tailwindscore_remove_default_product_tabs', 99 );
 
 1. **数据**：`tailwindscore_size_guide_config()` / `window.tailwindscoreProduct.sizeGuide`
 2. **渲染**：`product-detail-tabs.ts` 导入 `size-guide.ts` 的 `renderTableHTML()`
-3. **HTML 结构**：与 `.ts-size-guide-dialog__inner` 内部一致（header + unit toggle + body）
+3. **HTML 结构**：与 `.size-guide-dialog__inner` 内部一致（header + unit toggle + body）
 
 ### 复用的 CSS 类
 
 | 类名 | 来源 |
 |------|------|
-| `.ts-size-guide-dialog__header`、`.ts-size-guide-dialog__controls` | `_product-variations.scss` |
-| `.ts-size-guide-unit-toggle`、`.ts-size-guide-unit-btn` | 同上 |
-| `.ts-size-guide-dialog__body` | 同上 |
-| `.ts-size-guide-table` | `_shell.scss`（原 `_tables.scss`） |
-| `.ts-size-guide-legacy` | 传统 HTML 内容 |
+| `.size-guide-dialog__header`、`.size-guide-dialog__controls` | `_product-variations.scss` |
+| `.size-guide-unit-toggle`、`.size-guide-unit-btn` | 同上 |
+| `.size-guide-dialog__body` | 同上 |
+| `.size-guide-table` | `_shell.scss`（原 `_tables.scss`） |
+| `.size-guide-legacy` | 传统 HTML 内容 |
 
 内嵌容器：`[data-ts-product-size-guide-embed]`。
 
@@ -79,7 +79,7 @@ add_action( 'wp', 'tailwindscore_remove_default_product_tabs', 99 );
 
 ```javascript
 console.log(window.tailwindscoreProduct?.sizeGuide);
-document.querySelector('.ts-product-detail-sections');
+document.querySelector('.product-detail-sections');
 document.querySelector('[data-ts-product-size-guide-embed]');
 ```
 

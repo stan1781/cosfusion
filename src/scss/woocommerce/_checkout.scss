@@ -1,6 +1,6 @@
 @use "../abstracts/mixins";
 
-.ts-wc-checkout {
+.wc-checkout {
 	--ts-checkout-field-min-height: 2.375rem; // 38px
 	--ts-control-min-height: var(--ts-checkout-field-min-height);
 	--ts-checkout-section-title-gap: var(--ts-spacer-3);
@@ -8,7 +8,7 @@
 	min-width: 0;
 }
 
-.ts-wc-checkout__layout {
+.wc-checkout__layout {
 	display: flex;
 	flex-direction: column;	
 	align-items: stretch;
@@ -16,24 +16,24 @@
 	min-width: 0;
 }
 
-.ts-wc-checkout__summary {
+.wc-checkout__summary {
 	order: 1;
 	min-width: 0;
 	max-width: 100%;
 }
 
-.ts-wc-checkout__details {
+.wc-checkout__details {
 	order: 2;
 	min-width: 0;
 	max-width: 100%;
 }
 
-.ts-wc-checkout__section-title,
-.ts-wc-checkout .woocommerce-billing-fields > h3,
-.ts-wc-checkout .woocommerce-shipping-fields > h3,
-.ts-checkout-layout__section > .ts-wc-checkout__section-title,
-.ts-wc-checkout .woocommerce-checkout-payment-wrap > .ts-wc-checkout__section-title,
-.ts-wc-checkout .woocommerce-checkout-shipping-methods > .ts-wc-checkout__section-title {
+.wc-checkout__section-title,
+.wc-checkout .woocommerce-billing-fields > h3,
+.wc-checkout .woocommerce-shipping-fields > h3,
+.checkout-layout__section > .wc-checkout__section-title,
+.wc-checkout .woocommerce-checkout-payment-wrap > .wc-checkout__section-title,
+.wc-checkout .woocommerce-checkout-shipping-methods > .wc-checkout__section-title {
 	font-size: var(--ts-font-size-lg);
 	font-weight: 600;
 	margin: 0;
@@ -41,20 +41,20 @@
 }
 
 // Unified title-to-content spacing regardless of inner markup (fields, shipping list, payment).
-.ts-checkout-layout__section,
-.ts-wc-checkout__shipping-methods,
-.ts-wc-checkout__payment-wrap {
+.checkout-layout__section,
+.wc-checkout__shipping-methods,
+.wc-checkout__payment-wrap {
 	display: flex;
 	flex-direction: column;
 	gap: var(--ts-checkout-section-title-gap);
 }
 
-.ts-checkout-layout__section + .ts-checkout-layout__section {
+.checkout-layout__section + .checkout-layout__section {
 	margin-top: var(--ts-spacer-3);
 }
 
-.ts-wc-checkout__details > .woocommerce-checkout-shipping-methods,
-.ts-wc-checkout__details > .woocommerce-checkout-payment-wrap {
+.wc-checkout__details > .woocommerce-checkout-shipping-methods,
+.wc-checkout__details > .woocommerce-checkout-payment-wrap {
 	margin-top: var(--ts-spacer-3);
 }
 
@@ -67,7 +67,7 @@
 	display: none;
 }
 
-.ts-wc-checkout__hint {
+.wc-checkout__hint {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -84,14 +84,14 @@
 	vertical-align: middle;
 }
 
-.ts-wc-checkout__customer-details,
-.ts-wc-account {
+.wc-checkout__customer-details,
+.wc-account {
 	display: grid;
 	gap: var(--ts-spacer-4);
 	align-items: start;
 }
 
-.ts-wc-checkout__heading {
+.wc-checkout__heading {
 	font-size: var(--ts-font-size-lg);
 	font-weight: 600;
 }
@@ -102,13 +102,13 @@
 }
 
 .woocommerce-checkout .site-content,
-.woocommerce-checkout .ts-main--commerce {
+.woocommerce-checkout .main--commerce {
 	max-width: var(--ts-container-max);
 	margin-inline: auto;
 }
 
-.woocommerce-checkout .ts-content-shell,
-.woocommerce-checkout .ts-entry__content {
+.woocommerce-checkout .content-shell,
+.woocommerce-checkout .entry__content {
 	background: var(--ts-surface);
 }
 
@@ -169,8 +169,8 @@
 	margin-top: var(--ts-spacer-3);
 }
 
-.ts-checkout-layout__section > .woocommerce-billing-fields__field-wrapper,
-.ts-checkout-layout__section > .woocommerce-shipping-fields__field-wrapper {
+.checkout-layout__section > .woocommerce-billing-fields__field-wrapper,
+.checkout-layout__section > .woocommerce-shipping-fields__field-wrapper {
 	margin-top: 0;
 }
 
@@ -184,20 +184,20 @@
 
 .woocommerce-checkout .woocommerce-billing-fields__field-wrapper > .checkout-grid-full,
 .woocommerce-checkout .woocommerce-shipping-fields__field-wrapper > .checkout-grid-full,
-.woocommerce-checkout .woocommerce-billing-fields__field-wrapper > .ts-checkout-layout__row,
-.woocommerce-checkout .woocommerce-shipping-fields__field-wrapper > .ts-checkout-layout__row,
+.woocommerce-checkout .woocommerce-billing-fields__field-wrapper > .checkout-layout__row,
+.woocommerce-checkout .woocommerce-shipping-fields__field-wrapper > .checkout-layout__row,
 .woocommerce-checkout .woocommerce-billing-fields__field-wrapper > .woocommerce-account-fields,
 .woocommerce-account .woocommerce-address-fields__field-wrapper .form-row-wide {
 	grid-column: 1 / -1;
 }
 
-.woocommerce-checkout .ts-checkout-layout__row--thirds {
+.woocommerce-checkout .checkout-layout__row--thirds {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 	gap: var(--ts-spacer-3);
 }
 
-.woocommerce-checkout .ts-checkout-layout__row--thirds > .form-row {
+.woocommerce-checkout .checkout-layout__row--thirds > .form-row {
 	margin: 0;
 	padding: 0;
 	width: 100%;
@@ -206,7 +206,7 @@
 // Desktop: city + state on row 1; postcode + phone share row 2 (Shopify-style).
 // Flatten the thirds row into the parent 2-column grid; phone follows in DOM.
 @include mixins.ts-up('md') {
-	.woocommerce-checkout .woocommerce-billing-fields__field-wrapper > .ts-checkout-layout__row--thirds {
+	.woocommerce-checkout .woocommerce-billing-fields__field-wrapper > .checkout-layout__row--thirds {
 		display: contents;
 	}
 
@@ -216,7 +216,7 @@
 }
 
 @include mixins.ts-down('md') {
-	.woocommerce-checkout .ts-checkout-layout__row--thirds {
+	.woocommerce-checkout .checkout-layout__row--thirds {
 		grid-template-columns: 1fr;
 	}
 }
@@ -281,14 +281,14 @@
 
 // Desktop two-column checkout (must follow base flex rules in this file — import order).
 @include mixins.ts-up('lg') {
-	.ts-wc-checkout__layout {
+	.wc-checkout__layout {
 		display: grid;
 		grid-template-columns: minmax(0, 1.75fr) minmax(20rem, 1fr);
 		align-items: start;
 		gap: var(--ts-spacer-4);
 	}
 
-	.ts-wc-checkout__summary {
+	.wc-checkout__summary {
 		order: 2;
 		grid-column: 2;
 		grid-row: 1;
@@ -299,13 +299,13 @@
 		padding: var(--ts-spacer-4);
 		border-radius: var(--ts-border-radius);
 
-		// .ts-loading-host sets position:relative after checkout in woo.scss — sticky must win.
-		&.ts-loading-host {
+		// .loading-host sets position:relative after checkout in woo.scss — sticky must win.
+		&.loading-host {
 			position: sticky;
 		}
 	}
 
-	.ts-wc-checkout__details {
+	.wc-checkout__details {
 		order: 1;
 		grid-column: 1;
 		grid-row: 1;
@@ -317,7 +317,7 @@
 }
 
 @include mixins.ts-down('lg') {
-	.woocommerce-checkout .ts-wc-checkout__summary {
+	.woocommerce-checkout .wc-checkout__summary {
 		position: relative;
 		width: calc(100% + 2 * var(--ts-container-inline-gutter, 1rem));
 		max-width: none;
@@ -329,16 +329,16 @@
 	}
 }
 
-.ts-checkout-order-summary {
+.checkout-order-summary {
 	display: block;
 }
 
-.ts-checkout-order-summary > summary {
+.checkout-order-summary > summary {
 	list-style: none;
 	cursor: pointer;
 }
 
-.ts-checkout-order-summary > summary::-webkit-details-marker {
+.checkout-order-summary > summary::-webkit-details-marker {
 	display: none;
 }
 
@@ -379,8 +379,8 @@
 	cursor: pointer;
 }
 
-.ts-checkout-order-summary__toggle,
-.ts-checkout-order-summary > summary.order-summary-toggle {
+.checkout-order-summary__toggle,
+.checkout-order-summary > summary.order-summary-toggle {
 	display: flex;
 	width: 100%;
 	padding: 0.5rem 0;
@@ -390,7 +390,7 @@
 	cursor: pointer;
 }
 
-.ts-checkout-order-summary__toggle-inner {
+.checkout-order-summary__toggle-inner {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -398,20 +398,20 @@
 	width: 100%;
 }
 
-.ts-checkout-order-summary__lead {
+.checkout-order-summary__lead {
 	display: flex;
 	gap: var(--ts-spacer-2);
 	min-width: 0;
 	align-items: center;
 }
 
-.ts-checkout-order-summary__thumbs {
+.checkout-order-summary__thumbs {
 	display: flex;
 	align-items: center;
 	flex-shrink: 0;
 }
 
-.ts-checkout-order-summary__toggle-copy {
+.checkout-order-summary__toggle-copy {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
@@ -426,39 +426,39 @@
 }
 
 @include mixins.ts-down('lg') {
-	.ts-checkout-order-summary[data-ts-checkout-order-summary-primary]:not([open]) > .ts-checkout-order-summary__panel {
+	.checkout-order-summary[data-ts-checkout-order-summary-primary]:not([open]) > .checkout-order-summary__panel {
 		display: none !important;
 	}
 
-	.ts-checkout-order-summary[data-ts-checkout-order-summary-primary] .order-summary-add-coupon {
+	.checkout-order-summary[data-ts-checkout-order-summary-primary] .order-summary-add-coupon {
 		display: block;
 	}
 }
 
 @include mixins.ts-up('lg') {
-	.ts-checkout-order-summary[data-ts-checkout-order-summary-primary] .order-summary-add-coupon {
+	.checkout-order-summary[data-ts-checkout-order-summary-primary] .order-summary-add-coupon {
 		display: none;
 	}
 }
 
-.ts-checkout-order-summary__title,
-.ts-checkout-order-summary__title-expanded {
+.checkout-order-summary__title,
+.checkout-order-summary__title-expanded {
 	font-weight: 600;
 }
 
-.ts-checkout-order-summary__item-count {
+.checkout-order-summary__item-count {
 	color: var(--ts-text-secondary);
 	font-size: var(--ts-font-size-sm);
 }
 
-.ts-checkout-order-summary__toggle-meta {
+.checkout-order-summary__toggle-meta {
 	display: flex;
 	align-items: center;
 	gap: var(--ts-spacer-3);
 	flex-shrink: 0;
 }
 
-.ts-checkout-order-summary__chevron {
+.checkout-order-summary__chevron {
 	display: inline-flex;
 	width: 0.5rem;
 	height: 0.5rem;
@@ -468,25 +468,25 @@
 	transition: transform 180ms ease-in-out;
 }
 
-.ts-checkout-order-summary[open] > summary .ts-checkout-order-summary__chevron {
+.checkout-order-summary[open] > summary .checkout-order-summary__chevron {
 	transform: rotate(-135deg);
 }
 
-.ts-checkout-order-summary[open] > summary .order-summary-thumbs,
-.ts-checkout-order-summary[open] > summary .order-summary-total,
-.ts-checkout-order-summary[open] > summary .order-summary-add-coupon {
+.checkout-order-summary[open] > summary .order-summary-thumbs,
+.checkout-order-summary[open] > summary .order-summary-total,
+.checkout-order-summary[open] > summary .order-summary-add-coupon {
 	display: none;
 }
 
-.ts-checkout-order-summary[open] > summary .ts-checkout-order-summary__title {
+.checkout-order-summary[open] > summary .checkout-order-summary__title {
 	display: none;
 }
 
-.ts-checkout-order-summary[open] > summary .ts-checkout-order-summary__title-expanded {
+.checkout-order-summary[open] > summary .checkout-order-summary__title-expanded {
 	display: inline;
 }
 
-.ts-checkout-order-summary__title-expanded {
+.checkout-order-summary__title-expanded {
 	display: none;
 	font-weight: 600;
 }
@@ -542,41 +542,41 @@
 }
 
 @include mixins.ts-up('lg') {
-	.ts-checkout-order-summary > summary {
+	.checkout-order-summary > summary {
 		display: none !important;
 	}
 
-	.ts-checkout-order-summary {
+	.checkout-order-summary {
 		display: block !important;
 	}
 
-	.ts-checkout-order-summary__panel {
+	.checkout-order-summary__panel {
 		display: block !important;
 	}
 }
 
-.ts-checkout-review-order__items {
+.checkout-review-order__items {
 	display: grid;
 	gap: var(--ts-spacer-3);
 	margin-bottom: var(--ts-spacer-3);
 }
 
-.ts-checkout-review-order__coupon {
+.checkout-review-order__coupon {
 	margin-bottom: var(--ts-spacer-3);
 }
 
-.ts-checkout-line-item {
+.checkout-line-item {
 	display: flex;
 	align-items: flex-start;
 	gap: var(--ts-spacer-3);
 }
 
-.ts-checkout-line-item__media {
+.checkout-line-item__media {
 	position: relative;
 	flex-shrink: 0;
 }
 
-.ts-checkout-line-item__img {
+.checkout-line-item__img {
 	display: block;
 	width: 3.75rem;
 	height: 3.75rem;
@@ -584,14 +584,14 @@
 	border-radius: var(--ts-border-radius-sm);
 }
 
-.ts-checkout-line-item__placeholder {
+.checkout-line-item__placeholder {
 	width: 3.75rem;
 	height: 3.75rem;
 	background: var(--ts-surface-muted);
 	border-radius: var(--ts-border-radius-sm);
 }
 
-.ts-checkout-line-item__qty {
+.checkout-line-item__qty {
 	position: absolute;
 	top: 0;
 	inset-inline-end: 0;
@@ -607,14 +607,14 @@
 	transform: translate(25%, -25%);
 }
 
-.ts-checkout-line-item__info {
+.checkout-line-item__info {
 	flex: 1;
 	min-width: 0;
 	color: var(--ts-text-secondary);
 	font-size: var(--ts-font-size-sm);
 }
 
-.ts-checkout-line-item__variation .variation {
+.checkout-line-item__variation .variation {
 	margin: 0;
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr);
@@ -623,18 +623,18 @@
 	align-items: baseline;
 }
 
-.ts-checkout-line-item__variation .variation dt,
-.ts-checkout-line-item__variation .variation dd,
-.ts-checkout-line-item__variation .variation dd p {
+.checkout-line-item__variation .variation dt,
+.checkout-line-item__variation .variation dd,
+.checkout-line-item__variation .variation dd p {
 	margin: 0;
 }
 
-.ts-checkout-line-item__price {
+.checkout-line-item__price {
 	flex-shrink: 0;
 	text-align: end;
 }
 
-.ts-checkout-total-row {
+.checkout-total-row {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -643,22 +643,22 @@
 	min-width: 0;
 }
 
-.ts-checkout-total-row > span:first-child {
+.checkout-total-row > span:first-child {
 	min-width: 0;
 	overflow-wrap: anywhere;
 }
 
-.ts-checkout-total-row--shipping {
+.checkout-total-row--shipping {
 	flex-wrap: wrap;
 	padding-block: var(--ts-spacer-3);
 	color: var(--ts-text-secondary);
 }
 
-.ts-checkout-total-row--grand {
+.checkout-total-row--grand {
 	font-weight: 600;
 }
 
-.ts-checkout-review-order__tax-note {
+.checkout-review-order__tax-note {
 	color: var(--ts-text-secondary);
 	font-size: var(--ts-font-size-sm);
 	margin-top: var(--ts-spacer-3);
@@ -677,19 +677,19 @@
 }
 
 @include mixins.ts-down('lg') {
-	.woocommerce-checkout-payment-wrap .woocommerce-checkout-payment .ts-checkout-order-summary--payment > summary {
+	.woocommerce-checkout-payment-wrap .woocommerce-checkout-payment .checkout-order-summary--payment > summary {
 		display: none;
 	}
 
-	.woocommerce-checkout-payment-wrap .woocommerce-checkout-payment .ts-checkout-order-summary--payment {
+	.woocommerce-checkout-payment-wrap .woocommerce-checkout-payment .checkout-order-summary--payment {
 		display: block;
 	}
 
-	.woocommerce-checkout-payment-wrap .woocommerce-checkout-payment .ts-checkout-order-summary--payment .ts-checkout-order-summary__panel {
+	.woocommerce-checkout-payment-wrap .woocommerce-checkout-payment .checkout-order-summary--payment .checkout-order-summary__panel {
 		display: block !important;
 	}
 
-	.woocommerce-checkout-payment-wrap .woocommerce-checkout-payment .ts-checkout-order-summary--payment .ts-checkout-review-order__items {
+	.woocommerce-checkout-payment-wrap .woocommerce-checkout-payment .checkout-order-summary--payment .checkout-review-order__items {
 		display: none;
 	}
 }
@@ -772,11 +772,11 @@
 }
 
 // Full-page spinner while place order is processing.
-body.ts-checkout-processing {
+body.checkout-processing {
 	overflow: hidden;
 }
 
-body.ts-checkout-processing::after {
+body.checkout-processing::after {
 	content: "";
 	position: fixed;
 	inset: 0;
@@ -786,7 +786,7 @@ body.ts-checkout-processing::after {
 	pointer-events: all;
 }
 
-body.ts-checkout-processing::before {
+body.checkout-processing::before {
 	content: "";
 	position: fixed;
 	top: 50%;

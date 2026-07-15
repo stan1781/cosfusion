@@ -25,7 +25,7 @@ wc_get_template( 'myaccount/partials/login-form.php' );
 
 if ( tailwindscore_account_registration_is_available() ) {
 	?>
-	<p class="ts-account-auth__switch">
+	<p class="account-auth__switch">
 		<?php esc_html_e( 'New here?', 'tailwindscore' ); ?>
 		<a href="<?php echo esc_url( tailwindscore_account_register_url() ); ?>">
 			<?php esc_html_e( 'Create account', 'tailwindscore' ); ?>

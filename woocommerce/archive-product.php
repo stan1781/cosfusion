@@ -14,21 +14,21 @@ defined( 'ABSPATH' ) || exit;
 get_header( 'shop' );
 do_action( 'woocommerce_before_main_content' );
 ?>
-<section class="ts-wc-archive ts-stack">
-	<div class="ts-wc-archive__notices">
+<section class="wc-archive stack">
+	<div class="wc-archive__notices">
 		<?php woocommerce_output_all_notices(); ?>
 	</div>
 
 	<?php if ( woocommerce_product_loop() ) : ?>
-		<div class="ts-wc-archive__toolbar">
+		<div class="wc-archive__toolbar">
 			<?php do_action( 'woocommerce_before_shop_loop' ); ?>
 		</div>
-		<ul class="ts-wc-product-grid">
+		<ul class="wc-product-grid">
 			<?php while ( have_posts() ) : the_post(); ?>
 				<?php wc_get_template_part( 'content', 'product' ); ?>
 			<?php endwhile; ?>
 		</ul>
-		<div class="ts-wc-archive__pagination">
+		<div class="wc-archive__pagination">
 			<?php do_action( 'woocommerce_after_shop_loop' ); ?>
 		</div>
 	<?php else : ?>

@@ -79,11 +79,11 @@ function openModal(): void {
 
 	modal.hidden = false;
 	modal.setAttribute('aria-hidden', 'false');
-	document.body.classList.add('ts-cart-item-edit-modal-open');
+	document.body.classList.add('cart-item-edit-modal-open');
 
 	const focusTarget =
 		modal.querySelector<HTMLElement>('[data-ts-cart-item-edit-close]') ??
-		modal.querySelector<HTMLElement>('.ts-cart-item-edit-modal__dialog');
+		modal.querySelector<HTMLElement>('.cart-item-edit-modal__dialog');
 	focusTarget?.focus();
 }
 
@@ -100,7 +100,7 @@ function closeModal(): void {
 
 	modal.hidden = true;
 	modal.setAttribute('aria-hidden', 'true');
-	document.body.classList.remove('ts-cart-item-edit-modal-open');
+	document.body.classList.remove('cart-item-edit-modal-open');
 
 	const content = getContentEl();
 	if (content) {

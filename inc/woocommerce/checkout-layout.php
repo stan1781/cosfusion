@@ -209,7 +209,7 @@ function tailwindscore_apply_checkout_field_layout( array $field, string $width,
 		}
 	}
 
-	$classes[] = 'ts-checkout-field--' . $width;
+	$classes[] = 'checkout-field--' . $width;
 
 	if ( 'full' === $width ) {
 		$classes[] = 'checkout-grid-full';
@@ -347,13 +347,13 @@ function tailwindscore_render_checkout_field_group( WC_Checkout $checkout, strin
 		 */
 		do_action( 'tailwindscore_checkout_before_section', $section_id, $group, $checkout );
 
-		echo '<section class="ts-checkout-layout__section" data-checkout-section="' . esc_attr( $section_id ) . '">';
+		echo '<section class="checkout-layout__section" data-checkout-section="' . esc_attr( $section_id ) . '">';
 
 		if ( '' !== $title ) {
-			echo '<h3 class="ts-wc-checkout__section-title">' . esc_html( $title ) . '</h3>';
+			echo '<h3 class="wc-checkout__section-title">' . esc_html( $title ) . '</h3>';
 		}
 
-		echo '<div class="' . esc_attr( $wrapper_class ) . ' ts-checkout-layout__grid">';
+		echo '<div class="' . esc_attr( $wrapper_class ) . ' checkout-layout__grid">';
 
 		foreach ( $section['items'] as $item ) {
 			if ( ! is_array( $item ) ) {
@@ -364,8 +364,8 @@ function tailwindscore_render_checkout_field_group( WC_Checkout $checkout, strin
 				$row_fields = isset( $item['fields'] ) && is_array( $item['fields'] ) ? $item['fields'] : array();
 				$row_width  = isset( $item['width'] ) ? (string) $item['width'] : 'third';
 				$row_class  = 'third' === $row_width
-					? 'ts-checkout-layout__row ts-checkout-layout__row--thirds checkout-grid-full'
-					: 'ts-checkout-layout__row checkout-grid-full';
+					? 'checkout-layout__row checkout-layout__row--thirds checkout-grid-full'
+					: 'checkout-layout__row checkout-grid-full';
 
 				echo '<div class="' . esc_attr( $row_class ) . '">';
 

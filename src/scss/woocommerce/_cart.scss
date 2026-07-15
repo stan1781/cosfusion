@@ -1,25 +1,25 @@
 @use "../abstracts/mixins";
 
-.ts-wc-cart {
+.wc-cart {
 	display: grid;
 	gap: var(--ts-spacer-4);
 }
 
-.ts-wc-cart__header {
+.wc-cart__header {
 	display: grid;
 	gap: var(--ts-spacer-2);
 }
 
-.ts-wc-cart__title {
+.wc-cart__title {
 	font-size: clamp(1.5rem, 2vw, 2rem);
 	font-weight: 700;
 }
 
-.ts-wc-cart__summary {
+.wc-cart__summary {
 	color: var(--ts-text-secondary);
 }
 
-.ts-wc-cart__items {
+.wc-cart__items {
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -27,23 +27,23 @@
 	gap: var(--ts-spacer-4);
 }
 
-.ts-wc-cart__shipping-note {
+.wc-cart__shipping-note {
 	margin: 0;
 	color: var(--ts-text-secondary);
 	font-size: var(--ts-font-size-xs);
 	line-height: 1.4;
 }
 
-.ts-cart-page-cart--filled {
+.cart-page-cart--filled {
 	display: grid;
 	gap: var(--ts-spacer-4);
 }
 
-.ts-wc-cart__scroll {
+.wc-cart__scroll {
 	min-width: 0;
 }
 
-.ts-wc-cart__aside {
+.wc-cart__aside {
 	display: grid;
 	gap: var(--ts-spacer-3);
 	position: sticky;
@@ -57,11 +57,11 @@
 	box-shadow: var(--ts-shadow-sm);
 }
 
-.ts-wc-cart__footer-bar {
+.wc-cart__footer-bar {
 	min-width: 0;
 }
 
-.ts-wc-cart .ts-cart-drawer-cart__footer--cart-page {
+.wc-cart .cart-drawer-cart__footer--cart-page {
 	margin-inline: 0;
 	margin-bottom: 0;
 	padding: 0;
@@ -69,13 +69,13 @@
 	background: transparent;
 }
 
-.ts-wc-cart .ts-cart-drawer-cart__footer--cart-page .ts-button {
+.wc-cart .cart-drawer-cart__footer--cart-page .btn {
 	width: 100%;
 	min-height: 3rem;
 	font-weight: 600;
 }
 
-.ts-wc-cart .ts-cart-drawer-cart__coupon {
+.wc-cart .cart-drawer-cart__coupon {
 	padding-block: 0;
 	border-top: 0;
 }
@@ -85,7 +85,7 @@
 }
 
 .woocommerce-cart .site-content,
-.woocommerce-cart .ts-main--commerce {
+.woocommerce-cart .main--commerce {
 	max-width: var(--ts-container-max);
 	margin-inline: auto;
 }
@@ -95,22 +95,22 @@
 	pointer-events: none;
 }
 
-.ts-wc-cart__collaterals {
+.wc-cart__collaterals {
 	display: none;
 }
 
 @include mixins.ts-up("lg") {
-	.ts-cart-page-cart--filled {
+	.cart-page-cart--filled {
 		grid-template-columns: minmax(0, 1.75fr) minmax(18rem, 1fr);
 		align-items: start;
 		gap: var(--ts-spacer-5);
 	}
 
-	.ts-wc-cart__scroll {
+	.wc-cart__scroll {
 		grid-column: 1;
 	}
 
-	.ts-wc-cart__aside {
+	.wc-cart__aside {
 		grid-column: 2;
 		position: sticky;
 		top: var(--ts-spacer-4);

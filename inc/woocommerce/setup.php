@@ -34,8 +34,8 @@ add_action( 'wp_enqueue_scripts', 'tailwindscore_dequeue_woocommerce_select2_sty
  * 共享数量步进器 markup 与 WooCommerce class 钩子。
  */
 function tailwindscore_quantity_input_classes( array $classes ): array {
-	if ( ! in_array( 'ts-quantity__input', $classes, true ) ) {
-		$classes[] = 'ts-quantity__input';
+	if ( ! in_array( 'quantity__input', $classes, true ) ) {
+		$classes[] = 'quantity__input';
 	}
 
 	return $classes;

@@ -163,7 +163,7 @@ class Tailwindscore_Review_Images_Admin {
             __( 'Review images tools', 'tailwindscore' ),
             __( 'Review images', 'tailwindscore' ),
             'manage_woocommerce',
-            'ts-review-images-tools',
+            'review-images-tools',
             array( $this, 'render_tools_page' )
         );
     }

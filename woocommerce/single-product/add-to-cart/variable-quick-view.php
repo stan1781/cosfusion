@@ -45,7 +45,7 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 	<?php if ( empty( $available_variations ) && false !== $available_variations ) : ?>
 		<p class="stock out-of-stock"><?php echo esc_html( apply_filters( 'woocommerce_out_of_stock_message', __( 'This product is currently out of stock and unavailable.', 'woocommerce' ) ) ); ?></p>
 	<?php else : ?>
-		<div class="variations ts-variations ts-quick-view-variations" role="presentation">
+		<div class="variations variations quick-view-variations" role="presentation">
 			<?php foreach ( $attributes as $attribute_name => $options ) : ?>
 				<?php
 				$attr_slug = sanitize_title( $attribute_name );
@@ -53,14 +53,14 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 					?? $selected_variation_attributes[ 'attribute_' . $attr_slug ]
 					?? ( isset( $_REQUEST[ 'attribute_' . $attr_slug ] ) ? wc_clean( wp_unslash( $_REQUEST[ 'attribute_' . $attr_slug ] ) ) : $product->get_variation_default_attribute( $attribute_name ) ); // phpcs:ignore WordPress.Security.NonceVerification
 				?>
-				<div class="variation-row ts-variation-row">
-					<div class="label ts-variation-row__label">
+				<div class="variation-row variation-row">
+					<div class="label variation-row__label">
 						<label for="<?php echo esc_attr( $attr_slug ); ?>">
 							<?php echo wc_attribute_label( $attribute_name ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>:
 							<span class="selected-attribute-value" data-for="<?php echo esc_attr( $attr_slug ); ?>"></span>
 						</label>
 					</div>
-					<div class="value ts-variation-row__value">
+					<div class="value variation-row__value">
 						<?php
 						wc_dropdown_variation_attribute_options(
 							array(

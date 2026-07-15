@@ -84,7 +84,7 @@ function tailwindscore_render_account_order_badge(): void {
 		return;
 	}
 	?>
-	<span class="ts-account-menu__badge" aria-hidden="true"><?php echo esc_html( (string) $count ); ?></span>
+	<span class="account-menu__badge" aria-hidden="true"><?php echo esc_html( (string) $count ); ?></span>
 	<?php
 }
 
@@ -102,7 +102,7 @@ function tailwindscore_render_mobile_tab_account_badge(): void {
 		return;
 	}
 	?>
-	<span class="ts-mobile-tab-bar__badge" aria-hidden="true"><?php echo esc_html( (string) $count ); ?></span>
+	<span class="mobile-tab-bar__badge" aria-hidden="true"><?php echo esc_html( (string) $count ); ?></span>
 	<?php
 }
 

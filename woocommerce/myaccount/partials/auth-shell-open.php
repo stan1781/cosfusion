@@ -29,42 +29,42 @@ if ( 'register' === $context ) {
 	$hero_text    = Tailwindscore_Account_Auth_Settings::get_hero_text();
 }
 
-$header_class = $split_hero ? 'ts-account-auth__header ts-account-auth__header--split' : 'ts-account-auth__header';
+$header_class = $split_hero ? 'account-auth__header account-auth__header--split' : 'account-auth__header';
 ?>
-<div class="ts-account-auth">
-	<div class="ts-account-auth__viewport">
-		<div class="ts-account-auth__card">
-			<div class="ts-account-auth__layout<?php echo $split_hero ? ' ts-account-auth__layout--split' : ''; ?>">
+<div class="account-auth">
+	<div class="account-auth__viewport">
+		<div class="account-auth__card">
+			<div class="account-auth__layout<?php echo $split_hero ? ' account-auth__layout--split' : ''; ?>">
 				<?php if ( $split_hero ) : ?>
-				<div class="ts-account-auth__hero"<?php echo $hero_style ? ' style="' . esc_attr( $hero_style ) . '"' : ''; ?>>
-					<div class="ts-account-auth__hero-inner">
+				<div class="account-auth__hero"<?php echo $hero_style ? ' style="' . esc_attr( $hero_style ) . '"' : ''; ?>>
+					<div class="account-auth__hero-inner">
 						<?php if ( $hero_url ) : ?>
 							<img
 								src="<?php echo esc_url( $hero_url ); ?>"
 								alt=""
-								class="ts-account-auth__hero-image"
+								class="account-auth__hero-image"
 								width="520"
 								height="400"
 								loading="lazy"
 								decoding="async"
 							>
 						<?php endif; ?>
-						<h2 class="ts-account-auth__hero-title"><?php echo esc_html( $hero_heading ); ?></h2>
-						<p class="ts-account-auth__hero-text"><?php echo esc_html( $hero_text ); ?></p>
+						<h2 class="account-auth__hero-title"><?php echo esc_html( $hero_heading ); ?></h2>
+						<p class="account-auth__hero-text"><?php echo esc_html( $hero_text ); ?></p>
 					</div>
 				</div>
 				<?php endif; ?>
 
-				<div class="ts-account-auth__panel">
-					<div class="ts-account-auth__panel-inner">
+				<div class="account-auth__panel">
+					<div class="account-auth__panel-inner">
 						<?php get_template_part( 'template-parts/account-auth/escape-links' ); ?>
 
 						<header class="<?php echo esc_attr( $header_class ); ?>">
-							<a class="ts-account-auth__brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+							<a class="account-auth__brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
 								<?php echo esc_html( tailwindscore_site_name() ); ?>
 							</a>
 							<?php if ( '' !== $subtitle ) : ?>
-								<p class="ts-account-auth__subtitle"><?php echo esc_html( $subtitle ); ?></p>
+								<p class="account-auth__subtitle"><?php echo esc_html( $subtitle ); ?></p>
 							<?php endif; ?>
 						</header>
 

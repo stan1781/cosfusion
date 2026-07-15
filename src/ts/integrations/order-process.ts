@@ -42,7 +42,7 @@ function openModal(): void {
 
 	modal.hidden = false;
 	modal.setAttribute('aria-hidden', 'false');
-	document.body.classList.add('ts-confirm-receipt-open');
+	document.body.classList.add('confirm-receipt-open');
 }
 
 function closeModal(): void {
@@ -53,7 +53,7 @@ function closeModal(): void {
 
 	modal.hidden = true;
 	modal.setAttribute('aria-hidden', 'true');
-	document.body.classList.remove('ts-confirm-receipt-open');
+	document.body.classList.remove('confirm-receipt-open');
 	pendingOrderId = null;
 	pendingButton = null;
 }

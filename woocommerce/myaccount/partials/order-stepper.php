@@ -18,7 +18,7 @@ $steps        = WC_Order_Process_Customer_View::get_customer_steps();
 $bucket_keys  = WC_Order_Process_Customer_View::get_bucket_keys();
 $is_full      = 'full' === $variant;
 ?>
-<ol class="ts-wc-account-stepper ts-wc-account-stepper--<?php echo esc_attr( $variant ); ?>" aria-label="<?php esc_attr_e( 'Order progress', 'tailwindscore' ); ?>">
+<ol class="wc-account-stepper wc-account-stepper--<?php echo esc_attr( $variant ); ?>" aria-label="<?php esc_attr_e( 'Order progress', 'tailwindscore' ); ?>">
 	<?php foreach ( $bucket_keys as $index => $step_key ) : ?>
 		<?php
 		$step_info    = $steps[ $step_key ] ?? array( 'label' => $step_key, 'description' => '' );
@@ -26,14 +26,14 @@ $is_full      = 'full' === $variant;
 		$is_current   = $index === $current_idx;
 		$state_class  = $is_completed ? 'is-completed' : ( $is_current ? 'is-current' : 'is-upcoming' );
 		?>
-		<li class="ts-wc-account-stepper__step <?php echo esc_attr( $state_class ); ?>">
-			<span class="ts-wc-account-stepper__marker" aria-hidden="true">
+		<li class="wc-account-stepper__step <?php echo esc_attr( $state_class ); ?>">
+			<span class="wc-account-stepper__marker" aria-hidden="true">
 				<?php echo $is_completed ? '&#10003;' : esc_html( (string) ( $index + 1 ) ); ?>
 			</span>
-			<span class="ts-wc-account-stepper__label">
-				<span class="ts-wc-account-stepper__title"><?php echo esc_html( $step_info['label'] ); ?></span>
+			<span class="wc-account-stepper__label">
+				<span class="wc-account-stepper__title"><?php echo esc_html( $step_info['label'] ); ?></span>
 				<?php if ( $is_full && $is_current && ! empty( $step_info['description'] ) ) : ?>
-					<span class="ts-wc-account-stepper__description"><?php echo esc_html( $step_info['description'] ); ?></span>
+					<span class="wc-account-stepper__description"><?php echo esc_html( $step_info['description'] ); ?></span>
 				<?php endif; ?>
 			</span>
 		</li>

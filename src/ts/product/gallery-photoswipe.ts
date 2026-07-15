@@ -166,11 +166,11 @@ function buildCaptionHtml(meta: GalleryLightboxMeta | undefined): string {
 	const parts: string[] = [];
 
 	if (title) {
-		parts.push(`<p class="ts-pswp-caption__title">${escapeHtml(title)}</p>`);
+		parts.push(`<p class="pswp-caption__title">${escapeHtml(title)}</p>`);
 	}
 
 	if (variationText) {
-		parts.push(`<p class="ts-pswp-caption__variation">${escapeHtml(variationText)}</p>`);
+		parts.push(`<p class="pswp-caption__variation">${escapeHtml(variationText)}</p>`);
 	}
 
 	return parts.join('');

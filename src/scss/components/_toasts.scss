@@ -1,4 +1,4 @@
-.ts-purchase-flow-toast-root {
+.purchase-flow-toast-root {
 	position: fixed;
 	inset-inline-start: var(--ts-spacer-4);
 	bottom: var(--ts-spacer-4);
@@ -10,7 +10,7 @@
 	pointer-events: none;
 }
 
-.ts-purchase-flow-toast {
+.purchase-flow-toast {
 	pointer-events: auto;
 	overflow: hidden;
 	border: 1px solid var(--ts-border-color);
@@ -23,12 +23,12 @@
 	transition: opacity 0.22s ease, transform 0.22s ease;
 }
 
-.ts-purchase-flow-toast.is-leaving {
+.purchase-flow-toast.is-leaving {
 	opacity: 0;
 	transform: translateY(0.35rem);
 }
 
-.ts-purchase-flow-toast__header {
+.purchase-flow-toast__header {
 	display: grid;
 	grid-template-columns: auto 1fr auto;
 	align-items: center;
@@ -38,36 +38,36 @@
 	background: color-mix(in srgb, var(--ts-surface) 92%, var(--ts-border-color));
 }
 
-.ts-purchase-flow-toast__accent {
+.purchase-flow-toast__accent {
 	width: var(--ts-font-size-lg);
 	height: var(--ts-font-size-lg);
 	border-radius: 0.2rem;
 	background: var(--ts-info);
 }
 
-.ts-purchase-flow-toast--success .ts-purchase-flow-toast__accent {
+.purchase-flow-toast--success .purchase-flow-toast__accent {
 	background: var(--ts-success);
 }
 
-.ts-purchase-flow-toast--warning .ts-purchase-flow-toast__accent {
+.purchase-flow-toast--warning .purchase-flow-toast__accent {
 	background: var(--ts-warning);
 }
 
-.ts-purchase-flow-toast--error .ts-purchase-flow-toast__accent {
+.purchase-flow-toast--error .purchase-flow-toast__accent {
 	background: var(--ts-danger);
 }
 
-.ts-purchase-flow-toast__title {
+.purchase-flow-toast__title {
 	font-size: var(--ts-font-size-sm);
 	font-weight: 600;
 	line-height: 1.25;
 }
 
-.ts-purchase-flow-toast__header .ts-close-button {
+.purchase-flow-toast__header .btn-close {
 	margin-inline-start: auto;
 }
 
-.ts-purchase-flow-toast__body {
+.purchase-flow-toast__body {
 	padding: var(--ts-spacer-3);
 	font-size: var(--ts-font-size-sm);
 	line-height: 1.5;

@@ -2,13 +2,13 @@
 declare(strict_types=1);
 
 function tailwindscore_wc_wrapper_open(): void {
-	echo '<main class="site-main ts-main ts-main--commerce">';
+	echo '<main class="site-main main main--commerce">';
 
 	if ( function_exists( 'tailwindscore_wc_archive_has_hero_layout' ) && tailwindscore_wc_archive_has_hero_layout() ) {
 		return;
 	}
 
-	echo '<div class="ts-container ts-section ts-wc-shell">';
+	echo '<div class="container section wc-shell">';
 }
 
 function tailwindscore_wc_wrapper_close(): void {

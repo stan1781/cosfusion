@@ -78,17 +78,17 @@ class Tailwindscore_Review_Images_Frontend {
 		);
 		?>
 		<div
-			class="ts-review-images-upload"
+			class="review-images-upload"
 			id="review-images-upload-wrapper"
 			data-tailwindscore-review-images-config="<?php echo esc_attr( (string) $client_cfg ); ?>"
 		>
 			<input type="hidden" id="review-images-uploaded" name="review_images_uploaded" value="">
 			<input type="hidden" id="review-images-nonce" value="<?php echo esc_attr( $nonce ); ?>">
-			<div class="ts-review-images-toolbar" id="review-images-toolbar">
-				<div class="ts-review-images-toolbar__row">
-					<span class="ts-review-images-toolbar__label">
+			<div class="review-images-toolbar" id="review-images-toolbar">
+				<div class="review-images-toolbar__row">
+					<span class="review-images-toolbar__label">
 						<?php esc_html_e( 'Photos', 'tailwindscore' ); ?>
-						<span class="ts-review-images-toolbar__hint">
+						<span class="review-images-toolbar__hint">
 							<?php
 							printf(
 								/* translators: %d: max images */
@@ -109,16 +109,16 @@ class Tailwindscore_Review_Images_Frontend {
 					>
 					<label
 						for="review-images-input"
-						class="ts-button ts-button--sm ts-button--outline"
+						class="btn btn-sm btn-outline"
 						id="review-images-select-label"
 					>
 						<?php esc_html_e( 'Choose images', 'tailwindscore' ); ?>
 					</label>
-					<span class="ts-review-images-toolbar__count" aria-live="polite">
+					<span class="review-images-toolbar__count" aria-live="polite">
 						<span id="review-images-count">0</span>/<?php echo esc_html( (string) $max_images ); ?>
 					</span>
 				</div>
-				<p class="ts-review-images-toolbar__meta">
+				<p class="review-images-toolbar__meta">
 					<?php
 					printf(
 						/* translators: %s: max file size */
@@ -128,13 +128,13 @@ class Tailwindscore_Review_Images_Frontend {
 					?>
 				</p>
 			</div>
-			<div id="review-images-preview" class="ts-review-images-preview hidden"></div>
-			<div id="review-images-progress" class="ts-review-images-progress hidden" aria-hidden="true">
-				<div class="ts-review-images-progress__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-					<span class="ts-review-images-progress__fill"></span>
+			<div id="review-images-preview" class="review-images-preview hidden"></div>
+			<div id="review-images-progress" class="review-images-progress hidden" aria-hidden="true">
+				<div class="review-images-progress__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+					<span class="review-images-progress__fill"></span>
 				</div>
 			</div>
-			<div id="review-images-alerts" class="ts-review-images-alerts"></div>
+			<div id="review-images-alerts" class="review-images-alerts"></div>
 		</div>
 		<?php
 	}
@@ -524,7 +524,7 @@ class Tailwindscore_Review_Images_Frontend {
 
 		$product_id = (int) $comment->comment_post_ID;
 		?>
-		<div class="ts-review-images-display" data-comment-id="<?php echo esc_attr( (string) $comment_id ); ?>">
+		<div class="review-images-display" data-comment-id="<?php echo esc_attr( (string) $comment_id ); ?>">
 			<?php foreach ( $comment_data['images'] as $image ) : ?>
 				<?php
 				$attachment_id = (int) ( $image['id'] ?? 0 );
@@ -537,7 +537,7 @@ class Tailwindscore_Review_Images_Frontend {
 				?>
 				<button
 					type="button"
-					class="ts-review-images-display__thumb review-image-thumb"
+					class="review-images-display__thumb review-image-thumb"
 					data-image-index="<?php echo esc_attr( (string) $global_index ); ?>"
 				>
 					<img

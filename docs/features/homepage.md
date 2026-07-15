@@ -32,7 +32,7 @@
 
 ## 样式
 
-首页区块使用 `.ts-home-*` 语义类，样式分布在 `src/scss/components/` 下对应文件，遵循 [设计令牌](../architecture/design-tokens.md)。
+首页区块使用 `.home-*` 语义类，样式分布在 `src/scss/components/` 下对应文件，遵循 [设计令牌](../architecture/design-tokens.md)。
 
 ## 维护说明
 

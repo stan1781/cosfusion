@@ -19,7 +19,7 @@ function promoteNoticeElements(elements: NodeListOf<Element>, type: 'error' | 's
 }
 
 function promoteAuthNotices(): void {
-	if (!document.body.classList.contains('ts-account-auth-surface')) {
+	if (!document.body.classList.contains('account-auth-surface')) {
 		return;
 	}
 

@@ -1,6 +1,6 @@
-// Quantity stepper: minus | input | plus. Extend via --ts-quantity-* on .ts-quantity or a parent.
+// Quantity stepper: minus | input | plus. Extend via --ts-quantity-* on .quantity or a parent.
 
-.ts-quantity {
+.quantity {
 	--ts-quantity-step-width: 1.8rem;
 	--ts-quantity-input-width: 2.5rem;
 	--ts-quantity-height: var(--ts-control-min-height);
@@ -27,28 +27,28 @@
 }
 
 // Drawer / compact cart rows (smaller than product-page default).
-.ts-quantity--compact {
+.quantity-compact {
 	--ts-quantity-step-width: 1.5rem;
 	--ts-quantity-input-width: 2rem;
 	--ts-quantity-height: 1.6rem;
 }
 
-.ts-quantity--compact .ts-quantity__input {
+.quantity-compact .quantity__input {
 	padding-inline: 0.25rem;
 	font-size: var(--ts-font-size-sm);
 }
 
-.ts-quantity--compact .ts-quantity__step .ts-icon {
+.quantity-compact .quantity__step .icon {
 	width: 0.75rem;
 	height: 0.75rem;
 }
 
-.ts-quantity__step,
-.ts-quantity__input {
+.quantity__step,
+.quantity__input {
 	font: inherit;
 }
 
-.ts-quantity__step {
+.quantity__step {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -61,12 +61,12 @@
 	cursor: pointer;
 }
 
-.ts-quantity__step .ts-icon {
+.quantity__step .icon {
 	width: var(--ts-font-size-sm);
 	height: var(--ts-font-size-sm);
 }
 
-.ts-quantity__input {
+.quantity__input {
 	box-sizing: border-box;
 	width: 100%;
 	min-width: 0;
@@ -86,8 +86,8 @@
 }
 
 // WooCommerce adds .input-text; keep stepper field styles when that class is present.
-.woocommerce form .ts-quantity .ts-quantity__input,
-.woocommerce-page form .ts-quantity .ts-quantity__input {
+.woocommerce form .quantity .quantity__input,
+.woocommerce-page form .quantity .quantity__input {
 	width: 100%;
 	min-width: 0;
 	height: 100%;
@@ -99,38 +99,38 @@
 	box-shadow: none;
 }
 
-.woocommerce form .quantity.ts-quantity,
-.woocommerce-page form .quantity.ts-quantity {
+.woocommerce form .quantity.quantity,
+.woocommerce-page form .quantity.quantity {
 	width: var(--ts-quantity-width);
 	flex: 0 0 auto;
 }
 
-.ts-quantity__input::-webkit-outer-spin-button,
-.ts-quantity__input::-webkit-inner-spin-button {
+.quantity__input::-webkit-outer-spin-button,
+.quantity__input::-webkit-inner-spin-button {
 	margin: 0;
 	-webkit-appearance: none;
 }
 
-.ts-quantity__input:focus,
-.ts-quantity__input:focus-visible {
+.quantity__input:focus,
+.quantity__input:focus-visible {
 	outline: none;
 	box-shadow: none;
 }
 
-.ts-quantity__step:focus,
-.ts-quantity__step:focus-visible {
+.quantity__step:focus,
+.quantity__step:focus-visible {
 	outline: none;
 	box-shadow: none;
 }
 
-.ts-quantity__step:disabled,
-.ts-quantity__input:disabled {
+.quantity__step:disabled,
+.quantity__input:disabled {
 	cursor: wait;
 	opacity: 0.65;
 }
 
 @media (hover: hover) {
-	.ts-quantity__step:not(:disabled):hover {
+	.quantity__step:not(:disabled):hover {
 		background: var(--ts-surface-muted);
 	}
 }

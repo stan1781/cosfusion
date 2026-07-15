@@ -10,15 +10,15 @@ if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
 
 $cart = WC()->cart;
 ?>
-<div class="ts-cart-drawer-cart<?php echo $cart->is_empty() ? '' : ' ts-cart-drawer-cart--filled'; ?>">
+<div class="cart-drawer-cart<?php echo $cart->is_empty() ? '' : ' cart-drawer-cart--filled'; ?>">
 	<?php if ( $cart->is_empty() ) : ?>
-		<div class="ts-cart-drawer-cart__empty ts-stack">
+		<div class="cart-drawer-cart__empty stack">
 			<p><?php esc_html_e( 'Your cart is empty.', 'tailwindscore' ); ?></p>
-			<a class="ts-button ts-button--outline" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php esc_html_e( 'Browse products', 'tailwindscore' ); ?></a>
+			<a class="btn btn-outline" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php esc_html_e( 'Browse products', 'tailwindscore' ); ?></a>
 		</div>
 	<?php else : ?>
-		<div class="ts-cart-drawer-cart__body">
-			<ul class="ts-cart-drawer-cart__items" data-ts-cart-items>
+		<div class="cart-drawer-cart__body">
+			<ul class="cart-drawer-cart__items" data-ts-cart-items>
 				<?php foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) : ?>
 					<?php
 					tailwindscore_render_cart_line_item(
@@ -33,7 +33,7 @@ $cart = WC()->cart;
 			</ul>
 		</div>
 		<?php if ( tailwindscore_cart_drawer_coupon_is_enabled() ) : ?>
-			<div class="ts-cart-drawer-cart__coupon" data-ts-cart-coupon>
+			<div class="cart-drawer-cart__coupon" data-ts-cart-coupon>
 				<?php tailwindscore_render_coupon_form( array( 'context' => 'drawer' ) ); ?>
 			</div>
 		<?php endif; ?>

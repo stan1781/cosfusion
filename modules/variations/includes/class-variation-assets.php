@@ -53,7 +53,7 @@ class Tailwindscore_Variation_Assets {
 	 */
 	public function body_class( array $classes ): array {
 		if ( function_exists( 'is_product' ) && is_product() ) {
-			$classes[] = 'ts-single-product';
+			$classes[] = 'single-product';
 		}
 		return $classes;
 	}

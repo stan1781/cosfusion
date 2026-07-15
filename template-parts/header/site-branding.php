@@ -6,7 +6,7 @@ $logo_mobile = tailwindscore_mod( 'tailwindscore_logo_mobile', '' );
 $site_name   = tailwindscore_site_name();
 $home_url    = esc_url( home_url( '/' ) );
 ?>
-<div class="ts-branding">
+<div class="branding">
 	<a href="<?php echo $home_url; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
 
 		<?php if ( $logo_pc || $logo_mobile ) : ?>
@@ -16,7 +16,7 @@ $home_url    = esc_url( home_url( '/' ) );
 				$logo_pc_dims = tailwindscore_image_url_dimensions( $logo_pc, 200, 60 );
 				?>
 				<img
-					class="ts-branding__logo ts-branding__logo--pc"
+					class="branding__logo branding__logo--pc"
 					src="<?php echo esc_url( $logo_pc ); ?>"
 					alt="<?php echo esc_attr( $site_name ); ?>"
 					width="<?php echo esc_attr( (string) $logo_pc_dims['width'] ); ?>"
@@ -29,7 +29,7 @@ $home_url    = esc_url( home_url( '/' ) );
 				$logo_mobile_dims = tailwindscore_image_url_dimensions( $logo_mobile, 120, 40 );
 				?>
 				<img
-					class="ts-branding__logo ts-branding__logo--mobile"
+					class="branding__logo branding__logo--mobile"
 					src="<?php echo esc_url( $logo_mobile ); ?>"
 					alt="<?php echo esc_attr( $site_name ); ?>"
 					width="<?php echo esc_attr( (string) $logo_mobile_dims['width'] ); ?>"

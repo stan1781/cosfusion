@@ -34,7 +34,7 @@ class Tailwindscore_Quick_View_Frontend {
 	 */
 	public function body_class( array $classes ): array {
 		if ( Tailwindscore_Quick_View_Settings::should_load_frontend() ) {
-			$classes[] = 'ts-quick-view-enabled';
+			$classes[] = 'quick-view-enabled';
 		}
 
 		return $classes;
@@ -70,7 +70,7 @@ class Tailwindscore_Quick_View_Frontend {
 		$label      = esc_html__( 'Quick view', 'tailwindscore' );
 
 		if ( preg_match( '/class="([^"]*)"/', $html, $class_match ) ) {
-			$classes = $class_match[1] . ' ts-quick-view-loop-trigger';
+			$classes = $class_match[1] . ' quick-view-loop-trigger';
 			$html    = preg_replace( '/class="[^"]*"/', 'class="' . esc_attr( $classes ) . '"', $html, 1 );
 		}
 

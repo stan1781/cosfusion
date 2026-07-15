@@ -4,6 +4,8 @@ TailwindScore 是 **英文站点模板**：前台默认可视文案为英文；�
 
 ## 统一前缀 `ts` / `tailwindscore`
 
+主题是**全新制作**、且**不引入 Bootstrap 运行时**。HTML/CSS **类名不加** `ts-`，按 Bootstrap 习惯直写（如 `btn btn-outline-primary`）。`ts` / `tailwindscore` 只用于令牌、行为钩子与 PHP/JS 符号。
+
 | 层级 | 规则 | 示例 |
 |------|------|------|
 | PHP 函数 | `tailwindscore_*` | `tailwindscore_mod()`, `tailwindscore_cart_url()` |
@@ -11,12 +13,35 @@ TailwindScore 是 **英文站点模板**：前台默认可视文案为英文；�
 | PHP 常量 | `TAILWINDSCORE_*` | `TAILWINDSCORE_MODULE_QUICK_VIEW_VERSION` |
 | 文本域 / 主题 slug | `tailwindscore` | `__( '…', 'tailwindscore' )` |
 | `theme_mod` 键 | 蛇形 | `cart_drawer_coupon_enable` |
-| SCSS 变量 | `$ts-*` | `$ts-primary`, `$ts-spacer-3` |
-| CSS 自定义属性 | `--ts-*` | `--ts-primary` |
-| HTML 类名 | `.ts-*` 语义类 | `.ts-site-header`, `.ts-cart-drawer` |
-| `data-*` 属性 | `data-ts-*` | `data-ts-quick-view` |
+| SCSS 变量 | `$ts-*`（保留） | `$ts-primary`, `$ts-spacer-3` |
+| CSS 自定义属性 | `--ts-*`（保留） | `--ts-primary` |
+| HTML / CSS 类名 | **无** `ts-` 前缀；贴近 Bootstrap | `btn btn-outline-primary`、`site-header`、`nav-link` |
+| `data-*` 属性 | `data-ts-*`（保留） | `data-ts-quick-view` |
 | JS 全局对象 | `window.tailwindscore*` | `window.tailwindscoreCart` |
 | 自定义事件 | `tailwindscore:*` | `tailwindscore:open-cart` |
+| SCSS mixin | `ts-up` / `ts-down` 等（保留） | `@include mixins.ts-up(lg)` |
+
+## HTML / CSS 命名风格（贴近 Bootstrap）
+
+本主题**不引入** Bootstrap CSS/JS，也不装 Bootstrap 主题/插件；类名仅为**写法习惯**对齐，例如：
+
+```html
+<button class="btn btn-outline-primary btn-lg">…</button>
+```
+
+| 习惯 | 本主题 |
+|------|--------|
+| 基础 + 变体 | `btn btn-primary`、`btn btn-outline-secondary`、`btn btn-sm` |
+| 子部件连字符 | `nav-link`、`card-body`、`modal-header` |
+| 域组件 | `site-header`、`cart-drawer`、`home-hero` 等（可读即可） |
+
+说明：
+
+1. **按钮用 `btn`，不要用裸 `button` 当主题类**（WooCommerce 已有 `.button`，双挂时主题样式挂在 `btn` 上即可）。
+2. 禁止引入 Bootstrap 运行时、`data-bs-*`、网格类（`row` / `col-*`）与前台 jQuery；需要栅格时用语义结构或少量布局 utility。
+3. `$ts-*`、`--ts-*`、`data-ts-*`、mixin 名 **保持** `ts` 命名空间，勿与类名一并去掉。
+4. 元素 `id` 仍可用 `ts-*` 前缀（与类名策略分开），`aria-controls` 等指向这些 id。
+5. 存量 BEM（`__` / `--`）可按触达范围逐步改成连字符 / 变体类；不必单开全站重命名工程。
 
 ## 语言
 
@@ -54,8 +79,8 @@ TailwindScore 是 **英文站点模板**：前台默认可视文案为英文；�
 ## 配置与模板
 
 - 配置：`theme_mod` + `tailwindscore_mod()`；新站禁止读插件 `wc_*` option。
-- 模板：语义类 `.ts-*`；禁止 Bootstrap / `data-bs-*` / 前台 jQuery。
-- 断点与令牌：以 `src/scss/abstracts/_variables.scss` 为真源；样式用 `ts-up` / `ts-down`，禁止裸写无关断点。
+- 模板：无 `ts-` 前缀的语义类（如 `btn btn-outline-primary`）；禁止 Bootstrap 运行时 / `data-bs-*` / 前台 jQuery。
+- 断点与令牌：以 `src/scss/abstracts/_variables.scss` 为真源；样式用 `ts-up` / `ts-down` mixin，禁止裸写无关断点。
 
 ## 文件数量
 
@@ -71,6 +96,8 @@ TailwindScore 是 **英文站点模板**：前台默认可视文案为英文；�
 - 前台默认可视字符串使用中文
 - 文档或**说明性注释**默认改用英文（专有名词、API 符号、`/* translators: … */` 除外）
 - 在 PHP（`inc/`、`modules/`、模板）中新增英文 docblock / `//` 说明
-- 新增 Bootstrap / 前台 jQuery 依赖
+- 新增 Bootstrap / 前台 jQuery 依赖，或使用 `data-bs-*` / Bootstrap 网格
+- 用裸类名 `button` 充当主题按钮类（应用 `btn`，与 WC `.button` 区分）
+- 去掉 `$ts-*` / `--ts-*` / `data-ts-*` / mixin 上的 `ts` 命名空间
 - 组件 SCSS 硬编码与令牌无关的 hex（应 `var(--ts-*)`）
 - 在 `functions.php` 新增 `require_once`

@@ -61,17 +61,17 @@ $ts-animation-slide-duration: 0.22s;
 
 /// Continuous rotation (buttons, cart pending, loaders).
 @mixin ts-animation-spin($duration: $ts-animation-spin-duration, $timing: linear) {
-	animation: ts-spin $duration $timing infinite;
+	animation: spin $duration $timing infinite;
 }
 
 /// Fade in (modals, toasts entering).
 @mixin ts-animation-fade-in($duration: $ts-animation-fade-duration, $timing: ease) {
-	animation: ts-fade-in $duration $timing both;
+	animation: fade-in $duration $timing both;
 }
 
 /// Fade out (toasts leaving — also set `.is-leaving` transition in component CSS).
 @mixin ts-animation-fade-out($duration: $ts-animation-fade-duration, $timing: ease) {
-	animation: ts-fade-out $duration $timing both;
+	animation: fade-out $duration $timing both;
 }
 
 /// Reusable transition for layout/chrome properties (respects reduced motion).
@@ -91,10 +91,10 @@ $ts-animation-slide-duration: 0.22s;
 
 /// Subtle enter from below (inline notices, small overlays).
 @mixin ts-animation-slide-up-in($duration: $ts-animation-slide-duration, $timing: ease) {
-	animation: ts-slide-up-in $duration $timing both;
+	animation: slide-up-in $duration $timing both;
 }
 
-/// Primary action button base (`.ts-button`, WooCommerce `.button`).
+/// Primary action button base (`.btn`, WooCommerce `.button`).
 @mixin ts-control-button-base(
 	$padding: var(--ts-btn-padding-y) var(--ts-btn-padding-x),
 	$min-height: null
@@ -107,7 +107,7 @@ $ts-animation-slide-duration: 0.22s;
 	background: var(--ts-primary);
 	color: var(--ts-on-primary);
 	padding: $padding;
-	line-height: var(--ts-line-height-base-base);
+	line-height: var(--ts-line-height-base);
 	border: 1px solid var(--ts-primary);
 	cursor: pointer;
 	transition:
@@ -136,10 +136,10 @@ $ts-animation-slide-duration: 0.22s;
 /// Stacked field label (above control).
 @mixin ts-form-label-text {
 	font-size: var(--ts-font-size-sm);
-	line-height: var(--ts-line-height-base-base);
+	line-height: var(--ts-line-height-base);
 }
 
-/// Text field base (`.ts-input`, WooCommerce `.input-text`).
+/// Text field base (`.input`, WooCommerce `.input-text`).
 @mixin ts-control-field-base {
 	box-sizing: border-box;
 	width: 100%;
@@ -149,7 +149,7 @@ $ts-animation-slide-duration: 0.22s;
 	padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
 	background: var(--ts-surface);
 	font-size: var(--ts-font-size-base);
-	line-height: var(--ts-line-height-base-base);
+	line-height: var(--ts-line-height-base);
 }
 
 /// Thin scrollbar styled with theme tokens (WebKit + Firefox).

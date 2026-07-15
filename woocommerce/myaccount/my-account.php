@@ -16,11 +16,11 @@ if ( tailwindscore_is_guest_account_page() ) :
 	return;
 endif;
 ?>
-<div class="ts-wc-account">
-	<nav class="ts-wc-account__nav ts-wc-account-nav">
+<div class="wc-account">
+	<nav class="wc-account__nav wc-account-nav">
 		<?php do_action( 'woocommerce_account_navigation' ); ?>
 	</nav>
-	<section class="ts-wc-account__content">
+	<section class="wc-account__content">
 		<?php do_action( 'woocommerce_account_content' ); ?>
 	</section>
 </div>

@@ -303,7 +303,7 @@ class ProductGallery {
 	}
 
 	private toggleNavVisibility(show: boolean): void {
-		this.root.classList.toggle('ts-product-gallery--multi', show);
+		this.root.classList.toggle('product-gallery--multi', show);
 		if (this.navPrev) {
 			this.navPrev.hidden = !show;
 		}

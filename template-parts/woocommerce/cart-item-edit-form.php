@@ -29,13 +29,13 @@ $variation_product             = $cart_item['data'] ?? null;
 $display_name                  = $variation_product instanceof WC_Product ? $variation_product->get_name() : $edit_product->get_name();
 ?>
 <div
-	class="ts-cart-item-edit-form"
+	class="cart-item-edit-form"
 	data-ts-cart-item-edit-form
 	data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>"
 >
-	<p class="ts-cart-item-edit-form__name"><?php echo esc_html( $display_name ); ?></p>
+	<p class="cart-item-edit-form__name"><?php echo esc_html( $display_name ); ?></p>
 
-	<div class="ts-cart-item-edit-form__variations">
+	<div class="cart-item-edit-form__variations">
 		<?php
 		wc_get_template(
 			'single-product/add-to-cart/variable-quick-view.php',

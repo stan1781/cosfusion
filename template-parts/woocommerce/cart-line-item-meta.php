@@ -9,7 +9,7 @@ if ( empty( $meta ) ) {
 	return;
 }
 ?>
-<ul class="ts-cart-drawer-cart__details">
+<ul class="cart-drawer-cart__details">
 	<?php foreach ( $meta as $row ) : ?>
 		<?php
 		$label = isset( $row['label'] ) ? (string) $row['label'] : '';
@@ -19,9 +19,9 @@ if ( empty( $meta ) ) {
 			continue;
 		}
 		?>
-		<li class="ts-cart-drawer-cart__detail">
-			<span class="ts-cart-drawer-cart__detail-label"><?php echo esc_html( $label ); ?>:</span>
-			<span class="ts-cart-drawer-cart__detail-value"><?php echo wp_kses_post( $value ); ?></span>
+		<li class="cart-drawer-cart__detail">
+			<span class="cart-drawer-cart__detail-label"><?php echo esc_html( $label ); ?>:</span>
+			<span class="cart-drawer-cart__detail-value"><?php echo wp_kses_post( $value ); ?></span>
 		</li>
 	<?php endforeach; ?>
 </ul>

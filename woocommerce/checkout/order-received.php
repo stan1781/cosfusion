@@ -27,15 +27,15 @@ $message = apply_filters(
 	$order
 );
 ?>
-<header class="ts-wc-thankyou__hero">
-	<h1 class="ts-wc-thankyou__title woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">
+<header class="wc-thankyou__hero">
+	<h1 class="wc-thankyou__title woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">
 		<?php
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo $message;
 		?>
 	</h1>
 	<?php if ( $order instanceof WC_Order ) : ?>
-		<p class="ts-wc-thankyou__subtitle">
+		<p class="wc-thankyou__subtitle">
 			<?php
 			echo wp_kses_post(
 				sprintf(

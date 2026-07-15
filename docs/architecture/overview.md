@@ -5,7 +5,7 @@
 TailwindScore 是面向 WooCommerce 商城的 WordPress 主题基线（**英文站点模板**），目标是在不依赖 Bootstrap/jQuery 的前提下提供：
 
 - 清晰的 PHP 模板与 `template-parts/` 分层
-- 统一的设计令牌（`--ts-*`）与语义化 CSS 类（`.ts-*`）
+- 统一的设计令牌（`--ts-*`）与语义化 CSS 类（无 `ts-` 前缀，如 `btn`、`site-header`）
 - TypeScript 驱动的商城交互（购物车 Drawer、变体选择、图库等）
 - 从 `wc-enhanced-tools` 迁入的可配置主题模块（Kirki `theme_mod`）
 
@@ -60,9 +60,9 @@ tailwindscore/
 
 ### 模板书写约定
 
-- PHP 模板优先使用 **语义类名**（`.ts-site-header`、`.ts-nav`），不把颜色/按钮/表单视觉堆成 Tailwind 原子类。
+- PHP 模板优先使用 **语义类名**（无 `ts-` 前缀，如 `btn`、`btn-outline`、`site-header`），命名尽量贴近 Bootstrap，详见 [命名与语言约定](../conventions.md)；不把颜色/按钮/表单视觉堆成 Tailwind 原子类。
 - 允许少量 **布局型** utility（`grid`、`flex`、`hidden`、`lg:block` 等），视觉风格由令牌与组件 SCSS 承担。
-- 禁止 Bootstrap 类、`data-bs-*`、jQuery 前台依赖。
+- **禁止引入** Bootstrap 运行时、`data-bs-*`、jQuery 前台依赖；主题按钮用 `btn`，勿用裸 `button` 类（与 WC `.button` 区分）。
 
 ### 配置注入
 

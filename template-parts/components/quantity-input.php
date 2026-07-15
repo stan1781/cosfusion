@@ -10,7 +10,7 @@ declare(strict_types=1);
 $input_id       = isset( $args['input_id'] ) ? (string) $args['input_id'] : '';
 $input_name     = isset( $args['input_name'] ) ? (string) $args['input_name'] : 'quantity';
 $input_value    = isset( $args['input_value'] ) ? (string) $args['input_value'] : '1';
-$input_class    = isset( $args['input_class'] ) ? (string) $args['input_class'] : 'ts-quantity__input qty';
+$input_class    = isset( $args['input_class'] ) ? (string) $args['input_class'] : 'quantity__input qty';
 $min_value      = isset( $args['min_value'] ) ? (string) $args['min_value'] : '1';
 $max_value      = isset( $args['max_value'] ) ? (string) $args['max_value'] : '';
 $step           = isset( $args['step'] ) ? (string) $args['step'] : '1';
@@ -30,18 +30,18 @@ $step_attrs       = '' !== $cart_item_key ? sprintf( ' data-cart-item-key="%s"',
 // 购物车页与抽屉使用 Store API 数量控件（见 cart/index.ts）。
 $is_cart_context  = in_array( $context, array( 'cart', 'cart-drawer', 'drawer' ), true );
 $is_compact       = in_array( $context, array( 'cart', 'cart-drawer', 'drawer' ), true );
-$wrapper_classes  = 'ts-quantity quantity' . ( $is_compact ? ' ts-quantity--compact' : '' );
+$wrapper_classes  = 'quantity quantity' . ( $is_compact ? ' quantity-compact' : '' );
 ?>
 <div class="<?php echo esc_attr( $wrapper_classes ); ?>" data-ts-quantity<?php echo $is_cart_context ? ' data-ts-cart-quantity-controls' : ''; ?>>
 	<?php do_action( 'woocommerce_before_quantity_input_field' ); ?>
 	<button
 		type="button"
-		class="ts-quantity__step"
+		class="quantity__step"
 		data-ts-quantity-step="-1"
 		<?php echo $step_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		aria-label="<?php echo esc_attr( $decrease_label ); ?>"
 	>
-		<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'minus' ); ?></span>
+		<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'minus' ); ?></span>
 	</button>
 	<?php if ( '' !== $input_id ) : ?>
 		<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_html( $label ); ?></label>
@@ -73,12 +73,12 @@ $wrapper_classes  = 'ts-quantity quantity' . ( $is_compact ? ' ts-quantity--comp
 	/>
 	<button
 		type="button"
-		class="ts-quantity__step"
+		class="quantity__step"
 		data-ts-quantity-step="1"
 		<?php echo $step_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		aria-label="<?php echo esc_attr( $increase_label ); ?>"
 	>
-		<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'plus' ); ?></span>
+		<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'plus' ); ?></span>
 	</button>
 	<?php do_action( 'woocommerce_after_quantity_input_field' ); ?>
 </div>

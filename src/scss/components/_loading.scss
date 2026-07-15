@@ -1,7 +1,7 @@
 @use "../abstracts/mixins";
 
-// Reusable spinner (markup: <span class="ts-spinner" aria-hidden="true"></span>).
-.ts-spinner {
+// Reusable spinner (markup: <span class="spinner" aria-hidden="true"></span>).
+.spinner {
 	display: inline-block;
 	width: 2rem;
 	height: 2rem;
@@ -12,16 +12,16 @@
 	@include mixins.ts-animation-spin;
 }
 
-// Region overlay — add .ts-loading-host to a positioned ancestor, toggle .is-loading via JS.
-.ts-loading-host {
+// Region overlay — add .loading-host to a positioned ancestor, toggle .is-loading via JS.
+.loading-host {
 	position: relative;
 }
 
-.ts-loading-host.is-loading {
+.loading-host.is-loading {
 	pointer-events: none;
 }
 
-.ts-loading-host.is-loading::after {
+.loading-host.is-loading::after {
 	content: "";
 	position: absolute;
 	inset: 0;
@@ -32,7 +32,7 @@
 	pointer-events: none;
 }
 
-.ts-loading-host.is-loading::before {
+.loading-host.is-loading::before {
 	content: "";
 	position: absolute;
 	inset: 0;

@@ -12,7 +12,7 @@ type SiteShellState = {
 };
 
 function getSiteShell(): SiteShellState | undefined {
-	const header = document.querySelector<HTMLElement>('.ts-site-header');
+	const header = document.querySelector<HTMLElement>('.site-header');
 	const alpine = window.Alpine;
 
 	if (!header || !alpine || typeof alpine.$data !== 'function') {
@@ -23,7 +23,7 @@ function getSiteShell(): SiteShellState | undefined {
 }
 
 function initMobileTabBar(): void {
-	const bar = document.querySelector<HTMLElement>('.ts-mobile-tab-bar');
+	const bar = document.querySelector<HTMLElement>('.mobile-tab-bar');
 
 	if (!bar) {
 		return;

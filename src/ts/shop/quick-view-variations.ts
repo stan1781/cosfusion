@@ -9,7 +9,7 @@ import {
 export async function initQuickViewVariations(root: HTMLElement): Promise<void> {
 	initVariationForm(root, {
 		onShowVariation(variation) {
-			const priceEl = root.querySelector<HTMLElement>('.ts-wc-product-detail__summary .price');
+			const priceEl = root.querySelector<HTMLElement>('.wc-product-detail__summary .price');
 			if (priceEl && variation.price_html) {
 				priceEl.innerHTML = variation.price_html;
 			}

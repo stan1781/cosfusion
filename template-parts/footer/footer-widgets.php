@@ -15,9 +15,9 @@ if ( ! $ts_has_footer_widgets ) {
 	return;
 }
 ?>
-<div class="ts-site-footer__content">
+<div class="site-footer__content">
 	<?php foreach ( $ts_footer_sidebars as $ts_footer_sidebar ) : ?>
-		<div class="ts-site-footer__column">
+		<div class="site-footer__column">
 			<?php dynamic_sidebar( $ts_footer_sidebar ); ?>
 		</div>
 	<?php endforeach; ?>

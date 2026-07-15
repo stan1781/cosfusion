@@ -176,7 +176,7 @@ function tailwindscore_homepage_hero_resolve_attachment_id( $image ): int {
  */
 function tailwindscore_homepage_hero_slide_image_markup( array $slide, int $slide_index, string $alt ): string {
 	$attrs = array(
-		'class'    => 'ts-home-hero__image',
+		'class'    => 'home-hero__image',
 		'alt'      => $alt,
 		'decoding' => 'async',
 		'loading'  => 0 === $slide_index ? 'eager' : 'lazy',

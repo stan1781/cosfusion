@@ -21,7 +21,7 @@ function tailwindscore_checkout_coupon_form_shell(): void {
 	?>
 	<form
 		id="woocommerce-checkout-form-coupon"
-		class="checkout_coupon woocommerce-form-coupon ts-coupon-form"
+		class="checkout_coupon woocommerce-form-coupon coupon-form"
 		method="post"
 		hidden
 		aria-hidden="true"

@@ -2,28 +2,28 @@
 
 // Control typography: --ts-font-size-base via mixins.ts-control-field-base (abstracts/_variables.scss).
 
-.ts-form-control,
-.ts-input {
+.form-control,
+.input {
 	@include mixins.ts-control-field-base;
 }
 
-.ts-form-control:focus,
-.ts-input:focus,
-.ts-form-control:focus-visible,
-.ts-input:focus-visible {
+.form-control:focus,
+.input:focus,
+.form-control:focus-visible,
+.input:focus-visible {
 	outline: none;
 	border-color: var(--ts-primary);
 }
 
-[aria-invalid="true"].ts-form-control:focus,
-[aria-invalid="true"].ts-form-control:focus-visible,
-[aria-invalid="true"].ts-input:focus,
-[aria-invalid="true"].ts-input:focus-visible {
+[aria-invalid="true"].form-control:focus,
+[aria-invalid="true"].form-control:focus-visible,
+[aria-invalid="true"].input:focus,
+[aria-invalid="true"].input:focus-visible {
 	border-color: var(--ts-danger);
 }
 
 // Input + action side-by-side (Shopify-style): separate bordered controls, not merged.
-.ts-input-group {
+.input-group {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr) minmax(auto, max-content);
 	grid-template-rows: auto;
@@ -33,7 +33,7 @@
 }
 
 // Pin primary controls to two columns so injected siblings (LastPass, hidden fields) do not wrap the button.
-.ts-input-group > :is(.ts-input, .ts-form-control) {
+.input-group > :is(.input, .form-control) {
 	grid-column: 1;
 	grid-row: 1;
 	width: 100%;
@@ -42,19 +42,19 @@
 	min-height: var(--ts-control-min-height);
 }
 
-.ts-input-group > :is(.ts-button, .ts-icon-button) {
+.input-group > :is(.btn, .btn-icon) {
 	grid-column: 2;
 	grid-row: 1;
 }
 
-.ts-input-group .ts-button {
+.input-group .btn {
 	height: var(--ts-control-min-height);
 	min-height: var(--ts-control-min-height);
 	padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
 	white-space: nowrap;
 }
 
-.ts-input-group .ts-icon-button {
+.input-group .btn-icon {
 	width: var(--ts-control-min-height);
 	height: var(--ts-control-min-height);
 	min-height: var(--ts-control-min-height);
@@ -64,7 +64,7 @@
 }
 
 // Password managers inject nodes between input and button (e.g. LastPass data-lastpass-icon-root).
-.ts-input-group > :is(
+.input-group > :is(
 	[data-lastpass-icon-root],
 	[data-lastpass-root],
 	[data-dashlane-root],
@@ -90,7 +90,7 @@
 	background: transparent;
 }
 
-.ts-input-group > :is(
+.input-group > :is(
 	[data-lastpass-icon-root],
 	[data-lastpass-root],
 	[data-dashlane-root],
@@ -100,8 +100,8 @@
 	pointer-events: auto;
 }
 
-.ts-input-group .ts-icon-button:focus,
-.ts-input-group .ts-icon-button:focus-visible {
+.input-group .btn-icon:focus,
+.input-group .btn-icon:focus-visible {
 	outline: none;
 	border-color: var(--ts-primary);
 }
@@ -109,28 +109,28 @@
 // --- coupon form (was _coupon-form.scss) ---
 
 
-.ts-coupon-form {
+.coupon-form {
 	display: grid;
 	gap: var(--ts-spacer-2);
 	min-width: 0;
 }
 
-.ts-coupon-form__label {
+.coupon-form__label {
 	@include mixins.ts-form-label-text;
 	font-weight: 500;
 	color: var(--ts-text-primary);
 }
 
-.ts-coupon-form--checkout {
+.coupon-form--checkout {
 	margin-block: 0;
 }
 
-.ts-checkout-review-order__coupon .ts-coupon-form--checkout {
+.checkout-review-order__coupon .coupon-form--checkout {
 	padding-block-end: var(--ts-spacer-3);
 	border-block-end: 1px solid var(--ts-border-color);
 }
 
-.ts-coupon-form .ts-button:disabled {
+.coupon-form .btn:disabled {
 	opacity: 0.55;
 	cursor: not-allowed;
 }
@@ -173,7 +173,7 @@ $ts-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000
 	}
 }
 
-select.ts-form-control {
+select.form-control {
 	@include ts-native-select-appearance;
 }
 

@@ -19,10 +19,10 @@ if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
 	return;
 }
 ?>
-<section class="ts-wc-cart ts-stack" data-ts-cart-page>
-	<header class="ts-wc-cart__header ts-stack">
-		<h1 class="ts-wc-cart__title"><?php esc_html_e( 'Cart', 'tailwindscore' ); ?></h1>
-		<p class="ts-wc-cart__summary" data-ts-cart-summary><?php echo esc_html( tailwindscore_cart_summary_text() ); ?></p>
+<section class="wc-cart stack" data-ts-cart-page>
+	<header class="wc-cart__header stack">
+		<h1 class="wc-cart__title"><?php esc_html_e( 'Cart', 'tailwindscore' ); ?></h1>
+		<p class="wc-cart__summary" data-ts-cart-summary><?php echo esc_html( tailwindscore_cart_summary_text() ); ?></p>
 	</header>
 
 	<?php tailwindscore_render_cart_feedback( array( 'surface' => 'page' ) ); ?>

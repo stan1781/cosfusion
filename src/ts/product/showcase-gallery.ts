@@ -9,10 +9,10 @@ function layoutShowcaseStrip(strip: HTMLElement): void {
 	const moreLabelTemplate = strip.dataset.showcaseMoreLabel ?? '+%d more';
 
 	const thumbs = Array.from(
-		strip.querySelectorAll<HTMLElement>('.ts-showcase-gallery__item:not(.ts-showcase-gallery__more)'),
+		strip.querySelectorAll<HTMLElement>('.showcase-gallery__item:not(.showcase-gallery__more)'),
 	);
-	const moreBtn = strip.querySelector<HTMLElement>('.ts-showcase-gallery__more');
-	const moreLabel = moreBtn?.querySelector<HTMLElement>('.ts-showcase-gallery__more-label');
+	const moreBtn = strip.querySelector<HTMLElement>('.showcase-gallery__more');
+	const moreLabel = moreBtn?.querySelector<HTMLElement>('.showcase-gallery__more-label');
 
 	if (thumbs.length === 0) {
 		moreBtn?.classList.add('hidden');
@@ -57,13 +57,13 @@ function observeShowcaseStrip(strip: HTMLElement): void {
 }
 
 export function layoutShowcaseGalleries(root: ParentNode = document): void {
-	root.querySelectorAll<HTMLElement>('.ts-showcase-gallery__strip').forEach((strip) => {
+	root.querySelectorAll<HTMLElement>('.showcase-gallery__strip').forEach((strip) => {
 		layoutShowcaseStrip(strip);
 	});
 }
 
 export function initShowcaseGallery(): void {
-	const strips = document.querySelectorAll<HTMLElement>('.ts-showcase-gallery__strip');
+	const strips = document.querySelectorAll<HTMLElement>('.showcase-gallery__strip');
 	if (strips.length === 0) {
 		return;
 	}

@@ -23,10 +23,10 @@ $ts_products_output  = tailwindscore_homepage_should_render_products()
 $ts_shop_by_color_title = tailwindscore_homepage_shop_by_color_title();
 $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 ?>
-<main id="primary" class="site-main ts-main ts-home">
+<main id="primary" class="site-main main home">
 	<?php if ( ! empty( $ts_hero_slides ) ) : ?>
-		<section class="ts-home-hero" aria-label="<?php esc_attr_e( 'Hero', 'tailwindscore' ); ?>">
-			<div class="swiper ts-home-hero__swiper" data-ts-home-hero>
+		<section class="home-hero" aria-label="<?php esc_attr_e( 'Hero', 'tailwindscore' ); ?>">
+			<div class="swiper home-hero__swiper" data-ts-home-hero>
 				<div class="swiper-wrapper">
 					<?php foreach ( $ts_hero_slides as $ts_slide_index => $ts_slide ) : ?>
 						<?php
@@ -51,8 +51,8 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 						}
 						?>
 						<div class="swiper-slide">
-							<article class="ts-home-hero__slide ts-home-hero__slide--text-<?php echo esc_attr( $ts_slide['text_color'] ); ?>">
-								<div class="ts-home-hero__media">
+							<article class="home-hero__slide home-hero__slide--text-<?php echo esc_attr( $ts_slide['text_color'] ); ?>">
+								<div class="home-hero__media">
 									<?php
 									echo tailwindscore_homepage_hero_slide_image_markup( $ts_slide, $ts_slide_index, $ts_slide_alt ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 已在 helper 中转义。
 									?>
@@ -64,21 +64,21 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 									|| '' !== $ts_link_url;
 								?>
 								<?php if ( $ts_has_hero_copy ) : ?>
-									<div class="ts-container ts-home-hero__content">
-										<div class="ts-home-hero__copy">
+									<div class="container home-hero__content">
+										<div class="home-hero__copy">
 											<?php if ( '' !== $ts_slide['subtitle'] ) : ?>
-												<p class="ts-home-hero__eyebrow"><?php echo esc_html( $ts_slide['subtitle'] ); ?></p>
+												<p class="home-hero__eyebrow"><?php echo esc_html( $ts_slide['subtitle'] ); ?></p>
 											<?php endif; ?>
 											<?php if ( '' !== $ts_slide['title'] ) : ?>
-												<h2 class="ts-home-hero__title"><?php echo esc_html( $ts_slide['title'] ); ?></h2>
+												<h2 class="home-hero__title"><?php echo esc_html( $ts_slide['title'] ); ?></h2>
 											<?php endif; ?>
 											<?php if ( '' !== $ts_slide['description'] ) : ?>
-												<p class="ts-home-hero__description"><?php echo esc_html( $ts_slide['description'] ); ?></p>
+												<p class="home-hero__description"><?php echo esc_html( $ts_slide['description'] ); ?></p>
 											<?php endif; ?>
 											<?php if ( '' !== $ts_link_url ) : ?>
-												<p class="ts-home-hero__actions">
+												<p class="home-hero__actions">
 													<a
-														class="ts-button ts-home-hero__button ts-home-hero__button--<?php echo esc_attr( $ts_slide['link_style'] ); ?>"
+														class="btn home-hero__button home-hero__button--<?php echo esc_attr( $ts_slide['link_style'] ); ?>"
 														href="<?php echo esc_url( $ts_link_url ); ?>"
 														aria-label="<?php echo esc_attr( $ts_link_aria_label ); ?>"
 													>
@@ -93,22 +93,22 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 						</div>
 					<?php endforeach; ?>
 				</div>
-				<div class="swiper-pagination ts-home-hero__pagination"></div>
+				<div class="swiper-pagination home-hero__pagination"></div>
 			</div>
 		</section>
 	<?php endif; ?>
 
 	<?php if ( tailwindscore_homepage_should_render_occasion() ) : ?>
 		<?php $ts_occasion_count = count( $ts_occasion_items ); ?>
-		<section class="ts-home-occasion ts-section" aria-labelledby="ts-home-occasion-title">
-			<div class="ts-container ts-stack">
+		<section class="home-occasion section" aria-labelledby="ts-home-occasion-title">
+			<div class="container stack">
 				<?php if ( '' !== $ts_occasion_title ) : ?>
-					<h2 id="ts-home-occasion-title" class="ts-home-section-title">
+					<h2 id="ts-home-occasion-title" class="home-section-title">
 						<?php echo esc_html( $ts_occasion_title ); ?>
 					</h2>
 				<?php endif; ?>
 				<ul
-					class="ts-home-occasion__grid"
+					class="home-occasion__grid"
 					style="<?php echo esc_attr( tailwindscore_homepage_grid_style_attr( $ts_occasion_count ) ); ?>"
 				>
 				<?php foreach ( $ts_occasion_items as $ts_occasion_item ) : ?>
@@ -119,33 +119,33 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 					$ts_occasion_href = $ts_occasion_item['link_url'];
 					$ts_occasion_tag  = '' !== $ts_occasion_href ? 'a' : 'article';
 					?>
-					<li class="ts-home-occasion__item">
+					<li class="home-occasion__item">
 					<<?php echo esc_attr( $ts_occasion_tag ); ?>
-						class="ts-home-occasion__card"
+						class="home-occasion__card"
 						<?php if ( '' !== $ts_occasion_href ) : ?>
 							href="<?php echo esc_url( $ts_occasion_href ); ?>"
 						<?php endif; ?>
 					>
-						<div class="ts-home-occasion__media">
+						<div class="home-occasion__media">
 							<?php
 							echo tailwindscore_homepage_grid_card_image_markup( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 已在 helper 中转义。
 								$ts_occasion_item,
-								'ts-home-occasion__image',
+								'home-occasion__image',
 								$ts_occasion_alt,
 								tailwindscore_homepage_grid_image_sizes( $ts_occasion_count )
 							);
 							?>
 						</div>
-						<div class="ts-home-occasion__overlay">
-							<div class="ts-home-occasion__copy">
+						<div class="home-occasion__overlay">
+							<div class="home-occasion__copy">
 								<?php if ( '' !== $ts_occasion_item['title'] ) : ?>
-									<h3 class="ts-home-occasion__title"><?php echo esc_html( $ts_occasion_item['title'] ); ?></h3>
+									<h3 class="home-occasion__title"><?php echo esc_html( $ts_occasion_item['title'] ); ?></h3>
 								<?php endif; ?>
 								<?php if ( '' !== $ts_occasion_item['subtitle'] ) : ?>
-									<p class="ts-home-occasion__subtitle"><?php echo esc_html( $ts_occasion_item['subtitle'] ); ?></p>
+									<p class="home-occasion__subtitle"><?php echo esc_html( $ts_occasion_item['subtitle'] ); ?></p>
 								<?php endif; ?>
 								<?php if ( '' !== $ts_occasion_item['link_label'] ) : ?>
-									<span class="ts-button ts-home-occasion__button"><?php echo esc_html( $ts_occasion_item['link_label'] ); ?></span>
+									<span class="btn home-occasion__button"><?php echo esc_html( $ts_occasion_item['link_label'] ); ?></span>
 								<?php endif; ?>
 							</div>
 						</div>
@@ -159,15 +159,15 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 
 	<?php if ( tailwindscore_homepage_should_render_trending() ) : ?>
 		<?php $ts_trending_count = count( $ts_trending_items ); ?>
-		<section class="ts-home-trending ts-section" aria-labelledby="ts-home-trending-title">
-			<div class="ts-container ts-stack">
+		<section class="home-trending section" aria-labelledby="ts-home-trending-title">
+			<div class="container stack">
 				<?php if ( '' !== $ts_trending_title ) : ?>
-					<h2 id="ts-home-trending-title" class="ts-home-section-title">
+					<h2 id="ts-home-trending-title" class="home-section-title">
 						<?php echo esc_html( $ts_trending_title ); ?>
 					</h2>
 				<?php endif; ?>
 				<ul
-					class="ts-home-trending__grid"
+					class="home-trending__grid"
 					style="<?php echo esc_attr( tailwindscore_homepage_grid_style_attr( $ts_trending_count ) ); ?>"
 				>
 				<?php foreach ( $ts_trending_items as $ts_trending_item ) : ?>
@@ -179,37 +179,37 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 					$ts_trending_tag   = '' !== $ts_trending_href ? 'a' : 'article';
 					$ts_trending_lines = tailwindscore_homepage_split_trending_title( $ts_trending_item['title'] );
 					?>
-					<li class="ts-home-trending__item">
+					<li class="home-trending__item">
 					<<?php echo esc_attr( $ts_trending_tag ); ?>
-						class="ts-home-trending__card"
+						class="home-trending__card"
 						<?php if ( '' !== $ts_trending_href ) : ?>
 							href="<?php echo esc_url( $ts_trending_href ); ?>"
 						<?php endif; ?>
 					>
-						<div class="ts-home-trending__media">
+						<div class="home-trending__media">
 							<?php
 							echo tailwindscore_homepage_grid_card_image_markup( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 已在 helper 中转义。
 								$ts_trending_item,
-								'ts-home-trending__image',
+								'home-trending__image',
 								$ts_trending_alt,
 								tailwindscore_homepage_grid_image_sizes( $ts_trending_count )
 							);
 							?>
 						</div>
-						<div class="ts-home-trending__overlay">
-							<div class="ts-home-trending__copy">
+						<div class="home-trending__overlay">
+							<div class="home-trending__copy">
 								<?php if ( '' !== $ts_trending_lines['line1'] || '' !== $ts_trending_lines['line2'] ) : ?>
-									<h3 class="ts-home-trending__title">
+									<h3 class="home-trending__title">
 										<?php if ( '' !== $ts_trending_lines['line1'] ) : ?>
-											<span class="ts-home-trending__title-line ts-home-trending__title-line--heading"><?php echo esc_html( $ts_trending_lines['line1'] ); ?></span>
+											<span class="home-trending__title-line home-trending__title-line--heading"><?php echo esc_html( $ts_trending_lines['line1'] ); ?></span>
 										<?php endif; ?>
 										<?php if ( '' !== $ts_trending_lines['line2'] ) : ?>
-											<span class="ts-home-trending__title-line ts-home-trending__title-line--body"><?php echo esc_html( $ts_trending_lines['line2'] ); ?></span>
+											<span class="home-trending__title-line home-trending__title-line--body"><?php echo esc_html( $ts_trending_lines['line2'] ); ?></span>
 										<?php endif; ?>
 									</h3>
 								<?php endif; ?>
 								<?php if ( '' !== $ts_trending_item['link_label'] ) : ?>
-									<span class="ts-home-trending__link"><?php echo esc_html( $ts_trending_item['link_label'] ); ?></span>
+									<span class="home-trending__link"><?php echo esc_html( $ts_trending_item['link_label'] ); ?></span>
 								<?php endif; ?>
 							</div>
 						</div>
@@ -222,41 +222,41 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 	<?php endif; ?>
 
 	<?php if ( '' !== $ts_products_output ) : ?>
-		<section class="ts-home-products ts-section" aria-labelledby="ts-home-products-title">
-			<div class="ts-container ts-stack">
-				<div class="ts-home-products__header">
+		<section class="home-products section" aria-labelledby="ts-home-products-title">
+			<div class="container stack">
+				<div class="home-products__header">
 					<?php if ( '' !== $ts_products_title ) : ?>
-						<h2 id="ts-home-products-title" class="ts-heading">
+						<h2 id="ts-home-products-title" class="heading">
 							<?php echo esc_html( $ts_products_title ); ?>
 						</h2>
 					<?php endif; ?>
-					<div class="ts-home-products__nav-group" data-ts-home-products-nav hidden>
+					<div class="home-products__nav-group" data-ts-home-products-nav hidden>
 						<button
 							type="button"
-							class="ts-home-products__nav ts-home-products__nav--prev"
+							class="home-products__nav home-products__nav--prev"
 							data-ts-home-products-prev
 							aria-label="<?php esc_attr_e( 'Previous products', 'tailwindscore' ); ?>"
 						>
-							<span class="ts-home-products__nav-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-left' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+							<span class="home-products__nav-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-left' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 						</button>
 						<button
 							type="button"
-							class="ts-home-products__nav ts-home-products__nav--next"
+							class="home-products__nav home-products__nav--next"
 							data-ts-home-products-next
 							aria-label="<?php esc_attr_e( 'Next products', 'tailwindscore' ); ?>"
 						>
-							<span class="ts-home-products__nav-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-right' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+							<span class="home-products__nav-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-right' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 						</button>
 					</div>
 				</div>
-				<div class="ts-home-products__content">
-					<div class="ts-home-products__viewport">
-						<div class="swiper ts-home-products__swiper woocommerce" data-ts-home-products>
+				<div class="home-products__content">
+					<div class="home-products__viewport">
+						<div class="swiper home-products__swiper woocommerce" data-ts-home-products>
 							<?php echo $ts_products_output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 短代码 HTML。 ?>
 						</div>
 					</div>
-					<div class="ts-home-products__footer" data-ts-home-products-controls hidden>
-						<div class="swiper-pagination ts-home-products__pagination" data-ts-home-products-pagination></div>
+					<div class="home-products__footer" data-ts-home-products-controls hidden>
+						<div class="swiper-pagination home-products__pagination" data-ts-home-products-pagination></div>
 					</div>
 				</div>
 			</div>
@@ -265,32 +265,32 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 
 	<!-- 按颜色选购 -->
 	<?php if ( tailwindscore_homepage_should_render_shop_by_color() ) : ?>
-		<section class="ts-home-colors ts-section" aria-labelledby="ts-home-colors-title">
-			<div class="ts-container ts-stack">
+		<section class="home-colors section" aria-labelledby="ts-home-colors-title">
+			<div class="container stack">
 				<?php if ( '' !== $ts_shop_by_color_title ) : ?>
-					<h2 id="ts-home-colors-title" class="ts-home-section-title">
+					<h2 id="ts-home-colors-title" class="home-section-title">
 						<?php echo esc_html( $ts_shop_by_color_title ); ?>
 					</h2>
 				<?php endif; ?>
-				<ul class="ts-home-colors__list">
+				<ul class="home-colors__list">
 					<?php foreach ( $ts_shop_by_color_items as $ts_color_item ) : ?>
-						<li class="ts-home-colors__item">
-							<a class="ts-home-colors__link" href="<?php echo esc_url( $ts_color_item['url'] ); ?>">
+						<li class="home-colors__item">
+							<a class="home-colors__link" href="<?php echo esc_url( $ts_color_item['url'] ); ?>">
 								<span
-									class="ts-home-colors__swatch<?php echo $ts_color_item['is_light'] ? ' ts-home-colors__swatch--light' : ''; ?>"
+									class="home-colors__swatch<?php echo $ts_color_item['is_light'] ? ' home-colors__swatch--light' : ''; ?>"
 									style="--ts-home-color-swatch: <?php echo esc_attr( $ts_color_item['hex'] ); ?>;"
 								></span>
-								<span class="ts-home-colors__label"><?php echo esc_html( $ts_color_item['label'] ); ?></span>
+								<span class="home-colors__label"><?php echo esc_html( $ts_color_item['label'] ); ?></span>
 							</a>
 						</li>
 					<?php endforeach; ?>
-					<li class="ts-home-colors__item ts-home-colors__item--more">
-						<span class="ts-home-colors__divider" aria-hidden="true"></span>
-						<a class="ts-home-colors__link" href="<?php echo esc_url( tailwindscore_homepage_shop_by_color_more_url() ); ?>">
-							<span class="ts-home-colors__swatch ts-home-colors__swatch--more">
-								<span class="ts-home-colors__more-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'plus' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+					<li class="home-colors__item home-colors__item--more">
+						<span class="home-colors__divider" aria-hidden="true"></span>
+						<a class="home-colors__link" href="<?php echo esc_url( tailwindscore_homepage_shop_by_color_more_url() ); ?>">
+							<span class="home-colors__swatch home-colors__swatch--more">
+								<span class="home-colors__more-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'plus' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 							</span>
-							<span class="ts-home-colors__label"><?php esc_html_e( 'More', 'tailwindscore' ); ?></span>
+							<span class="home-colors__label"><?php esc_html_e( 'More', 'tailwindscore' ); ?></span>
 						</a>
 					</li>
 				</ul>
@@ -300,16 +300,16 @@ $ts_shop_by_color_items = tailwindscore_homepage_shop_by_color_items();
 
 	<?php if ( tailwindscore_homepage_should_render_trust() ) : ?>
 		<?php $ts_trust_items = tailwindscore_homepage_trust_items(); ?>
-		<section class="ts-home-trust" aria-label="<?php esc_attr_e( 'Store benefits', 'tailwindscore' ); ?>">
-			<div class="ts-container">
-				<ul class="ts-home-trust__list">
+		<section class="home-trust" aria-label="<?php esc_attr_e( 'Store benefits', 'tailwindscore' ); ?>">
+			<div class="container">
+				<ul class="home-trust__list">
 					<?php foreach ( $ts_trust_items as $ts_trust_item ) : ?>
-						<li class="ts-home-trust__item">
-							<div class="ts-home-trust__card">
-								<span class="ts-home-trust__icon ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( $ts_trust_item['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-								<h3 class="ts-home-trust__title"><?php echo esc_html( $ts_trust_item['title'] ); ?></h3>
+						<li class="home-trust__item">
+							<div class="home-trust__card">
+								<span class="home-trust__icon icon" aria-hidden="true"><?php echo tailwindscore_icon( $ts_trust_item['icon'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+								<h3 class="home-trust__title"><?php echo esc_html( $ts_trust_item['title'] ); ?></h3>
 								<?php if ( '' !== $ts_trust_item['description'] ) : ?>
-									<p class="ts-home-trust__description"><?php echo esc_html( $ts_trust_item['description'] ); ?></p>
+									<p class="home-trust__description"><?php echo esc_html( $ts_trust_item['description'] ); ?></p>
 								<?php endif; ?>
 							</div>
 						</li>

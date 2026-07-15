@@ -1,12 +1,12 @@
 @use "../abstracts/mixins";
 
-.single-product .ts-main--commerce .ts-wc-shell > .woocommerce-breadcrumb {
+.single-product .main--commerce .wc-shell > .woocommerce-breadcrumb {
 	@include mixins.ts-down(md) {
 		display: none;
 	}
 }
 
-.ts-wc-product-detail {
+.wc-product-detail {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	gap: var(--ts-spacer-2);
@@ -14,17 +14,17 @@
 }
 
 @include mixins.ts-up(md) {
-	.ts-wc-product-detail {
+	.wc-product-detail {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: var(--ts-spacer-4);
 	}
 }
 
-.ts-wc-product-detail > * {
+.wc-product-detail > * {
 	min-width: 0;
 }
 
-.ts-wc-product-detail__summary {
+.wc-product-detail__summary {
 	display: grid;
 	gap: var(--ts-spacer-2);
 	@include mixins.ts-up(md) {
@@ -42,13 +42,13 @@
 
 }
 
-.ts-wc-product-detail__price-row {
+.wc-product-detail__price-row {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: var(--ts-spacer-2);
 
-	.ts-wc-product-detail__sku {
+	.wc-product-detail__sku {
 		flex-shrink: 0;
 		margin-left: auto;
 		font-size: var(--ts-font-size-sm);
@@ -65,24 +65,24 @@
 }
 
 /* Single product Swiper gallery */
-.ts-product-gallery {
+.product-gallery {
 	position: relative;
 	width: 100%;
 }
 
-.ts-product-gallery__layout {
+.product-gallery__layout {
 	display: grid;
 	grid-template-columns: 5.5rem minmax(0, 1fr);
 	gap: var(--ts-spacer-3);
 	align-items: start;
 }
 
-.ts-product-gallery__main-col {
+.product-gallery__main-col {
 	position: relative;
 	min-width: 0;
 }
 
-.ts-product-gallery__nav {
+.product-gallery__nav {
 	position: absolute;
 	top: 50%;
 	z-index: 3;
@@ -103,25 +103,25 @@
 	transition: background-color 0.15s ease, opacity 0.15s ease;
 }
 
-.ts-product-gallery__nav:hover {
+.product-gallery__nav:hover {
 	background: var(--ts-surface);
 }
 
-.ts-product-gallery__nav--prev {
+.product-gallery__nav--prev {
 	left: var(--ts-spacer-2);
 }
 
-.ts-product-gallery__nav--next {
+.product-gallery__nav--next {
 	right: var(--ts-spacer-2);
 }
 
-.ts-product-gallery__nav-icon {
+.product-gallery__nav-icon {
 	display: inline-flex;
 	width: var(--ts-font-size-lg);
 	height: var(--ts-font-size-lg);
 }
 
-.ts-product-gallery__nav-icon svg {
+.product-gallery__nav-icon svg {
 	width: 100%;
 	height: 100%;
 	stroke: currentColor;
@@ -131,24 +131,24 @@
 	stroke-linejoin: round;
 }
 
-.ts-product-gallery:not(.ts-product-gallery--multi) .ts-product-gallery__nav {
+.product-gallery:not(.product-gallery--multi) .product-gallery__nav {
 	display: none;
 }
 
-.ts-product-gallery__main {
+.product-gallery__main {
 	width: 100%;
 	aspect-ratio: var(--ts-product-image-aspect-ratio, 1);
 	background: var(--ts-surface-muted);
 	overflow: hidden;
 }
 
-.ts-product-gallery__main .swiper-slide {
+.product-gallery__main .swiper-slide {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
-.ts-product-gallery__main .swiper-slide img {
+.product-gallery__main .swiper-slide img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
@@ -156,17 +156,17 @@
 	cursor: zoom-in;
 }
 
-.ts-product-gallery__thumbs-col--desktop {
+.product-gallery__thumbs-col--desktop {
 	display: none;
 }
 
-.ts-product-gallery__thumbs {
+.product-gallery__thumbs {
 	width: 5rem;
 	height: auto;
 	max-height: min(70vh, 32rem);
 }
 
-.ts-product-gallery__thumbs .swiper-slide {
+.product-gallery__thumbs .swiper-slide {
 	--ts-gallery-thumb-size: 5rem;
 	box-sizing: border-box;
 	flex-shrink: 0;
@@ -180,12 +180,12 @@
 	transition: opacity 0.15s ease, border-color 0.15s ease;
 }
 
-.ts-product-gallery__thumbs .swiper-slide-thumb-active {
+.product-gallery__thumbs .swiper-slide-thumb-active {
 	opacity: 1;
 	border-color: var(--ts-primary);
 }
 
-.ts-product-gallery__thumbs .swiper-slide img {
+.product-gallery__thumbs .swiper-slide img {
 	width: 100%;
 	height: 100%;
 	min-width: 0;
@@ -194,13 +194,13 @@
 	display: block;
 }
 
-.ts-product-gallery__pagination {
+.product-gallery__pagination {
 	display: flex;
 	justify-content: center;
 	margin-top: var(--ts-spacer-2);
 }
 
-.ts-product-gallery__counter {
+.product-gallery__counter {
 	position: absolute;
 	right: 0.75rem;
 	bottom: 0.75rem;
@@ -215,17 +215,17 @@
 }
 
 @include mixins.ts-up(lg) {
-	.ts-product-gallery__thumbs-col--desktop {
+	.product-gallery__thumbs-col--desktop {
 		display: block;
 	}
 
-	.ts-product-gallery__pagination {
+	.product-gallery__pagination {
 		display: none;
 	}
 }
 
 @include mixins.ts-down(lg) {
-	.ts-product-gallery__layout {
+	.product-gallery__layout {
 		grid-template-columns: minmax(0, 1fr);
 	}
 }

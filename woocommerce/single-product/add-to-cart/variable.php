@@ -59,24 +59,24 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 	<?php if ( empty( $available_variations ) && false !== $available_variations ) : ?>
 		<p class="stock out-of-stock"><?php echo esc_html( apply_filters( 'woocommerce_out_of_stock_message', __( 'This product is currently out of stock and unavailable.', 'woocommerce' ) ) ); ?></p>
 	<?php else : ?>
-		<div class="variations ts-variations" role="presentation">
+		<div class="variations variations" role="presentation">
 			<?php foreach ( $attributes as $attribute_name => $options ) : ?>
 				<?php
 				$is_color_attribute = tailwindscore_is_color_variation_attribute( $attribute_name, $product_id );
 				$is_size_attribute  = tailwindscore_is_size_variation_attribute( $attribute_name );
 				$attr_slug          = sanitize_title( $attribute_name );
 				?>
-				<div class="variation-row ts-variation-row<?php echo $is_size_attribute ? ' ts-variation-row--size' : ''; ?>">
-					<div class="label ts-variation-row__label">
+				<div class="variation-row variation-row<?php echo $is_size_attribute ? ' variation-row--size' : ''; ?>">
+					<div class="label variation-row__label">
 						<label for="<?php echo esc_attr( $attr_slug ); ?>">
 							<?php echo wc_attribute_label( $attribute_name ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>:
 							<span class="selected-attribute-value" data-for="<?php echo esc_attr( $attr_slug ); ?>"></span>
 						</label>
 						<?php if ( $is_color_attribute ) : ?>
-							<div class="variation-display-toggle ts-variation-display-toggle" data-attribute="<?php echo esc_attr( $attr_slug ); ?>">
+							<div class="variation-display-toggle variation-display-toggle" data-attribute="<?php echo esc_attr( $attr_slug ); ?>">
 								<button
 									type="button"
-									class="display-mode-btn ts-variation-display-toggle__btn"
+									class="display-mode-btn variation-display-toggle__btn"
 									data-current-mode="<?php echo esc_attr( $color_selector_default_mode ); ?>"
 									aria-label="<?php echo esc_attr( 'grid' === $color_selector_default_mode ? __( 'Switch to list mode', 'tailwindscore' ) : __( 'Switch to grid mode', 'tailwindscore' ) ); ?>"
 								>
@@ -96,7 +96,7 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 						}
 						?>
 					</div>
-					<div class="value ts-variation-row__value">
+					<div class="value variation-row__value">
 						<?php
 						wc_dropdown_variation_attribute_options(
 							array(

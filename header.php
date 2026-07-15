@@ -7,23 +7,23 @@ declare(strict_types=1);
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php wp_head(); ?>
 </head>
-<body <?php body_class( 'ts-site-body' ); ?>>
+<body <?php body_class( 'site-body' ); ?>>
 <?php wp_body_open(); ?>
-<div id="page" class="ts-site">
+<div id="page" class="site">
 	<?php get_template_part( 'template-parts/header/header-bar' ); ?>
-	<div class="ts-site-header__scroll-sentinel" aria-hidden="true"></div>
-	<header class="ts-site-header" x-data="siteShell()" @keydown.escape.window="closeAll();">
-		<div class="ts-container ts-site-header__inner">
+	<div class="site-header__scroll-sentinel" aria-hidden="true"></div>
+	<header class="site-header" x-data="siteShell()" @keydown.escape.window="closeAll();">
+		<div class="container site-header__inner">
 			<?php get_template_part( 'template-parts/header/site-branding' ); ?>
 			<?php get_template_part( 'template-parts/header/header-actions' ); ?>
-			<div class="ts-site-header__nav-inline">
+			<div class="site-header__nav-inline">
 				<?php
 				get_template_part(
 					'template-parts/navigation/primary-nav',
 					null,
 					array(
-						'nav_id'    => 'ts-primary-nav-desktop',
-						'nav_class' => 'ts-nav ts-nav--desktop',
+						'nav_id'    => 'primary-nav-desktop',
+						'nav_class' => 'nav nav--desktop',
 					)
 				);
 				?>

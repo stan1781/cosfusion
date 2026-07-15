@@ -59,7 +59,7 @@ function resolveTarget(surface: NotificationSurface, context?: string) {
 }
 
 function renderInlineMessage(notification: PurchaseFlowNotification) {
-	return `<p class="ts-cart-feedback__message ts-cart-feedback__message--${notification.type}">${escapeHtml(notification.message)}</p>`;
+	return `<p class="cart-feedback__message cart-feedback__message--${notification.type}">${escapeHtml(notification.message)}</p>`;
 }
 
 function escapeHtml(value: string) {
@@ -103,24 +103,24 @@ function showToast(notification: PurchaseFlowNotification) {
 	}
 
 	const toast = document.createElement('div');
-	toast.className = `ts-purchase-flow-toast ts-purchase-flow-toast--${notification.type}`;
+	toast.className = `purchase-flow-toast purchase-flow-toast--${notification.type}`;
 	toast.setAttribute('role', 'alert');
 	toast.setAttribute('aria-live', 'assertive');
 	toast.setAttribute('aria-atomic', 'true');
 	toast.innerHTML = `
-		<div class="ts-purchase-flow-toast__header">
-			<span class="ts-purchase-flow-toast__accent" aria-hidden="true"></span>
-			<strong class="ts-purchase-flow-toast__title">${escapeHtml(toastTitles[notification.type])}</strong>
-			<button type="button" class="ts-close-button ts-close-button--sm" aria-label="Close"><span class="ts-icon" aria-hidden="true">${window.tailwindscoreCart?.icons?.close ?? ''}</span><span class="screen-reader-text">Close</span></button>
+		<div class="purchase-flow-toast__header">
+			<span class="purchase-flow-toast__accent" aria-hidden="true"></span>
+			<strong class="purchase-flow-toast__title">${escapeHtml(toastTitles[notification.type])}</strong>
+			<button type="button" class="btn-close btn-close-sm" aria-label="Close"><span class="icon" aria-hidden="true">${window.tailwindscoreCart?.icons?.close ?? ''}</span><span class="screen-reader-text">Close</span></button>
 		</div>
-		<div class="ts-purchase-flow-toast__body">${escapeHtml(notification.message)}</div>
+		<div class="purchase-flow-toast__body">${escapeHtml(notification.message)}</div>
 	`;
 
 	const timeoutId = window.setTimeout(() => {
 		dismissToast(toast, timeoutId);
 	}, toastDismissMs);
 
-	toast.querySelector<HTMLButtonElement>('.ts-close-button')?.addEventListener('click', () => {
+	toast.querySelector<HTMLButtonElement>('.btn-close')?.addEventListener('click', () => {
 		dismissToast(toast, timeoutId);
 	});
 

@@ -14,15 +14,15 @@ h3,
 h4,
 h5,
 h6,
-.ts-heading,
+.heading,
 .widget-title,
 [class*="__title"],
 [class*="__heading"] {
 	font-family: var(--ts-font-heading);
 }
 
-html.ts-has-overlay,
-html.ts-has-overlay body {
+html.has-overlay,
+html.has-overlay body {
 	overflow: hidden;
 }
 

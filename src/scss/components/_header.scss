@@ -1,21 +1,21 @@
 @use "../abstracts/mixins";
 
-.ts-site-header,
-.ts-site-footer {
+.site-header,
+.site-footer {
 	border-color: var(--ts-border-color);
 	border-style: solid;
 	background: var(--ts-surface);
 }
 
 // Announcement bar (scrolls away; sibling before sticky header).
-.ts-site-header-bar {
+.site-header-bar {
 	width: 100%;
 	background: var(--ts-surface-muted);
 	// border-bottom: 1px solid var(--ts-border-color);
 	color: var(--ts-text-primary);
 }
 
-.ts-site-header-bar__inner {
+.site-header-bar__inner {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -23,7 +23,7 @@
 	padding-block: var(--ts-spacer-1);
 }
 
-.ts-site-header-bar__message {
+.site-header-bar__message {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -36,14 +36,14 @@
 	text-align: center;
 }
 
-.ts-site-header-bar__text {
+.site-header-bar__text {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	max-width: 100%;
 }
 
-.ts-site-header-bar__link {
+.site-header-bar__link {
 	flex-shrink: 0;
 	color: var(--ts-text-primary);
 	font-weight: 600;
@@ -53,12 +53,12 @@
 	@include mixins.ts-transition((color, opacity), 0.15s, ease);
 }
 
-.ts-site-header-bar__link:hover,
-.ts-site-header-bar__link:focus-visible {
+.site-header-bar__link:hover,
+.site-header-bar__link:focus-visible {
 	color: var(--ts-primary);
 }
 
-.ts-site-header__scroll-sentinel {
+.site-header__scroll-sentinel {
 	display: block;
 	width: 100%;
 	height: 1px;
@@ -69,7 +69,7 @@
 }
 
 // Sticky site header — sticky on <header> so the scroll parent is #page, not a ~100px wrapper.
-.ts-site-header {
+.site-header {
 	--ts-header-padding-y: var(--ts-spacer-1);
 	--ts-header-inner-gap: var(--ts-spacer-3);
 	--ts-header-brand-size: var(--ts-font-size-lg);
@@ -87,7 +87,7 @@
 	@include mixins.ts-transition((box-shadow, border-color), 0.22s, ease);
 }
 
-.ts-site-header--compact {
+.site-header--compact {
 	--ts-header-padding-y: var(--ts-spacer-1);
 	--ts-header-inner-gap: var(--ts-spacer-2);
 	--ts-header-brand-size: var(--ts-font-size-lg);
@@ -95,8 +95,8 @@
 	box-shadow: var(--ts-shadow-md);
 }
 
-.ts-site-header__inner,
-.ts-site-footer__inner {
+.site-header__inner,
+.site-footer__inner {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -107,12 +107,12 @@
 	@include mixins.ts-transition((padding-block, gap), 0.22s, ease);
 }
 
-.ts-site-footer {
+.site-footer {
 	margin-top: auto;
 	border-width: 1px 0 0;
 }
 
-.ts-site-footer__inner {
+.site-footer__inner {
 	flex-direction: column;
 	align-items: stretch;
 	justify-content: flex-start;
@@ -120,7 +120,7 @@
 	gap: var(--ts-spacer-3);
 }
 
-.ts-branding a {
+.branding a {
 	font-size: var(--ts-header-brand-size, var(--ts-font-size-lg));
 	font-weight: 600;
 	text-decoration: none;
@@ -130,36 +130,36 @@
 
 // Logo display logic: pc logo on md+, mobile logo below md.
 // Falls back gracefully when only one logo is uploaded.
-.ts-branding__logo {
+.branding__logo {
 	display: block;
 	max-height: 2rem;  // ~56px — prevents oversized uploads breaking layout
 	width: auto;
 }
 
-.ts-branding__logo--pc {
+.branding__logo--pc {
 	@include mixins.ts-down(md) {
 		display: none;
 	}
 }
 
-.ts-branding__logo--mobile {
+.branding__logo--mobile {
 	@include mixins.ts-up(md) {
 		display: none;
 	}
 }
 
-.ts-site-header__actions {
+.site-header__actions {
 	display: flex;
 	align-items: center;
 	gap: var(--ts-spacer-2);
 	margin-left: auto;
 }
 
-.ts-site-header__action {
+.site-header__action {
 	flex: 0 0 auto;
 }
 
-.ts-site-header__actions .ts-icon-button {
+.site-header__actions .btn-icon {
 	width: var(--ts-header-action-size, 2.5rem);
 	height: var(--ts-header-action-size, 2.5rem);
 	border: 0;
@@ -171,14 +171,14 @@
 	@include mixins.ts-transition((width, height), 0.22s, ease);
 }
 
-.ts-site-header__actions .ts-icon {
+.site-header__actions .icon {
 	width: var(--ts-header-icon-size, 1.375rem);
 	height: var(--ts-header-icon-size, 1.375rem);
 
 	@include mixins.ts-transition((width, height), 0.22s, ease);
 }
 
-.ts-site-header__badge {
+.site-header__badge {
 	position: absolute;
 	top: 0.15rem;
 	right: 0.15rem;
@@ -195,6 +195,6 @@
 	line-height: 1;
 }
 
-.ts-site-header__nav-inline {
+.site-header__nav-inline {
 	display: none;
 }

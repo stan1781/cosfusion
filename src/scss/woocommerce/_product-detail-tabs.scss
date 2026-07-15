@@ -8,7 +8,7 @@
 
 
 // Desktop Layout
-.ts-product-detail-row {
+.product-detail-row {
 	display: none;
 
 	@include mixins.ts-up(md) {
@@ -30,7 +30,7 @@
 	}
 }
 
-.ts-product-detail-column {
+.product-detail-column {
 	display: flex;
 	flex-direction: column;
 	gap: var(--ts-spacer-2);
@@ -44,7 +44,7 @@
 	}
 }
 
-.ts-product-detail-heading {
+.product-detail-heading {
 	font-size: var(--ts-font-size-lg);
 	font-weight: var(--ts-font-weight-semibold);
 	line-height: var(--ts-line-height-base);
@@ -52,7 +52,7 @@
 	color: var(--ts-text-primary);
 }
 
-.ts-product-detail-content {
+.product-detail-content {
 	font-size: var(--ts-font-size-base);
 	line-height: var(--ts-line-height-base);
 	color: var(--ts-text-secondary);
@@ -84,27 +84,27 @@
 }
 
 // Size guide embedded - reuse dialog styles
-.ts-product-detail-size-guide-embed {
-	// Embed uses the same structure as .ts-size-guide-dialog__inner
+.product-detail-size-guide-embed {
+	// Embed uses the same structure as .size-guide-dialog__inner
 	// All styles are inherited from _product-variations.scss
 	
 	// Prevent content from being stretched vertically by flex parent
 	align-self: flex-start; // Don't stretch in height
 	
 	// Override header alignment for embedded version
-	.ts-size-guide-dialog__header {
+	.size-guide-dialog__header {
 		justify-content: flex-end;
 	}
 
 	// Remove dialog-specific height constraints
-	.ts-size-guide-dialog__body {
+	.size-guide-dialog__body {
 		max-height: none;
 		overflow: visible;
 	}
 }
 
 // Mobile Accordion Layout
-.ts-product-detail-accordion {
+.product-detail-accordion {
 	display: block;
 	margin-inline: calc(var(--ts-section-y-mobile) * -1);
 
@@ -113,7 +113,7 @@
 	}
 }
 
-.ts-product-detail-accordion-item {
+.product-detail-accordion-item {
 	border-block-end: 1px solid var(--ts-border-color);
 
 	&:first-child {
@@ -121,7 +121,7 @@
 	}
 }
 
-.ts-product-detail-accordion-trigger {
+.product-detail-accordion-trigger {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -138,20 +138,20 @@
 	}
 
 	&[aria-expanded="true"] {
-		.ts-product-detail-accordion-icon {
+		.product-detail-accordion-icon {
 			transform: rotate(0deg); // Expanded: point down (original SVG direction)
 		}
 	}
 }
 
-.ts-product-detail-accordion-title {
+.product-detail-accordion-title {
 	font-size: var(--ts-font-size-lg);
 	font-weight: var(--ts-font-weight-semibold);
 	color: var(--ts-text-primary);
 	line-height: var(--ts-line-height-base);
 }
 
-.ts-product-detail-accordion-icon {
+.product-detail-accordion-icon {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -169,7 +169,7 @@
 	}
 }
 
-.ts-product-detail-accordion-content {
+.product-detail-accordion-content {
 	overflow: hidden;
 	transition: height 0.3s ease;
 
@@ -178,7 +178,7 @@
 	}
 }
 
-.ts-product-detail-accordion-body {
+.product-detail-accordion-body {
 	padding: 0 var(--ts-spacer-2) var(--ts-spacer-2);
 	font-size: var(--ts-font-size-base);
 	line-height: var(--ts-line-height-base);

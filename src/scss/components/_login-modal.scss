@@ -1,6 +1,6 @@
 @use "../abstracts/mixins";
 
-.ts-login-modal {
+.login-modal {
 	position: fixed;
 	inset: 0;
 	z-index: var(--ts-z-modal);
@@ -9,15 +9,15 @@
 	padding: var(--ts-spacer-4);
 }
 
-.ts-login-modal[hidden] {
+.login-modal[hidden] {
 	display: none !important;
 }
 
-body.ts-login-modal-open {
+body.login-modal-open {
 	overflow: hidden;
 }
 
-.ts-login-modal__backdrop {
+.login-modal__backdrop {
 	position: absolute;
 	inset: 0;
 	border: 0;
@@ -26,7 +26,7 @@ body.ts-login-modal-open {
 	cursor: pointer;
 }
 
-.ts-login-modal__dialog {
+.login-modal__dialog {
 	position: relative;
 	z-index: 1;
 	width: min(100%, 28rem);
@@ -39,7 +39,7 @@ body.ts-login-modal-open {
 	box-shadow: var(--ts-shadow-lg);
 }
 
-.ts-login-modal__header {
+.login-modal__header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -47,29 +47,29 @@ body.ts-login-modal-open {
 	margin-bottom: var(--ts-spacer-3);
 }
 
-.ts-login-modal__title {
+.login-modal__title {
 	font-size: var(--ts-font-size-base);
 	font-weight: 600;
 	margin: 0;
 }
 
-.ts-login-modal__body {
+.login-modal__body {
 	min-width: 0;
 }
 
-.ts-login-modal__register {
+.login-modal__register {
 	margin: var(--ts-spacer-3) 0 0;
 	text-align: center;
 	font-size: var(--ts-font-size-sm);
 }
 
-.ts-login-modal__register a {
+.login-modal__register a {
 	text-decoration: underline;
 }
 
 // Shared account login form (same partial as auth surface; modal is outside .woocommerce).
-.ts-login-modal .ts-account-auth__form,
-.ts-login-modal form.woocommerce-form-login {
+.login-modal .account-auth__form,
+.login-modal form.woocommerce-form-login {
 	display: grid;
 	gap: var(--ts-spacer-3);
 	margin: 0;
@@ -84,20 +84,20 @@ body.ts-login-modal-open {
 		padding: 0;
 	}
 
-	.input-text:not(.ts-quantity__input),
-	.ts-input {
+	.input-text:not(.quantity__input),
+	.input {
 		@include mixins.ts-control-field-base;
 	}
 
 	.input-text:focus,
-	.ts-input:focus,
+	.input:focus,
 	.input-text:focus-visible,
-	.ts-input:focus-visible {
+	.input:focus-visible {
 		outline: none;
 		border-color: var(--ts-primary);
 	}
 
-	.ts-button,
+	.btn,
 	.button.woocommerce-form-login__submit {
 		@include mixins.ts-control-button-base(
 			var(--ts-form-padding-y) var(--ts-form-padding-x),
@@ -108,9 +108,9 @@ body.ts-login-modal-open {
 		text-decoration: none;
 	}
 
-	// Modal submit rules are (0,4,1) and override global .ts-button.is-loading (0,4,0).
-	.ts-button.is-loading,
-	.ts-button.loading,
+	// Modal submit rules are (0,4,1) and override global .btn.is-loading (0,4,0).
+	.btn.is-loading,
+	.btn.loading,
 	.button.woocommerce-form-login__submit.is-loading,
 	.button.woocommerce-form-login__submit.loading {
 		color: transparent;
@@ -118,14 +118,14 @@ body.ts-login-modal-open {
 	}
 
 	@media (hover: hover) {
-		.ts-button:not(:disabled):not(.disabled):hover,
+		.btn:not(:disabled):not(.disabled):hover,
 		.button.woocommerce-form-login__submit:not(:disabled):not(.disabled):hover {
 			@include mixins.ts-control-button-primary-hover;
 		}
 	}
 }
 
-.ts-login-modal .ts-account-auth__label {
+.login-modal .account-auth__label {
 	display: block;
 	margin-bottom: 0.35rem;
 	@include mixins.ts-form-label-text;
@@ -138,7 +138,7 @@ body.ts-login-modal-open {
 	}
 }
 
-.ts-login-modal .ts-account-auth__lost-password {
+.login-modal .account-auth__lost-password {
 	margin: calc(-1 * var(--ts-spacer-1)) 0 0;
 	text-align: right;
 	font-size: var(--ts-font-size-sm);
@@ -155,7 +155,7 @@ body.ts-login-modal-open {
 	}
 }
 
-.ts-login-modal .ts-account-auth__remember {
+.login-modal .account-auth__remember {
 	margin: 0;
 	font-size: var(--ts-font-size-sm);
 
@@ -174,6 +174,6 @@ body.ts-login-modal-open {
 	}
 }
 
-.ts-login-modal .woocommerce-form-login .clear {
+.login-modal .woocommerce-form-login .clear {
 	display: none;
 }

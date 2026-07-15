@@ -11,11 +11,11 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'ts-wc-product-detail', wc_get_product() ); ?>>
-	<div class="ts-wc-product-detail__media ts-stack">
+<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'wc-product-detail', wc_get_product() ); ?>>
+	<div class="wc-product-detail__media stack">
 		<?php get_template_part( 'template-parts/woocommerce/product-gallery' ); ?>
 	</div>
-	<div class="ts-wc-product-detail__summary">
+	<div class="wc-product-detail__summary">
 		<?php do_action( 'woocommerce_single_product_summary' ); ?>
 	</div>
 </div>

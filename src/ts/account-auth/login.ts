@@ -57,7 +57,7 @@ function isAjaxLoginForm(form: HTMLFormElement): boolean {
 		return true;
 	}
 
-	return form.closest('.ts-login-modal') !== null;
+	return form.closest('.login-modal') !== null;
 }
 
 function readField(form: HTMLFormElement, selector: string): string {

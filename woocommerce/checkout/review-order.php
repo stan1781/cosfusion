@@ -28,19 +28,19 @@ $tailwindscore_can_show_coupon_form = (bool) (
 );
 $tailwindscore_is_primary_summary = ( 1 === $tailwindscore_checkout_order_review_index );
 ?>
-<div class="shop_table woocommerce-checkout-review-order-table woocommerce-checkout-review-order ts-checkout-review-order">
+<div class="shop_table woocommerce-checkout-review-order-table woocommerce-checkout-review-order checkout-review-order">
 	<details
 		<?php if ( $tailwindscore_is_primary_summary ) : ?>
 			id="ts-primary-checkout-order-summary"
 		<?php endif; ?>
-		class="ts-checkout-order-summary<?php echo $tailwindscore_is_primary_summary ? '' : ' ts-checkout-order-summary--payment'; ?>"
+		class="checkout-order-summary<?php echo $tailwindscore_is_primary_summary ? '' : ' checkout-order-summary--payment'; ?>"
 		data-ts-checkout-order-summary
 		<?php echo $tailwindscore_is_primary_summary ? ' data-ts-checkout-order-summary-primary' : ''; ?>
 	>
-	<summary class="order-summary-toggle ts-checkout-order-summary__toggle">
-		<span class="ts-checkout-order-summary__toggle-inner">
-			<span class="ts-checkout-order-summary__lead">
-				<span class="order-summary-thumbs ts-checkout-order-summary__thumbs" aria-hidden="true">
+	<summary class="order-summary-toggle checkout-order-summary__toggle">
+		<span class="checkout-order-summary__toggle-inner">
+			<span class="checkout-order-summary__lead">
+				<span class="order-summary-thumbs checkout-order-summary__thumbs" aria-hidden="true">
 					<?php
 					if ( WC()->cart ) {
 						$product_ids = array();
@@ -73,17 +73,17 @@ $tailwindscore_is_primary_summary = ( 1 === $tailwindscore_checkout_order_review
 					}
 					?>
 				</span>
-				<span class="ts-checkout-order-summary__toggle-copy">
+				<span class="checkout-order-summary__toggle-copy">
 					<?php if ( $tailwindscore_is_primary_summary && $tailwindscore_can_show_coupon_form ) : ?>
 						<!-- TODO：添加折扣（仅主摘要） -->
 						 <!-- 原本是为了在手机端显示可以添加优惠卷，因需求改为显示订单摘要 -->
 						<span class="order-summary-add-coupon"><?php esc_html_e( 'Order summary', 'tailwindscore' ); ?></span>
-						<span class="order-summary-title-expanded ts-checkout-order-summary__title-expanded"><?php esc_html_e( 'Order summary', 'woocommerce' ); ?></span>
+						<span class="order-summary-title-expanded checkout-order-summary__title-expanded"><?php esc_html_e( 'Order summary', 'woocommerce' ); ?></span>
 					<?php else : ?>
-						<span class="ts-checkout-order-summary__title"><?php esc_html_e( 'Order summary', 'woocommerce' ); ?></span>
-						<span class="order-summary-title-expanded ts-checkout-order-summary__title-expanded"><?php esc_html_e( 'Order summary', 'woocommerce' ); ?></span>
+						<span class="checkout-order-summary__title"><?php esc_html_e( 'Order summary', 'woocommerce' ); ?></span>
+						<span class="order-summary-title-expanded checkout-order-summary__title-expanded"><?php esc_html_e( 'Order summary', 'woocommerce' ); ?></span>
 					<?php endif; ?>
-					<span class="ts-checkout-order-summary__item-count">
+					<span class="checkout-order-summary__item-count">
 						<?php
 						echo esc_html(
 							sprintf(
@@ -96,49 +96,49 @@ $tailwindscore_is_primary_summary = ( 1 === $tailwindscore_checkout_order_review
 					</span>
 				</span>
 			</span>
-			<span class="ts-checkout-order-summary__toggle-meta">
+			<span class="checkout-order-summary__toggle-meta">
 				<span class="order-summary-total"><?php wc_cart_totals_order_total_html(); ?></span>
-				<span class="order-summary-chevron ts-checkout-order-summary__chevron" aria-hidden="true"></span>
+				<span class="order-summary-chevron checkout-order-summary__chevron" aria-hidden="true"></span>
 			</span>
 		</span>
 	</summary>
 
 	<div
 		id="<?php echo esc_attr( $tailwindscore_order_summary_id ); ?>"
-		class="ts-checkout-order-summary__panel"
+		class="checkout-order-summary__panel"
 	>
 		<?php do_action( 'woocommerce_review_order_before_cart_contents' ); ?>
 
-		<div class="cart-items ts-checkout-review-order__items">
+		<div class="cart-items checkout-review-order__items">
 			<?php
 			foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 				$_product = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
 
 				if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_checkout_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
 					?>
-					<div class="cart-item ts-checkout-line-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
-						<div class="product-image ts-checkout-line-item__media">
+					<div class="cart-item checkout-line-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
+						<div class="product-image checkout-line-item__media">
 							<?php
 							if ( $_product->get_image_id() ) {
-								echo wp_kses_post( $_product->get_image( array( 60, 60 ), array( 'class' => 'ts-checkout-line-item__img' ) ) );
+								echo wp_kses_post( $_product->get_image( array( 60, 60 ), array( 'class' => 'checkout-line-item__img' ) ) );
 							} else {
-								echo '<div class="ts-checkout-line-item__placeholder" aria-hidden="true"></div>';
+								echo '<div class="checkout-line-item__placeholder" aria-hidden="true"></div>';
 							}
 							?>
-							<span class="ts-checkout-line-item__qty"><?php echo esc_html( (string) $cart_item['quantity'] ); ?></span>
+							<span class="checkout-line-item__qty"><?php echo esc_html( (string) $cart_item['quantity'] ); ?></span>
 						</div>
-						<div class="product-info ts-checkout-line-item__info">
-							<div class="product-name ts-checkout-line-item__name">
+						<div class="product-info checkout-line-item__info">
+							<div class="product-name checkout-line-item__name">
 								<?php echo esc_html( $_product->get_name() ); ?>
 							</div>
 							<?php
 							$variation_data = wc_get_formatted_cart_item_data( $cart_item );
 							if ( $variation_data ) {
-								echo '<div class="product-variation ts-checkout-line-item__variation">' . $variation_data . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+								echo '<div class="product-variation checkout-line-item__variation">' . $variation_data . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							}
 							?>
 						</div>
-						<div class="product-price ts-checkout-line-item__price">
+						<div class="product-price checkout-line-item__price">
 							<?php echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						</div>
 					</div>
@@ -151,19 +151,19 @@ $tailwindscore_is_primary_summary = ( 1 === $tailwindscore_checkout_order_review
 		<?php do_action( 'woocommerce_review_order_after_cart_contents' ); ?>
 
 		<?php if ( $tailwindscore_show_coupon_form && ( is_checkout() || ( defined( 'WOOCOMMERCE_CHECKOUT' ) && WOOCOMMERCE_CHECKOUT ) ) && wc_coupons_enabled() ) : ?>
-			<div class="coupon-form ts-checkout-review-order__coupon">
+			<div class="coupon-form checkout-review-order__coupon">
 				<?php wc_get_template( 'checkout/form-coupon.php', array( 'checkout' => WC()->checkout() ) ); ?>
 			</div>
 		<?php endif; ?>
 
-		<div class="order-totals ts-checkout-review-order__totals">
-			<div class="order-total-row ts-checkout-total-row">
+		<div class="order-totals checkout-review-order__totals">
+			<div class="order-total-row checkout-total-row">
 				<span><?php esc_html_e( 'Subtotal', 'woocommerce' ); ?></span>
 				<span><?php wc_cart_totals_subtotal_html(); ?></span>
 			</div>
 
 			<?php foreach ( WC()->cart->get_coupons() as $code => $coupon ) : ?>
-				<div class="order-total-row ts-checkout-total-row cart-discount coupon-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
+				<div class="order-total-row checkout-total-row cart-discount coupon-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
 					<span><?php wc_cart_totals_coupon_label( $coupon ); ?></span>
 					<span><?php wc_cart_totals_coupon_html( $coupon ); ?></span>
 				</div>
@@ -171,16 +171,16 @@ $tailwindscore_is_primary_summary = ( 1 === $tailwindscore_checkout_order_review
 
 			<?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
 				<?php do_action( 'woocommerce_review_order_before_shipping' ); ?>
-				<div class="order-total-row ts-checkout-total-row ts-checkout-total-row--shipping">
-					<div class="shipping-method-title ts-checkout-total-row__shipping-label">
+				<div class="order-total-row checkout-total-row checkout-total-row--shipping">
+					<div class="shipping-method-title checkout-total-row__shipping-label">
 						<?php esc_html_e( 'Shipping', 'woocommerce' ); ?>
 						<span
-							class="ts-wc-checkout__hint"
+							class="wc-checkout__hint"
 							title="<?php echo esc_attr__( 'Shipping costs will be calculated after you enter your address', 'woocommerce' ); ?>"
 							aria-label="<?php echo esc_attr__( 'Shipping costs will be calculated after you enter your address', 'woocommerce' ); ?>"
 						>?</span>
 					</div>
-					<div class="shipping-method-list ts-checkout-total-row__shipping-value">
+					<div class="shipping-method-list checkout-total-row__shipping-value">
 						<?php
 						$packages       = WC()->cart ? WC()->cart->get_shipping_packages() : array();
 						$chosen_methods = WC()->session ? (array) WC()->session->get( 'chosen_shipping_methods' ) : array();
@@ -236,7 +236,7 @@ $tailwindscore_is_primary_summary = ( 1 === $tailwindscore_checkout_order_review
 			<?php endif; ?>
 
 			<?php foreach ( WC()->cart->get_fees() as $fee ) : ?>
-				<div class="order-total-row ts-checkout-total-row fee">
+				<div class="order-total-row checkout-total-row fee">
 					<span><?php echo esc_html( $fee->name ); ?></span>
 					<span><?php wc_cart_totals_fee_html( $fee ); ?></span>
 				</div>
@@ -245,13 +245,13 @@ $tailwindscore_is_primary_summary = ( 1 === $tailwindscore_checkout_order_review
 			<?php if ( wc_tax_enabled() && ! WC()->cart->display_prices_including_tax() ) : ?>
 				<?php if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) : ?>
 					<?php foreach ( WC()->cart->get_tax_totals() as $code => $tax ) : ?>
-						<div class="order-total-row ts-checkout-total-row tax-rate tax-rate-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
+						<div class="order-total-row checkout-total-row tax-rate tax-rate-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
 							<span><?php echo esc_html( $tax->label ); ?></span>
 							<span><?php echo wp_kses_post( $tax->formatted_amount ); ?></span>
 						</div>
 					<?php endforeach; ?>
 				<?php else : ?>
-					<div class="order-total-row ts-checkout-total-row tax-total">
+					<div class="order-total-row checkout-total-row tax-total">
 						<span><?php echo esc_html( WC()->countries->tax_or_vat() ); ?></span>
 						<span><?php wc_cart_totals_taxes_total_html(); ?></span>
 					</div>
@@ -260,7 +260,7 @@ $tailwindscore_is_primary_summary = ( 1 === $tailwindscore_checkout_order_review
 
 			<?php do_action( 'woocommerce_review_order_before_order_total' ); ?>
 
-			<div class="order-total-row ts-checkout-total-row ts-checkout-total-row--grand">
+			<div class="order-total-row checkout-total-row checkout-total-row--grand">
 				<span><?php esc_html_e( 'Total', 'woocommerce' ); ?></span>
 				<span><?php wc_cart_totals_order_total_html(); ?></span>
 			</div>
@@ -268,7 +268,7 @@ $tailwindscore_is_primary_summary = ( 1 === $tailwindscore_checkout_order_review
 			<?php do_action( 'woocommerce_review_order_after_order_total' ); ?>
 
 			<?php if ( wc_tax_enabled() && WC()->cart->display_prices_including_tax() ) : ?>
-				<div class="tax-info ts-checkout-review-order__tax-note">
+				<div class="tax-info checkout-review-order__tax-note">
 					<?php
 					$tax_string_array = array();
 					$cart_tax_totals  = WC()->cart->get_tax_totals();

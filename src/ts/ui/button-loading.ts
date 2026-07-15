@@ -192,7 +192,7 @@ function formHasLoadingSubmit(form: HTMLFormElement): boolean {
 	}
 
 	return (
-		form.classList.contains('ts-account-auth__form') ||
+		form.classList.contains('account-auth__form') ||
 		form.querySelector('[data-ts-button-loading]') !== null
 	);
 }
@@ -220,7 +220,7 @@ export function initLoadingFormSubmits(): void {
 
 		document
 			.querySelectorAll<HTMLButtonElement>(
-				'.ts-account-auth__form [type="submit"].is-loading, [data-ts-button-loading].is-loading',
+				'.account-auth__form [type="submit"].is-loading, [data-ts-button-loading].is-loading',
 			)
 			.forEach((button) => setControlLoading(button, false));
 	});

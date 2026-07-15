@@ -1,26 +1,26 @@
 @use "../abstracts/mixins";
 
 // Account shell — soft surfaces, minimal borders (reference: clean dashboard UI).
-.ts-wc-account {
+.wc-account {
 	display: grid;
 	gap: var(--ts-spacer-4);
 	align-items: start;
 }
 
-.ts-wc-account__nav,
-.ts-wc-account__content {
+.wc-account__nav,
+.wc-account__content {
 	background: var(--ts-surface);	
 }
 
 
-.ts-wc-account__content > .woocommerce-order-details,
-.ts-wc-account__content > .woocommerce-MyAccount-content > .ts-stack {
+.wc-account__content > .woocommerce-order-details,
+.wc-account__content > .woocommerce-MyAccount-content > .stack {
 	padding: 0;
 }
 
 // Navigation
 .woocommerce-account .woocommerce-MyAccount-navigation ul,
-.ts-wc-account-nav__list {
+.wc-account-nav__list {
 	list-style: none;
 	padding: var(--ts-spacer-2);
 	margin: 0;
@@ -28,7 +28,7 @@
 	gap: 0.25rem;
 }
 
-.ts-wc-account-nav__link {
+.wc-account-nav__link {
 	display: flex;
 	align-items: center;
 	gap: 0.625rem;
@@ -40,32 +40,32 @@
 	transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.ts-wc-account-nav__icon .ts-icon {
+.wc-account-nav__icon .icon {
 	width: var(--ts-font-size-lg);
 	height: var(--ts-font-size-lg);
 	color: var(--ts-text-secondary);
 }
 
-.ts-wc-account-nav__link[aria-current="page"],
-.woocommerce-MyAccount-navigation-link.is-active .ts-wc-account-nav__link {
+.wc-account-nav__link[aria-current="page"],
+.woocommerce-MyAccount-navigation-link.is-active .wc-account-nav__link {
 	background: color-mix(in srgb, var(--ts-info) 10%, var(--ts-surface));
 	color: var(--ts-info);
 }
 
-.ts-wc-account-nav__link[aria-current="page"] .ts-wc-account-nav__icon .ts-icon,
-.woocommerce-MyAccount-navigation-link.is-active .ts-wc-account-nav__link .ts-wc-account-nav__icon .ts-icon {
+.wc-account-nav__link[aria-current="page"] .wc-account-nav__icon .icon,
+.woocommerce-MyAccount-navigation-link.is-active .wc-account-nav__link .wc-account-nav__icon .icon {
 	color: var(--ts-info);
 }
 
 @media (hover: hover) {
-	.ts-wc-account-nav__link:hover {
+	.wc-account-nav__link:hover {
 		background: var(--ts-surface-muted);
 		color: var(--ts-text-primary);
 	}
 }
 
 // Hero
-.ts-wc-account-hero {
+.wc-account-hero {
 	display: grid;
 	grid-template-columns: 1fr;
 	gap: var(--ts-spacer-3);
@@ -81,13 +81,13 @@
 }
 
 @include mixins.ts-up("md") {
-	.ts-wc-account-hero:has(.ts-wc-account-hero__media) {
+	.wc-account-hero:has(.wc-account-hero__media) {
 		grid-template-columns: 1fr auto;
 		align-items: center;
 	}
 }
 
-.ts-wc-account-hero__eyebrow {
+.wc-account-hero__eyebrow {
 	margin: 0 0 var(--ts-spacer-2);
 	font-size: 0.6875rem;
 	font-weight: 600;
@@ -96,18 +96,18 @@
 	opacity: 0.75;
 }
 
-.ts-wc-account-hero__title {
+.wc-account-hero__title {
 	margin: 0 0 var(--ts-spacer-2);
 	font-size: clamp(1.375rem, 2.5vw, 1.875rem);
 	font-weight: 600;
 	line-height: 1.2;
 }
 
-.ts-wc-account-hero__wave {
+.wc-account-hero__wave {
 	margin-inline-start: 0.25rem;
 }
 
-.ts-wc-account-hero__text {
+.wc-account-hero__text {
 	margin: 0;
 	max-width: 32rem;
 	font-size: var(--ts-font-size-sm);
@@ -115,18 +115,18 @@
 	opacity: 0.88;
 }
 
-.ts-wc-account-hero__media {
+.wc-account-hero__media {
 	display: none;
 	justify-content: flex-end;
 }
 
 @include mixins.ts-up("md") {
-	.ts-wc-account-hero__media {
+	.wc-account-hero__media {
 		display: flex;
 	}
 }
 
-.ts-wc-account-hero__image {
+.wc-account-hero__image {
 	display: block;
 	max-width: min(100%, 9rem);
 	max-height: 6rem;
@@ -137,19 +137,19 @@
 }
 
 // Status summary tiles
-.ts-wc-account-status-grid {
+.wc-account-status-grid {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: var(--ts-spacer-2);
 }
 
 @include mixins.ts-up("md") {
-	.ts-wc-account-status-grid {
+	.wc-account-status-grid {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 }
 
-.ts-wc-account-status-grid__tile {
+.wc-account-status-grid__tile {
 	display: flex;
 	align-items: center;
 	gap: var(--ts-spacer-2);
@@ -162,16 +162,16 @@
 	transition: box-shadow 0.15s ease, background-color 0.15s ease, opacity 0.15s ease;
 }
 
-.ts-wc-account-status-grid__tile--active {
+.wc-account-status-grid__tile--active {
 	background: color-mix(in srgb, var(--ts-info) 6%, var(--ts-surface));
 	box-shadow: 0 0 0 1px color-mix(in srgb, var(--ts-info) 28%, transparent);
 }
 
-.ts-wc-account-status-grid__tile--empty {
+.wc-account-status-grid__tile--empty {
 	opacity: 0.72;
 }
 
-.ts-wc-account-status-grid__icon {
+.wc-account-status-grid__icon {
 	display: grid;
 	place-items: center;
 	flex-shrink: 0;
@@ -181,47 +181,47 @@
 	color: var(--ts-on-primary);
 }
 
-.ts-wc-account-status-grid__icon .ts-icon {
+.wc-account-status-grid__icon .icon {
 	width: 1.875rem;
 	height: 1.875rem;
 }
 
-.ts-wc-account-status-grid__icon--confirmed {
+.wc-account-status-grid__icon--confirmed {
 	background: var(--ts-info);
 }
 
-.ts-wc-account-status-grid__icon--packing {
+.wc-account-status-grid__icon--packing {
 	background: var(--ts-warning);
 	color: var(--ts-text-primary);
 }
 
-.ts-wc-account-status-grid__icon--shipping {
+.wc-account-status-grid__icon--shipping {
 	background: color-mix(in srgb, var(--ts-info) 65%, var(--ts-primary));
 }
 
-.ts-wc-account-status-grid__icon--completed {
+.wc-account-status-grid__icon--completed {
 	background: var(--ts-success);
 }
 
-.ts-wc-account-status-grid__body {
+.wc-account-status-grid__body {
 	display: grid;
 	gap: 0.125rem;
 	min-width: 0;
 }
 
-.ts-wc-account-status-grid__count {
+.wc-account-status-grid__count {
 	font-size: 1.375rem;
 	font-weight: 700;
 	line-height: 1;
 }
 
-.ts-wc-account-status-grid__label {
+.wc-account-status-grid__label {
 	font-size: 0.8125rem;
 	color: var(--ts-text-secondary);
 }
 
 // Draft alert
-.ts-wc-account-draft-alert__notice {
+.wc-account-draft-alert__notice {
 	margin: 0;
 	padding: var(--ts-spacer-3);
 	border-radius: var(--ts-border-radius-sm);
@@ -229,7 +229,7 @@
 	color: var(--ts-text-primary);
 }
 
-.ts-wc-account-draft-alert__item {
+.wc-account-draft-alert__item {
 	display: grid;
 	gap: var(--ts-spacer-3);
 	padding: var(--ts-spacer-3);
@@ -237,27 +237,27 @@
 	border-radius: var(--ts-border-radius);
 }
 
-.ts-wc-account-draft-alert__meta,
-.ts-wc-account-draft-alert__actions {
+.wc-account-draft-alert__meta,
+.wc-account-draft-alert__actions {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	gap: var(--ts-spacer-2);
 }
 
-.ts-wc-account-draft-alert__actions {
+.wc-account-draft-alert__actions {
 	justify-content: space-between;
 }
 
 // Order feed
-.ts-wc-account-order-feed__header {
+.wc-account-order-feed__header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: var(--ts-spacer-3);
 }
 
-.ts-wc-account-order-feed__all-link {
+.wc-account-order-feed__all-link {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.125rem;
@@ -267,13 +267,13 @@
 	color: var(--ts-info);
 }
 
-.ts-wc-account-order-feed__all-link .ts-icon {
+.wc-account-order-feed__all-link .icon {
 	width: 1rem;
 	height: 1rem;
 }
 
 // Order card
-.ts-wc-account-order-card {
+.wc-account-order-card {
 	position: relative;
 	display: flex;
 	align-items: stretch;
@@ -283,7 +283,7 @@
 	border-bottom: 1px solid var(--ts-border-color);
 }
 
-.ts-wc-account-order-card__main {
+.wc-account-order-card__main {
 	display: flex;
 	flex: 1;
 	flex-direction: column;
@@ -292,17 +292,17 @@
 }
 
 @include mixins.ts-up("sm") {
-	.ts-wc-account-order-card {
+	.wc-account-order-card {
 		gap: var(--ts-spacer-2);
 		padding: var(--ts-spacer-3);
 	}
-	.ts-wc-account-order-card__main {
+	.wc-account-order-card__main {
 		flex-direction: row;
 		align-items: flex-start;
 	}
 }
 
-.ts-wc-account-order-card__thumbs {
+.wc-account-order-card__thumbs {
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--ts-spacer-1);
@@ -312,7 +312,7 @@
 	flex-shrink: 0;
 }
 
-.ts-wc-account-order-card__thumbs img {
+.wc-account-order-card__thumbs img {
 	width: 3.5rem;
 	height: 3.5rem;
 	object-fit: cover;
@@ -320,7 +320,7 @@
 	background: var(--ts-surface-muted);
 }
 
-.ts-wc-account-order-card__more {
+.wc-account-order-card__more {
 	display: grid;
 	place-items: center;
 	min-width: 3.5rem;
@@ -332,28 +332,28 @@
 	color: var(--ts-text-secondary);
 }
 
-.ts-wc-account-order-card__content {
+.wc-account-order-card__content {
 	display: grid;
 	gap: var(--ts-spacer-1);
 	flex: 1;
 	min-width: 0;
 }
 
-.ts-wc-account-order-card__summary {
+.wc-account-order-card__summary {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	gap: var(--ts-spacer-2);
 }
 
-.ts-wc-account-order-card__number {
+.wc-account-order-card__number {
 	font-size: var(--ts-font-size-base);
 	font-weight: 700;
 	text-decoration: none;
 	color: inherit;
 }
 
-.ts-wc-account-order-card__meta {
+.wc-account-order-card__meta {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -362,14 +362,14 @@
 	font-size: 0.8125rem;
 }
 
-.ts-wc-account-order-card__message {
+.wc-account-order-card__message {
 	margin: 0;
 	color: var(--ts-text-secondary);
 	font-size: var(--ts-font-size-sm);
 	line-height: 1.45;
 }
 
-.ts-wc-account-order-card__action {
+.wc-account-order-card__action {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.25rem;
@@ -380,12 +380,12 @@
 	color: var(--ts-info);
 }
 
-.ts-wc-account-order-card__action .ts-icon {
+.wc-account-order-card__action .icon {
 	width: 1rem;
 	height: 1rem;
 }
 
-.ts-wc-account-order-card__chevron {
+.wc-account-order-card__chevron {
 	display: grid;
 	place-items: center;
 	flex-shrink: 0;
@@ -398,20 +398,20 @@
 	transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.ts-wc-account-order-card__chevron .ts-icon {
+.wc-account-order-card__chevron .icon {
 	width: var(--ts-font-size-lg);
 	height: var(--ts-font-size-lg);
 }
 
 @media (hover: hover) {
-	.ts-wc-account-order-card__chevron:hover {
+	.wc-account-order-card__chevron:hover {
 		background: var(--ts-surface-muted);
 		color: var(--ts-text-primary);
 	}
 }
 
 // Badges
-.ts-wc-account-badge {
+.badge {
 	display: inline-flex;
 	align-items: center;
 	padding: 0.1875rem 0.625rem;
@@ -421,33 +421,33 @@
 	line-height: 1.4;
 }
 
-.ts-wc-account-badge--neutral {
+.badge-neutral {
 	background: var(--ts-surface-muted);
 	color: var(--ts-text-secondary);
 }
 
-.ts-wc-account-badge--warning {
+.badge-warning {
 	background: color-mix(in srgb, var(--ts-warning) 16%, var(--ts-surface));
 	color: var(--ts-text-primary);
 }
 
-.ts-wc-account-badge--info {
+.badge-info {
 	background: color-mix(in srgb, var(--ts-info) 12%, var(--ts-surface));
 	color: var(--ts-info);
 }
 
-.ts-wc-account-badge--primary {
+.badge-primary {
 	background: color-mix(in srgb, var(--ts-info) 14%, var(--ts-surface));
 	color: var(--ts-info);
 }
 
-.ts-wc-account-badge--success {
+.badge-success {
 	background: color-mix(in srgb, var(--ts-success) 14%, var(--ts-surface));
 	color: var(--ts-success);
 }
 
 // Stepper (order detail)
-.ts-wc-account-stepper {
+.wc-account-stepper {
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 	gap: var(--ts-spacer-2);
@@ -456,14 +456,14 @@
 	margin: 0;
 }
 
-.ts-wc-account-stepper--full {
+.wc-account-stepper--full {
 	margin-bottom: var(--ts-spacer-4);
 	padding: var(--ts-spacer-3);
 	border-radius: var(--ts-border-radius);
 	background: var(--ts-surface-muted);
 }
 
-.ts-wc-account-stepper__step {
+.wc-account-stepper__step {
 	display: grid;
 	justify-items: center;
 	gap: var(--ts-spacer-1);
@@ -471,7 +471,7 @@
 	min-width: 0;
 }
 
-.ts-wc-account-stepper__marker {
+.wc-account-stepper__marker {
 	display: grid;
 	place-items: center;
 	width: 1.75rem;
@@ -483,35 +483,35 @@
 	font-weight: 700;
 }
 
-.ts-wc-account-stepper__step.is-completed .ts-wc-account-stepper__marker,
-.ts-wc-account-stepper__step.is-current .ts-wc-account-stepper__marker {
+.wc-account-stepper__step.is-completed .wc-account-stepper__marker,
+.wc-account-stepper__step.is-current .wc-account-stepper__marker {
 	background: var(--ts-info);
 	color: var(--ts-on-primary);
 }
 
-.ts-wc-account-stepper__title {
+.wc-account-stepper__title {
 	display: block;
 	font-size: 0.75rem;
 	font-weight: 600;
 }
 
-.ts-wc-account-stepper__step.is-current .ts-wc-account-stepper__title {
+.wc-account-stepper__step.is-current .wc-account-stepper__title {
 	color: var(--ts-info);
 }
 
-.ts-wc-account-stepper__description {
+.wc-account-stepper__description {
 	display: block;
 	margin-top: 0.125rem;
 	font-size: 0.6875rem;
 	color: var(--ts-text-secondary);
 }
 
-.ts-wc-account-stepper--mini .ts-wc-account-stepper__description {
+.wc-account-stepper--mini .wc-account-stepper__description {
 	display: none;
 }
 
 // Order detail page (thank-you + account view-order)
-.ts-wc-account-order-card--details {
+.wc-account-order-card--details {
 	display: grid;
 	flex-direction: unset;
 	align-items: stretch;
@@ -519,12 +519,12 @@
 	font-size: var(--ts-font-size-sm);
 }
 
-.ts-wc-account-order-details__items {
+.wc-account-order-details__items {
 	display: grid;
 	gap: var(--ts-spacer-3);	
 }
 
-.ts-wc-account-order-details__item {
+.wc-account-order-details__item {
 	display: grid;
 	grid-template-columns: auto 1fr auto;
 	gap: var(--ts-spacer-3);
@@ -532,15 +532,15 @@
 	padding-bottom: var(--ts-spacer-3);
 }
 
-.ts-wc-account-order-details__item:not(:last-child) {
+.wc-account-order-details__item:not(:last-child) {
 	border-bottom: 1px solid color-mix(in srgb, var(--ts-border-color) 55%, transparent);
 }
 
-.ts-wc-account-order-details__item img {
+.wc-account-order-details__item img {
 	border-radius: var(--ts-border-radius-sm);
 	object-fit: cover;
 }
-.ts-wc-account-order-details__item-body {
+.wc-account-order-details__item-body {
 	.wc-item-meta {
 		padding:var(--ts-spacer-2) 0;
 		margin:0;
@@ -557,32 +557,32 @@
 		}
 	}
 }
-.ts-wc-account-order-card.ts-card,
-.woocommerce-order-details .ts-card {
+.wc-account-order-card.card,
+.woocommerce-order-details .card {
 	border: none;
 	box-shadow: var(--ts-shadow-sm);
 }
 
-.ts-wc-account-order-details__totals {
+.wc-account-order-details__totals {
 	display: grid;
 	gap: var(--ts-spacer-1);
 	padding-top: var(--ts-spacer-3);
 	border-top: 1px solid color-mix(in srgb, var(--ts-border-color) 55%, transparent);
 }
 
-.ts-wc-account-order-details__total-row {
+.wc-account-order-details__total-row {
 	display: flex;
 	justify-content: space-between;
 	gap: var(--ts-spacer-3);
 }
 
-.ts-wc-account-order-details__note {
+.wc-account-order-details__note {
 	margin-top: var(--ts-spacer-3);
 	padding-top: var(--ts-spacer-3);
 	border-top: 1px solid color-mix(in srgb, var(--ts-border-color) 55%, transparent);
 }
 
-.ts-wc-account-process-info {
+.wc-account-process-info {
 	display: grid;
 	gap: var(--ts-spacer-2);
 	padding: var(--ts-spacer-3);
@@ -590,7 +590,7 @@
 	border-radius: var(--ts-border-radius);
 }
 
-.ts-wc-account-shortcuts {
+.wc-account-shortcuts {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -600,7 +600,7 @@
 	color: var(--ts-text-secondary);
 }
 
-.ts-wc-account-pagination {
+.wc-account-pagination {
 	display: flex;
 	justify-content: space-between;
 	gap: var(--ts-spacer-3);
@@ -608,7 +608,7 @@
 }
 
 // Confirm receipt modal
-.ts-confirm-receipt-modal {
+.confirm-receipt-modal {
 	position: fixed;
 	inset: 0;
 	z-index: var(--ts-z-modal);
@@ -617,15 +617,15 @@
 	padding: var(--ts-spacer-3);
 }
 
-.ts-confirm-receipt-modal[hidden] {
+.confirm-receipt-modal[hidden] {
 	display: none;
 }
 
-body.ts-confirm-receipt-open {
+body.confirm-receipt-open {
 	overflow: hidden;
 }
 
-.ts-confirm-receipt-modal__backdrop {
+.confirm-receipt-modal__backdrop {
 	position: absolute;
 	inset: 0;
 	border: 0;
@@ -633,7 +633,7 @@ body.ts-confirm-receipt-open {
 	cursor: pointer;
 }
 
-.ts-confirm-receipt-modal__dialog {
+.confirm-receipt-modal__dialog {
 	position: relative;
 	width: min(100%, 28rem);
 	padding: var(--ts-spacer-4);
@@ -642,20 +642,20 @@ body.ts-confirm-receipt-open {
 	box-shadow: var(--ts-shadow-sm);
 }
 
-.ts-confirm-receipt-modal__header {
+.confirm-receipt-modal__header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: var(--ts-spacer-3);
 }
 
-.ts-confirm-receipt-modal__title {
+.confirm-receipt-modal__title {
 	margin: 0;
 	font-size: var(--ts-font-size-lg);
 	font-weight: 600;
 }
 
-.ts-confirm-receipt-modal__footer {
+.confirm-receipt-modal__footer {
 	display: flex;
 	justify-content: flex-end;
 	gap: var(--ts-spacer-2);
@@ -669,7 +669,7 @@ body.ts-confirm-receipt-open {
 }
 
 // Edit account — match checkout / address field grid + labels
-.ts-wc-account .woocommerce-EditAccountForm {
+.wc-account .woocommerce-EditAccountForm {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: var(--ts-spacer-3);
@@ -761,13 +761,13 @@ body.ts-confirm-receipt-open {
 }
 
 @include mixins.ts-down("md") {
-	.ts-wc-account .woocommerce-EditAccountForm {
+	.wc-account .woocommerce-EditAccountForm {
 		grid-template-columns: 1fr;
 	}
 }
 
 // Address cards — edit link as small outline button
-.ts-wc-account .woocommerce-Address-title {
+.wc-account .woocommerce-Address-title {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -803,32 +803,32 @@ body.ts-confirm-receipt-open {
 }
 
 @include mixins.ts-up("lg") {
-	.ts-wc-account {
+	.wc-account {
 		grid-template-columns: minmax(15rem, 17rem) minmax(0, 1fr);
 	}
 }
 
-.ts-wc-account-nav__label--short {
+.wc-account-nav__label--short {
 	display: none;
 }
 
 @include mixins.ts-down("lg") {
-	.ts-wc-account-nav__label--full {
+	.wc-account-nav__label--full {
 		display: none;
 	}
 
-	.ts-wc-account-nav__label--short {
+	.wc-account-nav__label--short {
 		display: block;
 	}
 
-	.ts-wc-account-nav__list {
+	.wc-account-nav__list {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: var(--ts-spacer-1);
 		padding: var(--ts-spacer-2);
 		overflow: visible;
 	}
 
-	.ts-wc-account-nav__link {
+	.wc-account-nav__link {
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-start;
@@ -838,7 +838,7 @@ body.ts-confirm-receipt-open {
 		white-space: normal;
 	}
 
-	.ts-wc-account-nav__icon {
+	.wc-account-nav__icon {
 		display: grid;
 		place-items: center;
 		width: 2rem;
@@ -848,20 +848,20 @@ body.ts-confirm-receipt-open {
 		transition: background-color 0.15s ease;
 	}
 
-	.ts-wc-account-nav__icon .ts-icon {
+	.wc-account-nav__icon .icon {
 		width: var(--ts-font-size-lg);
 		height: var(--ts-font-size-lg);
 	}
 
-	.ts-wc-account-nav__label {
+	.wc-account-nav__label {
 		font-size: 0.6875rem;
 		line-height: 1.25;
 		max-width: 100%;
 		word-break: break-word;
 	}
 
-	.ts-wc-account-nav__link[aria-current="page"] .ts-wc-account-nav__icon,
-	.woocommerce-MyAccount-navigation-link.is-active .ts-wc-account-nav__link .ts-wc-account-nav__icon {
+	.wc-account-nav__link[aria-current="page"] .wc-account-nav__icon,
+	.woocommerce-MyAccount-navigation-link.is-active .wc-account-nav__link .wc-account-nav__icon {
 		background: color-mix(in srgb, var(--ts-info) 12%, var(--ts-surface));
 	}
 }

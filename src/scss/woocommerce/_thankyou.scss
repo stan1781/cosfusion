@@ -1,13 +1,13 @@
 @use "../abstracts/mixins";
 
 // Order received / thank-you page
-.woocommerce-order-received .ts-wc-thankyou {
+.woocommerce-order-received .wc-thankyou {
 	max-width: var(--ts-container-max);
 	margin-inline: auto;
 	width: 100%;
 }
 
-.ts-wc-thankyou__hero {
+.wc-thankyou__hero {
 	display: grid;
 	gap: var(--ts-spacer-2);
 	padding: var(--ts-spacer-4);
@@ -16,12 +16,12 @@
 	border: 1px solid color-mix(in srgb, var(--ts-success) 22%, var(--ts-border-color));
 }
 
-.ts-wc-thankyou__hero--failed {
+.wc-thankyou__hero--failed {
 	background: color-mix(in srgb, var(--ts-danger) 8%, var(--ts-surface));
 	border-color: color-mix(in srgb, var(--ts-danger) 22%, var(--ts-border-color));
 }
 
-.ts-wc-thankyou__title {
+.wc-thankyou__title {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -32,22 +32,22 @@
 	color: var(--ts-text-primary);
 }
 
-.ts-wc-thankyou__hero--failed .ts-wc-thankyou__title {
+.wc-thankyou__hero--failed .wc-thankyou__title {
 	color: var(--ts-danger);
 }
 
-.ts-wc-thankyou__subtitle {
+.wc-thankyou__subtitle {
 	margin: 0;
 	font-size: var(--ts-font-size-sm);
 	line-height: var(--ts-line-height-base);
 	color: var(--ts-text-secondary);
 }
 
-.ts-wc-thankyou__overview {
+.wc-thankyou__overview {
 	margin: 0;
 }
 
-.ts-wc-thankyou__overview .woocommerce-order-overview {
+.wc-thankyou__overview .woocommerce-order-overview {
 	display: grid;
 	gap: var(--ts-spacer-3);
 	list-style: none;
@@ -56,12 +56,12 @@
 }
 
 @include mixins.ts-up("sm") {
-	.ts-wc-thankyou__overview .woocommerce-order-overview {
+	.wc-thankyou__overview .woocommerce-order-overview {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
-.ts-wc-thankyou__overview .woocommerce-order-overview li {
+.wc-thankyou__overview .woocommerce-order-overview li {
 	display: grid;
 	gap: var(--ts-spacer-1);
 	margin: 0;
@@ -69,36 +69,36 @@
 	color: var(--ts-text-secondary);
 }
 
-.ts-wc-thankyou__overview .woocommerce-order-overview li strong {
+.wc-thankyou__overview .woocommerce-order-overview li strong {
 	font-size: var(--ts-font-size-base);
 	font-weight: 600;
 	color: var(--ts-text-primary);
 }
 
-.ts-wc-thankyou__overview .woocommerce-order-overview__total strong {
+.wc-thankyou__overview .woocommerce-order-overview__total strong {
 	font-size: var(--ts-font-size-lg);
 }
 
-.ts-wc-thankyou__actions {
+.wc-thankyou__actions {
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--ts-spacer-2);
 }
 
-.ts-wc-thankyou .woocommerce-order-details {
+.wc-thankyou .woocommerce-order-details {
 	gap: var(--ts-spacer-3);
 }
 
-.ts-wc-thankyou .woocommerce-order-details__title {
+.wc-thankyou .woocommerce-order-details__title {
 	margin: 0;
 }
 
-.ts-wc-thankyou .ts-wc-account-stepper--full {
+.wc-thankyou .wc-account-stepper--full {
 	margin-block: 0;
 }
 
 // Payment gateway instructions (COD, BACS, cheque, etc.)
-.ts-wc-thankyou > p {
+.wc-thankyou > p {
 	margin: 0;
 	padding: var(--ts-spacer-3);
 	border-radius: var(--ts-border-radius);
@@ -108,34 +108,34 @@
 	color: var(--ts-text-secondary);
 }
 
-.ts-wc-thankyou > p:last-child {
+.wc-thankyou > p:last-child {
 	margin-bottom: 0;
 }
 
 // Customer address block on thank-you page
-.ts-wc-thankyou .woocommerce-customer-details {
+.wc-thankyou .woocommerce-customer-details {
 	display: grid;
 	gap: var(--ts-spacer-3);
 }
 
-.ts-wc-thankyou .woocommerce-columns--addresses {
+.wc-thankyou .woocommerce-columns--addresses {
 	display: grid;
 	gap: var(--ts-spacer-3);
 }
 
 @include mixins.ts-up("md") {
-	.ts-wc-thankyou .woocommerce-columns--addresses {
+	.wc-thankyou .woocommerce-columns--addresses {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
-.ts-wc-thankyou .woocommerce-column__title {
+.wc-thankyou .woocommerce-column__title {
 	margin: 0 0 var(--ts-spacer-2);
 	font-size: var(--ts-font-size-base);
 	font-weight: 600;
 }
 
-.ts-wc-thankyou .woocommerce-customer-details address {
+.wc-thankyou .woocommerce-customer-details address {
 	margin: 0;
 	padding: var(--ts-spacer-3);
 	border-radius: var(--ts-border-radius);

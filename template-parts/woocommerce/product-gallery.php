@@ -23,15 +23,15 @@ $has_multi_slides = count( $gallery_images ) > 1;
 do_action( 'woocommerce_before_single_product_summary' );
 ?>
 <div
-	class="ts-product-gallery<?php echo $has_multi_slides ? ' ts-product-gallery--multi' : ''; ?>"
+	class="product-gallery<?php echo $has_multi_slides ? ' product-gallery--multi' : ''; ?>"
 	data-ts-product-gallery
 	<?php if ( is_string( $config_json ) && '' !== $config_json ) : ?>
 		data-product-gallery="<?php echo esc_attr( $config_json ); ?>"
 	<?php endif; ?>
 >
-	<div class="ts-product-gallery__layout">
-		<div class="ts-product-gallery__thumbs-col ts-product-gallery__thumbs-col--desktop" aria-hidden="false">
-			<div class="swiper ts-product-gallery__thumbs" data-ts-gallery-thumbs>
+	<div class="product-gallery__layout">
+		<div class="product-gallery__thumbs-col product-gallery__thumbs-col--desktop" aria-hidden="false">
+			<div class="swiper product-gallery__thumbs" data-ts-gallery-thumbs>
 				<div class="swiper-wrapper" data-ts-gallery-thumbs-wrapper>
 					<?php
 					foreach ( $gallery_images as $index => $img ) {
@@ -43,8 +43,8 @@ do_action( 'woocommerce_before_single_product_summary' );
 			</div>
 		</div>
 
-		<div class="ts-product-gallery__main-col">
-			<div class="swiper ts-product-gallery__main" data-ts-gallery-main>
+		<div class="product-gallery__main-col">
+			<div class="swiper product-gallery__main" data-ts-gallery-main>
 				<div class="swiper-wrapper" data-ts-gallery-main-wrapper>
 					<?php
 					foreach ( $gallery_images as $index => $img ) {
@@ -56,24 +56,24 @@ do_action( 'woocommerce_before_single_product_summary' );
 			</div>
 			<button
 				type="button"
-				class="ts-product-gallery__nav ts-product-gallery__nav--prev"
+				class="product-gallery__nav product-gallery__nav--prev"
 				data-ts-gallery-prev
 				aria-label="<?php esc_attr_e( 'Previous image', 'tailwindscore' ); ?>"
 				<?php echo $has_multi_slides ? '' : ' hidden'; ?>
 			>
-				<span class="ts-product-gallery__nav-icon"><?php echo tailwindscore_icon( 'chevron-left' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+				<span class="product-gallery__nav-icon"><?php echo tailwindscore_icon( 'chevron-left' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 			</button>
 			<button
 				type="button"
-				class="ts-product-gallery__nav ts-product-gallery__nav--next"
+				class="product-gallery__nav product-gallery__nav--next"
 				data-ts-gallery-next
 				aria-label="<?php esc_attr_e( 'Next image', 'tailwindscore' ); ?>"
 				<?php echo $has_multi_slides ? '' : ' hidden'; ?>
 			>
-				<span class="ts-product-gallery__nav-icon"><?php echo tailwindscore_icon( 'chevron-right' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+				<span class="product-gallery__nav-icon"><?php echo tailwindscore_icon( 'chevron-right' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 			</button>
-			<div class="ts-product-gallery__pagination swiper-pagination" data-ts-gallery-pagination></div>
-			<div class="ts-product-gallery__counter" data-ts-gallery-counter hidden></div>
+			<div class="product-gallery__pagination swiper-pagination" data-ts-gallery-pagination></div>
+			<div class="product-gallery__counter" data-ts-gallery-counter hidden></div>
 		</div>
 	</div>
 </div>

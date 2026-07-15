@@ -98,23 +98,23 @@ function tailwindscore_render_product_detail_sections(): void {
 	$has_reviews = comments_open( $product->get_id() );
 
 	?>
-	<div class="ts-product-detail-sections">
+	<div class="product-detail-sections">
 		<!-- 桌面布局：第一行 - 双栏 -->
-		<div class="ts-product-detail-row ts-product-detail-row--desktop">
+		<div class="product-detail-row product-detail-row--desktop">
 			<?php if ( $has_description ) : ?>
-				<div class="ts-product-detail-column ts-product-detail-column--description">
-					<h2 class="ts-product-detail-heading"><?php esc_html_e( 'Description', 'tailwindscore' ); ?></h2>
-					<div class="ts-product-detail-content">
+				<div class="product-detail-column product-detail-column--description">
+					<h2 class="product-detail-heading"><?php esc_html_e( 'Description', 'tailwindscore' ); ?></h2>
+					<div class="product-detail-content">
 						<?php echo wp_kses_post( $description ); ?>
 					</div>
 				</div>
 			<?php endif; ?>
 
 			<?php if ( $has_size_guide ) : ?>
-				<div class="ts-product-detail-column ts-product-detail-column--size-guide">
-					<h2 class="ts-product-detail-heading"><?php esc_html_e( 'Size Guide', 'tailwindscore' ); ?></h2>
-					<div class="ts-product-detail-content">
-						<div class="ts-product-detail-size-guide-embed" data-ts-product-size-guide-embed></div>
+				<div class="product-detail-column product-detail-column--size-guide">
+					<h2 class="product-detail-heading"><?php esc_html_e( 'Size Guide', 'tailwindscore' ); ?></h2>
+					<div class="product-detail-content">
+						<div class="product-detail-size-guide-embed" data-ts-product-size-guide-embed></div>
 					</div>
 				</div>
 			<?php endif; ?>
@@ -122,32 +122,32 @@ function tailwindscore_render_product_detail_sections(): void {
 
 		<!-- 桌面布局：第二行 - 评价 -->
 		<?php if ( $has_reviews ) : ?>
-			<div class="ts-product-detail-row ts-product-detail-row--desktop ts-product-detail-row--full">
-				<div class="ts-product-detail-column ts-product-detail-column--reviews">
+			<div class="product-detail-row product-detail-row--desktop product-detail-row--full">
+				<div class="product-detail-column product-detail-column--reviews">
 					<?php comments_template(); ?>
 				</div>
 			</div>
 		<?php endif; ?>
 
 		<!-- 移动端布局：手风琴 -->
-		<div class="ts-product-detail-accordion">
+		<div class="product-detail-accordion">
 			<?php if ( $has_description ) : ?>
-				<div class="ts-product-detail-accordion-item">
+				<div class="product-detail-accordion-item">
 					<button
 						type="button"
-						class="ts-product-detail-accordion-trigger"
+						class="product-detail-accordion-trigger"
 						aria-expanded="true"
 						data-ts-accordion-trigger
 					>
-						<span class="ts-product-detail-accordion-title"><?php esc_html_e( 'Description', 'tailwindscore' ); ?></span>
-						<span class="ts-product-detail-accordion-icon" aria-hidden="true">
+						<span class="product-detail-accordion-title"><?php esc_html_e( 'Description', 'tailwindscore' ); ?></span>
+						<span class="product-detail-accordion-icon" aria-hidden="true">
 							<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 							</svg>
 						</span>
 					</button>
-					<div class="ts-product-detail-accordion-content" data-ts-accordion-content>
-						<div class="ts-product-detail-accordion-body">
+					<div class="product-detail-accordion-content" data-ts-accordion-content>
+						<div class="product-detail-accordion-body">
 							<?php echo wp_kses_post( $description ); ?>
 						</div>
 					</div>
@@ -155,45 +155,45 @@ function tailwindscore_render_product_detail_sections(): void {
 			<?php endif; ?>
 
 			<?php if ( $has_size_guide ) : ?>
-				<div class="ts-product-detail-accordion-item">
+				<div class="product-detail-accordion-item">
 					<button
 						type="button"
-						class="ts-product-detail-accordion-trigger"
+						class="product-detail-accordion-trigger"
 						aria-expanded="false"
 						data-ts-accordion-trigger
 					>
-						<span class="ts-product-detail-accordion-title"><?php esc_html_e( 'Size Guide', 'tailwindscore' ); ?></span>
-						<span class="ts-product-detail-accordion-icon" aria-hidden="true">
+						<span class="product-detail-accordion-title"><?php esc_html_e( 'Size Guide', 'tailwindscore' ); ?></span>
+						<span class="product-detail-accordion-icon" aria-hidden="true">
 							<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 							</svg>
 						</span>
 					</button>
-					<div class="ts-product-detail-accordion-content" data-ts-accordion-content hidden>
-						<div class="ts-product-detail-accordion-body">
-							<div class="ts-product-detail-size-guide-embed" data-ts-product-size-guide-embed></div>
+					<div class="product-detail-accordion-content" data-ts-accordion-content hidden>
+						<div class="product-detail-accordion-body">
+							<div class="product-detail-size-guide-embed" data-ts-product-size-guide-embed></div>
 						</div>
 					</div>
 				</div>
 			<?php endif; ?>
 
 			<?php if ( $has_reviews ) : ?>
-				<div class="ts-product-detail-accordion-item">
+				<div class="product-detail-accordion-item">
 					<button
 						type="button"
-						class="ts-product-detail-accordion-trigger"
+						class="product-detail-accordion-trigger"
 						aria-expanded="false"
 						data-ts-accordion-trigger
 					>
-						<span class="ts-product-detail-accordion-title"><?php esc_html_e( 'Reviews', 'tailwindscore' ); ?></span>
-						<span class="ts-product-detail-accordion-icon" aria-hidden="true">
+						<span class="product-detail-accordion-title"><?php esc_html_e( 'Reviews', 'tailwindscore' ); ?></span>
+						<span class="product-detail-accordion-icon" aria-hidden="true">
 							<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 							</svg>
 						</span>
 					</button>
-					<div class="ts-product-detail-accordion-content" data-ts-accordion-content hidden>
-						<div class="ts-product-detail-accordion-body">
+					<div class="product-detail-accordion-content" data-ts-accordion-content hidden>
+						<div class="product-detail-accordion-body">
 							<?php comments_template(); ?>
 						</div>
 					</div>

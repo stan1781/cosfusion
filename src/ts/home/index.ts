@@ -47,7 +47,7 @@ function initHeroSwiper(config: TailwindscoreHomeConfig): void {
 	const slideCount = root.querySelectorAll('.swiper-slide').length;
 
 	if (slideCount <= 1) {
-		root.classList.add('ts-home-hero__swiper--single');
+		root.classList.add('home-hero__swiper--single');
 		return;
 	}
 
@@ -94,8 +94,8 @@ function unwrapProductsList(root: HTMLElement, list: HTMLElement): void {
 
 function initProductsSwiper(config: TailwindscoreHomeConfig): void {
 	const root = document.querySelector<HTMLElement>('[data-ts-home-products]');
-	const section = root?.closest<HTMLElement>('.ts-home-products');
-	const content = root?.closest<HTMLElement>('.ts-home-products__content');
+	const section = root?.closest<HTMLElement>('.home-products');
+	const content = root?.closest<HTMLElement>('.home-products__content');
 	const list = root?.querySelector<HTMLElement>('ul.products');
 	const controls = content?.querySelector<HTMLElement>('[data-ts-home-products-controls]');
 	const navControls = section?.querySelector<HTMLElement>('[data-ts-home-products-nav]');

@@ -46,7 +46,7 @@ function tailwindscore_footer_nav_alignment(): string {
  * 页脚导航对齐的 BEM 修饰 class。
  */
 function tailwindscore_footer_nav_alignment_class(): string {
-	return 'ts-site-footer__nav--align-' . tailwindscore_footer_nav_alignment();
+	return 'site-footer__nav--align-' . tailwindscore_footer_nav_alignment();
 }
 
 /**
@@ -65,7 +65,7 @@ function tailwindscore_footer_nav_menu_args(): array {
 	$menu_args = array(
 		'theme_location' => 'footer',
 		'container'      => false,
-		'menu_class'     => 'ts-site-footer__nav-list',
+		'menu_class'     => 'site-footer__nav-list',
 		'depth'          => 1,
 		'fallback_cb'    => false,
 	);

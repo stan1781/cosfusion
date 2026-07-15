@@ -5,7 +5,7 @@ declare(strict_types=1);
  * 导航菜单项辅助函数。
  *
  * 菜单编辑器 CSS class：
- * - mega-menu 或 ts-mega-menu — mega panel（三级：顶栏 → 列 → 链接）
+ * - mega-menu 或 mega-menu — mega panel（三级：顶栏 → 列 → 链接）
  * - hot、new、sale — 徽章标签（样式于后续阶段）
  */
 
@@ -44,7 +44,7 @@ function tailwindscore_nav_item_has_children( object $item, object $args ): bool
  */
 function tailwindscore_nav_item_is_mega( object $item ): bool {
 	$is_mega = tailwindscore_nav_item_has_class( $item, 'mega-menu' )
-		|| tailwindscore_nav_item_has_class( $item, 'ts-mega-menu' );
+		|| tailwindscore_nav_item_has_class( $item, 'mega-menu' );
 
 	return (bool) apply_filters( 'tailwindscore_nav_menu_is_mega_item', $is_mega, $item );
 }
@@ -72,10 +72,10 @@ function tailwindscore_nav_item_badge_html( object $item, string $position = 'to
 		}
 
 		$label = ucfirst( $badge );
-		$pos   = 'inline' === $position ? 'ts-nav__badge--inline' : 'ts-nav__badge--top';
+		$pos   = 'inline' === $position ? 'nav__badge--inline' : 'nav__badge--top';
 
 		return sprintf(
-			'<span class="ts-nav__badge ts-nav__badge--%1$s %2$s">%3$s</span>',
+			'<span class="nav__badge nav__badge--%1$s %2$s">%3$s</span>',
 			esc_attr( $badge ),
 			esc_attr( $pos ),
 			esc_html( $label )

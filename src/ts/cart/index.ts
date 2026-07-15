@@ -313,7 +313,7 @@ function renderCartBadge(count: number) {
 		return '';
 	}
 
-	return `<span class="ts-site-header__badge" aria-hidden="true">${count}</span>`;
+	return `<span class="site-header__badge" aria-hidden="true">${count}</span>`;
 }
 
 function renderCartScreenReader(count: number, config: TailwindscoreCartConfig) {
@@ -389,14 +389,14 @@ function renderCartLineItemMeta(item: StoreApiCartItem): string {
 	const rows = meta
 		.map(
 			({ label, value }) => `
-		<li class="ts-cart-drawer-cart__detail">
-			<span class="ts-cart-drawer-cart__detail-label">${escapeHtml(label)}:</span>
-			<span class="ts-cart-drawer-cart__detail-value">${escapeHtml(value)}</span>
+		<li class="cart-drawer-cart__detail">
+			<span class="cart-drawer-cart__detail-label">${escapeHtml(label)}:</span>
+			<span class="cart-drawer-cart__detail-value">${escapeHtml(value)}</span>
 		</li>`
 		)
 		.join('');
 
-	return `<ul class="ts-cart-drawer-cart__details">${rows}</ul>`;
+	return `<ul class="cart-drawer-cart__details">${rows}</ul>`;
 }
 
 function renderCartItemEditButton(item: StoreApiCartItem, config: TailwindscoreCartConfig): string {
@@ -409,12 +409,12 @@ function renderCartItemEditButton(item: StoreApiCartItem, config: TailwindscoreC
 	return `
 		<button
 			type="button"
-			class="ts-cart-drawer-cart__edit"
+			class="cart-drawer-cart__edit"
 			data-ts-cart-item-edit
 			data-cart-item-key="${escapeHtml(item.key)}"
 			aria-label="${label}"
 		>
-			<span class="ts-icon" aria-hidden="true">${config.icons.pencil}</span>
+			<span class="icon" aria-hidden="true">${config.icons.pencil}</span>
 		</button>
 	`;
 }
@@ -433,42 +433,42 @@ function renderCartItem(item: StoreApiCartItem, config: TailwindscoreCartConfig)
 	const productName = escapeHtml(item.name);
 
 	return `
-		<li class="ts-cart-drawer-cart__item" data-ts-cart-item data-cart-item-key="${escapeHtml(item.key)}">
-			<div class="ts-cart-drawer-cart__media">
+		<li class="cart-drawer-cart__item" data-ts-cart-item data-cart-item-key="${escapeHtml(item.key)}">
+			<div class="cart-drawer-cart__media">
 				${productUrl ? `<a href="${productUrl}">${imageMarkup}</a>` : imageMarkup}
 			</div>
-			<div class="ts-cart-drawer-cart__content ts-stack">
-				<div class="ts-cart-drawer-cart__row">
-					<div class="ts-cart-drawer-cart__meta ts-stack">
-						${productUrl ? `<a class="ts-cart-drawer-cart__name" href="${productUrl}">${productName}</a>` : `<span class="ts-cart-drawer-cart__name">${productName}</span>`}
+			<div class="cart-drawer-cart__content stack">
+				<div class="cart-drawer-cart__row">
+					<div class="cart-drawer-cart__meta stack">
+						${productUrl ? `<a class="cart-drawer-cart__name" href="${productUrl}">${productName}</a>` : `<span class="cart-drawer-cart__name">${productName}</span>`}
 						${renderCartLineItemMeta(item)}
-						<span class="ts-cart-drawer-cart__quantity">${item.quantity} x ${escapeHtml(unitPrice)}</span>
+						<span class="cart-drawer-cart__quantity">${item.quantity} x ${escapeHtml(unitPrice)}</span>
 					</div>
 					<button
 						type="button"
-						class="ts-cart-drawer-cart__remove"
+						class="cart-drawer-cart__remove"
 						data-ts-cart-remove
 						data-cart-item-key="${escapeHtml(item.key)}"
 						aria-label="${escapeHtml(config.i18n.removeItem)}"
 					>
-						<span class="ts-icon" aria-hidden="true">${config.icons.trash}</span>
+						<span class="icon" aria-hidden="true">${config.icons.trash}</span>
 					</button>
 				</div>
-				<div class="ts-cart-drawer-cart__controls">
-					<div class="ts-quantity quantity ts-quantity--compact" data-ts-quantity data-ts-cart-quantity-controls>
+				<div class="cart-drawer-cart__controls">
+					<div class="quantity quantity quantity-compact" data-ts-quantity data-ts-cart-quantity-controls>
 						<button
 							type="button"
-							class="ts-quantity__step"
+							class="quantity__step"
 							data-ts-quantity-step="-1"
 							data-cart-item-key="${escapeHtml(item.key)}"
 							aria-label="${escapeHtml(config.i18n.decreaseQuantity)}"
 						>
-							<span class="ts-icon" aria-hidden="true">${config.icons.minus}</span>
+							<span class="icon" aria-hidden="true">${config.icons.minus}</span>
 						</button>
-						<label class="screen-reader-text" for="ts-cart-qty-${escapeHtml(item.key)}">${escapeHtml(config.i18n.quantityLabel)}</label>
+						<label class="screen-reader-text" for="cart-qty-${escapeHtml(item.key)}">${escapeHtml(config.i18n.quantityLabel)}</label>
 						<input
 							id="ts-cart-qty-${escapeHtml(item.key)}"
-							class="ts-quantity__input qty"
+							class="quantity__input qty"
 							type="number"
 							inputmode="numeric"
 							min="0"${maxAttribute}
@@ -479,17 +479,17 @@ function renderCartItem(item: StoreApiCartItem, config: TailwindscoreCartConfig)
 						>
 						<button
 							type="button"
-							class="ts-quantity__step"
+							class="quantity__step"
 							data-ts-quantity-step="1"
 							data-cart-item-key="${escapeHtml(item.key)}"
 							aria-label="${escapeHtml(config.i18n.increaseQuantity)}"
 						>
-							<span class="ts-icon" aria-hidden="true">${config.icons.plus}</span>
+							<span class="icon" aria-hidden="true">${config.icons.plus}</span>
 						</button>
 					</div>
 					${renderCartItemEditButton(item, config)}
 				</div>
-				<div class="ts-cart-drawer-cart__subtotal">${escapeHtml(subtotal)}</div>
+				<div class="cart-drawer-cart__subtotal">${escapeHtml(subtotal)}</div>
 			</div>
 		</li>
 	`;
@@ -522,20 +522,20 @@ function renderCartFooterTotals(cart: StoreApiCart, config: TailwindscoreCartCon
 	const discountRow =
 		discount > 0
 			? `
-				<div class="ts-cart-drawer-cart__totals ts-cart-drawer-cart__totals--discount">
+				<div class="cart-drawer-cart__totals cart-drawer-cart__totals--discount">
 					<span>${escapeHtml(config.i18n.couponDiscount)}</span>
-					<strong class="ts-cart-drawer-cart__discount-amount">${escapeHtml(formatDiscountAmount(String(discount), cart.totals))}</strong>
+					<strong class="cart-drawer-cart__discount-amount">${escapeHtml(formatDiscountAmount(String(discount), cart.totals))}</strong>
 				</div>
 			`
 			: '';
 	const shippingNote = includeShippingNote
-		? `<p class="ts-wc-cart__shipping-note">${escapeHtml(config.i18n.shippingAtCheckout)}</p>`
+		? `<p class="wc-cart__shipping-note">${escapeHtml(config.i18n.shippingAtCheckout)}</p>`
 		: '';
 
 	return `
-		<div class="ts-cart-drawer-cart__totals-group ts-stack">
+		<div class="cart-drawer-cart__totals-group stack">
 			${discountRow}
-			<div class="ts-cart-drawer-cart__totals ts-cart-drawer-cart__totals--subtotal">
+			<div class="cart-drawer-cart__totals cart-drawer-cart__totals--subtotal">
 				<span>${escapeHtml(config.i18n.subtotal)}</span>
 				<strong data-ts-cart-subtotal>${escapeHtml(formatMoney(String(subtotalAfterDiscount), cart.totals))}</strong>
 			</div>
@@ -545,24 +545,24 @@ function renderCartFooterTotals(cart: StoreApiCart, config: TailwindscoreCartCon
 }
 
 function renderCartCouponMarkup(config: TailwindscoreCartConfig, surface: 'drawer' | 'page' = 'drawer') {
-	const inputId = 'page' === surface ? 'ts-cart-page-coupon-code' : 'ts-cart-coupon-code';
-	const formModifier = 'page' === surface ? 'ts-coupon-form--cart-page' : 'ts-coupon-form--drawer';
+	const inputId = 'page' === surface ? 'cart-page-coupon-code' : 'cart-coupon-code';
+	const formModifier = 'page' === surface ? 'coupon-form--cart-page' : 'coupon-form--drawer';
 
 	return `
-		<div class="ts-cart-drawer-cart__coupon" data-ts-cart-coupon>
-			<form class="ts-cart-drawer-cart__coupon-form ts-coupon-form ${formModifier}" data-ts-cart-coupon-form action="${escapeHtml(config.cartUrl)}" method="post">
-				<label class="ts-coupon-form__label" for="${inputId}">${escapeHtml(config.i18n.couponLabel)}</label>
-				<div class="ts-input-group">
+		<div class="cart-drawer-cart__coupon" data-ts-cart-coupon>
+			<form class="cart-drawer-cart__coupon-form coupon-form ${formModifier}" data-ts-cart-coupon-form action="${escapeHtml(config.cartUrl)}" method="post">
+				<label class="coupon-form__label" for="${inputId}">${escapeHtml(config.i18n.couponLabel)}</label>
+				<div class="input-group">
 					<input
 						id="${inputId}"
-						class="ts-input"
+						class="input"
 						type="text"
 						name="coupon_code"
 						autocomplete="off"
 						data-ts-cart-coupon-input
 						placeholder="${escapeHtml(config.i18n.couponPlaceholder)}"
 					>
-					<button class="ts-button ts-button--secondary" type="submit" disabled data-ts-button-loading data-ts-cart-coupon-submit>${escapeHtml(config.i18n.applyCoupon)}</button>
+					<button class="btn btn-secondary" type="submit" disabled data-ts-button-loading data-ts-cart-coupon-submit>${escapeHtml(config.i18n.applyCoupon)}</button>
 				</div>
 			</form>
 		</div>
@@ -572,27 +572,27 @@ function renderCartCouponMarkup(config: TailwindscoreCartConfig, surface: 'drawe
 function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 	if (cart.items.length < 1) {
 		return `
-			<div class="ts-cart-drawer-cart">
-				<div class="ts-cart-drawer-cart__empty ts-stack">
+			<div class="cart-drawer-cart">
+				<div class="cart-drawer-cart__empty stack">
 					<p>${escapeHtml(config.i18n.emptyCartMessage)}</p>
-					<a class="ts-button ts-button--outline" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
+					<a class="btn btn-outline" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
 				</div>
 			</div>
 		`;
 	}
 
 	return `
-		<div class="ts-cart-drawer-cart ts-cart-drawer-cart--filled">
-			<div class="ts-cart-drawer-cart__body">
-				<ul class="ts-cart-drawer-cart__items" data-ts-cart-items>
+		<div class="cart-drawer-cart cart-drawer-cart--filled">
+			<div class="cart-drawer-cart__body">
+				<ul class="cart-drawer-cart__items" data-ts-cart-items>
 					${cart.items.map((item) => renderCartItem(item, config)).join('')}
 				</ul>
 			</div>
 			${config.showDrawerCoupon !== false ? renderCartCouponMarkup(config) : ''}
-			<div class="ts-cart-drawer-cart__footer ts-stack" data-ts-cart-footer>
+			<div class="cart-drawer-cart__footer stack" data-ts-cart-footer>
 				${renderCartFooterTotals(cart, config)}
-				<a class="ts-button" href="${escapeHtml(config.checkoutUrl)}" data-ts-button-loading>${escapeHtml(config.i18n.checkout)}</a>
-				<a class="ts-cart-drawer-cart__view-cart" href="${escapeHtml(config.cartUrl)}">${escapeHtml(config.i18n.viewCart)}</a>
+				<a class="btn" href="${escapeHtml(config.checkoutUrl)}" data-ts-button-loading>${escapeHtml(config.i18n.checkout)}</a>
+				<a class="cart-drawer-cart__view-cart" href="${escapeHtml(config.cartUrl)}">${escapeHtml(config.i18n.viewCart)}</a>
 			</div>
 		</div>
 	`;
@@ -601,30 +601,30 @@ function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 function renderCartPage(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 	if (cart.items.length < 1) {
 		return `
-			<div class="ts-cart-page-cart">
-				<div class="ts-cart-drawer-cart__empty ts-stack">
+			<div class="cart-page-cart">
+				<div class="cart-drawer-cart__empty stack">
 					<p>${escapeHtml(config.i18n.emptyCartMessage)}</p>
-					<a class="ts-button ts-button--outline" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
+					<a class="btn btn-outline" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
 				</div>
 			</div>
 		`;
 	}
 
 	return `
-		<div class="ts-cart-page-cart ts-cart-page-cart--filled">
-			<div class="ts-wc-cart__scroll">
-				<div class="ts-cart-drawer-cart__body">
-					<ul class="ts-cart-drawer-cart__items ts-wc-cart__items" data-ts-cart-items>
+		<div class="cart-page-cart cart-page-cart--filled">
+			<div class="wc-cart__scroll">
+				<div class="cart-drawer-cart__body">
+					<ul class="cart-drawer-cart__items wc-cart__items" data-ts-cart-items>
 						${cart.items.map((item) => renderCartItem(item, config)).join('')}
 					</ul>
 				</div>
 			</div>
-			<aside class="ts-wc-cart__aside">
+			<aside class="wc-cart__aside">
 				${renderCartCouponMarkup(config, 'page')}
-				<div class="ts-wc-cart__footer-bar">
-					<div class="ts-cart-drawer-cart__footer ts-stack ts-cart-drawer-cart__footer--cart-page" data-ts-cart-footer>
+				<div class="wc-cart__footer-bar">
+					<div class="cart-drawer-cart__footer stack cart-drawer-cart__footer--cart-page" data-ts-cart-footer>
 						${renderCartFooterTotals(cart, config, true)}
-						<a class="ts-button ts-button--primary" href="${escapeHtml(config.checkoutUrl)}" data-ts-button-loading>${escapeHtml(config.i18n.checkout)}</a>
+						<a class="btn btn-primary" href="${escapeHtml(config.checkoutUrl)}" data-ts-button-loading>${escapeHtml(config.i18n.checkout)}</a>
 					</div>
 				</div>
 			</aside>

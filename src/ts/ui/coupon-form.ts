@@ -2,7 +2,7 @@ const COUPON_INPUT_SELECTOR = '[data-ts-cart-coupon-input], [data-ts-checkout-co
 
 export function syncCouponApplyButtonForInput(input: HTMLInputElement): void {
 	const button = input
-		.closest('.ts-input-group')
+		.closest('.input-group')
 		?.querySelector<HTMLButtonElement>('[data-ts-cart-coupon-submit]');
 
 	if (!button) {

@@ -1,28 +1,28 @@
 @use "../abstracts/mixins";
 
-.ts-button {
+.btn {
 	@include mixins.ts-control-button-base;
 	text-decoration: none;
 }
 
-.ts-button--ghost {
+.btn-ghost {
 	background: transparent;
 	color: var(--ts-text-primary);
 }
 
-.ts-button--secondary {
+.btn-secondary {
 	background: var(--ts-surface);
 	color: var(--ts-text-primary);
 	border-color: var(--ts-border-color);
 }
 
-.ts-button--outline {
+.btn-outline {
 	background: transparent;
 	color: var(--ts-text-primary);
 	border-color: var(--ts-border-color-strong);
 }
 
-.ts-button--link {
+.btn-link {
 	min-height: auto;
 	padding: 0;
 	border: 0;
@@ -35,7 +35,7 @@
 }
 
 @media (hover: hover) {
-	.ts-button--link:not(:disabled):not(.is-loading):not(.loading):hover {
+	.btn-link:not(:disabled):not(.is-loading):not(.loading):hover {
 		background: transparent;
 		border-color: transparent;
 		color: color-mix(in srgb, var(--ts-info) 82%, var(--ts-text-primary));
@@ -43,30 +43,30 @@
 }
 
 @media (hover: hover) {
-	.ts-button:not(:disabled):not(.is-loading):not(.loading):hover {
+	.btn:not(:disabled):not(.is-loading):not(.loading):hover {
 		@include mixins.ts-control-button-primary-hover;
 	}
 
-	.ts-button--ghost:not(:disabled):not(.is-loading):not(.loading):hover {
+	.btn-ghost:not(:disabled):not(.is-loading):not(.loading):hover {
 		background: var(--ts-surface-muted);
 		border-color: var(--ts-border-color);
 		color: var(--ts-text-primary);
 	}
 
-	.ts-button--secondary:not(:disabled):not(.is-loading):not(.loading):hover {
+	.btn-secondary:not(:disabled):not(.is-loading):not(.loading):hover {
 		background: var(--ts-surface-muted);
 		border-color: var(--ts-border-color-strong);
 		color: var(--ts-text-primary);
 	}
 
-	.ts-button--outline:not(:disabled):not(.is-loading):not(.loading):hover {
+	.btn-outline:not(:disabled):not(.is-loading):not(.loading):hover {
 		background: var(--ts-surface-muted);
 		border-color: var(--ts-border-color-strong);
 		color: var(--ts-text-primary);
 	}
 }
 
-.ts-button--sm {
+.btn-sm {
 	min-height: auto;
 	padding: 0.3125rem 0.625rem;
 	border-radius: 0.4rem;
@@ -76,11 +76,11 @@
 }
 
 /* Shared AJAX loading state (coupon, add to cart, checkout, etc.) */
-.ts-button.is-loading,
-.ts-button.loading,
-button.ts-button.is-loading,
-button.ts-button.loading,
-a.ts-button.is-loading,
+.btn.is-loading,
+.btn.loading,
+button.btn.is-loading,
+button.btn.loading,
+a.btn.is-loading,
 a[role="button"].is-loading,
 .woocommerce .button.is-loading,
 .woocommerce .button.loading,
@@ -95,11 +95,11 @@ a[role="button"].is-loading,
 	cursor: wait;
 }
 
-.ts-button.is-loading:not(.ts-icon-button),
-.ts-button.loading:not(.ts-icon-button),
-button.ts-button.is-loading:not(.ts-icon-button),
-button.ts-button.loading:not(.ts-icon-button),
-a.ts-button.is-loading,
+.btn.is-loading:not(.btn-icon),
+.btn.loading:not(.btn-icon),
+button.btn.is-loading:not(.btn-icon),
+button.btn.loading:not(.btn-icon),
+a.btn.is-loading,
 a[role="button"].is-loading,
 .woocommerce .button.is-loading,
 .woocommerce .button.loading,
@@ -112,11 +112,11 @@ a[role="button"].is-loading,
 	color: transparent;
 }
 
-.ts-button.is-loading:not(.ts-icon-button)::after,
-.ts-button.loading:not(.ts-icon-button)::after,
-button.ts-button.is-loading:not(.ts-icon-button)::after,
-button.ts-button.loading:not(.ts-icon-button)::after,
-a.ts-button.is-loading::after,
+.btn.is-loading:not(.btn-icon)::after,
+.btn.loading:not(.btn-icon)::after,
+button.btn.is-loading:not(.btn-icon)::after,
+button.btn.loading:not(.btn-icon)::after,
+a.btn.is-loading::after,
 a[role="button"].is-loading::after,
 .woocommerce .button.is-loading::after,
 .woocommerce .button.loading::after,
@@ -139,17 +139,17 @@ a[role="button"].is-loading::after,
 	@include mixins.ts-animation-spin;
 }
 
-.ts-button--secondary.is-loading,
-.ts-button--secondary.loading,
-.ts-button--outline.is-loading,
-.ts-button--outline.loading,
-.ts-button--ghost.is-loading,
-.ts-button--ghost.loading {
+.btn-secondary.is-loading,
+.btn-secondary.loading,
+.btn-outline.is-loading,
+.btn-outline.loading,
+.btn-ghost.is-loading,
+.btn-ghost.loading {
 	--ts-button-spinner-color: var(--ts-text-primary);
 }
 
-.ts-input-group .ts-button.is-loading:not(.ts-icon-button)::after,
-.ts-input-group .ts-button.loading:not(.ts-icon-button)::after {
+.input-group .btn.is-loading:not(.btn-icon)::after,
+.input-group .btn.loading:not(.btn-icon)::after {
 	width: var(--ts-font-size-sm);
 	height: var(--ts-font-size-sm);
 }

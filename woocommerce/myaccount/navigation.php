@@ -23,7 +23,7 @@ do_action( 'woocommerce_before_account_navigation' );
 ?>
 
 <nav class="woocommerce-MyAccount-navigation" aria-label="<?php esc_attr_e( 'Account pages', 'woocommerce' ); ?>">
-	<ul class="ts-wc-account-nav__list">
+	<ul class="wc-account-nav__list">
 		<?php foreach ( wc_get_account_menu_items() as $endpoint => $label ) : ?>
 			<?php
 			$icon        = $nav_icons[ $endpoint ] ?? 'user';
@@ -31,14 +31,14 @@ do_action( 'woocommerce_before_account_navigation' );
 			?>
 			<li class="<?php echo esc_attr( wc_get_account_menu_item_classes( $endpoint ) ); ?>">
 				<a
-					class="ts-wc-account-nav__link"
+					class="wc-account-nav__link"
 					href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>"
 					<?php echo wc_is_current_account_menu_item( $endpoint ) ? 'aria-current="page"' : ''; ?>
 					aria-label="<?php echo esc_attr( $label ); ?>"
 				>
-					<span class="ts-icon ts-wc-account-nav__icon" aria-hidden="true"><?php echo tailwindscore_icon( $icon ); ?></span>
-					<span class="ts-wc-account-nav__label ts-wc-account-nav__label--full"><?php echo esc_html( $label ); ?></span>
-					<span class="ts-wc-account-nav__label ts-wc-account-nav__label--short" aria-hidden="true"><?php echo esc_html( $short_label ); ?></span>
+					<span class="icon wc-account-nav__icon" aria-hidden="true"><?php echo tailwindscore_icon( $icon ); ?></span>
+					<span class="wc-account-nav__label wc-account-nav__label--full"><?php echo esc_html( $label ); ?></span>
+					<span class="wc-account-nav__label wc-account-nav__label--short" aria-hidden="true"><?php echo esc_html( $short_label ); ?></span>
 				</a>
 			</li>
 		<?php endforeach; ?>

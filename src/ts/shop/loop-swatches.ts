@@ -2,10 +2,10 @@
  * Product loop variant swatches: click to swap primary thumbnail on archive cards.
  */
 
-const SWATCH_SELECTOR = '[data-product-card-swatches] .ts-wc-product-card__swatch';
+const SWATCH_SELECTOR = '[data-product-card-swatches] .wc-product-card__swatch';
 const CARD_SELECTOR = '[data-product-card]';
 const MEDIA_SELECTOR = '[data-product-card-media]';
-const PRIMARY_IMG_SELECTOR = 'img.ts-wc-product-card__image--primary';
+const PRIMARY_IMG_SELECTOR = 'img.wc-product-card__image--primary';
 
 interface SwatchImageData {
 	src?: string;
@@ -51,7 +51,7 @@ function applyImage(img: HTMLImageElement, data: SwatchImageData): void {
 }
 
 function setActive(group: HTMLElement, activeBtn: HTMLButtonElement): void {
-	const buttons = group.querySelectorAll<HTMLButtonElement>('.ts-wc-product-card__swatch');
+	const buttons = group.querySelectorAll<HTMLButtonElement>('.wc-product-card__swatch');
 	buttons.forEach((b) => {
 		const isActive = b === activeBtn;
 		b.classList.toggle('is-active', isActive);

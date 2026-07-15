@@ -49,7 +49,7 @@ async function handleAddToCart(form: HTMLFormElement, submitter: HTMLButtonEleme
 const isProductPage =
 	document.body.classList.contains('single-product') ||
 	document.body.classList.contains('product') ||
-	document.body.classList.contains('ts-single-product') ||
+	document.body.classList.contains('single-product') ||
 	document.querySelector('form.variations_form .custom-variation-selector') !== null;
 
 if (isProductPage) {

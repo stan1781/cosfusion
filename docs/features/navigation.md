@@ -7,7 +7,7 @@ TailwindScore 主导航支持标准下拉、Mega 菜单与移动端钻取抽屉�
 - 有子项的顶级菜单显示 **钻取按钮**（chevron）。点击后子面板从右侧滑入。
 - 抽屉标题从 **Menu** 切换为父级标签（如 **Help**）。**← Back** 返回上一级。
 - 关闭抽屉时重置到根面板。
-- Mega 项（`mega-menu` / `ts-mega-menu`）在面板内渲染列布局；带子项的 mega 列也可使用相同钻取模式。
+- Mega 项（`mega-menu` / `mega-menu`）在面板内渲染列布局；带子项的 mega 列也可使用相同钻取模式。
 
 实现：`src/ts/site/menu-drawer-panel.ts`、`mobile-nav.ts`。
 
@@ -20,7 +20,7 @@ TailwindScore 主导航支持标准下拉、Mega 菜单与移动端钻取抽屉�
 
 ## Mega 菜单
 
-仅在 **顶级** 菜单项上添加 CSS 类 **`mega-menu`** 或 **`ts-mega-menu`**。
+仅在 **顶级** 菜单项上添加 CSS 类 **`mega-menu`** 或 **`mega-menu`**。
 
 结构（三级）：
 

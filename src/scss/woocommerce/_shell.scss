@@ -1,12 +1,12 @@
 @use "../abstracts/mixins";
 
-.ts-main--commerce .ts-wc-shell {
+.main--commerce .wc-shell {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	gap: var(--ts-spacer-4);
 }
 
-.ts-main--commerce .ts-wc-shell > * {
+.main--commerce .wc-shell > * {
 	min-width: 0;
 }
 
@@ -15,8 +15,8 @@
 .woocommerce table.shop_table,
 .woocommerce table.shop_attributes,
 .woocommerce-tabs .wp-block-table table,
-.ts-size-guide-table,
-.ts-size-guide-legacy table {
+.size-guide-table,
+.size-guide-legacy table {
 	width: 100%;
 	border-collapse: collapse;
 	border: 1px solid var(--ts-border-color);

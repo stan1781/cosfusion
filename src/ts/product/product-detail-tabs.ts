@@ -20,23 +20,23 @@ function getSizeGuideConfig(): SizeGuideConfig | null {
  * This reuses the exact same HTML structure as the modal dialog
  */
 function renderSizeGuideContent(cfg: SizeGuideConfig, unit: 'cm' | 'inch', container: HTMLElement): void {
-	// Create the same structure as .ts-size-guide-dialog__inner
+	// Create the same structure as .size-guide-dialog__inner
 	let html = '';
 
 	// Header with unit toggle (if applicable)
 	if (cfg.showUnitSwitcher && cfg.table) {
-		html += '<div class="ts-size-guide-dialog__header">';
-		html += '<div class="ts-size-guide-dialog__controls">';
-		html += '<div class="ts-size-guide-unit-toggle" data-ts-size-guide-unit-toggle-embed>';
-		html += `<button type="button" class="ts-size-guide-unit-btn ${unit === 'cm' ? 'is-active' : ''}" data-unit="cm">cm</button>`;
-		html += `<button type="button" class="ts-size-guide-unit-btn ${unit === 'inch' ? 'is-active' : ''}" data-unit="inch">inch</button>`;
+		html += '<div class="size-guide-dialog__header">';
+		html += '<div class="size-guide-dialog__controls">';
+		html += '<div class="size-guide-unit-toggle" data-ts-size-guide-unit-toggle-embed>';
+		html += `<button type="button" class="size-guide-unit-btn ${unit === 'cm' ? 'is-active' : ''}" data-unit="cm">cm</button>`;
+		html += `<button type="button" class="size-guide-unit-btn ${unit === 'inch' ? 'is-active' : ''}" data-unit="inch">inch</button>`;
 		html += '</div>';
 		html += '</div>';
 		html += '</div>';
 	}
 
 	// Body content
-	html += '<div class="ts-size-guide-dialog__body" data-ts-size-guide-body-embed></div>';
+	html += '<div class="size-guide-dialog__body" data-ts-size-guide-body-embed></div>';
 
 	container.innerHTML = html;
 }
@@ -47,7 +47,7 @@ function renderSizeGuideContent(cfg: SizeGuideConfig, unit: 'cm' | 'inch', conta
  */
 function updateSizeGuideBody(cfg: SizeGuideConfig, unit: 'cm' | 'inch', bodyElement: HTMLElement): void {
 	if (cfg.legacyHtml) {
-		bodyElement.innerHTML = `<div class="ts-size-guide-legacy">${cfg.legacyHtml}</div>`;
+		bodyElement.innerHTML = `<div class="size-guide-legacy">${cfg.legacyHtml}</div>`;
 	} else if (cfg.table) {
 		bodyElement.innerHTML = renderTableHTML(cfg.table, unit, false);
 	}
@@ -84,7 +84,7 @@ function initEmbeddedSizeGuide(): void {
 		if (cfg.showUnitSwitcher && cfg.table) {
 			const unitToggle = container.querySelector('[data-ts-size-guide-unit-toggle-embed]');
 			if (unitToggle) {
-				unitToggle.querySelectorAll<HTMLButtonElement>('.ts-size-guide-unit-btn').forEach((btn) => {
+				unitToggle.querySelectorAll<HTMLButtonElement>('.size-guide-unit-btn').forEach((btn) => {
 					btn.addEventListener('click', () => {
 						const newUnit = btn.getAttribute('data-unit') as 'cm' | 'inch';
 						if (!newUnit) return;
@@ -92,7 +92,7 @@ function initEmbeddedSizeGuide(): void {
 						currentUnit = newUnit;
 
 						// Update button states
-						unitToggle.querySelectorAll<HTMLButtonElement>('.ts-size-guide-unit-btn').forEach((b) => {
+						unitToggle.querySelectorAll<HTMLButtonElement>('.size-guide-unit-btn').forEach((b) => {
 							b.classList.toggle('is-active', b.getAttribute('data-unit') === newUnit);
 						});
 
@@ -137,7 +137,7 @@ function initAccordion(): void {
  */
 export function initProductDetailTabs(): void {
 	// Check if we're on a product page
-	if (!document.querySelector('.ts-product-detail-sections')) {
+	if (!document.querySelector('.product-detail-sections')) {
 		return;
 	}
 

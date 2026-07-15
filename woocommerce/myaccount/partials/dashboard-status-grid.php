@@ -16,7 +16,7 @@ $icon_map    = array(
 	'completed' => 'circle-check',
 );
 ?>
-<nav class="ts-wc-account-status-grid" aria-label="<?php esc_attr_e( 'Order status overview', 'tailwindscore' ); ?>">
+<nav class="wc-account-status-grid" aria-label="<?php esc_attr_e( 'Order status overview', 'tailwindscore' ); ?>">
 	<?php foreach ( $bucket_keys as $bucket ) : ?>
 		<?php
 		$step      = $steps[ $bucket ] ?? array( 'label' => $bucket );
@@ -29,15 +29,15 @@ $icon_map    = array(
 		?>
 		<a
 			href="<?php echo esc_url( $url ); ?>"
-			class="ts-wc-account-status-grid__tile<?php echo $is_active ? ' ts-wc-account-status-grid__tile--active' : ''; ?><?php echo 0 === $count ? ' ts-wc-account-status-grid__tile--empty' : ''; ?>"
+			class="wc-account-status-grid__tile<?php echo $is_active ? ' wc-account-status-grid__tile--active' : ''; ?><?php echo 0 === $count ? ' wc-account-status-grid__tile--empty' : ''; ?>"
 			<?php echo $is_active ? 'aria-current="true"' : ''; ?>
 		>
-			<span class="ts-wc-account-status-grid__icon ts-wc-account-status-grid__icon--<?php echo esc_attr( $bucket ); ?>">
-				<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( $icon ); ?></span>
+			<span class="wc-account-status-grid__icon wc-account-status-grid__icon--<?php echo esc_attr( $bucket ); ?>">
+				<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( $icon ); ?></span>
 			</span>
-			<span class="ts-wc-account-status-grid__body">
-				<span class="ts-wc-account-status-grid__count"><?php echo esc_html( (string) $count ); ?></span>
-				<span class="ts-wc-account-status-grid__label"><?php echo esc_html( $step['label'] ); ?></span>
+			<span class="wc-account-status-grid__body">
+				<span class="wc-account-status-grid__count"><?php echo esc_html( (string) $count ); ?></span>
+				<span class="wc-account-status-grid__label"><?php echo esc_html( $step['label'] ); ?></span>
 			</span>
 		</a>
 	<?php endforeach; ?>

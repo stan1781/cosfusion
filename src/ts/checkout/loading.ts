@@ -1,7 +1,7 @@
 import { setLoadingHost, setLoadingHosts } from '../ui/loading-host';
 
 const CHECKOUT_REGION_LOADING_SELECTOR =
-	'.ts-wc-checkout__summary, #payment.woocommerce-checkout-payment';
+	'.wc-checkout__summary, #payment.woocommerce-checkout-payment';
 
 function getCheckoutLoadingHosts(): HTMLElement[] {
 	return Array.from(document.querySelectorAll<HTMLElement>(CHECKOUT_REGION_LOADING_SELECTOR));
@@ -12,14 +12,14 @@ export function setCheckoutRegionsLoading(isLoading: boolean): void {
 }
 
 export function setCheckoutPageLoading(isLoading: boolean): void {
-	document.body.classList.toggle('ts-checkout-processing', isLoading);
+	document.body.classList.toggle('checkout-processing', isLoading);
 
 	if (isLoading) {
 		document.body.setAttribute('aria-busy', 'true');
 		return;
 	}
 
-	if (!document.querySelector('.ts-loading-host.is-loading')) {
+	if (!document.querySelector('.loading-host.is-loading')) {
 		document.body.removeAttribute('aria-busy');
 	}
 }

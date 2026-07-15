@@ -111,7 +111,7 @@ function tailwindscore_wc_archive_shell_open(): void {
 		return;
 	}
 
-	echo '<div class="ts-container ts-section ts-wc-shell ts-wc-shell--archive">';
+	echo '<div class="container section wc-shell wc-shell--archive">';
 }
 add_action( 'woocommerce_before_main_content', 'tailwindscore_wc_archive_shell_open', 18 );
 
@@ -191,13 +191,13 @@ function tailwindscore_wc_archive_hero_add_term_field( string $taxonomy ): void 
 		return;
 	}
 	?>
-	<div class="form-field term-ts-archive-hero-wrap">
-		<label for="ts-archive-hero-bg"><?php echo tailwindscore_wc_archive_hero_term_field_label( $taxonomy ); ?></label>
-		<div class="ts-archive-hero-media">
-			<div class="ts-archive-hero-media__preview"></div>
+	<div class="form-field term-archive-hero-wrap">
+		<label for="archive-hero-bg"><?php echo tailwindscore_wc_archive_hero_term_field_label( $taxonomy ); ?></label>
+		<div class="archive-hero-media">
+			<div class="archive-hero-media__preview"></div>
 			<input type="hidden" id="ts-archive-hero-bg" name="ts_archive_hero_bg" value="" />
-			<button type="button" class="button ts-archive-hero-media__upload"><?php esc_html_e( 'Upload image', 'tailwindscore' ); ?></button>
-			<button type="button" class="button ts-archive-hero-media__remove" hidden><?php esc_html_e( 'Remove', 'tailwindscore' ); ?></button>
+			<button type="button" class="button archive-hero-media__upload"><?php esc_html_e( 'Upload image', 'tailwindscore' ); ?></button>
+			<button type="button" class="button archive-hero-media__remove" hidden><?php esc_html_e( 'Remove', 'tailwindscore' ); ?></button>
 		</div>
 		<p class="description"><?php echo tailwindscore_wc_archive_hero_term_field_description( $taxonomy ); ?></p>
 	</div>
@@ -221,20 +221,20 @@ function tailwindscore_wc_archive_hero_edit_term_field( WP_Term $term, string $t
 	$preview_url   = $attachment_id > 0 ? wp_get_attachment_image_url( $attachment_id, 'medium' ) : '';
 	$preview_url   = is_string( $preview_url ) ? $preview_url : '';
 	?>
-	<tr class="form-field term-ts-archive-hero-wrap">
+	<tr class="form-field term-archive-hero-wrap">
 		<th scope="row">
-			<label for="ts-archive-hero-bg"><?php echo tailwindscore_wc_archive_hero_term_field_label( $taxonomy ); ?></label>
+			<label for="archive-hero-bg"><?php echo tailwindscore_wc_archive_hero_term_field_label( $taxonomy ); ?></label>
 		</th>
 		<td>
-			<div class="ts-archive-hero-media">
-				<div class="ts-archive-hero-media__preview">
+			<div class="archive-hero-media">
+				<div class="archive-hero-media__preview">
 					<?php if ( '' !== $preview_url ) : ?>
 						<img src="<?php echo esc_url( $preview_url ); ?>" alt="" />
 					<?php endif; ?>
 				</div>
 				<input type="hidden" id="ts-archive-hero-bg" name="ts_archive_hero_bg" value="<?php echo esc_attr( (string) $attachment_id ); ?>" />
-				<button type="button" class="button ts-archive-hero-media__upload"><?php esc_html_e( 'Upload image', 'tailwindscore' ); ?></button>
-				<button type="button" class="button ts-archive-hero-media__remove" <?php echo $attachment_id > 0 ? '' : 'hidden'; ?>><?php esc_html_e( 'Remove', 'tailwindscore' ); ?></button>
+				<button type="button" class="button archive-hero-media__upload"><?php esc_html_e( 'Upload image', 'tailwindscore' ); ?></button>
+				<button type="button" class="button archive-hero-media__remove" <?php echo $attachment_id > 0 ? '' : 'hidden'; ?>><?php esc_html_e( 'Remove', 'tailwindscore' ); ?></button>
 			</div>
 			<p class="description"><?php echo tailwindscore_wc_archive_hero_term_field_description( $taxonomy ); ?></p>
 		</td>
@@ -309,7 +309,7 @@ function tailwindscore_wc_archive_hero_admin_assets( string $hook_suffix ): void
 
 	$script = <<<'JS'
 (function () {
-	const fields = document.querySelectorAll('.term-ts-archive-hero-wrap');
+	const fields = document.querySelectorAll('.term-archive-hero-wrap');
 
 	if (!fields.length || typeof wp === 'undefined' || !wp.media) {
 		return;
@@ -317,9 +317,9 @@ function tailwindscore_wc_archive_hero_admin_assets( string $hook_suffix ): void
 
 	fields.forEach((field) => {
 		const input = field.querySelector('#ts-archive-hero-bg');
-		const preview = field.querySelector('.ts-archive-hero-media__preview');
-		const uploadButton = field.querySelector('.ts-archive-hero-media__upload');
-		const removeButton = field.querySelector('.ts-archive-hero-media__remove');
+		const preview = field.querySelector('.archive-hero-media__preview');
+		const uploadButton = field.querySelector('.archive-hero-media__upload');
+		const removeButton = field.querySelector('.archive-hero-media__remove');
 
 		if (!input || !preview || !uploadButton || !removeButton) {
 			return;
@@ -381,7 +381,7 @@ JS;
 	wp_enqueue_style( 'tailwindscore-wc-archive-hero-admin' );
 	wp_add_inline_style(
 		'tailwindscore-wc-archive-hero-admin',
-		'.ts-archive-hero-media__preview img{display:block;max-width:240px;height:auto;margin:0 0 8px;border:1px solid #c3c4c7;border-radius:4px;}'
+		'.archive-hero-media__preview img{display:block;max-width:240px;height:auto;margin:0 0 8px;border:1px solid #c3c4c7;border-radius:4px;}'
 	);
 }
 add_action( 'admin_enqueue_scripts', 'tailwindscore_wc_archive_hero_admin_assets' );

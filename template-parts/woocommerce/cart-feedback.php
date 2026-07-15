@@ -7,10 +7,10 @@ if ( ! in_array( $surface, array( 'drawer', 'inline', 'page' ), true ) ) {
 	$surface = 'drawer';
 }
 
-$modifier = 'drawer' === $surface ? '' : ' ts-cart-feedback--' . $surface;
+$modifier = 'drawer' === $surface ? '' : ' cart-feedback--' . $surface;
 ?>
 <div
-	class="ts-cart-feedback<?php echo esc_attr( $modifier ); ?>"
+	class="cart-feedback<?php echo esc_attr( $modifier ); ?>"
 	data-ts-cart-feedback
 	data-ts-cart-feedback-surface="<?php echo esc_attr( $surface ); ?>"
 	role="status"

@@ -97,7 +97,7 @@ src/scss/
   editor.scss    # 编辑器
 ```
 
-组件样式使用 `.ts-*` BEM 风格类名，消费 `var(--ts-*)`。
+组件样式使用无 `ts-` 前缀的语义类名（尽量贴近 Bootstrap，如 `btn btn-outline-primary`；见 [命名与语言约定](../conventions.md)），消费 `var(--ts-*)`。
 
 ## 构建产物清理
 

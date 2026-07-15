@@ -5,8 +5,8 @@ if ( ! tailwindscore_has_sidebar() ) {
 	return;
 }
 ?>
-<aside class="ts-sidebar ts-content-sidebar">
-	<div class="ts-sidebar__content ts-stack">
+<aside class="sidebar content-sidebar">
+	<div class="sidebar__content stack">
 		<?php dynamic_sidebar( 'sidebar-1' ); ?>
 	</div>
 </aside>

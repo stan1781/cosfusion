@@ -55,7 +55,7 @@ wc_get_template(
 
 if ( $has_orders ) :
 	?>
-	<div class="ts-wc-account-order-feed ts-stack">
+	<div class="wc-account-order-feed stack">
 		<?php foreach ( $orders as $list_order ) : ?>
 			<?php
 			wc_get_template(
@@ -69,7 +69,7 @@ if ( $has_orders ) :
 	<?php do_action( 'woocommerce_before_account_orders_pagination' ); ?>
 
 	<?php if ( $result['max_pages'] > 1 ) : ?>
-		<nav class="ts-wc-account-pagination woocommerce-pagination" aria-label="<?php esc_attr_e( 'Orders pagination', 'woocommerce' ); ?>">
+		<nav class="wc-account-pagination woocommerce-pagination" aria-label="<?php esc_attr_e( 'Orders pagination', 'woocommerce' ); ?>">
 			<?php if ( 1 !== $current_page ) : ?>
 				<?php
 				$prev_url = wc_get_endpoint_url( 'orders', $current_page - 1 );
@@ -77,7 +77,7 @@ if ( $has_orders ) :
 					$prev_url = add_query_arg( 'bucket', $bucket, $prev_url );
 				}
 				?>
-				<a class="ts-button ts-button--outline" href="<?php echo esc_url( $prev_url ); ?>">
+				<a class="btn btn-outline" href="<?php echo esc_url( $prev_url ); ?>">
 					<?php esc_html_e( 'Previous', 'woocommerce' ); ?>
 				</a>
 			<?php endif; ?>
@@ -89,7 +89,7 @@ if ( $has_orders ) :
 					$next_url = add_query_arg( 'bucket', $bucket, $next_url );
 				}
 				?>
-				<a class="ts-button ts-button--outline" href="<?php echo esc_url( $next_url ); ?>">
+				<a class="btn btn-outline" href="<?php echo esc_url( $next_url ); ?>">
 					<?php esc_html_e( 'Next', 'woocommerce' ); ?>
 				</a>
 			<?php endif; ?>
@@ -98,9 +98,9 @@ if ( $has_orders ) :
 
 <?php else : ?>
 
-	<div class="ts-empty-state">
+	<div class="empty-state">
 		<p><?php esc_html_e( 'No order has been made yet.', 'woocommerce' ); ?></p>
-		<a class="ts-button" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>">
+		<a class="btn" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>">
 			<?php esc_html_e( 'Browse products', 'woocommerce' ); ?>
 		</a>
 	</div>

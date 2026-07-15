@@ -14,8 +14,8 @@ function tailwindscore_primary_nav_menu_args( array $part_args = array() ): arra
 	$part_args = wp_parse_args(
 		$part_args,
 		array(
-			'nav_id'    => 'ts-primary-nav',
-			'nav_class' => 'ts-nav',
+			'nav_id'    => 'primary-nav',
+			'nav_class' => 'nav',
 		)
 	);
 
@@ -26,10 +26,10 @@ function tailwindscore_primary_nav_menu_args( array $part_args = array() ): arra
 		'container'      => 'nav',
 		'container_id'   => $part_args['nav_id'],
 		'container_class'=> $part_args['nav_class'],
-		'menu_class'     => 'ts-nav__list',
+		'menu_class'     => 'nav__list',
 		'fallback_cb'    => false,
 		'depth'          => 3,
-		'sub_menu_class' => 'ts-nav__submenu sub-menu',
+		'sub_menu_class' => 'nav__submenu sub-menu',
 		'walker'         => new Tailwindscore_Nav_Menu_Walker(
 			array(
 				'variant' => $variant,

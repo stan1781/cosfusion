@@ -66,7 +66,7 @@ function tailwindscore_ajax_search_runtime_config( array $parts ): array {
  */
 function tailwindscore_ajax_search_body_class( array $classes ): array {
 	if ( tailwindscore_ajax_search_is_active() && ! tailwindscore_is_checkout_page() ) {
-		$classes[] = 'ts-ajax-search-enabled';
+		$classes[] = 'ajax-search-enabled';
 	}
 
 	return $classes;

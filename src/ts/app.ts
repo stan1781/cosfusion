@@ -29,7 +29,7 @@ function loadQuickViewModule(): void {
 }
 
 function scheduleQuickViewModule(): void {
-	if (!document.body.classList.contains('ts-quick-view-enabled')) {
+	if (!document.body.classList.contains('quick-view-enabled')) {
 		return;
 	}
 
@@ -59,7 +59,7 @@ function scheduleQuickViewModule(): void {
 }
 
 function scheduleMailnestModule(): void {
-	if (!document.body.classList.contains('ts-mailnest')) {
+	if (!document.body.classList.contains('mailnest')) {
 		return;
 	}
 
@@ -69,7 +69,7 @@ function scheduleMailnestModule(): void {
 }
 
 function bootHomeModule(): void {
-	if (!document.querySelector('.ts-home')) {
+	if (!document.querySelector('.home')) {
 		return;
 	}
 

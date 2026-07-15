@@ -73,7 +73,7 @@ function openSubscribeModal(): void {
 
 	modal.hidden = false;
 	modal.setAttribute('aria-hidden', 'false');
-	document.body.classList.add('ts-mailnest-subscribe-open');
+	document.body.classList.add('mailnest-subscribe-open');
 }
 
 function closeSubscribeModal(permanent = false): void {
@@ -84,7 +84,7 @@ function closeSubscribeModal(permanent = false): void {
 
 	modal.hidden = true;
 	modal.setAttribute('aria-hidden', 'true');
-	document.body.classList.remove('ts-mailnest-subscribe-open');
+	document.body.classList.remove('mailnest-subscribe-open');
 
 	if (permanent) {
 		const config = getSubscribeConfig();
@@ -112,7 +112,7 @@ function setSubscribeInlineFeedback(
 	}
 
 	feedback.textContent = message;
-	feedback.className = `ts-mailnest-subscribe__feedback ts-mailnest-subscribe__feedback--${type}`;
+	feedback.className = `mailnest-subscribe__feedback mailnest-subscribe__feedback--${type}`;
 	feedback.setAttribute('role', type === 'success' ? 'status' : 'alert');
 	feedback.hidden = false;
 }
@@ -521,7 +521,7 @@ function bindContactForms(): void {
 }
 
 export function initMailnest(): void {
-	if (!document.body.classList.contains('ts-mailnest')) {
+	if (!document.body.classList.contains('mailnest')) {
 		return;
 	}
 

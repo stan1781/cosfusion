@@ -1,4 +1,4 @@
-export const MENU_DRAWER_PANEL_ID = 'ts-site-menu-panel';
+export const MENU_DRAWER_PANEL_ID = 'site-menu-panel';
 
 export const MENU_DRAWER_TRANSITION_MS = 380;
 

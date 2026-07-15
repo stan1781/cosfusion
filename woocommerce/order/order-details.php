@@ -41,7 +41,7 @@ if ( $show_downloads ) {
 	);
 }
 ?>
-<section class="woocommerce-order-details ts-stack">
+<section class="woocommerce-order-details stack">
 	<?php do_action( 'woocommerce_order_details_before_order_table', $order ); ?>
 
 	<?php if ( class_exists( 'WC_Order_Process_Customer_View' ) ) : ?>
@@ -56,10 +56,10 @@ if ( $show_downloads ) {
 		?>
 	<?php endif; ?>
 
-	<h2 class="woocommerce-order-details__title ts-heading"><?php esc_html_e( 'Order details', 'woocommerce' ); ?></h2>
+	<h2 class="woocommerce-order-details__title heading"><?php esc_html_e( 'Order details', 'woocommerce' ); ?></h2>
 
-	<div class="ts-wc-account-order-card ts-wc-account-order-card--details">
-		<div class="ts-wc-account-order-details__items">
+	<div class="wc-account-order-card wc-account-order-card--details">
+		<div class="wc-account-order-details__items">
 			<?php
 			do_action( 'woocommerce_order_details_before_order_table_items', $order );
 
@@ -91,9 +91,9 @@ if ( $show_downloads ) {
 				$purchase_note = $product ? $product->get_purchase_note() : '';
 				$item_class    = apply_filters( 'woocommerce_order_item_class', 'woocommerce-table__line-item order_item', $item, $order );
 				?>
-				<article class="ts-wc-account-order-details__item <?php echo esc_attr( $item_class ); ?>">
+				<article class="wc-account-order-details__item <?php echo esc_attr( $item_class ); ?>">
 					<img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $item->get_name() ); ?>" width="80" height="80" loading="lazy" />
-					<div class="ts-wc-account-order-details__item-body">
+					<div class="wc-account-order-details__item-body">
 						<div class="product-name">
 							<?php echo wp_kses_post( $product_name ); ?>
 							<?php echo wp_kses_post( $quantity_html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -135,9 +135,9 @@ if ( $show_downloads ) {
 			?>
 		</div>
 
-		<div class="ts-wc-account-order-details__totals">
+		<div class="wc-account-order-details__totals">
 			<?php foreach ( $order->get_order_item_totals() as $total ) : ?>
-				<div class="ts-wc-account-order-details__total-row">
+				<div class="wc-account-order-details__total-row">
 					<span><?php echo esc_html( $total['label'] ); ?></span>
 					<span><?php echo wp_kses_post( $total['value'] ); ?></span>
 				</div>
@@ -145,7 +145,7 @@ if ( $show_downloads ) {
 		</div>
 
 		<?php if ( $order->get_customer_note() ) : ?>
-			<div class="ts-wc-account-order-details__note">
+			<div class="wc-account-order-details__note">
 				<strong><?php esc_html_e( 'Note:', 'woocommerce' ); ?></strong>
 				<?php
 				$customer_note = wc_wptexturize_order_note( $order->get_customer_note() );
@@ -155,16 +155,16 @@ if ( $show_downloads ) {
 		<?php endif; ?>
 
 		<?php if ( ! empty( $actions ) || $is_shipping ) : ?>
-			<footer class="ts-wc-account-order-card__footer">
+			<footer class="wc-account-order-card__footer">
 				<?php foreach ( $actions as $key => $action ) : ?>
-					<a class="ts-button ts-button--sm ts-button--outline <?php echo esc_attr( sanitize_html_class( $key ) ); ?>" href="<?php echo esc_url( $action['url'] ); ?>">
+					<a class="btn btn-sm btn-outline <?php echo esc_attr( sanitize_html_class( $key ) ); ?>" href="<?php echo esc_url( $action['url'] ); ?>">
 						<?php echo esc_html( $action['name'] ); ?>
 					</a>
 				<?php endforeach; ?>
 				<?php if ( $is_shipping ) : ?>
 					<button
 						type="button"
-						class="ts-button ts-button--sm wc-confirm-receipt-btn"
+						class="btn btn-sm wc-confirm-receipt-btn"
 						data-order-id="<?php echo esc_attr( (string) $order->get_id() ); ?>"
 						data-ts-button-loading
 					>
@@ -176,8 +176,8 @@ if ( $show_downloads ) {
 	</div>
 
 	<?php if ( $process_data && class_exists( 'WC_Order_Process_Tracking_Widget_Manager' ) && ! empty( $process_data['international_tracking'] ) ) : ?>
-		<section class="ts-wc-account-process-info">
-			<h3 class="ts-heading"><?php esc_html_e( 'Shipping information', 'tailwindscore' ); ?></h3>
+		<section class="wc-account-process-info">
+			<h3 class="heading"><?php esc_html_e( 'Shipping information', 'tailwindscore' ); ?></h3>
 			<?php if ( ! empty( $process_data['international_carrier'] ) ) : ?>
 				<?php
 				$carriers     = WC_Order_Process_Tracking_Widget_Manager::get_supported_carriers();

@@ -13,7 +13,7 @@ export function isLoginModalOpen(): boolean {
 }
 
 function closeSiteShellPanels(): void {
-	const header = document.querySelector<HTMLElement>('.ts-site-header');
+	const header = document.querySelector<HTMLElement>('.site-header');
 	const alpine = window.Alpine;
 
 	if (!header || !alpine || typeof alpine.$data !== 'function') {
@@ -62,7 +62,7 @@ export function openLoginModal(trigger?: HTMLElement): void {
 
 	modal.hidden = false;
 	modal.setAttribute('aria-hidden', 'false');
-	document.body.classList.add('ts-login-modal-open');
+	document.body.classList.add('login-modal-open');
 
 	window.requestAnimationFrame(() => {
 		const focusTarget =
@@ -82,7 +82,7 @@ export function closeLoginModal(): void {
 
 	modal.hidden = true;
 	modal.setAttribute('aria-hidden', 'true');
-	document.body.classList.remove('ts-login-modal-open');
+	document.body.classList.remove('login-modal-open');
 
 	if (loginModalReturnFocus?.isConnected) {
 		loginModalReturnFocus.focus();
@@ -127,7 +127,7 @@ function initLoginModal(): void {
 				return;
 			}
 
-			if (!event.target.closest('.ts-login-modal')) {
+			if (!event.target.closest('.login-modal')) {
 				return;
 			}
 

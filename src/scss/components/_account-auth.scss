@@ -1,12 +1,12 @@
 @use "../abstracts/mixins";
 
-html:has(body.ts-account-auth-surface),
-body.ts-account-auth-surface {
+html:has(body.account-auth-surface),
+body.account-auth-surface {
 	height: 100dvh;
 	overflow: hidden;
 }
 
-.ts-account-auth-root {
+.account-auth-root {
 	display: grid;
 	place-items: center;
 	width: 100%;
@@ -16,7 +16,7 @@ body.ts-account-auth-surface {
 	background: var(--ts-surface-muted);
 }
 
-.ts-account-auth-root > .woocommerce {
+.account-auth-root > .woocommerce {
 	display: grid;
 	place-items: center;
 	width: 100%;
@@ -24,7 +24,7 @@ body.ts-account-auth-surface {
 	min-height: 0;
 }
 
-.ts-account-auth {
+.account-auth {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -35,13 +35,13 @@ body.ts-account-auth-surface {
 	overflow: hidden;
 }
 
-.ts-account-auth__viewport {
+.account-auth__viewport {
 	width: 100%;
 	max-width: 56rem;
 	max-height: 100%;
 }
 
-.ts-account-auth__card {
+.account-auth__card {
 	background: var(--ts-surface);
 	border-radius: var(--ts-border-radius);
 	box-shadow: var(--ts-shadow-sm);
@@ -49,26 +49,26 @@ body.ts-account-auth-surface {
 	max-height: calc(100dvh - (2 * var(--ts-spacer-3)));
 }
 
-.ts-account-auth__layout {
+.account-auth__layout {
 	display: grid;
 	grid-template-columns: 1fr;
 	max-height: inherit;
 }
 
-.ts-account-auth__layout--split {
+.account-auth__layout--split {
 	@include mixins.ts-up("md") {
 		grid-template-columns: 1fr 1fr;
 	}
 }
 
-.ts-account-auth__hero {
+.account-auth__hero {
 	display: none;
 	background: var(--ts-account-auth-hero-bg, var(--ts-primary));
 	color: var(--ts-on-primary);
 	padding: var(--ts-spacer-5) var(--ts-spacer-4);
 }
 
-.ts-account-auth__layout--split .ts-account-auth__hero {
+.account-auth__layout--split .account-auth__hero {
 	@include mixins.ts-up("md") {
 		display: flex;
 		align-items: center;
@@ -76,13 +76,13 @@ body.ts-account-auth-surface {
 	}
 }
 
-.ts-account-auth__hero-inner {
+.account-auth__hero-inner {
 	text-align: center;
 	max-width: 22rem;
 	margin: 0 auto;
 }
 
-.ts-account-auth__hero-image {
+.account-auth__hero-image {
 	display: block;
 	max-width: 100%;
 	max-height: min(280px, 32dvh);
@@ -92,38 +92,38 @@ body.ts-account-auth-surface {
 	object-fit: contain;
 }
 
-.ts-account-auth__hero-title {
+.account-auth__hero-title {
 	margin: 0 0 var(--ts-spacer-3);
 	font-size: var(--ts-font-size-lg);
 	font-weight: 600;
 	line-height: 1.3;
 }
 
-.ts-account-auth__hero-text {
+.account-auth__hero-text {
 	margin: 0;
 	font-size: var(--ts-font-size-sm);
 	line-height: 1.5;
 	opacity: 0.92;
 }
 
-.ts-account-auth__panel {
+.account-auth__panel {
 	padding: var(--ts-spacer-4);
 	overflow-y: auto;
 	max-height: calc(100dvh - (2 * var(--ts-spacer-3)));
 }
 
-.ts-account-auth__layout--split .ts-account-auth__panel {
+.account-auth__layout--split .account-auth__panel {
 	@include mixins.ts-up("md") {
 		max-height: inherit;
 	}
 }
 
-.ts-account-auth__panel-inner {
+.account-auth__panel-inner {
 	max-width: 26rem;
 	margin: 0 auto;
 }
 
-.ts-account-auth__escape-links {
+.account-auth__escape-links {
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--ts-spacer-2);
@@ -131,7 +131,7 @@ body.ts-account-auth-surface {
 	font-size: var(--ts-font-size-xs);
 }
 
-.ts-account-auth__escape-link {
+.account-auth__escape-link {
 	color: var(--ts-text-secondary);
 	text-decoration: none;
 
@@ -142,7 +142,7 @@ body.ts-account-auth-surface {
 	}
 }
 
-.ts-account-auth__brand {
+.account-auth__brand {
 	display: inline-block;
 	margin-bottom: var(--ts-spacer-2);
 	font-size: var(--ts-font-size-lg);
@@ -151,19 +151,19 @@ body.ts-account-auth-surface {
 	text-decoration: none;
 }
 
-.ts-account-auth__subtitle {
+.account-auth__subtitle {
 	margin: 0 0 var(--ts-spacer-4);
 	color: var(--ts-text-secondary);
 	font-size: var(--ts-font-size-sm);
 }
 
-.ts-account-auth__header--split {
+.account-auth__header--split {
 	@include mixins.ts-up("md") {
 		text-align: left;
 	}
 }
 
-.ts-account-auth__form {
+.account-auth__form {
 	display: grid;
 	gap: var(--ts-spacer-3);
 
@@ -175,19 +175,19 @@ body.ts-account-auth-surface {
 		width: 100%;
 	}
 
-	.ts-input,
+	.input,
 	.input-text {
 		width: 100%;
 	}
 
-	.ts-button,
+	.btn,
 	.button {
 		width: 100%;
 		justify-content: center;
 	}
 }
 
-.ts-account-auth__label {
+.account-auth__label {
 	display: block;
 	margin-bottom: 0.35rem;
 	@include mixins.ts-form-label-text;
@@ -199,7 +199,7 @@ body.ts-account-auth-surface {
 	}
 }
 
-.ts-account-auth__lost-password {
+.account-auth__lost-password {
 	margin: 0;
 	text-align: right;
 	font-size: var(--ts-font-size-sm);
@@ -216,7 +216,7 @@ body.ts-account-auth-surface {
 	}
 }
 
-.ts-account-auth__remember {
+.account-auth__remember {
 	margin: 0;
 	font-size: var(--ts-font-size-sm);
 
@@ -228,14 +228,14 @@ body.ts-account-auth-surface {
 	}
 }
 
-.ts-account-auth__hint {
+.account-auth__hint {
 	margin: 0;
 	font-size: var(--ts-font-size-sm);
 	color: var(--ts-text-secondary);
 	line-height: 1.5;
 }
 
-.ts-account-auth__switch {
+.account-auth__switch {
 	margin: var(--ts-spacer-4) 0 0;
 	text-align: center;
 	font-size: var(--ts-font-size-sm);
@@ -253,7 +253,7 @@ body.ts-account-auth-surface {
 	}
 }
 
-.ts-account-auth__divider {
+.account-auth__divider {
 	position: relative;
 	margin: var(--ts-spacer-3) 0;
 	text-align: center;
@@ -276,24 +276,24 @@ body.ts-account-auth-surface {
 	}
 }
 
-.ts-account-auth__google-wrap {
+.account-auth__google-wrap {
 	display: grid;
 	gap: var(--ts-spacer-3);
 }
 
-.ts-account-auth__google,
+.account-auth__google,
 .googlesitekit-sign-in-with-google__frontend-output-button {
 	width: 100%;
 }
 
-body.ts-account-auth-surface .ts-purchase-flow-toast-root {
+body.account-auth-surface .purchase-flow-toast-root {
 	z-index: var(--ts-z-toast);
 }
 
-.ts-account-auth-surface .woocommerce > .woocommerce-notices-wrapper {
+.account-auth-surface .woocommerce > .woocommerce-notices-wrapper {
 	display: none;
 }
 
-.ts-account-auth-surface [data-ts-auth-notices] {
+.account-auth-surface [data-ts-auth-notices] {
 	display: none;
 }

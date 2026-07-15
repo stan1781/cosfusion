@@ -10,7 +10,7 @@ function getMainAddToCartButton(form: HTMLFormElement): HTMLButtonElement | null
 
 function scrollToVariations(): void {
 	const target =
-		document.querySelector<HTMLElement>('.ts-variation-row') ??
+		document.querySelector<HTMLElement>('.variation-row') ??
 		document.querySelector<HTMLElement>('.custom-variation-selector');
 
 	if (!target) {
@@ -71,7 +71,7 @@ export function initProductStickyBar(): void {
 	}
 
 	// Always show the sticky bar on product pages
-	document.body.classList.add('ts-product-sticky-bar--visible');
+	document.body.classList.add('product-sticky-bar--visible');
 
 	const atc = bar.querySelector<HTMLButtonElement>('[data-ts-product-sticky-atc]');
 

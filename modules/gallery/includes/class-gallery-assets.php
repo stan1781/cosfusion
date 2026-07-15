@@ -127,7 +127,7 @@ class Tailwindscore_Gallery_Assets {
 	 */
 	public function body_class( array $classes ): array {
 		if ( function_exists( 'is_product' ) && is_product() ) {
-			$classes[] = 'ts-product-gallery-active';
+			$classes[] = 'product-gallery-active';
 		}
 		return $classes;
 	}

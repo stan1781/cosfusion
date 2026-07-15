@@ -9,31 +9,31 @@ $redirect = isset( $args['redirect'] ) && is_string( $args['redirect'] ) && '' !
 
 $modal_id = isset( $args['modal_id'] ) && is_string( $args['modal_id'] ) && '' !== $args['modal_id']
 	? $args['modal_id']
-	: 'ts-account-login-modal';
+	: 'account-login-modal';
 
 $title_id = $modal_id . '-title';
 ?>
 <div
 	id="<?php echo esc_attr( $modal_id ); ?>"
-	class="ts-login-modal"
+	class="login-modal"
 	data-ts-login-modal
 	hidden
 	aria-hidden="true"
 >
 	<button
 		type="button"
-		class="ts-login-modal__backdrop"
+		class="login-modal__backdrop"
 		data-ts-login-modal-close
 		aria-label="<?php esc_attr_e( 'Close login', 'tailwindscore' ); ?>"
 	></button>
 	<div
-		class="ts-login-modal__dialog ts-stack"
+		class="login-modal__dialog stack"
 		role="dialog"
 		aria-modal="true"
 		aria-labelledby="<?php echo esc_attr( $title_id ); ?>"
 	>
-		<div class="ts-login-modal__header">
-			<h2 id="<?php echo esc_attr( $title_id ); ?>" class="ts-login-modal__title"><?php esc_html_e( 'Login', 'tailwindscore' ); ?></h2>
+		<div class="login-modal__header">
+			<h2 id="<?php echo esc_attr( $title_id ); ?>" class="login-modal__title"><?php esc_html_e( 'Login', 'tailwindscore' ); ?></h2>
 			<?php
 			tailwindscore_render_close_button(
 				__( 'Close login', 'tailwindscore' ),
@@ -45,7 +45,7 @@ $title_id = $modal_id . '-title';
 			);
 			?>
 		</div>
-		<div class="ts-login-modal__body">
+		<div class="login-modal__body">
 			<?php
 			wc_get_template(
 				'myaccount/partials/login-form.php',
@@ -55,7 +55,7 @@ $title_id = $modal_id . '-title';
 			);
 			?>
 			<?php if ( function_exists( 'tailwindscore_account_registration_is_available' ) && tailwindscore_account_registration_is_available() ) : ?>
-				<p class="ts-login-modal__register">
+				<p class="login-modal__register">
 					<?php
 					printf(
 						/* translators: %s: register page URL */

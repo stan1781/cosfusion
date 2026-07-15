@@ -1,7 +1,7 @@
 @use "../abstracts/mixins";
 
 // Primary nav — base list (mobile drawer default: column)
-.ts-nav__list {
+.nav__list {
 	display: flex;
 	flex-direction: column;
 	gap: var(--ts-spacer-3);
@@ -10,13 +10,13 @@
 	padding: 0;
 }
 
-.ts-nav__item {
+.nav__item {
 	margin: 0;
 	padding: 0;
 	list-style: none;
 }
 
-.ts-nav__link {
+.nav__link {
 	display: inline-flex;
 	align-items: center;
 	gap: var(--ts-spacer-1);
@@ -25,12 +25,12 @@
 	cursor: pointer;
 }
 
-.ts-nav__link--current {
+.nav__link--current {
 	font-weight: 600;
 }
 
 // Chevron icon appended to top-level links that have a dropdown.
-.ts-nav__chevron {
+.nav__chevron {
 	flex-shrink: 0;
 	width: var(--ts-font-size-base);
 	height: var(--ts-font-size-base);
@@ -42,31 +42,31 @@
 	transition: transform 0.15s ease;
 }
 
-.ts-nav__item--has-children:hover > a > .ts-nav__chevron,
-.ts-nav__item--has-children:focus-within > a > .ts-nav__chevron {
+.nav__item--has-children:hover > a > .nav__chevron,
+.nav__item--has-children:focus-within > a > .nav__chevron {
 	transform: rotate(180deg);
 }
 
-.ts-nav__badge {
+.nav__badge {
 	font-size: var(--ts-font-size-xs);
 	line-height: 1;
 }
 
 // Mobile drawer: horizontal slide panels
-.ts-nav--mobile {
+.nav--mobile {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
 	height: 100%;
 	min-height: 0;
 
-	.ts-nav__viewport {
+	.nav__viewport {
 		flex: 1 1 auto;
 		min-height: 0;
 		overflow: hidden;
 	}
 
-	.ts-nav__track {
+	.nav__track {
 		display: flex;
 		flex-wrap: nowrap;
 		width: 100%;
@@ -74,12 +74,12 @@
 		transition: transform 250ms ease;
 		will-change: transform;
 
-		&.ts-nav__track--instant {
+		&.nav__track--instant {
 			transition: none;
 		}
 	}
 
-	.ts-nav__panel {
+	.nav__panel {
 		flex: 0 0 100%;
 		width: 100%;
 		min-width: 100%;
@@ -88,20 +88,20 @@
 		overscroll-behavior: contain;
 	}
 
-	.ts-nav__list {
+	.nav__list {
 		gap: 0;
 	}
 
-	.ts-nav__item {
+	.nav__item {
 		border-bottom: 1px solid var(--ts-border-color);
 	}
 
-	.ts-nav__item:last-child {
+	.nav__item:last-child {
 		border-bottom: 0;
 	}
 
-	.ts-nav__list > .ts-nav__item > .ts-nav__link,
-	.ts-nav__link--drill {
+	.nav__list > .nav__item > .nav__link,
+	.nav__link--drill {
 		display: flex;
 		align-items: center;
 		width: 100%;
@@ -114,7 +114,7 @@
 		font: inherit;
 	}
 
-	.ts-nav__link--drill::after {
+	.nav__link--drill::after {
 		content: "";
 		display: inline-block;
 		flex-shrink: 0;
@@ -126,7 +126,7 @@
 		transform: rotate(-45deg);
 	}
 
-	.ts-nav__submenu {
+	.nav__submenu {
 		display: flex;
 		flex-direction: column;
 		gap: 0;
@@ -135,11 +135,11 @@
 		padding: var(--ts-spacer-2) 0;
 	}
 
-	.ts-nav__submenu > .ts-nav__item {
+	.nav__submenu > .nav__item {
 		border-bottom: 0;
 	}
 
-	.ts-nav__link--child {
+	.nav__link--child {
 		display: block;
 		width: 100%;
 		padding-block: var(--ts-spacer-2);
@@ -149,38 +149,38 @@
 		line-height: 1.4;
 	}
 
-	.ts-nav__link--child:hover,
-	.ts-nav__link--child:focus-visible {
+	.nav__link--child:hover,
+	.nav__link--child:focus-visible {
 		color: var(--ts-text-primary);
 	}
 
-	.ts-nav__link--child.ts-nav__link--current {
+	.nav__link--child.nav__link--current {
 		color: var(--ts-text-primary);
 		font-weight: 600;
 	}
 
-	.ts-nav__panel--mega .ts-nav__mega-panel--mobile {
+	.nav__panel--mega .nav__mega-panel--mobile {
 		display: flex;
 		flex-direction: column;
 		gap: var(--ts-spacer-3);
 		padding: var(--ts-spacer-2) 0;
 	}
 
-	.ts-nav__mega-col {
+	.nav__mega-col {
 		display: flex;
 		flex-direction: column;
 		gap: var(--ts-spacer-1);
 		padding-inline: var(--ts-spacer-2);
 	}
 
-	.ts-nav__mega-heading {
+	.nav__mega-heading {
 		display: block;
 		font-weight: 600;
 		text-decoration: none;
 		color: inherit;
 	}
 
-	.ts-nav__mega-list {
+	.nav__mega-list {
 		display: flex;
 		flex-direction: column;
 		gap: var(--ts-spacer-1);
@@ -190,7 +190,7 @@
 		padding-inline-start: var(--ts-spacer-2);
 	}
 
-	.ts-nav__mega-link {
+	.nav__mega-link {
 		display: block;
 		padding-block: var(--ts-spacer-1);
 		text-decoration: none;
@@ -201,8 +201,8 @@
 
 // Desktop: horizontal bar + flyout dropdowns
 @include mixins.ts-up("lg") {
-	.ts-nav--desktop {
-		.ts-nav__list {
+	.nav--desktop {
+		.nav__list {
 			flex-direction: row;
 			flex-wrap: nowrap;
 			align-items: center;
@@ -210,22 +210,22 @@
 			font-size: var(--ts-font-size-sm);
 		}
 
-		.ts-nav__link {
+		.nav__link {
 			padding-block: var(--ts-spacer-1);
 		}
 
 		// Underline hover only on top-level links, not inside dropdowns
-		> .ts-nav__list > .ts-nav__item > .ts-nav__link,
-		> .ts-nav__list > li > a {
+		> .nav__list > .nav__item > .nav__link,
+		> .nav__list > li > a {
 			@include mixins.ts-underline-hover;
 		}
 
-		.ts-nav__item--has-children,
+		.nav__item--has-children,
 		.menu-item-has-children {
 			position: relative;
 		}
 
-		.ts-nav__submenu {
+		.nav__submenu {
 			position: absolute;
 			top: 100%;
 			left: 0;
@@ -249,10 +249,10 @@
 				transform 0.15s ease;
 		}
 
-		.ts-nav__item--has-children:hover > .ts-nav__submenu,
-		.ts-nav__item--has-children:focus-within > .ts-nav__submenu,
-		.menu-item-has-children:hover > .ts-nav__submenu,
-		.menu-item-has-children:focus-within > .ts-nav__submenu {
+		.nav__item--has-children:hover > .nav__submenu,
+		.nav__item--has-children:focus-within > .nav__submenu,
+		.menu-item-has-children:hover > .nav__submenu,
+		.menu-item-has-children:focus-within > .nav__submenu {
 			opacity: 1;
 			visibility: visible;
 			pointer-events: auto;
@@ -260,7 +260,7 @@
 		}
 
 		// Invisible bridge so the pointer can reach the flyout without losing hover.
-		.ts-nav__item--has-children::after,
+		.nav__item--has-children::after,
 		.menu-item-has-children::after {
 			content: "";
 			position: absolute;
@@ -271,11 +271,11 @@
 		}
 
 		// Mega panel (phase 2: full-width via tailwindscore_nav_mega_columns filter)
-		.ts-nav__item--mega {
+		.nav__item--mega {
 			position: relative;
 		}
 
-		.ts-nav__mega-panel {
+		.nav__mega-panel {
 			position: absolute;
 			top: 100%;
 			left: 0;
@@ -296,26 +296,26 @@
 				transform 0.15s ease;
 		}
 
-		.ts-nav__mega-grid {
+		.nav__mega-grid {
 			display: grid;
 			grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
 			gap: var(--ts-spacer-2);
 		}
 
-		.ts-nav__mega-col {
+		.nav__mega-col {
 			display: flex;
 			flex-direction: column;
 			gap: var(--ts-spacer-1);
 		}
 
-		.ts-nav__mega-heading {
+		.nav__mega-heading {
 			font-weight: 600;
 			font-size: var(--ts-font-size-sm);
 			text-decoration: none;
 			color: inherit;
 		}
 
-		.ts-nav__mega-list {
+		.nav__mega-list {
 			list-style: none;
 			margin: 0;
 			padding: 0;
@@ -324,7 +324,7 @@
 			gap: var(--ts-spacer-1);
 		}
 
-		.ts-nav__mega-link {
+		.nav__mega-link {
 			display: block;
 			padding-block: 0.15rem;
 			text-decoration: none;
@@ -332,13 +332,13 @@
 			font-size: var(--ts-font-size-sm);
 		}
 
-		.ts-nav__mega-link:hover,
-		.ts-nav__mega-link:focus-visible {
+		.nav__mega-link:hover,
+		.nav__mega-link:focus-visible {
 			color: var(--ts-primary);
 		}
 
-		.ts-nav__item--mega:hover > .ts-nav__mega-panel,
-		.ts-nav__item--mega:focus-within > .ts-nav__mega-panel {
+		.nav__item--mega:hover > .nav__mega-panel,
+		.nav__item--mega:focus-within > .nav__mega-panel {
 			opacity: 1;
 			visibility: visible;
 			pointer-events: auto;
@@ -346,9 +346,9 @@
 		}
 
 		@media (hover: none) {
-			.ts-nav__item--has-children:focus-within > .ts-nav__submenu,
-			.menu-item-has-children:focus-within > .ts-nav__submenu,
-			.ts-nav__item--mega:focus-within > .ts-nav__mega-panel {
+			.nav__item--has-children:focus-within > .nav__submenu,
+			.menu-item-has-children:focus-within > .nav__submenu,
+			.nav__item--mega:focus-within > .nav__mega-panel {
 				opacity: 1;
 				visibility: visible;
 				pointer-events: auto;
@@ -359,6 +359,6 @@
 }
 
 // Legacy list link rule (pages fallback)
-.ts-nav__list a {
+.nav__list a {
 	text-decoration: none;
 }

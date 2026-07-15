@@ -3,7 +3,7 @@
 @use "../abstracts/mixins";
 
 // Reviews hero (showcase + summary)
-.ts-reviews-hero {
+.reviews-hero {
 	display: grid;
 	gap: map.get($ts-spacers, 2);
 	margin-bottom: map.get($ts-spacers, 2);
@@ -14,21 +14,21 @@
 	}
 }
 
-.ts-reviews-hero__gallery {
+.reviews-hero__gallery {
 	min-width: 0;
 
-	.ts-showcase-gallery {
+	.showcase-gallery {
 		margin-bottom: 0;
 	}
 }
 
-.ts-reviews-hero__aside {
+.reviews-hero__aside {
 	display: flex;
 	min-width: 0;
 	justify-content: center;
 }
 
-.ts-reviews-summary-card {
+.reviews-summary-card {
 	--ts-font-size-base: 1.375rem;
 
 	display: flex;
@@ -39,18 +39,18 @@
 	text-align: center;
 }
 
-.ts-reviews-summary-card__rating {
+.reviews-summary-card__rating {
 	flex-direction: column;
 	justify-content: center;
 	gap: map.get($ts-spacers, 1);
 	width: 100%;
 }
 
-.ts-reviews-summary-card__stars {
+.reviews-summary-card__stars {
 	line-height: 0;
 }
 
-.ts-reviews-summary-card__score {
+.reviews-summary-card__score {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -59,37 +59,37 @@
 	line-height: 1.1;
 }
 
-.ts-reviews-summary-card__score-value {
+.reviews-summary-card__score-value {
 	font-size: 2.25rem;
 	font-weight: 700;
 	letter-spacing: -0.02em;
 	color: $ts-text-primary;
 }
 
-.ts-reviews-summary-card__score-out-of {
+.reviews-summary-card__score-out-of {
 	font-size: var(--ts-font-size-xs);
 	font-weight: 500;
 	color: $ts-text-secondary;
 }
 
-.ts-reviews-summary-card__count {
+.reviews-summary-card__count {
 	margin: 0;
 	font-size: var(--ts-font-size-sm);
 	color: $ts-text-secondary;
 }
 
-.ts-reviews-summary-card__cta {
+.reviews-summary-card__cta {
 	width: 100%;
 	margin-top: auto;
 }
 
-.ts-reviews-summary-card__notice {
+.reviews-summary-card__notice {
 	margin: 0;
 	font-size: var(--ts-font-size-sm);
 	color: $ts-text-secondary;
 }
 
-.ts-reviews-fallback-cta {
+.reviews-fallback-cta {
 	margin: map.get($ts-spacers, 2) 0 0;
 	font-size: var(--ts-font-size-sm);
 
@@ -108,7 +108,7 @@
 }
 
 // Review form modal
-.ts-review-form-modal {
+.review-form-modal {
 	position: fixed;
 	inset: 0;
 	z-index: var(--ts-z-modal);
@@ -117,15 +117,15 @@
 	padding: map.get($ts-spacers, 2);
 }
 
-.ts-review-form-modal[hidden] {
+.review-form-modal[hidden] {
 	display: none !important;
 }
 
-body.ts-review-form-modal-open {
+body.review-form-modal-open {
 	overflow: hidden;
 }
 
-.ts-review-form-modal__backdrop {
+.review-form-modal__backdrop {
 	position: absolute;
 	inset: 0;
 	border: 0;
@@ -134,7 +134,7 @@ body.ts-review-form-modal-open {
 	cursor: pointer;
 }
 
-.ts-review-form-modal__dialog {
+.review-form-modal__dialog {
 	position: relative;
 	z-index: 1;
 	width: min(100%, 32rem);
@@ -146,7 +146,7 @@ body.ts-review-form-modal-open {
 	box-shadow: var(--ts-shadow-lg);
 }
 
-.ts-review-form-modal__header {
+.review-form-modal__header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -154,43 +154,43 @@ body.ts-review-form-modal-open {
 	margin-bottom: map.get($ts-spacers, 1);
 }
 
-.ts-review-form-modal__title {
+.review-form-modal__title {
 	font-size: var(--ts-font-size-lg);
 	font-weight: 600;
 	margin: 0;
 }
 
-.ts-review-form-modal__body {
+.review-form-modal__body {
 	min-width: 0;
 }
 
-.ts-review-form-modal__form-wrap {
+.review-form-modal__form-wrap {
 	margin: 0;
 }
 
-.ts-review-form-modal .comment-form {
+.review-form-modal .comment-form {
 	display: grid;
 	gap: map.get($ts-spacers, 1);
 	margin: 0;
 }
 
-.ts-review-form-modal .comment-form p {
+.review-form-modal .comment-form p {
 	margin: 0;
 }
 
-.ts-review-form-modal .comment-form p.comment-notes {
+.review-form-modal .comment-form p.comment-notes {
 	color: $ts-text-secondary;
 	font-size: var(--ts-font-size-xs);
 	display: none;
 }
-.ts-review-form-modal .comment-form p.comment-form-cookies-consent {
+.review-form-modal .comment-form p.comment-form-cookies-consent {
 	display: flex;
 	align-items: flex-start;
 	gap: var(--ts-spacer-1);
 	font-size: var(--ts-font-size-sm);
 }
 
-.ts-review-form-modal .comment-form label {
+.review-form-modal .comment-form label {
 	display: block;
 	font-size: var(--ts-font-size-sm);
 	font-weight: 600;
@@ -198,30 +198,30 @@ body.ts-review-form-modal-open {
 	margin-bottom: 0.35rem;
 }
 
-.ts-review-form-modal .comment-form .required {
+.review-form-modal .comment-form .required {
 	color: $ts-danger;
 }
 
-.ts-review-form-modal .comment-form input[type="text"],
-.ts-review-form-modal .comment-form input[type="email"],
-.ts-review-form-modal .comment-form textarea,
-.ts-review-form-modal .comment-form select {
+.review-form-modal .comment-form input[type="text"],
+.review-form-modal .comment-form input[type="email"],
+.review-form-modal .comment-form textarea,
+.review-form-modal .comment-form select {
 	@include mixins.ts-control-field-base;
 	width: 100%;
 }
 
-.ts-review-form-modal .comment-form textarea {
+.review-form-modal .comment-form textarea {
 	min-height: 6rem;
 	resize: vertical;
 }
 
-.ts-review-form-modal .comment-form-rating {
+.review-form-modal .comment-form-rating {
 	display: flex;
 	align-items: center;
 	gap: var(--ts-spacer-2);
 }
 
-.ts-review-form-rating__select {
+.review-form-rating__select {
 	position: absolute;
 	width: 1px;
 	height: 1px;
@@ -233,12 +233,12 @@ body.ts-review-form-modal-open {
 	border: 0;
 }
 
-.ts-review-form-rating__stars {
+.review-form-rating__stars {
 	display: flex;
 	gap: 0.25rem;
 }
 
-.ts-review-form-rating__star {
+.review-form-rating__star {
 	padding: 0;
 	border: 0;
 	background: transparent;
@@ -252,11 +252,11 @@ body.ts-review-form-modal-open {
 	}
 }
 
-.ts-review-form-modal .form-submit {
+.review-form-modal .form-submit {
 	margin-top: map.get($ts-spacers, 1);
 }
 
-.ts-review-form-modal .ts-review-images-upload {
+.review-form-modal .review-images-upload {
 	margin-block: 0;
 	background: $ts-surface-muted;
 	border: 1px dashed var(--ts-border-color);
@@ -264,11 +264,11 @@ body.ts-review-form-modal-open {
 	padding: map.get($ts-spacers, 1);
 }
 
-.ts-review-form-modal .ts-review-images-toolbar__row {
+.review-form-modal .review-images-toolbar__row {
 	gap: var(--ts-spacer-1);
 }
 
-.ts-review-form-modal .ts-review-images-preview__item {
+.review-form-modal .review-images-preview__item {
 	width: 3rem;
 
 	img {

@@ -16,4 +16,4 @@ if ( '' === $columns ) {
 	$columns = '4';
 }
 ?>
-<ul class="products columns-<?php echo esc_attr( $columns ); ?> ts-wc-product-grid">
+<ul class="products columns-<?php echo esc_attr( $columns ); ?> wc-product-grid">

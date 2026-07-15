@@ -53,7 +53,7 @@ add_filter(
 	'body_class',
 	static function ( array $classes ): array {
 		if ( tailwindscore_should_load_mailnest() ) {
-			$classes[] = 'ts-mailnest';
+			$classes[] = 'mailnest';
 		}
 
 		return $classes;

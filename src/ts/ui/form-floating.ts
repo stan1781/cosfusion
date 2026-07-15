@@ -1,6 +1,6 @@
 /**
- * Floating label state for `.ts-form-layout--floating` forms.
- * Reusable on MailNest, checkout, or any markup using `.ts-field__float`.
+ * Floating label state for `.form-layout-floating` forms.
+ * Reusable on MailNest, checkout, or any markup using `.field__float`.
  */
 
 const FILLED_CLASS = 'is-filled';
@@ -47,7 +47,7 @@ function bindFormFloatingField(wrapper: HTMLElement): void {
 
 	if (control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement) {
 		control.addEventListener('animationstart', (event: Event) => {
-			if (event instanceof AnimationEvent && event.animationName === 'ts-textfield-autofill') {
+			if (event instanceof AnimationEvent && event.animationName === 'textfield-autofill') {
 				sync();
 			}
 		});
@@ -58,5 +58,5 @@ function bindFormFloatingField(wrapper: HTMLElement): void {
  * Wire floating-label filled state for all float wrappers under `root`.
  */
 export function initFormFloatingFields(root: ParentNode = document): void {
-	root.querySelectorAll<HTMLElement>('.ts-form-layout--floating .ts-field__float').forEach(bindFormFloatingField);
+	root.querySelectorAll<HTMLElement>('.form-layout-floating .field__float').forEach(bindFormFloatingField);
 }

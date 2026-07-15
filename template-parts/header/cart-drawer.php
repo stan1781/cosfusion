@@ -2,13 +2,13 @@
 declare(strict_types=1);
 ?>
 <?php if ( function_exists( 'wc_get_cart_url' ) ) : ?>
-	<div class="ts-site-cart-drawer" x-cloak :data-open="cartOpen ? 'true' : 'false'">
-		<button class="ts-site-cart-drawer__backdrop" type="button" @click="closeCart()" aria-label="<?php esc_attr_e( 'Close cart', 'tailwindscore' ); ?>"></button>
-		<div id="ts-site-cart-panel" class="ts-site-cart-drawer__panel ts-stack" role="dialog" aria-modal="true" aria-labelledby="ts-site-cart-title">
-			<div class="ts-site-cart-drawer__header">
-				<div class="ts-site-cart-drawer__heading ts-stack">
-					<h2 id="ts-site-cart-title" class="ts-site-cart-drawer__title"><?php esc_html_e( 'Cart', 'tailwindscore' ); ?></h2>
-					<p class="ts-site-cart-drawer__summary" data-ts-cart-summary>
+	<div class="site-cart-drawer" x-cloak :data-open="cartOpen ? 'true' : 'false'">
+		<button class="site-cart-drawer__backdrop" type="button" @click="closeCart()" aria-label="<?php esc_attr_e( 'Close cart', 'tailwindscore' ); ?>"></button>
+		<div id="ts-site-cart-panel" class="site-cart-drawer__panel stack" role="dialog" aria-modal="true" aria-labelledby="ts-site-cart-title">
+			<div class="site-cart-drawer__header">
+				<div class="site-cart-drawer__heading stack">
+					<h2 id="ts-site-cart-title" class="site-cart-drawer__title"><?php esc_html_e( 'Cart', 'tailwindscore' ); ?></h2>
+					<p class="site-cart-drawer__summary" data-ts-cart-summary>
 						<?php echo esc_html( tailwindscore_cart_summary_text() ); ?>
 					</p>
 				</div>

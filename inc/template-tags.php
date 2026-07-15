@@ -202,7 +202,7 @@ function tailwindscore_render_cart_badge(): void {
 		return;
 	}
 	?>
-	<span class="ts-site-header__badge" aria-hidden="true"><?php echo esc_html( (string) $count ); ?></span>
+	<span class="site-header__badge" aria-hidden="true"><?php echo esc_html( (string) $count ); ?></span>
 	<?php
 }
 

@@ -1,31 +1,31 @@
 @use "../abstracts/mixins";
 
-.ts-site-footer__inner p {
+.site-footer__inner p {
 	color: var(--ts-text-secondary);
 }
 
-.ts-site-footer__content {
+.site-footer__content {
 	display: grid;
 	gap: var(--ts-spacer-4);
 	grid-template-columns: 1fr;
 	width: 100%;
 }
 
-.ts-site-footer__top,
-.ts-site-footer__nav,
-.ts-site-footer__info {
+.site-footer__top,
+.site-footer__nav,
+.site-footer__info {
 	width: 100%;
 }
 
-.ts-site-footer__nav {
+.site-footer__nav {
 	font-size: var(--ts-font-size-xs);
 }
 
-.ts-site-footer__nav-inner {
+.site-footer__nav-inner {
 	width: 100%;
 }
 
-.ts-site-footer__nav-list {
+.site-footer__nav-list {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: var(--ts-spacer-1) var(--ts-spacer-3);
@@ -35,80 +35,80 @@
 	text-align: left;
 }
 
-.ts-site-footer__nav-list li {
+.site-footer__nav-list li {
 	min-width: 0;
 }
 
-.ts-site-footer__nav-list li:last-child:nth-child(odd) {
+.site-footer__nav-list li:last-child:nth-child(odd) {
 	grid-column: 1 / -1;
 }
 
-.ts-site-footer__nav-list a {
+.site-footer__nav-list a {
 	display: block;
 	padding-block: var(--ts-spacer-1);
 	color: var(--ts-text-secondary);
 	text-decoration: none;
 }
 
-.ts-site-footer__nav-list a:hover,
-.ts-site-footer__nav-list a:focus-visible {
+.site-footer__nav-list a:hover,
+.site-footer__nav-list a:focus-visible {
 	color: var(--ts-text-primary);
 }
 
 @include mixins.ts-up('lg') {
-	.ts-site-footer__nav-list {
+	.site-footer__nav-list {
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--ts-spacer-2) var(--ts-spacer-2);
 		text-align: inherit;
 	}
 
-	.ts-site-footer__nav-list li:last-child:nth-child(odd) {
+	.site-footer__nav-list li:last-child:nth-child(odd) {
 		grid-column: auto;
 	}
 
-	.ts-site-footer__nav-list a {
+	.site-footer__nav-list a {
 		display: inline;
 		padding-block: 0;
 	}
 
-	.ts-site-footer__nav--align-left .ts-site-footer__nav-list {
+	.site-footer__nav--align-left .site-footer__nav-list {
 		justify-content: flex-start;
 	}
 
-	.ts-site-footer__nav--align-center .ts-site-footer__nav-list {
+	.site-footer__nav--align-center .site-footer__nav-list {
 		justify-content: center;
 	}
 
-	.ts-site-footer__nav--align-right .ts-site-footer__nav-list {
+	.site-footer__nav--align-right .site-footer__nav-list {
 		justify-content: flex-end;
 	}
 }
 
-.ts-site-footer__top {
+.site-footer__top {
 	padding-bottom: var(--ts-spacer-3);
 	// border-bottom: 1px solid var(--ts-border-color);
 }
 
-.ts-site-footer__column {
+.site-footer__column {
 	min-width: 0;
 }
 
-.ts-site-footer__widget {
+.site-footer__widget {
 	gap: var(--ts-spacer-2);
 }
 
-.ts-site-footer__title {
+.site-footer__title {
 	color: var(--ts-text-primary);
 	font-weight: 600;
 	font-size: var(--ts-font-size-base);
 }
 
-.ts-site-footer__meta {
+.site-footer__meta {
 	max-width: 36rem;
 }
 
-.ts-site-footer__info {
+.site-footer__info {
 	display: flex;
 	flex-direction: column;
 	gap: var(--ts-spacer-3);
@@ -121,20 +121,20 @@
 	}
 }
 
-.ts-site-footer__info--centered {
+.site-footer__info--centered {
 	align-items: center;
 	text-align: center;
 }
 
-.ts-site-footer__info--split {
+.site-footer__info--split {
 	align-items: stretch;
 }
 
-.ts-site-footer__info--split .widget {
+.site-footer__info--split .widget {
 	width: 100%;
 }
 
-.ts-site-footer__copyright--has-icons {
+.site-footer__copyright--has-icons {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
@@ -142,20 +142,20 @@
 	width: 100%;
 }
 
-.ts-site-footer__info--centered .ts-site-footer__copyright--has-icons {
+.site-footer__info--centered .site-footer__copyright--has-icons {
 	align-self: stretch;
 	text-align: left;
 }
 
-.ts-site-footer__copyright-text {
+.site-footer__copyright-text {
 	margin: 0;
 }
 
-.ts-site-footer__payment-image {
+.site-footer__payment-image {
 	flex-shrink: 0;
 }
 
-.ts-site-footer__payment-image-img {
+.site-footer__payment-image-img {
 	display: block;
 	height: 1.5rem;
 	width: auto;
@@ -164,13 +164,13 @@
 }
 
 @include mixins.ts-up('lg') {
-	.ts-site-footer__copyright--has-icons {
+	.site-footer__copyright--has-icons {
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
 	}
 
-	.ts-site-footer__payment-image {
+	.site-footer__payment-image {
 		margin-left: auto;
 	}
 }

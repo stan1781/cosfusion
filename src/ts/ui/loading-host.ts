@@ -1,8 +1,8 @@
 /**
- * Toggle loading overlay on elements with .ts-loading-host (see components/_loading.scss).
+ * Toggle loading overlay on elements with .loading-host (see components/_loading.scss).
  */
 export function markLoadingHost(element: HTMLElement): void {
-	element.classList.add('ts-loading-host');
+	element.classList.add('loading-host');
 }
 
 export function setLoadingHost(element: HTMLElement | null | undefined, isLoading: boolean): void {

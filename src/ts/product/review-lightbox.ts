@@ -57,10 +57,10 @@ function getReviewImagesCloseIcon(): string {
 
 function renderOverlayCloseButton(label: string, closeIcon: string): string {
 	const iconMarkup = closeIcon.trim()
-		? `<span class="ts-icon" aria-hidden="true">${closeIcon}</span>`
-		: '<span class="ts-icon" aria-hidden="true">×</span>';
+		? `<span class="icon" aria-hidden="true">${closeIcon}</span>`
+		: '<span class="icon" aria-hidden="true">×</span>';
 
-	return `<button type="button" class="ts-close-button ts-review-lightbox__close" data-action="close" aria-label="${escapeHtml(label)}">${iconMarkup}<span class="screen-reader-text">${escapeHtml(label)}</span></button>`;
+	return `<button type="button" class="btn-close review-lightbox__close" data-action="close" aria-label="${escapeHtml(label)}">${iconMarkup}<span class="screen-reader-text">${escapeHtml(label)}</span></button>`;
 }
 
 function escapeHtml(text: string): string {
@@ -95,38 +95,38 @@ function payloadHasReviewSidebar(data: ReviewLightboxPayload): boolean {
 function renderSidebarContent(meta: ReviewLightboxSlideMeta, i18n: TailwindscoreReviewImagesI18n): string {
 	const verifiedLabel = i18n.verifiedOwner ?? 'Verified owner';
 	const verified = meta.verified
-		? `<span class="ts-wc-review__verified" title="${escapeHtml(verifiedLabel)}">${escapeHtml('Verified')}</span>`
+		? `<span class="wc-review__verified" title="${escapeHtml(verifiedLabel)}">${escapeHtml('Verified')}</span>`
 		: '';
 
 	const flag = meta.country_flag_url
-		? `<span class="ts-wc-review__country"><img src="${escapeHtml(meta.country_flag_url)}" alt="${escapeHtml(meta.country_name ?? meta.country_code ?? '')}" width="20" height="14"><span>${escapeHtml(meta.country_code ?? '')}</span></span>`
+		? `<span class="wc-review__country"><img src="${escapeHtml(meta.country_flag_url)}" alt="${escapeHtml(meta.country_name ?? meta.country_code ?? '')}" width="20" height="14"><span>${escapeHtml(meta.country_code ?? '')}</span></span>`
 		: '';
 
 	const ratingHtml =
-		(meta.rating ?? 0) > 0 ? `<div class="ts-wc-review__rating">${renderStarRatingHtml(meta.rating ?? 0)}</div>` : '';
+		(meta.rating ?? 0) > 0 ? `<div class="wc-review__rating">${renderStarRatingHtml(meta.rating ?? 0)}</div>` : '';
 
 	return `
-		<article class="ts-wc-review ts-wc-review--lightbox">
-			<div class="ts-wc-review__meta">
-				<div class="ts-wc-review__author-row">
+		<article class="wc-review wc-review--lightbox">
+			<div class="wc-review__meta">
+				<div class="wc-review__author-row">
 					<strong>${escapeHtml(meta.author ?? '')}</strong>
 					${flag}
 					${verified}
 				</div>
-				<div class="ts-wc-review__rating-row">
+				<div class="wc-review__rating-row">
 					${ratingHtml}
 					<time>${escapeHtml(meta.date ?? '')}</time>
 				</div>
 			</div>
-			<div class="ts-wc-review__body">
-				<div class="ts-wc-review__text"><p>${escapeHtml(meta.content ?? '')}</p></div>
+			<div class="wc-review__body">
+				<div class="wc-review__text"><p>${escapeHtml(meta.content ?? '')}</p></div>
 			</div>
 		</article>
 	`;
 }
 
 function renderSidebarShell(): string {
-	return '<aside class="ts-review-lightbox__sidebar hidden"></aside>';
+	return '<aside class="review-lightbox__sidebar hidden"></aside>';
 }
 
 function updateSidebar(
@@ -153,7 +153,7 @@ function getProductLightboxData(): ReviewLightboxPayload | null {
 		return productLightboxCache;
 	}
 
-	const scriptEl = document.getElementById('ts-product-lightbox-data');
+	const scriptEl = document.getElementById('product-lightbox-data');
 	if (!scriptEl?.textContent) {
 		productLightboxCache = null;
 		return null;
@@ -177,7 +177,7 @@ function buildDialog(
 	const showSidebarColumn = payloadHasReviewSidebar(data);
 	const initialMeta = getSlideMeta(data, startIndex);
 	const dialog = document.createElement('dialog');
-	dialog.className = 'ts-review-lightbox';
+	dialog.className = 'review-lightbox';
 	dialog.setAttribute('aria-label', i18n.closeLightbox ?? 'Review images');
 
 	const slides = data.images
@@ -185,19 +185,19 @@ function buildDialog(
 		.join('');
 
 	const thumbs = data.images.length > 1
-		? `<div class="ts-review-lightbox__thumbs swiper"><div class="swiper-wrapper">${data.images
+		? `<div class="review-lightbox__thumbs swiper"><div class="swiper-wrapper">${data.images
 				.map((img) => `<div class="swiper-slide"><img src="${escapeHtml(img.thumb)}" alt="" loading="lazy" width="80" height="80"></div>`)
 				.join('')}</div></div>`
 		: '';
 
 	dialog.innerHTML = `
-		<div class="ts-review-lightbox__inner">
+		<div class="review-lightbox__inner">
 			${renderOverlayCloseButton(i18n.closeLightbox ?? 'Close', closeIcon)}
-			<div class="ts-review-lightbox__layout${showSidebarColumn ? '' : ' is-gallery-only'}">
-				<div class="ts-review-lightbox__gallery">
-					<div class="ts-review-lightbox__stage">
-						<div class="ts-review-lightbox__main swiper"><div class="swiper-wrapper">${slides}</div></div>
-						${data.images.length > 1 ? '<button type="button" class="ts-review-lightbox__nav ts-review-lightbox__nav--prev" aria-label="' + escapeHtml(i18n.previousImage ?? 'Previous') + '">‹</button><button type="button" class="ts-review-lightbox__nav ts-review-lightbox__nav--next" aria-label="' + escapeHtml(i18n.nextImage ?? 'Next') + '">›</button>' : ''}
+			<div class="review-lightbox__layout${showSidebarColumn ? '' : ' is-gallery-only'}">
+				<div class="review-lightbox__gallery">
+					<div class="review-lightbox__stage">
+						<div class="review-lightbox__main swiper"><div class="swiper-wrapper">${slides}</div></div>
+						${data.images.length > 1 ? '<button type="button" class="review-lightbox__nav review-lightbox__nav--prev" aria-label="' + escapeHtml(i18n.previousImage ?? 'Previous') + '">‹</button><button type="button" class="review-lightbox__nav review-lightbox__nav--next" aria-label="' + escapeHtml(i18n.nextImage ?? 'Next') + '">›</button>' : ''}
 					</div>
 					${thumbs}
 				</div>
@@ -208,9 +208,9 @@ function buildDialog(
 
 	document.body.appendChild(dialog);
 
-	const mainEl = dialog.querySelector<HTMLElement>('.ts-review-lightbox__main');
-	const thumbsEl = dialog.querySelector<HTMLElement>('.ts-review-lightbox__thumbs');
-	const sidebarEl = dialog.querySelector<HTMLElement>('.ts-review-lightbox__sidebar');
+	const mainEl = dialog.querySelector<HTMLElement>('.review-lightbox__main');
+	const thumbsEl = dialog.querySelector<HTMLElement>('.review-lightbox__thumbs');
+	const sidebarEl = dialog.querySelector<HTMLElement>('.review-lightbox__sidebar');
 
 	if (sidebarEl) {
 		updateSidebar(sidebarEl, initialMeta, i18n);
@@ -234,8 +234,8 @@ function buildDialog(
 
 		if (data.images.length > 1) {
 			const wrapNav = bindSwiperWrapNavigation(mainSwiper, {
-				prevEl: dialog.querySelector<HTMLElement>('.ts-review-lightbox__nav--prev'),
-				nextEl: dialog.querySelector<HTMLElement>('.ts-review-lightbox__nav--next'),
+				prevEl: dialog.querySelector<HTMLElement>('.review-lightbox__nav--prev'),
+				nextEl: dialog.querySelector<HTMLElement>('.review-lightbox__nav--next'),
 				slideCount: data.images.length,
 				keyboardRoot: dialog,
 			});
@@ -265,7 +265,7 @@ function buildDialog(
 	if (!dialog.contains(document.activeElement)) {
 		dialog.focus();
 	}
-	document.documentElement.classList.add('ts-review-lightbox-open');
+	document.documentElement.classList.add('review-lightbox-open');
 
 	return dialog;
 }
@@ -296,7 +296,7 @@ export function closeReviewLightbox(): void {
 		dialogEl = null;
 	}
 
-	document.documentElement.classList.remove('ts-review-lightbox-open');
+	document.documentElement.classList.remove('review-lightbox-open');
 }
 
 export function bindReviewLightbox(i18n: TailwindscoreReviewImagesI18n = {}): void {

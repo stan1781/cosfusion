@@ -16,8 +16,8 @@ $is_checkout = ( 'checkout' === $context );
 $is_cart_page = ( 'cart' === $context );
 
 $detached_form_id = $is_checkout ? 'woocommerce-checkout-form-coupon' : '';
-$input_id         = $is_checkout ? 'coupon_code' : ( $is_cart_page ? 'ts-cart-page-coupon-code' : 'ts-cart-coupon-code' );
-$label_class      = $is_checkout ? 'screen-reader-text' : 'ts-coupon-form__label';
+$input_id         = $is_checkout ? 'coupon_code' : ( $is_cart_page ? 'cart-page-coupon-code' : 'cart-coupon-code' );
+$label_class      = $is_checkout ? 'screen-reader-text' : 'coupon-form__label';
 $label_text       = $is_checkout
 	? __( 'Coupon:', 'woocommerce' )
 	: __( 'Coupon code', 'tailwindscore' );
@@ -26,10 +26,10 @@ $button_text      = __( 'Apply', 'tailwindscore' );
 $button_name      = $is_checkout ? 'apply_coupon' : '';
 $button_value     = $is_checkout ? __( 'Apply coupon', 'woocommerce' ) : '';
 $form_classes     = $is_checkout
-	? 'ts-coupon-form ts-coupon-form--checkout'
+	? 'coupon-form coupon-form--checkout'
 	: ( $is_cart_page
-		? 'ts-cart-drawer-cart__coupon-form ts-coupon-form ts-coupon-form--cart-page'
-		: 'ts-cart-drawer-cart__coupon-form ts-coupon-form ts-coupon-form--drawer' );
+		? 'cart-drawer-cart__coupon-form coupon-form coupon-form--cart-page'
+		: 'cart-drawer-cart__coupon-form coupon-form coupon-form--drawer' );
 $form_action      = $is_checkout ? '' : wc_get_cart_url();
 $form_id          = $is_checkout ? '' : '';
 $use_cart_ajax    = ! $is_checkout;
@@ -45,10 +45,10 @@ $control_markup = static function () use (
 	$use_cart_ajax
 ): void {
 	?>
-	<div class="ts-input-group">
+	<div class="input-group">
 		<input
 			id="<?php echo esc_attr( $input_id ); ?>"
-			class="ts-input"
+			class="input"
 			type="text"
 			name="coupon_code"
 			value=""
@@ -62,7 +62,7 @@ $control_markup = static function () use (
 			<?php endif; ?>
 		>
 		<button
-			class="ts-button ts-button--secondary"
+			class="btn btn-secondary"
 			type="submit"
 			disabled
 			data-ts-button-loading

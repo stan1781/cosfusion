@@ -1,6 +1,6 @@
 // Inline SVG icons (see tailwindscore_icon() in inc/icons.php).
 
-.ts-icon-button {
+.btn-icon {
 	box-sizing: border-box;
 	position: relative;
 	display: inline-flex;
@@ -16,8 +16,8 @@
 	cursor: pointer;
 }
 
-// Sitewide dismiss control ? modals, drawers, lightbox, toasts, etc.
-.ts-close-button {
+// 全站关闭按钮：弹层、抽屉、lightbox、toast 等。
+.btn-close {
 	box-sizing: border-box;
 	position: relative;
 	display: inline-flex;
@@ -46,17 +46,17 @@
 	}
 }
 
-.ts-close-button--sm {
+.btn-close-sm {
 	width: var(--ts-spacer-4);
 	height: var(--ts-spacer-4);
 
-	.ts-icon {
+	.icon {
 		width: var(--ts-font-size-lg);
 		height: var(--ts-font-size-lg);
 	}
 }
 
-.ts-icon {
+.icon {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -65,7 +65,7 @@
 	flex-shrink: 0;
 }
 
-.ts-icon svg {
+.icon svg {
 	width: 100%;
 	height: 100%;
 	fill: none;

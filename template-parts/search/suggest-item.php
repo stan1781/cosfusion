@@ -20,14 +20,14 @@ if ( defined( 'WC_AJAX_SEARCH_RENDER' ) && WC_AJAX_SEARCH_RENDER ) {
 $product_image     = wp_get_attachment_image_src( get_post_thumbnail_id( $product_id ), 'thumbnail' );
 $product_image_url = $product_image ? $product_image[0] : wc_placeholder_img_src();
 ?>
-<div class="ts-search-suggest__item" role="option">
-	<a class="ts-search-suggest__link" href="<?php echo esc_url( $product_url ); ?>">
-		<span class="ts-search-suggest__media">
+<div class="search-suggest__item" role="option">
+	<a class="search-suggest__link" href="<?php echo esc_url( $product_url ); ?>">
+		<span class="search-suggest__media">
 			<img src="<?php echo esc_url( $product_image_url ); ?>" alt="<?php echo esc_attr( $product_title ); ?>" width="60" height="60" loading="lazy" decoding="async">
 		</span>
-		<span class="ts-search-suggest__body">
-			<span class="ts-search-suggest__title"><?php echo esc_html( $product_title ); ?></span>
-			<span class="ts-search-suggest__price"><?php echo wp_kses_post( $product_price ); ?></span>
+		<span class="search-suggest__body">
+			<span class="search-suggest__title"><?php echo esc_html( $product_title ); ?></span>
+			<span class="search-suggest__price"><?php echo wp_kses_post( $product_price ); ?></span>
 		</span>
 	</a>
 </div>

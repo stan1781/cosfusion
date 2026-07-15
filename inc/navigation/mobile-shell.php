@@ -157,11 +157,11 @@ function tailwindscore_search_modal_term_url( string $term ): string {
  */
 function tailwindscore_mobile_shell_body_class( array $classes ): array {
 	if ( tailwindscore_should_render_mobile_tab_bar() ) {
-		$classes[] = 'ts-has-mobile-tab-bar';
+		$classes[] = 'has-mobile-tab-bar';
 	}
 
 	if ( tailwindscore_should_render_product_sticky_bar() ) {
-		$classes[] = 'ts-has-product-sticky-bar';
+		$classes[] = 'has-product-sticky-bar';
 	}
 
 	return $classes;

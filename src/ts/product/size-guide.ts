@@ -32,20 +32,20 @@ function renderTable(table: SizeGuideTable, unit: 'cm' | 'inch', showUnitLabel =
 	}
 
 	const showLabel = showUnitLabel && tableHasLengthColumns(table);
-	let html = '<div class="ts-size-guide-table-wrap">';
+	let html = '<div class="size-guide-table-wrap">';
 	if (showLabel) {
-		html += `<p class="ts-size-guide-table__unit-label">${escapeHtml(unit)}</p>`;
+		html += `<p class="size-guide-table__unit-label">${escapeHtml(unit)}</p>`;
 	}
-	html += '<table class="ts-size-guide-table"><thead><tr>';
+	html += '<table class="size-guide-table"><thead><tr>';
 	for (const col of cols) {
-		html += `<th class="ts-size-guide-table__head">${escapeHtml(col.label)}</th>`;
+		html += `<th class="size-guide-table__head">${escapeHtml(col.label)}</th>`;
 	}
 	html += '</tr></thead><tbody>';
 
 	for (const row of rows) {
 		html += `<tr data-size-key="${escapeAttr(row.sizeKey)}">`;
 		for (const col of cols) {
-			html += '<td class="ts-size-guide-table__cell">';
+			html += '<td class="size-guide-table__cell">';
 			if (col.type === 'size') {
 				html += escapeHtml(row.sizeLabel || row.sizeKey);
 			} else {
@@ -80,14 +80,14 @@ function renderInlineRow(row: SizeGuideRow, table: SizeGuideTable, unit: 'cm' | 
 			hasLength = true;
 			display = formatNumber(convertLength(val, unit));
 		}
-		parts.push(`<span class="ts-size-guide-inline__item"><strong>${escapeHtml(col.label)}</strong> ${escapeHtml(display)}</span>`);
+		parts.push(`<span class="size-guide-inline__item"><strong>${escapeHtml(col.label)}</strong> ${escapeHtml(display)}</span>`);
 	}
 	if (!parts.length) {
 		return '';
 	}
-	let html = `<span class="ts-size-guide-inline__items">${parts.join('')}</span>`;
+	let html = `<span class="size-guide-inline__items">${parts.join('')}</span>`;
 	if (hasLength) {
-		html += `<span class="ts-size-guide-inline__unit">(${escapeHtml(unit)})</span>`;
+		html += `<span class="size-guide-inline__unit">(${escapeHtml(unit)})</span>`;
 	}
 	return html;
 }
@@ -114,13 +114,13 @@ function syncUnitToggle(unitToggle: Element | null, unit: 'cm' | 'inch'): void {
 	if (!unitToggle) {
 		return;
 	}
-	unitToggle.querySelectorAll<HTMLButtonElement>('.ts-size-guide-unit-btn').forEach((btn) => {
+	unitToggle.querySelectorAll<HTMLButtonElement>('.size-guide-unit-btn').forEach((btn) => {
 		btn.classList.toggle('is-active', btn.getAttribute('data-unit') === unit);
 	});
 }
 
 function initModal(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inch', setUnit: (u: 'cm' | 'inch') => void): void {
-	const dialog = document.getElementById('ts-size-guide-dialog') as HTMLDialogElement | null;
+	const dialog = document.getElementById('size-guide-dialog') as HTMLDialogElement | null;
 	const body = document.querySelector('[data-ts-size-guide-body]');
 	const unitToggle = document.querySelector('[data-ts-size-guide-unit-toggle]');
 	if (!dialog || !body) {
@@ -130,7 +130,7 @@ function initModal(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inch', setUnit: 
 	const updateBody = (): void => {
 		const unit = getUnit();
 		if (cfg.legacyHtml) {
-			body.innerHTML = `<div class="ts-size-guide-legacy">${cfg.legacyHtml}</div>`;
+			body.innerHTML = `<div class="size-guide-legacy">${cfg.legacyHtml}</div>`;
 			return;
 		}
 		if (cfg.table) {
@@ -141,7 +141,7 @@ function initModal(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inch', setUnit: 
 	if (cfg.showUnitSwitcher && cfg.table && unitToggle) {
 		unitToggle.classList.remove('is-hidden');
 		syncUnitToggle(unitToggle, getUnit());
-		unitToggle.querySelectorAll<HTMLButtonElement>('.ts-size-guide-unit-btn').forEach((btn) => {
+		unitToggle.querySelectorAll<HTMLButtonElement>('.size-guide-unit-btn').forEach((btn) => {
 			btn.addEventListener('click', () => {
 				const u = btn.getAttribute('data-unit') as 'cm' | 'inch';
 				if (!u) {
@@ -176,7 +176,7 @@ function initModal(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inch', setUnit: 
 }
 
 function findSizeRow(): HTMLElement | null {
-	return document.querySelector('.ts-variation-row--size');
+	return document.querySelector('.variation-row--size');
 }
 
 function getSelectedSizeSlug(form: HTMLFormElement, bindAttr: string): string {
@@ -266,7 +266,7 @@ function bindOpenDelegation(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inch', 
 			return;
 		}
 		event.preventDefault();
-		const dialog = document.getElementById('ts-size-guide-dialog') as HTMLDialogElement | null;
+		const dialog = document.getElementById('size-guide-dialog') as HTMLDialogElement | null;
 		const body = document.querySelector('[data-ts-size-guide-body]');
 		if (!dialog || !body) {
 			console.warn('[tailwindscore] size guide: dialog shell missing in DOM');
@@ -276,7 +276,7 @@ function bindOpenDelegation(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inch', 
 		const unitToggle = document.querySelector('[data-ts-size-guide-unit-toggle]');
 		syncUnitToggle(unitToggle, unit);
 		if (cfg.legacyHtml) {
-			body.innerHTML = `<div class="ts-size-guide-legacy">${cfg.legacyHtml}</div>`;
+			body.innerHTML = `<div class="size-guide-legacy">${cfg.legacyHtml}</div>`;
 		} else if (cfg.table) {
 			body.innerHTML = renderTable(cfg.table, unit, !cfg.showUnitSwitcher);
 		}

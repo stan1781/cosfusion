@@ -49,10 +49,10 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 		$panels_html = '';
 
 		foreach ( $this->mobile_panel_buffers as $panel_id => $panel ) {
-			$panel_classes = 'ts-nav__panel';
+			$panel_classes = 'nav__panel';
 
 			if ( ! empty( $panel['is_mega'] ) ) {
-				$panel_classes .= ' ts-nav__panel--mega';
+				$panel_classes .= ' nav__panel--mega';
 			}
 
 			$panels_html .= sprintf(
@@ -70,7 +70,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 		);
 
 		return sprintf(
-			'<div class="ts-nav__viewport"><div class="ts-nav__track" data-ts-nav-track><div class="ts-nav__panel" data-ts-nav-panel="root" data-ts-nav-title="%1$s" role="region" aria-label="%1$s"><ul class="ts-nav__list">%2$s</ul></div>%3$s</div></div>',
+			'<div class="nav__viewport"><div class="nav__track" data-ts-nav-track><div class="nav__panel" data-ts-nav-panel="root" data-ts-nav-title="%1$s" role="region" aria-label="%1$s"><ul class="nav__list">%2$s</ul></div>%3$s</div></div>',
 			esc_attr( $root_title ),
 			$list_items,
 			$panels_html
@@ -96,14 +96,14 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	private function get_item_classes( object $item, int $depth, object $args ): array {
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 
-		$classes[] = 'ts-nav__item';
+		$classes[] = 'nav__item';
 
 		if ( 0 === $depth && tailwindscore_nav_item_has_children( $item, $args ) ) {
-			$classes[] = 'ts-nav__item--has-children';
+			$classes[] = 'nav__item--has-children';
 		}
 
 		if ( 0 === $depth && tailwindscore_nav_item_is_mega( $item ) ) {
-			$classes[] = 'ts-nav__item--mega';
+			$classes[] = 'nav__item--mega';
 		}
 
 		$classes = array_filter( array_unique( $classes ) );
@@ -118,7 +118,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	 * 打开下拉菜单项的 chevron-down SVG 图标。
 	 */
 	private function render_chevron_icon(): string {
-		return tailwindscore_icon( 'chevron-down', 'ts-nav__chevron' );
+		return tailwindscore_icon( 'chevron-down', 'nav__chevron' );
 	}
 
 	/**
@@ -128,12 +128,12 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 		$classes = array( $link_class );
 
 		if ( $depth > 0 ) {
-			$classes[] = 'ts-nav__link--child';
+			$classes[] = 'nav__link--child';
 		}
 
 		if ( ! empty( $item->classes ) && is_array( $item->classes ) ) {
 			if ( in_array( 'current-menu-item', $item->classes, true ) ) {
-				$classes[] = 'ts-nav__link--current';
+				$classes[] = 'nav__link--current';
 			}
 		}
 
@@ -141,7 +141,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 
 		// 链接含下拉时为 CSS 定位添加修饰 class。
 		if ( 0 === $depth && $has_children ) {
-			$classes[] = 'ts-nav__link--has-children';
+			$classes[] = 'nav__link--has-children';
 		}
 
 		$atts           = array();
@@ -151,7 +151,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 		$atts['target'] = ! empty( $item->target ) ? $item->target : '';
 		$atts['rel']    = ! empty( $item->xfn ) ? $item->xfn : '';
 
-		if ( in_array( 'ts-nav__link--current', $classes, true ) ) {
+		if ( in_array( 'nav__link--current', $classes, true ) ) {
 			$atts['aria-current'] = 'page';
 		}
 
@@ -185,10 +185,10 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 		$panel_id = 'menu-item-' . $item->ID;
 		$title    = apply_filters( 'the_title', $item->title, $item->ID );
 		$url      = ! empty( $item->url ) ? $item->url : '';
-		$classes  = array( 'ts-nav__link', 'ts-nav__link--drill' );
+		$classes  = array( 'nav__link', 'nav__link--drill' );
 
 		if ( tailwindscore_nav_item_is_mega( $item ) ) {
-			$classes[] = 'ts-nav__link--drill-mega';
+			$classes[] = 'nav__link--drill-mega';
 		}
 
 		$badge = tailwindscore_nav_item_badge_html( $item, 'top' );
@@ -243,28 +243,28 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 		if ( 0 === $depth && $is_mega ) {
 			$this->in_mega_menu = true;
 			$target            .= '<li' . $id_attr . ' class="' . esc_attr( $class_names ) . '">';
-			$target            .= $this->render_link( $item, $depth, $args, 'ts-nav__link' );
+			$target            .= $this->render_link( $item, $depth, $args, 'nav__link' );
 			return;
 		}
 
 		// Mega — 列（depth 1）。
 		if ( $this->in_mega_menu && 1 === $depth ) {
-			$target .= '<div class="ts-nav__mega-col">';
-			$target .= $this->render_link( $item, $depth, $args, 'ts-nav__mega-heading' );
+			$target .= '<div class="nav__mega-col">';
+			$target .= $this->render_link( $item, $depth, $args, 'nav__mega-heading' );
 			return;
 		}
 
 		// Mega — 链接（depth 2）。
 		if ( $this->in_mega_menu && 2 === $depth ) {
-			$target .= '<li class="ts-nav__mega-list-item">';
-			$target .= $this->render_link( $item, $depth, $args, 'ts-nav__mega-link' );
+			$target .= '<li class="nav__mega-list-item">';
+			$target .= $this->render_link( $item, $depth, $args, 'nav__mega-link' );
 			return;
 		}
 
 		// 标准列表项。
 		$before      = isset( $args->before ) ? $args->before : '';
 		$after       = isset( $args->after ) ? $args->after : '';
-		$item_output = $before . $this->render_link( $item, $depth, $args, 'ts-nav__link' ) . $after;
+		$item_output = $before . $this->render_link( $item, $depth, $args, 'nav__link' ) . $after;
 		$item_output = apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 
 		$target .= '<li' . $id_attr . ' class="' . esc_attr( $class_names ) . '">';
@@ -315,20 +315,20 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 
 		if ( $this->in_mega_menu && 0 === $depth ) {
 			if ( 'mobile' === $this->variant ) {
-				$target .= "\n{$indent}<div class=\"ts-nav__mega-panel ts-nav__mega-panel--mobile\">\n";
+				$target .= "\n{$indent}<div class=\"nav__mega-panel nav__mega-panel--mobile\">\n";
 				return;
 			}
-			$target .= "\n{$indent}<div class=\"ts-nav__mega-panel\">\n";
-			$target .= "{$indent}<div class=\"ts-nav__mega-grid\">\n";
+			$target .= "\n{$indent}<div class=\"nav__mega-panel\">\n";
+			$target .= "{$indent}<div class=\"nav__mega-grid\">\n";
 			return;
 		}
 
 		if ( $this->in_mega_menu && 1 === $depth ) {
-			$target .= "\n{$indent}<ul class=\"ts-nav__mega-list\">\n";
+			$target .= "\n{$indent}<ul class=\"nav__mega-list\">\n";
 			return;
 		}
 
-		$submenu_class = 'ts-nav__submenu sub-menu';
+		$submenu_class = 'nav__submenu sub-menu';
 		if ( isset( $args->sub_menu_class ) && is_string( $args->sub_menu_class ) ) {
 			$submenu_class = $args->sub_menu_class;
 		}

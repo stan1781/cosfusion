@@ -59,7 +59,7 @@ define( 'TAILWINDSCORE_VITE_DEV', true );
 - **PHP**：`declare(strict_types=1);`，WordPress 编码规范，转义输出
 - **SCSS**：遵循 [设计令牌](../architecture/design-tokens.md)，组件用 `ts-up`/`ts-down` mixin
 - **TypeScript**：断点用 `src/ts/breakpoints.ts`，商城逻辑放 `src/ts/` 对应域目录
-- **模板**：语义类 `.ts-*`，避免 Bootstrap / 大量 Tailwind 原子类
+- **模板**：语义类不加 `ts-`（如 `btn btn-outline-primary`；见 [conventions.md](../conventions.md)）；禁止 Bootstrap 运行时 / `data-bs-*` / 大量 Tailwind 原子类；令牌用 `--ts-*`
 
 ## 目录速查
 

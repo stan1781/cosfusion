@@ -40,7 +40,7 @@ function tailwindscore_register_sidebars(): void {
 		array(
 			'name'          => __( 'Sidebar', 'tailwindscore' ),
 			'id'            => 'sidebar-1',
-			'before_widget' => '<section class="widget ts-card">',
+			'before_widget' => '<section class="widget card">',
 			'after_widget'  => '</section>',
 			'before_title'  => '<h2 class="widget-title">',
 			'after_title'   => '</h2>',
@@ -56,9 +56,9 @@ function tailwindscore_register_sidebars(): void {
 					$index
 				),
 				'id'            => 'footer-' . $index,
-				'before_widget' => '<section class="widget ts-site-footer__widget ts-stack">',
+				'before_widget' => '<section class="widget site-footer__widget stack">',
 				'after_widget'  => '</section>',
-				'before_title'  => '<h2 class="widget-title ts-site-footer__title">',
+				'before_title'  => '<h2 class="widget-title site-footer__title">',
 				'after_title'   => '</h2>',
 			)
 		);
@@ -68,9 +68,9 @@ function tailwindscore_register_sidebars(): void {
 		array(
 			'name'          => __( 'Footer Top', 'tailwindscore' ),
 			'id'            => 'footer-top',
-			'before_widget' => '<section class="widget ts-site-footer__widget ts-stack">',
+			'before_widget' => '<section class="widget site-footer__widget stack">',
 			'after_widget'  => '</section>',
-			'before_title'  => '<h2 class="widget-title ts-site-footer__title">',
+			'before_title'  => '<h2 class="widget-title site-footer__title">',
 			'after_title'   => '</h2>',
 		)
 	);
@@ -79,9 +79,9 @@ function tailwindscore_register_sidebars(): void {
 		array(
 			'name'          => __( 'Footer Info', 'tailwindscore' ),
 			'id'            => 'footer-info',
-			'before_widget' => '<section class="widget ts-site-footer__widget ts-stack">',
+			'before_widget' => '<section class="widget site-footer__widget stack">',
 			'after_widget'  => '</section>',
-			'before_title'  => '<h2 class="widget-title ts-site-footer__title">',
+			'before_title'  => '<h2 class="widget-title site-footer__title">',
 			'after_title'   => '</h2>',
 		)
 	);

@@ -36,7 +36,7 @@ function tailwindscore_render_loop_sale_badge( WC_Product $product ): void {
 		return;
 	}
 
-	echo '<div class="ts-wc-product-card__badges">';
+	echo '<div class="wc-product-card__badges">';
 	echo $flash; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo '</div>';
 }
@@ -85,7 +85,7 @@ function tailwindscore_render_loop_rating( WC_Product $product ): void {
 		$rating
 	);
 
-	echo '<div class="ts-wc-product-card__rating" role="img" aria-label="' . esc_attr( $label ) . '">';
+	echo '<div class="wc-product-card__rating" role="img" aria-label="' . esc_attr( $label ) . '">';
 
 	$star_svg = tailwindscore_loop_rating_star_svg();
 
@@ -93,17 +93,17 @@ function tailwindscore_render_loop_rating( WC_Product $product ): void {
 		$state = tailwindscore_loop_rating_star_state( $rating, $index );
 
 		if ( 'half' === $state ) {
-			echo '<span class="ts-wc-product-card__star ts-wc-product-card__star--half">';
-			echo '<span class="ts-wc-product-card__star-layer ts-wc-product-card__star-layer--empty"><span class="ts-wc-product-card__star-icon">' . $star_svg . '</span></span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo '<span class="ts-wc-product-card__star-layer ts-wc-product-card__star-layer--filled"><span class="ts-wc-product-card__star-icon">' . $star_svg . '</span></span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<span class="wc-product-card__star wc-product-card__star--half">';
+			echo '<span class="wc-product-card__star-layer wc-product-card__star-layer--empty"><span class="wc-product-card__star-icon">' . $star_svg . '</span></span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			echo '<span class="wc-product-card__star-layer wc-product-card__star-layer--filled"><span class="wc-product-card__star-icon">' . $star_svg . '</span></span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo '</span>';
 			continue;
 		}
 
-		$class = 'empty' === $state ? 'ts-wc-product-card__star--empty' : 'ts-wc-product-card__star--full';
+		$class = 'empty' === $state ? 'wc-product-card__star--empty' : 'wc-product-card__star--full';
 
-		echo '<span class="ts-wc-product-card__star ' . esc_attr( $class ) . '">';
-		echo '<span class="ts-wc-product-card__star-icon">' . $star_svg . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo '<span class="wc-product-card__star ' . esc_attr( $class ) . '">';
+		echo '<span class="wc-product-card__star-icon">' . $star_svg . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '</span>';
 	}
 
@@ -136,7 +136,7 @@ function tailwindscore_loop_product_secondary_image_id( WC_Product $product ): i
 function tailwindscore_render_loop_product_images( WC_Product $product ): void {
 	$secondary_id = tailwindscore_loop_product_secondary_image_id( $product );
 
-	$media_classes = 'ts-wc-product-card__media';
+	$media_classes = 'wc-product-card__media';
 	if ( $secondary_id > 0 ) {
 		$media_classes .= ' has-secondary-image';
 	}
@@ -148,7 +148,7 @@ function tailwindscore_render_loop_product_images( WC_Product $product ): void {
 	$primary_html = $product->get_image(
 		'woocommerce_thumbnail',
 		array(
-			'class'   => 'ts-wc-product-card__image ts-wc-product-card__image--primary',
+			'class'   => 'wc-product-card__image wc-product-card__image--primary',
 			'loading' => 'eager',
 		)
 	);
@@ -161,7 +161,7 @@ function tailwindscore_render_loop_product_images( WC_Product $product ): void {
 			'woocommerce_thumbnail',
 			false,
 			array(
-				'class'   => 'ts-wc-product-card__image ts-wc-product-card__image--secondary',
+				'class'   => 'wc-product-card__image wc-product-card__image--secondary',
 				'loading' => 'lazy',
 			)
 		);

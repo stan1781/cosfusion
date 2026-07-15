@@ -52,7 +52,7 @@ final class Tailwindscore_Size_Guide_Frontend {
 		}
 
 		printf(
-			'<button type="button" class="ts-size-guide-trigger" data-ts-size-guide-open aria-haspopup="dialog">%s</button>',
+			'<button type="button" class="size-guide-trigger" data-ts-size-guide-open aria-haspopup="dialog">%s</button>',
 			esc_html__( 'Size Guide', 'tailwindscore' )
 		);
 	}
@@ -68,7 +68,7 @@ final class Tailwindscore_Size_Guide_Frontend {
 		if ( ! function_exists( 'tailwindscore_is_size_variation_attribute' ) || ! tailwindscore_is_size_variation_attribute( $attribute_name ) ) {
 			return;
 		}
-		echo '<div class="ts-size-guide-inline" data-ts-size-guide-inline hidden></div>';
+		echo '<div class="size-guide-inline" data-ts-size-guide-inline hidden></div>';
 	}
 
 	/**
@@ -79,19 +79,19 @@ final class Tailwindscore_Size_Guide_Frontend {
 			return;
 		}
 		?>
-		<dialog id="ts-size-guide-dialog" class="ts-size-guide-dialog">
-			<div class="ts-size-guide-dialog__inner">
-				<div class="ts-size-guide-dialog__header">
-					<h2 class="ts-size-guide-dialog__title" data-ts-size-guide-title><?php esc_html_e( 'Size Guide', 'tailwindscore' ); ?></h2>
-					<div class="ts-size-guide-dialog__controls">
-						<div class="ts-size-guide-unit-toggle is-hidden" data-ts-size-guide-unit-toggle>
-							<button type="button" class="ts-size-guide-unit-btn" data-unit="cm">cm</button>
-							<button type="button" class="ts-size-guide-unit-btn" data-unit="inch">inch</button>
+		<dialog id="ts-size-guide-dialog" class="size-guide-dialog">
+			<div class="size-guide-dialog__inner">
+				<div class="size-guide-dialog__header">
+					<h2 class="size-guide-dialog__title" data-ts-size-guide-title><?php esc_html_e( 'Size Guide', 'tailwindscore' ); ?></h2>
+					<div class="size-guide-dialog__controls">
+						<div class="size-guide-unit-toggle is-hidden" data-ts-size-guide-unit-toggle>
+							<button type="button" class="size-guide-unit-btn" data-unit="cm">cm</button>
+							<button type="button" class="size-guide-unit-btn" data-unit="inch">inch</button>
 						</div>
-						<button type="button" class="ts-size-guide-close" data-ts-size-guide-close aria-label="<?php esc_attr_e( 'Close', 'tailwindscore' ); ?>">&times;</button>
+						<button type="button" class="size-guide-close" data-ts-size-guide-close aria-label="<?php esc_attr_e( 'Close', 'tailwindscore' ); ?>">&times;</button>
 					</div>
 				</div>
-				<div class="ts-size-guide-dialog__body" data-ts-size-guide-body></div>
+				<div class="size-guide-dialog__body" data-ts-size-guide-body></div>
 			</div>
 		</dialog>
 		<?php

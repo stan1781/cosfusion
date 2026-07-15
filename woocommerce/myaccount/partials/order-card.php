@@ -28,10 +28,10 @@ $badge_mod   = $is_draft ? 'warning' : ( 'completed' === $bucket ? 'success' : (
 $thumb_limit = 3;
 $thumb_index = 0;
 ?>
-<article class="ts-wc-account-order-card">
-	<div class="ts-wc-account-order-card__main">
+<article class="wc-account-order-card">
+	<div class="wc-account-order-card__main">
 		<?php if ( ! empty( $order_items ) ) : ?>
-			<ul class="ts-wc-account-order-card__thumbs" aria-label="<?php esc_attr_e( 'Order items', 'tailwindscore' ); ?>">
+			<ul class="wc-account-order-card__thumbs" aria-label="<?php esc_attr_e( 'Order items', 'tailwindscore' ); ?>">
 				<?php foreach ( $order_items as $item ) : ?>
 					<?php
 					if ( ! is_a( $item, 'WC_Order_Item_Product' ) ) {
@@ -54,22 +54,22 @@ $thumb_index = 0;
 					</li>
 				<?php endforeach; ?>
 				<?php if ( count( $order_items ) > $thumb_limit ) : ?>
-					<li class="ts-wc-account-order-card__more">+<?php echo esc_html( (string) ( count( $order_items ) - $thumb_limit ) ); ?></li>
+					<li class="wc-account-order-card__more">+<?php echo esc_html( (string) ( count( $order_items ) - $thumb_limit ) ); ?></li>
 				<?php endif; ?>
 			</ul>
 		<?php endif; ?>
 
-		<div class="ts-wc-account-order-card__content">
-			<div class="ts-wc-account-order-card__summary">
-				<a class="ts-wc-account-order-card__number" href="<?php echo esc_url( $order_url ); ?>">
+		<div class="wc-account-order-card__content">
+			<div class="wc-account-order-card__summary">
+				<a class="wc-account-order-card__number" href="<?php echo esc_url( $order_url ); ?>">
 					<?php echo esc_html( _x( '#', 'hash before order number', 'woocommerce' ) . $order->get_order_number() ); ?>
 				</a>
-				<span class="ts-wc-account-badge ts-wc-account-badge--<?php echo esc_attr( $badge_mod ); ?>">
+				<span class="badge badge-<?php echo esc_attr( $badge_mod ); ?>">
 					<?php echo esc_html( $status_label ); ?>
 				</span>
 			</div>
 
-			<div class="ts-wc-account-order-card__meta">
+			<div class="wc-account-order-card__meta">
 				<time datetime="<?php echo esc_attr( $order->get_date_created()->date( 'c' ) ); ?>">
 					<?php echo esc_html( wc_format_datetime( $order->get_date_created() ) ); ?>
 				</time>
@@ -90,24 +90,24 @@ $thumb_index = 0;
 			</div>
 
 			<?php if ( '' !== $status_msg ) : ?>
-				<p class="ts-wc-account-order-card__message"><?php echo esc_html( $status_msg ); ?></p>
+				<p class="wc-account-order-card__message"><?php echo esc_html( $status_msg ); ?></p>
 			<?php endif; ?>
 
 			<?php if ( $is_draft ) : ?>
-				<a class="ts-wc-account-order-card__action" href="<?php echo esc_url( $order_url ); ?>">
+				<a class="wc-account-order-card__action" href="<?php echo esc_url( $order_url ); ?>">
 					<?php esc_html_e( 'Continue checkout', 'tailwindscore' ); ?>
-					<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-right' ); ?></span>
+					<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-right' ); ?></span>
 				</a>
 			<?php else : ?>
-				<a class="ts-wc-account-order-card__action" href="<?php echo esc_url( $order_url ); ?>">
+				<a class="wc-account-order-card__action" href="<?php echo esc_url( $order_url ); ?>">
 					<?php esc_html_e( 'View order', 'tailwindscore' ); ?>
-					<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-right' ); ?></span>
+					<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-right' ); ?></span>
 				</a>
 			<?php endif; ?>
 		</div>
 	</div>
 
-	<a class="ts-wc-account-order-card__chevron" href="<?php echo esc_url( $order_url ); ?>" aria-label="<?php echo esc_attr( sprintf( __( 'View order %s', 'tailwindscore' ), $order->get_order_number() ) ); ?>">
-		<span class="ts-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-right' ); ?></span>
+	<a class="wc-account-order-card__chevron" href="<?php echo esc_url( $order_url ); ?>" aria-label="<?php echo esc_attr( sprintf( __( 'View order %s', 'tailwindscore' ), $order->get_order_number() ) ); ?>">
+		<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-right' ); ?></span>
 	</a>
 </article>

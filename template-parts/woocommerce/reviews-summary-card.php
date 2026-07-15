@@ -26,22 +26,22 @@ $rating_html  = wc_review_ratings_enabled() && $review_count > 0
 	? wc_get_rating_html( $average )
 	: '';
 ?>
-<div class="ts-reviews-summary-card">
+<div class="reviews-summary-card">
 	<?php if ( wc_review_ratings_enabled() && $review_count > 0 ) : ?>
-		<div class="woocommerce-product-rating ts-reviews-summary-card__rating">
+		<div class="woocommerce-product-rating reviews-summary-card__rating">
 			<?php if ( $rating_html ) : ?>
-				<div class="ts-reviews-summary-card__stars" aria-hidden="true">
+				<div class="reviews-summary-card__stars" aria-hidden="true">
 					<?php echo $rating_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</div>
 			<?php endif; ?>
-			<p class="ts-reviews-summary-card__score">
-				<span class="ts-reviews-summary-card__score-value"><?php echo esc_html( number_format( $average, 1 ) ); ?></span>
-				<span class="ts-reviews-summary-card__score-out-of"><?php esc_html_e( 'out of 5', 'tailwindscore' ); ?></span>
+			<p class="reviews-summary-card__score">
+				<span class="reviews-summary-card__score-value"><?php echo esc_html( number_format( $average, 1 ) ); ?></span>
+				<span class="reviews-summary-card__score-out-of"><?php esc_html_e( 'out of 5', 'tailwindscore' ); ?></span>
 			</p>
 		</div>
 	<?php endif; ?>
 
-	<p class="ts-reviews-summary-card__count">
+	<p class="reviews-summary-card__count">
 		<?php
 		if ( $review_count > 0 ) {
 			echo esc_html(
@@ -60,7 +60,7 @@ $rating_html  = wc_review_ratings_enabled() && $review_count > 0
 	<?php if ( $can_review ) : ?>
 		<button
 			type="button"
-			class="ts-button ts-reviews-summary-card__cta"
+			class="btn reviews-summary-card__cta"
 			data-ts-review-form-open
 			aria-haspopup="dialog"
 			aria-controls="ts-review-form-modal"
@@ -68,7 +68,7 @@ $rating_html  = wc_review_ratings_enabled() && $review_count > 0
 			<?php echo esc_html( tailwindscore_get_review_form_open_label() ); ?>
 		</button>
 	<?php else : ?>
-		<p class="ts-reviews-summary-card__notice woocommerce-verification-required">
+		<p class="reviews-summary-card__notice woocommerce-verification-required">
 			<?php esc_html_e( 'Only logged in customers who have purchased this product may leave a review.', 'woocommerce' ); ?>
 		</p>
 	<?php endif; ?>

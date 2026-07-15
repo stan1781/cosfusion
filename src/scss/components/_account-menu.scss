@@ -1,11 +1,11 @@
 @use "../abstracts/mixins";
 
-.ts-site-header__account {
+.site-header__account {
 	position: relative;
 	flex: 0 0 auto;
 }
 
-.ts-account-menu {
+.account-menu {
 	position: absolute;
 	top: calc(100% + var(--ts-spacer-1));
 	right: 0;
@@ -18,11 +18,11 @@
 	box-shadow: var(--ts-shadow-md);
 }
 
-.ts-account-menu[hidden] {
+.account-menu[hidden] {
 	display: none !important;
 }
 
-.ts-account-menu__list {
+.account-menu__list {
 	display: flex;
 	flex-direction: column;
 	gap: var(--ts-spacer-1);
@@ -31,7 +31,7 @@
 	list-style: none;
 }
 
-.ts-account-menu__link {
+.account-menu__link {
 	display: flex;
 	align-items: center;
 	gap: var(--ts-spacer-2);
@@ -44,24 +44,24 @@
 	@include mixins.ts-transition((background-color, color), 0.15s, ease);
 }
 
-.ts-account-menu__link:hover,
-.ts-account-menu__link:focus-visible {
+.account-menu__link:hover,
+.account-menu__link:focus-visible {
 	background: var(--ts-surface-muted);
 	color: var(--ts-text-primary);
 }
 
-.ts-account-menu__icon {
+.account-menu__icon {
 	flex: 0 0 auto;
 	width: 1rem;
 	height: 1rem;
 }
 
-.ts-account-menu__label {
+.account-menu__label {
 	flex: 1 1 auto;
 	min-width: 0;
 }
 
-.ts-account-menu__badge {
+.account-menu__badge {
 	flex: 0 0 auto;
 	min-width: 1.25rem;
 	height: 1.25rem;

@@ -63,10 +63,10 @@ wc_get_template(
 	array( 'orders' => $orders )
 );
 ?>
-<nav class="ts-wc-account-shortcuts" aria-label="<?php esc_attr_e( 'Account shortcuts', 'tailwindscore' ); ?>">
-	<a class="ts-button ts-button--secondary ts-button--sm" href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-address' ) ); ?>"><?php esc_html_e( 'Addresses', 'tailwindscore' ); ?></a>
+<nav class="wc-account-shortcuts" aria-label="<?php esc_attr_e( 'Account shortcuts', 'tailwindscore' ); ?>">
+	<a class="btn btn-secondary btn-sm" href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-address' ) ); ?>"><?php esc_html_e( 'Addresses', 'tailwindscore' ); ?></a>
 	<span aria-hidden="true">&middot;</span>
-	<a class="ts-button ts-button--secondary ts-button--sm" href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Account details', 'tailwindscore' ); ?></a>
+	<a class="btn btn-secondary btn-sm" href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>"><?php esc_html_e( 'Account details', 'tailwindscore' ); ?></a>
 </nav>
 <?php
 do_action( 'woocommerce_account_dashboard' );

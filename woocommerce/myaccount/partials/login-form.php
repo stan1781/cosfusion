@@ -16,20 +16,20 @@ $redirect = isset( $redirect ) && is_string( $redirect ) && '' !== $redirect
 	: tailwindscore_account_auth_login_redirect_url();
 
 ?>
-<form class="woocommerce-form woocommerce-form-login login ts-account-auth__form" method="post" novalidate data-ts-auth-login-ajax>
+<form class="woocommerce-form woocommerce-form-login login account-auth__form" method="post" novalidate data-ts-auth-login-ajax>
 	<?php do_action( 'woocommerce_login_form_start' ); ?>
 
 	<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect ); ?>">
 
 	<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-		<label class="ts-account-auth__label" for="username">
+		<label class="account-auth__label" for="username">
 			<?php esc_html_e( 'Username or email address', 'woocommerce' ); ?>
 			<span class="required" aria-hidden="true">*</span>
 			<span class="screen-reader-text"><?php esc_html_e( 'Required', 'woocommerce' ); ?></span>
 		</label>
 		<input
 			type="text"
-			class="woocommerce-Input woocommerce-Input--text input-text ts-input"
+			class="woocommerce-Input woocommerce-Input--text input-text input"
 			name="username"
 			id="username"
 			autocomplete="username"
@@ -40,13 +40,13 @@ $redirect = isset( $redirect ) && is_string( $redirect ) && '' !== $redirect
 	</p>
 
 	<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-		<label class="ts-account-auth__label" for="password">
+		<label class="account-auth__label" for="password">
 			<?php esc_html_e( 'Password', 'woocommerce' ); ?>
 			<span class="required" aria-hidden="true">*</span>
 			<span class="screen-reader-text"><?php esc_html_e( 'Required', 'woocommerce' ); ?></span>
 		</label>
 		<input
-			class="woocommerce-Input woocommerce-Input--text input-text ts-input"
+			class="woocommerce-Input woocommerce-Input--text input-text input"
 			type="password"
 			name="password"
 			id="password"
@@ -56,7 +56,7 @@ $redirect = isset( $redirect ) && is_string( $redirect ) && '' !== $redirect
 		>
 	</p>
 
-	<p class="ts-account-auth__lost-password">
+	<p class="account-auth__lost-password">
 		<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>">
 			<?php esc_html_e( 'Lost your password?', 'woocommerce' ); ?>
 		</a>
@@ -65,7 +65,7 @@ $redirect = isset( $redirect ) && is_string( $redirect ) && '' !== $redirect
 	<?php do_action( 'woocommerce_login_form' ); ?>
 
 	<?php if ( Tailwindscore_Account_Auth_Settings::show_remember_me() ) : ?>
-		<p class="form-row ts-account-auth__remember">
+		<p class="form-row account-auth__remember">
 			<label class="woocommerce-form__label woocommerce-form__label-for-checkbox woocommerce-form-login__rememberme">
 				<input class="woocommerce-form__input woocommerce-form__input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever">
 				<span><?php esc_html_e( 'Remember me', 'woocommerce' ); ?></span>
@@ -77,7 +77,7 @@ $redirect = isset( $redirect ) && is_string( $redirect ) && '' !== $redirect
 
 	<button
 		type="submit"
-		class="woocommerce-button button woocommerce-form-login__submit ts-button w-full<?php echo esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>"
+		class="woocommerce-button button woocommerce-form-login__submit btn w-full<?php echo esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>"
 		name="login"
 		value="<?php esc_attr_e( 'Log in', 'woocommerce' ); ?>"
 		data-ts-button-loading

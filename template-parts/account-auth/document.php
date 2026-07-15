@@ -24,16 +24,16 @@ if ( isset( $args['content_callback'] ) && is_callable( $args['content_callback'
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php wp_head(); ?>
 </head>
-<body <?php body_class( 'ts-account-auth-surface' ); ?>>
+<body <?php body_class( 'account-auth-surface' ); ?>>
 <?php wp_body_open(); ?>
-<main id="primary" class="ts-account-auth-root">
+<main id="primary" class="account-auth-root">
 	<?php
 	if ( $content_callback ) {
 		call_user_func( $content_callback );
 	}
 	?>
 </main>
-<div class="ts-purchase-flow-toast-root" data-ts-purchase-flow-toast-root aria-live="polite" aria-relevant="additions"></div>
+<div class="purchase-flow-toast-root" data-ts-purchase-flow-toast-root aria-live="polite" aria-relevant="additions"></div>
 <?php wp_footer(); ?>
 </body>
 </html>

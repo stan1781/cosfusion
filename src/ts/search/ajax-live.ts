@@ -77,12 +77,12 @@ function escapeHtml(text: string): string {
 
 function getField(form: HTMLFormElement): HTMLInputElement | null {
 	return form.querySelector<HTMLInputElement>(
-		'#ts-search-field, .ts-command-search-field__input, [type="search"]'
+		'#ts-search-field, .command-search-field__input, [type="search"]'
 	);
 }
 
 function getSuggestPanel(form: HTMLFormElement): HTMLElement | null {
-	return form.querySelector<HTMLElement>('.ts-search-suggest, #ts-search-suggest');
+	return form.querySelector<HTMLElement>('.search-suggest, #ts-search-suggest');
 }
 
 function showPanel(panel: HTMLElement): void {
@@ -113,8 +113,8 @@ function setPanelHtml(panel: HTMLElement, html: string): void {
 function renderLoading(panel: HTMLElement, config: AjaxSearchConfig): void {
 	setPanelHtml(
 		panel,
-		`<div class="ts-search-suggest__loading" role="status">
-			<span class="ts-search-suggest__spinner" aria-hidden="true"></span>
+		`<div class="search-suggest__loading" role="status">
+			<span class="search-suggest__spinner" aria-hidden="true"></span>
 			<span>${config.i18n.searching}</span>
 		</div>`
 	);
@@ -126,14 +126,14 @@ function renderSearchItem(item: SearchItem): string {
 	const imageUrl = escapeHtml(item.imageUrl);
 	const imageAlt = escapeHtml(item.imageAlt || item.title);
 
-	return `<div class="ts-search-suggest__item" role="option">
-		<a class="ts-search-suggest__link" href="${url}">
-			<span class="ts-search-suggest__media">
+	return `<div class="search-suggest__item" role="option">
+		<a class="search-suggest__link" href="${url}">
+			<span class="search-suggest__media">
 				<img src="${imageUrl}" alt="${imageAlt}" width="60" height="60" loading="lazy" decoding="async">
 			</span>
-			<span class="ts-search-suggest__body">
-				<span class="ts-search-suggest__title">${title}</span>
-				<span class="ts-search-suggest__price">${item.priceHtml}</span>
+			<span class="search-suggest__body">
+				<span class="search-suggest__title">${title}</span>
+				<span class="search-suggest__price">${item.priceHtml}</span>
 			</span>
 		</a>
 	</div>`;
@@ -141,15 +141,15 @@ function renderSearchItem(item: SearchItem): string {
 
 function renderSearchResults(payload: SearchPayload, config: AjaxSearchConfig): string {
 	if (!payload.items.length) {
-		return `<p class="ts-search-suggest__message">${config.i18n.noResults}</p>`;
+		return `<p class="search-suggest__message">${config.i18n.noResults}</p>`;
 	}
 
 	const itemsHtml = payload.items.map((item) => renderSearchItem(item)).join('');
 	const viewAllUrl = escapeHtml(payload.viewAllUrl || '');
 	const viewAllText = escapeHtml(config.i18n.viewAll);
 
-	return `${itemsHtml}<div class="ts-search-suggest__footer">
-		<a class="ts-search-suggest__view-all" href="${viewAllUrl}">
+	return `${itemsHtml}<div class="search-suggest__footer">
+		<a class="search-suggest__view-all" href="${viewAllUrl}">
 			<span>${viewAllText}</span>
 		</a>
 	</div>`;
@@ -197,7 +197,7 @@ function bindForm(form: HTMLFormElement, config: AjaxSearchConfig): void {
 		}
 
 		if (query.length > 0) {
-			setPanelHtml(panel, `<p class="ts-search-suggest__message">${config.i18n.minChars}</p>`);
+			setPanelHtml(panel, `<p class="search-suggest__message">${config.i18n.minChars}</p>`);
 			return;
 		}
 
@@ -269,12 +269,12 @@ async function performSearch(
 	try {
 		const payload = await fetchSearchPayload(config, query, abort.signal);
 		if (!payload) {
-			setPanelHtml(panel, `<p class="ts-search-suggest__message">${config.i18n.error}</p>`);
+			setPanelHtml(panel, `<p class="search-suggest__message">${config.i18n.error}</p>`);
 			return;
 		}
 
 		if (!payload.items.length) {
-			setPanelHtml(panel, `<p class="ts-search-suggest__message">${config.i18n.noResults}</p>`);
+			setPanelHtml(panel, `<p class="search-suggest__message">${config.i18n.noResults}</p>`);
 			return;
 		}
 
@@ -284,7 +284,7 @@ async function performSearch(
 		if (error instanceof DOMException && error.name === 'AbortError') {
 			return;
 		}
-		setPanelHtml(panel, `<p class="ts-search-suggest__message">${config.i18n.error}</p>`);
+		setPanelHtml(panel, `<p class="search-suggest__message">${config.i18n.error}</p>`);
 	} finally {
 		if (currentAbort === abort) {
 			currentAbort = null;

@@ -21,19 +21,19 @@ if ( ! $show ) {
 	return;
 }
 ?>
-<div class="ts-account-auth__google-wrap">
+<div class="account-auth__google-wrap">
 	<?php if ( 'after_login' === $placement ) : ?>
-		<div class="ts-account-auth__divider" aria-hidden="true">
+		<div class="account-auth__divider" aria-hidden="true">
 			<span><?php esc_html_e( 'or', 'tailwindscore' ); ?></span>
 		</div>
 	<?php endif; ?>
 
-	<div class="ts-account-auth__google">
+	<div class="account-auth__google">
 		<?php
 		do_action(
 			'googlesitekit_render_sign_in_with_google_button',
 			array(
-				'class' => 'ts-account-auth__google-button',
+				'class' => 'account-auth__google-button',
 				'text'  => 'continue_with',
 				'shape' => 'pill',
 			)
@@ -42,7 +42,7 @@ if ( ! $show ) {
 	</div>
 
 	<?php if ( 'before_form' === $placement ) : ?>
-		<div class="ts-account-auth__divider" aria-hidden="true">
+		<div class="account-auth__divider" aria-hidden="true">
 			<span><?php esc_html_e( 'or', 'tailwindscore' ); ?></span>
 		</div>
 	<?php endif; ?>

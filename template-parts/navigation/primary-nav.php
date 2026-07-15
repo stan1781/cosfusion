@@ -4,8 +4,8 @@ declare(strict_types=1);
 $args = wp_parse_args(
 	$args ?? array(),
 	array(
-		'nav_id'    => 'ts-primary-nav',
-		'nav_class' => 'ts-nav',
+		'nav_id'    => 'primary-nav',
+		'nav_class' => 'nav',
 	)
 );
 
@@ -15,7 +15,7 @@ if ( has_nav_menu( 'primary' ) ) {
 }
 ?>
 <nav id="<?php echo esc_attr( $args['nav_id'] ); ?>" class="<?php echo esc_attr( $args['nav_class'] ); ?>" aria-label="<?php esc_attr_e( 'Primary navigation', 'tailwindscore' ); ?>">
-	<ul class="ts-nav__list">
+	<ul class="nav__list">
 		<?php wp_list_pages( array( 'title_li' => '' ) ); ?>
 	</ul>
 </nav>

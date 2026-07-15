@@ -76,11 +76,11 @@ function openModal(): void {
 	returnFocusEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 	modal.hidden = false;
 	modal.setAttribute('aria-hidden', 'false');
-	document.body.classList.add('ts-quick-view-modal-open');
+	document.body.classList.add('quick-view-modal-open');
 
 	const focusTarget =
 		modal.querySelector<HTMLElement>('[data-ts-quick-view-close]') ??
-		modal.querySelector<HTMLElement>('.ts-quick-view-modal__dialog');
+		modal.querySelector<HTMLElement>('.quick-view-modal__dialog');
 	focusTarget?.focus();
 }
 
@@ -94,7 +94,7 @@ function closeModal(): void {
 
 	modal.hidden = true;
 	modal.setAttribute('aria-hidden', 'true');
-	document.body.classList.remove('ts-quick-view-modal-open');
+	document.body.classList.remove('quick-view-modal-open');
 
 	const content = getContentEl();
 	if (content) {
@@ -306,7 +306,7 @@ async function loadProduct(productId: number): Promise<void> {
 		}
 
 		if (!html) {
-			content.innerHTML = `<p class="ts-quick-view-modal__error">${config.i18n.error}</p>`;
+			content.innerHTML = `<p class="quick-view-modal__error">${config.i18n.error}</p>`;
 			return;
 		}
 
@@ -319,7 +319,7 @@ async function loadProduct(productId: number): Promise<void> {
 		console.error(error);
 		sessionHtmlCache.delete(productId);
 		const message = error instanceof Error ? error.message : config.i18n.networkError;
-		content.innerHTML = `<p class="ts-quick-view-modal__error">${message}</p>`;
+		content.innerHTML = `<p class="quick-view-modal__error">${message}</p>`;
 	} finally {
 		if (generation === loadGeneration) {
 			setLoading(false);

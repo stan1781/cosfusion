@@ -19,19 +19,19 @@ if ( ! $product instanceof WC_Product || ! $product->is_purchasable() ) {
 }
 ?>
 
-<div <?php wc_product_class( 'ts-wc-product-detail ts-quick-view-product', $product ); ?>>
-	<div class="ts-wc-product-detail__media">
+<div <?php wc_product_class( 'wc-product-detail quick-view-product', $product ); ?>>
+	<div class="wc-product-detail__media">
 		<?php tailwindscore_render_loop_product_images( $product ); ?>
 	</div>
 
-	<div class="ts-wc-product-detail__summary">
+	<div class="wc-product-detail__summary">
 		<h2 class="product_title"><?php echo esc_html( $product->get_name() ); ?></h2>
 
 		<div class="price">
 			<?php echo wp_kses_post( $product->get_price_html() ); ?>
 		</div>
 
-		<div class="ts-wc-product-detail__cart">
+		<div class="wc-product-detail__cart">
 			<?php
 			if ( $product->is_type( 'variable' ) ) {
 				// 仅计算一次可用变体，并传入 variable-quick-view.php。
@@ -52,7 +52,7 @@ if ( ! $product instanceof WC_Product || ! $product->is_purchasable() ) {
 			?>
 		</div>
 
-		<a href="<?php echo esc_url( $product->get_permalink() ); ?>" class="ts-button ts-button--secondary ts-quick-view-product__view-details">
+		<a href="<?php echo esc_url( $product->get_permalink() ); ?>" class="btn btn-secondary quick-view-product__view-details">
 			<?php esc_html_e( 'View Product', 'tailwindscore' ); ?>
 		</a>
 	</div>

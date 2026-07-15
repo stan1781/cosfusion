@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * 内联 SVG 图标映射与输出。
  *
- * 样式见 src/scss/components/_icons.scss（.ts-icon）。
+ * 样式见 src/scss/components/_icons.scss（.icon）。
  *
  * @package TailwindScore
  */
@@ -46,7 +46,7 @@ function _tailwindscore_icon_map(): array {
  * 按名称返回 SVG 图标 markup，可选向 <svg> 元素注入额外 CSS class。
  *
  * 所有图标共享基础属性（viewBox、aria-hidden、focusable）。
- * 传入 $class 添加修饰符 — 例如 tailwindscore_icon( 'chevron-down', 'ts-nav__chevron' )。
+ * 传入 $class 添加修饰符 — 例如 tailwindscore_icon( 'chevron-down', 'nav__chevron' )。
  */
 function tailwindscore_icon( string $name, string $class = '' ): string {
 	$svg = _tailwindscore_icon_map()[ $name ] ?? '';
@@ -72,7 +72,7 @@ function tailwindscore_icon( string $name, string $class = '' ): string {
  * @return void
  */
 function tailwindscore_render_close_button( string $label, array $args = array() ): void {
-	$classes = array( 'ts-close-button' );
+	$classes = array( 'btn-close' );
 
 	if ( ! empty( $args['class'] ) && is_string( $args['class'] ) ) {
 		$classes[] = $args['class'];
@@ -97,7 +97,7 @@ function tailwindscore_render_close_button( string $label, array $args = array()
 		printf( ' %s="%s"', esc_attr( $key ), esc_attr( $value ) );
 	}
 	echo '>';
-	echo '<span class="ts-icon" aria-hidden="true">';
+	echo '<span class="icon" aria-hidden="true">';
 	echo tailwindscore_icon( 'close' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	echo '</span>';
 	echo '<span class="screen-reader-text">';

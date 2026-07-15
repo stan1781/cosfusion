@@ -56,7 +56,7 @@ function showAlert(message: string, type: 'info' | 'error' = 'error'): void {
 	if (!container) {
 		return;
 	}
-	container.innerHTML = `<p class="ts-review-images-alert ts-review-images-alert--${type}" role="alert">${message}</p>`;
+	container.innerHTML = `<p class="review-images-alert review-images-alert--${type}" role="alert">${message}</p>`;
 	window.setTimeout(() => {
 		container.innerHTML = '';
 	}, 4000);
@@ -101,7 +101,7 @@ async function initReviewImagesUploadAsync(): Promise<void> {
 	const countEl = document.querySelector('#review-images-count');
 	const previewEl = document.querySelector('#review-images-preview');
 	const progressEl = document.querySelector('#review-images-progress');
-	const progressFill = progressEl?.querySelector<HTMLElement>('.ts-review-images-progress__fill');
+	const progressFill = progressEl?.querySelector<HTMLElement>('.review-images-progress__fill');
 	const uploadToolbar = document.querySelector('#review-images-toolbar');
 	const uploadWrapper = document.querySelector('#review-images-upload-wrapper');
 	const commentForm = document.querySelector('#commentform');
@@ -149,11 +149,11 @@ async function initReviewImagesUploadAsync(): Promise<void> {
 				return;
 			}
 			const item = document.createElement('div');
-			item.className = 'ts-review-images-preview__item';
+			item.className = 'review-images-preview__item';
 			const removeLabel = i18n.remove ?? 'Remove';
 			item.innerHTML = `
 				<img src="${data.thumbnail_url}" alt="">
-				<button type="button" class="ts-review-images-preview__remove review-image-remove-btn" data-index="${index}" aria-label="${removeLabel}">×</button>
+				<button type="button" class="review-images-preview__remove review-image-remove-btn" data-index="${index}" aria-label="${removeLabel}">×</button>
 			`;
 			previewEl.append(item);
 		});
@@ -329,7 +329,7 @@ async function initReviewImagesUploadAsync(): Promise<void> {
 export function shouldInitReviewImages(): boolean {
 	if (
 		document.querySelector(
-			'.ts-showcase-gallery__strip, #review-images-upload-wrapper[data-tailwindscore-review-images-config], .review-image-thumb, [data-ts-review-form-open], [data-ts-review-form-modal]',
+			'.showcase-gallery__strip, #review-images-upload-wrapper[data-tailwindscore-review-images-config], .review-image-thumb, [data-ts-review-form-open], [data-ts-review-form-modal]',
 		)
 	) {
 		return true;

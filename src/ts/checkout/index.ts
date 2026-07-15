@@ -62,7 +62,7 @@ function syncCheckoutDetailsState(): void {
 
 function initCheckoutDetails(): void {
 	// Drop legacy persisted state so mobile always starts collapsed on a fresh checkout load.
-	sessionStorage.removeItem('ts-checkout-summary-open');
+	sessionStorage.removeItem('checkout-summary-open');
 
 	document.addEventListener('toggle', (event) => {
 		const details = event.target;

@@ -182,7 +182,7 @@ function getConfig(): { settings: VariationSettings; i18n: VariationsI18n } | nu
 				colorSelectorDefaultMode: modeAttr,
 				colorSelectorShape: 'square',
 				gridShowText: false,
-				priceSelector: '.ts-wc-product-detail__summary .price, .entry-summary .price',
+				priceSelector: '.wc-product-detail__summary .price, .entry-summary .price',
 			},
 			i18n: DEFAULT_I18N,
 		};

@@ -16,8 +16,8 @@ defined( 'ABSPATH' ) || exit;
 $label = ! empty( $args['product_name'] ) ? sprintf( esc_html__( '%s quantity', 'woocommerce' ), wp_strip_all_tags( $args['product_name'] ) ) : esc_html__( 'Quantity', 'woocommerce' );
 
 $classes = is_array( $classes ) ? $classes : array_filter( array_map( 'trim', explode( ' ', (string) $classes ) ) );
-if ( ! in_array( 'ts-quantity__input', $classes, true ) ) {
-	$classes[] = 'ts-quantity__input';
+if ( ! in_array( 'quantity__input', $classes, true ) ) {
+	$classes[] = 'quantity__input';
 }
 
 get_template_part(

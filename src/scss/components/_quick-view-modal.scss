@@ -2,7 +2,7 @@
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins";
 
-.ts-quick-view-modal {
+.quick-view-modal {
 	position: fixed;
 	inset: 0;
 	z-index: var(--ts-z-modal);
@@ -11,15 +11,15 @@
 	padding: map.get($ts-spacers, 2);
 }
 
-.ts-quick-view-modal[hidden] {
+.quick-view-modal[hidden] {
 	display: none !important;
 }
 
-body.ts-quick-view-modal-open {
+body.quick-view-modal-open {
 	overflow: hidden;
 }
 
-.ts-quick-view-modal__backdrop {
+.quick-view-modal__backdrop {
 	position: absolute;
 	inset: 0;
 	border: 0;
@@ -28,7 +28,7 @@ body.ts-quick-view-modal-open {
 	cursor: pointer;
 }
 
-.ts-quick-view-modal__dialog {
+.quick-view-modal__dialog {
 	position: relative;
 	z-index: 1;
 	display: flex;
@@ -42,14 +42,14 @@ body.ts-quick-view-modal-open {
 	box-shadow: var(--ts-shadow-lg);
 }
 
-.ts-quick-view-modal__dialog .ts-close-button {
+.quick-view-modal__dialog .btn-close {
 	position: absolute;
 	top: map.get($ts-spacers, 2);
 	right: map.get($ts-spacers, 2);
 	z-index: 10;
 }
 
-.ts-quick-view-modal__body {
+.quick-view-modal__body {
 	position: relative;
 	min-width: 0;
 	min-height: 8rem;
@@ -57,51 +57,51 @@ body.ts-quick-view-modal-open {
 	flex: 1;
 }
 
-.ts-quick-view-modal__loading {
+.quick-view-modal__loading {
 	display: grid;
 	place-items: center;
 	min-height: 12rem;
 }
 
-.ts-quick-view-modal__loading[hidden] {
+.quick-view-modal__loading[hidden] {
 	display: none !important;
 }
 
-.ts-quick-view-modal__spinner {
+.quick-view-modal__spinner {
 	display: inline-block;
 	width: 2rem;
 	height: 2rem;
 	border: 2px solid var(--ts-border-color);
 	border-top-color: var(--ts-text-primary);
 	border-radius: 50%;
-	animation: ts-spin 0.7s linear infinite;
+	animation: spin 0.7s linear infinite;
 }
 
-.ts-quick-view-modal__error {
+.quick-view-modal__error {
 	color: var(--ts-danger);
 	margin: 0;
 }
 
-// Quick View product content: reuse ts-wc-product-detail + loop card media; only modal-specific overrides here.
-.ts-quick-view-modal {
-	.ts-wc-product-card__media {
+// Quick View product content: reuse wc-product-detail + loop card media; only modal-specific overrides here.
+.quick-view-modal {
+	.wc-product-card__media {
 		border-radius: var(--ts-border-radius-sm);
 	}
 }
 
 @include mixins.ts-down(md) {
-	.ts-quick-view-modal .ts-wc-product-card__media.has-secondary-image {
+	.quick-view-modal .wc-product-card__media.has-secondary-image {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
 		gap: var(--ts-spacer-1);
 		aspect-ratio: auto;
 
-		.ts-wc-product-card__image {
+		.wc-product-card__image {
 			position: relative;
 			aspect-ratio: var(--ts-product-image-aspect-ratio, 1);
 		}
 
-		.ts-wc-product-card__image--secondary {
+		.wc-product-card__image--secondary {
 			position: relative;
 			opacity: 1;
 			pointer-events: auto;

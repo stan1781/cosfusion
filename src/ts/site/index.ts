@@ -73,7 +73,7 @@ type SiteShellState = AlpineMagics & SiteShellData;
 
 function focusSearchInput(scheduleTick: (callback: () => void) => void): void {
 	const focus = (): void => {
-		const field = document.getElementById('ts-search-field');
+		const field = document.getElementById('search-field');
 
 		if (field instanceof HTMLInputElement) {
 			field.focus({ preventScroll: true });
@@ -85,7 +85,7 @@ function focusSearchInput(scheduleTick: (callback: () => void) => void): void {
 }
 
 function getSiteShell(): SiteShellState | undefined {
-	const header = document.querySelector<HTMLElement>('.ts-site-header');
+	const header = document.querySelector<HTMLElement>('.site-header');
 	const alpine = window.Alpine;
 
 	if (!header || !alpine || typeof alpine.$data !== 'function') {
@@ -107,7 +107,7 @@ document.addEventListener('alpine:init', () => {
 			this.syncDocumentState();
 		},
 		syncDocumentState(this: SiteShellState) {
-			document.documentElement.classList.toggle('ts-has-overlay', this.menuOpen || this.searchOpen || this.cartOpen);
+			document.documentElement.classList.toggle('has-overlay', this.menuOpen || this.searchOpen || this.cartOpen);
 		},
 		toggleMenu(this: SiteShellState) {
 			if (this.menuOpen) {
@@ -237,7 +237,7 @@ document.addEventListener('click', (event) => {
 		return;
 	}
 
-	if (target.closest('.ts-site-header__account')) {
+	if (target.closest('.site-header__account')) {
 		return;
 	}
 
@@ -249,13 +249,13 @@ document.addEventListener('click', (event) => {
 });
 
 document.addEventListener('tailwindscore:open-cart', () => {
-	const drawer = document.querySelector<HTMLElement>('.ts-site-cart-drawer');
+	const drawer = document.querySelector<HTMLElement>('.site-cart-drawer');
 
 	if (drawer?.dataset.open === 'true') {
 		return;
 	}
 
-	const header = document.querySelector<HTMLElement>('.ts-site-header');
+	const header = document.querySelector<HTMLElement>('.site-header');
 	const alpine = window.Alpine;
 
 	if (header && alpine && typeof alpine.$data === 'function') {
@@ -273,6 +273,6 @@ document.addEventListener('tailwindscore:open-cart', () => {
 		}
 	}
 
-	const trigger = document.querySelector<HTMLButtonElement>('.ts-site-header__action--cart');
+	const trigger = document.querySelector<HTMLButtonElement>('.site-header__action--cart');
 	trigger?.click();
 });

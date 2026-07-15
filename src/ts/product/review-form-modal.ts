@@ -13,19 +13,19 @@ function initReviewFormRating(modal: HTMLElement): void {
 	const ratingWrap = modal.querySelector<HTMLElement>('.comment-form-rating');
 	const select = modal.querySelector<HTMLSelectElement>('#rating');
 
-	if (!ratingWrap || !select || ratingWrap.querySelector('.ts-review-form-rating__stars')) {
+	if (!ratingWrap || !select || ratingWrap.querySelector('.review-form-rating__stars')) {
 		return;
 	}
 
 	const stars = document.createElement('div');
-	stars.className = 'ts-review-form-rating__stars';
+	stars.className = 'review-form-rating__stars';
 	stars.setAttribute('role', 'group');
 	stars.setAttribute('aria-labelledby', 'comment-form-rating-label');
 
 	for (let value = 1; value <= 5; value += 1) {
 		const button = document.createElement('button');
 		button.type = 'button';
-		button.className = 'ts-review-form-rating__star';
+		button.className = 'review-form-rating__star';
 		button.dataset.ratingValue = String(value);
 		button.setAttribute('aria-label', `${value} star${value === 1 ? '' : 's'}`);
 		button.textContent = '★';
@@ -34,7 +34,7 @@ function initReviewFormRating(modal: HTMLElement): void {
 
 	const syncStars = (value: string): void => {
 		const numeric = Number.parseInt(value, 10) || 0;
-		stars.querySelectorAll<HTMLButtonElement>('.ts-review-form-rating__star').forEach((star) => {
+		stars.querySelectorAll<HTMLButtonElement>('.review-form-rating__star').forEach((star) => {
 			const starValue = Number.parseInt(star.dataset.ratingValue ?? '0', 10);
 			star.classList.toggle('is-active', starValue <= numeric);
 			star.setAttribute('aria-pressed', starValue === numeric ? 'true' : 'false');
@@ -42,7 +42,7 @@ function initReviewFormRating(modal: HTMLElement): void {
 	};
 
 	stars.addEventListener('click', (event) => {
-		const target = (event.target as HTMLElement).closest<HTMLButtonElement>('.ts-review-form-rating__star');
+		const target = (event.target as HTMLElement).closest<HTMLButtonElement>('.review-form-rating__star');
 		if (!target) {
 			return;
 		}
@@ -51,7 +51,7 @@ function initReviewFormRating(modal: HTMLElement): void {
 		syncStars(select.value);
 	});
 
-	select.classList.add('ts-review-form-rating__select');
+	select.classList.add('review-form-rating__select');
 	ratingWrap.append(stars);
 	syncStars(select.value);
 	select.addEventListener('change', () => syncStars(select.value));
@@ -69,12 +69,12 @@ export function openReviewFormModal(trigger?: HTMLElement): void {
 
 	modal.hidden = false;
 	modal.setAttribute('aria-hidden', 'false');
-	document.body.classList.add('ts-review-form-modal-open');
+	document.body.classList.add('review-form-modal-open');
 	initReviewFormRating(modal);
 
 	window.requestAnimationFrame(() => {
 		const focusTarget =
-			modal.querySelector<HTMLElement>('.ts-review-form-rating__star') ??
+			modal.querySelector<HTMLElement>('.review-form-rating__star') ??
 			modal.querySelector<HTMLElement>('#rating, #comment, #author, input:not([type="hidden"])') ??
 			modal.querySelector<HTMLElement>('button, a, input, select, textarea');
 
@@ -91,7 +91,7 @@ export function closeReviewFormModal(): void {
 
 	modal.hidden = true;
 	modal.setAttribute('aria-hidden', 'true');
-	document.body.classList.remove('ts-review-form-modal-open');
+	document.body.classList.remove('review-form-modal-open');
 
 	if (reviewFormReturnFocus?.isConnected) {
 		reviewFormReturnFocus.focus();

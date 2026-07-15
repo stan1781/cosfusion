@@ -156,7 +156,7 @@ document.addEventListener('alpine:init', () => {
 				}
 
 				const panels = Array.from(
-					this.trackEl.querySelectorAll<HTMLElement>('.ts-nav__panel[data-ts-nav-panel]')
+					this.trackEl.querySelectorAll<HTMLElement>('.nav__panel[data-ts-nav-panel]')
 				);
 				const activeId = this.panelStack[this.panelStack.length - 1]?.id ?? 'root';
 				const index = Math.max(
@@ -170,7 +170,7 @@ document.addEventListener('alpine:init', () => {
 				}
 
 				if (snap) {
-					this.trackEl.classList.add('ts-nav__track--instant');
+					this.trackEl.classList.add('nav__track--instant');
 				}
 
 				applyTrackOffset(this.trackEl, index);
@@ -187,7 +187,7 @@ document.addEventListener('alpine:init', () => {
 
 				if (snap) {
 					void this.trackEl.offsetWidth;
-					this.trackEl.classList.remove('ts-nav__track--instant');
+					this.trackEl.classList.remove('nav__track--instant');
 					syncPanelA11y(panels, index);
 					return;
 				}
@@ -212,10 +212,10 @@ document.addEventListener('alpine:init', () => {
 			focusFirstLink(this: MobileNavState, panelId: string) {
 				window.requestAnimationFrame(() => {
 					const panel = this.trackEl?.querySelector<HTMLElement>(
-						`.ts-nav__panel[data-ts-nav-panel="${panelId}"]`
+						`.nav__panel[data-ts-nav-panel="${panelId}"]`
 					);
 					const link = panel?.querySelector<HTMLElement>(
-						'a.ts-nav__link, a.ts-nav__mega-link, a.ts-nav__mega-heading, button[data-ts-nav-panel-trigger]'
+						'a.nav__link, a.nav__mega-link, a.nav__mega-heading, button[data-ts-nav-panel-trigger]'
 					);
 
 					link?.focus();

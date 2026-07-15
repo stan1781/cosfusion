@@ -207,9 +207,9 @@ function tailwindscore_render_loop_variant_swatches( ?WC_Product $product = null
 	$visible = $max > 0 ? array_slice( $items, 0, $max ) : $items;
 	$hidden  = $max > 0 ? max( 0, $total - $max ) : 0;
 
-	$kind_class = 'ts-wc-product-card__swatch--' . sanitize_html_class( $dim['kind'] );
+	$kind_class = 'wc-product-card__swatch--' . sanitize_html_class( $dim['kind'] );
 
-	echo '<div class="ts-wc-product-card__swatches" data-product-card-swatches data-kind="' . esc_attr( $dim['kind'] ) . '">';
+	echo '<div class="wc-product-card__swatches" data-product-card-swatches data-kind="' . esc_attr( $dim['kind'] ) . '">';
 
 	foreach ( $visible as $item ) {
 		$data_image = wp_json_encode( $item['image'] );
@@ -230,10 +230,10 @@ function tailwindscore_render_loop_variant_swatches( ?WC_Product $product = null
 
 		$has_visual   = ( $item['swatch_color'] !== '' || $item['swatch_thumb'] !== '' );
 		$inner        = $has_visual ? '' : esc_html( $item['label'] );
-		$button_class = trim( $kind_class . ( $has_visual ? ' ts-wc-product-card__swatch--visual' : '' ) );
+		$button_class = trim( $kind_class . ( $has_visual ? ' wc-product-card__swatch--visual' : '' ) );
 
 		printf(
-			'<button type="button" class="ts-wc-product-card__swatch %1$s" data-swatch-slug="%2$s" data-image=\'%3$s\' aria-label="%4$s" title="%4$s" aria-pressed="false"%5$s>%6$s</button>',
+			'<button type="button" class="wc-product-card__swatch %1$s" data-swatch-slug="%2$s" data-image=\'%3$s\' aria-label="%4$s" title="%4$s" aria-pressed="false"%5$s>%6$s</button>',
 			esc_attr( $button_class ),
 			esc_attr( $item['slug'] ),
 			esc_attr( (string) $data_image ),
@@ -244,7 +244,7 @@ function tailwindscore_render_loop_variant_swatches( ?WC_Product $product = null
 	}
 
 	if ( $hidden > 0 ) {
-		echo '<span class="ts-wc-product-card__swatch-more" aria-hidden="true">+' . esc_html( (string) $hidden ) . '</span>';
+		echo '<span class="wc-product-card__swatch-more" aria-hidden="true">+' . esc_html( (string) $hidden ) . '</span>';
 	}
 
 	echo '</div>';

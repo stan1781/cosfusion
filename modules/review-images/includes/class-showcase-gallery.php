@@ -70,11 +70,11 @@ class Tailwindscore_Showcase_Gallery {
 		?>
 		<div id="wc-product-showcase-gallery-admin">
 			<p class="description"><?php esc_html_e( 'Curated customer photos shown in the product showcase strip.', 'tailwindscore' ); ?></p>
-			<div id="wc-product-showcase-gallery-admin-list" class="ts-showcase-admin-list">
+			<div id="wc-product-showcase-gallery-admin-list" class="showcase-admin-list">
 				<?php foreach ( $image_ids as $img_id ) : ?>
 					<?php $thumb = wp_get_attachment_image_url( (int) $img_id, 'thumbnail' ); ?>
 					<?php if ( ! $thumb ) { continue; } ?>
-					<div class="ts-showcase-admin-list__item" data-id="<?php echo esc_attr( (string) $img_id ); ?>">
+					<div class="showcase-admin-list__item" data-id="<?php echo esc_attr( (string) $img_id ); ?>">
 						<img src="<?php echo esc_url( $thumb ); ?>" alt="">
 						<button type="button" class="delete-showcase-image" aria-label="<?php esc_attr_e( 'Remove', 'tailwindscore' ); ?>">&times;</button>
 					</div>
@@ -129,7 +129,7 @@ class Tailwindscore_Showcase_Gallery {
 
 		wp_enqueue_media();
 		wp_enqueue_script(
-			'ts-product-showcase-gallery-admin',
+			'product-showcase-gallery-admin',
 			get_template_directory_uri() . '/modules/review-images/assets/admin/product-showcase-gallery-admin.js',
 			array( 'jquery' ),
 			TAILWINDSCORE_MODULE_REVIEW_IMAGES_VERSION,
@@ -257,10 +257,10 @@ class Tailwindscore_Showcase_Gallery {
 			return;
 		}
 		?>
-		<section class="ts-showcase-gallery product-showcase-gallery" aria-label="<?php esc_attr_e( 'Customer photos', 'tailwindscore' ); ?>">
-			<h3 class="ts-showcase-gallery__title"><?php esc_html_e( 'Customer Photos', 'tailwindscore' ); ?></h3>
+		<section class="showcase-gallery product-showcase-gallery" aria-label="<?php esc_attr_e( 'Customer photos', 'tailwindscore' ); ?>">
+			<h3 class="showcase-gallery__title"><?php esc_html_e( 'Customer Photos', 'tailwindscore' ); ?></h3>
 			<div
-				class="ts-showcase-gallery__strip product-showcase-gallery-container"
+				class="showcase-gallery__strip product-showcase-gallery-container"
 				id="product-showcase-gallery"
 				data-showcase-rows="2"
 				data-showcase-thumb="64"
@@ -270,7 +270,7 @@ class Tailwindscore_Showcase_Gallery {
 				<?php foreach ( $payload['images'] as $index => $image ) : ?>
 					<button
 						type="button"
-						class="ts-showcase-gallery__item review-image-thumb"
+						class="showcase-gallery__item review-image-thumb"
 						data-image-index="<?php echo esc_attr( (string) $index ); ?>"
 					>
 						<img src="<?php echo esc_url( $image['thumb'] ); ?>" alt="" loading="lazy" width="64" height="64">
@@ -278,11 +278,11 @@ class Tailwindscore_Showcase_Gallery {
 				<?php endforeach; ?>
 				<button
 					type="button"
-					class="ts-showcase-gallery__item ts-showcase-gallery__more review-image-thumb hidden"
+					class="showcase-gallery__item showcase-gallery__more review-image-thumb hidden"
 					data-image-index="0"
 					aria-label="<?php esc_attr_e( 'View more customer photos', 'tailwindscore' ); ?>"
 				>
-					<span class="ts-showcase-gallery__more-label">+0</span>
+					<span class="showcase-gallery__more-label">+0</span>
 				</button>
 			</div>
 		</section>

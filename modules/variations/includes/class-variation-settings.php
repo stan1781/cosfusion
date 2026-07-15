@@ -164,7 +164,7 @@ class Tailwindscore_Variation_Settings {
 			'colorSelectorDefaultMode'  => $product_id > 0 ? self::get_effective_color_selector_default_mode( $product_id ) : $global_mode,
 			'colorSelectorShape'        => self::get_color_selector_shape(),
 			'gridShowText'              => self::grid_show_text(),
-			'priceSelector'             => '.ts-wc-product-detail__summary .price, .entry-summary .price',
+			'priceSelector'             => '.wc-product-detail__summary .price, .entry-summary .price',
 		);
 	}
 }

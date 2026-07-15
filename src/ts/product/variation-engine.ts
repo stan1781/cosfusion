@@ -101,7 +101,7 @@ export function findAttributeSelect(form: Element, attribute: string): HTMLSelec
 		`.custom-variation-selector[data-attribute="${CSS.escape(attribute)}"]`,
 	);
 	const rowSelect = list
-		?.closest('.variation-row, .ts-variation-row')
+		?.closest('.variation-row, .variation-row')
 		?.querySelector<HTMLSelectElement>('select[name^="attribute_"]');
 
 	if (rowSelect) {

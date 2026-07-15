@@ -75,8 +75,8 @@ function tailwindscore_get_product_review_comment_form_args(): array {
 		'label_submit'         => esc_html__( 'Submit', 'woocommerce' ),
 		'logged_in_as'         => '',
 		'comment_field'        => '',
-		'class_form'           => 'comment-form ts-review-form',
-		'submit_button'        => '<button type="submit" name="%1$s" id="%2$s" class="%3$s ts-button" value="%4$s">%4$s</button>',
+		'class_form'           => 'comment-form review-form',
+		'submit_button'        => '<button type="submit" name="%1$s" id="%2$s" class="%3$s btn" value="%4$s">%4$s</button>',
 		'submit_field'         => '<p class="form-submit">%1$s %2$s</p>',
 	);
 
@@ -143,7 +143,7 @@ function tailwindscore_get_product_review_comment_form_args(): array {
  */
 function tailwindscore_render_product_review_form(): void {
 	?>
-	<div id="review_form_wrapper" class="ts-review-form-modal__form-wrap">
+	<div id="review_form_wrapper" class="review-form-modal__form-wrap">
 		<div id="review_form">
 			<?php comment_form( tailwindscore_get_product_review_comment_form_args() ); ?>
 		</div>
@@ -173,7 +173,7 @@ function tailwindscore_render_review_form_fallback_cta(): void {
 
 	$label = tailwindscore_get_review_form_open_label();
 	?>
-	<p class="ts-reviews-fallback-cta">
+	<p class="reviews-fallback-cta">
 		<a
 			href="#"
 			data-ts-review-form-open

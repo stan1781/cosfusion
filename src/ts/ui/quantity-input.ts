@@ -3,7 +3,7 @@ function getQuantityRoot(element: Element): HTMLElement | null {
 }
 
 function getQuantityInput(root: HTMLElement): HTMLInputElement | null {
-	return root.querySelector<HTMLInputElement>('[data-ts-quantity-input], .ts-quantity__input');
+	return root.querySelector<HTMLInputElement>('[data-ts-quantity-input], .quantity__input');
 }
 
 function clampQuantity(value: number, input: HTMLInputElement): number {
