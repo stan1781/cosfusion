@@ -1,5 +1,6 @@
 export {};
 
+import type { AlpineMagics } from '../types/alpine';
 import {
 	MENU_DRAWER_TRANSITION_MS,
 	activateMenuDrawerPanel,
@@ -49,7 +50,7 @@ function finishMenuDrawerClose(shell: SiteShellState): void {
 	});
 }
 
-type SiteShellState = {
+type SiteShellData = {
 	menuOpen: boolean;
 	searchOpen: boolean;
 	cartOpen: boolean;
@@ -67,6 +68,8 @@ type SiteShellState = {
 	closeAll: () => void;
 	onMenuDrawerTransitionEnd: (event: TransitionEvent) => void;
 };
+
+type SiteShellState = AlpineMagics & SiteShellData;
 
 function focusSearchInput(scheduleTick: (callback: () => void) => void): void {
 	const focus = (): void => {
@@ -93,7 +96,7 @@ function getSiteShell(): SiteShellState | undefined {
 }
 
 document.addEventListener('alpine:init', () => {
-	window.Alpine.data('siteShell', (): SiteShellState => ({
+	window.Alpine.data('siteShell', (): SiteShellData => ({
 		menuOpen: false,
 		searchOpen: false,
 		cartOpen: false,
@@ -148,8 +151,7 @@ document.addEventListener('alpine:init', () => {
 				this.cartOpen = false;
 				this.accountOpen = false;
 				closeLoginModal();
-				const shell = this as SiteShellState & { $nextTick: (callback: () => void) => void };
-				focusSearchInput((callback) => shell.$nextTick(callback));
+				focusSearchInput((callback) => this.$nextTick(callback));
 			}
 
 			this.syncDocumentState();
