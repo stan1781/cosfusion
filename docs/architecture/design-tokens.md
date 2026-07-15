@@ -1,6 +1,6 @@
 # 设计令牌
 
-TailwindScore 使用 **SCSS 变量 → `:root` CSS 变量 → 组件 `var(--ts-*)`** 的单向数据流。Tailwind 在本项目中不作为模板书写的主要界面，而是可选的底层工具；视觉统一由令牌与 `.ts-*` 语义类承担。
+TailwindScore 使用 **SCSS 变量 → `:root` CSS 变量 → 组件 `var(--ts-*)`** 的单向数据流。结构与命名对齐 Starcore；颜色字面量保留本站时尚风，其余非颜色数值与 Starcore 一致。
 
 ## 唯一真源
 
@@ -11,22 +11,28 @@ TailwindScore 使用 **SCSS 变量 → `:root` CSS 变量 → 组件 `var(--ts-*
 | `src/scss/abstracts/_mixins.scss` | `ts-up` / `ts-down` 断点 mixin、表单/动效 mixin |
 | `src/ts/breakpoints.ts` | JS `matchMedia` 与 SCSS 断点对齐 |
 
-**改风格时优先只改 `_variables.scss`**，不要在各组件里逐个改数值。
+**改风格时优先只改 `_variables.scss`**，不要在各组件里逐个改数值。断点与抽屉宽等可用 Sass 直接引用，不必全部进 `:root`。
 
 ## 令牌类别
 
 | 类别 | 示例 token |
 |------|------------|
-| 中性色 | `surface`、`surface-muted`、`text`、`text-muted`、`border`、`border-strong` |
-| 语义色 | `primary` / `primary-foreground`（由 text/surface 派生） |
+| 品牌色 | `primary` / `on-primary`、`secondary` / `on-secondary`、`link-color` |
+| Surface | `surface`、`surface-alt`、`surface-muted` |
+| 文本 | `text-primary`、`text-secondary`、`text-muted` |
+| 边框 | `border-color`、`border-color-strong`（本站扩展） |
 | 反馈色 | `info`、`success`、`warning`、`danger` |
 | 遮罩 | `overlay`、`overlay-dark` |
-| 字号 | `--ts-font-size-base`、`sm`、`xs` |
-| 间距 | `--ts-space-xs` … `3xl`（8 级） |
-| 圆角 | `--ts-radius-sm`、`md`、`full` |
+| 间距 | `$ts-spacer` + `$ts-spacers`（0–5）→ `--ts-spacer-0` … `--ts-spacer-5` |
+| 圆角 | `--ts-border-radius-sm`、`--ts-border-radius`、`--ts-border-radius-lg`、`--ts-border-radius-pill` |
+| 字号 / 行高 | `--ts-font-size-xs` … `lg`、`--ts-line-height-base` |
+| 字体栈 | `--ts-font-body`、`--ts-font-heading`（typography 模块可覆盖） |
 | 阴影 | `--ts-shadow-sm`、`md`、`lg` |
-| 表单 | `--ts-form-*`（高度、内边距，引用间距/字号） |
-| WooCommerce | 价格、库存、促销等少量业务语义色（见 `_variables.scss` 底部） |
+| 布局 | `--ts-container-max`、`$ts-drawer-width` / `--ts-drawer-width` |
+| z-index | `--ts-z-sticky`、`panel`、`drawer`、`modal`、`toast` |
+| 控件 | `--ts-control-min-height`、`--ts-form-padding-*`、`--ts-btn-padding-*`；floating 表单另有 `--ts-form-floating-*` |
+
+单页尺寸（hero 高度、search 最大宽、section 垂直间距等）**不进全局 token**，写在对应组件局部 Sass 变量中。
 
 ## 响应式断点
 
@@ -63,7 +69,7 @@ TailwindScore 使用 **SCSS 变量 → `:root` CSS 变量 → 组件 `var(--ts-*
 
 - 使用 `@include mixins.ts-up($name)` / `ts-down($name)`
 - `ts-up` → `@media (width >= …)`；`ts-down` → `@media (width < …)`
-- 样式属性写 `var(--ts-colors-text)` 等 CSS 变量
+- 样式属性写 `var(--ts-text-primary)` 等 CSS 变量
 
 ### 组件 SCSS 禁止
 
@@ -101,15 +107,16 @@ Swiper `breakpoints`、手风琴/Tab 切换等运行时逻辑须与 SCSS 断点�
 
 **不应默认进入全局令牌：**
 
-- 单个区域的一次性尺寸（如 header 高度、某面板宽度）
+- 单个区域的一次性尺寸（如 header 高度、hero 高度、某面板宽度）
 - 只在一个组件出现一次的布局细节
+- 套餐站专用比例（如商品图 aspect-ratio）
 
 ## 与站点壳层、商城的关系
 
 - **Header / 主导航**：移动壳 `< lg`，桌面 inline 导航 `≥ lg`
 - **WooCommerce**：结账/账户可在 `lg` 启用多列；商品网格在 `md`/`xl` 按需加分列
 - **产品详情 Tab**：手风琴 `< md`，两列网格 `≥ md`
-- **容器宽度**：`--ts-layout-container` 在 `lg`～`2xl` 视口内居中
+- **容器宽度**：`--ts-container-max` 在较宽视口内居中
 
 ## 扩展令牌流程
 

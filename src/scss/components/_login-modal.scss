@@ -6,7 +6,7 @@
 	z-index: var(--ts-z-modal);
 	display: grid;
 	place-items: center;
-	padding: var(--ts-space-2xl);
+	padding: var(--ts-spacer-4);
 }
 
 .ts-login-modal[hidden] {
@@ -22,7 +22,7 @@ body.ts-login-modal-open {
 	inset: 0;
 	border: 0;
 	padding: 0;
-	background: color-mix(in srgb, var(--ts-colors-text) 24%, transparent);
+	background: color-mix(in srgb, var(--ts-text-primary) 24%, transparent);
 	cursor: pointer;
 }
 
@@ -32,10 +32,10 @@ body.ts-login-modal-open {
 	width: min(100%, 28rem);
 	max-height: min(90vh, 40rem);
 	overflow: auto;
-	padding: var(--ts-space-2xl);
-	background: var(--ts-colors-surface);
-	border: 1px solid var(--ts-colors-border);
-	border-radius: var(--ts-radius-md);
+	padding: var(--ts-spacer-4);
+	background: var(--ts-surface);
+	border: 1px solid var(--ts-border-color);
+	border-radius: var(--ts-border-radius);
 	box-shadow: var(--ts-shadow-lg);
 }
 
@@ -43,8 +43,8 @@ body.ts-login-modal-open {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: var(--ts-space-xl);
-	margin-bottom: var(--ts-space-xl);
+	gap: var(--ts-spacer-3);
+	margin-bottom: var(--ts-spacer-3);
 }
 
 .ts-login-modal__title {
@@ -58,7 +58,7 @@ body.ts-login-modal-open {
 }
 
 .ts-login-modal__register {
-	margin: var(--ts-space-xl) 0 0;
+	margin: var(--ts-spacer-3) 0 0;
 	text-align: center;
 	font-size: var(--ts-font-size-sm);
 }
@@ -71,7 +71,7 @@ body.ts-login-modal-open {
 .ts-login-modal .ts-account-auth__form,
 .ts-login-modal form.woocommerce-form-login {
 	display: grid;
-	gap: var(--ts-space-xl);
+	gap: var(--ts-spacer-3);
 	margin: 0;
 
 	.form-row,
@@ -79,7 +79,7 @@ body.ts-login-modal-open {
 		float: none;
 		width: 100%;
 		display: grid;
-		gap: var(--ts-space-lg);
+		gap: var(--ts-spacer-2);
 		margin: 0;
 		padding: 0;
 	}
@@ -94,14 +94,14 @@ body.ts-login-modal-open {
 	.input-text:focus-visible,
 	.ts-input:focus-visible {
 		outline: none;
-		border-color: var(--ts-colors-primary);
+		border-color: var(--ts-primary);
 	}
 
 	.ts-button,
 	.button.woocommerce-form-login__submit {
 		@include mixins.ts-control-button-base(
 			var(--ts-form-padding-y) var(--ts-form-padding-x),
-			var(--ts-form-min-height)
+			var(--ts-control-min-height)
 		);
 		width: 100%;
 		justify-content: center;
@@ -130,26 +130,26 @@ body.ts-login-modal-open {
 	margin-bottom: 0.35rem;
 	@include mixins.ts-form-label-text;
 	font-weight: 600;
-	color: var(--ts-colors-text);
+	color: var(--ts-text-primary);
 
 	.required {
-		color: var(--ts-colors-danger);
+		color: var(--ts-danger);
 		font-weight: 400;
 	}
 }
 
 .ts-login-modal .ts-account-auth__lost-password {
-	margin: calc(-1 * var(--ts-space-sm)) 0 0;
+	margin: calc(-1 * var(--ts-spacer-1)) 0 0;
 	text-align: right;
 	font-size: var(--ts-font-size-sm);
 
 	a {
-		color: var(--ts-colors-text-muted);
+		color: var(--ts-text-secondary);
 		text-decoration: none;
 
 		&:hover,
 		&:focus-visible {
-			color: var(--ts-colors-text);
+			color: var(--ts-text-primary);
 			text-decoration: underline;
 		}
 	}
@@ -162,7 +162,7 @@ body.ts-login-modal-open {
 	label {
 		display: inline-flex;
 		align-items: center;
-		gap: var(--ts-space-md);
+		gap: var(--ts-spacer-2);
 		cursor: pointer;
 	}
 
@@ -170,7 +170,7 @@ body.ts-login-modal-open {
 		width: 1rem;
 		height: 1rem;
 		margin: 0;
-		accent-color: var(--ts-colors-primary);
+		accent-color: var(--ts-primary);
 	}
 }
 

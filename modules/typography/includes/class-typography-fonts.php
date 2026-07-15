@@ -158,7 +158,7 @@ class Tailwindscore_Typography_Fonts {
 		$heading_font = self::resolve_family( $heading_slug );
 
 		return sprintf(
-			':root{--ts-type-body:%s;--ts-type-heading:%s;}',
+			':root{--ts-font-body:%s;--ts-font-heading:%s;}',
 			$body_font,
 			$heading_font
 		);

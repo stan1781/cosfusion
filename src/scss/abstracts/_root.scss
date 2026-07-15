@@ -1,76 +1,75 @@
 @use "variables";
 
-// Runtime tokens for var() in components. Breakpoints / layout widths: use Sass in @use "variables" + mixins.ts-up().
+// 运行时 token：组件用 var(--ts-*)。断点 / 抽屉宽等用 Sass + mixins.ts-up()。
 :root {
-	// Colors
-	--ts-colors-surface: #{variables.$ts-colors-surface};
-	--ts-colors-surface-muted: #{variables.$ts-colors-surface-muted};
-	--ts-colors-surface-warm: #{variables.$ts-colors-surface-warm};
-	--ts-colors-text: #{variables.$ts-colors-text};
-	--ts-colors-text-muted: #{variables.$ts-colors-text-muted};
-	--ts-colors-border: #{variables.$ts-colors-border};
-	--ts-colors-border-strong: #{variables.$ts-colors-border-strong};
-	--ts-colors-primary: #{variables.$ts-colors-primary};
-	--ts-colors-primary-foreground: #{variables.$ts-colors-primary-foreground};
-	--ts-colors-info: #{variables.$ts-colors-info};
-	--ts-colors-success: #{variables.$ts-colors-success};
-	--ts-colors-warning: #{variables.$ts-colors-warning};
-	--ts-colors-danger: #{variables.$ts-colors-danger};
-	--ts-colors-overlay: #{variables.$ts-colors-overlay};
-	--ts-colors-overlay-dark: #{variables.$ts-colors-overlay-dark};
+	--ts-primary: #{variables.$ts-primary};
+	--ts-on-primary: #{variables.$ts-on-primary};
+	--ts-secondary: #{variables.$ts-secondary};
+	--ts-on-secondary: #{variables.$ts-on-secondary};
+	--ts-surface: #{variables.$ts-surface};
+	--ts-surface-alt: #{variables.$ts-surface-alt};
+	--ts-surface-muted: #{variables.$ts-surface-muted};
+	--ts-text-primary: #{variables.$ts-text-primary};
+	--ts-text-secondary: #{variables.$ts-text-secondary};
+	--ts-text-muted: #{variables.$ts-text-muted};
+	--ts-border-color: #{variables.$ts-border-color};
+	--ts-border-color-strong: #{variables.$ts-border-color-strong};
+	--ts-link-color: var(--ts-primary);
+	--ts-success: #{variables.$ts-success};
+	--ts-info: #{variables.$ts-info};
+	--ts-warning: #{variables.$ts-warning};
+	--ts-danger: #{variables.$ts-danger};
+	--ts-overlay: #{variables.$ts-overlay};
+	--ts-overlay-dark: #{variables.$ts-overlay-dark};
 
-	// Radius, space, type, shadow
-	--ts-radius-sm: #{variables.$ts-radius-sm};
-	--ts-radius-md: #{variables.$ts-radius-md};
-	--ts-radius-full: #{variables.$ts-radius-full};
-	--ts-space-xs: #{variables.$ts-space-xs};
-	--ts-space-sm: #{variables.$ts-space-sm};
-	--ts-space-md: #{variables.$ts-space-md};
-	--ts-space-lg: #{variables.$ts-space-lg};
-	--ts-space-xl: #{variables.$ts-space-xl};
-	--ts-space-2xl: #{variables.$ts-space-2xl};
-	--ts-space-3xl: #{variables.$ts-space-3xl};
-	--ts-font-size-base: #{variables.$ts-font-size-base};
-	--ts-font-size-sm: #{variables.$ts-font-size-sm};
+	--ts-spacer: #{variables.$ts-spacer};
+
+	@each $key, $value in variables.$ts-spacers {
+		--ts-spacer-#{$key}: #{$value};
+	}
+
+	--ts-border-radius-sm: #{variables.$ts-border-radius-sm};
+	--ts-border-radius: #{variables.$ts-border-radius};
+	--ts-border-radius-lg: #{variables.$ts-border-radius-lg};
+	--ts-border-radius-pill: #{variables.$ts-border-radius-pill};
+
 	--ts-font-size-xs: #{variables.$ts-font-size-xs};
+	--ts-font-size-sm: #{variables.$ts-font-size-sm};
+	--ts-font-size-base: #{variables.$ts-font-size-base};
 	--ts-font-size-lg: #{variables.$ts-font-size-lg};
-	--ts-font-size-xl: #{variables.$ts-font-size-xl};
-	--ts-line-height: #{variables.$ts-line-height};
+	--ts-line-height-base: #{variables.$ts-line-height-base};
+
+	--ts-font-body: #{variables.$ts-font-body};
+	--ts-font-heading: #{variables.$ts-font-heading};
+
+	--ts-container-max: #{variables.$ts-container-max};
+	--ts-drawer-width: #{variables.$ts-drawer-width};
+
 	--ts-shadow-sm: #{variables.$ts-shadow-sm};
 	--ts-shadow-md: #{variables.$ts-shadow-md};
 	--ts-shadow-lg: #{variables.$ts-shadow-lg};
 
-	// Z-index (global stacking; component-local layers use small integers)
 	--ts-z-sticky: #{variables.$ts-z-sticky};
-	--ts-z-fixed: #{variables.$ts-z-fixed};
 	--ts-z-panel: #{variables.$ts-z-panel};
-	--ts-z-sticky-raised: #{variables.$ts-z-sticky-raised};
-	--ts-z-popover: #{variables.$ts-z-popover};
+	--ts-z-drawer: #{variables.$ts-z-drawer};
 	--ts-z-modal: #{variables.$ts-z-modal};
 	--ts-z-toast: #{variables.$ts-z-toast};
-	--ts-z-max: #{variables.$ts-z-max};
-	--ts-z-blocking: #{variables.$ts-z-blocking};
 
-	// Form (floating layout uses computed padding vars below)
+	--ts-btn-padding-y: #{variables.$ts-btn-padding-y};
+	--ts-btn-padding-x: #{variables.$ts-btn-padding-x};
+
+	--ts-control-min-height: #{variables.$ts-control-min-height};
 	--ts-form-padding-y: #{variables.$ts-form-padding-y};
 	--ts-form-padding-x: #{variables.$ts-form-padding-x};
-	--ts-form-min-height: #{variables.$ts-form-min-height};
 	--ts-form-floating-min-height: #{variables.$ts-form-floating-min-height};
 	--ts-form-floating-label-active-top: #{variables.$ts-form-floating-label-active-top};
 	--ts-form-floating-value-padding-top: calc(
-		var(--ts-form-floating-label-active-top) + var(--ts-font-size-xs) + var(--ts-space-2xs)
+		var(--ts-form-floating-label-active-top) + var(--ts-font-size-xs) + var(--ts-spacer-1)
 	);
 	--ts-form-floating-textarea-min-height: calc(
-		#{variables.$ts-form-textarea-min-rows} * 1.25em + var(--ts-form-floating-value-padding-top) + var(--ts-space-sm) +
+		#{variables.$ts-form-textarea-min-rows} * 1.25em + var(--ts-form-floating-value-padding-top) + var(--ts-spacer-1) +
 			var(--ts-form-padding-y)
 	);
-
-	// Layout (page-level)
-	--ts-layout-container: #{variables.$ts-layout-container};
-	--ts-layout-section-y-mobile: #{variables.$ts-layout-section-y-mobile};
-	--ts-layout-section-y: #{variables.$ts-layout-section-y};
-	--ts-type-body: #{variables.$ts-type-body};
-	--ts-type-heading: #{variables.$ts-type-heading};
 
 	color-scheme: light;
 }

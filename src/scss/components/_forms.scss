@@ -12,14 +12,14 @@
 .ts-form-control:focus-visible,
 .ts-input:focus-visible {
 	outline: none;
-	border-color: var(--ts-colors-primary);
+	border-color: var(--ts-primary);
 }
 
 [aria-invalid="true"].ts-form-control:focus,
 [aria-invalid="true"].ts-form-control:focus-visible,
 [aria-invalid="true"].ts-input:focus,
 [aria-invalid="true"].ts-input:focus-visible {
-	border-color: var(--ts-colors-danger);
+	border-color: var(--ts-danger);
 }
 
 // Input + action side-by-side (Shopify-style): separate bordered controls, not merged.
@@ -28,7 +28,7 @@
 	grid-template-columns: minmax(0, 1fr) minmax(auto, max-content);
 	grid-template-rows: auto;
 	align-items: stretch;
-	gap: var(--ts-space-lg);
+	gap: var(--ts-spacer-2);
 	min-width: 0;
 }
 
@@ -38,8 +38,8 @@
 	grid-row: 1;
 	width: 100%;
 	min-width: 0;
-	height: var(--ts-form-min-height);
-	min-height: var(--ts-form-min-height);
+	height: var(--ts-control-min-height);
+	min-height: var(--ts-control-min-height);
 }
 
 .ts-input-group > :is(.ts-button, .ts-icon-button) {
@@ -48,19 +48,19 @@
 }
 
 .ts-input-group .ts-button {
-	height: var(--ts-form-min-height);
-	min-height: var(--ts-form-min-height);
+	height: var(--ts-control-min-height);
+	min-height: var(--ts-control-min-height);
 	padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
 	white-space: nowrap;
 }
 
 .ts-input-group .ts-icon-button {
-	width: var(--ts-form-min-height);
-	height: var(--ts-form-min-height);
-	min-height: var(--ts-form-min-height);
-	border: 1px solid var(--ts-colors-border);
-	border-radius: var(--ts-radius-sm);
-	background: var(--ts-colors-surface);
+	width: var(--ts-control-min-height);
+	height: var(--ts-control-min-height);
+	min-height: var(--ts-control-min-height);
+	border: 1px solid var(--ts-border-color);
+	border-radius: var(--ts-border-radius-sm);
+	background: var(--ts-surface);
 }
 
 // Password managers inject nodes between input and button (e.g. LastPass data-lastpass-icon-root).
@@ -103,7 +103,7 @@
 .ts-input-group .ts-icon-button:focus,
 .ts-input-group .ts-icon-button:focus-visible {
 	outline: none;
-	border-color: var(--ts-colors-primary);
+	border-color: var(--ts-primary);
 }
 
 // --- coupon form (was _coupon-form.scss) ---
@@ -111,14 +111,14 @@
 
 .ts-coupon-form {
 	display: grid;
-	gap: var(--ts-space-lg);
+	gap: var(--ts-spacer-2);
 	min-width: 0;
 }
 
 .ts-coupon-form__label {
 	@include mixins.ts-form-label-text;
 	font-weight: 500;
-	color: var(--ts-colors-text);
+	color: var(--ts-text-primary);
 }
 
 .ts-coupon-form--checkout {
@@ -126,8 +126,8 @@
 }
 
 .ts-checkout-review-order__coupon .ts-coupon-form--checkout {
-	padding-block-end: var(--ts-space-xl);
-	border-block-end: 1px solid var(--ts-colors-border);
+	padding-block-end: var(--ts-spacer-3);
+	border-block-end: 1px solid var(--ts-border-color);
 }
 
 .ts-coupon-form .ts-button:disabled {
@@ -146,7 +146,7 @@ $ts-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	padding-inline-end: 2.25rem;
-	background-color: var(--ts-colors-surface);
+	background-color: var(--ts-surface);
 	background-image: $ts-select-chevron;
 	background-repeat: no-repeat;
 	background-position: right var(--ts-form-padding-x) center;
@@ -156,7 +156,7 @@ $ts-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000
 
 @mixin ts-select2-single-chevron {
 	.select2-selection--single {
-		background-color: var(--ts-colors-surface);
+		background-color: var(--ts-surface);
 		background-image: $ts-select-chevron;
 		background-repeat: no-repeat;
 		background-position: right var(--ts-form-padding-x) center;

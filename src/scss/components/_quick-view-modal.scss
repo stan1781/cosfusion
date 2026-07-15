@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins";
 
@@ -7,7 +8,7 @@
 	z-index: var(--ts-z-modal);
 	display: grid;
 	place-items: center;
-	padding: $ts-space-md;
+	padding: map.get($ts-spacers, 2);
 }
 
 .ts-quick-view-modal[hidden] {
@@ -23,7 +24,7 @@ body.ts-quick-view-modal-open {
 	inset: 0;
 	border: 0;
 	padding: 0;
-	background: color-mix(in srgb, var(--ts-colors-text) 24%, transparent);
+	background: color-mix(in srgb, var(--ts-text-primary) 24%, transparent);
 	cursor: pointer;
 }
 
@@ -34,17 +35,17 @@ body.ts-quick-view-modal-open {
 	flex-direction: column;
 	width: min(100%, 48rem);
 	max-height: min(90vh, 45rem);
-	padding: $ts-space-md;
-	background: var(--ts-colors-surface);
-	border: 1px solid var(--ts-colors-border);
-	border-radius: var(--ts-radius-md);
+	padding: map.get($ts-spacers, 2);
+	background: var(--ts-surface);
+	border: 1px solid var(--ts-border-color);
+	border-radius: var(--ts-border-radius);
 	box-shadow: var(--ts-shadow-lg);
 }
 
 .ts-quick-view-modal__dialog .ts-close-button {
 	position: absolute;
-	top: $ts-space-md;
-	right: $ts-space-md;
+	top: map.get($ts-spacers, 2);
+	right: map.get($ts-spacers, 2);
 	z-index: 10;
 }
 
@@ -70,21 +71,21 @@ body.ts-quick-view-modal-open {
 	display: inline-block;
 	width: 2rem;
 	height: 2rem;
-	border: 2px solid var(--ts-colors-border);
-	border-top-color: var(--ts-colors-text);
+	border: 2px solid var(--ts-border-color);
+	border-top-color: var(--ts-text-primary);
 	border-radius: 50%;
 	animation: ts-spin 0.7s linear infinite;
 }
 
 .ts-quick-view-modal__error {
-	color: var(--ts-colors-danger);
+	color: var(--ts-danger);
 	margin: 0;
 }
 
 // Quick View product content: reuse ts-wc-product-detail + loop card media; only modal-specific overrides here.
 .ts-quick-view-modal {
 	.ts-wc-product-card__media {
-		border-radius: var(--ts-radius-sm);
+		border-radius: var(--ts-border-radius-sm);
 	}
 }
 
@@ -92,7 +93,7 @@ body.ts-quick-view-modal-open {
 	.ts-quick-view-modal .ts-wc-product-card__media.has-secondary-image {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		gap: var(--ts-space-sm);
+		gap: var(--ts-spacer-1);
 		aspect-ratio: auto;
 
 		.ts-wc-product-card__image {

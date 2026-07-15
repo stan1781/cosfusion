@@ -7,7 +7,7 @@
 	z-index: var(--ts-z-modal);
 	display: grid;
 	place-items: center;
-	padding: var(--ts-space-xl);
+	padding: var(--ts-spacer-3);
 }
 
 .ts-mailnest-subscribe-modal[hidden] {
@@ -22,7 +22,7 @@ body.ts-mailnest-subscribe-open {
 	position: absolute;
 	inset: 0;
 	border: 0;
-	background: var(--ts-colors-overlay);
+	background: var(--ts-overlay);
 	cursor: pointer;
 }
 
@@ -33,8 +33,8 @@ body.ts-mailnest-subscribe-open {
 	width: min(100%, 28rem);
 	max-height: min(90vh, 36rem);
 	overflow: hidden;
-	border-radius: var(--ts-radius-md);
-	background: var(--ts-colors-surface);
+	border-radius: var(--ts-border-radius);
+	background: var(--ts-surface);
 	box-shadow: var(--ts-shadow-sm);
 }
 
@@ -50,8 +50,8 @@ body.ts-mailnest-subscribe-open {
 .ts-mailnest-subscribe-modal__close {
 	position: absolute;
 	z-index: 2;
-	inset-block-start: var(--ts-space-lg);
-	inset-inline-end: var(--ts-space-lg);
+	inset-block-start: var(--ts-spacer-2);
+	inset-inline-end: var(--ts-spacer-2);
 	width: max-content;
 	max-width: max-content;
 	margin: 0;
@@ -78,7 +78,7 @@ body.ts-mailnest-subscribe-open {
 	flex: none;
 	min-height: 10rem;
 	overflow: hidden;
-	background: var(--ts-colors-surface-muted);
+	background: var(--ts-surface-muted);
 
 	@include mixins.ts-up("md") {
 		.ts-mailnest-subscribe-modal__body--split & {
@@ -109,16 +109,16 @@ body.ts-mailnest-subscribe-open {
 	display: flex;
 	flex: 1 1 auto;
 	flex-direction: column;
-	gap: var(--ts-space-xl);
+	gap: var(--ts-spacer-3);
 	min-width: 0;
-	padding: var(--ts-space-2xl);
+	padding: var(--ts-spacer-4);
 	overflow-y: auto;
 }
 
 .ts-mailnest-subscribe-modal__dialog--split .ts-mailnest-subscribe-modal__content {
 	@include mixins.ts-up("md") {
 		min-height: 100%;
-		padding: var(--ts-space-3xl) var(--ts-space-2xl);
+		padding: var(--ts-spacer-5) var(--ts-spacer-4);
 		justify-content: flex-start;
 	}
 }
@@ -127,21 +127,21 @@ body.ts-mailnest-subscribe-open {
 .ts-mailnest-subscribe-modal__dialog--split .wc-subscribe-popup-dismiss-wrap {
 	@include mixins.ts-up("md") {
 		margin-top: auto;
-		padding-top: var(--ts-space-xl);
+		padding-top: var(--ts-spacer-3);
 		flex-shrink: 0;
 	}
 }
 
 .ts-mailnest-subscribe-modal__content .ts-mailnest-subscribe__title {
 	margin: 0;
-	font-size: var(--ts-font-size-xl);
+	font-size: var(--ts-font-size-lg);
 	font-weight: 600;
 	line-height: 1.3;
 }
 
 .ts-mailnest-subscribe-modal__content .ts-mailnest-subscribe__description {
 	margin: 0;
-	color: var(--ts-colors-text-muted, var(--ts-colors-text));
+	color: var(--ts-text-secondary, var(--ts-text-primary));
 	font-size: var(--ts-font-size-sm);
 	line-height: 1.5;
 }
@@ -161,7 +161,7 @@ body.ts-mailnest-subscribe-open {
 
 .ts-mailnest-subscribe__layout--horizontal {
 	display: grid;
-	gap: var(--ts-space-2xl);
+	gap: var(--ts-spacer-4);
 
 	@include mixins.ts-up("md") {
 		grid-template-columns: 1fr 1fr;
@@ -180,7 +180,7 @@ body.ts-mailnest-subscribe-open {
 .ts-mailnest-check {
 	display: flex;
 	align-items: flex-start;
-	gap: var(--ts-space-lg);
+	gap: var(--ts-spacer-2);
 	cursor: pointer;
 }
 
@@ -192,11 +192,11 @@ body.ts-mailnest-subscribe-open {
 // Field layout: see _form-layout.scss (.ts-field, .ts-form-layout--stacked | --floating).
 
 .ts-mailnest-contact-form__actions {
-	margin-top: var(--ts-space-xl);
+	margin-top: var(--ts-spacer-3);
 }
 
 .ts-mailnest-contact-form__feedback {
-	margin: var(--ts-space-xl) 0 0;
+	margin: var(--ts-spacer-3) 0 0;
 	font-size: var(--ts-font-size-sm);
 }
 
@@ -205,11 +205,11 @@ body.ts-mailnest-subscribe-open {
 }
 
 .ts-mailnest-contact-form__feedback--success {
-	color: var(--ts-colors-success);
+	color: var(--ts-success);
 }
 
 .ts-mailnest-contact-form__feedback--error {
-	color: var(--ts-colors-danger);
+	color: var(--ts-danger);
 }
 
 .ts-mailnest-subscribe__feedback {
@@ -223,11 +223,11 @@ body.ts-mailnest-subscribe-open {
 }
 
 .ts-mailnest-subscribe__feedback--success {
-	color: var(--ts-colors-success);
+	color: var(--ts-success);
 }
 
 .ts-mailnest-subscribe__feedback--error {
-	color: var(--ts-colors-danger);
+	color: var(--ts-danger);
 }
 
 // Narrow content column: stack email + button vertically in the popup.

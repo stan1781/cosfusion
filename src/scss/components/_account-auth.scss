@@ -13,7 +13,7 @@ body.ts-account-auth-surface {
 	height: 100dvh;
 	min-height: 0;
 	overflow: hidden;
-	background: var(--ts-colors-surface-muted);
+	background: var(--ts-surface-muted);
 }
 
 .ts-account-auth-root > .woocommerce {
@@ -30,7 +30,7 @@ body.ts-account-auth-surface {
 	justify-content: center;
 	width: 100%;
 	max-height: 100dvh;
-	padding: var(--ts-space-xl);
+	padding: var(--ts-spacer-3);
 	box-sizing: border-box;
 	overflow: hidden;
 }
@@ -42,11 +42,11 @@ body.ts-account-auth-surface {
 }
 
 .ts-account-auth__card {
-	background: var(--ts-colors-surface);
-	border-radius: var(--ts-radius-md);
+	background: var(--ts-surface);
+	border-radius: var(--ts-border-radius);
 	box-shadow: var(--ts-shadow-sm);
 	overflow: hidden;
-	max-height: calc(100dvh - (2 * var(--ts-space-xl)));
+	max-height: calc(100dvh - (2 * var(--ts-spacer-3)));
 }
 
 .ts-account-auth__layout {
@@ -63,9 +63,9 @@ body.ts-account-auth-surface {
 
 .ts-account-auth__hero {
 	display: none;
-	background: var(--ts-account-auth-hero-bg, var(--ts-colors-primary));
-	color: var(--ts-colors-primary-foreground);
-	padding: var(--ts-space-3xl) var(--ts-space-2xl);
+	background: var(--ts-account-auth-hero-bg, var(--ts-primary));
+	color: var(--ts-on-primary);
+	padding: var(--ts-spacer-5) var(--ts-spacer-4);
 }
 
 .ts-account-auth__layout--split .ts-account-auth__hero {
@@ -88,13 +88,13 @@ body.ts-account-auth-surface {
 	max-height: min(280px, 32dvh);
 	width: auto;
 	height: auto;
-	margin: 0 auto var(--ts-space-2xl);
+	margin: 0 auto var(--ts-spacer-4);
 	object-fit: contain;
 }
 
 .ts-account-auth__hero-title {
-	margin: 0 0 var(--ts-space-xl);
-	font-size: var(--ts-font-size-xl);
+	margin: 0 0 var(--ts-spacer-3);
+	font-size: var(--ts-font-size-lg);
 	font-weight: 600;
 	line-height: 1.3;
 }
@@ -107,9 +107,9 @@ body.ts-account-auth-surface {
 }
 
 .ts-account-auth__panel {
-	padding: var(--ts-space-2xl);
+	padding: var(--ts-spacer-4);
 	overflow-y: auto;
-	max-height: calc(100dvh - (2 * var(--ts-space-xl)));
+	max-height: calc(100dvh - (2 * var(--ts-spacer-3)));
 }
 
 .ts-account-auth__layout--split .ts-account-auth__panel {
@@ -126,34 +126,34 @@ body.ts-account-auth-surface {
 .ts-account-auth__escape-links {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--ts-space-lg);
-	margin-bottom: var(--ts-space-2xl);
+	gap: var(--ts-spacer-2);
+	margin-bottom: var(--ts-spacer-4);
 	font-size: var(--ts-font-size-xs);
 }
 
 .ts-account-auth__escape-link {
-	color: var(--ts-colors-text-muted);
+	color: var(--ts-text-secondary);
 	text-decoration: none;
 
 	&:hover,
 	&:focus-visible {
-		color: var(--ts-colors-text);
+		color: var(--ts-text-primary);
 		text-decoration: underline;
 	}
 }
 
 .ts-account-auth__brand {
 	display: inline-block;
-	margin-bottom: var(--ts-space-lg);
-	font-size: var(--ts-font-size-xl);
+	margin-bottom: var(--ts-spacer-2);
+	font-size: var(--ts-font-size-lg);
 	font-weight: 600;
-	color: var(--ts-colors-text);
+	color: var(--ts-text-primary);
 	text-decoration: none;
 }
 
 .ts-account-auth__subtitle {
-	margin: 0 0 var(--ts-space-2xl);
-	color: var(--ts-colors-text-muted);
+	margin: 0 0 var(--ts-spacer-4);
+	color: var(--ts-text-secondary);
 	font-size: var(--ts-font-size-sm);
 }
 
@@ -165,7 +165,7 @@ body.ts-account-auth-surface {
 
 .ts-account-auth__form {
 	display: grid;
-	gap: var(--ts-space-xl);
+	gap: var(--ts-spacer-3);
 
 	.form-row,
 	.woocommerce-form-row {
@@ -192,10 +192,10 @@ body.ts-account-auth-surface {
 	margin-bottom: 0.35rem;
 	@include mixins.ts-form-label-text;
 	font-weight: 600;
-	color: var(--ts-colors-text);
+	color: var(--ts-text-primary);
 
 	.required {
-		color: var(--ts-colors-danger);
+		color: var(--ts-danger);
 	}
 }
 
@@ -205,12 +205,12 @@ body.ts-account-auth-surface {
 	font-size: var(--ts-font-size-sm);
 
 	a {
-		color: var(--ts-colors-text-muted);
+		color: var(--ts-text-secondary);
 		text-decoration: none;
 
 		&:hover,
 		&:focus-visible {
-			color: var(--ts-colors-text);
+			color: var(--ts-text-primary);
 			text-decoration: underline;
 		}
 	}
@@ -223,7 +223,7 @@ body.ts-account-auth-surface {
 	label {
 		display: inline-flex;
 		align-items: center;
-		gap: var(--ts-space-md);
+		gap: var(--ts-spacer-2);
 		cursor: pointer;
 	}
 }
@@ -231,18 +231,18 @@ body.ts-account-auth-surface {
 .ts-account-auth__hint {
 	margin: 0;
 	font-size: var(--ts-font-size-sm);
-	color: var(--ts-colors-text-muted);
+	color: var(--ts-text-secondary);
 	line-height: 1.5;
 }
 
 .ts-account-auth__switch {
-	margin: var(--ts-space-2xl) 0 0;
+	margin: var(--ts-spacer-4) 0 0;
 	text-align: center;
 	font-size: var(--ts-font-size-sm);
-	color: var(--ts-colors-text-muted);
+	color: var(--ts-text-secondary);
 
 	a {
-		color: var(--ts-colors-text);
+		color: var(--ts-text-primary);
 		font-weight: 600;
 		text-decoration: none;
 
@@ -255,7 +255,7 @@ body.ts-account-auth-surface {
 
 .ts-account-auth__divider {
 	position: relative;
-	margin: var(--ts-space-xl) 0;
+	margin: var(--ts-spacer-3) 0;
 	text-align: center;
 
 	&::before {
@@ -263,22 +263,22 @@ body.ts-account-auth-surface {
 		position: absolute;
 		inset: 50% 0 auto;
 		height: 1px;
-		background: var(--ts-colors-border);
+		background: var(--ts-border-color);
 	}
 
 	span {
 		position: relative;
 		display: inline-block;
 		padding: 0 0.75rem;
-		background: var(--ts-colors-surface);
-		color: var(--ts-colors-text-muted);
+		background: var(--ts-surface);
+		color: var(--ts-text-secondary);
 		font-size: var(--ts-font-size-xs);
 	}
 }
 
 .ts-account-auth__google-wrap {
 	display: grid;
-	gap: var(--ts-space-xl);
+	gap: var(--ts-spacer-3);
 }
 
 .ts-account-auth__google,
@@ -287,7 +287,7 @@ body.ts-account-auth-surface {
 }
 
 body.ts-account-auth-surface .ts-purchase-flow-toast-root {
-	z-index: var(--ts-z-max);
+	z-index: var(--ts-z-toast);
 }
 
 .ts-account-auth-surface .woocommerce > .woocommerce-notices-wrapper {

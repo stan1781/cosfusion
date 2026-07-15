@@ -3,7 +3,7 @@
 .ts-main--commerce .ts-wc-shell {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
-	gap: var(--ts-space-2xl);
+	gap: var(--ts-spacer-4);
 }
 
 .ts-main--commerce .ts-wc-shell > * {
@@ -19,12 +19,12 @@
 .ts-size-guide-legacy table {
 	width: 100%;
 	border-collapse: collapse;
-	border: 1px solid var(--ts-colors-border);
+	border: 1px solid var(--ts-border-color);
 
 	th,
 	td {
-		border: 1px solid var(--ts-colors-border);
-		padding: 0.875rem var(--ts-space-xl);
+		border: 1px solid var(--ts-border-color);
+		padding: 0.875rem var(--ts-spacer-3);
 		text-align: left;
 		p {
 			margin: 0;
@@ -32,7 +32,7 @@
 	}
 
 	th {
-		background: var(--ts-colors-surface-muted);
+		background: var(--ts-surface-muted);
 		font-weight: 600;
 	}
 
@@ -52,19 +52,19 @@
 .woocommerce-message,
 .woocommerce-error,
 .woocommerce-info {
-	margin-bottom: var(--ts-space-2xl);
-	padding: var(--ts-space-xl);
-	border: 1px solid var(--ts-colors-border);
-	border-radius: var(--ts-radius-sm);
-	background: var(--ts-colors-surface-muted);
+	margin-bottom: var(--ts-spacer-4);
+	padding: var(--ts-spacer-3);
+	border: 1px solid var(--ts-border-color);
+	border-radius: var(--ts-border-radius-sm);
+	background: var(--ts-surface-muted);
 	list-style: none;
 }
 
 .woocommerce-tabs ul.tabs {
 	display: flex;
-	gap: var(--ts-space-lg);
+	gap: var(--ts-spacer-2);
 	padding: 0;
-	margin: 0 0 var(--ts-space-2xl);
+	margin: 0 0 var(--ts-spacer-4);
 	list-style: none;
 }
 
@@ -74,9 +74,9 @@
 
 .woocommerce-tabs ul.tabs li a {
 	display: inline-flex;
-	padding: 0.625rem var(--ts-space-xl);
-	border: 1px solid var(--ts-colors-border-strong);
-	border-radius: var(--ts-radius-sm);
+	padding: 0.625rem var(--ts-spacer-3);
+	border: 1px solid var(--ts-border-color-strong);
+	border-radius: var(--ts-border-radius-sm);
 	text-decoration: none;
 }
 
@@ -85,5 +85,5 @@
 	padding: 0;
 	margin: 0;
 	display: grid;
-	gap: var(--ts-space-lg);
+	gap: var(--ts-spacer-2);
 }
