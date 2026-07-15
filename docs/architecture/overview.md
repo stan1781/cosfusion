@@ -2,12 +2,14 @@
 
 ## 项目定位
 
-TailwindScore 是面向 WooCommerce 商城的 WordPress 主题基线，目标是在不依赖 Bootstrap/jQuery 的前提下提供：
+TailwindScore 是面向 WooCommerce 商城的 WordPress 主题基线（**英文站点模板**），目标是在不依赖 Bootstrap/jQuery 的前提下提供：
 
 - 清晰的 PHP 模板与 `template-parts/` 分层
 - 统一的设计令牌（`--ts-*`）与语义化 CSS 类（`.ts-*`）
 - TypeScript 驱动的商城交互（购物车 Drawer、变体选择、图库等）
 - 从 `wc-enhanced-tools` 迁入的可配置主题模块（Kirki `theme_mod`）
+
+前台默认可视文案为英文；文档与代码注释为简体中文。详见 [命名与语言约定](../conventions.md)。
 
 ## 技术栈
 

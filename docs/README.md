@@ -1,15 +1,16 @@
 # TailwindScore 文档
 
-TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 WooCommerce 的 WordPress 商城主题。本文档集描述架构约定、功能实现与开发流程。
+TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 WooCommerce 的 WordPress 商城主题（**英文站点模板**）。本目录文档与代码注释使用简体中文；前台默认可视文案为英文。
 
 ## 快速导航
 
 | 文档 | 说明 |
 |------|------|
+| [命名与语言约定](conventions.md) | 前缀、注释/文档语言、前台英文默认值 |
 | [开发入门](development/getting-started.md) | 环境要求、构建命令、Vite 开发模式 |
 | [架构总览](architecture/overview.md) | 目录结构、技术栈、分层边界 |
 | [设计令牌](architecture/design-tokens.md) | SCSS/CSS 变量、断点、组件样式规范 |
-| [构建系统](architecture/build-system.md) | Vite 入口、资源清单、按页加载 |
+| [构建系统](architecture/build-system.md) | Vite 入口、资源清单、按页加载、release 打包 |
 | [Bootscore 映射](architecture/bootscore-mapping.md) | 与 Bootscore 的继承与替换关系 |
 
 ## 功能文档
@@ -42,12 +43,13 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 
 ## 文档维护约定
 
-1. **实现变更时同步更新**对应 `docs/features/` 或 `docs/modules/` 文档。
+1. **实现变更时同步更新**对应 `docs/features/` 或 `docs/modules/` 文档（简体中文）。
 2. **模块变更**写入 `modules/{slug}/CHANGELOG.md`，并更新 [modules/README.md](modules/README.md) 登记表。
 3. **插件整合变更**更新 [integrations/README.md](integrations/README.md) 登记表。
 4. **设计令牌**以 `src/scss/abstracts/_variables.scss` 为唯一真源；文档描述规则，不重复罗列全部数值。
 5. 归档目录中的 spec/plan **只读追溯**，新内容写入正式文档而非继续堆叠在 `archive/`。
+6. **语言**：命名与前台文案规则见 [conventions.md](conventions.md)；勿把中文写入前台默认字符串。
 
 ## AI 编辑器（Cursor）
 
-项目已配置 `.cursor/rules/project-docs.mdc`（`alwaysApply: true`）：AI 会话在改代码前应优先阅读 `docs/README.md` 及上表对应文档。SCSS/TS 另受 `.cursor/rules/scss-design-tokens.mdc` 约束。
+项目已配置 `.cursor/rules/project-docs.mdc`（`alwaysApply: true`）：AI 会话在改代码前应优先阅读 `docs/README.md` 及上表对应文档；涉及文案或注释时必读 [conventions.md](conventions.md)。SCSS/TS 另受 `.cursor/rules/scss-design-tokens.mdc` 约束。

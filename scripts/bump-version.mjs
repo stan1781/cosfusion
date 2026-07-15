@@ -1,6 +1,6 @@
 /**
- * Bump theme version in style.css and sync package.json.
- * Default: patch. Usage: node scripts/bump-version.mjs [patch|minor|major]
+ * 递增主题版本号：同步 style.css 的 Version 与 package.json 的 version。
+ * 默认 patch。用法：node scripts/bump-version.mjs [patch|minor|major]
  */
 import fs from 'node:fs';
 import path from 'node:path';

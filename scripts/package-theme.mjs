@@ -1,6 +1,6 @@
 /**
- * Package the theme as a WordPress-uploadable zip (tailwindscore/ at archive root).
- * Run after `npm run build` so assets/dist/manifest.json is present.
+ * 将主题打成可上传 WordPress 后台的 zip（压缩包根目录为 tailwindscore/）。
+ * 须先执行 `npm run build`，确保 assets/dist/manifest.json 存在。
  */
 import archiver from 'archiver';
 import fs from 'node:fs';
