@@ -2,11 +2,11 @@
 declare(strict_types=1);
 
 /**
- * Minimal HTML document for account auth surfaces (no site header/footer).
+ * 账户认证界面的精简 HTML 文档（无站点 header/footer）。
  *
  * @package TailwindScore
  *
- * @var array<string, mixed> $args Template arguments.
+ * @var array<string, mixed> $args 模板参数。
  */
 
 defined( 'ABSPATH' ) || exit;

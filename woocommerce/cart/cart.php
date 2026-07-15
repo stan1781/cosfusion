@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Cart Page
+ * 购物车页面
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-// The cart page is a fallback summary/edit surface, not the primary cart workflow.
+// 购物车页是备用的摘要/编辑界面，不是主要购物流程。
 
 do_action( 'woocommerce_before_cart' );
 

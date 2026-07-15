@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Related products module — theme_mod settings.
+ * 相关产品模块 — theme_mod 设置。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Kirki theme_mod accessors for related products.
+ * 相关产品的 Kirki theme_mod 访问器。
  */
 class Tailwindscore_Related_Products_Settings {
 
@@ -74,7 +74,7 @@ class Tailwindscore_Related_Products_Settings {
 	}
 
 	/**
-	 * Cache fingerprint for transients.
+	 * transient 的缓存指纹。
 	 *
 	 * @return string
 	 */
@@ -96,8 +96,8 @@ class Tailwindscore_Related_Products_Settings {
 	}
 
 	/**
-	 * @param mixed $value   Raw theme_mod.
-	 * @param bool  $default Default when empty.
+	 * @param mixed $value   原始 theme_mod。
+	 * @param bool  $default 为空时的默认值。
 	 * @return bool
 	 */
 	private static function to_bool( $value, bool $default ): bool {

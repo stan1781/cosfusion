@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Register page template (slug: register).
+ * 注册页模板（slug：register）。
  *
  * @package TailwindScore
  */

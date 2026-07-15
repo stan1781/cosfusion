@@ -1,6 +1,6 @@
 <?php
 /**
- * Variable product add to cart (custom variation selector).
+ * 可变商品加入购物车（自定义变体选择器）。
  *
  * @see     https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
@@ -87,10 +87,10 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 						<?php
 						if ( $is_size_attribute ) {
 							/**
-							 * After size attribute label (Size Guide trigger in a future module).
+							 * 尺码属性标签之后（未来模块中的 Size Guide 触发器）。
 							 *
-							 * @param string     $attribute_name Attribute key.
-							 * @param WC_Product $product        Product.
+							 * @param string     $attribute_name 属性键。
+							 * @param WC_Product $product        商品对象。
 							 */
 							do_action( 'tailwindscore_after_size_attribute_label', $attribute_name, $product );
 						}
@@ -212,10 +212,10 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 						echo '</ul>';
 						if ( $is_size_attribute ) {
 							/**
-							 * After size attribute value row (inline size guide measurements).
+							 * 尺码属性值行之后（内联尺码指南测量数据）。
 							 *
-							 * @param string     $attribute_name Attribute key.
-							 * @param WC_Product $product        Product.
+							 * @param string     $attribute_name 属性键。
+							 * @param WC_Product $product        商品对象。
 							 */
 							do_action( 'tailwindscore_after_size_attribute_value', $attribute_name, $product );
 						}

@@ -4,7 +4,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Default billing checkout field layout (Shopify-style sections).
+ * 默认 billing 结账字段布局（Shopify 风格分区）。
  *
  * @return array<string, mixed>
  */
@@ -67,7 +67,7 @@ function tailwindscore_get_default_checkout_billing_layout(): array {
 }
 
 /**
- * Default shipping checkout field layout.
+ * 默认 shipping 结账字段布局。
  *
  * @return array<string, mixed>
  */
@@ -123,9 +123,9 @@ function tailwindscore_get_checkout_billing_layout(): array {
 	$layout = tailwindscore_get_default_checkout_billing_layout();
 
 	/**
-	 * Filter billing checkout field layout schema.
+	 * 过滤 billing 结账字段布局 schema。
 	 *
-	 * @param array<string, mixed> $layout Layout schema.
+	 * @param array<string, mixed> $layout 布局 schema。
 	 */
 	return (array) apply_filters( 'tailwindscore_checkout_billing_layout', $layout );
 }
@@ -137,17 +137,17 @@ function tailwindscore_get_checkout_shipping_layout(): array {
 	$layout = tailwindscore_get_default_checkout_shipping_layout();
 
 	/**
-	 * Filter shipping checkout field layout schema.
+	 * 过滤 shipping 结账字段布局 schema。
 	 *
-	 * @param array<string, mixed> $layout Layout schema.
+	 * @param array<string, mixed> $layout 布局 schema。
 	 */
 	return (array) apply_filters( 'tailwindscore_checkout_shipping_layout', $layout );
 }
 
 /**
- * Collect field keys declared in a layout schema.
+ * 收集布局 schema 中声明的字段 key。
  *
- * @param array<string, mixed> $layout Layout schema.
+ * @param array<string, mixed> $layout 布局 schema。
  * @return list<string>
  */
 function tailwindscore_checkout_layout_collect_keys( array $layout ): array {
@@ -183,7 +183,7 @@ function tailwindscore_checkout_layout_collect_keys( array $layout ): array {
 }
 
 /**
- * Wrapper class for checkout field grids.
+ * 结账字段网格的外层 class。
  */
 function tailwindscore_get_checkout_field_wrapper_class( string $group ): string {
 	return 'billing' === $group
@@ -192,11 +192,11 @@ function tailwindscore_get_checkout_field_wrapper_class( string $group ): string
 }
 
 /**
- * Apply layout width classes and data attribute to a checkout field.
+ * 为结账字段应用布局宽度 class 与 data 属性。
  *
- * @param array<string, mixed> $field Field args.
- * @param string               $width full|half|third.
- * @param bool                 $is_half_first Whether this half field is first in a pair.
+ * @param array<string, mixed> $field 字段参数。
+ * @param string               $width full|half|third。
+ * @param bool                 $is_half_first 该 half 字段是否为一对中的第一个。
  */
 function tailwindscore_apply_checkout_field_layout( array $field, string $width, bool $is_half_first = true ): array {
 	$classes = array();
@@ -231,9 +231,9 @@ function tailwindscore_apply_checkout_field_layout( array $field, string $width,
 }
 
 /**
- * Prepare billing email field label for guests (Sign in link).
+ * 为访客准备 billing email 字段标签（Sign in 链接）。
  *
- * @param array<string, mixed> $field Field args.
+ * @param array<string, mixed> $field 字段参数。
  */
 function tailwindscore_prepare_checkout_billing_email_field( array $field ): array {
 	if ( is_user_logged_in() ) {
@@ -259,14 +259,14 @@ function tailwindscore_prepare_checkout_billing_email_field( array $field ): arr
 }
 
 /**
- * Render a single checkout field.
+ * 渲染单个结账字段。
  *
- * @param WC_Checkout          $checkout Checkout instance.
- * @param string               $group billing|shipping.
- * @param string               $key Field key.
- * @param array<string, mixed> $fields All fields for the group.
- * @param string               $width Layout width.
- * @param bool                 $is_half_first Half-field column position.
+ * @param WC_Checkout          $checkout Checkout 实例。
+ * @param string               $group billing|shipping。
+ * @param string               $key 字段 key。
+ * @param array<string, mixed> $fields 该组全部字段。
+ * @param string               $width 布局宽度。
+ * @param bool                 $is_half_first half 字段列位置。
  */
 function tailwindscore_render_checkout_layout_field(
 	WC_Checkout $checkout,
@@ -289,34 +289,34 @@ function tailwindscore_render_checkout_layout_field(
 	$field = tailwindscore_apply_checkout_field_layout( $field, $width, $is_half_first );
 
 	/**
-	 * Fires before a layout checkout field is rendered.
+	 * 布局结账字段渲染前触发。
 	 *
-	 * @param string               $key Field key.
-	 * @param array<string, mixed> $field Field args.
-	 * @param WC_Checkout          $checkout Checkout instance.
-	 * @param string               $group billing|shipping.
+	 * @param string               $key 字段 key。
+	 * @param array<string, mixed> $field 字段参数。
+	 * @param WC_Checkout          $checkout Checkout 实例。
+	 * @param string               $group billing|shipping。
 	 */
 	do_action( 'tailwindscore_checkout_before_field', $key, $field, $checkout, $group );
 
 	woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
 
 	/**
-	 * Fires after a layout checkout field is rendered.
+	 * 布局结账字段渲染后触发。
 	 *
-	 * @param string               $key Field key.
-	 * @param array<string, mixed> $field Field args.
-	 * @param WC_Checkout          $checkout Checkout instance.
-	 * @param string               $group billing|shipping.
+	 * @param string               $key 字段 key。
+	 * @param array<string, mixed> $field 字段参数。
+	 * @param WC_Checkout          $checkout Checkout 实例。
+	 * @param string               $group billing|shipping。
 	 */
 	do_action( 'tailwindscore_checkout_after_field', $key, $field, $checkout, $group );
 }
 
 /**
- * Render checkout fields from a layout schema.
+ * 按布局 schema 渲染结账字段。
  *
- * @param WC_Checkout          $checkout Checkout instance.
- * @param string               $group billing|shipping.
- * @param array<string, mixed> $layout Layout schema.
+ * @param WC_Checkout          $checkout Checkout 实例。
+ * @param string               $group billing|shipping。
+ * @param array<string, mixed> $layout 布局 schema。
  */
 function tailwindscore_render_checkout_field_group( WC_Checkout $checkout, string $group, array $layout ): void {
 	$wc_fields = $checkout->get_checkout_fields( $group );
@@ -339,11 +339,11 @@ function tailwindscore_render_checkout_field_group( WC_Checkout $checkout, strin
 		$title      = isset( $section['title'] ) ? (string) $section['title'] : '';
 
 		/**
-		 * Fires before a checkout layout section is rendered.
+		 * 结账布局分区渲染前触发。
 		 *
-		 * @param string      $section_id Section identifier.
-		 * @param string      $group billing|shipping.
-		 * @param WC_Checkout $checkout Checkout instance.
+		 * @param string      $section_id 分区标识。
+		 * @param string      $group billing|shipping。
+		 * @param WC_Checkout $checkout Checkout 实例。
 		 */
 		do_action( 'tailwindscore_checkout_before_section', $section_id, $group, $checkout );
 
@@ -435,21 +435,21 @@ function tailwindscore_render_checkout_field_group( WC_Checkout $checkout, strin
 		echo '</section>';
 
 		/**
-		 * Fires after a checkout layout section is rendered.
+		 * 结账布局分区渲染后触发。
 		 *
-		 * @param string      $section_id Section identifier.
-		 * @param string      $group billing|shipping.
-		 * @param WC_Checkout $checkout Checkout instance.
+		 * @param string      $section_id 分区标识。
+		 * @param string      $group billing|shipping。
+		 * @param WC_Checkout $checkout Checkout 实例。
 		 */
 		do_action( 'tailwindscore_checkout_after_section', $section_id, $group, $checkout );
 	}
 }
 
 /**
- * Append unmapped WC fields to a fallback section.
+ * 将未映射的 WC 字段追加到回退分区。
  *
- * @param array<string, mixed> $layout Layout schema.
- * @param array<string, mixed> $wc_fields WC checkout fields.
+ * @param array<string, mixed> $layout 布局 schema。
+ * @param array<string, mixed> $wc_fields WC 结账字段。
  * @return array<string, mixed>
  */
 function tailwindscore_checkout_layout_with_fallback( array $layout, array $wc_fields ): array {
@@ -487,12 +487,12 @@ function tailwindscore_checkout_layout_with_fallback( array $layout, array $wc_f
 }
 
 /**
- * Render create-account and registration fields after billing email (guests).
+ * 在 billing email 之后渲染 create-account 与注册字段（访客）。
  *
- * @param string               $key Field key.
- * @param array<string, mixed> $field Field args.
- * @param WC_Checkout          $checkout Checkout instance.
- * @param string               $group billing|shipping.
+ * @param string               $key 字段 key。
+ * @param array<string, mixed> $field 字段参数。
+ * @param WC_Checkout          $checkout Checkout 实例。
+ * @param string               $group billing|shipping。
  */
 function tailwindscore_checkout_render_billing_account_fields( string $key, array $field, WC_Checkout $checkout, string $group ): void {
 	unset( $field );
@@ -503,7 +503,7 @@ function tailwindscore_checkout_render_billing_account_fields( string $key, arra
 
 	$account_fields = $checkout->get_checkout_fields( 'account' );
 
-	// Optional registration uses the Sign in link; skip the grid row when there are no account fields.
+	// 可选注册使用 Sign in 链接；无账户字段时跳过网格行。
 	if ( empty( $account_fields ) ) {
 		do_action( 'woocommerce_before_checkout_registration_form', $checkout );
 		do_action( 'woocommerce_after_checkout_registration_form', $checkout );

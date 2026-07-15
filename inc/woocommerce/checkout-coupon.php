@@ -4,7 +4,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Detached checkout coupon shell (fields use the form="" attribute in coupon-form.php).
+ * 分离的结账优惠券外壳（字段在 coupon-form.php 中使用 form="" 属性）。
  */
 function tailwindscore_checkout_coupon_form_shell(): void {
 	if ( ! function_exists( 'is_checkout' ) || ! is_checkout() || ! wc_coupons_enabled() ) {
@@ -32,7 +32,7 @@ function tailwindscore_checkout_coupon_form_shell(): void {
 add_action( 'woocommerce_after_checkout_form', 'tailwindscore_checkout_coupon_form_shell', 5 );
 
 /**
- * Strip coupon fields from checkout post_data so update_order_review cannot resurrect a removed code.
+ * 从结账 post_data 剥离优惠券字段，防止 update_order_review 恢复已移除的优惠码。
  */
 function tailwindscore_strip_coupon_from_checkout_post_data(): void {
 	if ( empty( $_POST['post_data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
@@ -50,7 +50,7 @@ add_action( 'wp_ajax_woocommerce_update_order_review', 'tailwindscore_strip_coup
 add_action( 'wp_ajax_nopriv_woocommerce_update_order_review', 'tailwindscore_strip_coupon_from_checkout_post_data', 1 );
 
 /**
- * Redirect after ?remove_coupon= on checkout (WC removes the code but does not always redirect).
+ * 结账 ?remove_coupon= 后重定向（WC 会移除优惠码但不总会重定向）。
  */
 function tailwindscore_checkout_remove_coupon_redirect(): void {
 	if ( ! isset( $_GET['remove_coupon'] ) || ! function_exists( 'is_checkout' ) || ! is_checkout() ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -63,7 +63,7 @@ function tailwindscore_checkout_remove_coupon_redirect(): void {
 add_action( 'wp_loaded', 'tailwindscore_checkout_remove_coupon_redirect', 25 );
 
 /**
- * Persist cart session immediately after coupon changes.
+ * 优惠券变更后立即持久化购物车 session。
  */
 function tailwindscore_persist_cart_after_coupon_change(): void {
 	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {

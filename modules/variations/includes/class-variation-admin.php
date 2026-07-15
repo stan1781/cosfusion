@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Product-level variation selector settings in admin.
+ * 后台商品级变体选择器设置。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Variation selector product meta UI.
+ * 变体选择器商品 meta UI。
  */
 class Tailwindscore_Variation_Admin {
 
@@ -128,7 +128,7 @@ class Tailwindscore_Variation_Admin {
 	}
 
 	/**
-	 * @param int $post_id Product ID.
+	 * @param int $post_id 商品 ID。
 	 * @return void
 	 */
 	public function save_product_settings( int $post_id ): void {

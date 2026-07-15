@@ -47,7 +47,7 @@ function tailwindscore_redirect_product_add_to_cart_post(): void {
 }
 
 /**
- * Archive template renders notices outside the shop-loop toolbar.
+ * 归档模板在 shop-loop 工具栏外渲染通知。
  */
 function tailwindscore_wc_archive_detach_loop_notices(): void {
 	if ( ! function_exists( 'is_woocommerce' ) || ! is_woocommerce() ) {

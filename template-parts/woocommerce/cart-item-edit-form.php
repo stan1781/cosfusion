@@ -2,13 +2,13 @@
 declare(strict_types=1);
 
 /**
- * Cart line item edit form (variable product options).
+ * 购物车行项目编辑表单（可变商品选项）。
  *
  * @package TailwindScore
  *
- * @var string               $cart_item_key Cart item key.
- * @var array<string, mixed> $cart_item     Cart item data.
- * @var WC_Product_Variable  $product       Parent variable product.
+ * @var string               $cart_item_key 购物车行项目键。
+ * @var array<string, mixed> $cart_item     购物车行项目数据。
+ * @var WC_Product_Variable  $product       父级可变商品。
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -53,10 +53,10 @@ $display_name                  = $variation_product instanceof WC_Product ? $var
 
 	<?php
 	/**
-	 * Render extra editable fields for a cart line item (custom fields, bundles, etc.).
+	 * 渲染购物车行项目的额外可编辑字段（自定义字段、捆绑包等）。
 	 *
-	 * @param array<string, mixed> $cart_item     Cart item.
-	 * @param string               $cart_item_key Cart item key.
+	 * @param array<string, mixed> $cart_item     购物车行项目。
+	 * @param string               $cart_item_key 购物车行项目键。
 	 */
 	do_action( 'tailwindscore_cart_item_edit_form', $cart_item, $cart_item_key );
 	?>

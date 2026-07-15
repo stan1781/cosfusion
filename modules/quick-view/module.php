@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Quick View module bootstrap.
+ * Quick View 模块引导。
  *
  * @package TailwindScore
  */

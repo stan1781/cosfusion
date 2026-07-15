@@ -2,9 +2,9 @@
 declare(strict_types=1);
 
 /**
- * WooCommerce product loop variant swatches (archive cards).
+ * WooCommerce 商品列表变体色块（归档卡片）。
  *
- * Single row per card: pa_color/pa_colour > pa_style. Only variations with image_id.
+ * 每张卡片单行：pa_color/pa_colour 优先于 pa_style。仅含 image_id 的变体。
  *
  * @package TailwindScore
  */
@@ -16,9 +16,9 @@ if ( ! defined( 'TAILWINDSCORE_LOOP_SWATCH_MAX' ) ) {
 }
 
 /**
- * Resolve swatch dimension for a variable product.
+ * 解析可变商品的色块维度。
  *
- * @param WC_Product $product Product instance.
+ * @param WC_Product $product 商品实例。
  * @return array{taxonomy: string, attr_key: string, kind: string}|false
  */
 function tailwindscore_get_loop_swatch_dimension( WC_Product $product ) {
@@ -27,10 +27,10 @@ function tailwindscore_get_loop_swatch_dimension( WC_Product $product ) {
 	}
 
 	/**
-	 * Filter swatch taxonomy groups.
+	 * 过滤色块分类法分组。
 	 *
-	 * @param array<string, string[]> $taxes   Taxonomy lists by kind.
-	 * @param WC_Product              $product Current product.
+	 * @param array<string, string[]> $taxes   按类型索引的分类法列表。
+	 * @param WC_Product              $product 当前商品。
 	 */
 	$taxes = apply_filters(
 		'tailwindscore/swatch_taxonomies',
@@ -68,9 +68,9 @@ function tailwindscore_get_loop_swatch_dimension( WC_Product $product ) {
 }
 
 /**
- * Build thumbnail image payload for loop swatch switching.
+ * 构建列表色块切换用的缩略图 payload。
  *
- * @param int $image_id Attachment ID.
+ * @param int $image_id Attachment ID。
  * @return array{src: string, srcset: string, sizes: string, alt: string}|null
  */
 function tailwindscore_loop_swatch_thumb( int $image_id ): ?array {
@@ -96,10 +96,10 @@ function tailwindscore_loop_swatch_thumb( int $image_id ): ?array {
 }
 
 /**
- * Collect deduplicated swatch items (first variation per slug with an image).
+ * 收集去重色块项（每个 slug 首个含图片的变体）。
  *
- * @param WC_Product_Variable $product Variable product.
- * @param array               $dim     Dimension from tailwindscore_get_loop_swatch_dimension().
+ * @param WC_Product_Variable $product 可变商品。
+ * @param array               $dim     tailwindscore_get_loop_swatch_dimension() 返回的维度。
  * @return list<array{slug: string, label: string, swatch_color: string, swatch_thumb: string, image: array}>
  */
 function tailwindscore_collect_loop_swatch_items( WC_Product_Variable $product, array $dim ): array {
@@ -170,19 +170,19 @@ function tailwindscore_collect_loop_swatch_items( WC_Product_Variable $product, 
 	}
 
 	/**
-	 * Filter swatch items before render.
+	 * 渲染前过滤色块项。
 	 *
-	 * @param list<array>             $items   Swatch items.
-	 * @param WC_Product_Variable     $product Product.
-	 * @param array                   $dim     Dimension.
+	 * @param list<array>             $items   色块项。
+	 * @param WC_Product_Variable     $product 商品。
+	 * @param array                   $dim     维度。
 	 */
 	return apply_filters( 'tailwindscore/loop_swatch_items', $items, $product, $dim );
 }
 
 /**
- * Render loop card variant swatches.
+ * 渲染列表卡片变体色块。
  *
- * @param WC_Product|null $product Product instance.
+ * @param WC_Product|null $product 商品实例。
  * @return void
  */
 function tailwindscore_render_loop_variant_swatches( ?WC_Product $product = null ): void {

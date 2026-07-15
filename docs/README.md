@@ -6,7 +6,7 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 
 | 文档 | 说明 |
 |------|------|
-| [命名与语言约定](conventions.md) | 前缀、注释/文档语言、前台英文默认值 |
+| [命名与语言约定](conventions.md) | 前缀、PHP/TS 注释与文档语言、前台英文默认值 |
 | [开发入门](development/getting-started.md) | 环境要求、构建命令、Vite 开发模式 |
 | [架构总览](architecture/overview.md) | 目录结构、技术栈、分层边界 |
 | [设计令牌](architecture/design-tokens.md) | SCSS/CSS 变量、断点、组件样式规范 |

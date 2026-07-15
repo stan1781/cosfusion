@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Product showcase gallery (customer photos strip).
+ * 商品展示画廊（顾客照片条）。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Showcase gallery for approved review images and admin-curated photos.
+ * 已批准评论图片与后台精选照片的展示画廊。
  */
 class Tailwindscore_Showcase_Gallery {
 
@@ -59,7 +59,7 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * @param WP_Post $post Post.
+	 * @param WP_Post $post 文章。
 	 * @return void
 	 */
 	public function display_product_showcase_meta_box( $post ): void {
@@ -89,7 +89,7 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * @param int $post_id Post ID.
+	 * @param int $post_id 文章 ID。
 	 * @return void
 	 */
 	public function save_product_showcase_meta_box( $post_id ): void {
@@ -118,7 +118,7 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * @param string $hook Hook suffix.
+	 * @param string $hook Hook 后缀。
 	 * @return void
 	 */
 	public function admin_enqueue_scripts( string $hook ): void {
@@ -138,7 +138,7 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return int[]
 	 */
 	public function get_product_image_ids( int $product_id ): array {
@@ -146,7 +146,7 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return int[]
 	 */
 	private function get_all_showcase_images( int $product_id ): array {
@@ -192,7 +192,7 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return void
 	 */
 	private function clear_cache( int $product_id ): void {
@@ -200,7 +200,7 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return bool
 	 */
 	public function has_showcase_images( int $product_id ): bool {
@@ -232,7 +232,7 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * Showcase gallery strip (no hero wrapper).
+	 * 展示画廊条（无 hero wrapper）。
 	 *
 	 * @return void
 	 */
@@ -290,10 +290,10 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * @param int    $meta_id    Meta ID.
-	 * @param int    $comment_id Comment ID.
-	 * @param string $meta_key   Meta key.
-	 * @param mixed  $meta_value Meta value.
+	 * @param int    $meta_id    Meta ID。
+	 * @param int    $comment_id 评论 ID。
+	 * @param string $meta_key   Meta 键。
+	 * @param mixed  $meta_value Meta 值。
 	 * @return void
 	 */
 	public function clear_cache_on_comment_update( $meta_id, $comment_id, $meta_key, $meta_value ): void {
@@ -307,9 +307,9 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * @param int[]  $meta_ids   Meta IDs.
-	 * @param int    $comment_id Comment ID.
-	 * @param string $meta_key   Meta key.
+	 * @param int[]  $meta_ids   Meta ID 列表。
+	 * @param int    $comment_id 评论 ID。
+	 * @param string $meta_key   Meta 键。
 	 * @return void
 	 */
 	public function clear_cache_on_comment_delete( $meta_ids, $comment_id, $meta_key ): void {
@@ -323,9 +323,9 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * @param int   $comment_id       Comment ID.
-	 * @param int   $comment_approved Approval.
-	 * @param array $commentdata      Data.
+	 * @param int   $comment_id       评论 ID。
+	 * @param int   $comment_approved 审批状态。
+	 * @param array $commentdata      数据。
 	 * @return void
 	 */
 	public function clear_cache_on_comment_post( $comment_id, $comment_approved, $commentdata ): void {
@@ -336,7 +336,7 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * @param int $comment_id Comment ID.
+	 * @param int $comment_id 评论 ID。
 	 * @return void
 	 */
 	public function clear_cache_on_comment_delete_action( $comment_id ): void {
@@ -347,8 +347,8 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * @param int[] $unused_images_ids IDs.
-	 * @param int   $blog_id           Blog ID.
+	 * @param int[] $unused_images_ids ID 列表。
+	 * @param int   $blog_id           站点 ID。
 	 * @return int[]
 	 */
 	public function exclude_showcase_images_from_unused( $unused_images_ids, $blog_id = 1 ) {
@@ -357,8 +357,8 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * @param bool $keep          Keep.
-	 * @param int  $attachment_id Attachment ID.
+	 * @param bool $keep          保留。
+	 * @param int  $attachment_id 附件 ID。
 	 * @return bool
 	 */
 	public function mark_showcase_images_as_used( $keep, $attachment_id ) {
@@ -377,7 +377,7 @@ class Tailwindscore_Showcase_Gallery {
 	}
 
 	/**
-	 * @param int[] $unused_images_ids IDs.
+	 * @param int[] $unused_images_ids ID 列表。
 	 * @return int[]
 	 */
 	private function filter_unused_ids( array $unused_images_ids ): array {

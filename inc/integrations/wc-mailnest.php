@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * wc-mailnest theme integration (Tier B).
+ * wc-mailnest 主题集成（档 B）。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Whether MailNest frontend integration should load on this request.
+ * 当前请求是否应加载 MailNest 前台集成。
  */
 function tailwindscore_should_load_mailnest(): bool {
 	if ( ! function_exists( 'wc_mailnest_frontend_config' ) ) {
@@ -21,7 +21,7 @@ function tailwindscore_should_load_mailnest(): bool {
 }
 
 /**
- * Dequeue plugin frontend assets (legacy handle guard).
+ * 移除插件前台资源（旧 handle 兜底）。
  */
 function tailwindscore_dequeue_mailnest_assets(): void {
 	wp_dequeue_style( 'wc-mailnest-frontend' );

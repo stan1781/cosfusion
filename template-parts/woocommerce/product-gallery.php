@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Single product Swiper gallery mount point.
+ * 单品商品 Swiper 图库挂载点。
  *
  * @package TailwindScore
  */

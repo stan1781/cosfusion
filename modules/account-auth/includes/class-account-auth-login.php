@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * AJAX login for account auth surfaces.
+ * 账户认证页面的 AJAX 登录。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Handles nopriv AJAX login and runtime config for the frontend handler.
+ * 处理 nopriv AJAX 登录及前台处理器的运行时配置。
  */
 class Tailwindscore_Account_Auth_Login {
 
@@ -118,8 +118,8 @@ class Tailwindscore_Account_Auth_Login {
 	}
 
 	/**
-	 * @param string        $redirect Requested redirect URL.
-	 * @param WP_User|null  $user     Logged-in user.
+	 * @param string        $redirect 请求的跳转 URL。
+	 * @param WP_User|null  $user     已登录用户。
 	 * @return string
 	 */
 	private function resolve_redirect( string $redirect, ?WP_User $user = null ): string {
@@ -141,7 +141,7 @@ class Tailwindscore_Account_Auth_Login {
 	}
 
 	/**
-	 * @param array<string, mixed> $parts Runtime config fragments.
+	 * @param array<string, mixed> $parts 运行时配置片段。
 	 * @return array<string, mixed>
 	 */
 	public function filter_runtime_config( array $parts ): array {

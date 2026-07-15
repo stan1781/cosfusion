@@ -4,7 +4,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Shared coupon form markup (checkout + cart drawer + cart page).
+ * 共享优惠券表单标记（结账 + 购物车抽屉 + 购物车页）。
  *
  * @var array $args {
  *     @type string $context drawer|cart|checkout

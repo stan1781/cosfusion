@@ -2,9 +2,9 @@
 declare(strict_types=1);
 
 /**
- * Theme font manifest and @font-face generation.
+ * 主题字体 manifest 与 @font-face 生成。
  *
- * Add fonts from https://gwfh.mranftl.com/fonts (latin subset, woff2, weights 400 + 600).
+ * 从 https://gwfh.mranftl.com/fonts 添加字体（latin 子集、woff2、字重 400 + 600）。
  *
  * @package TailwindScore
  */
@@ -12,7 +12,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Bundled font registry.
+ * 内置字体注册表。
  */
 class Tailwindscore_Typography_Fonts {
 
@@ -65,7 +65,7 @@ class Tailwindscore_Typography_Fonts {
 		);
 
 		/**
-		 * Register or override bundled fonts.
+		 * 注册或覆盖内置字体。
 		 *
 		 * @param array<string, array{label: string, family: string, faces: list<array{family: string, weight: int, style: string, file: string}>}> $manifest
 		 */
@@ -73,7 +73,7 @@ class Tailwindscore_Typography_Fonts {
 	}
 
 	/**
-	 * @return array<string, string> slug => label
+	 * @return array<string, string> slug => 标签
 	 */
 	public static function get_choices(): array {
 		$choices = array();
@@ -86,7 +86,7 @@ class Tailwindscore_Typography_Fonts {
 	}
 
 	/**
-	 * @param string $slug Font slug.
+	 * @param string $slug 字体 slug。
 	 * @return array{label: string, family: string, faces: list<array{family: string, weight: int, style: string, file: string}>}|null
 	 */
 	public static function get_font( string $slug ): ?array {
@@ -96,8 +96,8 @@ class Tailwindscore_Typography_Fonts {
 	}
 
 	/**
-	 * @param string[] $slugs Font slugs to load.
-	 * @return string CSS @font-face rules.
+	 * @param string[] $slugs 要加载的字体 slug。
+	 * @return string CSS @font-face 规则。
 	 */
 	public static function build_font_face_css( array $slugs ): string {
 		$css         = '';
@@ -149,9 +149,9 @@ class Tailwindscore_Typography_Fonts {
 	}
 
 	/**
-	 * @param string $body_slug    Body font slug.
-	 * @param string $heading_slug Heading font slug.
-	 * @return string CSS custom properties for :root.
+	 * @param string $body_slug    正文字体 slug。
+	 * @param string $heading_slug 标题字体 slug。
+	 * @return string :root 的 CSS 自定义属性。
 	 */
 	public static function build_css_variables( string $body_slug, string $heading_slug ): string {
 		$body_font    = self::resolve_family( $body_slug );
@@ -165,8 +165,8 @@ class Tailwindscore_Typography_Fonts {
 	}
 
 	/**
-	 * @param string $slug Font slug.
-	 * @return string CSS font-family value.
+	 * @param string $slug 字体 slug。
+	 * @return string CSS font-family 值。
 	 */
 	private static function resolve_family( string $slug ): string {
 		$font = self::get_font( $slug );
@@ -179,8 +179,8 @@ class Tailwindscore_Typography_Fonts {
 	}
 
 	/**
-	 * @param string $value Raw CSS string.
-	 * @return string Quoted when needed.
+	 * @param string $value 原始 CSS 字符串。
+	 * @return string 必要时加引号。
 	 */
 	private static function css_string( string $value ): string {
 		if ( preg_match( '/^[A-Za-z0-9_-]+$/', $value ) ) {

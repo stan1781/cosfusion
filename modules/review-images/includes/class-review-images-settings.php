@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Review images settings and frontend config.
+ * 评论图片设置与前台配置。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Review images configuration accessors.
+ * 评论图片配置访问器。
  */
 class Tailwindscore_Review_Images_Settings {
 
@@ -33,7 +33,7 @@ class Tailwindscore_Review_Images_Settings {
 	}
 
 	/**
-	 * @return int Bytes.
+	 * @return int 字节数。
 	 */
 	public static function get_max_file_size(): int {
 		$mb = (int) tailwindscore_mod( 'product_review_images_max_file_size_mb', 5 );
@@ -57,7 +57,7 @@ class Tailwindscore_Review_Images_Settings {
 }
 
 /**
- * Frontend config payload for review images.
+ * 评论图片的前台配置 payload。
  *
  * @return array{reviewImages: array<string, mixed>, i18n: array<string, string>}
  */
@@ -96,9 +96,9 @@ function tailwindscore_review_images_config(): array {
 
 if ( ! function_exists( 'wc_review_get_country_info' ) ) {
 	/**
-	 * Country info helper (backward compatible with plugin templates).
+	 * 国家信息辅助函数（与插件模板向后兼容）。
 	 *
-	 * @param string $country_code ISO 3166-1 alpha-2.
+	 * @param string $country_code ISO 3166-1 alpha-2。
 	 * @return array{code: string, name: string, flag_url: string}|false
 	 */
 	function wc_review_get_country_info( string $country_code ) {

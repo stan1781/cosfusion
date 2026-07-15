@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * My Account Dashboard
+ * 我的账户仪表盘
  *
  * @package TailwindScore
  * @version 4.4.0

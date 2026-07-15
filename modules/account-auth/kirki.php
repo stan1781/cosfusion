@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Kirki: account auth module.
+ * Kirki：账户认证模块。
  *
  * @package TailwindScore
  */
@@ -10,8 +10,8 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * @param string $cfg    Kirki config id.
- * @param array<string, string> $targets Customizer panel/section IDs keyed by area.
+ * @param string $cfg    Kirki 配置 ID。
+ * @param array<string, string> $targets 按区域索引的 Customizer 面板/分区 ID。
  */
 function tailwindscore_account_auth_kirki_register( string $cfg, array $targets ): void {
 	if ( ! class_exists( 'Kirki' ) || ! class_exists( 'WooCommerce' ) ) {

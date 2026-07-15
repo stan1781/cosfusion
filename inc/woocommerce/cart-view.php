@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-// Purchase-flow rendering belongs in inc/woocommerce/cart-view.php.
-// Generic site helpers stay in inc/template-tags.php.
+// 购买流程渲染见 inc/woocommerce/cart-view.php。
+// 通用站点辅助函数保留在 inc/template-tags.php。
 
 /**
- * Load a WooCommerce template part from template-parts/woocommerce/.
+ * 从 template-parts/woocommerce/ 加载 WooCommerce 模板片段。
  *
- * Uses require() so $args is available inside the partial (WP 6.9 load_template no longer extracts $args).
+ * 使用 require() 使 $args 在片段内可用（WP 6.9 load_template 不再 extract $args）。
  */
 function tailwindscore_load_woocommerce_template_part( string $slug, array $args = array() ): void {
 	$template = get_template_directory() . '/template-parts/woocommerce/' . $slug . '.php';
@@ -20,10 +20,10 @@ function tailwindscore_load_woocommerce_template_part( string $slug, array $args
 }
 
 /**
- * Build cart line item meta rows (variation attributes + custom item data).
+ * 构建购物车行项目 meta 行（变体属性 + 自定义 item data）。
  *
- * @param array<string, mixed> $cart_item     Cart item.
- * @param string               $cart_item_key Cart item key.
+ * @param array<string, mixed> $cart_item     购物车行项目。
+ * @param string               $cart_item_key 购物车行项目 key。
  * @return array<int, array{type: string, label: string, value: string}>
  */
 function tailwindscore_get_cart_line_item_meta( array $cart_item, string $cart_item_key = '' ): array {
@@ -86,13 +86,13 @@ function tailwindscore_get_cart_line_item_meta( array $cart_item, string $cart_i
 	}
 
 	/**
-	 * Filter cart line item meta rows displayed below the product name.
+	 * 过滤商品名下方显示的购物车行 meta 行。
 	 *
-	 * Each row: [ 'type' => 'variation'|'custom', 'label' => string, 'value' => string ].
+	 * 每行：[ 'type' => 'variation'|'custom', 'label' => string, 'value' => string ]。
 	 *
-	 * @param array<int, array{type: string, label: string, value: string}> $meta
-	 * @param array<string, mixed>                                           $cart_item
-	 * @param string                                                         $cart_item_key
+	 * @param array<int, array{type: string, label: string, value: string}> $meta          meta 行列表。
+	 * @param array<string, mixed>                                           $cart_item     购物车行项目。
+	 * @param string                                                         $cart_item_key 购物车行项目 key。
 	 */
 	return (array) apply_filters( 'tailwindscore_cart_line_item_meta', $meta, $cart_item, $cart_item_key );
 }

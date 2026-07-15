@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Size guide module bootstrap.
+ * 尺码指南模块引导。
  *
  * @package TailwindScore
  */

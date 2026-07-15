@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Login form fields (shared markup).
+ * 登录表单字段（共享标记）。
  *
  * @package TailwindScore
  * @version 9.9.0
@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-/** @var string $redirect Optional redirect URL from wc_get_template(). */
+/** @var string $redirect 来自 wc_get_template() 的可选重定向 URL。 */
 $redirect = isset( $redirect ) && is_string( $redirect ) && '' !== $redirect
 	? $redirect
 	: tailwindscore_account_auth_login_redirect_url();

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * wc-order-process-manager theme integration (档 B).
+ * wc-order-process-manager 主题集成（档 B）。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Whether order-process frontend assets should load on this request.
+ * 当前请求是否应加载 order-process 前台资源。
  */
 function tailwindscore_should_load_order_process(): bool {
 	return function_exists( 'is_account_page' )
@@ -72,7 +72,7 @@ add_filter(
 );
 
 /**
- * Current bucket filter from query string.
+ * 来自 query string 的当前 bucket 筛选。
  */
 function tailwindscore_account_current_bucket(): string {
 	if ( ! class_exists( 'WC_Order_Process_Customer_View' ) ) {
@@ -85,10 +85,10 @@ function tailwindscore_account_current_bucket(): string {
 }
 
 /**
- * URL for account bucket filter.
+ * 账户 bucket 筛选 URL。
  *
- * @param string $bucket Bucket key or empty for active.
- * @param string $base   dashboard|orders endpoint base.
+ * @param string $bucket Bucket key，空表示 active。
+ * @param string $base   dashboard|orders endpoint 基址。
  */
 function tailwindscore_account_bucket_url( string $bucket, string $base = 'dashboard' ): string {
 	$url = wc_get_account_endpoint_url( $base );

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Auth shell closing markup.
+ * 认证外壳结尾标记。
  *
  * @package TailwindScore
  */

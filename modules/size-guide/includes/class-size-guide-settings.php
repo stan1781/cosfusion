@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Size guide settings and frontend config payload.
+ * 尺码指南设置与前台配置 payload。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Size guide module settings.
+ * 尺码指南模块设置。
  */
 final class Tailwindscore_Size_Guide_Settings {
 
@@ -38,10 +38,10 @@ final class Tailwindscore_Size_Guide_Settings {
 	}
 
 	/**
-	 * Resolve bind attribute for product.
+	 * 解析商品的绑定属性。
 	 *
-	 * @param int   $product_id Product ID.
-	 * @param array $resolved   Resolved size guide from plugin.
+	 * @param int   $product_id 商品 ID。
+	 * @param array $resolved   插件解析的尺码指南。
 	 */
 	public static function resolve_bind_attribute( int $product_id, array $resolved ): string {
 		if (! empty( $resolved['bindAttribute'] ) ) {
@@ -61,9 +61,9 @@ final class Tailwindscore_Size_Guide_Settings {
 	}
 
 	/**
-	 * Build config for tailwindscoreProduct.sizeGuide.
+	 * 构建 tailwindscoreProduct.sizeGuide 配置。
 	 *
-	 * @param int|null $product_id Product ID.
+	 * @param int|null $product_id 商品 ID。
 	 * @return array<string, mixed>|null
 	 */
 	public static function get_frontend_config( ?int $product_id = null ): ?array {
@@ -119,7 +119,7 @@ final class Tailwindscore_Size_Guide_Settings {
 }
 
 /**
- * @param int|null $product_id Product ID.
+ * @param int|null $product_id 商品 ID。
  * @return array<string, mixed>|null
  */
 function tailwindscore_size_guide_config( ?int $product_id = null ): ?array {

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * "Order received" message.
+ * 「订单已收到」消息。
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package TailwindScore
@@ -14,12 +14,12 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Filter the message shown after a checkout is complete.
+ * 筛选结账完成后显示的消息。
  *
  * @since 2.2.0
  *
- * @param string         $message The message.
- * @param WC_Order|false $order   The order created during checkout, or false if order data is not available.
+ * @param string         $message 消息文本。
+ * @param WC_Order|false $order   结账时创建的订单；若订单数据不可用则为 false。
  */
 $message = apply_filters(
 	'woocommerce_thankyou_order_received_text',

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Review image upload AJAX handlers.
+ * 评论图片上传 AJAX 处理器。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Handles review image upload, delete, and cleanup.
+ * 处理评论图片上传、删除与清理。
  */
 class Tailwindscore_Review_Images_Upload {
 
@@ -114,7 +114,7 @@ class Tailwindscore_Review_Images_Upload {
 	}
 
 	/**
-	 * @param array<string, mixed> $file Uploaded file array.
+	 * @param array<string, mixed> $file 上传文件数组。
 	 * @return array<string, mixed>|WP_Error
 	 */
 	private function process_and_upload_image( array $file ) {
@@ -215,8 +215,8 @@ class Tailwindscore_Review_Images_Upload {
 	}
 
 	/**
-	 * @param int $width  Original width.
-	 * @param int $height Original height.
+	 * @param int $width  原始宽度。
+	 * @param int $height 原始高度。
 	 * @return array{width: int, height: int}
 	 */
 	private function calculate_new_dimensions( int $width, int $height ): array {
@@ -239,10 +239,10 @@ class Tailwindscore_Review_Images_Upload {
 	}
 
 	/**
-	 * @param string $source_path      Source.
-	 * @param string $destination_path Destination.
-	 * @param int    $target_width     Width.
-	 * @param int    $target_height    Height.
+	 * @param string $source_path      源路径。
+	 * @param string $destination_path 目标路径。
+	 * @param int    $target_width     宽度。
+	 * @param int    $target_height    高度。
 	 * @return true|WP_Error
 	 */
 	private function resize_image( string $source_path, string $destination_path, int $target_width, int $target_height ) {
@@ -263,10 +263,10 @@ class Tailwindscore_Review_Images_Upload {
 	}
 
 	/**
-	 * @param string $source_path      Source.
-	 * @param string $destination_path Destination.
-	 * @param int    $target_width     Width.
-	 * @param int    $target_height    Height.
+	 * @param string $source_path      源路径。
+	 * @param string $destination_path 目标路径。
+	 * @param int    $target_width     宽度。
+	 * @param int    $target_height    高度。
 	 * @return true|WP_Error
 	 */
 	private function resize_with_imagick( string $source_path, string $destination_path, int $target_width, int $target_height ) {
@@ -282,11 +282,11 @@ class Tailwindscore_Review_Images_Upload {
 	}
 
 	/**
-	 * @param string $source_path      Source.
-	 * @param string $destination_path Destination.
-	 * @param int    $target_width     Width.
-	 * @param int    $target_height    Height.
-	 * @param string $mime_type        MIME type.
+	 * @param string $source_path      源路径。
+	 * @param string $destination_path 目标路径。
+	 * @param int    $target_width     宽度。
+	 * @param int    $target_height    高度。
+	 * @param string $mime_type        MIME 类型。
 	 * @return true|WP_Error
 	 */
 	private function resize_with_gd( string $source_path, string $destination_path, int $target_width, int $target_height, string $mime_type ) {
@@ -403,7 +403,7 @@ class Tailwindscore_Review_Images_Upload {
 	}
 
 	/**
-	 * Clear unlinked staged review images for the current visitor (fresh form session).
+	 * 清除当前访客未关联的暂存评论图片（全新表单 session）。
 	 *
 	 * @return void
 	 */
@@ -435,7 +435,7 @@ class Tailwindscore_Review_Images_Upload {
 	}
 
 	/**
-	 * @param int[] $ids Attachment IDs from the client session.
+	 * @param int[] $ids 客户端 session 中的附件 ID。
 	 * @return int[]
 	 */
 	private function filter_valid_staged_ids( array $ids ): array {
@@ -465,8 +465,8 @@ class Tailwindscore_Review_Images_Upload {
 	}
 
 	/**
-	 * @param int $attachment_id Attachment ID.
-	 * @param int $user_id       Current user ID.
+	 * @param int $attachment_id 附件 ID。
+	 * @param int $user_id       当前用户 ID。
 	 * @return bool
 	 */
 	private function is_orphan_review_attachment_for_user( int $attachment_id, int $user_id ): bool {
@@ -494,8 +494,8 @@ class Tailwindscore_Review_Images_Upload {
 	}
 
 	/**
-	 * @param int[] $keep_ids IDs to preserve.
-	 * @return int Number deleted.
+	 * @param int[] $keep_ids 需保留的 ID。
+	 * @return int 删除数量。
 	 */
 	private function delete_orphan_staged_review_images( array $keep_ids = array() ): int {
 		$user_id       = get_current_user_id();
@@ -546,7 +546,7 @@ class Tailwindscore_Review_Images_Upload {
 	}
 
 	/**
-	 * Count unlinked review images staged by the current visitor.
+	 * 统计当前访客暂存的未关联评论图片数量。
 	 *
 	 * @return int
 	 */

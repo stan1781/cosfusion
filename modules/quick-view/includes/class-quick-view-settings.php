@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Quick View module — theme_mod settings.
+ * Quick View 模块 — theme_mod 设置。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Kirki theme_mod accessors for Quick View.
+ * Quick View 的 Kirki theme_mod 访问器。
  */
 class Tailwindscore_Quick_View_Settings {
 
@@ -33,7 +33,7 @@ class Tailwindscore_Quick_View_Settings {
 	}
 
 	/**
-	 * @param mixed $value Raw theme_mod.
+	 * @param mixed $value 原始 theme_mod。
 	 * @return string[]
 	 */
 	public static function sanitize_target_pages( $value ): array {
@@ -60,8 +60,8 @@ class Tailwindscore_Quick_View_Settings {
 	}
 
 	/**
-	 * @param mixed $value   Setting value.
-	 * @param bool  $default Default when unset.
+	 * @param mixed $value   设置值。
+	 * @param bool  $default 未设置时的默认值。
 	 * @return bool
 	 */
 	private static function to_bool( $value, bool $default ): bool {
@@ -85,7 +85,7 @@ class Tailwindscore_Quick_View_Settings {
 	}
 
 	/**
-	 * Whether Quick View assets and modal should load on the current request.
+	 * 当前请求是否应加载 Quick View 资源与弹层。
 	 *
 	 * @return bool
 	 */

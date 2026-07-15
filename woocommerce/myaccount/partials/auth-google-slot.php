@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Site Kit Google sign-in slot.
+ * Site Kit Google 登录插槽。
  *
  * @package TailwindScore
  *

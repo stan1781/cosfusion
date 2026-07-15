@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Cart line item edit modal shell.
+ * 购物车行项目编辑弹窗外壳。
  *
  * @package TailwindScore
  */

@@ -73,9 +73,9 @@ function tailwindscore_purchase_flow_config(): array {
 }
 
 /**
- * Whether the coupon form should appear in the cart drawer.
+ * 是否在购物车抽屉中显示优惠券表单。
  *
- * Cart page and checkout keep their own coupon UIs regardless of this setting.
+ * 购物车页与结账页保留各自优惠券 UI，不受此设置影响。
  */
 function tailwindscore_cart_drawer_coupon_is_enabled(): bool {
 	if ( ! function_exists( 'wc_coupons_enabled' ) || ! wc_coupons_enabled() ) {
@@ -85,18 +85,18 @@ function tailwindscore_cart_drawer_coupon_is_enabled(): bool {
 	$enabled = (bool) tailwindscore_mod( 'cart_drawer_coupon_enable', true );
 
 	/**
-	 * Filter whether the mini cart drawer shows a coupon input.
+	 * 过滤迷你购物车抽屉是否显示优惠券输入框。
 	 *
-	 * @param bool $enabled Theme setting value.
+	 * @param bool $enabled 主题设置值。
 	 */
 	return (bool) apply_filters( 'tailwindscore_cart_drawer_show_coupon', $enabled );
 }
 
 /**
- * Whether purchase-flow coupon handlers should initialize on this request.
+ * 当前请求是否应初始化购买流程优惠券处理器。
  *
- * Used to skip coupon event bindings on pages that never render a coupon form.
- * Note: coupon logic still ships in the main app bundle unless code-split separately.
+ * 用于在不渲染优惠券表单的页面上跳过优惠券事件绑定。
+ * 注意：除非单独拆包，优惠券逻辑仍随主 app bundle 下发。
  */
 function tailwindscore_purchase_flow_needs_coupon_js(): bool {
 	if ( ! function_exists( 'wc_coupons_enabled' ) || ! wc_coupons_enabled() ) {
@@ -116,16 +116,16 @@ function tailwindscore_purchase_flow_needs_coupon_js(): bool {
 	}
 
 	/**
-	 * Filter whether coupon JS should initialize on this request.
+	 * 过滤当前请求是否应初始化优惠券 JS。
 	 *
-	 * @param bool $needs Default false when no coupon UI is rendered.
+	 * @param bool $needs 未渲染优惠券 UI 时默认为 false。
 	 */
 	return (bool) apply_filters( 'tailwindscore_purchase_flow_needs_coupon_js', false );
 }
 
 /**
- * @param string               $cfg     Kirki config id.
- * @param array<string, string> $targets Customizer panel/section IDs keyed by area.
+ * @param string               $cfg     Kirki 配置 ID。
+ * @param array<string, string> $targets 按区域索引的 Customizer 面板 / 区块 ID。
  */
 function tailwindscore_cart_drawer_coupon_kirki_register( string $cfg, array $targets ): void {
 	if ( ! class_exists( 'Kirki' ) || ! class_exists( 'WooCommerce' ) ) {

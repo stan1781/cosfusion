@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Related products recommendation engine.
+ * 相关产品推荐引擎。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Resolves related product IDs by tag, category (with parent fill), title tokens, and fallbacks.
+ * 按标签、分类（含父级补全）、标题 token 与回退解析相关产品 ID。
  */
 class Tailwindscore_Related_Products_Engine {
 
@@ -48,7 +48,7 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return int[]
 	 */
 	public function get_related_product_ids( int $product_id ): array {
@@ -78,9 +78,9 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * Upsell + cross-sell IDs to exclude from related list.
+	 * 从相关列表排除的 upsell + cross-sell ID。
 	 *
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return int[]
 	 */
 	public function get_excluded_product_ids( int $product_id ): array {
@@ -98,8 +98,8 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * @param int   $product_id   Product ID.
-	 * @param int[] $wc_related_ids WooCommerce default related IDs.
+	 * @param int   $product_id   商品 ID。
+	 * @param int[] $wc_related_ids WooCommerce 默认相关产品 ID。
 	 * @return int[]
 	 */
 	public function build_related_list( int $product_id, array $wc_related_ids ): array {
@@ -120,7 +120,7 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * @param int[] $ids Product IDs.
+	 * @param int[] $ids 商品 ID。
 	 * @return int[]
 	 */
 	private function finalize_ids( array $ids ): array {
@@ -134,8 +134,8 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * @param int[] $ids       Accumulated IDs.
-	 * @param int   $needed    How many more IDs needed.
+	 * @param int[] $ids       已累积 ID。
+	 * @param int   $needed    还需多少 ID。
 	 * @return int[]
 	 */
 	private function merge_up_to( array $ids, int $needed, array $candidates ): array {
@@ -157,7 +157,7 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return int[]
 	 */
 	private function get_simple_related_products( int $product_id ): array {
@@ -184,7 +184,7 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return int[]
 	 */
 	private function get_tag_based_related_products( int $product_id ): array {
@@ -208,7 +208,7 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return int[]
 	 */
 	private function get_category_based_related_products( int $product_id ): array {
@@ -232,9 +232,9 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * Hybrid: tags → categories (parent fill) → title tokens → random fallback.
+	 * 混合：标签 → 分类（父级补全）→ 标题 token → 随机回退。
 	 *
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return int[]
 	 */
 	private function get_hybrid_related_products( int $product_id ): array {
@@ -256,10 +256,10 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * Title match then random fallback when still below max.
+	 * 未达上限时先标题匹配再随机回退。
 	 *
-	 * @param int   $product_id Product ID.
-	 * @param int[] $related    Current candidate IDs.
+	 * @param int   $product_id 商品 ID。
+	 * @param int[] $related    当前候选 ID。
 	 * @return int[]
 	 */
 	private function pipeline_fill( int $product_id, array $related ): array {
@@ -287,8 +287,8 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * @param int   $exclude_id Exclude product.
-	 * @param int   $limit      Max IDs.
+	 * @param int   $exclude_id 排除的商品。
+	 * @param int   $limit      最大 ID 数。
 	 * @return int[]
 	 */
 	private function get_fallback_products( int $exclude_id, int $limit ): array {
@@ -316,8 +316,8 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * @param int[] $tag_ids    Tag term IDs.
-	 * @param int   $exclude_id Product to exclude.
+	 * @param int[] $tag_ids    标签 term ID。
+	 * @param int   $exclude_id 需排除的商品。
 	 * @return int[]
 	 */
 	private function get_products_by_tags( array $tag_ids, int $exclude_id ): array {
@@ -345,8 +345,8 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * @param int $cat_id     Category term ID.
-	 * @param int $exclude_id Product to exclude.
+	 * @param int $cat_id     分类 term ID。
+	 * @param int $exclude_id 需排除的商品。
 	 * @return int[]
 	 */
 	private function get_products_by_single_category( int $cat_id, int $exclude_id ): array {
@@ -369,10 +369,10 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * Child categories first; fill from parent when below max.
+	 * 优先子分类；未达上限时从父分类补全。
 	 *
-	 * @param int[] $cat_ids    Category term IDs.
-	 * @param int   $exclude_id Product to exclude.
+	 * @param int[] $cat_ids    分类 term ID。
+	 * @param int   $exclude_id 需排除的商品。
 	 * @return int[]
 	 */
 	private function get_products_by_categories( array $cat_ids, int $exclude_id ): array {
@@ -412,7 +412,7 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * @param int $cat_id Category term ID.
+	 * @param int $cat_id 分类 term ID。
 	 * @return int
 	 */
 	private function get_category_parent( int $cat_id ): int {
@@ -424,7 +424,7 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * @param string $sql Prepared SQL without stock clause.
+	 * @param string $sql 不含库存条件的已 prepare SQL。
 	 * @return int[]
 	 */
 	private function run_product_query( string $sql ): array {
@@ -435,7 +435,7 @@ class Tailwindscore_Related_Products_Engine {
 			WHERE meta_key = '_stock_status' AND meta_value = 'instock'
 		)";
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- $sql built with prepare above.
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- 上方已用 prepare 构建 $sql。
 		$results = $this->exclude_out_of_stock
 			? $wpdb->get_col( $sql . $stock_clause )
 			: $wpdb->get_col( $sql );
@@ -449,9 +449,9 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * @param int   $product_id  Source product.
-	 * @param int[] $existing    Already selected IDs.
-	 * @param int   $limit       Max new IDs.
+	 * @param int   $product_id  源商品。
+	 * @param int[] $existing    已选 ID。
+	 * @param int   $limit       最大新增 ID 数。
 	 * @return int[]
 	 */
 	private function get_products_by_title_tokens( int $product_id, array $existing, int $limit ): array {
@@ -482,7 +482,7 @@ class Tailwindscore_Related_Products_Engine {
 
 		foreach ( $tokens as $token ) {
 			$like = '%' . $wpdb->esc_like( $token ) . '%';
-			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- LIKE pattern escaped.
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- LIKE 模式已转义。
 			$sql = $wpdb->prepare(
 				"SELECT p.ID FROM {$wpdb->posts} p
 				WHERE p.post_type = 'product'
@@ -523,7 +523,7 @@ class Tailwindscore_Related_Products_Engine {
 	}
 
 	/**
-	 * @param string $title Product title.
+	 * @param string $title 商品标题。
 	 * @return string[]
 	 */
 	private function extract_title_tokens( string $title ): array {

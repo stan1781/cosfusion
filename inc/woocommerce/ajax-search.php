@@ -4,7 +4,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * TailwindScore bridge: theme owns Ajax search UI; plugin keeps Ajax handler + settings.
+ * TailwindScore 桥接：主题拥有 Ajax 搜索 UI；插件保留 Ajax 处理器与设置。
  */
 function tailwindscore_ajax_search_is_active(): bool {
 	return class_exists( 'Ajax_Search' ) && Ajax_Search::is_enabled();
@@ -26,7 +26,7 @@ function tailwindscore_ajax_search_init(): void {
 add_action( 'after_setup_theme', 'tailwindscore_ajax_search_init', 30 );
 
 /**
- * @param array<string, mixed> $parts Runtime config fragments.
+ * @param array<string, mixed> $parts 运行时配置片段。
  * @return array<string, mixed>
  */
 function tailwindscore_ajax_search_runtime_config( array $parts ): array {
@@ -61,7 +61,7 @@ function tailwindscore_ajax_search_runtime_config( array $parts ): array {
 }
 
 /**
- * @param string[] $classes Body classes.
+ * @param string[] $classes body class 列表。
  * @return string[]
  */
 function tailwindscore_ajax_search_body_class( array $classes ): array {
@@ -83,7 +83,7 @@ function tailwindscore_ajax_search_dequeue_plugin_assets(): void {
 }
 
 /**
- * Placeholder for header search when Ajax search is enabled.
+ * Ajax 搜索启用时头部搜索框占位符。
  */
 function tailwindscore_ajax_search_placeholder(): string {
 	if ( tailwindscore_ajax_search_is_active() ) {

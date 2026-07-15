@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Build parent product gallery payloads for the frontend.
+ * 为前台构建父商品画廊 payload。
  *
  * @package TailwindScore
  */
@@ -10,10 +10,10 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * @param int    $image_id Attachment ID.
- * @param bool   $is_main  Main slide flag.
- * @param string $thumb_size Thumbnail size slug.
- * @param string $gallery_size Single/gallery slide size slug.
+ * @param int    $image_id 附件 ID。
+ * @param bool   $is_main  主图幻灯片标记。
+ * @param string $thumb_size 缩略图尺寸 slug。
+ * @param string $gallery_size 单图/画廊幻灯片尺寸 slug。
  * @return array<string, mixed>|null
  */
 function tailwindscore_gallery_build_image_item(
@@ -65,9 +65,9 @@ function tailwindscore_gallery_build_image_item(
 }
 
 /**
- * Collect parent product gallery image IDs (featured first, then gallery).
+ * 收集父商品画廊图片 ID（特色图优先，再画廊）。
  *
- * @param WC_Product $product Product.
+ * @param WC_Product $product 商品。
  * @return int[]
  */
 function tailwindscore_gallery_collect_attachment_ids( WC_Product $product ): array {
@@ -90,9 +90,9 @@ function tailwindscore_gallery_collect_attachment_ids( WC_Product $product ): ar
 }
 
 /**
- * When the parent variable product has no featured/gallery images, use visible variation images.
+ * 父可变商品无特色图/画廊图时，使用可见变体图片。
  *
- * @param WC_Product_Variable $product Variable product.
+ * @param WC_Product_Variable $product 可变商品。
  * @return int[]
  */
 function tailwindscore_gallery_variation_fallback_ids( WC_Product_Variable $product ): array {
@@ -114,7 +114,7 @@ function tailwindscore_gallery_variation_fallback_ids( WC_Product_Variable $prod
 }
 
 /**
- * WooCommerce placeholder slide when no attachments exist.
+ * 无附件时的 WooCommerce 占位幻灯片。
  *
  * @return array<string, mixed>
  */
@@ -144,7 +144,7 @@ function tailwindscore_gallery_placeholder_item(): array {
 }
 
 /**
- * @param WC_Product $product Product.
+ * @param WC_Product $product 商品。
  * @return list<array<string, mixed>>
  */
 function tailwindscore_gallery_parent_images( WC_Product $product ): array {
@@ -172,18 +172,18 @@ function tailwindscore_gallery_parent_images( WC_Product $product ): array {
 	}
 
 	/**
-	 * Filter parent gallery slides before localize.
+	 * 本地化前过滤父画廊幻灯片。
 	 *
-	 * @param list<array<string, mixed>> $images  Gallery items.
-	 * @param WC_Product                 $product Product.
+	 * @param list<array<string, mixed>> $images  画廊项。
+	 * @param WC_Product                 $product 商品。
 	 */
 	return apply_filters( 'tailwindscore/gallery/parent_images', $images, $product );
 }
 
 /**
- * Normalize WooCommerce variation.image for the gallery layer.
+ * 为画廊层规范化 WooCommerce variation.image。
  *
- * @param array<string, mixed> $variation Available variation row.
+ * @param array<string, mixed> $variation 可用变体行。
  * @return array<string, mixed>|null
  */
 function tailwindscore_gallery_image_from_wc_variation( array $variation ): ?array {
@@ -216,9 +216,9 @@ function tailwindscore_gallery_image_from_wc_variation( array $variation ): ?arr
 }
 
 /**
- * Frontend config for single product gallery (window.tailwindscoreProduct).
+ * 单品画廊前台配置（window.tailwindscoreProduct）。
  *
- * @param int|null $product_id Product ID.
+ * @param int|null $product_id 商品 ID。
  * @return array<string, mixed>
  */
 function tailwindscore_product_gallery_config( ?int $product_id = null ): array {
@@ -259,12 +259,12 @@ function tailwindscore_product_gallery_config( ?int $product_id = null ): array 
 }
 
 /**
- * Render one Swiper slide (SSR + no-JS fallback).
+ * 渲染一条 Swiper 幻灯片（SSR + 无 JS 降级）。
  *
- * @param array<string, mixed> $img   Image item.
- * @param int                  $index Slide index.
- * @param bool                 $eager     First slide LCP.
- * @param bool                 $for_thumb Thumbnail strip slide.
+ * @param array<string, mixed> $img   图片项。
+ * @param int                  $index 幻灯片索引。
+ * @param bool                 $eager     首图 LCP。
+ * @param bool                 $for_thumb 缩略图条幻灯片。
  * @return string
  */
 function tailwindscore_gallery_render_slide_html( array $img, int $index, bool $eager = false, bool $for_thumb = false ): string {

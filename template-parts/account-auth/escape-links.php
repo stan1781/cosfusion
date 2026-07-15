@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Escape links back to the public site from auth surfaces.
+ * 从认证界面返回公开站点的逃生链接。
  *
  * @package TailwindScore
  */

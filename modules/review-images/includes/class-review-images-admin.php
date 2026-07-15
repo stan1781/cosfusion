@@ -2,8 +2,8 @@
 if (!defined('ABSPATH')) exit;
 
 /**
- * WooCommerce ????????? - ?????????
- * ????????????????????????????????? metabox ?????
+ * WooCommerce 评论图片 — 后台管理。
+ * 注册工具页、评论 metabox 与批量操作。
  */
 class Tailwindscore_Review_Images_Admin {
     private $options;
@@ -21,7 +21,7 @@ class Tailwindscore_Review_Images_Admin {
 
     private function init_hooks() {
         if (!$this->options['enabled']) {
-            // ???????????????????????????????????????
+            // 禁用时此处不注册额外 Hook（占位）。
         }
         add_action('admin_menu', array($this, 'register_tools_page'));
         add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
@@ -31,23 +31,23 @@ class Tailwindscore_Review_Images_Admin {
 
         add_filter('comment_text', array($this, 'append_review_images_to_comment'), 20, 2);
         
-        // ?????????????????
-        // ????????????????
+        // 评论列表 bulk actions。
+        // handle_bulk_actions 回调。
         add_filter('bulk_actions-edit-comments', array($this, 'add_bulk_actions'));
         add_filter('handle_bulk_actions-edit-comments', array($this, 'handle_bulk_actions'), 10, 3);
         
-        // WooCommerce???????????????
-        // ???admin_enqueue_scripts???????????????????????????????????
+        // WooCommerce 产品评论页 bulk actions。
+        // 需在 admin_init 尽早处理（WooCommerce 表单字段不同）。
         add_action('admin_init', array($this, 'handle_product_reviews_bulk_actions'), 5);
         
         add_action('admin_notices', array($this, 'admin_notices'));
         
-        // ??????????
-        // ???????? WooCommerce ????????? 'verified' meta ???
-        // ??? wc_review_is_from_verified_owner() ??????????????????? true
-        // WooCommerce ?????????????????????????????????
+        // 认证买家 meta 说明：
+        // 使用 WooCommerce 标准的 verified meta 键。
+        // wc_review_is_from_verified_owner() 读取该 meta 为 true。
+        // WooCommerce 原生仅在真实购买时写入，此处支持手动覆盖。
         
-        // ?????????????author?????????????????????
+        // 在评论列表 author 列追加认证与国家徽章。
         add_filter('comment_author', array($this, 'modify_comment_author_column'), 10, 2);
     }
 
@@ -68,9 +68,9 @@ class Tailwindscore_Review_Images_Admin {
         if (isset($input['max_file_size'])) {
             $raw_value = $input['max_file_size'];
             $numeric = is_numeric($raw_value) ? (float) $raw_value : 5;
-            // ???????????????????????????????????????????????? MB
+            // 兼容旧版以字节存储的最大文件大小，转换为 MB。
             if ($numeric > 20) {
-                // ???????????????????????????? 20MB ??????????????????????
+                // 若数值大于 20，可能是字节；超过 1MB 则尝试换算为 MB。
                 $maybe_bytes = (int) $numeric;
                 if ($maybe_bytes > 1048576) {
                     $maybe_mb = (int) round($maybe_bytes / 1048576);
@@ -79,7 +79,7 @@ class Tailwindscore_Review_Images_Admin {
                     }
                 }
             }
-            // ????????? MB????????? 1 - 20 MB
+            // 最终限制在 1–20 MB。
             $max_mb = (int) round($numeric);
             if ($max_mb < 1) { $max_mb = 1; }
             if ($max_mb > 20) { $max_mb = 20; }
@@ -94,12 +94,12 @@ class Tailwindscore_Review_Images_Admin {
     }
 
     public function admin_enqueue_scripts($hook) {
-        // ?????????????????????????????????????????????????
+        // 未启用功能时不加载脚本。
         if (!$this->options['enabled']) {
             return;
         }
         
-        // ????????????????????????WooCommerce?????????
+        // 评论列表页或 WooCommerce 产品评论页。
         $is_comments_page = ($hook === 'edit-comments.php');
         $is_product_reviews_page = (
             $hook === 'product_page_product-reviews' || 
@@ -122,7 +122,7 @@ class Tailwindscore_Review_Images_Admin {
                 }
             ');
             
-            // ???????????????JavaScript
+            // 批量操作 JavaScript。
             wp_enqueue_script(
                 'wc-review-images-bulk-js',
                 get_template_directory_uri() . '/modules/review-images/assets/admin/review-images-bulk.js',
@@ -131,7 +131,7 @@ class Tailwindscore_Review_Images_Admin {
                 true
             );
             
-            // ??????????????????JavaScript
+            // 传递国家列表到 JavaScript。
             $countries = $this->get_country_list();
             wp_localize_script('wc-review-images-bulk-js', 'wcReviewImagesBulk', array(
                 'countries' => $countries,
@@ -299,11 +299,11 @@ class Tailwindscore_Review_Images_Admin {
         wp_nonce_field('save_review_images_metabox', '_review_images_metabox_nonce');
         $ids_string = implode(',', array_map('absint', $image_ids));
         
-        // ??????
-        // ????? WooCommerce ????????? verified meta ???
+        // 认证买家。
+        // 读取 WooCommerce 标准的 verified meta。
         $is_verified = (bool) get_comment_meta($comment_id, 'verified', true);
         
-        // ????????????????? US
+        // 国家代码，默认 US。
         $country_code = get_comment_meta($comment_id, '_review_country_code', true);
         if (empty($country_code)) {
             $country_code = 'US';
@@ -420,79 +420,79 @@ class Tailwindscore_Review_Images_Admin {
             delete_comment_meta($comment_id, '_review_images');
         }
         
-        // ?????????
-        // ???? WooCommerce ????????? 'verified' meta ???
-        // ??? wc_review_is_from_verified_owner() ????????????????????????
+        // 保存认证买家。
+        // 写入 WooCommerce 标准的 verified meta。
+        // wc_review_is_from_verified_owner() 会据此返回 true。
         if (isset($_POST['verified_buyer']) && $_POST['verified_buyer'] == '1') {
-            // ?? WooCommerce ????????? verified meta ? 1
+            // 勾选时写入 verified meta 为 1。
             update_comment_meta($comment_id, 'verified', '1');
         } else {
-            // ??????????????????? verified meta??? WooCommerce ?????????????
+            // 未勾选则删除 verified meta，恢复 WooCommerce 默认行为。
             delete_comment_meta($comment_id, 'verified');
         }
         
-        // ?????????
+        // 保存国家代码。
         if (isset($_POST['review_country_code'])) {
             $country_code = sanitize_text_field(wp_unslash($_POST['review_country_code']));
             $countries = $this->get_country_list();
-            // ???????????????????
+            // 校验国家代码是否在列表中。
             if (array_key_exists($country_code, $countries)) {
                 update_comment_meta($comment_id, '_review_country_code', $country_code);
             } else {
-                // ?????????????????????? US
+                // 无效时回退 US。
                 update_comment_meta($comment_id, '_review_country_code', 'US');
             }
         } else {
-            // ?????????????????????? US
+            // 未提交时默认 US。
             update_comment_meta($comment_id, '_review_country_code', 'US');
         }
     }
     
     /**
-     * ????WooCommerce???????????????????????
-     * ???????????WooCommerce????????????????????????????????????
+     * 处理 WooCommerce 产品评论页的批量操作（独立入口）。
+     * WooCommerce 产品评论列表不走 WordPress 标准 bulk-actions 流程。
      */
     public function handle_product_reviews_bulk_actions() {
-        // ????WooCommerce??????????????
+        // 仅在 WooCommerce 产品评论页执行。
         if (!isset($_GET['post_type']) || $_GET['post_type'] !== 'product' || !isset($_GET['page']) || $_GET['page'] !== 'product-reviews') {
             return;
         }
         
-        // ??????????????????????????
+        // 解析 action（兼容 action2）。
         $action = isset($_REQUEST['action']) ? sanitize_text_field(wp_unslash($_REQUEST['action'])) : '';
         if ($action === '-1') {
             $action = isset($_REQUEST['action2']) ? sanitize_text_field(wp_unslash($_REQUEST['action2'])) : '';
         }
         
-        // ???????????????????????????????
+        // 非本模块 bulk action 则跳过。
         if ($action !== 'wc_bulk_verify_buyer' && $action !== 'wc_bulk_unverify_buyer' && $action !== 'wc_bulk_set_country') {
             return;
         }
         
-        // ???nonce
+        // 校验 nonce。
         if (!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-product-reviews')) {
             return;
         }
         
-        // ???????????????ID??WooCommerce????delete_comments[]?????????
+        // 收集选中评论 ID（WooCommerce 使用 delete_comments[] 字段名）。
         $comment_ids = isset($_REQUEST['delete_comments']) ? array_map('absint', (array) $_REQUEST['delete_comments']) : array();
         if (empty($comment_ids)) {
             return;
         }
         
-        // ???????????????
+        // 复用通用 bulk 处理。
         $redirect_to = admin_url('edit.php?post_type=product&page=product-reviews');
         $redirect_to = $this->handle_bulk_actions($redirect_to, $action, $comment_ids);
         
-        // ???????
+        // 重定向回列表。
         wp_safe_redirect($redirect_to);
         exit;
     }
     
     /**
-     * ?????????????????????????????
-     * @param array $actions ????????????????????
-     * @return array ???????????????????????????????????????
+     * 为评论列表添加 bulk actions。
+     * @param array $actions 现有 bulk actions。
+     * @return array 追加后的 bulk actions。
      */
     public function add_bulk_actions($actions) {
         $actions['wc_bulk_verify_buyer'] = __( '标记为认证买家', 'tailwindscore' );
@@ -502,32 +502,32 @@ class Tailwindscore_Review_Images_Admin {
     }
 
     /**
-     * ??????????????????
-     * @param string $redirect_to ???????URL
-     * @param string $action ???????????????????
-     * @param array $comment_ids ??????????ID?????
-     * @return string ???????URL????????????????
+     * 执行 bulk action 并更新 redirect URL。
+     * @param string $redirect_to 跳转 URL。
+     * @param string $action 当前 bulk action。
+     * @param array $comment_ids 选中的评论 ID。
+     * @return string 带查询参数的跳转 URL。
      */
     public function handle_bulk_actions($redirect_to, $action, $comment_ids) {
-        // ????????????
+        // 非本模块 action 直接返回。
         if ($action !== 'wc_bulk_verify_buyer' && $action !== 'wc_bulk_unverify_buyer' && $action !== 'wc_bulk_set_country') {
             return $redirect_to;
         }
 
-        // ????????
+        // 权限检查。
         if (!current_user_can('moderate_comments')) {
             return $redirect_to;
         }
 
-        // ???nonce?????????????????????WooCommerce???????????
+        // 兼容多种 nonce（含 WooCommerce 产品评论页）。
         $nonce_verified = false;
         if (isset($_REQUEST['_wpnonce']) && wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-comments')) {
             $nonce_verified = true;
         } elseif (isset($_REQUEST['_wpnonce']) && wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-posts')) {
-            // WooCommerce?????????????????bulk-posts nonce
+            // WooCommerce 产品评论页可能使用 bulk-posts nonce。
             $nonce_verified = true;
         } elseif (isset($_REQUEST['_wpnonce']) && wp_verify_nonce($_REQUEST['_wpnonce'], 'bulk-product-reviews')) {
-            // WooCommerce?????????????bulk-product-reviews nonce
+            // WooCommerce 产品评论页 bulk-product-reviews nonce。
             $nonce_verified = true;
         }
         
@@ -539,7 +539,7 @@ class Tailwindscore_Review_Images_Admin {
         $skipped = 0;
 
         if ($action === 'wc_bulk_verify_buyer') {
-            // ????????????
+            // 批量标记认证买家。
             foreach ($comment_ids as $comment_id) {
                 $comment_id = absint($comment_id);
                 if (!$comment_id) {
@@ -553,7 +553,7 @@ class Tailwindscore_Review_Images_Admin {
                     continue;
                 }
 
-                // ??????????
+                // 写入 verified meta。
                 update_comment_meta($comment_id, 'verified', '1');
                 $processed++;
             }
@@ -564,7 +564,7 @@ class Tailwindscore_Review_Images_Admin {
             ), $redirect_to);
 
         } elseif ($action === 'wc_bulk_unverify_buyer') {
-            // ??????????????
+            // 批量取消认证。
             foreach ($comment_ids as $comment_id) {
                 $comment_id = absint($comment_id);
                 if (!$comment_id) {
@@ -578,7 +578,7 @@ class Tailwindscore_Review_Images_Admin {
                     continue;
                 }
 
-                // ??????????????
+                // 删除 verified meta。
                 delete_comment_meta($comment_id, 'verified');
                 $processed++;
             }
@@ -589,13 +589,13 @@ class Tailwindscore_Review_Images_Admin {
             ), $redirect_to);
 
         } elseif ($action === 'wc_bulk_set_country') {
-            // ????????????
+            // 批量设置国家。
             $country_code = isset($_REQUEST['bulk_country_code']) ? sanitize_text_field(wp_unslash($_REQUEST['bulk_country_code'])) : '';
 
-            // ?????????
+            // 校验国家代码。
             $countries = $this->get_country_list();
             if (empty($country_code) || !array_key_exists($country_code, $countries)) {
-                // ???????????????????????????????
+                // 无效国家代码，返回错误。
                 $redirect_to = add_query_arg(array(
                     'wc_bulk_error' => 'invalid_country'
                 ), $redirect_to);
@@ -615,7 +615,7 @@ class Tailwindscore_Review_Images_Admin {
                     continue;
                 }
 
-                // ????????
+                // 更新国家 meta。
                 update_comment_meta($comment_id, '_review_country_code', $country_code);
                 $processed++;
             }
@@ -631,7 +631,7 @@ class Tailwindscore_Review_Images_Admin {
     }
 
     /**
-     * ???????????????????????
+     * 显示 bulk 操作完成后的管理通知。
      */
     public function admin_notices() {
         if (isset($_GET['wc_bulk_verified']) || isset($_GET['wc_bulk_skipped'])) {
@@ -688,8 +688,8 @@ class Tailwindscore_Review_Images_Admin {
     }
 
     /**
-     * ?????????????
-     * @return array ?????? => ??????
+     * 获取支持的国家列表。
+     * @return array 国家代码 => 名称。
      */
     public function get_country_list() {
         return array(
@@ -713,18 +713,18 @@ class Tailwindscore_Review_Images_Admin {
     }
     
     /**
-     * ???????????author??????????????????????????
-     * @param string $author ????????????
-     * @param int $comment_id ???ID
-     * @return string ???????????????????????????????????????
+     * 在评论列表 author 列追加认证与国家徽章。
+     * @param string $author 原 author 文本。
+     * @param int $comment_id 评论 ID。
+     * @return string 追加徽章后的 author 文本。
      */
     public function modify_comment_author_column($author, $comment_id = 0) {
-        // ????????????
+        // 仅后台。
         if (!is_admin()) {
             return $author;
         }
         
-        // ?????????comment_id??????????????????????
+        // 未传 comment_id 时从全局 comment 读取。
         if (!$comment_id && isset($GLOBALS['comment']) && is_object($GLOBALS['comment'])) {
             $comment_id = $GLOBALS['comment']->comment_ID;
         }
@@ -733,61 +733,61 @@ class Tailwindscore_Review_Images_Admin {
             return $author;
         }
         
-        // ???????????????
+        // 当前屏幕。
         $screen = get_current_screen();
         
-        // ????????????????????????????????????WooCommerce???????????
+        // 评论列表或 WooCommerce 产品评论页。
         $is_comments_page = false;
         if ($screen) {
-            // ??????????
+            // 标准评论列表。
             if ($screen->base === 'edit-comments' || $screen->id === 'edit-comments') {
                 $is_comments_page = true;
             }
-            // WooCommerce?????????
+            // WooCommerce 产品评论页。
             if ($screen->id === 'product_page_product-reviews' || 
                 ($screen->base === 'edit' && isset($_GET['post_type']) && $_GET['post_type'] === 'product' && isset($_GET['page']) && $_GET['page'] === 'product-reviews')) {
                 $is_comments_page = true;
             }
         }
         
-        // ?????????????????????????????????????
+        // 非评论列表页不处理。
         if (!$is_comments_page) {
             return $author;
         }
         
-        // ??????????
+        // 仅产品评论。
         $comment = get_comment($comment_id);
         if (!$comment || $comment->comment_type !== 'review') {
             return $author;
         }
         
-        // ???????????????
+        // 认证买家状态。
         $is_verified = (bool) get_comment_meta($comment_id, 'verified', true);
         
-        // ???????????
+        // 国家信息。
         $country_code = get_comment_meta($comment_id, '_review_country_code', true);
         $countries = $this->get_country_list();
         $country_name = isset($countries[$country_code]) ? $countries[$country_code] : '';
         
-        // ????????????
+        // 徽章 HTML。
         $badges = array();
         
-        // ????????
+        // 认证徽章。
         if ($is_verified) {
             $badges[] = '<span style="display: inline-block; background: #46b450; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: 600; margin-left: 5px; vertical-align: middle;" title="' . esc_attr__( '认证买家', 'tailwindscore' ) . '">&#10003; ' . esc_html__( '认证', 'tailwindscore' ) . '</span>';
         }
         
-        // ??????
+        // 国家徽章。
         if (!empty($country_name)) {
             $badges[] = '<span style="display: inline-block; background: #2271b1; color: #fff; padding: 2px 6px; border-radius: 3px; font-size: 11px; font-weight: 600; margin-left: 5px; vertical-align: middle;" title="' . esc_attr( sprintf( __( '国家：%s', 'tailwindscore' ), $country_name ) ) . '">' . esc_html( $country_code ) . '</span>';
         }
         
-        // ???????????????????????????????????
+        // 无徽章时不改动。
         if (empty($badges)) {
             return $author;
         }
         
-        // ???????????? + ????
+        // 拼接 author 与徽章。
         return $author . implode('', $badges);
     }
     

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Account auth context helpers.
+ * 账户认证上下文辅助函数。
  *
  * @package TailwindScore
  */
@@ -27,7 +27,7 @@ function tailwindscore_is_register_page(): bool {
 }
 
 /**
- * Auth surfaces use the standalone document layout (no site header/footer).
+ * 认证页面使用独立文档布局（无站点页眉/页脚）。
  *
  * @return bool
  */
@@ -40,7 +40,7 @@ function tailwindscore_is_account_auth_surface(): bool {
 }
 
 /**
- * Whether the AJAX login script config should load.
+ * 是否应加载 AJAX 登录脚本配置。
  *
  * @return bool
  */
@@ -62,7 +62,7 @@ function tailwindscore_account_auth_should_enqueue_ajax_login(): bool {
 }
 
 /**
- * Whether the AJAX register script config should load.
+ * 是否应加载 AJAX 注册脚本配置。
  *
  * @return bool
  */
@@ -71,7 +71,7 @@ function tailwindscore_account_auth_should_enqueue_ajax_register(): bool {
 }
 
 /**
- * Default redirect after AJAX login.
+ * AJAX 登录后的默认跳转。
  *
  * @return string
  */

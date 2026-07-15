@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Footer navigation, payment icons, and Kirki settings.
+ * 页脚导航、支付图标与 Kirki 设置。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Allowed footer nav alignment values.
+ * 允许的页脚导航对齐值。
  *
  * @return array<string, string>
  */
@@ -23,9 +23,9 @@ function tailwindscore_footer_nav_alignment_choices(): array {
 }
 
 /**
- * Sanitize footer nav alignment theme_mod.
+ * 消毒页脚导航对齐 theme_mod。
  *
- * @param mixed $value Raw value.
+ * @param mixed $value 原始值。
  */
 function tailwindscore_footer_nav_alignment_sanitize( $value ): string {
 	$value = is_string( $value ) ? $value : 'center';
@@ -34,7 +34,7 @@ function tailwindscore_footer_nav_alignment_sanitize( $value ): string {
 }
 
 /**
- * Footer nav horizontal alignment (left, center, right).
+ * 页脚导航水平对齐（左、中、右）。
  */
 function tailwindscore_footer_nav_alignment(): string {
 	return tailwindscore_footer_nav_alignment_sanitize(
@@ -43,21 +43,21 @@ function tailwindscore_footer_nav_alignment(): string {
 }
 
 /**
- * BEM modifier class for footer nav alignment.
+ * 页脚导航对齐的 BEM 修饰 class。
  */
 function tailwindscore_footer_nav_alignment_class(): string {
 	return 'ts-site-footer__nav--align-' . tailwindscore_footer_nav_alignment();
 }
 
 /**
- * Whether the footer nav row should render.
+ * 是否渲染页脚导航行。
  */
 function tailwindscore_should_render_footer_nav(): bool {
 	return has_nav_menu( 'footer' );
 }
 
 /**
- * Build wp_nav_menu() args for the footer location.
+ * 构建页脚位置的 wp_nav_menu() 参数。
  *
  * @return array<string, mixed>
  */
@@ -71,15 +71,15 @@ function tailwindscore_footer_nav_menu_args(): array {
 	);
 
 	/**
-	 * @param array<string, mixed> $menu_args
+	 * @param array<string, mixed> $menu_args wp_nav_menu 参数。
 	 */
 	return apply_filters( 'tailwindscore_footer_nav_menu_args', $menu_args );
 }
 
 /**
- * Resolve a theme_mod image value to a valid attachment id.
+ * 将 theme_mod 图片值解析为有效 attachment ID。
  *
- * @param mixed $image Raw value from theme_mod.
+ * @param mixed $image 来自 theme_mod 的原始值。
  */
 function tailwindscore_footer_payment_image_attachment_id( $image ): int {
 	if ( is_numeric( $image ) ) {
@@ -100,7 +100,7 @@ function tailwindscore_footer_payment_image_attachment_id( $image ): int {
 }
 
 /**
- * Footer payment image attachment id from Customizer.
+ * Customizer 中的页脚支付图片 attachment ID。
  */
 function tailwindscore_footer_payment_image_id(): int {
 	return tailwindscore_footer_payment_image_attachment_id(
@@ -109,15 +109,15 @@ function tailwindscore_footer_payment_image_id(): int {
 }
 
 /**
- * Whether a footer payment image is configured.
+ * 是否已配置页脚支付图片。
  */
 function tailwindscore_footer_has_payment_image(): bool {
 	return tailwindscore_footer_payment_image_id() > 0;
 }
 
 /**
- * @param string               $cfg     Kirki config id.
- * @param array<string, string> $targets Customizer panel/section IDs keyed by area.
+ * @param string               $cfg     Kirki 配置 ID。
+ * @param array<string, string> $targets 按区域索引的 Customizer 面板 / 区块 ID。
  */
 function tailwindscore_footer_nav_kirki_register( string $cfg, array $targets ): void {
 	if ( ! class_exists( 'Kirki' ) ) {

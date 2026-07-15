@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * My Account navigation
+ * 我的账户导航
  *
  * @package TailwindScore
  * @version 9.3.0
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 $nav_icons        = tailwindscore_account_nav_icons();
 $nav_short_labels = tailwindscore_account_nav_short_labels();
 
-// Remove payment methods from account navigation
+// 从账户导航中移除支付方式
 add_filter( 'woocommerce_account_menu_items', function( $items ) {
 	unset( $items['payment-methods'] );
 	return $items;

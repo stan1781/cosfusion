@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Typography module bootstrap.
+ * 排版模块引导。
  *
  * @package TailwindScore
  */

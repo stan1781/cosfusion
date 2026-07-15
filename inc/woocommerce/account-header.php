@@ -4,7 +4,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Whether header account UI (login trigger or account menu) should render.
+ * 是否渲染头部账户 UI（登录触发器或账户菜单）。
  */
 function tailwindscore_should_render_header_account_ui(): bool {
 	if ( is_admin() || ! class_exists( 'WooCommerce' ) ) {
@@ -23,7 +23,7 @@ function tailwindscore_should_render_header_account_ui(): bool {
 }
 
 /**
- * Redirect URL for header login modal on the current request.
+ * 当前请求下头部登录弹窗的重定向 URL。
  */
 function tailwindscore_account_header_login_redirect_url(): string {
 	global $wp;
@@ -44,7 +44,7 @@ function tailwindscore_account_header_login_redirect_url(): string {
 }
 
 /**
- * Count active (non-completed) customer orders for header badge.
+ * 统计活跃（未完成）客户订单数以显示头部徽章。
  */
 function tailwindscore_account_active_order_count(): int {
 	if ( ! is_user_logged_in() || ! function_exists( 'wc_get_orders' ) ) {
@@ -75,7 +75,7 @@ function tailwindscore_account_active_order_count(): int {
 }
 
 /**
- * Render inline order count badge for account menu (hidden when zero).
+ * 在账户菜单中渲染内联订单数徽章（为零时隐藏）。
  */
 function tailwindscore_render_account_order_badge(): void {
 	$count = tailwindscore_account_active_order_count();
@@ -89,7 +89,7 @@ function tailwindscore_render_account_order_badge(): void {
 }
 
 /**
- * Render order badge on mobile tab bar account icon (logged-in, active orders only).
+ * 在移动端 Tab 栏账户图标上渲染订单徽章（仅已登录且有活跃订单）。
  */
 function tailwindscore_render_mobile_tab_account_badge(): void {
 	if ( ! is_user_logged_in() ) {
@@ -107,7 +107,7 @@ function tailwindscore_render_mobile_tab_account_badge(): void {
 }
 
 /**
- * Accessible label for mobile tab bar account control.
+ * 移动端 Tab 栏账户控件的无障碍标签。
  */
 function tailwindscore_mobile_tab_account_aria_label(): string {
 	if ( ! is_user_logged_in() ) {
@@ -128,7 +128,7 @@ function tailwindscore_mobile_tab_account_aria_label(): string {
 }
 
 /**
- * Output sitewide login dialog for guests (checkout outputs its own copy).
+ * 为访客输出全站登录对话框（结账页单独输出一份）。
  */
 function tailwindscore_render_account_login_dialog(): void {
 	if ( is_user_logged_in() || ! tailwindscore_should_render_header_account_ui() ) {
@@ -140,7 +140,7 @@ function tailwindscore_render_account_login_dialog(): void {
 add_action( 'wp_footer', 'tailwindscore_render_account_login_dialog', 50 );
 
 /**
- * Avoid stale login nonces on guest pages with the login modal.
+ * 在含登录弹窗的访客页避免过期登录 nonce。
  */
 function tailwindscore_nocache_guest_account_login_pages(): void {
 	if ( is_user_logged_in() || ! tailwindscore_should_render_header_account_ui() ) {
@@ -152,7 +152,7 @@ function tailwindscore_nocache_guest_account_login_pages(): void {
 add_action( 'template_redirect', 'tailwindscore_nocache_guest_account_login_pages', 0 );
 
 /**
- * Icon map for WooCommerce account menu endpoints.
+ * WooCommerce 账户菜单 endpoint 图标映射。
  *
  * @return array<string, string>
  */
@@ -167,7 +167,7 @@ function tailwindscore_account_nav_icons(): array {
 }
 
 /**
- * Short labels for account menu endpoints.
+ * 账户菜单 endpoint 的短标签。
  *
  * @return array<string, string>
  */

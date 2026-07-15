@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * AJAX registration for account auth surfaces.
+ * 账户认证页面的 AJAX 注册。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Handles nopriv AJAX registration and runtime config for the frontend handler.
+ * 处理 nopriv AJAX 注册及前台处理器的运行时配置。
  */
 class Tailwindscore_Account_Auth_Register {
 
@@ -81,7 +81,7 @@ class Tailwindscore_Account_Auth_Register {
 	}
 
 	/**
-	 * @param array<string, mixed> $parts Runtime config fragments.
+	 * @param array<string, mixed> $parts 运行时配置片段。
 	 * @return array<string, mixed>
 	 */
 	public function filter_runtime_config( array $parts ): array {

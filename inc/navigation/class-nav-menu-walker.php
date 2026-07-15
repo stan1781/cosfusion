@@ -2,11 +2,11 @@
 declare(strict_types=1);
 
 /**
- * Primary navigation Walker (standard dropdown + mega menu extension).
+ * 主导航 Walker（标准下拉 + mega menu 扩展）。
  *
- * Mobile: drill-down panels collected in buffers, wrapped as a horizontal track in walk().
+ * 移动端：drill-down 面板收集于 buffer，在 walk() 中包装为横向 track。
  *
- * @see menu-item-helpers.php for menu CSS class conventions.
+ * @see menu-item-helpers.php 菜单 CSS class 约定。
  */
 class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 
@@ -15,7 +15,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 
 	protected bool $in_mega_menu = false;
 
-	/** @var string|null Active mobile sub-panel buffer key (menu-item-{id}). */
+	/** @var string|null 当前移动端子 panel buffer key（menu-item-{id}）。 */
 	protected ?string $mobile_active_panel_id = null;
 
 	/**
@@ -24,7 +24,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	protected array $mobile_panel_buffers = array();
 
 	/**
-	 * @param array{variant?: string}|null $args Walker constructor args.
+	 * @param array{variant?: string}|null $args Walker 构造参数。
 	 */
 	public function __construct( $args = null ) {
 		if ( is_array( $args ) && isset( $args['variant'] ) && 'mobile' === $args['variant'] ) {
@@ -33,8 +33,8 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	}
 
 	/**
-	 * @param array<int, object> $elements Menu items.
-	 * @param mixed              ...$args   Walker args.
+	 * @param array<int, object> $elements 菜单项。
+	 * @param mixed              ...$args   Walker 参数。
 	 */
 	public function walk( $elements, $max_depth, ...$args ) {
 		if ( 'mobile' !== $this->variant ) {
@@ -78,7 +78,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	}
 
 	/**
-	 * @param string $output Output buffer.
+	 * @param string $output 输出 buffer。
 	 * @return string
 	 */
 	private function &output_buffer( string &$output ): string {
@@ -90,7 +90,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	}
 
 	/**
-	 * @param object $item Menu item.
+	 * @param object $item 菜单项。
 	 * @return list<string>
 	 */
 	private function get_item_classes( object $item, int $depth, object $args ): array {
@@ -115,14 +115,14 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	}
 
 	/**
-	 * Chevron-down SVG icon for items that open a dropdown.
+	 * 打开下拉菜单项的 chevron-down SVG 图标。
 	 */
 	private function render_chevron_icon(): string {
 		return tailwindscore_icon( 'chevron-down', 'ts-nav__chevron' );
 	}
 
 	/**
-	 * @param object $item Menu item.
+	 * @param object $item 菜单项。
 	 */
 	private function render_link( object $item, int $depth, object $args, string $link_class ): string {
 		$classes = array( $link_class );
@@ -139,7 +139,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 
 		$has_children = tailwindscore_nav_item_has_children( $item, $args );
 
-		// Add modifier class when the link has a dropdown, for CSS targeting.
+		// 链接含下拉时为 CSS 定位添加修饰 class。
 		if ( 0 === $depth && $has_children ) {
 			$classes[] = 'ts-nav__link--has-children';
 		}
@@ -170,7 +170,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 		$link_before = isset( $args->link_before ) ? $args->link_before : '';
 		$link_after  = isset( $args->link_after ) ? $args->link_after : '';
 
-		// Append chevron icon for top-level items with a dropdown (desktop only).
+		// 为含下拉的顶级项追加 chevron 图标（仅 desktop）。
 		$chevron = ( 0 === $depth && $has_children && 'desktop' === $this->variant )
 			? $this->render_chevron_icon()
 			: '';
@@ -179,7 +179,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	}
 
 	/**
-	 * @param list<string> $item_classes Item classes.
+	 * @param list<string> $item_classes 菜单项 class 列表。
 	 */
 	private function render_mobile_drill_button( object $item, array $item_classes, string $id_attr ): string {
 		$panel_id = 'menu-item-' . $item->ID;
@@ -205,8 +205,8 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	}
 
 	/**
-	 * @param string $output Nav output.
-	 * @param object $item   Menu item.
+	 * @param string $output 导航输出。
+	 * @param object $item   菜单项。
 	 */
 	public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ): void {
 		$args         = is_object( $args ) ? $args : (object) $args;
@@ -218,7 +218,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 		$item_id      = apply_filters( 'nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args, $depth );
 		$id_attr      = $item_id ? ' id="' . esc_attr( $item_id ) . '"' : '';
 
-		// Mobile drill-down: top-level items with children open a slide panel.
+		// 移动端 drill-down：有子项的顶级项打开 slide panel。
 		if ( 0 === $depth && 'mobile' === $this->variant && $has_children ) {
 			$panel_id = 'menu-item-' . $item->ID;
 			$title    = apply_filters( 'the_title', $item->title, $item->ID );
@@ -239,7 +239,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 			return;
 		}
 
-		// Mega menu — top level (desktop).
+		// Mega menu — 顶级（desktop）。
 		if ( 0 === $depth && $is_mega ) {
 			$this->in_mega_menu = true;
 			$target            .= '<li' . $id_attr . ' class="' . esc_attr( $class_names ) . '">';
@@ -247,21 +247,21 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 			return;
 		}
 
-		// Mega — column (depth 1).
+		// Mega — 列（depth 1）。
 		if ( $this->in_mega_menu && 1 === $depth ) {
 			$target .= '<div class="ts-nav__mega-col">';
 			$target .= $this->render_link( $item, $depth, $args, 'ts-nav__mega-heading' );
 			return;
 		}
 
-		// Mega — link (depth 2).
+		// Mega — 链接（depth 2）。
 		if ( $this->in_mega_menu && 2 === $depth ) {
 			$target .= '<li class="ts-nav__mega-list-item">';
 			$target .= $this->render_link( $item, $depth, $args, 'ts-nav__mega-link' );
 			return;
 		}
 
-		// Standard list item.
+		// 标准列表项。
 		$before      = isset( $args->before ) ? $args->before : '';
 		$after       = isset( $args->after ) ? $args->after : '';
 		$item_output = $before . $this->render_link( $item, $depth, $args, 'ts-nav__link' ) . $after;
@@ -272,8 +272,8 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	}
 
 	/**
-	 * @param string $output Nav output.
-	 * @param object $item   Menu item.
+	 * @param string $output 导航输出。
+	 * @param object $item   菜单项。
 	 */
 	public function end_el( &$output, $item, $depth = 0, $args = null, $id = 0 ): void {
 		$target  = &$this->output_buffer( $output );
@@ -307,7 +307,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	}
 
 	/**
-	 * @param string $output Nav output.
+	 * @param string $output 导航输出。
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = null ): void {
 		$target = &$this->output_buffer( $output );
@@ -337,7 +337,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	}
 
 	/**
-	 * @param string $output Nav output.
+	 * @param string $output 导航输出。
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = null ): void {
 		$target = &$this->output_buffer( $output );

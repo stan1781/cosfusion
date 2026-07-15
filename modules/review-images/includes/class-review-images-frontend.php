@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Review images frontend display and comment integration.
+ * 评论图片前台展示与评论集成。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Frontend hooks for review images.
+ * 评论图片前台 Hook。
  */
 class Tailwindscore_Review_Images_Frontend {
 
@@ -140,9 +140,9 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param int        $comment_id       Comment ID.
-	 * @param int|string $comment_approved Approval status.
-	 * @param array      $commentdata      Comment data.
+	 * @param int        $comment_id       评论 ID。
+	 * @param int|string $comment_approved 审批状态。
+	 * @param array      $commentdata      评论数据。
 	 * @return void
 	 */
 	public function attach_images_to_comment( $comment_id, $comment_approved, $commentdata ): void {
@@ -233,7 +233,7 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param int $user_id User ID.
+	 * @param int $user_id 用户 ID。
 	 * @return int[]
 	 */
 	private function find_recent_unlinked_review_images( int $user_id ): array {
@@ -272,11 +272,11 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * Remove staged review uploads that were not attached to the comment.
+	 * 移除未关联到评论的暂存评论上传。
 	 *
-	 * @param int[] $submitted_ids   IDs from the form payload.
-	 * @param int[] $attached_ids    IDs saved on the comment.
-	 * @param int   $user_id         Current user ID.
+	 * @param int[] $submitted_ids   表单 payload 中的 ID。
+	 * @param int[] $attached_ids    评论上保存的 ID。
+	 * @param int   $user_id         当前用户 ID。
 	 * @return void
 	 */
 	private function cleanup_unattached_review_submissions( array $submitted_ids, array $attached_ids, int $user_id ): void {
@@ -301,8 +301,8 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param int $attachment_id Attachment ID.
-	 * @param int $user_id       Current user ID.
+	 * @param int $attachment_id 附件 ID。
+	 * @param int $user_id       当前用户 ID。
 	 * @return bool
 	 */
 	private function can_delete_staged_review_attachment( int $attachment_id, int $user_id ): bool {
@@ -328,8 +328,8 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param int      $comment_id Comment ID.
-	 * @param WP_Comment $comment  Comment object.
+	 * @param int      $comment_id 评论 ID。
+	 * @param WP_Comment $comment  评论对象。
 	 * @return void
 	 */
 	public function delete_comment_images( $comment_id, $comment ): void {
@@ -346,7 +346,7 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param WP_Comment|string $comment Comment.
+	 * @param WP_Comment|string $comment 评论。
 	 * @return void
 	 */
 	public function print_review_images_action( $comment ): void {
@@ -366,7 +366,7 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * Output unified product lightbox payload (showcase + review images).
+	 * 输出统一商品 lightbox payload（展示条 + 评论图片）。
 	 *
 	 * @return void
 	 */
@@ -398,7 +398,7 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return array{images: array<int, array<string, mixed>>, slides: array<int, array<string, mixed>>}
 	 */
 	public function build_product_lightbox_payload( int $product_id ): array {
@@ -441,7 +441,7 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param int $attachment_id Attachment ID.
+	 * @param int $attachment_id 附件 ID。
 	 * @return array{full: string, thumb: string, id: int}|null
 	 */
 	public function build_lightbox_image_from_attachment( int $attachment_id ): ?array {
@@ -459,7 +459,7 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param int $attachment_id Attachment ID.
+	 * @param int $attachment_id 附件 ID。
 	 * @return array<string, mixed>
 	 */
 	private function get_slide_meta_for_attachment( int $attachment_id ): array {
@@ -492,7 +492,7 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return array<string, int>
 	 */
 	private function get_attachment_global_index_map( int $product_id ): array {
@@ -506,8 +506,8 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param int $attachment_id Attachment ID.
-	 * @param int $product_id    Product ID.
+	 * @param int $attachment_id 附件 ID。
+	 * @param int $product_id    商品 ID。
 	 * @return int
 	 */
 	public function get_global_index_for_attachment( int $attachment_id, int $product_id ): int {
@@ -555,7 +555,7 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param WP_Comment $comment Comment.
+	 * @param WP_Comment $comment 评论。
 	 * @return array<string, mixed>|null
 	 */
 	public function get_comment_data_for_lightbox( $comment ): ?array {
@@ -616,7 +616,7 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param string $country_code Country code.
+	 * @param string $country_code 国家代码。
 	 * @return array{code: string, name: string, flag_url: string}
 	 */
 	public static function get_country_info( string $country_code ): array {
@@ -652,8 +652,8 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param array $comments Comments.
-	 * @param int   $post_id  Post ID.
+	 * @param array $comments 评论列表。
+	 * @param int   $post_id  文章 ID。
 	 * @return array
 	 */
 	public function sort_comments_by_date_desc( $comments, $post_id ) {
@@ -675,8 +675,8 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param int[] $unused_images_ids IDs.
-	 * @param int   $blog_id           Blog ID.
+	 * @param int[] $unused_images_ids ID 列表。
+	 * @param int   $blog_id           站点 ID。
 	 * @return int[]
 	 */
 	public function exclude_review_images_from_unused( $unused_images_ids, $blog_id = 1 ) {
@@ -702,8 +702,8 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param bool $keep            Keep flag.
-	 * @param int  $attachment_id   Attachment ID.
+	 * @param bool $keep            保留标记。
+	 * @param int  $attachment_id   附件 ID。
 	 * @return bool
 	 */
 	public function mark_review_images_as_used( $keep, $attachment_id ) {
@@ -727,8 +727,8 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param int   $comment_id Comment ID.
-	 * @param array $data       Comment data.
+	 * @param int   $comment_id 评论 ID。
+	 * @param array $data       评论数据。
 	 * @return void
 	 */
 	public function clear_avatar_cache_on_edit( $comment_id, $data ): void {
@@ -738,11 +738,11 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param string $avatar        Avatar HTML.
-	 * @param mixed  $id_or_email   ID or email.
-	 * @param int    $size          Size.
-	 * @param string $default       Default.
-	 * @param string $alt           Alt text.
+	 * @param string $avatar        头像 HTML。
+	 * @param mixed  $id_or_email   ID 或邮箱。
+	 * @param int    $size          尺寸。
+	 * @param string $default       默认值。
+	 * @param string $alt           alt 文本。
 	 * @return string
 	 */
 	public function force_avatar_refresh( $avatar, $id_or_email, $size, $default, $alt ) {

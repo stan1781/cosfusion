@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Quick View frontend hooks: assets, modal shell, loop triggers.
+ * Quick View 前台 Hook：资源、弹层壳、循环触发器。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Quick View frontend integration.
+ * Quick View 前台集成。
  */
 class Tailwindscore_Quick_View_Frontend {
 
@@ -29,7 +29,7 @@ class Tailwindscore_Quick_View_Frontend {
 	}
 
 	/**
-	 * @param string[] $classes Body classes.
+	 * @param string[] $classes body 类名。
 	 * @return string[]
 	 */
 	public function body_class( array $classes ): array {
@@ -52,9 +52,9 @@ class Tailwindscore_Quick_View_Frontend {
 	}
 
 	/**
-	 * @param string      $html    Add to cart link HTML.
-	 * @param WC_Product  $product Product.
-	 * @param array<mixed> $args   Args.
+	 * @param string      $html    加购链接 HTML。
+	 * @param WC_Product  $product 商品。
+	 * @param array<mixed> $args   参数。
 	 * @return string
 	 */
 	public function filter_loop_add_to_cart_link( string $html, $product, array $args ): string {
@@ -85,7 +85,7 @@ class Tailwindscore_Quick_View_Frontend {
 	}
 
 	/**
-	 * @param array<string, mixed> $parts Runtime config fragments.
+	 * @param array<string, mixed> $parts 运行时配置片段。
 	 * @return array<string, mixed>
 	 */
 	public function filter_runtime_config( array $parts ): array {

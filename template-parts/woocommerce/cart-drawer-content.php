@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-// The drawer is the primary place for cart edits; coupon entry is optional (Customizer).
-// The drawer and lightweight cart page must render line items through the same partial.
+// 抽屉是编辑购物车的主要入口；优惠券输入为可选（Customizer）。
+// 抽屉与轻量购物车页必须通过同一 partial 渲染行项目。
 
 if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
 	return;

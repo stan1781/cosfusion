@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Product review form modal.
+ * 商品评价表单弹窗。
  *
  * @package TailwindScore
  */

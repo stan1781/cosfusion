@@ -4,14 +4,14 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * WooCommerce Store API and purchase-flow endpoints must never be cached.
- * Full-page static cache (e.g. Baota) otherwise serves stale cart JSON and nonces.
+ * WooCommerce Store API 与购买流程 endpoint 绝不可缓存。
+ * 否则全页静态缓存（如宝塔）会返回过期购物车 JSON 与 nonce。
  */
 
 /**
- * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response REST response.
- * @param WP_REST_Server                                  $server   REST server.
- * @param WP_REST_Request                                 $request  REST request.
+ * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response REST 响应。
+ * @param WP_REST_Server                                  $server   REST 服务器。
+ * @param WP_REST_Request                                 $request  REST 请求。
  * @return WP_REST_Response|WP_HTTP_Response|WP_Error|mixed
  */
 function tailwindscore_store_api_nocache_headers( $response, WP_REST_Server $server, WP_REST_Request $request ) {
@@ -33,7 +33,7 @@ function tailwindscore_store_api_nocache_headers( $response, WP_REST_Server $ser
 add_filter( 'rest_post_dispatch', 'tailwindscore_store_api_nocache_headers', 10, 3 );
 
 /**
- * When the shopper already has items in cart, do not serve a cached HTML shell.
+ * 购物者购物车已有商品时，不返回缓存的 HTML 外壳。
  */
 function tailwindscore_nocache_when_cart_has_items(): void {
 	if ( is_admin() || wp_doing_ajax() || wp_is_json_request() ) {
@@ -53,7 +53,7 @@ function tailwindscore_nocache_when_cart_has_items(): void {
 add_action( 'template_redirect', 'tailwindscore_nocache_when_cart_has_items', 0 );
 
 /**
- * Hint reverse proxies to vary full-page cache by session cookies.
+ * 提示反向代理按会话 Cookie 区分全页缓存。
  */
 function tailwindscore_vary_cache_on_cookies(): void {
 	if ( is_admin() || wp_doing_ajax() || wp_is_json_request() ) {

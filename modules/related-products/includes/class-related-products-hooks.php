@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * WooCommerce hooks for related products module.
+ * 相关产品模块的 WooCommerce Hook。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Filters and single-product output for related products.
+ * 相关产品的过滤与单品输出。
  */
 class Tailwindscore_Related_Products_Hooks {
 
@@ -36,8 +36,8 @@ class Tailwindscore_Related_Products_Hooks {
 	}
 
 	/**
-	 * @param int[] $related_posts Related product IDs.
-	 * @param int   $product_id    Current product ID.
+	 * @param int[] $related_posts 相关产品 ID。
+	 * @param int   $product_id    当前商品 ID。
 	 * @return int[]
 	 */
 	public function filter_related_products( array $related_posts, int $product_id ): array {
@@ -68,7 +68,7 @@ class Tailwindscore_Related_Products_Hooks {
 	}
 
 	/**
-	 * @param array<string, mixed> $args Related loop args.
+	 * @param array<string, mixed> $args 相关商品循环参数。
 	 * @return array<string, mixed>
 	 */
 	public function filter_related_args( array $args ): array {

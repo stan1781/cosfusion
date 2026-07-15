@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Variation selector settings and attribute helpers.
+ * 变体选择器设置与属性辅助函数。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Variation selector configuration and rules.
+ * 变体选择器配置与规则。
  */
 class Tailwindscore_Variation_Settings {
 
@@ -42,7 +42,7 @@ class Tailwindscore_Variation_Settings {
 	}
 
 	/**
-	 * @param string[] $values List.
+	 * @param string[] $values 列表。
 	 * @return string[]
 	 */
 	private static function normalize_lowercase_list( array $values ): array {
@@ -55,8 +55,8 @@ class Tailwindscore_Variation_Settings {
 	}
 
 	/**
-	 * @param string   $attribute_name Attribute key.
-	 * @param int|null $product_id     Product ID.
+	 * @param string   $attribute_name 属性键。
+	 * @param int|null $product_id     商品 ID。
 	 * @return bool
 	 */
 	public static function is_color_attribute( string $attribute_name, ?int $product_id = null ): bool {
@@ -74,7 +74,7 @@ class Tailwindscore_Variation_Settings {
 	}
 
 	/**
-	 * @param string $attribute_name Attribute key.
+	 * @param string $attribute_name 属性键。
 	 * @return bool
 	 */
 	public static function is_size_attribute( string $attribute_name ): bool {
@@ -83,7 +83,7 @@ class Tailwindscore_Variation_Settings {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return string[]
 	 */
 	public static function get_product_disabled_image_attributes( int $product_id ): array {
@@ -95,7 +95,7 @@ class Tailwindscore_Variation_Settings {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return string ''|'grid'|'list'
 	 */
 	public static function get_product_color_selector_default_mode_raw( int $product_id ): string {
@@ -107,7 +107,7 @@ class Tailwindscore_Variation_Settings {
 	}
 
 	/**
-	 * @param int $product_id Product ID.
+	 * @param int $product_id 商品 ID。
 	 * @return string 'grid'|'list'
 	 */
 	public static function get_effective_color_selector_default_mode( int $product_id ): string {
@@ -138,9 +138,9 @@ class Tailwindscore_Variation_Settings {
 	}
 
 	/**
-	 * Frontend config for window.tailwindscoreProduct.variations.
+	 * window.tailwindscoreProduct.variations 的前台配置。
 	 *
-	 * @param int|null $product_id Product ID.
+	 * @param int|null $product_id 商品 ID。
 	 * @return array<string, mixed>
 	 */
 	public static function get_frontend_config( ?int $product_id = null ): array {
@@ -178,7 +178,7 @@ function tailwindscore_variations_enabled(): bool {
 
 /**
  * @param string   $attribute_name Attribute.
- * @param int|null $product_id     Product ID.
+ * @param int|null $product_id     商品 ID。
  * @return bool
  */
 function tailwindscore_is_color_variation_attribute( string $attribute_name, ?int $product_id = null ): bool {
@@ -186,7 +186,7 @@ function tailwindscore_is_color_variation_attribute( string $attribute_name, ?in
 }
 
 /**
- * @param string $attribute_name Attribute.
+ * @param string $attribute_name 属性。
  * @return bool
  */
 function tailwindscore_is_size_variation_attribute( string $attribute_name ): bool {
@@ -194,7 +194,7 @@ function tailwindscore_is_size_variation_attribute( string $attribute_name ): bo
 }
 
 /**
- * @param int|null $product_id Product ID.
+ * @param int|null $product_id 商品 ID。
  * @return array<string, mixed>
  */
 function tailwindscore_variations_config( ?int $product_id = null ): array {
@@ -210,9 +210,9 @@ function tailwindscore_variations_config( ?int $product_id = null ): array {
 }
 
 /**
- * Merge gallery + variations payloads for single product pages.
+ * 合并单品页的 gallery + variations payload。
  *
- * @param int|null $product_id Product ID.
+ * @param int|null $product_id 商品 ID。
  * @return array<string, mixed>
  */
 function tailwindscore_product_page_config( ?int $product_id = null ): array {

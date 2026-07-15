@@ -1,18 +1,17 @@
 <?php
 declare(strict_types=1);
 
-// Purchase-flow rendering belongs in inc/woocommerce/cart-view.php.
-// Generic site helpers stay in inc/template-tags.php.
+// 购买流程渲染见 inc/woocommerce/cart-view.php。
+// 通用站点辅助函数保留在 inc/template-tags.php。
 
 function tailwindscore_site_name(): string {
 	return get_bloginfo( 'name' );
 }
 
 /**
- * Intrinsic dimensions for an image URL stored in the media library.
+ * 媒体库中图片 URL 的固有尺寸。
  *
- * Used for width/height attributes so the browser can reserve layout space
- * before the image loads (PageSpeed / CLS).
+ * 用于 width/height 属性，使浏览器在图片加载前预留布局空间（PageSpeed / CLS）。
  *
  * @return array{width: int, height: int}
  */
@@ -46,7 +45,7 @@ function tailwindscore_image_url_dimensions( string $url, int $fallback_width, i
 }
 
 /**
- * Breadcrumb trail for the current entry (Home + ancestors / category + title).
+ * 当前条目的面包屑路径（首页 + 祖先 / 分类 + 标题）。
  *
  * @return list<array{label: string, url: string}>
  */
@@ -88,7 +87,7 @@ function tailwindscore_entry_breadcrumb_items(): array {
 }
 
 /**
- * Whether the decorative entry header (title band) should render.
+ * 是否渲染装饰性条目头部（标题带）。
  */
 function tailwindscore_show_entry_header(): bool {
 	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
@@ -151,11 +150,10 @@ function _tailwindscore_icon_map(): array {
 }
 
 /**
- * Return SVG icon markup by name, with an optional extra CSS class injected
- * into the <svg> element.
+ * 按名称返回 SVG 图标 markup，可选向 <svg> 元素注入额外 CSS class。
  *
- * All icons share the base attributes (viewBox, aria-hidden, focusable).
- * Pass $class to add a modifier — e.g. tailwindscore_icon( 'chevron-down', 'ts-nav__chevron' ).
+ * 所有图标共享基础属性（viewBox、aria-hidden、focusable）。
+ * 传入 $class 添加修饰符 — 例如 tailwindscore_icon( 'chevron-down', 'ts-nav__chevron' )。
  */
 function tailwindscore_icon( string $name, string $class = '' ): string {
 	$svg = _tailwindscore_icon_map()[ $name ] ?? '';
@@ -164,7 +162,7 @@ function tailwindscore_icon( string $name, string $class = '' ): string {
 		return $svg;
 	}
 
-	// Inject the extra class into the opening <svg ...> tag.
+	// 将额外 class 注入 opening <svg ...> 标签。
 	return preg_replace(
 		'/^<svg /',
 		'<svg class="' . esc_attr( $class ) . '" ',
@@ -275,10 +273,10 @@ function tailwindscore_render_cart_screen_reader_text(): void {
 }
 
 /**
- * Render the sitewide dismiss/close control (icon + screen-reader label).
+ * 渲染全站关闭 /  dismiss 控件（图标 + 屏幕阅读器标签）。
  *
- * @param string               $label Accessible label.
- * @param array<string, mixed> $args  Optional class and extra attributes.
+ * @param string               $label 无障碍标签。
+ * @param array<string, mixed> $args  可选 class 与额外属性。
  * @return void
  */
 function tailwindscore_render_close_button( string $label, array $args = array() ): void {

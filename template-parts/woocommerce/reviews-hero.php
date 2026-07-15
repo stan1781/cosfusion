@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Reviews hero: customer photos + summary card.
+ * 评价 hero：客户照片 + 摘要卡片。
  *
  * @package TailwindScore
  */

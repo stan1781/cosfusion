@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Review summary card (rating + open review modal trigger).
+ * 评价摘要卡片（评分 + 打开评价弹窗触发器）。
  *
  * @package TailwindScore
  */

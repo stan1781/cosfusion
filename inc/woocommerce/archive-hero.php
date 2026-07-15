@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Shop / taxonomy archive hero (full-width background + title).
+ * 商店 / 分类法归档 hero（全宽背景 + 标题）。
  *
  * @package TailwindScore
  */
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 const TAILWINDSCORE_WC_ARCHIVE_HERO_META_KEY = '_ts_archive_hero_bg';
 
 /**
- * Whether the current request uses the archive hero layout.
+ * 当前请求是否使用归档 hero 布局。
  */
 function tailwindscore_wc_archive_has_hero_layout(): bool {
 	if ( ! function_exists( 'is_woocommerce' ) || ! is_woocommerce() ) {
@@ -23,9 +23,9 @@ function tailwindscore_wc_archive_has_hero_layout(): bool {
 }
 
 /**
- * Resolve attachment ID from theme_mod or term meta value.
+ * 从 theme_mod 或 term meta 值解析 attachment ID。
  *
- * @param mixed $value Raw stored value (attachment ID or legacy URL).
+ * @param mixed $value 原始存储值（attachment ID 或旧版 URL）。
  */
 function tailwindscore_wc_archive_hero_resolve_attachment_id( $value ): int {
 	if ( is_numeric( $value ) ) {
@@ -46,7 +46,7 @@ function tailwindscore_wc_archive_hero_resolve_attachment_id( $value ): int {
 }
 
 /**
- * Background attachment ID for the current archive hero.
+ * 当前归档 hero 的背景 attachment ID。
  */
 function tailwindscore_wc_archive_hero_attachment_id(): int {
 	if ( is_shop() ) {
@@ -77,7 +77,7 @@ function tailwindscore_wc_archive_hero_attachment_id(): int {
 }
 
 /**
- * Full-size background URL for the archive hero, if configured.
+ * 若已配置，归档 hero 的全尺寸背景 URL。
  */
 function tailwindscore_wc_archive_hero_background_url(): string {
 	$attachment_id = tailwindscore_wc_archive_hero_attachment_id();
@@ -92,7 +92,7 @@ function tailwindscore_wc_archive_hero_background_url(): string {
 }
 
 /**
- * Render full-width archive hero above breadcrumbs.
+ * 在面包屑上方渲染全宽归档 hero。
  */
 function tailwindscore_wc_render_archive_hero(): void {
 	if ( ! tailwindscore_wc_archive_has_hero_layout() ) {
@@ -104,7 +104,7 @@ function tailwindscore_wc_render_archive_hero(): void {
 add_action( 'woocommerce_before_main_content', 'tailwindscore_wc_render_archive_hero', 15 );
 
 /**
- * Open archive content shell after hero (breadcrumb + product grid).
+ * hero 之后打开归档内容外壳（面包屑 + 商品网格）。
  */
 function tailwindscore_wc_archive_shell_open(): void {
 	if ( ! tailwindscore_wc_archive_has_hero_layout() ) {
@@ -116,8 +116,8 @@ function tailwindscore_wc_archive_shell_open(): void {
 add_action( 'woocommerce_before_main_content', 'tailwindscore_wc_archive_shell_open', 18 );
 
 /**
- * @param string               $cfg     Kirki config id.
- * @param array<string, string> $targets Customizer panel/section IDs keyed by area.
+ * @param string               $cfg     Kirki 配置 ID。
+ * @param array<string, string> $targets 按区域索引的 Customizer 面板 / 区块 ID。
  */
 function tailwindscore_wc_archive_hero_kirki_register( string $cfg, array $targets ): void {
 	if ( ! class_exists( 'Kirki' ) || ! class_exists( 'WooCommerce' ) ) {
@@ -159,7 +159,7 @@ function tailwindscore_wc_archive_hero_kirki_register( string $cfg, array $targe
 add_action( 'tailwindscore/kirki/register', 'tailwindscore_wc_archive_hero_kirki_register', 10, 2 );
 
 /**
- * Taxonomies that support a per-term archive hero background.
+ * 支持按 term 设置归档 hero 背景的分类法。
  *
  * @return string[]
  */
@@ -168,23 +168,23 @@ function tailwindscore_wc_archive_hero_taxonomies(): array {
 }
 
 /**
- * @param string $taxonomy Taxonomy slug.
+ * @param string $taxonomy 分类法 slug。
  */
 function tailwindscore_wc_archive_hero_term_field_label( string $taxonomy ): string {
 	return esc_html__( 'Archive hero background', 'tailwindscore' );
 }
 
 /**
- * @param string $taxonomy Taxonomy slug.
+ * @param string $taxonomy 分类法 slug。
  */
 function tailwindscore_wc_archive_hero_term_field_description( string $taxonomy ): string {
 	return esc_html__( 'Optional full-width background for this archive page. Uses the default archive background when empty.', 'tailwindscore' );
 }
 
 /**
- * Add-term form field.
+ * 添加 term 表单字段。
  *
- * @param string $taxonomy Taxonomy slug.
+ * @param string $taxonomy 分类法 slug。
  */
 function tailwindscore_wc_archive_hero_add_term_field( string $taxonomy ): void {
 	if ( ! in_array( $taxonomy, tailwindscore_wc_archive_hero_taxonomies(), true ) ) {
@@ -205,10 +205,10 @@ function tailwindscore_wc_archive_hero_add_term_field( string $taxonomy ): void 
 }
 
 /**
- * Edit-term form field.
+ * 编辑 term 表单字段。
  *
- * @param WP_Term $term     Term object.
- * @param string  $taxonomy Taxonomy slug.
+ * @param WP_Term $term     Term 对象。
+ * @param string  $taxonomy 分类法 slug。
  */
 function tailwindscore_wc_archive_hero_edit_term_field( WP_Term $term, string $taxonomy ): void {
 	if ( ! in_array( $taxonomy, tailwindscore_wc_archive_hero_taxonomies(), true ) ) {
@@ -243,9 +243,9 @@ function tailwindscore_wc_archive_hero_edit_term_field( WP_Term $term, string $t
 }
 
 /**
- * Persist term hero background.
+ * 持久化 term hero 背景。
  *
- * @param int $term_id Term ID.
+ * @param int $term_id Term ID。
  */
 function tailwindscore_wc_archive_hero_save_term_meta( int $term_id ): void {
 	if ( ! current_user_can( 'manage_product_terms' ) ) {
@@ -268,7 +268,7 @@ function tailwindscore_wc_archive_hero_save_term_meta( int $term_id ): void {
 }
 
 /**
- * Register taxonomy admin UI hooks.
+ * 注册分类法后台 UI 钩子。
  */
 function tailwindscore_wc_archive_hero_register_term_fields(): void {
 	foreach ( tailwindscore_wc_archive_hero_taxonomies() as $taxonomy ) {
@@ -288,9 +288,9 @@ function tailwindscore_wc_archive_hero_register_term_fields(): void {
 add_action( 'admin_init', 'tailwindscore_wc_archive_hero_register_term_fields' );
 
 /**
- * Media picker for term hero background fields.
+ * term hero 背景字段的媒体选择器。
  *
- * @param string $hook_suffix Current admin page hook suffix.
+ * @param string $hook_suffix 当前后台页面 hook 后缀。
  */
 function tailwindscore_wc_archive_hero_admin_assets( string $hook_suffix ): void {
 	if ( ! in_array( $hook_suffix, array( 'edit-tags.php', 'term.php' ), true ) ) {

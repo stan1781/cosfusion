@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Lost password form.
+ * 忘记密码表单。
  *
  * @package WooCommerce\Templates
  * @version 9.2.0

@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Sale badge for product loop cards.
+ * 商品列表卡片的促销徽章。
  */
 function tailwindscore_render_loop_sale_badge( WC_Product $product ): void {
 	if ( ! $product->is_on_sale() ) {
@@ -42,14 +42,14 @@ function tailwindscore_render_loop_sale_badge( WC_Product $product ): void {
 }
 
 /**
- * Filled star SVG for loop rating (uses currentColor).
+ * 列表评分用实心星 SVG（使用 currentColor）。
  */
 function tailwindscore_loop_rating_star_svg(): string {
 	return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="5.8 2 12.4 19" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2.5l2.89 5.86 6.46.94-4.68 4.56 1.1 6.43L12 17.77l-5.77 3.02 1.1-6.43-4.68-4.56 6.46-.94L12 2.5z"/></svg>';
 }
 
 /**
- * Star state for a 1–5 index: full, half, or empty.
+ * 1–5 索引的星标状态：full、half 或 empty。
  *
  * @return 'full'|'half'|'empty'
  */
@@ -66,7 +66,7 @@ function tailwindscore_loop_rating_star_state( float $rating, int $index ): stri
 }
 
 /**
- * Render five-star rating for archive product cards.
+ * 为归档商品卡片渲染五星评分。
  */
 function tailwindscore_render_loop_rating( WC_Product $product ): void {
 	if ( ! wc_review_ratings_enabled() ) {
@@ -111,7 +111,7 @@ function tailwindscore_render_loop_rating( WC_Product $product ): void {
 }
 
 /**
- * Product loop thumbnail with hover swap to first gallery image.
+ * 商品列表缩略图，悬停时切换至首张图库图片。
  */
 function tailwindscore_loop_product_secondary_image_id( WC_Product $product ): int {
 	$featured_id = (int) $product->get_image_id();
@@ -131,7 +131,7 @@ function tailwindscore_loop_product_secondary_image_id( WC_Product $product ): i
 }
 
 /**
- * Render primary + secondary loop images for archive cards.
+ * 为归档卡片渲染主图 + 副图。
  */
 function tailwindscore_render_loop_product_images( WC_Product $product ): void {
 	$secondary_id = tailwindscore_loop_product_secondary_image_id( $product );

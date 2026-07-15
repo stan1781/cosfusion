@@ -2,12 +2,12 @@
 declare(strict_types=1);
 
 /**
- * Auth shell opening markup — split hero + form panel.
+ * 认证外壳开头标记 — 分栏 hero + 表单面板。
  *
  * @package TailwindScore
  *
- * @var string $subtitle   Panel subtitle.
- * @var bool   $split_hero Whether to show the left hero column.
+ * @var string $subtitle   面板副标题。
+ * @var bool   $split_hero 是否显示左侧 hero 栏。
  * @var string $context    login|register|recovery
  */
 

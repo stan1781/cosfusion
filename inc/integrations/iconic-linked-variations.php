@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Iconic Woo Linked Variations — load frontend assets only on single product pages.
+ * Iconic Woo Linked Variations — 仅在单品页加载前台资源。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Whether Iconic Linked Variations frontend CSS/JS should load on this request.
+ * 当前请求是否应加载 Iconic Linked Variations 前台 CSS/JS。
  */
 function tailwindscore_should_load_iconic_wlv_assets(): bool {
 	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
@@ -21,7 +21,7 @@ function tailwindscore_should_load_iconic_wlv_assets(): bool {
 }
 
 /**
- * Dequeue Iconic Linked Variations frontend assets.
+ * 移除 Iconic Linked Variations 前台资源。
  */
 function tailwindscore_dequeue_iconic_wlv_assets(): void {
 	wp_dequeue_style( 'iconic-wlv' );
@@ -31,7 +31,7 @@ function tailwindscore_dequeue_iconic_wlv_assets(): void {
 }
 
 /**
- * Stop the plugin from enqueueing assets (and jQuery) before it runs.
+ * 在插件运行前阻止其 enqueue 资源（及 jQuery）。
  */
 add_action(
 	'wp_enqueue_scripts',
@@ -47,7 +47,7 @@ add_action(
 );
 
 /**
- * Safety net if another callback re-enqueues later in the same request.
+ * 同一请求中若其他回调稍后重新 enqueue 时的兜底。
  */
 add_action(
 	'wp_enqueue_scripts',

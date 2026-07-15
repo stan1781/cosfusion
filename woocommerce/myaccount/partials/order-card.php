@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-/** @var WC_Order $order */
+/** @var WC_Order $order 订单对象 */
 if ( ! isset( $order ) || ! $order instanceof WC_Order ) {
 	return;
 }

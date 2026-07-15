@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Standalone registration page handler.
+ * 独立注册页处理器。
  *
  * @package TailwindScore
  */
@@ -10,7 +10,7 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Registration shortcode, POST handling, and login-page cross links.
+ * 注册短代码、POST 处理与登录页交叉链接。
  */
 class Tailwindscore_Account_Registration {
 
@@ -20,7 +20,7 @@ class Tailwindscore_Account_Registration {
 	}
 
 	/**
-	 * @param array<string, mixed> $atts Shortcode attributes.
+	 * @param array<string, mixed> $atts 短代码属性。
 	 * @return string
 	 */
 	public function render_shortcode( array $atts = array() ): string {
@@ -97,10 +97,10 @@ class Tailwindscore_Account_Registration {
 	}
 
 	/**
-	 * @param string $username Username.
-	 * @param string $email    Email address.
-	 * @param string $password Password.
-	 * @return int|WP_Error Customer ID on success.
+	 * @param string $username 用户名。
+	 * @param string $email    邮箱地址。
+	 * @param string $password 密码。
+	 * @return int|WP_Error 成功时返回客户 ID。
 	 */
 	public static function create_customer( string $username, string $email, string $password ): int|WP_Error {
 		$username = trim( $username );

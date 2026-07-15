@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Variation selector module bootstrap.
+ * 变体选择器模块引导。
  *
  * @package TailwindScore
  */

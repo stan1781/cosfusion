@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Lost password confirmation.
+ * 忘记密码确认页。
  *
  * @package WooCommerce\Templates
  * @version 3.9.0

@@ -2,9 +2,9 @@
 declare(strict_types=1);
 
 /**
- * Quantity stepper (minus / input / plus).
+ * 数量步进器（减 / 输入 / 加）。
  *
- * @var array<string, mixed> $args Template arguments.
+ * @var array<string, mixed> $args 模板参数。
  */
 
 $input_id       = isset( $args['input_id'] ) ? (string) $args['input_id'] : '';
@@ -27,7 +27,7 @@ $increase_label = isset( $args['increase_label'] ) ? (string) $args['increase_la
 $aria_label     = isset( $args['aria_label'] ) ? (string) $args['aria_label'] : __( 'Product quantity', 'woocommerce' );
 
 $step_attrs       = '' !== $cart_item_key ? sprintf( ' data-cart-item-key="%s"', esc_attr( $cart_item_key ) ) : '';
-// Cart page and drawer use Store API quantity controls (see cart/index.ts).
+// 购物车页与抽屉使用 Store API 数量控件（见 cart/index.ts）。
 $is_cart_context  = in_array( $context, array( 'cart', 'cart-drawer', 'drawer' ), true );
 $is_compact       = in_array( $context, array( 'cart', 'cart-drawer', 'drawer' ), true );
 $wrapper_classes  = 'ts-quantity quantity' . ( $is_compact ? ' ts-quantity--compact' : '' );
