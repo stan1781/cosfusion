@@ -30,6 +30,7 @@ tailwindscore/
 ├── docs/                 # 项目文档（本目录）
 ├── inc/
 │   ├── bootstrap.php     # 统一 require（functions.php 仅引导此处）
+│   ├── icons.php         # 内联 SVG 图标 map / tailwindscore_icon()
 │   ├── config/           # Kirki 注册与 helpers
 │   ├── navigation/       # 头部、移动壳层、页脚导航
 │   ├── woocommerce/      # 商城模板逻辑、购买流程、结账
