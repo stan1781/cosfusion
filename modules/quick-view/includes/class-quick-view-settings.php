@@ -14,7 +14,14 @@ defined( 'ABSPATH' ) || exit;
  */
 class Tailwindscore_Quick_View_Settings {
 
-	public const ALLOWED_TARGET_PAGES = array( 'shop_archive', 'single_product', 'homepage' );
+	public const ALLOWED_TARGET_PAGES = array( 'shop_archive', 'single_product', 'homepage', 'cart', 'not_found' );
+
+	/**
+	 * @return string[]
+	 */
+	public static function default_target_pages(): array {
+		return array( 'shop_archive', 'homepage', 'single_product', 'cart', 'not_found' );
+	}
 
 	/**
 	 * @return bool
@@ -28,8 +35,16 @@ class Tailwindscore_Quick_View_Settings {
 	 * @return string[]
 	 */
 	public static function get_target_pages(): array {
-		$value = tailwindscore_mod( 'product_quick_view_target_pages', array( 'shop_archive', 'homepage', 'single_product' ) );
-		return self::sanitize_target_pages( $value );
+		$value = tailwindscore_mod( 'product_quick_view_target_pages', self::default_target_pages() );
+		$values = self::sanitize_target_pages( $value );
+
+		// 未改过「生效页面」的旧站：原默认三项时并入购物车 / 404 轮播页。
+		$legacy_default = array( 'shop_archive', 'homepage', 'single_product' );
+		if ( $values === $legacy_default ) {
+			return self::default_target_pages();
+		}
+
+		return $values;
 	}
 
 	/**
@@ -112,6 +127,14 @@ class Tailwindscore_Quick_View_Settings {
 		}
 
 		if ( in_array( 'homepage', $target_pages, true ) && self::is_homepage_context() ) {
+			return true;
+		}
+
+		if ( in_array( 'cart', $target_pages, true ) && function_exists( 'is_cart' ) && is_cart() ) {
+			return true;
+		}
+
+		if ( in_array( 'not_found', $target_pages, true ) && is_404() ) {
 			return true;
 		}
 

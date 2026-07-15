@@ -1,6 +1,6 @@
 # 产品轮播
 
-共享产品列表 Swiper 壳层，供短代码、首页精选商品与购物车推荐复用。
+共享产品列表 Swiper 壳层，供短代码、首页精选商品、购物车推荐与 404 人气商品复用。
 
 ## 短代码
 
@@ -33,14 +33,21 @@
 
 - Customizer → Cart：开关、标题、数量、排序、分类 ID（`0` = 不限）
 - 挂载：**仅购物车页**行项列表下方（不进 Drawer）
+- 可变品按钮走 Quick View（Customizer → 产品 → 快速查看 → 生效页面含「购物车页」）
 - 运行时：`window.tailwindscoreCart.productSuggestionsHtml`；购物车页 Store API 重绘后再次 `initProductCarousels`
 - 排除购物车内已有 product / variation ID
+
+## 404 人气商品
+
+- Customizer → 404 页面：开关、标题、数量、排序、分类 ID（`0` = 不限）
+- 挂载：404 页快捷导航下方
+- 复用同一壳层与全局 `initProductCarousels`；详见 [404 页面](not-found.md)
 
 ## 前台资源
 
 | 层 | 路径 |
 |----|------|
-| PHP | `inc/woocommerce/product-carousel.php`、`cart-product-suggestions.php` |
+| PHP | `inc/woocommerce/product-carousel.php`、`cart-product-suggestions.php`、`inc/not-found.php` |
 | 模板 | `template-parts/woocommerce/product-carousel.php` |
 | TS | `src/ts/shop/product-carousel.ts`（`app.ts` 全局初始化） |
 | SCSS | `src/scss/components/_product-carousel.scss` |

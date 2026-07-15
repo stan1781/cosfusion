@@ -1,5 +1,9 @@
 # Quick View 模块变更记录
 
+## 0.1.7 — 2026-07-15
+
+- 修复：购物车推荐轮播与 404 人气商品轮播纳入 Quick View 生效页面（`cart`、`not_found`）；未改过 Customizer「生效页面」的旧站自动并入。
+
 ## 0.1.6 — 2026-07-15
 
 - 修复：去除 HTML 类名 `ts-` 前缀后，bump 版本以使 QV HTML transient 缓存键失效；避免继续下发旧类名（如 `ts-wc-product-card__media`）导致样式失效。

@@ -22,7 +22,7 @@ function tailwindscore_quick_view_kirki_register( string $cfg, array $targets ):
 		'tailwindscore_product_quick_view',
 		array(
 			'title'       => esc_html__( '快速查看', 'tailwindscore' ),
-			'description' => esc_html__( '归档与首页可变商品的快速查看弹层。', 'tailwindscore' ),
+			'description' => esc_html__( '归档、首页、购物车与 404 产品轮播中的可变商品快速查看弹层。', 'tailwindscore' ),
 			'panel'       => $targets['product'],
 			'priority'    => 68,
 		)
@@ -46,11 +46,13 @@ function tailwindscore_quick_view_kirki_register( string $cfg, array $targets ):
 			'settings' => 'product_quick_view_target_pages',
 			'label'    => esc_html__( '生效页面', 'tailwindscore' ),
 			'section'  => 'tailwindscore_product_quick_view',
-			'default'  => array( 'shop_archive', 'homepage', 'single_product' ),
+			'default'  => Tailwindscore_Quick_View_Settings::default_target_pages(),
 			'choices'  => array(
 				'shop_archive'   => esc_html__( '商店 / 分类 / 标签归档', 'tailwindscore' ),
 				'homepage'       => esc_html__( '首页', 'tailwindscore' ),
 				'single_product' => esc_html__( '单品页（相关产品循环）', 'tailwindscore' ),
+				'cart'           => esc_html__( '购物车页（商品推荐轮播）', 'tailwindscore' ),
+				'not_found'      => esc_html__( '404 页面（人气商品轮播）', 'tailwindscore' ),
 			),
 			'active_callback' => array(
 				array(

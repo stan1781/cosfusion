@@ -32,6 +32,7 @@ require_once __DIR__ . '/woocommerce/cart-view.php';
 require_once __DIR__ . '/woocommerce/cart-config.php';
 require_once __DIR__ . '/woocommerce/product-carousel.php';
 require_once __DIR__ . '/woocommerce/cart-product-suggestions.php';
+require_once __DIR__ . '/not-found.php';
 require_once __DIR__ . '/woocommerce/shipping-rules.php';
 require_once __DIR__ . '/woocommerce/store-api-cache.php';
 require_once __DIR__ . '/woocommerce/cart-item-edit.php';

@@ -10,12 +10,14 @@ function tailwindscore_is_woo_page(): bool {
 		return false;
 	}
 
+	// 404 含人气商品轮播，需产品卡 / loop 样式（woo.scss）。
 	return is_woocommerce()
 		|| is_cart()
 		|| is_checkout()
 		|| is_account_page()
 		|| is_page( 'register' )
-		|| is_front_page();
+		|| is_front_page()
+		|| is_404();
 }
 
 /**

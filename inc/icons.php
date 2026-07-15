@@ -39,6 +39,7 @@ function _tailwindscore_icon_map(): array {
 		'circle-check'  => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"></circle><path d="M8 12l2.5 2.5L16 9"></path></svg>',
 		'clipboard'     => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5h6a2 2 0 0 1 2 2v1H7V7a2 2 0 0 1 2-2z"></path><path d="M7 8h10v11H7z"></path></svg>',
 		'log-out'       => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 7V5a2 2 0 0 1 2-2h7v18h-7a2 2 0 0 1-2-2v-2"></path><path d="M15 12H3"></path><path d="M6 9l-3 3 3 3"></path></svg>',
+		'tag'           => '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.252 2.252 0 0 0 3.182 0l6.704-6.704a2.252 2.252 0 0 0 0-3.182z"></path><circle cx="7.5" cy="7.5" r="1.5"></circle></svg>',
 	);
 }
 
