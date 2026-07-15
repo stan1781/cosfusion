@@ -16,7 +16,13 @@ function tailwindscore_checkout_login_dialog(): void {
 		return;
 	}
 
-	get_template_part( 'template-parts/woocommerce/checkout-login-dialog' );
+	get_template_part(
+		'template-parts/header/account-login-dialog',
+		null,
+		array(
+			'redirect' => function_exists( 'wc_get_checkout_url' ) ? wc_get_checkout_url() : home_url( '/' ),
+		)
+	);
 }
 
 add_filter( 'woocommerce_create_account_default_checked', '__return_true' );

@@ -1,4 +1,6 @@
 @use "../abstracts/mixins";
+@use "../abstracts/variables";
+
 .ts-site {
 	min-height: 100vh;
 	display: flex;
@@ -97,4 +99,31 @@
 
 .d-none {
 	display: none !important;
+}
+// --- content (sidebar / search; was _content.scss) ---
+
+
+.ts-sidebar {
+	width: 100%;
+}
+
+.ts-sidebar .widget-title {
+	font-size: var(--ts-font-size-base);
+	font-weight: 600;
+	margin: 0 0 var(--ts-space-lg);
+}
+
+.ts-sidebar .widget {
+	display: grid;
+	gap: var(--ts-space-lg);
+}
+
+.ts-site-footer .widget:not(.ts-site-footer__copyright--has-icons) {
+	display: grid;
+	gap: var(--ts-space-lg);
+}
+
+.ts-search-form {
+	width: 100%;
+	max-width: variables.$ts-layout-search;
 }

@@ -1,0 +1,55 @@
+<?php
+declare(strict_types=1);
+
+/**
+ * 主题 PHP 统一加载入口。禁止在 functions.php 继续堆叠 require。
+ *
+ * @package TailwindScore
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+require_once __DIR__ . '/setup.php';
+require_once __DIR__ . '/navigation/nav.php';
+require_once __DIR__ . '/navigation/mobile-shell.php';
+require_once __DIR__ . '/navigation/header-bar.php';
+require_once __DIR__ . '/navigation/footer-nav.php';
+require_once __DIR__ . '/enqueue.php';
+require_once __DIR__ . '/performance.php';
+require_once __DIR__ . '/template-tags.php';
+require_once __DIR__ . '/woocommerce/setup.php';
+require_once __DIR__ . '/woocommerce/hooks.php';
+require_once __DIR__ . '/woocommerce/archive-hero.php';
+require_once __DIR__ . '/woocommerce/helpers.php';
+require_once __DIR__ . '/woocommerce/product-image-aspect.php';
+require_once __DIR__ . '/woocommerce/product-tabs.php';
+require_once __DIR__ . '/woocommerce/loop.php';
+require_once __DIR__ . '/woocommerce/loop-variant-swatches.php';
+require_once __DIR__ . '/woocommerce/homepage-shop-by-color.php';
+require_once __DIR__ . '/woocommerce/price-display.php';
+require_once __DIR__ . '/woocommerce/cart-view.php';
+require_once __DIR__ . '/woocommerce/cart-config.php';
+require_once __DIR__ . '/woocommerce/shipping-rules.php';
+require_once __DIR__ . '/woocommerce/store-api-cache.php';
+require_once __DIR__ . '/woocommerce/cart-item-edit.php';
+require_once __DIR__ . '/woocommerce/checkout-layout.php';
+require_once __DIR__ . '/woocommerce/checkout.php';
+require_once __DIR__ . '/woocommerce/account-header.php';
+require_once __DIR__ . '/woocommerce/ajax-search.php';
+require_once __DIR__ . '/woocommerce/checkout-coupon.php';
+require_once __DIR__ . '/woocommerce/reviews.php';
+require_once __DIR__ . '/config/kirki-config.php';
+require_once __DIR__ . '/homepage.php';
+
+require_once get_template_directory() . '/modules/typography/module.php';
+require_once get_template_directory() . '/modules/gallery/module.php';
+require_once get_template_directory() . '/modules/variations/module.php';
+require_once get_template_directory() . '/modules/size-guide/module.php';
+require_once get_template_directory() . '/modules/related-products/module.php';
+require_once get_template_directory() . '/modules/quick-view/module.php';
+require_once get_template_directory() . '/modules/review-images/module.php';
+require_once get_template_directory() . '/modules/account-auth/module.php';
+
+require_once __DIR__ . '/integrations/wc-order-process-manager.php';
+require_once __DIR__ . '/integrations/wc-mailnest.php';
+require_once __DIR__ . '/integrations/iconic-linked-variations.php';

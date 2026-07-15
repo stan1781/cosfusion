@@ -505,3 +505,30 @@
 	font-size: var(--ts-font-size-sm);
 	color: var(--ts-colors-text-muted);
 }
+
+// --- cart feedback (was _cart-feedback.scss) ---
+
+.ts-cart-feedback[hidden] {
+	display: none !important;
+}
+
+.ts-cart-feedback:not([hidden]) {
+	display: grid;
+	gap: var(--ts-space-lg);
+}
+
+.ts-cart-feedback__message {
+	margin: 0;
+	padding: var(--ts-space-lg) var(--ts-space-xl);
+	border-radius: var(--ts-radius-sm);
+	font-size: var(--ts-font-size-sm);
+}
+
+.ts-cart-feedback__message--success {
+	background: color-mix(in srgb, var(--ts-colors-primary) 12%, var(--ts-colors-surface));
+}
+
+.ts-cart-feedback__message--error,
+.ts-cart-feedback__message--warning {
+	background: color-mix(in srgb, var(--ts-colors-danger) 10%, var(--ts-colors-surface));
+}

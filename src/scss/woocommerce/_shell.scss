@@ -1,3 +1,5 @@
+@use "../abstracts/mixins";
+
 .ts-main--commerce .ts-wc-shell {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
@@ -6,4 +8,82 @@
 
 .ts-main--commerce .ts-wc-shell > * {
 	min-width: 0;
+}
+
+// --- tables (was _tables.scss) ---
+
+.woocommerce table.shop_table,
+.woocommerce table.shop_attributes,
+.woocommerce-tabs .wp-block-table table,
+.ts-size-guide-table,
+.ts-size-guide-legacy table {
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid var(--ts-colors-border);
+
+	th,
+	td {
+		border: 1px solid var(--ts-colors-border);
+		padding: 0.875rem var(--ts-space-xl);
+		text-align: left;
+		p {
+			margin: 0;
+		}
+	}
+
+	th {
+		background: var(--ts-colors-surface-muted);
+		font-weight: 600;
+	}
+
+	@include mixins.ts-down("sm") {
+		font-size: var(--ts-font-size-sm);
+	}
+}
+
+.woocommerce-tabs .wp-block-table {
+	@include mixins.ts-down("md") {
+		margin: 0;
+	}
+}
+
+// --- notices / legacy tabs chrome (was _notices.scss) ---
+
+.woocommerce-message,
+.woocommerce-error,
+.woocommerce-info {
+	margin-bottom: var(--ts-space-2xl);
+	padding: var(--ts-space-xl);
+	border: 1px solid var(--ts-colors-border);
+	border-radius: var(--ts-radius-sm);
+	background: var(--ts-colors-surface-muted);
+	list-style: none;
+}
+
+.woocommerce-tabs ul.tabs {
+	display: flex;
+	gap: var(--ts-space-lg);
+	padding: 0;
+	margin: 0 0 var(--ts-space-2xl);
+	list-style: none;
+}
+
+.woocommerce-tabs ul.tabs li {
+	margin: 0;
+}
+
+.woocommerce-tabs ul.tabs li a {
+	display: inline-flex;
+	padding: 0.625rem var(--ts-space-xl);
+	border: 1px solid var(--ts-colors-border-strong);
+	border-radius: var(--ts-radius-sm);
+	text-decoration: none;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: grid;
+	gap: var(--ts-space-lg);
 }

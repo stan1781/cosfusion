@@ -76,7 +76,7 @@
 	line-height: 1;
 }
 
-// Chevron + appearance: components/_select-control.scss (global on select.ts-form-control).
+// Chevron + appearance: components/_forms.scss (global on select.ts-form-control).
 
 // Single min-height for all states — only padding changes on focus/fill (avoids height jump).
 .ts-form-layout--floating .ts-field__float textarea.ts-form-control {

@@ -28,7 +28,8 @@ TailwindScore 是面向 WooCommerce 商城的 WordPress 主题基线（**英文�
 tailwindscore/
 ├── assets/dist/          # Vite 构建产物 + manifest.json
 ├── docs/                 # 项目文档（本目录）
-├── inc/                  # 主题核心 PHP
+├── inc/
+│   ├── bootstrap.php     # 统一 require（functions.php 仅引导此处）
 │   ├── config/           # Kirki 注册与 helpers
 │   ├── navigation/       # 头部、移动壳层、页脚导航
 │   ├── woocommerce/      # 商城模板逻辑、购买流程、结账
@@ -42,7 +43,7 @@ tailwindscore/
 ├── template-parts/       # 可复用标记片段
 ├── woocommerce/          # WooCommerce 模板覆盖
 ├── front-page.php        # 首页模板
-└── functions.php         # 引导加载 inc/ 与 modules/
+└── functions.php         # 仅 require inc/bootstrap.php
 ```
 
 ## 分层边界

@@ -47,9 +47,19 @@ TailwindScore 是 **英文站点模板**：前台默认可视文案为英文；�
 - 模板：语义类 `.ts-*`；禁止 Bootstrap / `data-bs-*` / 前台 jQuery。
 - 断点与令牌：以 `src/scss/abstracts/_variables.scss` 为真源；样式用 `ts-up` / `ts-down`，禁止裸写无关断点。
 
+## 文件数量
+
+- **`functions.php`**：只引导 `inc/bootstrap.php`；禁止继续堆叠 `require_once`。
+- **PHP 加载**：新增/调整主题核心文件时改 [`inc/bootstrap.php`](../inc/bootstrap.php)，保持加载顺序清晰。
+- **`inc/woocommerce/`**：不足约 40 行的钩子/helper 优先并入邻接文件，避免无限微文件增殖。
+- **SCSS**：同域相关样式优先合并（tokens + base + 少量 components）；避免每个 UI 碎片单独一个文件。
+- **独立可开关业务**仍放 `modules/{slug}/`，不把全部能力拍平进 `inc/`。
+- **`template-parts/`**：仅当调用处唯一且极短时才内联；多处复用的片段保持独立。
+
 ## 禁止
 
 - 前台默认可视字符串使用中文
 - 文档或注释默认改用英文（专有名词、API 符号除外）
 - 新增 Bootstrap / 前台 jQuery 依赖
 - 组件 SCSS 硬编码与令牌无关的 hex（应 `var(--ts-*)`）
+- 在 `functions.php` 新增 `require_once`
