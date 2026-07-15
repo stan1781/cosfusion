@@ -48,6 +48,10 @@ define( 'TAILWINDSCORE_VITE_DEV', true );
 | `npm run build` | 生产构建 + 清理孤儿 dist 文件 |
 | `npm run typecheck` | TypeScript 类型检查 |
 | `npm run clean:dist` | 删除 `assets/dist/` |
+| `npm run package` | 打可上传 zip（不 bump 版本，须已 build） |
+| `npm run release` | patch +1 → build → `release/tailwindscore-{ver}.zip` |
+| `npm run release:minor` | minor +1 → build → zip |
+| `npm run release:major` | major +1 → build → zip |
 
 ## 代码规范速查
 

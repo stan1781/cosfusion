@@ -14,6 +14,24 @@ npm run clean:dist # 删除 assets/dist
 
 提交前建议执行 `npm run typecheck && npm run build`。
 
+### 打包上传
+
+生成可上传 WordPress 后台的主题 zip（压缩包内根目录为 `tailwindscore/`）：
+
+```bash
+npm run release        # patch 版本 +1 → build → 打 zip
+npm run release:minor  # minor 版本 +1 → build → 打 zip
+npm run release:major  # major 版本 +1 → build → 打 zip
+npm run package        # 仅打 zip（须已 build，不 bump 版本）
+```
+
+- `release` 会先执行 `scripts/bump-version.mjs`，同步更新 `style.css` 的 `Version:` 与 `package.json` 的 `version`
+- 输出：`release/tailwindscore-{Version}.zip`（版本号取自 `style.css` 的 `Version:`）
+- 打包前校验 `assets/dist/manifest.json` 存在
+- 排除：`node_modules/`、`src/`、`docs/`、`scripts/`、构建配置与 IDE 目录等开发文件；**保留** `assets/dist/` 与全部 PHP 模板
+
+`.gitignore` 已忽略 `release/` 与 `*.zip`。
+
 ## Vite 入口
 
 配置见 `vite.config.ts`：
