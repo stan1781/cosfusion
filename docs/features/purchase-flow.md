@@ -29,6 +29,7 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 - 购物车行项 **编辑 modal**（`cart-item-edit.ts`）
 - 结账页布局与登录 dialog（`checkout-layout.php`、`ui/login-modal.ts`）
 - Store API 缓存优化（`store-api-cache.php`）
+- Store API nonce：页注入 nonce 视为新鲜（TTL 60s），冷加购默认 **单次 POST**；仅 TTL 过期或 `woocommerce_rest_invalid_nonce` 时才先 `GET /cart`
 - 运费规则展示（`shipping-rules.php`）
 
 ## 通知策略

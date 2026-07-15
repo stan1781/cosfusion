@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'TAILWINDSCORE_MODULE_QUICK_VIEW_VERSION', '0.1.4' );
+define( 'TAILWINDSCORE_MODULE_QUICK_VIEW_VERSION', '0.1.5' );
 
 $tailwindscore_quick_view_dir = __DIR__;
 

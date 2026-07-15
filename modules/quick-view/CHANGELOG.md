@@ -1,5 +1,10 @@
 # Quick View 模块变更记录
 
+## 0.1.5 — 2026-07-15
+
+- 性能：悬停预读改为 fire-and-forget（移开不 abort）；打开与预读共享同一 Promise 缓存。
+- 性能：并发预读上限 3；`saveData` / `2g` 网络跳过预读。
+
 ## 0.1.4 — 2026-05-25
 
 - 文案：循环可变品按钮由「Select options」改为「Quick view」，与弹窗标题及实际行为一致。

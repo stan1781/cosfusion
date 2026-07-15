@@ -204,7 +204,8 @@ let currentCart: StoreApiCart | null = null;
 let storeApiNonce: string | undefined;
 let storeApiNonceRefresh: Promise<void> | null = null;
 let storeApiNonceFreshAt = 0;
-const STORE_API_NONCE_TTL_MS = 15_000;
+/** Trust page-injected nonce for a short window; 403 still retries with a fresh GET. */
+const STORE_API_NONCE_TTL_MS = 60_000;
 let lastCartSyncAt = 0;
 
 function escapeHtml(value: string) {
@@ -282,6 +283,7 @@ function getConfigOrThrow() {
 
 	if (!storeApiNonce) {
 		storeApiNonce = config.nonce;
+		storeApiNonceFreshAt = Date.now();
 	}
 
 	return config;
@@ -1332,7 +1334,10 @@ function initializeCartUi() {
 		return;
 	}
 
+	// Treat the SSR-injected Store API nonce as fresh so the first add-to-cart
+	// is a single POST (GET /cart only on TTL expiry or invalid-nonce 403).
 	storeApiNonce = config.nonce;
+	storeApiNonceFreshAt = Date.now();
 	bindQuantityControls();
 
 	if (config.couponJs !== false) {
@@ -1342,9 +1347,6 @@ function initializeCartUi() {
 	}
 
 	bindDrawerCartRefresh();
-
-	// Store API nonce is refreshed on demand before cart mutations (see refreshStoreApiNonce).
-	// Avoid GET /cart on every page load; that can run calculate_totals() against the wrong session.
 }
 
 initializeCartUi();
