@@ -43,8 +43,8 @@ function tailwindscore_product_tabs_kirki_register( string $cfg, array $targets 
 	Kirki::add_section(
 		'tailwindscore_product_tabs',
 		array(
-			'title'       => esc_html__( 'Product tabs', 'tailwindscore' ),
-			'description' => esc_html__( 'Control which tabs appear below the product summary.', 'tailwindscore' ),
+			'title'       => esc_html__( '产品选项卡', 'tailwindscore' ),
+			'description' => esc_html__( '控制商品摘要下方显示哪些选项卡。', 'tailwindscore' ),
 			'panel'       => $targets['product'],
 			'priority'    => 66,
 		)
@@ -55,8 +55,8 @@ function tailwindscore_product_tabs_kirki_register( string $cfg, array $targets 
 		array(
 			'type'        => 'toggle',
 			'settings'    => 'product_show_additional_information',
-			'label'       => esc_html__( 'Show Additional information tab', 'tailwindscore' ),
-			'description' => esc_html__( 'Displays product attributes in a table. Hidden by default because most stores rarely use it.', 'tailwindscore' ),
+			'label'       => esc_html__( '显示「附加信息」选项卡', 'tailwindscore' ),
+			'description' => esc_html__( '以表格展示商品属性。默认隐藏，多数店铺较少使用。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_product_tabs',
 			'default'     => false,
 		)

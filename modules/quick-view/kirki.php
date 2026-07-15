@@ -21,8 +21,8 @@ function tailwindscore_quick_view_kirki_register( string $cfg, array $targets ):
 	Kirki::add_section(
 		'tailwindscore_product_quick_view',
 		array(
-			'title'       => esc_html__( 'Quick view', 'tailwindscore' ),
-			'description' => esc_html__( 'Archive and homepage quick view modal for variable products.', 'tailwindscore' ),
+			'title'       => esc_html__( '快速查看', 'tailwindscore' ),
+			'description' => esc_html__( '归档与首页可变商品的快速查看弹层。', 'tailwindscore' ),
 			'panel'       => $targets['product'],
 			'priority'    => 68,
 		)
@@ -33,7 +33,7 @@ function tailwindscore_quick_view_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'     => 'toggle',
 			'settings' => 'product_quick_view_enabled',
-			'label'    => esc_html__( 'Enable quick view', 'tailwindscore' ),
+			'label'    => esc_html__( '启用快速查看', 'tailwindscore' ),
 			'section'  => 'tailwindscore_product_quick_view',
 			'default'  => true,
 		)
@@ -44,13 +44,13 @@ function tailwindscore_quick_view_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'     => 'checkbox',
 			'settings' => 'product_quick_view_target_pages',
-			'label'    => esc_html__( 'Active on pages', 'tailwindscore' ),
+			'label'    => esc_html__( '生效页面', 'tailwindscore' ),
 			'section'  => 'tailwindscore_product_quick_view',
 			'default'  => array( 'shop_archive', 'homepage', 'single_product' ),
 			'choices'  => array(
-				'shop_archive'   => esc_html__( 'Shop / category / tag archives', 'tailwindscore' ),
-				'homepage'       => esc_html__( 'Homepage', 'tailwindscore' ),
-				'single_product' => esc_html__( 'Single product (related products loops)', 'tailwindscore' ),
+				'shop_archive'   => esc_html__( '商店 / 分类 / 标签归档', 'tailwindscore' ),
+				'homepage'       => esc_html__( '首页', 'tailwindscore' ),
+				'single_product' => esc_html__( '单品页（相关产品循环）', 'tailwindscore' ),
 			),
 			'active_callback' => array(
 				array(

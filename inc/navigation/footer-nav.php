@@ -16,9 +16,9 @@ defined( 'ABSPATH' ) || exit;
  */
 function tailwindscore_footer_nav_alignment_choices(): array {
 	return array(
-		'left'   => esc_html__( 'Left', 'tailwindscore' ),
-		'center' => esc_html__( 'Center', 'tailwindscore' ),
-		'right'  => esc_html__( 'Right', 'tailwindscore' ),
+		'left'   => esc_html__( '左', 'tailwindscore' ),
+		'center' => esc_html__( '中', 'tailwindscore' ),
+		'right'  => esc_html__( '右', 'tailwindscore' ),
 	);
 }
 
@@ -127,8 +127,8 @@ function tailwindscore_footer_nav_kirki_register( string $cfg, array $targets ):
 	Kirki::add_section(
 		$targets['footer'],
 		array(
-			'title'       => esc_html__( 'Footer', 'tailwindscore' ),
-			'description' => esc_html__( 'Footer navigation and layout.', 'tailwindscore' ),
+			'title'       => esc_html__( '页脚', 'tailwindscore' ),
+			'description' => esc_html__( '页脚导航与布局。', 'tailwindscore' ),
 			'priority'    => 20,
 		)
 	);
@@ -139,7 +139,7 @@ function tailwindscore_footer_nav_kirki_register( string $cfg, array $targets ):
 			'type'     => 'custom',
 			'settings' => 'footer_nav_menu_notice',
 			'section'  => $targets['footer'],
-			'default'  => '<p class="description">' . esc_html__( 'Assign a menu under Appearance → Menus to the “Footer Menu” location. Links render as a single horizontal row above the copyright area.', 'tailwindscore' ) . '</p>',
+			'default'  => '<p class="description">' . esc_html__( '在「外观 → 菜单」中为「Footer Menu」菜单位置指定菜单。链接在版权区域上方以单行横向展示。', 'tailwindscore' ) . '</p>',
 		)
 	);
 
@@ -148,7 +148,7 @@ function tailwindscore_footer_nav_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'              => 'radio-buttonset',
 			'settings'          => 'footer_nav_alignment',
-			'label'             => esc_html__( 'Footer menu alignment', 'tailwindscore' ),
+			'label'             => esc_html__( '页脚菜单对齐', 'tailwindscore' ),
 			'section'           => $targets['footer'],
 			'default'           => 'center',
 			'choices'           => tailwindscore_footer_nav_alignment_choices(),
@@ -161,8 +161,8 @@ function tailwindscore_footer_nav_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'        => 'image',
 			'settings'    => 'footer_payment_image',
-			'label'       => esc_html__( 'Payment icons', 'tailwindscore' ),
-			'description' => esc_html__( 'Upload a single composite image of accepted payment methods, shown beside the copyright line.', 'tailwindscore' ),
+			'label'       => esc_html__( '支付图标', 'tailwindscore' ),
+			'description' => esc_html__( '上传一张已接受支付方式的合成图，显示在版权行旁。', 'tailwindscore' ),
 			'section'     => $targets['footer'],
 			'priority'    => 20,
 			'default'     => '',

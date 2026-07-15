@@ -21,8 +21,8 @@ function tailwindscore_variations_kirki_register( string $cfg, array $targets ):
 	Kirki::add_section(
 		'tailwindscore_product_variations',
 		array(
-			'title'       => esc_html__( 'Variation selector', 'tailwindscore' ),
-			'description' => esc_html__( 'Custom swatches and layout on single product variable forms.', 'tailwindscore' ),
+			'title'       => esc_html__( '变体选择器', 'tailwindscore' ),
+			'description' => esc_html__( '可变商品表单上的自定义色板与布局。', 'tailwindscore' ),
 			'panel'       => $targets['product'],
 			'priority'    => 66,
 		)
@@ -33,7 +33,7 @@ function tailwindscore_variations_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'     => 'toggle',
 			'settings' => 'variation_selector_enabled',
-			'label'    => esc_html__( 'Enable custom variation selector', 'tailwindscore' ),
+			'label'    => esc_html__( '启用自定义变体选择器', 'tailwindscore' ),
 			'section'  => 'tailwindscore_product_variations',
 			'default'  => true,
 		)
@@ -44,8 +44,8 @@ function tailwindscore_variations_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'     => 'text',
 			'settings' => 'variation_color_attributes',
-			'label'    => esc_html__( 'Color attribute names', 'tailwindscore' ),
-			'description' => esc_html__( 'Comma-separated. Shown as image swatches.', 'tailwindscore' ),
+			'label'    => esc_html__( '颜色属性名称', 'tailwindscore' ),
+			'description' => esc_html__( '逗号分隔。以图片色板展示。', 'tailwindscore' ),
 			'section'  => 'tailwindscore_product_variations',
 			'default'  => 'pa_color,color,pa_style,style',
 		)
@@ -56,8 +56,8 @@ function tailwindscore_variations_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'     => 'text',
 			'settings' => 'variation_size_attributes',
-			'label'    => esc_html__( 'Size attribute names', 'tailwindscore' ),
-			'description' => esc_html__( 'Comma-separated. Used for row styling; Size Guide hooks later.', 'tailwindscore' ),
+			'label'    => esc_html__( '尺码属性名称', 'tailwindscore' ),
+			'description' => esc_html__( '逗号分隔。用于行样式；尺码指南后续挂钩。', 'tailwindscore' ),
 			'section'  => 'tailwindscore_product_variations',
 			'default'  => 'pa_size,size',
 		)
@@ -68,12 +68,12 @@ function tailwindscore_variations_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'     => 'radio-buttonset',
 			'settings' => 'variation_color_default_mode',
-			'label'    => esc_html__( 'Color selector default layout', 'tailwindscore' ),
+			'label'    => esc_html__( '颜色选择器默认布局', 'tailwindscore' ),
 			'section'  => 'tailwindscore_product_variations',
 			'default'  => 'grid',
 			'choices'  => array(
-				'grid' => esc_html__( 'Grid', 'tailwindscore' ),
-				'list' => esc_html__( 'List', 'tailwindscore' ),
+				'grid' => esc_html__( '网格', 'tailwindscore' ),
+				'list' => esc_html__( '列表', 'tailwindscore' ),
 			),
 		)
 	);
@@ -83,12 +83,12 @@ function tailwindscore_variations_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'     => 'radio-buttonset',
 			'settings' => 'variation_color_shape',
-			'label'    => esc_html__( 'Color swatch shape', 'tailwindscore' ),
+			'label'    => esc_html__( '颜色色板形状', 'tailwindscore' ),
 			'section'  => 'tailwindscore_product_variations',
 			'default'  => 'square',
 			'choices'  => array(
-				'square' => esc_html__( 'Square', 'tailwindscore' ),
-				'round'  => esc_html__( 'Round', 'tailwindscore' ),
+				'square' => esc_html__( '方形', 'tailwindscore' ),
+				'round'  => esc_html__( '圆形', 'tailwindscore' ),
 			),
 		)
 	);
@@ -98,7 +98,7 @@ function tailwindscore_variations_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'     => 'toggle',
 			'settings' => 'variation_grid_show_text',
-			'label'    => esc_html__( 'Show labels in grid mode', 'tailwindscore' ),
+			'label'    => esc_html__( '网格模式下显示文字标签', 'tailwindscore' ),
 			'section'  => 'tailwindscore_product_variations',
 			'default'  => false,
 		)

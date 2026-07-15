@@ -21,8 +21,8 @@ function tailwindscore_size_guide_kirki_register( string $cfg, array $targets ):
 	Kirki::add_section(
 		'tailwindscore_size_guide',
 		array(
-			'title'       => esc_html__( 'Size guide', 'tailwindscore' ),
-			'description' => esc_html__( 'Size chart modal and per-size measurements on variable products.', 'tailwindscore' ),
+			'title'       => esc_html__( '尺码指南', 'tailwindscore' ),
+			'description' => esc_html__( '可变商品上的尺码表弹层与按尺码测量数据。', 'tailwindscore' ),
 			'panel'       => $targets['product'],
 			'priority'    => 67,
 		)
@@ -33,7 +33,7 @@ function tailwindscore_size_guide_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'     => 'toggle',
 			'settings' => 'size_guide_enabled',
-			'label'    => esc_html__( 'Enable size guide', 'tailwindscore' ),
+			'label'    => esc_html__( '启用尺码指南', 'tailwindscore' ),
 			'section'  => 'tailwindscore_size_guide',
 			'default'  => true,
 		)
@@ -44,12 +44,12 @@ function tailwindscore_size_guide_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'     => 'radio-buttonset',
 			'settings' => 'size_guide_display_mode',
-			'label'    => esc_html__( 'Button display', 'tailwindscore' ),
+			'label'    => esc_html__( '按钮显示', 'tailwindscore' ),
 			'section'  => 'tailwindscore_size_guide',
 			'default'  => 'conditional',
 			'choices'  => array(
-				'conditional' => esc_html__( 'When guide exists', 'tailwindscore' ),
-				'always'      => esc_html__( 'Always', 'tailwindscore' ),
+				'conditional' => esc_html__( '有指南时显示', 'tailwindscore' ),
+				'always'      => esc_html__( '始终显示', 'tailwindscore' ),
 			),
 		)
 	);
@@ -59,7 +59,7 @@ function tailwindscore_size_guide_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'     => 'toggle',
 			'settings' => 'size_guide_inline_enabled',
-			'label'    => esc_html__( 'Show row under selected size', 'tailwindscore' ),
+			'label'    => esc_html__( '在所选尺码下方显示行', 'tailwindscore' ),
 			'section'  => 'tailwindscore_size_guide',
 			'default'  => true,
 		)

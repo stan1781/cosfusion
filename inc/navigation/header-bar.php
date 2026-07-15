@@ -75,8 +75,8 @@ function tailwindscore_header_kirki_register( string $cfg, array $targets ): voi
 	Kirki::add_section(
 		'tailwindscore_header',
 		array(
-			'title'       => esc_html__( 'Header', 'tailwindscore' ),
-			'description' => esc_html__( 'Top announcement bar and header chrome.', 'tailwindscore' ),
+			'title'       => esc_html__( '页头', 'tailwindscore' ),
+			'description' => esc_html__( '顶部公告栏与页头外观。', 'tailwindscore' ),
 			'panel'       => $targets['header'],
 			'priority'    => 35,
 		)
@@ -87,7 +87,7 @@ function tailwindscore_header_kirki_register( string $cfg, array $targets ): voi
 		array(
 			'type'     => 'toggle',
 			'settings' => 'header_bar_enable',
-			'label'    => esc_html__( 'Show header bar', 'tailwindscore' ),
+			'label'    => esc_html__( '显示顶栏', 'tailwindscore' ),
 			'section'  => 'tailwindscore_header',
 			'default'  => true,
 		)
@@ -98,8 +98,8 @@ function tailwindscore_header_kirki_register( string $cfg, array $targets ): voi
 		array(
 			'type'            => 'textarea',
 			'settings'        => 'header_bar_text',
-			'label'           => esc_html__( 'Header bar message', 'tailwindscore' ),
-			'description'     => esc_html__( 'Short line shown above the main header. Scrolls away; the main header stays sticky.', 'tailwindscore' ),
+			'label'           => esc_html__( '顶栏文案', 'tailwindscore' ),
+			'description'     => esc_html__( '显示在主页头上方的短文案。滚动时消失；主页头保持粘性。', 'tailwindscore' ),
 			'section'         => 'tailwindscore_header',
 			'default'         => tailwindscore_header_bar_default_text(),
 			'active_callback' => array(
@@ -117,7 +117,7 @@ function tailwindscore_header_kirki_register( string $cfg, array $targets ): voi
 		array(
 			'type'            => 'text',
 			'settings'        => 'header_bar_link_url',
-			'label'           => esc_html__( 'Header bar link URL', 'tailwindscore' ),
+			'label'           => esc_html__( '顶栏链接 URL', 'tailwindscore' ),
 			'section'         => 'tailwindscore_header',
 			'default'         => '',
 			'active_callback' => array(
@@ -135,8 +135,8 @@ function tailwindscore_header_kirki_register( string $cfg, array $targets ): voi
 		array(
 			'type'            => 'text',
 			'settings'        => 'header_bar_link_label',
-			'label'           => esc_html__( 'Header bar link label', 'tailwindscore' ),
-			'description'     => esc_html__( 'Leave empty to hide the link. If URL is set without a label, “Learn more” is used.', 'tailwindscore' ),
+			'label'           => esc_html__( '顶栏链接文字', 'tailwindscore' ),
+			'description'     => esc_html__( '留空则隐藏链接。若设置了 URL 但未填文字，则使用「Learn more」。', 'tailwindscore' ),
 			'section'         => 'tailwindscore_header',
 			'default'         => '',
 			'active_callback' => array(

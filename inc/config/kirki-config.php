@@ -72,9 +72,9 @@ function tailwindscore_kirki_register(): void {
 
 		array(
 
-			'title'       => esc_html__( 'Header', 'tailwindscore' ),
+			'title'       => esc_html__( '页头', 'tailwindscore' ),
 
-			'description' => esc_html__( 'Header area settings (logo, navigation, top bar, typography).', 'tailwindscore' ),
+			'description' => esc_html__( '页头区域设置（Logo、导航、顶栏、排版）。', 'tailwindscore' ),
 
 			'priority'    => 10,
 
@@ -92,9 +92,9 @@ function tailwindscore_kirki_register(): void {
 
 			array(
 
-				'title'       => esc_html__( 'Shop & Archive', 'tailwindscore' ),
+					'title'       => esc_html__( '商店与归档', 'tailwindscore' ),
 
-				'description' => esc_html__( 'Archive hero backgrounds and related shop listing options.', 'tailwindscore' ),
+					'description' => esc_html__( '归档 Hero 背景及相关商品列表选项。', 'tailwindscore' ),
 
 				'panel'       => $targets['woocommerce'],
 
@@ -114,9 +114,9 @@ function tailwindscore_kirki_register(): void {
 
 			$targets['woocommerce'],
 
-			esc_html__( 'Checkout layout', 'tailwindscore' ),
+				esc_html__( '结账布局', 'tailwindscore' ),
 
-			esc_html__( 'Checkout shipping rules and other checkout theme options.', 'tailwindscore' ),
+				esc_html__( '结账配送规则及其他结账主题选项。', 'tailwindscore' ),
 
 			25
 
@@ -136,8 +136,8 @@ function tailwindscore_kirki_register(): void {
 		array(
 			'type'        => 'image',
 			'settings'    => 'tailwindscore_logo_pc',
-			'label'       => esc_html__( 'Desktop Logo', 'tailwindscore' ),
-			'description' => esc_html__( 'Displayed on desktop / tablet screens. Recommended size: 200 × 60 px.', 'tailwindscore' ),
+				'label'       => esc_html__( '桌面 Logo', 'tailwindscore' ),
+				'description' => esc_html__( '用于桌面 / 平板。建议尺寸：200 × 60 px。', 'tailwindscore' ),
 			'section'     => 'title_tagline',
 			'default'     => '',
 			'priority'    => 8,
@@ -152,8 +152,8 @@ function tailwindscore_kirki_register(): void {
 		array(
 			'type'        => 'image',
 			'settings'    => 'tailwindscore_logo_mobile',
-			'label'       => esc_html__( 'Mobile Logo', 'tailwindscore' ),
-			'description' => esc_html__( 'Displayed on mobile screens. Recommended size: 120 × 40 px.', 'tailwindscore' ),
+				'label'       => esc_html__( '手机 Logo', 'tailwindscore' ),
+				'description' => esc_html__( '用于手机屏幕。建议尺寸：120 × 40 px。', 'tailwindscore' ),
 			'section'     => 'title_tagline',
 			'default'     => '',
 			'priority'    => 9,

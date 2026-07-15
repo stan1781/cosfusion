@@ -194,8 +194,8 @@ function tailwindscore_mobile_shell_kirki_register( string $cfg, array $targets 
 	Kirki::add_section(
 		'tailwindscore_search_modal',
 		array(
-			'title'       => esc_html__( 'Search Modal', 'tailwindscore' ),
-			'description' => esc_html__( 'Hot searches and categories shown in the search dialog.', 'tailwindscore' ),
+			'title'       => esc_html__( '搜索弹层', 'tailwindscore' ),
+			'description' => esc_html__( '搜索对话框中显示的热搜与分类。', 'tailwindscore' ),
 			'panel'       => $targets['header'],
 			'priority'    => 45,
 		)
@@ -206,8 +206,8 @@ function tailwindscore_mobile_shell_kirki_register( string $cfg, array $targets 
 		array(
 			'type'     => 'textarea',
 			'settings' => 'search_modal_hot_terms',
-			'label'    => esc_html__( 'Hot searches', 'tailwindscore' ),
-			'description' => esc_html__( 'One search term per line.', 'tailwindscore' ),
+			'label'    => esc_html__( '热门搜索', 'tailwindscore' ),
+			'description' => esc_html__( '每行一个搜索词。', 'tailwindscore' ),
 			'section'  => 'tailwindscore_search_modal',
 			'default'  => "Prom Dresses\nEvening Dresses\nBridesmaid Dresses\nHomecoming Dresses",
 		)
@@ -218,8 +218,8 @@ function tailwindscore_mobile_shell_kirki_register( string $cfg, array $targets 
 		array(
 			'type'        => 'textarea',
 			'settings'    => 'search_modal_hot_categories',
-			'label'       => esc_html__( 'Hot categories', 'tailwindscore' ),
-			'description' => esc_html__( 'One category name or slug per line.', 'tailwindscore' ),
+			'label'       => esc_html__( '热门分类', 'tailwindscore' ),
+			'description' => esc_html__( '每行一个分类名称或 slug。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_search_modal',
 			'default'     => "Prom\nEvening\nBridesmaid\nPlus Size",
 		)

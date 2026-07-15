@@ -51,6 +51,7 @@ TailwindScore 是 **英文站点模板**：前台默认可视文案为英文；�
 | 代码注释（**PHP** / TS / SCSS / 构建脚本） | **简体中文** |
 | commit message | 英文 conventional commits 为宜；body 可用中文说明 |
 | 用户可见前台文案（`__()` / `esc_html__()` / 模板 / JS i18n 默认值） | **英文** |
+| Customizer / Kirki 后台标签（`title` / `label` / `description` / `choices`） | **简体中文** |
 | 站点语言（期望） | `en_US`（或其它英文变体） |
 
 ### 代码注释（含 PHP）
@@ -64,16 +65,23 @@ TailwindScore 是 **英文站点模板**：前台默认可视文案为英文；�
 
 ### 前台文案规则
 
-1. **源码中的默认可视字符串必须是英文**（含 Kirki 标签、toast、空购物车、Quick View 等）。
+1. **源码中会输出到前台的默认可视字符串必须是英文**（toast、空购物车、Quick View、Kirki 字段 `default` 等）。
 2. 一律经 WordPress i18n 包裹（`__( 'English string', 'tailwindscore' )`），便于后续语言包翻译。
 3. **禁止**把中文（简/繁）写进主题源码作为前台默认输出。
 4. TS 侧 fallback（如 `config?.i18n.x ?? '…'`）同样使用英文。
 5. 不在主题内做中英自动转换；多语言交给 WPML / TranslatePress / `.po` 等。
 
+### Customizer / Kirki 后台文案
+
+1. Panel / section 的 `title`、`description`，字段的 `label`、`description`，以及 `choices` / `row_label` 使用**简体中文**。
+2. 仍用 `esc_html__( '…', 'tailwindscore' )` 包裹。
+3. **字段 `default`（会落到前台）保持英文**，与前台文案规则一致。
+
 ### AI / 生成时注意
 
 - 新增或改写说明文字、注释（含 **PHP docblock**）、文档 → 简体中文。
 - 新增或改写按钮文案、通知、`aria-label`、表单 label → 英文默认值 + 文本域 `tailwindscore`。
+- 新增或改写 Kirki 后台 `label` / `description` / `choices` → 简体中文；`default` 保持英文。
 - 勿将 `/* translators: … */` 改成中文。
 
 ## 配置与模板

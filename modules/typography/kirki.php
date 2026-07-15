@@ -23,8 +23,8 @@ function tailwindscore_typography_kirki_register( string $cfg, array $targets ):
 	Kirki::add_section(
 		'tailwindscore_typography',
 		array(
-			'title'       => esc_html__( 'Typography', 'tailwindscore' ),
-			'description' => esc_html__( 'Choose body and heading fonts from bundled theme fonts (assets/fonts). Add fonts via the theme manifest; download woff2 from Google Webfonts Helper.', 'tailwindscore' ),
+			'title'       => esc_html__( '排版', 'tailwindscore' ),
+			'description' => esc_html__( '从主题内置字体（assets/fonts）中选择正文与标题字体。通过主题清单添加字体；可从 Google Webfonts Helper 下载 woff2。', 'tailwindscore' ),
 			'panel'       => $targets['header'],
 			'priority'    => 10,
 		)
@@ -35,7 +35,7 @@ function tailwindscore_typography_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'     => 'select',
 			'settings' => 'typography_heading_font',
-			'label'    => esc_html__( 'Heading font', 'tailwindscore' ),
+			'label'    => esc_html__( '标题字体', 'tailwindscore' ),
 			'section'  => 'tailwindscore_typography',
 			'default'  => 'system',
 			'choices'  => $choices,
@@ -47,7 +47,7 @@ function tailwindscore_typography_kirki_register( string $cfg, array $targets ):
 		array(
 			'type'     => 'select',
 			'settings' => 'typography_body_font',
-			'label'    => esc_html__( 'Body font', 'tailwindscore' ),
+			'label'    => esc_html__( '正文字体', 'tailwindscore' ),
 			'section'  => 'tailwindscore_typography',
 			'default'  => 'system',
 			'choices'  => $choices,

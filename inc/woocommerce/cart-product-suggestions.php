@@ -265,8 +265,8 @@ function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, arr
 		array(
 			'type'        => 'toggle',
 			'settings'    => 'cart_product_suggestions_enable',
-			'label'       => esc_html__( 'Show product suggestions on cart page', 'tailwindscore' ),
-			'description' => esc_html__( 'Displays a product carousel below line items on the cart page only (not in the mini cart drawer).', 'tailwindscore' ),
+			'label'       => esc_html__( '在购物车页显示商品推荐', 'tailwindscore' ),
+			'description' => esc_html__( '仅在购物车页商品行下方显示商品轮播（迷你购物车抽屉中不显示）。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_cart_settings',
 			'default'     => true,
 			'priority'    => 30,
@@ -278,7 +278,7 @@ function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, arr
 		array(
 			'type'            => 'text',
 			'settings'        => 'cart_product_suggestions_title',
-			'label'           => esc_html__( 'Suggestions title', 'tailwindscore' ),
+			'label'           => esc_html__( '推荐标题', 'tailwindscore' ),
 			'section'         => 'tailwindscore_cart_settings',
 			'default'         => __( 'You may also like', 'tailwindscore' ),
 			'active_callback' => static function (): bool {
@@ -293,7 +293,7 @@ function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, arr
 		array(
 			'type'            => 'slider',
 			'settings'        => 'cart_product_suggestions_limit',
-			'label'           => esc_html__( 'Suggestions limit', 'tailwindscore' ),
+			'label'           => esc_html__( '推荐数量', 'tailwindscore' ),
 			'section'         => 'tailwindscore_cart_settings',
 			'default'         => 8,
 			'choices'         => array(
@@ -313,14 +313,14 @@ function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, arr
 		array(
 			'type'            => 'select',
 			'settings'        => 'cart_product_suggestions_orderby',
-			'label'           => esc_html__( 'Suggestions order', 'tailwindscore' ),
+			'label'           => esc_html__( '推荐排序', 'tailwindscore' ),
 			'section'         => 'tailwindscore_cart_settings',
 			'default'         => 'popularity',
 			'choices'         => array(
-				'popularity' => esc_html__( 'Popularity', 'tailwindscore' ),
-				'date'       => esc_html__( 'Latest', 'tailwindscore' ),
-				'menu_order' => esc_html__( 'Menu order', 'tailwindscore' ),
-				'title'      => esc_html__( 'Title', 'tailwindscore' ),
+				'popularity' => esc_html__( '热度', 'tailwindscore' ),
+				'date'       => esc_html__( '最新', 'tailwindscore' ),
+				'menu_order' => esc_html__( '菜单顺序', 'tailwindscore' ),
+				'title'      => esc_html__( '标题', 'tailwindscore' ),
 			),
 			'active_callback' => static function (): bool {
 				return (bool) tailwindscore_mod( 'cart_product_suggestions_enable', true );
@@ -334,8 +334,8 @@ function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, arr
 		array(
 			'type'            => 'number',
 			'settings'        => 'cart_product_suggestions_category_id',
-			'label'           => esc_html__( 'Suggestions category ID', 'tailwindscore' ),
-			'description'     => esc_html__( 'Limit suggestions to a product category term ID. Use 0 for all categories.', 'tailwindscore' ),
+			'label'           => esc_html__( '推荐分类 ID', 'tailwindscore' ),
+			'description'     => esc_html__( '限制推荐到指定商品分类 term ID。填 0 表示不限分类。', 'tailwindscore' ),
 			'section'         => 'tailwindscore_cart_settings',
 			'default'         => 0,
 			'choices'         => array(

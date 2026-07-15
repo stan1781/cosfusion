@@ -138,8 +138,8 @@ function tailwindscore_cart_drawer_coupon_kirki_register( string $cfg, array $ta
 	Kirki::add_section(
 		'tailwindscore_cart_settings',
 		array(
-			'title'       => esc_html__( 'Cart', 'tailwindscore' ),
-			'description' => esc_html__( 'Mini cart drawer and cart page options.', 'tailwindscore' ),
+			'title'       => esc_html__( '购物车', 'tailwindscore' ),
+			'description' => esc_html__( '迷你购物车抽屉与购物车页选项。', 'tailwindscore' ),
 			'panel'       => $targets['woocommerce'],
 			'priority'    => 20,
 		)
@@ -150,8 +150,8 @@ function tailwindscore_cart_drawer_coupon_kirki_register( string $cfg, array $ta
 		array(
 			'type'        => 'toggle',
 			'settings'    => 'cart_drawer_coupon_enable',
-			'label'       => esc_html__( 'Show coupon field in mini cart', 'tailwindscore' ),
-			'description' => esc_html__( 'Hides the discount code input in the cart drawer. Cart page and checkout coupon fields are not affected.', 'tailwindscore' ),
+			'label'       => esc_html__( '在迷你购物车中显示优惠码字段', 'tailwindscore' ),
+			'description' => esc_html__( '关闭后隐藏购物车抽屉中的折扣码输入框。购物车页与结账优惠码字段不受影响。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_cart_settings',
 			'default'     => true,
 		)

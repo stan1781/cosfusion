@@ -21,8 +21,8 @@ function tailwindscore_gallery_kirki_register( string $cfg, array $targets ): vo
 	Kirki::add_section(
 		'tailwindscore_product_gallery',
 		array(
-			'title'       => esc_html__( 'Product gallery', 'tailwindscore' ),
-			'description' => esc_html__( 'Single product Swiper gallery.', 'tailwindscore' ),
+			'title'       => esc_html__( '商品画廊', 'tailwindscore' ),
+			'description' => esc_html__( '单品页 Swiper 画廊。', 'tailwindscore' ),
 			'panel'       => $targets['product'],
 			'priority'    => 65,
 		)
@@ -33,8 +33,8 @@ function tailwindscore_gallery_kirki_register( string $cfg, array $targets ): vo
 		array(
 			'type'        => 'slider',
 			'settings'    => 'product_gallery_thumb_limit',
-			'label'       => esc_html__( 'Thumbnail strip limit (desktop)', 'tailwindscore' ),
-			'description' => esc_html__( 'Max visible thumbnails before scrolling.', 'tailwindscore' ),
+			'label'       => esc_html__( '缩略图条数量上限（桌面）', 'tailwindscore' ),
+			'description' => esc_html__( '滚动前最多显示的缩略图数量。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_product_gallery',
 			'default'     => 6,
 			'choices'     => array(
@@ -51,7 +51,7 @@ function tailwindscore_gallery_kirki_register( string $cfg, array $targets ): vo
 		array(
 			'type'        => 'toggle',
 			'settings'    => 'product_gallery_show_counter',
-			'label'       => esc_html__( 'Show slide counter', 'tailwindscore' ),
+			'label'       => esc_html__( '显示幻灯片计数', 'tailwindscore' ),
 			'section'     => 'tailwindscore_product_gallery',
 			'default'     => true,
 		)
@@ -62,7 +62,7 @@ function tailwindscore_gallery_kirki_register( string $cfg, array $targets ): vo
 		array(
 			'type'        => 'slider',
 			'settings'    => 'product_gallery_variation_max_images',
-			'label'       => esc_html__( 'Max images per variation (admin)', 'tailwindscore' ),
+			'label'       => esc_html__( '每个变体最大图片数（后台）', 'tailwindscore' ),
 			'section'     => 'tailwindscore_product_gallery',
 			'default'     => 10,
 			'choices'     => array(

@@ -21,8 +21,8 @@ function tailwindscore_review_images_kirki_register( string $cfg, array $targets
 	Kirki::add_section(
 		'tailwindscore_product_review_images',
 		array(
-			'title'       => esc_html__( 'Review images', 'tailwindscore' ),
-			'description' => esc_html__( 'Customer review photo uploads on single product pages.', 'tailwindscore' ),
+			'title'       => esc_html__( '评论图片', 'tailwindscore' ),
+			'description' => esc_html__( '单品页客户评论图片上传。', 'tailwindscore' ),
 			'panel'       => $targets['product'],
 			'priority'    => 68,
 		)
@@ -33,7 +33,7 @@ function tailwindscore_review_images_kirki_register( string $cfg, array $targets
 		array(
 			'type'     => 'toggle',
 			'settings' => 'product_review_images_enabled',
-			'label'    => esc_html__( 'Enable review images', 'tailwindscore' ),
+			'label'    => esc_html__( '启用评论图片', 'tailwindscore' ),
 			'section'  => 'tailwindscore_product_review_images',
 			'default'  => true,
 		)
@@ -44,7 +44,7 @@ function tailwindscore_review_images_kirki_register( string $cfg, array $targets
 		array(
 			'type'     => 'slider',
 			'settings' => 'product_review_images_max_images',
-			'label'    => esc_html__( 'Maximum images per review', 'tailwindscore' ),
+			'label'    => esc_html__( '每条评论最大图片数', 'tailwindscore' ),
 			'section'  => 'tailwindscore_product_review_images',
 			'default'  => 6,
 			'choices'  => array(
@@ -60,7 +60,7 @@ function tailwindscore_review_images_kirki_register( string $cfg, array $targets
 		array(
 			'type'        => 'slider',
 			'settings'    => 'product_review_images_max_file_size_mb',
-			'label'       => esc_html__( 'Maximum file size (MB)', 'tailwindscore' ),
+			'label'       => esc_html__( '最大文件大小（MB）', 'tailwindscore' ),
 			'section'     => 'tailwindscore_product_review_images',
 			'default'     => 5,
 			'choices'     => array(
@@ -76,7 +76,7 @@ function tailwindscore_review_images_kirki_register( string $cfg, array $targets
 		array(
 			'type'     => 'slider',
 			'settings' => 'product_review_images_max_width',
-			'label'    => esc_html__( 'Max image width (px)', 'tailwindscore' ),
+			'label'    => esc_html__( '最大图片宽度（px）', 'tailwindscore' ),
 			'section'  => 'tailwindscore_product_review_images',
 			'default'  => 1000,
 			'choices'  => array(
@@ -92,7 +92,7 @@ function tailwindscore_review_images_kirki_register( string $cfg, array $targets
 		array(
 			'type'     => 'slider',
 			'settings' => 'product_review_images_max_height',
-			'label'    => esc_html__( 'Max image height (px)', 'tailwindscore' ),
+			'label'    => esc_html__( '最大图片高度（px）', 'tailwindscore' ),
 			'section'  => 'tailwindscore_product_review_images',
 			'default'  => 1000,
 			'choices'  => array(

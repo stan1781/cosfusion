@@ -172,8 +172,8 @@ function tailwindscore_shipping_rules_kirki_register( string $cfg, array $target
 		array(
 			'type'        => 'toggle',
 			'settings'    => 'shipping_hide_rates_enable',
-			'label'       => esc_html__( 'Hide paid shipping when threshold is met', 'tailwindscore' ),
-			'description' => esc_html__( 'Removes selected shipping methods once the discounted cart subtotal reaches the threshold below.', 'tailwindscore' ),
+			'label'       => esc_html__( '达到门槛时隐藏付费配送', 'tailwindscore' ),
+			'description' => esc_html__( '折扣后购物车小计达到下方门槛后移除所选配送方式。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_checkout_settings',
 			'default'     => true,
 			'priority'    => 10,
@@ -185,8 +185,8 @@ function tailwindscore_shipping_rules_kirki_register( string $cfg, array $target
 		array(
 			'type'              => 'number',
 			'settings'          => 'shipping_hide_rates_threshold',
-			'label'             => esc_html__( 'Hide paid shipping threshold', 'tailwindscore' ),
-			'description'       => esc_html__( 'Discounted cart subtotal (after coupons, before shipping and tax). Paid methods are hidden when subtotal is greater than or equal to this amount.', 'tailwindscore' ),
+			'label'             => esc_html__( '隐藏付费配送的门槛金额', 'tailwindscore' ),
+			'description'       => esc_html__( '折扣后购物车小计（优惠券之后、运费与税费之前）。小计大于等于该金额时隐藏付费配送。', 'tailwindscore' ),
 			'section'           => 'tailwindscore_checkout_settings',
 			'default'           => 39.99,
 			'priority'          => 20,
@@ -209,8 +209,8 @@ function tailwindscore_shipping_rules_kirki_register( string $cfg, array $target
 		array(
 			'type'              => 'text',
 			'settings'          => 'shipping_hide_rates_ids',
-			'label'             => esc_html__( 'Shipping rate IDs to hide', 'tailwindscore' ),
-			'description'       => esc_html__( 'Comma-separated WooCommerce rate IDs, e.g. flat_rate:2. Find the ID in the shipping method input name: shipping_method_0_flat_rate2 → flat_rate:2.', 'tailwindscore' ),
+			'label'             => esc_html__( '要隐藏的配送费率 ID', 'tailwindscore' ),
+			'description'       => esc_html__( '逗号分隔的 WooCommerce 费率 ID，例如 flat_rate:2。可在配送方式 input 名称中找到：shipping_method_0_flat_rate2 → flat_rate:2。', 'tailwindscore' ),
 			'section'           => 'tailwindscore_checkout_settings',
 			'default'           => 'flat_rate:2',
 			'priority'          => 30,

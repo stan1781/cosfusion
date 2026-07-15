@@ -129,8 +129,8 @@ function tailwindscore_wc_archive_hero_kirki_register( string $cfg, array $targe
 		array(
 			'type'        => 'image',
 			'settings'    => 'shop_archive_header_bg_default',
-			'label'       => esc_html__( 'Default archive hero background', 'tailwindscore' ),
-			'description' => esc_html__( 'Fallback background for product categories and tags without their own hero image.', 'tailwindscore' ),
+			'label'       => esc_html__( '默认归档 Hero 背景', 'tailwindscore' ),
+			'description' => esc_html__( '无独立 Hero 图的商品分类与标签的回退背景。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_shop_archive',
 			'priority'    => 10,
 			'default'     => '',
@@ -145,8 +145,8 @@ function tailwindscore_wc_archive_hero_kirki_register( string $cfg, array $targe
 		array(
 			'type'        => 'image',
 			'settings'    => 'shop_page_header_bg',
-			'label'       => esc_html__( 'Shop page hero background', 'tailwindscore' ),
-			'description' => esc_html__( 'Background for the main shop page. Falls back to the default archive background when empty.', 'tailwindscore' ),
+			'label'       => esc_html__( '商店页 Hero 背景', 'tailwindscore' ),
+			'description' => esc_html__( '主商店页背景。留空则回退到默认归档背景。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_shop_archive',
 			'priority'    => 20,
 			'default'     => '',
@@ -171,14 +171,14 @@ function tailwindscore_wc_archive_hero_taxonomies(): array {
  * @param string $taxonomy 分类法 slug。
  */
 function tailwindscore_wc_archive_hero_term_field_label( string $taxonomy ): string {
-	return esc_html__( 'Archive hero background', 'tailwindscore' );
+	return esc_html__( '归档 Hero 背景', 'tailwindscore' );
 }
 
 /**
  * @param string $taxonomy 分类法 slug。
  */
 function tailwindscore_wc_archive_hero_term_field_description( string $taxonomy ): string {
-	return esc_html__( 'Optional full-width background for this archive page. Uses the default archive background when empty.', 'tailwindscore' );
+	return esc_html__( '本归档页可选的全宽背景。留空则使用默认归档背景。', 'tailwindscore' );
 }
 
 /**

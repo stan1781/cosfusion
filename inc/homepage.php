@@ -539,10 +539,10 @@ function tailwindscore_homepage_default_trust_items(): array {
  */
 function tailwindscore_homepage_trust_icon_choices(): array {
 	return array(
-		'truck'      => esc_html__( 'Shipping truck', 'tailwindscore' ),
-		'ruler'      => esc_html__( 'Measuring tape', 'tailwindscore' ),
-		'lock'       => esc_html__( 'Padlock', 'tailwindscore' ),
-		'box-return' => esc_html__( 'Return box', 'tailwindscore' ),
+		'truck'      => esc_html__( '运输卡车', 'tailwindscore' ),
+		'ruler'      => esc_html__( '卷尺', 'tailwindscore' ),
+		'lock'       => esc_html__( '挂锁', 'tailwindscore' ),
+		'box-return' => esc_html__( '退货箱', 'tailwindscore' ),
 	);
 }
 
@@ -865,8 +865,8 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 	Kirki::add_section(
 		'tailwindscore_homepage_display',
 		array(
-			'title'       => esc_html__( 'Homepage display', 'tailwindscore' ),
-			'description' => esc_html__( 'Hero banner slides, category grids, and product blocks for the front page.', 'tailwindscore' ),
+			'title'       => esc_html__( '首页展示', 'tailwindscore' ),
+			'description' => esc_html__( '首页 Hero 横幅、分类网格与产品区块。', 'tailwindscore' ),
 			'priority'    => 125,
 		)
 	);
@@ -876,20 +876,20 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array(
 			'type'        => 'repeater',
 			'settings'    => 'homepage_hero_slides',
-			'label'       => esc_html__( 'Hero slides', 'tailwindscore' ),
-			'description' => esc_html__( 'Add one or more banner slides. Rows without an image are ignored on the front page.', 'tailwindscore' ),
+			'label'       => esc_html__( 'Hero 幻灯片', 'tailwindscore' ),
+			'description' => esc_html__( '添加一张或多张横幅。无图片的行在首页会被忽略。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_homepage_display',
 			'priority'    => 10,
 			'row_label'   => array(
 				'type'  => 'field',
-				'value' => esc_html__( 'Slide', 'tailwindscore' ),
+				'value' => esc_html__( '幻灯片', 'tailwindscore' ),
 				'field' => 'title',
 			),
 			'default'     => array(),
 			'fields'      => array(
 				'image'      => array(
 					'type'    => 'image',
-					'label'   => esc_html__( 'Image', 'tailwindscore' ),
+					'label'   => esc_html__( '图片', 'tailwindscore' ),
 					'default' => '',
 					'choices' => array(
 						'save_as' => 'id',
@@ -897,45 +897,45 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 				),
 				'subtitle'   => array(
 					'type'    => 'text',
-					'label'   => esc_html__( 'Eyebrow', 'tailwindscore' ),
+					'label'   => esc_html__( '眉标', 'tailwindscore' ),
 					'default' => '',
 				),
 				'title'      => array(
 					'type'    => 'text',
-					'label'   => esc_html__( 'Headline', 'tailwindscore' ),
+					'label'   => esc_html__( '主标题', 'tailwindscore' ),
 					'default' => '',
 				),
 				'description' => array(
 					'type'    => 'textarea',
-					'label'   => esc_html__( 'Description', 'tailwindscore' ),
+					'label'   => esc_html__( '说明', 'tailwindscore' ),
 					'default' => '',
 				),
 				'text_color' => array(
 					'type'    => 'select',
-					'label'   => esc_html__( 'Text color', 'tailwindscore' ),
+					'label'   => esc_html__( '文字颜色', 'tailwindscore' ),
 					'default' => 'light',
 					'choices' => array(
-						'light' => esc_html__( 'Light', 'tailwindscore' ),
-						'dark'  => esc_html__( 'Dark', 'tailwindscore' ),
+						'light' => esc_html__( '浅色', 'tailwindscore' ),
+						'dark'  => esc_html__( '深色', 'tailwindscore' ),
 					),
 				),
 				'link_url'   => array(
 					'type'    => 'text',
-					'label'   => esc_html__( 'Link URL', 'tailwindscore' ),
+					'label'   => esc_html__( '链接 URL', 'tailwindscore' ),
 					'default' => '',
 				),
 				'link_label' => array(
 					'type'    => 'text',
-					'label'   => esc_html__( 'Button label', 'tailwindscore' ),
+					'label'   => esc_html__( '按钮文字', 'tailwindscore' ),
 					'default' => '',
 				),
 				'link_style' => array(
 					'type'    => 'select',
-					'label'   => esc_html__( 'Button style', 'tailwindscore' ),
+					'label'   => esc_html__( '按钮样式', 'tailwindscore' ),
 					'default' => 'solid',
 					'choices' => array(
-						'solid'   => esc_html__( 'Solid', 'tailwindscore' ),
-						'outline' => esc_html__( 'Outline', 'tailwindscore' ),
+						'solid'   => esc_html__( '实心', 'tailwindscore' ),
+						'outline' => esc_html__( '描边', 'tailwindscore' ),
 					),
 				),
 			),
@@ -947,8 +947,8 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array(
 			'type'        => 'toggle',
 			'settings'    => 'homepage_hero_autoplay',
-			'label'       => esc_html__( 'Hero autoplay', 'tailwindscore' ),
-			'description' => esc_html__( 'Rotate hero slides automatically when there are two or more banners.', 'tailwindscore' ),
+			'label'       => esc_html__( 'Hero 自动播放', 'tailwindscore' ),
+			'description' => esc_html__( '有两张及以上横幅时自动轮播。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_homepage_display',
 			'priority'    => 15,
 			'default'     => false,
@@ -960,7 +960,7 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array(
 			'type'     => 'text',
 			'settings' => 'homepage_occasion_title',
-			'label'    => esc_html__( 'Shop by Occasion title', 'tailwindscore' ),
+			'label'    => esc_html__( '按场合选购标题', 'tailwindscore' ),
 			'section'  => 'tailwindscore_homepage_display',
 			'priority' => 16,
 			'default'  => tailwindscore_homepage_default_occasion_title(),
@@ -972,20 +972,20 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array(
 			'type'        => 'repeater',
 			'settings'    => 'homepage_occasion_items',
-			'label'       => esc_html__( 'Shop by Occasion items', 'tailwindscore' ),
-			'description' => esc_html__( 'Add cards below the hero. Cards without a custom image use the WooCommerce placeholder.', 'tailwindscore' ),
+			'label'       => esc_html__( '按场合选购条目', 'tailwindscore' ),
+			'description' => esc_html__( '在 Hero 下方添加卡片。无自定义图片时使用 WooCommerce 占位图。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_homepage_display',
 			'priority'    => 17,
 			'row_label'   => array(
 				'type'  => 'field',
-				'value' => esc_html__( 'Occasion', 'tailwindscore' ),
+				'value' => esc_html__( '场合', 'tailwindscore' ),
 				'field' => 'title',
 			),
 			'default'     => tailwindscore_homepage_default_occasion_items(),
 			'fields'      => array(
 				'image'      => array(
 					'type'    => 'image',
-					'label'   => esc_html__( 'Image', 'tailwindscore' ),
+					'label'   => esc_html__( '图片', 'tailwindscore' ),
 					'default' => '',
 					'choices' => array(
 						'save_as' => 'id',
@@ -993,22 +993,22 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 				),
 				'title'      => array(
 					'type'    => 'text',
-					'label'   => esc_html__( 'Title', 'tailwindscore' ),
+					'label'   => esc_html__( '标题', 'tailwindscore' ),
 					'default' => '',
 				),
 				'subtitle'   => array(
 					'type'    => 'text',
-					'label'   => esc_html__( 'Subtitle', 'tailwindscore' ),
+					'label'   => esc_html__( '副标题', 'tailwindscore' ),
 					'default' => '',
 				),
 				'link_url'   => array(
 					'type'    => 'text',
-					'label'   => esc_html__( 'Link URL', 'tailwindscore' ),
+					'label'   => esc_html__( '链接 URL', 'tailwindscore' ),
 					'default' => '',
 				),
 				'link_label' => array(
 					'type'    => 'text',
-					'label'   => esc_html__( 'Button label', 'tailwindscore' ),
+					'label'   => esc_html__( '按钮文字', 'tailwindscore' ),
 					'default' => __( 'Shop now', 'tailwindscore' ),
 				),
 			),
@@ -1020,7 +1020,7 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array(
 			'type'     => 'text',
 			'settings' => 'homepage_trending_title',
-			'label'    => esc_html__( 'Trending Collections title', 'tailwindscore' ),
+			'label'    => esc_html__( '热门系列标题', 'tailwindscore' ),
 			'section'  => 'tailwindscore_homepage_display',
 			'priority' => 18,
 			'default'  => tailwindscore_homepage_default_trending_title(),
@@ -1032,20 +1032,20 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array(
 			'type'        => 'repeater',
 			'settings'    => 'homepage_trending_items',
-			'label'       => esc_html__( 'Trending Collections items', 'tailwindscore' ),
-			'description' => esc_html__( 'Add cards below Shop by Occasion. Cards without a custom image use the WooCommerce placeholder.', 'tailwindscore' ),
+			'label'       => esc_html__( '热门系列条目', 'tailwindscore' ),
+			'description' => esc_html__( '在「按场合选购」下方添加卡片。无自定义图片时使用 WooCommerce 占位图。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_homepage_display',
 			'priority'    => 19,
 			'row_label'   => array(
 				'type'  => 'field',
-				'value' => esc_html__( 'Collection', 'tailwindscore' ),
+				'value' => esc_html__( '系列', 'tailwindscore' ),
 				'field' => 'title',
 			),
 			'default'     => tailwindscore_homepage_default_trending_items(),
 			'fields'      => array(
 				'image'      => array(
 					'type'    => 'image',
-					'label'   => esc_html__( 'Image', 'tailwindscore' ),
+					'label'   => esc_html__( '图片', 'tailwindscore' ),
 					'default' => '',
 					'choices' => array(
 						'save_as' => 'id',
@@ -1053,17 +1053,17 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 				),
 				'title'      => array(
 					'type'    => 'text',
-					'label'   => esc_html__( 'Title', 'tailwindscore' ),
+					'label'   => esc_html__( '标题', 'tailwindscore' ),
 					'default' => '',
 				),
 				'link_url'   => array(
 					'type'    => 'text',
-					'label'   => esc_html__( 'Link URL', 'tailwindscore' ),
+					'label'   => esc_html__( '链接 URL', 'tailwindscore' ),
 					'default' => '',
 				),
 				'link_label' => array(
 					'type'    => 'text',
-					'label'   => esc_html__( 'Link label', 'tailwindscore' ),
+					'label'   => esc_html__( '链接文字', 'tailwindscore' ),
 					'default' => __( 'Shop now', 'tailwindscore' ),
 				),
 			),
@@ -1075,7 +1075,7 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array(
 			'type'     => 'toggle',
 			'settings' => 'homepage_products_enable',
-			'label'    => esc_html__( 'Show products block', 'tailwindscore' ),
+			'label'    => esc_html__( '显示产品区块', 'tailwindscore' ),
 			'section'  => 'tailwindscore_homepage_display',
 			'priority' => 20,
 			'default'  => true,
@@ -1087,7 +1087,7 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array(
 			'type'            => 'text',
 			'settings'        => 'homepage_products_title',
-			'label'           => esc_html__( 'Products block title', 'tailwindscore' ),
+			'label'           => esc_html__( '产品区块标题', 'tailwindscore' ),
 			'section'         => 'tailwindscore_homepage_display',
 			'priority'        => 30,
 			'default'         => tailwindscore_homepage_default_products_title(),
@@ -1106,8 +1106,8 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array(
 			'type'            => 'textarea',
 			'settings'        => 'homepage_products_shortcode',
-			'label'           => esc_html__( 'Products shortcode', 'tailwindscore' ),
-			'description'     => esc_html__( 'Product query shortcode, e.g. [ts_products_carousel limit="8" orderby="date"] or [products limit="8"]. Slide counts come from the settings below.', 'tailwindscore' ),
+			'label'           => esc_html__( '产品短代码', 'tailwindscore' ),
+			'description'     => esc_html__( '产品查询短代码，例如 [ts_products_carousel limit="8" orderby="date"] 或 [products limit="8"]。可见数量由下方设置控制。', 'tailwindscore' ),
 			'section'         => 'tailwindscore_homepage_display',
 			'priority'        => 40,
 			'default'         => tailwindscore_homepage_default_products_shortcode(),
@@ -1143,8 +1143,8 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array_merge(
 			array(
 				'settings'    => 'homepage_products_slides',
-				'label'       => esc_html__( 'Products visible', 'tailwindscore' ),
-				'description' => esc_html__( 'Slides per view — mobile / tablet / desktop. Use 2.5 on mobile to peek the next card.', 'tailwindscore' ),
+				'label'       => esc_html__( '可见产品数', 'tailwindscore' ),
+				'description' => esc_html__( '每屏可见幻灯片数 — 手机 / 平板 / 桌面。手机端可用 2.5 露出下一张卡片。', 'tailwindscore' ),
 				'default'     => array(
 					'mobile'  => '2.5',
 					'tablet'  => '4',
@@ -1161,8 +1161,8 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array(
 			'type'              => 'slider',
 			'settings'          => 'homepage_products_slide_gap',
-			'label'             => esc_html__( 'Product slide gap', 'tailwindscore' ),
-			'description'       => esc_html__( 'Space between product cards in pixels.', 'tailwindscore' ),
+			'label'             => esc_html__( '产品幻灯片间距', 'tailwindscore' ),
+			'description'       => esc_html__( '产品卡片间距（像素）。', 'tailwindscore' ),
 			'section'           => 'tailwindscore_homepage_display',
 			'priority'          => 51,
 			'default'           => 24,
@@ -1189,8 +1189,8 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array(
 			'type'        => 'toggle',
 			'settings'    => 'homepage_shop_by_color_enable',
-			'label'       => esc_html__( 'Show Shop by Color block', 'tailwindscore' ),
-			'description' => esc_html__( 'Display color swatches from the WooCommerce color attribute below the products block.', 'tailwindscore' ),
+			'label'       => esc_html__( '显示按颜色选购区块', 'tailwindscore' ),
+			'description' => esc_html__( '在产品区块下方展示 WooCommerce 颜色属性色板。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_homepage_display',
 			'priority'    => 55,
 			'default'     => true,
@@ -1202,7 +1202,7 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array(
 			'type'            => 'text',
 			'settings'        => 'homepage_shop_by_color_title',
-			'label'           => esc_html__( 'Shop by Color title', 'tailwindscore' ),
+			'label'           => esc_html__( '按颜色选购标题', 'tailwindscore' ),
 			'section'         => 'tailwindscore_homepage_display',
 			'priority'        => 56,
 			'default'         => tailwindscore_homepage_default_shop_by_color_title(),
@@ -1223,8 +1223,8 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array(
 			'type'        => 'toggle',
 			'settings'    => 'homepage_trust_enable',
-			'label'       => esc_html__( 'Show trust bar', 'tailwindscore' ),
-			'description' => esc_html__( 'Display value proposition items below Shop by Color.', 'tailwindscore' ),
+			'label'       => esc_html__( '显示信任条', 'tailwindscore' ),
+			'description' => esc_html__( '在「按颜色选购」下方展示价值主张条目。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_homepage_display',
 			'priority'    => 57,
 			'default'     => true,
@@ -1236,13 +1236,13 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 		array(
 			'type'            => 'repeater',
 			'settings'        => 'homepage_trust_items',
-			'label'           => esc_html__( 'Trust bar items', 'tailwindscore' ),
-			'description'     => esc_html__( 'Add value proposition items. Rows without a title are ignored on the front page.', 'tailwindscore' ),
+			'label'           => esc_html__( '信任条条目', 'tailwindscore' ),
+			'description'     => esc_html__( '添加价值主张条目。无标题的行在首页会被忽略。', 'tailwindscore' ),
 			'section'         => 'tailwindscore_homepage_display',
 			'priority'        => 58,
 			'row_label'       => array(
 				'type'  => 'field',
-				'value' => esc_html__( 'Item', 'tailwindscore' ),
+				'value' => esc_html__( '条目', 'tailwindscore' ),
 				'field' => 'title',
 			),
 			'default'         => tailwindscore_homepage_default_trust_items(),
@@ -1250,18 +1250,18 @@ function tailwindscore_homepage_kirki_register( string $cfg, array $targets ): v
 			'fields'          => array(
 				'icon'        => array(
 					'type'    => 'select',
-					'label'   => esc_html__( 'Icon', 'tailwindscore' ),
+					'label'   => esc_html__( '图标', 'tailwindscore' ),
 					'default' => 'truck',
 					'choices' => tailwindscore_homepage_trust_icon_choices(),
 				),
 				'title'       => array(
 					'type'    => 'text',
-					'label'   => esc_html__( 'Title', 'tailwindscore' ),
+					'label'   => esc_html__( '标题', 'tailwindscore' ),
 					'default' => '',
 				),
 				'description' => array(
 					'type'    => 'text',
-					'label'   => esc_html__( 'Description', 'tailwindscore' ),
+					'label'   => esc_html__( '说明', 'tailwindscore' ),
 					'default' => '',
 				),
 			),
