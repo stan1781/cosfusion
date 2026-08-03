@@ -82,13 +82,6 @@ function tailwindscore_runtime_config_inline(): string {
 		);
 	}
 
-	if ( isset( $parts['home'] ) ) {
-		$inline .= sprintf(
-			'window.tailwindscoreHome = %s;',
-			wp_json_encode( $parts['home'] )
-		);
-	}
-
 	if ( isset( $parts['mailnest'] ) && is_array( $parts['mailnest'] ) ) {
 		if ( isset( $parts['mailnest']['subscribe'] ) ) {
 			$inline .= sprintf(

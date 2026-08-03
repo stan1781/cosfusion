@@ -5,8 +5,8 @@ declare(strict_types=1);
  * 导航菜单项辅助函数。
  *
  * 菜单编辑器 CSS class：
- * - mega-menu 或 mega-menu — mega panel（三级：顶栏 → 列 → 链接）
- * - hot、new、sale — 徽章标签（样式于后续阶段）
+ * - mega-menu — mega panel（三级：顶栏 → 列 → 链接）
+ * - hot、new、sale — 角标（样式见 `_navigation.scss`）
  */
 
 /**
@@ -56,11 +56,11 @@ function tailwindscore_nav_badge_classes(): array {
 	return array( 'hot', 'new', 'sale' );
 }
 
-/**
- * 菜单标签徽章 HTML（仅结构；样式于阶段 2）。
- *
- * @param object $item 导航菜单项。
- */
+	/**
+	 * 菜单角标 HTML（hot / new / sale）。
+	 *
+	 * @param object $item 导航菜单项。
+	 */
 function tailwindscore_nav_item_badge_html( object $item, string $position = 'top' ): string {
 	if ( empty( $item->classes ) || ! is_array( $item->classes ) ) {
 		return '';

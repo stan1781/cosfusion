@@ -5,7 +5,7 @@ declare(strict_types=1);
  * 订单详情
  *
  * @package TailwindScore
- * @version 10.1.0
+ * @version 10.9.0
  */
 
 defined( 'ABSPATH' ) || exit;

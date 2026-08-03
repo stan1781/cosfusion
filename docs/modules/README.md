@@ -40,10 +40,17 @@ modules/{slug}/
 | quick-view | `modules/quick-view` | 0.1.7 | ✅ | 归档 / 首页 / 购物车 / 404 轮播 Quick View |
 | review-images | `modules/review-images` | 0.1.0 | ✅ | 评论附图、买家秀 Showcase |
 | account-auth | `modules/account-auth` | 0.1.0 | ✅ | 分屏登录、独立注册页、Google 登录预设 |
+| content-blocks | `modules/content-blocks` | 0.1.0 | ✅ | CPT `ts_block` + `[block]` 可复用 HTML/CSS 片段 |
 
 各模块详细变更见对应 `CHANGELOG.md`。
 
 ## 模块摘要
+
+### content-blocks
+
+- CPT `ts_block`，后台：**外观 → 内容区块**
+- 短代码 `[block id="slug|id"]`（Flatsome 兼容）
+- 详见 [content-blocks.md](content-blocks.md)
 
 ### gallery
 

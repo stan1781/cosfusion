@@ -32,6 +32,20 @@ function tailwindscore_kirki_panel_footer(): string {
 }
 
 /**
+ * Kirki panel ID：首页。
+ */
+function tailwindscore_kirki_panel_home(): string {
+	return 'tailwindscore_home';
+}
+
+/**
+ * Kirki section ID：首页 Hero Banner。
+ */
+function tailwindscore_kirki_section_home_hero(): string {
+	return 'tailwindscore_home_hero';
+}
+
+/**
  * Customizer 目标 ID：主题 panel 加上原生 WordPress / WooCommerce panel 与区块。
  *
  * @return array<string, string>
@@ -40,10 +54,11 @@ function tailwindscore_kirki_customizer_targets(): array {
 	return array(
 		'header'      => tailwindscore_kirki_panel_header(),
 		'footer'      => tailwindscore_kirki_panel_footer(),
+		'home'        => tailwindscore_kirki_panel_home(),
+		'home_hero'   => tailwindscore_kirki_section_home_hero(),
 		'woocommerce' => 'woocommerce',
 		'product'     => 'woocommerce',
 		'account'     => 'woocommerce',
-		'homepage'    => 'static_front_page',
 		'shop'        => 'woocommerce_product_catalog',
 		'checkout'    => 'woocommerce_checkout',
 	);
@@ -181,14 +196,10 @@ function tailwindscore_kirki_slide_count_choices(): array {
  * @param mixed $value 原始值。
  */
 function tailwindscore_kirki_sanitize_slide_count_choice( $value ): string {
-	if ( ! function_exists( 'tailwindscore_homepage_sanitize_slide_count' ) ) {
-		$number = is_numeric( $value ) ? (float) $value : 1.0;
-		$number = max( 1.0, min( 6.0, $number ) );
+	$number = is_numeric( $value ) ? (float) $value : 1.0;
+	$number = max( 1.0, min( 6.0, $number ) );
 
-		return (string) ( round( $number * 2.0 ) / 2.0 );
-	}
-
-	return (string) tailwindscore_homepage_sanitize_slide_count( $value );
+	return (string) ( round( $number * 2.0 ) / 2.0 );
 }
 
 /**

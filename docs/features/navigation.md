@@ -20,7 +20,7 @@ TailwindScore 主导航支持标准下拉、Mega 菜单与移动端钻取抽屉�
 
 ## Mega 菜单
 
-仅在 **顶级** 菜单项上添加 CSS 类 **`mega-menu`** 或 **`mega-menu`**。
+仅在 **顶级** 菜单项上添加 CSS 类 **`mega-menu`**。
 
 结构（三级）：
 
@@ -40,9 +40,30 @@ Products (mega-menu)
 
 Walker：`inc/navigation/class-nav-menu-walker.php`。
 
+### 桌面端（`≥ lg`）
+
+- 悬停或键盘聚焦时，在 **sticky header 下方**展开**全宽**面板（相对 `.site-header` 定位，而非菜单项）。
+- 列网格对齐站点 `.container`（`max-width: var(--ts-container-max)` + 水平 gutter），`auto-fit` 多列横向排布。
+- 面板最大高度 `min(70vh, 32rem)`，超出部分在面板内纵向滚动。
+- 关闭态折叠高度并 `overflow: hidden`，避免隐藏面板撑高页面（footer 下空白）。
+- 全宽隐形悬停桥保证指针从标签移到侧栏列时不丢失 hover。
+
+样式：`src/scss/components/_navigation.scss`。
+
 ## 角标
 
-任意菜单项可选类：`hot`、`new`、`sale`（HTML 类名；样式由导航 SCSS 承接）。
+任意菜单项可选类：`hot`、`new`、`sale`（在「外观 → 菜单」中为该项添加 CSS 类）。
+
+| 类名 | 输出 | 视觉 |
+|------|------|------|
+| `hot` | `.nav__badge--hot` | 危险色（红）pill |
+| `new` | `.nav__badge--new` | 成功色（绿）pill |
+| `sale` | `.nav__badge--sale` | 警告色（琥珀）pill |
+
+- 顶级项：`.nav__badge--top`（略小，标签前）
+- 子项 / mega 链接：`.nav__badge--inline`（行内）
+
+样式：`src/scss/components/_navigation.scss`；HTML：`tailwindscore_nav_item_badge_html()`。
 
 ## 开发者过滤器
 

@@ -82,7 +82,14 @@ function tailwindscore_kirki_register(): void {
 
 	);
 
-
+	Kirki::add_panel(
+		$targets['home'],
+		array(
+			'title'       => esc_html__( '首页', 'tailwindscore' ),
+			'description' => esc_html__( '静态首页设置与 Hero Banner。其余区块请用页面短代码与内容区块。', 'tailwindscore' ),
+			'priority'    => 15,
+		)
+	);
 
 	if ( class_exists( 'WooCommerce' ) ) {
 

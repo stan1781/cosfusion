@@ -1,0 +1,60 @@
+/* 内容区块编辑页 — 代码 / 预览 tab（经典编辑器风格） */
+
+.content-block-editor__tools {
+	float: none;
+	margin: 0 0 8px;
+	padding: 0;
+}
+
+.content-block-editor__tools .wp-editor-tabs {
+	float: none;
+	text-align: right;
+}
+
+.content-block-editor__tab.wp-switch-editor {
+	margin: 0 0 0 5px;
+	height: auto;
+	padding: 3px 8px 4px;
+	border: 1px solid #c3c4c7;
+	background: #d9d9d9;
+	color: #646970;
+	font-size: 13px;
+	line-height: 1.46153846;
+	border-radius: 3px 3px 0 0;
+	cursor: pointer;
+}
+
+.content-block-editor__tab.wp-switch-editor:hover {
+	background: #f0f0f1;
+	color: #1d2327;
+}
+
+.content-block-editor__tab.wp-switch-editor.is-active {
+	background: #f0f0f1;
+	color: #50575e;
+	border-bottom-color: #f0f0f1;
+}
+
+.content-block-editor__panel {
+	clear: both;
+}
+
+.content-block-preview-hint {
+	margin-top: 0;
+}
+
+.content-block-preview-frame-wrap {
+	border: 1px solid #c3c4c7;
+	background: #fff;
+	border-radius: 2px;
+	overflow: hidden;
+}
+
+#ts-block-preview-frame {
+	display: block;
+	width: 100%;
+	height: min(70vh, 640px);
+	min-height: 320px;
+	border: 0;
+	background: #fff;
+}

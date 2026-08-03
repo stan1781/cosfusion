@@ -1,0 +1,49 @@
+// Shared native <select> and Select2 chevron (MailNest floating + WooCommerce checkout).
+
+$ts-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath stroke='%2352525b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+
+@mixin ts-native-select-appearance {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	padding-inline-end: 2.25rem;
+	background-color: var(--ts-colors-surface);
+	background-image: $ts-select-chevron;
+	background-repeat: no-repeat;
+	background-position: right var(--ts-form-padding-x) center;
+	background-size: 1rem;
+	line-height: 1;
+}
+
+@mixin ts-select2-single-chevron {
+	.select2-selection--single {
+		background-color: var(--ts-colors-surface);
+		background-image: $ts-select-chevron;
+		background-repeat: no-repeat;
+		background-position: right var(--ts-form-padding-x) center;
+		background-size: 1rem;
+	}
+
+	.select2-selection__rendered {
+		padding-inline-end: 2.25rem;
+		font-size: var(--ts-font-size-base);
+	}
+
+	.select2-selection__arrow {
+		display: none;
+	}
+}
+
+select.ts-form-control {
+	@include ts-native-select-appearance;
+}
+
+.woocommerce form select,
+.woocommerce-page form select {
+	@include ts-native-select-appearance;
+}
+
+.woocommerce .select2-container--default,
+.woocommerce-page .select2-container--default {
+	@include ts-select2-single-chevron;
+}

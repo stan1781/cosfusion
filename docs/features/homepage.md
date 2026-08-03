@@ -1,49 +1,39 @@
 # 首页
 
-首页由 `front-page.php` 渲染，区块内容与开关通过 Kirki **Customizer** 配置，逻辑集中在 `inc/homepage.php`。
+首页采用与 Starcore 一致的模型：**静态 Page + 短代码组合**，不再使用 `front-page.php` 或「首页展示」Kirki 全套区块。
 
-## 配置入口
+## 运营用法
 
-**外观 → 自定义 → Homepage**（具体面板名以 Kirki 注册为准）
+1. **设置 → 阅读**：静态首页选对应 Page  
+2. 页面模板：**Full Width**（`page-templates/full-width.php`；新建 Page 默认全宽）  
+3. 正文示例：
 
-配置存储为 `theme_mod`，通过 `tailwindscore_mod()` 读取（`inc/config/kirki/helpers.php`）。
+```text
+[ts_home_hero]
+[block id="homepage-featured"]
+[ts_products_carousel limit="8" orderby="date"]
+```
 
-## 主要区块
+4. **外观 → 自定义 → 首页 → Hero Banner**：上传幻灯片并调整布局  
+5. **外观 → 内容区块**：维护可复用 HTML/CSS 片段（`[block]`）
 
-首页支持以下可配置区块（以 Kirki repeater / toggle 控制显示与内容）：
+## Customizer 范围
 
-| 区块 | 说明 |
+仅 **Hero Banner**（`home_hero_*` theme_mod）。Occasion / Trending / Shop by Color / Trust 等旧 Kirki 字段已移除，现网 `homepage_*` 会在主题加载时一次性清除。
+
+## 相关能力
+
+| 能力 | 文档 |
 |------|------|
-| Hero | 主视觉横幅（图/文/CTA） |
-| Shop by Occasion | 场合分类网格 |
-| Trending Collections | 趋势系列网格 |
-| Featured Products | 共享产品轮播壳层（见 [产品轮播](product-carousel.md)） |
-| Shop by Color | 按颜色购物（`inc/woocommerce/homepage-shop-by-color.php`） |
-| 其他营销区 | 以 `inc/homepage.php` 中 Kirki 字段为准 |
-
-默认值 helper 示例：
-
-- `tailwindscore_homepage_default_products_shortcode()` → `[ts_products_carousel limit="8" orderby="date"]`
-- `tailwindscore_homepage_default_occasion_items()` → 场合网格默认项
-
-## 前端交互
-
-`src/ts/home/` 仅处理 Hero Swiper。产品列表轮播由 `src/ts/shop/product-carousel.ts` 统一初始化。
-
-## 样式
-
-首页区块使用 `.home-*` 语义类；精选商品区块复用 `.product-carousel.home-products`（见 `_product-carousel.scss` / `_homepage.scss`），遵循 [设计令牌](../architecture/design-tokens.md)。
-
-## 维护说明
-
-1. 新增首页区块时：在 `inc/homepage.php` 注册 Kirki 字段 + helper，在 `front-page.php` 引用 template part。
-2. 避免在模板中硬编码营销文案；默认值放在 helper 函数中便于翻译。
-3. 产品列表优先经 `tailwindscore_homepage_render_products_carousel()` / `[ts_products_carousel]`，勿再为首页单独写一套 Swiper 骨架。
+| Hero 轮播 | [home-hero.md](home-hero.md) |
+| 内容区块 | [content-blocks.md](../modules/content-blocks.md) |
+| 产品轮播 | [product-carousel.md](product-carousel.md) |
 
 ## 相关文件
 
-- `front-page.php`
-- `inc/homepage.php`
+- `page-templates/full-width.php`
+- `inc/page-templates.php`
+- `inc/home/hero-carousel.php`
+- `inc/config/kirki/home.php`
+- `modules/content-blocks/`
 - `inc/woocommerce/product-carousel.php`
-- `inc/woocommerce/homepage-shop-by-color.php`
-- `template-parts/woocommerce/product-carousel.php`

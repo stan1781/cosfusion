@@ -1,0 +1,83 @@
+<?php
+declare(strict_types=1);
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * 内容区块 — HTML / CSS 规范化（AI 生成内容常见 <style> 包裹）。
+ */
+final class Tailwindscore_Content_Block_Content {
+
+	/**
+	 * 去掉 CSS 字段中的 <style> 标签，保留纯 CSS 规则。
+	 */
+	public static function normalize_css( string $css ): string {
+		$css = trim( $css );
+		if ( '' === $css ) {
+			return '';
+		}
+
+		if ( ! preg_match( '/<style\b/i', $css ) ) {
+			return $css;
+		}
+
+		$parts = array();
+		if ( preg_match_all( '/<style\b[^>]*>(.*?)<\/style>/is', $css, $matches ) ) {
+			foreach ( $matches[1] as $chunk ) {
+				$chunk = trim( (string) $chunk );
+				if ( '' !== $chunk ) {
+					$parts[] = $chunk;
+				}
+			}
+		}
+
+		if ( ! empty( $parts ) ) {
+			return implode( "\n\n", $parts );
+		}
+
+		return wp_strip_all_tags( $css );
+	}
+
+	/**
+	 * 从 HTML 中提取 <style> 块，返回剥离后的 HTML 与合并的 CSS。
+	 *
+	 * @return array{0: string, 1: string}
+	 */
+	public static function extract_styles_from_html( string $html ): array {
+		$extracted = array();
+
+		$cleaned = preg_replace_callback(
+			'/<style\b[^>]*>(.*?)<\/style>/is',
+			static function ( array $matches ) use ( &$extracted ): string {
+				$inner = trim( (string) ( $matches[1] ?? '' ) );
+				if ( '' !== $inner ) {
+					$extracted[] = $inner;
+				}
+
+				return '';
+			},
+			$html
+		);
+
+		return array(
+			is_string( $cleaned ) ? trim( $cleaned ) : trim( $html ),
+			implode( "\n\n", $extracted ),
+		);
+	}
+
+	/**
+	 * 合并两段 CSS（去重空行）。
+	 */
+	public static function merge_css( string $primary, string $secondary ): string {
+		$parts = array();
+
+		foreach ( array( $primary, $secondary ) as $chunk ) {
+			$chunk = self::normalize_css( trim( $chunk ) );
+			if ( '' !== $chunk ) {
+				$parts[] = $chunk;
+			}
+		}
+
+		return implode( "\n\n", $parts );
+	}
+}

@@ -26,7 +26,6 @@ require_once __DIR__ . '/woocommerce/product-image-aspect.php';
 require_once __DIR__ . '/woocommerce/product-tabs.php';
 require_once __DIR__ . '/woocommerce/loop.php';
 require_once __DIR__ . '/woocommerce/loop-variant-swatches.php';
-require_once __DIR__ . '/woocommerce/homepage-shop-by-color.php';
 require_once __DIR__ . '/woocommerce/price-display.php';
 require_once __DIR__ . '/woocommerce/cart-view.php';
 require_once __DIR__ . '/woocommerce/cart-config.php';
@@ -43,7 +42,10 @@ require_once __DIR__ . '/woocommerce/ajax-search.php';
 require_once __DIR__ . '/woocommerce/checkout-coupon.php';
 require_once __DIR__ . '/woocommerce/reviews.php';
 require_once __DIR__ . '/config/kirki-config.php';
-require_once __DIR__ . '/homepage.php';
+require_once __DIR__ . '/config/kirki/home.php';
+require_once __DIR__ . '/home/hero-carousel.php';
+require_once __DIR__ . '/home/purge-legacy-homepage-mods.php';
+require_once __DIR__ . '/page-templates.php';
 
 require_once get_template_directory() . '/modules/typography/module.php';
 require_once get_template_directory() . '/modules/gallery/module.php';
@@ -53,6 +55,7 @@ require_once get_template_directory() . '/modules/related-products/module.php';
 require_once get_template_directory() . '/modules/quick-view/module.php';
 require_once get_template_directory() . '/modules/review-images/module.php';
 require_once get_template_directory() . '/modules/account-auth/module.php';
+require_once get_template_directory() . '/modules/content-blocks/module.php';
 
 require_once __DIR__ . '/integrations/wc-order-process-manager.php';
 require_once __DIR__ . '/integrations/wc-mailnest.php';

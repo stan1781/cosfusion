@@ -1,0 +1,153 @@
+@use "../abstracts/mixins";
+
+.hero-carousel {
+	--ts-hero-carousel-aspect-mobile: 4 / 3;
+	--ts-hero-carousel-aspect-desktop: 21 / 9;
+
+	position: relative;
+	width: 100%;
+	min-width: 0;
+}
+
+.hero-carousel__swiper {
+	position: relative;
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+	overflow: hidden;
+}
+
+.hero-carousel__slide {
+	height: auto;
+	box-sizing: border-box;
+}
+
+.hero-carousel__link {
+	display: block;
+	color: inherit;
+	text-decoration: none;
+}
+
+.hero-carousel__media {
+	margin: 0;
+	width: 100%;
+	aspect-ratio: var(--ts-hero-carousel-aspect-mobile);
+	overflow: hidden;
+	background-color: var(--ts-surface-muted);
+
+	@include mixins.ts-up(md) {
+		aspect-ratio: var(--ts-hero-carousel-aspect-desktop);
+	}
+}
+
+.hero-carousel__media picture,
+.hero-carousel__img {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.hero-carousel__img {
+	object-fit: cover;
+	object-position: center;
+}
+
+.hero-carousel__nav-group {
+	pointer-events: none;
+}
+
+.hero-carousel__nav-group[hidden] {
+	display: none;
+}
+
+.hero-carousel__nav {
+	position: absolute;
+	top: 50%;
+	z-index: 2;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 0;
+	margin: 0;
+	border: none;
+	border-radius: var(--ts-border-radius-pill);
+	background: color-mix(in srgb, var(--ts-surface) 92%, transparent);
+	color: var(--ts-text-primary);
+	cursor: pointer;
+	pointer-events: auto;
+	transform: translateY(-50%);
+	transition: background-color 0.15s ease, opacity 0.15s ease;
+
+	&:hover {
+		background: var(--ts-surface);
+	}
+}
+
+.hero-carousel__nav--prev {
+	left: var(--ts-spacer-2);
+}
+
+.hero-carousel__nav--next {
+	right: var(--ts-spacer-2);
+}
+
+.hero-carousel__nav-icon {
+	display: inline-flex;
+	width: 1.25rem;
+	height: 1.25rem;
+
+	svg {
+		width: 100%;
+		height: 100%;
+		fill: none;
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.75;
+	}
+}
+
+.hero-carousel__pagination {
+	position: absolute;
+	inset-inline: 0;
+	bottom: var(--ts-spacer-3);
+	z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: var(--ts-spacer-1);
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	pointer-events: none;
+	transform: none;
+
+	// 覆盖 Swiper 默认 left/transform，避免与 inset-inline 冲突导致跑到左侧
+	&.swiper-pagination-bullets {
+		left: 0;
+		width: 100%;
+		transform: none;
+	}
+
+	.swiper-pagination-bullet {
+		pointer-events: auto;
+		margin: 0 !important;
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: var(--ts-border-radius-pill);
+		background-color: var(--ts-surface);
+		opacity: 0.55;
+	}
+
+	.swiper-pagination-bullet-active {
+		opacity: 1;
+		background-color: var(--ts-primary);
+	}
+}
+
+.hero-carousel__pagination[hidden] {
+	display: none;
+}

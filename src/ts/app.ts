@@ -10,6 +10,7 @@ import './shop/loop-swatches';
 import './shop/loop-add-to-cart';
 import './shop/ordering';
 import { initProductCarousels } from './shop/product-carousel';
+import { initHeroCarousels } from './home/hero-carousel';
 import './search/index';
 import './product/index';
 import './cart/index';
@@ -18,6 +19,7 @@ import './cart/cart-page';
 import './checkout/index';
 
 initProductCarousels();
+initHeroCarousels();
 
 function scheduleIdleTask(task: () => void, timeoutMs = 4000): void {
 	if ('requestIdleCallback' in window) {
@@ -72,17 +74,8 @@ function scheduleMailnestModule(): void {
 	});
 }
 
-function bootHomeModule(): void {
-	if (!document.querySelector('.home')) {
-		return;
-	}
-
-	void import('./home/index');
-}
-
 scheduleQuickViewModule();
 scheduleMailnestModule();
-bootHomeModule();
 
 if (document.body.classList.contains('woocommerce-account')) {
 	void import('./integrations/order-process');

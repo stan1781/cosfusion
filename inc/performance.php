@@ -192,10 +192,6 @@ function tailwindscore_performance_resource_hint_entries(): array {
 		$entries[] = 'src/scss/woo.scss';
 	}
 
-	if ( is_front_page() ) {
-		$entries[] = 'src/ts/home/index.ts';
-	}
-
 	return apply_filters( 'tailwindscore_resource_hint_entries', $entries );
 }
 

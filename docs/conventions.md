@@ -33,7 +33,7 @@ TailwindScore 是 **英文站点模板**：前台默认可视文案为英文；�
 |------|--------|
 | 基础 + 变体 | `btn btn-primary`、`btn btn-outline-secondary`、`btn btn-sm` |
 | 子部件连字符 | `nav-link`、`card-body`、`modal-header` |
-| 域组件 | `site-header`、`cart-drawer`、`home-hero` 等（可读即可） |
+| 域组件 | `site-header`、`cart-drawer`、`hero-carousel` 等（可读即可） |
 
 说明：
 

@@ -90,6 +90,10 @@ function tailwindscore_entry_breadcrumb_items(): array {
  * 是否渲染装饰性条目头部（标题带）。
  */
 function tailwindscore_show_entry_header(): bool {
+	if ( function_exists( 'tailwindscore_show_page_title' ) && ! tailwindscore_show_page_title() ) {
+		return false;
+	}
+
 	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
 		return false;
 	}
@@ -103,6 +107,14 @@ function tailwindscore_show_entry_header(): bool {
 
 function tailwindscore_has_sidebar(): bool {
 	if ( is_404() ) {
+		return false;
+	}
+
+	if ( is_front_page() ) {
+		return false;
+	}
+
+	if ( function_exists( 'tailwindscore_is_full_width_page' ) && tailwindscore_is_full_width_page() ) {
 		return false;
 	}
 

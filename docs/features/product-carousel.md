@@ -14,7 +14,7 @@
 | `limit` | `8` | 1–24 |
 | `columns_mobile` | `2.5` | 1–6，0.5 步进 |
 | `columns_desktop` | `4` | md 断点及以上 |
-| `columns_wide` | 空 | 可选；设值后在 xl 断点生效（首页会传） |
+| `columns_wide` | 空 | 可选；设值后在 xl 断点生效 |
 | `gap` | `16` | 间距 px，0–48 |
 | `orderby` | `date` | `date` / `popularity` / `menu_order` / `title` |
 | `order` | `DESC` | `ASC` / `DESC` |
@@ -24,10 +24,13 @@
 
 ## 首页
 
-- Customizer → Homepage：标题、shortcode、响应式 slide 数、间距
-- 默认 shortcode：`[ts_products_carousel limit="8" orderby="date"]`
-- 仍兼容 `[products …]`（属性映射进同一壳层）；列数以 Kirki slides 为准
-- 渲染：`tailwindscore_homepage_render_products_carousel()`
+首页为静态 Page，直接在正文放入短代码即可，例如：
+
+```text
+[ts_products_carousel limit="8" orderby="date" title="New arrivals"]
+```
+
+也可嵌在内容区块 `[block]` 内。不再经 Customizer「首页展示」包装。
 
 ## 购物车推荐
 

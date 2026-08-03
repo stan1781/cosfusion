@@ -20,8 +20,9 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 | [站点壳层](features/site-shell.md) | 头部、页脚、搜索、移动端导航 |
 | [主导航](features/navigation.md) | 下拉菜单、Mega 菜单、移动端钻取抽屉 |
 | [购买流程](features/purchase-flow.md) | Drawer-first 购物车、结账、通知策略 |
-| [首页](features/homepage.md) | Kirki 配置区块与 `front-page.php` |
-| [产品轮播](features/product-carousel.md) | `[ts_products_carousel]`、首页 / 购物车 / 404 共享 Swiper 壳层 |
+| [首页](features/homepage.md) | 静态 Page + 短代码；Hero Kirki + Content Blocks |
+| [首页 Hero](features/home-hero.md) | `[ts_home_hero]` 图轮播（mobile 图 / peek / rewind） |
+| [产品轮播](features/product-carousel.md) | `[ts_products_carousel]`、购物车 / 404 共享 Swiper 壳层 |
 | [产品详情 Tab](features/product-detail-tabs.md) | 响应式描述 / Size Guide / 评论布局 |
 | [404 页面](features/not-found.md) | Hero、快捷导航卡片、人气商品轮播 |
 
@@ -30,7 +31,9 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 | 文档 | 说明 |
 |------|------|
 | [主题模块](modules/README.md) | `modules/` 目录能力与登记表 |
+| [内容区块](modules/content-blocks.md) | CPT `ts_block` 与 `[block]` |
 | [独立插件整合](integrations/README.md) | 插件逻辑 + 主题前台资源 |
+| [后续升级评估](roadmap/starcore-upgrades.md) | 可从 Starcore 继续移植的非套餐能力 |
 
 ## 历史文档（归档）
 

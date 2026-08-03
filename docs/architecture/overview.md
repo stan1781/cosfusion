@@ -31,19 +31,20 @@ tailwindscore/
 ├── inc/
 │   ├── bootstrap.php     # 统一 require（functions.php 仅引导此处）
 │   ├── icons.php         # 内联 SVG 图标 map / tailwindscore_icon()
-│   ├── config/           # Kirki 注册与 helpers
+│   ├── config/           # Kirki 注册与 helpers（含 home Hero）
+│   ├── home/             # Hero 轮播与旧首页 theme_mod 清理
 │   ├── navigation/       # 头部、移动壳层、页脚导航
 │   ├── woocommerce/      # 商城模板逻辑、购买流程、结账
 │   ├── integrations/     # 独立插件前台资源整合
-│   ├── homepage.php      # 首页 Kirki 与区块 helper
 │   └── enqueue.php       # 资源加载与运行时 config 注入
-├── modules/              # 可开关主题模块（gallery、variations 等）
+├── modules/              # 可开关主题模块（gallery、content-blocks 等）
+├── page-templates/       # Full Width 等页面模板
 ├── src/
 │   ├── scss/             # app.scss / woo.scss / 组件样式
 │   └── ts/               # app.ts 及按域划分的 TS 模块
 ├── template-parts/       # 可复用标记片段
 ├── woocommerce/          # WooCommerce 模板覆盖
-├── front-page.php        # 首页模板
+├── page.php              # 默认页面模板
 └── functions.php         # 仅 require inc/bootstrap.php
 ```
 
@@ -51,9 +52,9 @@ tailwindscore/
 
 | 层 | 职责 | 路径示例 |
 |----|------|----------|
-| 页面模板 | 页面级骨架、Woo hook 编排 | `woocommerce/*.php`、`front-page.php` |
+| 页面模板 | 页面级骨架、Woo hook 编排 | `woocommerce/*.php`、`page.php`、`page-templates/` |
 | 视图片段 | 可跨页面复用的 HTML 结构 | `template-parts/` |
-| 领域 helper | URL、配置载荷、服务端渲染入口 | `inc/woocommerce/`、`inc/navigation/` |
+| 领域 helper | URL、配置载荷、服务端渲染入口 | `inc/woocommerce/`、`inc/navigation/`、`inc/home/` |
 | 主题模块 | 可 Kirki 开关的独立业务能力 | `modules/{slug}/` |
 | TypeScript | 用户交互、Store API、DOM 同步 | `src/ts/` |
 | 样式 | 语义类 + 设计令牌 | `src/scss/components/`、`src/scss/woocommerce/` |
