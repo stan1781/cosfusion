@@ -102,26 +102,28 @@ function tailwindscore_mod_lines( string $key, string $default = '' ): array {
 	return $out;
 }
 
-/**
- * 搜索弹窗 chip 的热门搜索词。
- *
- * @return string[]
- */
-function tailwindscore_search_modal_hot_terms(): array {
-	$default = "Prom Dresses\nEvening Dresses\nBridesmaid Dresses\nHomecoming Dresses";
+	/**
+	 * 搜索弹窗 chip 的热门搜索词。
+	 *
+	 * 默认不预置；由 Customizer「搜索弹层 → 热门搜索」按行配置。
+	 *
+	 * @return string[]
+	 */
+	function tailwindscore_search_modal_hot_terms(): array {
+		return tailwindscore_mod_lines( 'search_modal_hot_terms' );
+	}
 
-	return tailwindscore_mod_lines( 'search_modal_hot_terms', $default );
-}
-
-/**
- * 搜索弹窗 chip 的热门商品分类。
- *
- * @return WP_Term[]
- */
-function tailwindscore_search_modal_hot_categories(): array {
-	$default = "Prom\nEvening\nBridesmaid\nPlus Size";
-	$lines   = tailwindscore_mod_lines( 'search_modal_hot_categories', $default );
-	$terms   = array();
+	/**
+	 * 搜索弹窗 chip 的热门商品分类。
+	 *
+	 * 默认不预置；由 Customizer「搜索弹层 → 热门分类」按行填写分类名称或 slug，
+	 * 解析为已存在的 product_cat 后渲染为直达分类归档的 chip。
+	 *
+	 * @return WP_Term[]
+	 */
+	function tailwindscore_search_modal_hot_categories(): array {
+		$lines = tailwindscore_mod_lines( 'search_modal_hot_categories' );
+		$terms = array();
 
 	foreach ( $lines as $line ) {
 		$term = get_term_by( 'slug', sanitize_title( $line ), 'product_cat' );
@@ -201,28 +203,28 @@ function tailwindscore_mobile_shell_kirki_register( string $cfg, array $targets 
 		)
 	);
 
-	Kirki::add_field(
-		$cfg,
-		array(
-			'type'     => 'textarea',
-			'settings' => 'search_modal_hot_terms',
-			'label'    => esc_html__( '热门搜索', 'tailwindscore' ),
-			'description' => esc_html__( '每行一个搜索词。', 'tailwindscore' ),
-			'section'  => 'tailwindscore_search_modal',
-			'default'  => "Prom Dresses\nEvening Dresses\nBridesmaid Dresses\nHomecoming Dresses",
-		)
-	);
+		Kirki::add_field(
+			$cfg,
+			array(
+				'type'        => 'textarea',
+				'settings'    => 'search_modal_hot_terms',
+				'label'       => esc_html__( '热门搜索', 'tailwindscore' ),
+				'description' => esc_html__( '每行一个搜索词。留空则不显示该组。', 'tailwindscore' ),
+				'section'     => 'tailwindscore_search_modal',
+				'default'     => '',
+			)
+		);
 
-	Kirki::add_field(
-		$cfg,
-		array(
-			'type'        => 'textarea',
-			'settings'    => 'search_modal_hot_categories',
-			'label'       => esc_html__( '热门分类', 'tailwindscore' ),
-			'description' => esc_html__( '每行一个分类名称或 slug。', 'tailwindscore' ),
-			'section'     => 'tailwindscore_search_modal',
-			'default'     => "Prom\nEvening\nBridesmaid\nPlus Size",
-		)
-	);
+		Kirki::add_field(
+			$cfg,
+			array(
+				'type'        => 'textarea',
+				'settings'    => 'search_modal_hot_categories',
+				'label'       => esc_html__( '热门分类', 'tailwindscore' ),
+				'description' => esc_html__( '每行一个分类名称或 slug。留空则不显示该组。', 'tailwindscore' ),
+				'section'     => 'tailwindscore_search_modal',
+				'default'     => '',
+			)
+		);
 }
 add_action( 'tailwindscore/kirki/register', 'tailwindscore_mobile_shell_kirki_register', 10, 2 );

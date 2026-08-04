@@ -18,13 +18,13 @@ function tailwindscore_account_auth_kirki_register( string $cfg, array $targets 
 		return;
 	}
 
+	// 根级区块（与「页脚」同级），不挂在 WooCommerce panel 下。
 	Kirki::add_section(
-		'tailwindscore_account_auth',
+		$targets['account'],
 		array(
 			'title'       => esc_html__( '我的账户', 'tailwindscore' ),
 			'description' => esc_html__( '登录与注册页布局及文案。', 'tailwindscore' ),
-			'panel'       => $targets['account'],
-			'priority'    => 75,
+			'priority'    => 25,
 		)
 	);
 
@@ -34,7 +34,7 @@ function tailwindscore_account_auth_kirki_register( string $cfg, array $targets 
 			'type'     => 'image',
 			'settings' => 'account_auth_hero_image',
 			'label'    => esc_html__( '主图', 'tailwindscore' ),
-			'section'  => 'tailwindscore_account_auth',
+			'section'  => $targets['account'],
 			'default'  => '',
 			'choices'  => array(
 				'save_as' => 'url',
@@ -48,7 +48,7 @@ function tailwindscore_account_auth_kirki_register( string $cfg, array $targets 
 			'type'     => 'text',
 			'settings' => 'account_auth_hero_heading',
 			'label'    => esc_html__( '主图标题', 'tailwindscore' ),
-			'section'  => 'tailwindscore_account_auth',
+			'section'  => $targets['account'],
 			'default'  => esc_html__( 'Shop with confidence', 'tailwindscore' ),
 		)
 	);
@@ -59,7 +59,7 @@ function tailwindscore_account_auth_kirki_register( string $cfg, array $targets 
 			'type'     => 'textarea',
 			'settings' => 'account_auth_hero_text',
 			'label'    => esc_html__( '主图说明', 'tailwindscore' ),
-			'section'  => 'tailwindscore_account_auth',
+			'section'  => $targets['account'],
 			'default'  => esc_html__( 'Sign in to track orders, save details, and checkout faster.', 'tailwindscore' ),
 		)
 	);
@@ -71,7 +71,7 @@ function tailwindscore_account_auth_kirki_register( string $cfg, array $targets 
 			'settings'    => 'account_auth_hero_bg',
 			'label'       => esc_html__( '主图背景', 'tailwindscore' ),
 			'description' => esc_html__( '留空则使用主题主色令牌。', 'tailwindscore' ),
-			'section'     => 'tailwindscore_account_auth',
+			'section'     => $targets['account'],
 			'default'     => '',
 			'choices'     => array(
 				'alpha' => false,
@@ -85,7 +85,7 @@ function tailwindscore_account_auth_kirki_register( string $cfg, array $targets 
 			'type'     => 'text',
 			'settings' => 'account_auth_login_welcome',
 			'label'    => esc_html__( '登录欢迎语', 'tailwindscore' ),
-			'section'  => 'tailwindscore_account_auth',
+			'section'  => $targets['account'],
 			'default'  => esc_html__( 'Welcome to %site_name%', 'tailwindscore' ),
 		)
 	);
@@ -96,7 +96,7 @@ function tailwindscore_account_auth_kirki_register( string $cfg, array $targets 
 			'type'     => 'text',
 			'settings' => 'account_auth_register_welcome',
 			'label'    => esc_html__( '注册欢迎语', 'tailwindscore' ),
-			'section'  => 'tailwindscore_account_auth',
+			'section'  => $targets['account'],
 			'default'  => esc_html__( 'Create your account', 'tailwindscore' ),
 		)
 	);
@@ -108,7 +108,7 @@ function tailwindscore_account_auth_kirki_register( string $cfg, array $targets 
 			'settings'    => 'account_auth_register_hero_heading',
 			'label'       => esc_html__( '注册页主图标题', 'tailwindscore' ),
 			'description' => esc_html__( '留空则复用登录页主图标题。', 'tailwindscore' ),
-			'section'     => 'tailwindscore_account_auth',
+			'section'     => $targets['account'],
 			'default'     => '',
 		)
 	);
@@ -120,7 +120,7 @@ function tailwindscore_account_auth_kirki_register( string $cfg, array $targets 
 			'settings'    => 'account_auth_register_hero_text',
 			'label'       => esc_html__( '注册页主图说明', 'tailwindscore' ),
 			'description' => esc_html__( '留空则复用登录页主图说明。', 'tailwindscore' ),
-			'section'     => 'tailwindscore_account_auth',
+			'section'     => $targets['account'],
 			'default'     => '',
 		)
 	);
@@ -131,7 +131,7 @@ function tailwindscore_account_auth_kirki_register( string $cfg, array $targets 
 			'type'     => 'toggle',
 			'settings' => 'account_auth_show_remember_me',
 			'label'    => esc_html__( '登录页显示「记住我」', 'tailwindscore' ),
-			'section'  => 'tailwindscore_account_auth',
+			'section'  => $targets['account'],
 			'default'  => true,
 		)
 	);
@@ -143,7 +143,7 @@ function tailwindscore_account_auth_kirki_register( string $cfg, array $targets 
 			'settings'    => 'account_auth_google_enabled',
 			'label'       => esc_html__( '登录页显示 Google 登录（Site Kit）', 'tailwindscore' ),
 			'description' => esc_html__( '需要 Site Kit 的 Sign in with Google。按钮显示在登录表单下方。', 'tailwindscore' ),
-			'section'     => 'tailwindscore_account_auth',
+			'section'     => $targets['account'],
 			'default'     => false,
 		)
 	);
@@ -155,7 +155,7 @@ function tailwindscore_account_auth_kirki_register( string $cfg, array $targets 
 			'settings'    => 'account_auth_register_show_google',
 			'label'       => esc_html__( '注册页显示 Google 登录（Site Kit）', 'tailwindscore' ),
 			'description' => esc_html__( '按钮显示在注册表单上方。', 'tailwindscore' ),
-			'section'     => 'tailwindscore_account_auth',
+			'section'     => $targets['account'],
 			'default'     => false,
 		)
 	);

@@ -249,7 +249,7 @@ function tailwindscore_header_kirki_register( string $cfg, array $targets ): voi
 	Kirki::add_section(
 		'tailwindscore_header',
 		array(
-			'title'       => esc_html__( '页头', 'tailwindscore' ),
+			'title'       => esc_html__( '顶部公告栏', 'tailwindscore' ),
 			'description' => esc_html__( '顶部公告栏；单条静态显示，多条垂直轮播。滚动时消失；主页头保持粘性。', 'tailwindscore' ),
 			'panel'       => $targets['header'],
 			'priority'    => 35,

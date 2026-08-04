@@ -18,7 +18,7 @@
 
 ## 顶部公告栏（Kirki）
 
-可选顶栏位于 sticky `.site-header` 之前，随页面滚动离开；主页头保持粘性。
+可选顶栏位于 sticky `.site-header` 之前，随页面滚动离开；主页头保持粘性。Customizer 路径：页头 → **顶部公告栏**。
 
 | `theme_mod` | 类型 | 默认 | 说明 |
 |-------------|------|------|------|
@@ -57,6 +57,11 @@
 - 全站搜索表单与头部搜索入口
 - AJAX 实时搜索（`tailwindscoreAjaxSearch` 配置注入）
 - 与 WooCommerce 产品搜索集成
+- 搜索弹层（`template-parts/header/search-modal.php`）可在输入框下方展示 chip 引导：
+  - **热门搜索**（`search_modal_hot_terms`）：每行一个关键词；点击跳转商品搜索结果页
+  - **热门分类**（`search_modal_hot_categories`）：每行一个 `product_cat` 名称或 slug；解析成功后点击直达该分类归档
+  - 两者默认均为空；未配置时整块 chips 不渲染（见 Customizer → Header → 搜索弹层）
+  - 实现：`inc/navigation/mobile-shell.php`、`template-parts/search/modal-chips.php`
 
 ## 交互技术边界
 

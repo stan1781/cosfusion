@@ -39,7 +39,7 @@ modules/{slug}/
 | related-products | `modules/related-products` | 0.1.0 | ✅ | 单品页相关产品引擎 |
 | quick-view | `modules/quick-view` | 0.1.7 | ✅ | 归档 / 首页 / 购物车 / 404 轮播 Quick View |
 | review-images | `modules/review-images` | 0.1.0 | ✅ | 评论附图、买家秀 Showcase |
-| account-auth | `modules/account-auth` | 0.1.0 | ✅ | 分屏登录、独立注册页、Google 登录预设 |
+| account-auth | `modules/account-auth` | 0.1.1 | ✅ | 分屏登录、独立注册页、Google 登录预设 |
 | content-blocks | `modules/content-blocks` | 0.1.0 | ✅ | CPT `ts_block` + `[block]` 可复用 HTML/CSS 片段 |
 
 各模块详细变更见对应 `CHANGELOG.md`。
@@ -96,6 +96,7 @@ modules/{slug}/
 - 独立 `/register/` + `[ts_registration_form]`
 - Site Kit Google 登录 Kirki 开关（默认关）
 - 独立认证页布局（无站点 header/footer）
+- Kirki：Customizer 根级「我的账户」区块（`tailwindscore_account_auth`，与页脚同级）
 
 ### typography
 

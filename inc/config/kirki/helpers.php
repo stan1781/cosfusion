@@ -32,6 +32,13 @@ function tailwindscore_kirki_panel_footer(): string {
 }
 
 /**
+ * Customizer 区块 ID：我的账户（根级，不挂 WooCommerce panel）。
+ */
+function tailwindscore_kirki_section_account(): string {
+	return 'tailwindscore_account_auth';
+}
+
+/**
  * Kirki panel ID：首页。
  */
 function tailwindscore_kirki_panel_home(): string {
@@ -56,9 +63,9 @@ function tailwindscore_kirki_customizer_targets(): array {
 		'footer'      => tailwindscore_kirki_panel_footer(),
 		'home'        => tailwindscore_kirki_panel_home(),
 		'home_hero'   => tailwindscore_kirki_section_home_hero(),
+		'account'     => tailwindscore_kirki_section_account(),
 		'woocommerce' => 'woocommerce',
 		'product'     => 'woocommerce',
-		'account'     => 'woocommerce',
 		'shop'        => 'woocommerce_product_catalog',
 		'checkout'    => 'woocommerce_checkout',
 	);
