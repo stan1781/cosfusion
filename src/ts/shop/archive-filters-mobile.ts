@@ -86,6 +86,33 @@ export function closeArchiveFiltersMobile(): void {
 	setArchiveFiltersMobileOpen(false);
 }
 
+/** 移动端筛选 Drawer 是否打开。 */
+export function isArchiveFiltersMobileOpen(): boolean {
+	const root = getMobileRoot();
+	return Boolean(root && isOpen(root));
+}
+
+/**
+ * 导航加载时的 loading-host：优先 body（避开 header），否则 panel。
+ */
+export function getArchiveFiltersMobileLoadingHost(): HTMLElement | null {
+	const root = getMobileRoot();
+
+	if (!root || !isOpen(root)) {
+		return null;
+	}
+
+	const panel = root.querySelector<HTMLElement>(PANEL_SELECTOR);
+
+	if (!panel) {
+		return null;
+	}
+
+	return (
+		panel.querySelector<HTMLElement>('.wc-archive-filters-mobile__body') ?? panel
+	);
+}
+
 export function syncArchiveFiltersMobileCount(count: number): void {
 	const badge = getArchiveRoot()?.querySelector<HTMLElement>(COUNT_SELECTOR);
 

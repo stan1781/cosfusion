@@ -5,6 +5,8 @@
 import { markLoadingHost, setLoadingHost } from '../ui/loading-host';
 import {
 	closeArchiveFiltersMobile,
+	getArchiveFiltersMobileLoadingHost,
+	isArchiveFiltersMobileOpen,
 	syncArchiveFiltersMobileCount,
 } from './archive-filters-mobile';
 import {
@@ -262,9 +264,13 @@ async function navigateArchive(url: string, options: NavigateOptions = {}): Prom
 	}
 
 	const generation = ++navigationGeneration;
+	const filtersLoadingHost = isArchiveFiltersMobileOpen()
+		? getArchiveFiltersMobileLoadingHost()
+		: null;
 
 	setPendingLink(pendingLink, true);
 	setLoadingHost(mainEl, true);
+	setLoadingHost(filtersLoadingHost, true);
 
 	try {
 		const payload = await ensureArchiveNav(targetUrl, { preserveFilters: false });
@@ -310,6 +316,7 @@ async function navigateArchive(url: string, options: NavigateOptions = {}): Prom
 		if (generation === navigationGeneration) {
 			setPendingLink(pendingLink, false);
 			setLoadingHost(mainEl, false);
+			setLoadingHost(filtersLoadingHost, false);
 		}
 	}
 }
