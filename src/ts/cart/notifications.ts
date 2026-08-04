@@ -107,6 +107,7 @@ function showToast(notification: PurchaseFlowNotification) {
 	toast.setAttribute('role', 'alert');
 	toast.setAttribute('aria-live', 'assertive');
 	toast.setAttribute('aria-atomic', 'true');
+	toast.style.setProperty('--ts-toast-duration', `${toastDismissMs}ms`);
 	toast.innerHTML = `
 		<div class="purchase-flow-toast__header">
 			<span class="purchase-flow-toast__accent" aria-hidden="true"></span>
@@ -114,6 +115,9 @@ function showToast(notification: PurchaseFlowNotification) {
 			<button type="button" class="btn-close btn-close-sm" aria-label="Close"><span class="icon" aria-hidden="true">${window.tailwindscoreCart?.icons?.close ?? ''}</span><span class="screen-reader-text">Close</span></button>
 		</div>
 		<div class="purchase-flow-toast__body">${escapeHtml(notification.message)}</div>
+		<div class="purchase-flow-toast__progress" aria-hidden="true">
+			<span class="purchase-flow-toast__progress-bar"></span>
+		</div>
 	`;
 
 	const timeoutId = window.setTimeout(() => {

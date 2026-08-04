@@ -41,6 +41,8 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 | 库存不足、数量被修正、Drawer 内无效优惠码 | **Drawer 内联**持久反馈 |
 | 结账表单校验、支付失败 | **checkout 页面 inline** |
 
+Toast 底部有与自动关闭时长（4200ms）同步的倒计时进度条（`purchase-flow-toast__progress`，CSS `scaleX` 动画）。
+
 不把阻塞型结账错误只做成短暂 toast。
 
 前端 API 形态（`notifications.ts`）：
