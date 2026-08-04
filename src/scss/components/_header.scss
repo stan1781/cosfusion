@@ -7,33 +7,64 @@
 	background: var(--ts-surface);
 }
 
-// Announcement bar (scrolls away; sibling before sticky header).
+// 公告条：在 sticky header 之前，随页面滚动离开。
 .site-header-bar {
+	--ts-header-bar-height: 2rem;
+
+	display: flex;
+	align-items: center;
 	width: 100%;
+	height: var(--ts-header-bar-height);
+	font-size: var(--ts-font-size-xs);
+	line-height: 1.25;
+	text-align: center;
+}
+
+.site-header-bar--dark {
+	background: var(--ts-primary);
+	color: var(--ts-on-primary);
+
+	.site-header-bar__link {
+		color: var(--ts-on-primary);
+	}
+
+	.site-header-bar__link:hover,
+	.site-header-bar__link:focus-visible {
+		opacity: 0.85;
+	}
+}
+
+.site-header-bar--light {
 	background: var(--ts-surface-muted);
-	// border-bottom: 1px solid var(--ts-border-color);
 	color: var(--ts-text-primary);
+
+	.site-header-bar__link {
+		color: var(--ts-primary);
+	}
+
+	.site-header-bar__link:hover,
+	.site-header-bar__link:focus-visible {
+		opacity: 0.85;
+	}
 }
 
 .site-header-bar__inner {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 2rem;
-	padding-block: var(--ts-spacer-1);
+	width: 100%;
+	height: 100%;
 }
 
 .site-header-bar__message {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 	gap: var(--ts-spacer-1);
 	margin: 0;
 	width: 100%;
-	font-size: var(--ts-font-size-xs);
-	line-height: var(--ts-line-height-base);
-	text-align: center;
+	line-height: inherit;
 }
 
 .site-header-bar__text {
@@ -45,7 +76,6 @@
 
 .site-header-bar__link {
 	flex-shrink: 0;
-	color: var(--ts-text-primary);
 	font-weight: 600;
 	text-decoration: underline;
 	text-underline-offset: 0.15em;
@@ -53,9 +83,19 @@
 	@include mixins.ts-transition((color, opacity), 0.15s, ease);
 }
 
-.site-header-bar__link:hover,
-.site-header-bar__link:focus-visible {
-	color: var(--ts-primary);
+.site-header-bar__swiper {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+// Swiper 默认 .swiper-slide { display: block }，须覆盖才能垂直居中。
+.site-header-bar__swiper .swiper-slide.site-header-bar__slide {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	box-sizing: border-box;
 }
 
 .site-header__scroll-sentinel {

@@ -6,7 +6,7 @@
 |--------|----|------|
 | High | Kirki theme_mod import/export | 环境间迁移 Customizer 配置 |
 | High | Kirki 按域拆分 + `tokens-output.php` | 颜色/字体集中维护 |
-| High | Header bar repeater 轮播 | 多条促销 vs 单文案 |
+| Done | Header bar repeater 轮播 | 见 [site-shell.md](../features/site-shell.md) |
 | High | 导航 submenu 缩略图 | 品类视觉 |
 | High | Drawer 免运进度条 | 转化 |
 | High | `--site-header-height` 同步 | sticky 布局一致 |

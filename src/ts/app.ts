@@ -6,6 +6,7 @@ import './site/index';
 import './site/header-sticky';
 import './site/mobile-nav';
 import './site/mobile-tab-bar';
+import { initHeaderBar } from './site/header-bar';
 import './shop/loop-swatches';
 import './shop/loop-add-to-cart';
 import './shop/ordering';
@@ -20,6 +21,7 @@ import './cart/item-edit-modal';
 import './cart/cart-page';
 import './checkout/index';
 
+initHeaderBar();
 initProductCarousels();
 initHeroCarousels();
 

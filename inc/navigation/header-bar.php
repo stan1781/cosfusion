@@ -10,10 +10,53 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * 头部栏默认文案（须与 Kirki 字段默认值一致）。
+ * 头部栏默认文案（须与 Kirki repeater 默认值一致）。
  */
 function tailwindscore_header_bar_default_text(): string {
 	return __( 'Free shipping on qualifying orders', 'tailwindscore' );
+}
+
+/**
+ * Repeater 默认条目（一条默认文案）。
+ *
+ * @return array<int, array{text: string, link_url: string, link_label: string}>
+ */
+function tailwindscore_header_bar_items_default(): array {
+	return array(
+		array(
+			'text'       => tailwindscore_header_bar_default_text(),
+			'link_url'   => '',
+			'link_label' => '',
+		),
+	);
+}
+
+/**
+ * 公告条配色选项。
+ *
+ * @return array<string, string>
+ */
+function tailwindscore_header_bar_scheme_choices(): array {
+	return array(
+		'dark'  => esc_html__( '深色（主色）', 'tailwindscore' ),
+		'light' => esc_html__( '浅色', 'tailwindscore' ),
+	);
+}
+
+/**
+ * @param mixed $value Raw theme_mod.
+ */
+function tailwindscore_header_bar_scheme_sanitize( $value ): string {
+	$value = is_string( $value ) ? $value : 'light';
+
+	return array_key_exists( $value, tailwindscore_header_bar_scheme_choices() ) ? $value : 'light';
+}
+
+/**
+ * 公告条配色预设（默认 light，贴近升级前 muted 外观）。
+ */
+function tailwindscore_header_bar_scheme(): string {
+	return tailwindscore_header_bar_scheme_sanitize( tailwindscore_mod( 'header_bar_scheme', 'light' ) );
 }
 
 /**
@@ -30,6 +73,97 @@ function tailwindscore_header_bar_is_enabled(): bool {
 }
 
 /**
+ * 规范化公告行（跳过空文案）。
+ *
+ * @param mixed $raw theme_mod 原始值。
+ * @return array<int, array{text: string, link_url: string, link_label: string}>
+ */
+function tailwindscore_header_bar_normalize_items( $raw ): array {
+	if ( ! is_array( $raw ) ) {
+		return array();
+	}
+
+	$items = array();
+
+	foreach ( $raw as $row ) {
+		if ( ! is_array( $row ) ) {
+			continue;
+		}
+
+		$text = trim( (string) ( $row['text'] ?? '' ) );
+
+		if ( '' === $text ) {
+			continue;
+		}
+
+		$items[] = array(
+			'text'       => $text,
+			'link_url'   => trim( (string) ( $row['link_url'] ?? '' ) ),
+			'link_label' => trim( (string) ( $row['link_label'] ?? '' ) ),
+		);
+	}
+
+	return $items;
+}
+
+/**
+ * 从旧单条 theme_mod 拼一条公告（仅当 mods 中存在旧 key 时）。
+ *
+ * @return array<int, array{text: string, link_url: string, link_label: string}>
+ */
+function tailwindscore_header_bar_legacy_items(): array {
+	$mods = get_theme_mods();
+
+	if ( ! is_array( $mods ) || ! array_key_exists( 'header_bar_text', $mods ) ) {
+		return array();
+	}
+
+	$text = trim( (string) $mods['header_bar_text'] );
+
+	if ( '' === $text ) {
+		return array();
+	}
+
+	return array(
+		array(
+			'text'       => $text,
+			'link_url'   => trim( (string) ( $mods['header_bar_link_url'] ?? '' ) ),
+			'link_label' => trim( (string) ( $mods['header_bar_link_label'] ?? '' ) ),
+		),
+	);
+}
+
+/**
+ * 过滤后的公告条目（跳过空文案；空 items 时回退旧字段或默认一条）。
+ *
+ * @return array<int, array{text: string, link_url: string, link_label: string}>
+ */
+function tailwindscore_header_bar_items(): array {
+	$mods = get_theme_mods();
+	$has_items_key = is_array( $mods ) && array_key_exists( 'header_bar_items', $mods );
+
+	if ( $has_items_key ) {
+		$items = tailwindscore_header_bar_normalize_items( $mods['header_bar_items'] );
+
+		if ( array() !== $items ) {
+			return $items;
+		}
+	}
+
+	$legacy = tailwindscore_header_bar_legacy_items();
+
+	if ( array() !== $legacy ) {
+		return $legacy;
+	}
+
+	if ( ! $has_items_key ) {
+		return tailwindscore_header_bar_items_default();
+	}
+
+	return array();
+}
+
+/**
  * 是否渲染顶部头部栏。
  */
 function tailwindscore_should_render_header_bar(): bool {
@@ -37,34 +171,74 @@ function tailwindscore_should_render_header_bar(): bool {
 		return false;
 	}
 
-	return '' !== tailwindscore_header_bar_text();
+	return array() !== tailwindscore_header_bar_items();
 }
 
 /**
- * 头部栏消息文本。
+ * 多条轮播间隔（毫秒）。
  */
-function tailwindscore_header_bar_text(): string {
-	return trim(
-		(string) tailwindscore_mod( 'header_bar_text', tailwindscore_header_bar_default_text() )
-	);
+function tailwindscore_header_bar_autoplay_delay(): int {
+	$delay = (int) tailwindscore_mod( 'header_bar_autoplay_delay', 4000 );
+
+	return max( 2500, min( 8000, $delay ) );
 }
 
 /**
- * 可选头部栏链接 URL（未设置时为空）。
+ * 输出单条公告消息 markup。
+ *
+ * @param array{text: string, link_url: string, link_label: string} $item
  */
-function tailwindscore_header_bar_link_url(): string {
-	return trim( (string) tailwindscore_mod( 'header_bar_link_url', '' ) );
+function tailwindscore_render_header_bar_message( array $item ): void {
+	$text       = $item['text'];
+	$link_url   = $item['link_url'];
+	$link_label = $item['link_label'];
+	?>
+	<p class="site-header-bar__message">
+		<span class="site-header-bar__text"><?php echo esc_html( $text ); ?></span>
+		<?php if ( '' !== $link_url ) : ?>
+			<?php
+			$label = '' !== $link_label
+				? $link_label
+				: __( 'Learn more', 'tailwindscore' );
+			?>
+			<a class="site-header-bar__link" href="<?php echo esc_url( $link_url ); ?>">
+				<?php echo esc_html( $label ); ?>
+			</a>
+		<?php endif; ?>
+	</p>
+	<?php
 }
 
 /**
- * 可选头部栏链接标签。
+ * 一次性：将旧单条文案写入 header_bar_items（仅当尚无有效 items）。
  */
-function tailwindscore_header_bar_link_label(): string {
-	return trim( (string) tailwindscore_mod( 'header_bar_link_label', '' ) );
+function tailwindscore_header_bar_maybe_migrate_legacy(): void {
+	$mods = get_theme_mods();
+
+	if ( ! is_array( $mods ) ) {
+		return;
+	}
+
+	if ( array_key_exists( 'header_bar_items', $mods ) ) {
+		$existing = tailwindscore_header_bar_normalize_items( $mods['header_bar_items'] );
+
+		if ( array() !== $existing ) {
+			return;
+		}
+	}
+
+	$legacy = tailwindscore_header_bar_legacy_items();
+
+	if ( array() === $legacy ) {
+		return;
+	}
+
+	set_theme_mod( 'header_bar_items', $legacy );
 }
+add_action( 'after_setup_theme', 'tailwindscore_header_bar_maybe_migrate_legacy', 20 );
 
 /**
- * @param string $cfg    Kirki 配置 ID。
+ * @param string                $cfg     Kirki 配置 ID。
  * @param array<string, string> $targets 按区域索引的 Customizer 面板 / 区块 ID。
  */
 function tailwindscore_header_kirki_register( string $cfg, array $targets ): void {
@@ -76,7 +250,7 @@ function tailwindscore_header_kirki_register( string $cfg, array $targets ): voi
 		'tailwindscore_header',
 		array(
 			'title'       => esc_html__( '页头', 'tailwindscore' ),
-			'description' => esc_html__( '顶部公告栏与页头外观。', 'tailwindscore' ),
+			'description' => esc_html__( '顶部公告栏；单条静态显示，多条垂直轮播。滚动时消失；主页头保持粘性。', 'tailwindscore' ),
 			'panel'       => $targets['header'],
 			'priority'    => 35,
 		)
@@ -90,18 +264,46 @@ function tailwindscore_header_kirki_register( string $cfg, array $targets ): voi
 			'label'    => esc_html__( '显示顶栏', 'tailwindscore' ),
 			'section'  => 'tailwindscore_header',
 			'default'  => true,
+			'priority' => 10,
 		)
 	);
 
 	Kirki::add_field(
 		$cfg,
 		array(
-			'type'            => 'textarea',
-			'settings'        => 'header_bar_text',
-			'label'           => esc_html__( '顶栏文案', 'tailwindscore' ),
-			'description'     => esc_html__( '显示在主页头上方的短文案。滚动时消失；主页头保持粘性。', 'tailwindscore' ),
+			'type'              => 'radio-buttonset',
+			'settings'          => 'header_bar_scheme',
+			'label'             => esc_html__( '配色', 'tailwindscore' ),
+			'section'           => 'tailwindscore_header',
+			'default'           => 'light',
+			'priority'          => 20,
+			'choices'           => tailwindscore_header_bar_scheme_choices(),
+			'sanitize_callback' => 'tailwindscore_header_bar_scheme_sanitize',
+			'active_callback'   => array(
+				array(
+					'setting'  => 'header_bar_enable',
+					'operator' => '==',
+					'value'    => true,
+				),
+			),
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'            => 'slider',
+			'settings'        => 'header_bar_autoplay_delay',
+			'label'           => esc_html__( '轮播间隔（毫秒）', 'tailwindscore' ),
+			'description'     => esc_html__( '仅多条讯息时生效。', 'tailwindscore' ),
 			'section'         => 'tailwindscore_header',
-			'default'         => tailwindscore_header_bar_default_text(),
+			'default'         => 4000,
+			'priority'        => 30,
+			'choices'         => array(
+				'min'  => 2500,
+				'max'  => 8000,
+				'step' => 100,
+			),
 			'active_callback' => array(
 				array(
 					'setting'  => 'header_bar_enable',
@@ -115,30 +317,36 @@ function tailwindscore_header_kirki_register( string $cfg, array $targets ): voi
 	Kirki::add_field(
 		$cfg,
 		array(
-			'type'            => 'text',
-			'settings'        => 'header_bar_link_url',
-			'label'           => esc_html__( '顶栏链接 URL', 'tailwindscore' ),
-			'section'         => 'tailwindscore_header',
-			'default'         => '',
-			'active_callback' => array(
-				array(
-					'setting'  => 'header_bar_enable',
-					'operator' => '==',
-					'value'    => true,
+			'type'         => 'repeater',
+			'settings'     => 'header_bar_items',
+			'label'        => esc_html__( '公告讯息', 'tailwindscore' ),
+			'description'  => esc_html__( '每行一则；空白文案的行前台会略过。', 'tailwindscore' ),
+			'section'      => 'tailwindscore_header',
+			'priority'     => 40,
+			'row_label'    => array(
+				'type'  => 'field',
+				'value' => esc_html__( '讯息', 'tailwindscore' ),
+				'field' => 'text',
+			),
+			'button_label' => esc_html__( '新增讯息', 'tailwindscore' ),
+			'default'      => tailwindscore_header_bar_items_default(),
+			'fields'       => array(
+				'text'       => array(
+					'type'    => 'text',
+					'label'   => esc_html__( '文案', 'tailwindscore' ),
+					'default' => '',
+				),
+				'link_url'   => array(
+					'type'    => 'text',
+					'label'   => esc_html__( '链接 URL', 'tailwindscore' ),
+					'default' => '',
+				),
+				'link_label' => array(
+					'type'    => 'text',
+					'label'   => esc_html__( '链接文字', 'tailwindscore' ),
+					'default' => '',
 				),
 			),
-		)
-	);
-
-	Kirki::add_field(
-		$cfg,
-		array(
-			'type'            => 'text',
-			'settings'        => 'header_bar_link_label',
-			'label'           => esc_html__( '顶栏链接文字', 'tailwindscore' ),
-			'description'     => esc_html__( '留空则隐藏链接。若设置了 URL 但未填文字，则使用「Learn more」。', 'tailwindscore' ),
-			'section'         => 'tailwindscore_header',
-			'default'         => '',
 			'active_callback' => array(
 				array(
 					'setting'  => 'header_bar_enable',

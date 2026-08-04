@@ -6,14 +6,33 @@
 
 | 区域 | PHP | 样式 | 交互 |
 |------|-----|------|------|
-| 头部栏 | `inc/navigation/header-bar.php` | `src/scss/components/_navigation.scss` | `src/ts/site/header-sticky.ts` |
-| 主导航 | `inc/navigation/nav.php`、`class-nav-menu-walker.php` | 同上 | `src/ts/site/mobile-nav.ts`、`menu-drawer-panel.ts` |
+| 公告栏 | `inc/navigation/header-bar.php`、`template-parts/header/header-bar.php` | `src/scss/components/_header.scss` | `src/ts/site/header-bar.ts` |
+| 吸顶头部 | — | 同上 | `src/ts/site/header-sticky.ts` |
+| 主导航 | `inc/navigation/nav.php`、`class-nav-menu-walker.php` | `src/scss/components/_navigation.scss` | `src/ts/site/mobile-nav.ts`、`menu-drawer-panel.ts` |
 | 移动壳层 | `inc/navigation/mobile-shell.php` | `src/scss/components/_drawers.scss` | Alpine + TS |
 | 移动底栏 | — | `src/scss/components/_mobile-tab-bar.scss` | `src/ts/site/mobile-tab-bar.ts` |
 | 页脚 | `inc/navigation/footer-nav.php` | `src/scss/components/_footer.scss` | — |
 | 搜索 | `inc/woocommerce/ajax-search.php` | 搜索相关组件 SCSS | `src/ts/search/` |
 
 模板入口：`header.php`、`footer.php`、`template-parts/header/`、`template-parts/footer/`。
+
+## 顶部公告栏（Kirki）
+
+可选顶栏位于 sticky `.site-header` 之前，随页面滚动离开；主页头保持粘性。
+
+| `theme_mod` | 类型 | 默认 | 说明 |
+|-------------|------|------|------|
+| `header_bar_enable` | toggle | `true` | 显示顶栏 |
+| `header_bar_scheme` | radio-buttonset | `light` | `dark`（主色底）/ `light`（弱化底） |
+| `header_bar_autoplay_delay` | slider 2500–8000 | `4000` | 多条时垂直轮播间隔（ms） |
+| `header_bar_items` | repeater | 一条默认英文文案 | 每行 `text`、`link_url`、`link_label`；空文案行前台略过 |
+
+行为：
+
+- **1 条**：静态输出
+- **≥2 条**：`src/ts/site/header-bar.ts` 初始化垂直 Swiper（`rewind`）；`prefers-reduced-motion` 时关闭 autoplay
+- 链接缺 label 时前台 fallback：`Learn more`
+- **迁移**：若尚无有效 `header_bar_items`、但 theme_mods 中仍有旧 `header_bar_text`（及可选 `link_*`），`after_setup_theme` 一次性写入为 repeater 第一条；读取层仍保留 legacy fallback
 
 ## 响应式行为
 
