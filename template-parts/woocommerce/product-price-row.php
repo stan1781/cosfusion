@@ -10,7 +10,10 @@ if ( ! $product instanceof WC_Product ) {
 }
 
 $sku      = $product->get_sku();
-$show_sku = wc_product_sku_enabled() && is_string( $sku ) && '' !== $sku;
+$show_sku = current_user_can( 'manage_options' )
+	&& wc_product_sku_enabled()
+	&& is_string( $sku )
+	&& '' !== $sku;
 ?>
 <div class="wc-product-detail__price-row">	
 	<p class="<?php echo esc_attr( apply_filters( 'woocommerce_product_price_class', 'price' ) ); ?>">
