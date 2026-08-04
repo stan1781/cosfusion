@@ -4,13 +4,16 @@ declare(strict_types=1);
 /**
  * 条件性运费可见性（例如购物车满足免邮时隐藏付费 flat rate）。
  *
+ * 门槛金额读取当前配送 zone 内条件免运（Free shipping）实例的 Minimum order amount，
+ * 与 Starcore `sc_shipping_tiered_threshold()` 同源逻辑，不在 Customizer 手填。
+ *
  * @package TailwindScore
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * 满足条件的最低折后小计（不含运费 / 税费）。
+ * 购物车达到免运门槛时是否隐藏已配置的付费运费。
  */
 function tailwindscore_shipping_hide_rates_is_enabled(): bool {
 	$enabled = (bool) tailwindscore_mod( 'shipping_hide_rates_enable', true );
@@ -55,17 +58,86 @@ function tailwindscore_sanitize_shipping_rate_id_list( $value ): string {
 }
 
 /**
- * 满足条件的最低折后小计（不含运费 / 税费）。
+ * 当前 package 对应 zone 内、带最低订单金额条件的免运实例。
+ *
+ * @param array<string, mixed> $package
+ * @return WC_Shipping_Free_Shipping[]
  */
-function tailwindscore_free_shipping_threshold(): float {
-	$threshold = (float) tailwindscore_mod( 'shipping_hide_rates_threshold', 39.99 );
+function tailwindscore_get_delivery_free_shipping_instances( array $package ): array {
+	if ( ! class_exists( 'WC_Shipping_Zones' ) || ! class_exists( 'WC_Shipping_Free_Shipping' ) ) {
+		return array();
+	}
+
+	$zone      = WC_Shipping_Zones::get_zone_matching_package( $package );
+	$methods   = $zone->get_shipping_methods( true );
+	$instances = array();
+
+	foreach ( $methods as $method ) {
+		if ( ! $method instanceof WC_Shipping_Free_Shipping ) {
+			continue;
+		}
+
+		if ( ! in_array( $method->requires, array( 'min_amount', 'either', 'both' ), true ) ) {
+			continue;
+		}
+
+		if ( (float) $method->min_amount <= 0 ) {
+			continue;
+		}
+
+		$instances[] = $method;
+	}
+
+	/**
+	 * @param WC_Shipping_Free_Shipping[] $instances
+	 * @param array<string, mixed>        $package
+	 */
+	return (array) apply_filters( 'tailwindscore_delivery_free_shipping_instances', $instances, $package );
+}
+
+/**
+ * 用作门槛参考的免运实例（默认取 zone 内第一个条件免运）。
+ *
+ * @param array<string, mixed> $package
+ */
+function tailwindscore_get_free_shipping_threshold_instance( array $package ): ?WC_Shipping_Free_Shipping {
+	$instances = tailwindscore_get_delivery_free_shipping_instances( $package );
+
+	if ( array() === $instances ) {
+		return null;
+	}
+
+	$instance = $instances[0];
+
+	/**
+	 * @param WC_Shipping_Free_Shipping   $instance
+	 * @param WC_Shipping_Free_Shipping[] $instances
+	 * @param array<string, mixed>        $package
+	 */
+	return apply_filters( 'tailwindscore_free_shipping_threshold_instance', $instance, $instances, $package );
+}
+
+/**
+ * 免运门槛金额（来自 WooCommerce 免运实例 min_amount / Minimum order amount）。
+ *
+ * @param array<string, mixed> $package
+ */
+function tailwindscore_free_shipping_threshold( array $package = array() ): float {
+	$instance = tailwindscore_get_free_shipping_threshold_instance( $package );
+	if ( ! $instance ) {
+		return 0.0;
+	}
+
+	$threshold = (float) $instance->min_amount;
 
 	/**
 	 * 过滤隐藏已配置运费时的购物车小计阈值。
 	 *
-	 * @param float $threshold 商店货币金额。
+	 * @param float                     $threshold 商店货币金额。
+	 * @param WC_Shipping_Free_Shipping $instance  参考免运实例。
+	 * @param array<string, mixed>      $package   配送包裹。
 	 */
-	return (float) apply_filters( 'tailwindscore_free_shipping_threshold', $threshold );
+	return (float) apply_filters( 'tailwindscore_free_shipping_threshold', $threshold, $instance, $package );
 }
 
 /**
@@ -92,7 +164,30 @@ function tailwindscore_hidden_shipping_rate_ids_when_qualified(): array {
 }
 
 /**
- * 用于阈值检查的折后购物车小计（与优惠券后小计显示一致）。
+ * 与 WooCommerce 免运 is_available() 一致的小计算法。
+ */
+function tailwindscore_cart_subtotal_for_free_shipping( WC_Shipping_Free_Shipping $instance ): float {
+	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
+		return 0.0;
+	}
+
+	$total = (float) WC()->cart->get_displayed_subtotal();
+
+	if ( 'no' === $instance->ignore_discounts ) {
+		$total -= (float) WC()->cart->get_discount_total();
+
+		if ( WC()->cart->display_prices_including_tax() ) {
+			$total -= (float) WC()->cart->get_discount_tax();
+		}
+	}
+
+	return (float) wc_format_decimal( $total, wc_get_price_decimals() );
+}
+
+/**
+ * 折后购物车小计（兼容旧调用；新逻辑请用 tailwindscore_cart_subtotal_for_free_shipping）。
+ *
+ * @deprecated 使用 tailwindscore_cart_subtotal_for_free_shipping()
  */
 function tailwindscore_cart_discounted_subtotal(): float {
 	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
@@ -111,10 +206,17 @@ function tailwindscore_cart_discounted_subtotal(): float {
 }
 
 /**
- * 购物车折后小计是否达到免邮阈值。
+ * 购物车小计是否达到参考免运的 Minimum order amount。
+ *
+ * @param array<string, mixed> $package
  */
-function tailwindscore_cart_meets_free_shipping_threshold(): bool {
-	return tailwindscore_cart_discounted_subtotal() >= tailwindscore_free_shipping_threshold();
+function tailwindscore_cart_meets_free_shipping_threshold( array $package = array() ): bool {
+	$instance = tailwindscore_get_free_shipping_threshold_instance( $package );
+	if ( ! $instance ) {
+		return false;
+	}
+
+	return tailwindscore_cart_subtotal_for_free_shipping( $instance ) >= (float) $instance->min_amount;
 }
 
 /**
@@ -123,7 +225,7 @@ function tailwindscore_cart_meets_free_shipping_threshold(): bool {
  * @return array<int|string, WC_Shipping_Rate>
  */
 function tailwindscore_filter_shipping_rates_by_cart_total( array $rates, array $package ): array {
-	if ( ! tailwindscore_cart_meets_free_shipping_threshold() ) {
+	if ( ! tailwindscore_cart_meets_free_shipping_threshold( $package ) ) {
 		return $rates;
 	}
 
@@ -173,34 +275,10 @@ function tailwindscore_shipping_rules_kirki_register( string $cfg, array $target
 			'type'        => 'toggle',
 			'settings'    => 'shipping_hide_rates_enable',
 			'label'       => esc_html__( '达到门槛时隐藏付费配送', 'tailwindscore' ),
-			'description' => esc_html__( '折扣后购物车小计达到下方门槛后移除所选配送方式。', 'tailwindscore' ),
+			'description' => esc_html__( '购物车小计达到当前配送区域中条件免运（Free shipping）的 Minimum order amount 后，移除下方所选付费配送方式。门槛金额以 WooCommerce 免运设置为准，无需在此手填。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_checkout_settings',
 			'default'     => true,
 			'priority'    => 10,
-		)
-	);
-
-	Kirki::add_field(
-		$cfg,
-		array(
-			'type'              => 'number',
-			'settings'          => 'shipping_hide_rates_threshold',
-			'label'             => esc_html__( '隐藏付费配送的门槛金额', 'tailwindscore' ),
-			'description'       => esc_html__( '折扣后购物车小计（优惠券之后、运费与税费之前）。小计大于等于该金额时隐藏付费配送。', 'tailwindscore' ),
-			'section'           => 'tailwindscore_checkout_settings',
-			'default'           => 39.99,
-			'priority'          => 20,
-			'choices'           => array(
-				'min'  => 0,
-				'step' => 0.01,
-			),
-			'active_callback'   => array(
-				array(
-					'setting'  => 'shipping_hide_rates_enable',
-					'operator' => '==',
-					'value'    => true,
-				),
-			),
 		)
 	);
 
@@ -213,7 +291,7 @@ function tailwindscore_shipping_rules_kirki_register( string $cfg, array $target
 			'description'       => esc_html__( '逗号分隔的 WooCommerce 费率 ID，例如 flat_rate:2。可在配送方式 input 名称中找到：shipping_method_0_flat_rate2 → flat_rate:2。', 'tailwindscore' ),
 			'section'           => 'tailwindscore_checkout_settings',
 			'default'           => 'flat_rate:2',
-			'priority'          => 30,
+			'priority'          => 20,
 			'sanitize_callback' => 'tailwindscore_sanitize_shipping_rate_id_list',
 			'active_callback'   => array(
 				array(

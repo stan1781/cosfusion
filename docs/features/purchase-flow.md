@@ -31,7 +31,7 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 - 结账页布局与登录 dialog（`checkout-layout.php`、`ui/login-modal.ts`）
 - Store API 缓存优化（`store-api-cache.php`）
 - Store API nonce：页注入 nonce 视为新鲜（TTL 60s），冷加购默认 **单次 POST**；仅 TTL 过期或 `woocommerce_rest_invalid_nonce` 时才先 `GET /cart`
-- 运费规则展示（`shipping-rules.php`）
+- 运费规则（`shipping-rules.php`）：达标后隐藏付费配送；门槛读取当前配送 zone 内条件免运的 **Minimum order amount**（`min_amount`），与 Starcore 一致，Customizer 仅配置开关与要隐藏的 rate ID，不手填门槛金额
 
 ## 通知策略
 
