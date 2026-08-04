@@ -131,6 +131,7 @@
 	}
 
 	.nav__item {
+		padding: 0 var(--ts-spacer-3);
 		border-bottom: 1px solid var(--ts-border-color);
 	}
 
@@ -140,16 +141,15 @@
 
 	.nav__list > .nav__item > .nav__link,
 	.nav__link--drill {
+		font-size: var(--ts-font-size-sm);
 		display: flex;
 		align-items: center;
 		width: 100%;
 		padding-block: var(--ts-spacer-2);
-		font-weight: 500;
+		font-weight: 400;
 		border: 0;
 		background: transparent;
-		color: inherit;
 		text-align: start;
-		font: inherit;
 	}
 
 	.nav__link--drill::after {
@@ -240,12 +240,26 @@
 // Desktop: horizontal bar + flyout dropdowns
 @include mixins.ts-up("lg") {
 	.nav--desktop {
+		display: flex;
+		align-items: stretch;
+		height: 100%;
+
 		.nav__list {
 			flex-direction: row;
 			flex-wrap: nowrap;
-			align-items: center;
+			// Stretch items to header row height so the pointer never leaves the
+			// <li> while crossing header padding on the way to the mega panel.
+			align-items: stretch;
+			align-self: stretch;
+			height: 100%;
 			gap: var(--ts-spacer-2);
 			font-size: var(--ts-font-size-sm);
+		}
+
+		.nav__item,
+		.nav__list > li {
+			display: flex;
+			align-items: center;
 		}
 
 		.nav__link {
@@ -313,15 +327,18 @@
 			position: static;
 		}
 
-		// Full-width hover bridge under the entire header strip
-		.nav__item--mega::after {
+		// Hover-only full-width bridge: covers header bottom padding + gap into the
+		// panel. Always-on bridges from every mega item stacked on the same strip
+		// and stole :hover from the open item (later DOM wins).
+		.nav__item--mega:hover::after,
+		.nav__item--mega:focus-within::after {
 			content: "";
 			position: absolute;
-			top: 100%;
 			left: 0;
 			right: 0;
-			width: 100%;
-			height: 0.75rem;
+			z-index: calc(var(--ts-z-modal) - 1);
+			top: calc(100% - var(--ts-header-padding-y, 0.5rem) - 0.5rem);
+			height: calc(var(--ts-header-padding-y, 0.5rem) + 0.5rem + 0.75rem);
 		}
 
 		.nav__mega-panel {

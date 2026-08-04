@@ -5,11 +5,12 @@ TailwindScore 主导航支持标准下拉、Mega 菜单与移动端钻取抽屉�
 ## 移动端抽屉（钻取面板）
 
 - 有子项的顶级菜单显示 **钻取按钮**（chevron）。点击后子面板从右侧滑入。
-- 抽屉标题从 **Menu** 切换为父级标签（如 **Help**）。**← Back** 返回上一级。
+- 抽屉顶栏（`.site-menu-drawer__header`）：`#ts-site-menu-title` 固定为 **Menu** + 关闭按钮。
+- 钻取时 `.site-menu-drawer__nav-head` 显示 **← Back** 与当前面板名（有 URL 时可点进该分类）；返回上一级。
 - 关闭抽屉时重置到根面板。
 - Mega 项（`mega-menu` / `mega-menu`）在面板内渲染列布局；带子项的 mega 列也可使用相同钻取模式。
 
-实现：`src/ts/site/menu-drawer-panel.ts`、`mobile-nav.ts`。
+实现：`template-parts/header/menu-drawer.php`、`src/ts/site/menu-drawer-panel.ts`、`mobile-nav.ts`。
 
 ## 标准下拉菜单
 
@@ -46,7 +47,8 @@ Walker：`inc/navigation/class-nav-menu-walker.php`。
 - 列网格对齐站点 `.container`（`max-width: var(--ts-container-max)` + 水平 gutter），`auto-fit` 多列横向排布。
 - 面板最大高度 `min(70vh, 32rem)`，超出部分在面板内纵向滚动。
 - 关闭态折叠高度并 `overflow: hidden`，避免隐藏面板撑高页面（footer 下空白）。
-- 全宽隐形悬停桥保证指针从标签移到侧栏列时不丢失 hover。
+- 桌面端导航行拉伸至 header 内容区高度，避免标签与面板之间的 padding 死区打断 `:hover`。
+- 全宽隐形悬停桥仅在该 mega 项 `:hover` / `:focus-within` 时出现（覆盖 header 底 padding + 面板衔接带）；常驻桥会与其他 mega 项叠在同一条带上并抢悬停。
 
 样式：`src/scss/components/_navigation.scss`。
 

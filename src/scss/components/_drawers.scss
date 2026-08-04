@@ -58,13 +58,11 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: var(--ts-spacer-3);
+	gap: var(--ts-spacer-2);
+	padding: 0 var(--ts-spacer-2);
 }
 
-.site-menu-drawer__header-main {
-	display: flex;
-	align-items: center;
-	gap: var(--ts-spacer-2);
+.site-menu-drawer__header .site-menu-drawer__title {
 	min-width: 0;
 	flex: 1 1 auto;
 }
@@ -95,9 +93,43 @@
 	white-space: nowrap;
 }
 
+.site-menu-drawer__panel-title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	min-width: 0;
+	font-size: var(--ts-font-size-sm);
+	font-weight: 600;
+	color: var(--ts-text-primary);
+	text-decoration: none;
+}
+
+.site-menu-drawer__panel-title--link:hover,
+.site-menu-drawer__panel-title--link:focus-visible {
+	color: var(--ts-primary);
+}
+
+// Back control sits above the mobile nav track; title stays in the drawer header.
 .site-menu-drawer__nav {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-spacer-2);
 	min-height: 0;
 	overflow: hidden;
+}
+
+.site-menu-drawer__nav-head {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-spacer-2);
+	flex: 0 0 auto;
+	min-width: 0;
+}
+
+.site-menu-drawer__nav > .nav {
+	flex: 1 1 auto;
+	min-height: 0;
+	min-width: 0;
 }
 
 .site-search-modal__title,
@@ -133,8 +165,7 @@
 .site-menu-drawer__panel {
 	transform: translateX(100%);
 	transition: transform 380ms ease;
-	will-change: transform;
-	padding: var(--ts-spacer-3);
+	will-change: transform;	
 
 	&.is-active {
 		transform: translateX(0);

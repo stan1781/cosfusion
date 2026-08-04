@@ -30,29 +30,7 @@ $menu_title = __( 'Menu', 'tailwindscore' );
 			@tailwindscore:mobile-menu-reset.window="reset()"
 		>
 			<div class="site-menu-drawer__header">
-				<div class="site-menu-drawer__header-main">
-					<button
-						type="button"
-						class="site-menu-drawer__back nav__back"
-						x-show="canGoBack"
-						x-cloak
-						@click="goBack()"
-						aria-label="<?php esc_attr_e( 'Back', 'tailwindscore' ); ?>"
-					>
-						<span aria-hidden="true">&larr;</span>
-					</button>
-					<template x-if="headerUrl && headerUrl !== '#'">
-						<a
-							id="ts-site-menu-title"
-							class="site-menu-drawer__title site-menu-drawer__title--link"
-							:href="headerUrl"
-							x-text="headerTitle"
-						></a>
-					</template>
-					<template x-if="!headerUrl || headerUrl === '#'">
-						<h2 id="ts-site-menu-title" class="site-menu-drawer__title" x-text="headerTitle"><?php echo esc_html( $menu_title ); ?></h2>
-					</template>
-				</div>
+				<h2 id="ts-site-menu-title" class="site-menu-drawer__title"><?php echo esc_html( $menu_title ); ?></h2>
 				<?php
 				tailwindscore_render_close_button(
 					__( 'Close menu', 'tailwindscore' ),
@@ -65,6 +43,30 @@ $menu_title = __( 'Menu', 'tailwindscore' );
 				?>
 			</div>
 			<div class="site-menu-drawer__nav">
+				<div
+					class="site-menu-drawer__nav-head"
+					x-show="canGoBack"
+					x-cloak
+				>
+					<button
+						type="button"
+						class="site-menu-drawer__back nav__back"
+						@click="goBack()"
+						aria-label="<?php esc_attr_e( 'Back', 'tailwindscore' ); ?>"
+					>
+						<span aria-hidden="true">&larr;</span>
+					</button>
+					<template x-if="headerUrl && headerUrl !== '#'">
+						<a
+							class="site-menu-drawer__panel-title site-menu-drawer__panel-title--link"
+							:href="headerUrl"
+							x-text="headerTitle"
+						></a>
+					</template>
+					<template x-if="!headerUrl || headerUrl === '#'">
+						<span class="site-menu-drawer__panel-title" x-text="headerTitle"></span>
+					</template>
+				</div>
 				<?php
 				get_template_part(
 					'template-parts/navigation/primary-nav',

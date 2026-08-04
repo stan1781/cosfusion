@@ -14,7 +14,9 @@
 	}
 
 	.site-header__nav-inline {
-		display: block;
+		display: flex;
+		align-self: stretch;
+		align-items: stretch;
 		width: auto;
 		margin-left: auto;
 	}

@@ -617,10 +617,10 @@ body.archive-filters-drawer-open {
 
 .wc-product-card__title {
 	margin: 0;
-	font-size: var(--ts-font-size-base);
-	font-weight: 400;
+	font-size: var(--ts-font-size-sm);
+	min-height: calc(1.35 * 1rem);
 	line-height: 1.35;
-	min-height: calc(2 * 1.35 * 1rem);
+	font-weight: 400;
 	display: -webkit-box;
 	overflow: hidden;
 	-webkit-box-orient: vertical;
