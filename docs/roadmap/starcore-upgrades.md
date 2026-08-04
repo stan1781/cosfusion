@@ -15,6 +15,7 @@
 | Medium | Section title 组件 | 区块标题一致 |
 | Medium | PWA Level 1（无专属券） | 可安装 + 静态缓存 |
 | Medium | Checkout 移动步进 / 订单摘要折叠 | 转化 |
+| Done | 商店归档 AJAX + 侧栏筛选 | 见 [shop-archive.md](../features/shop-archive.md) |
 | Skip | Composite / Coderockz / remote-area / Catering Core | 与 Cosfusion 无关 |
 
 参考：`starcore/docs/architecture/customizer.md`、`starcore/docs/components/ui-primitives.md`。

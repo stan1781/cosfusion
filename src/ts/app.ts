@@ -9,6 +9,8 @@ import './site/mobile-tab-bar';
 import './shop/loop-swatches';
 import './shop/loop-add-to-cart';
 import './shop/ordering';
+import './shop/archive-filters-mobile';
+import './shop/archive-nav';
 import { initProductCarousels } from './shop/product-carousel';
 import { initHeroCarousels } from './home/hero-carousel';
 import './search/index';
