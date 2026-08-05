@@ -243,20 +243,25 @@
 
 .variation-row {
 	margin-bottom: var(--ts-spacer-3);
+	font-size: var(--ts-font-size-sm);
 }
 
 .variation-row__label {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 0.625rem;
+	gap: var(--ts-spacer-2);
 	font-weight: 600;
-	margin-bottom: 0.625rem;
+	margin-bottom: var(--ts-spacer-2);
 }
 
 .selected-attribute-value {
 	font-weight: 400;
 	color: var(--ts-primary);
+}
+
+.woocommerce-variation {
+	font-size: var(--ts-font-size-sm);
 }
 
 .woocommerce-variation-add-to-cart {

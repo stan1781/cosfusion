@@ -58,7 +58,7 @@ add_action( 'wp', 'tailwindscore_remove_default_product_tabs', 99 );
 | `.size-guide-dialog__header`、`.size-guide-dialog__controls` | `_product-variations.scss` |
 | `.size-guide-unit-toggle`、`.size-guide-unit-btn` | 同上 |
 | `.size-guide-dialog__body` | 同上 |
-| `.size-guide-table` | `_shell.scss`（原 `_tables.scss`） |
+| `.size-guide-table` / `.size-guide-legacy table` | `_shell.scss`：compact（对齐 BS `.table-sm` padding + `--ts-font-size-sm`） |
 | `.size-guide-legacy` | 传统 HTML 内容 |
 
 内嵌容器：`[data-ts-product-size-guide-embed]`。

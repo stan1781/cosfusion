@@ -38,22 +38,22 @@
 	&--description,
 	&--size-guide,
 	&--reviews {
-		padding: var(--ts-spacer-2);
+		padding: var(--ts-spacer-2) var(--ts-spacer-4);
 		background-color: var(--ts-surface-muted);
 		border-radius: var(--ts-border-radius);
 	}
 }
 
 .product-detail-heading {
-	font-size: var(--ts-font-size-lg);
-	font-weight: var(--ts-font-weight-semibold);
+	font-size: var(--ts-font-size-base);
+	font-weight: 600;
 	line-height: var(--ts-line-height-base);
 	margin: 0;
 	color: var(--ts-text-primary);
 }
 
 .product-detail-content {
-	font-size: var(--ts-font-size-base);
+	font-size: var(--ts-font-size-sm);
 	line-height: var(--ts-line-height-base);
 	color: var(--ts-text-secondary);
     .wp-block-paragraph {
@@ -145,8 +145,8 @@
 }
 
 .product-detail-accordion-title {
-	font-size: var(--ts-font-size-lg);
-	font-weight: var(--ts-font-weight-semibold);
+	font-size: var(--ts-font-size-base);
+	font-weight: 600;
 	color: var(--ts-text-primary);
 	line-height: var(--ts-line-height-base);
 }
@@ -179,8 +179,8 @@
 }
 
 .product-detail-accordion-body {
-	padding: 0 var(--ts-spacer-2) var(--ts-spacer-2);
-	font-size: var(--ts-font-size-base);
+	padding: 0 var(--ts-spacer-4) var(--ts-spacer-2);
+	font-size: var(--ts-font-size-sm);
 	line-height: var(--ts-line-height-base);
 	color: var(--ts-text-secondary);
 
@@ -212,7 +212,7 @@
 	}
 
 	.woocommerce-Reviews-title {
-		font-size: var(--ts-font-size-lg);
+		font-size: var(--ts-font-size-base);
 		margin-block-end: var(--ts-spacer-2);
         display: none;
 	}
