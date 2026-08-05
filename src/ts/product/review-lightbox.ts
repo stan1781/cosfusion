@@ -1,10 +1,9 @@
 import Swiper from 'swiper';
-import { A11y, Thumbs } from 'swiper/modules';
+import { A11y } from 'swiper/modules';
 import type { Swiper as SwiperInstance } from 'swiper';
 import type { TailwindscoreReviewImagesI18n } from './types';
 
 import 'swiper/css';
-import 'swiper/css/thumbs';
 
 import { bindSwiperWrapNavigation } from '../swiper/wrap-navigation';
 
@@ -33,7 +32,6 @@ export interface ReviewLightboxPayload {
 
 let dialogEl: HTMLDialogElement | null = null;
 let mainSwiper: SwiperInstance | null = null;
-let thumbsSwiper: SwiperInstance | null = null;
 let wrapNavCleanup: (() => void) | null = null;
 let productLightboxCache: ReviewLightboxPayload | null | undefined;
 
@@ -180,75 +178,57 @@ function buildDialog(
 	dialog.className = 'review-lightbox';
 	dialog.setAttribute('aria-label', i18n.closeLightbox ?? 'Review images');
 
-	const slides = data.images
-		.map((img) => `<div class="swiper-slide"><img src="${escapeHtml(img.full)}" alt="" loading="lazy"></div>`)
-		.join('');
+		const slides = data.images
+			.map((img) => `<div class="swiper-slide"><img src="${escapeHtml(img.full)}" alt="" loading="lazy"></div>`)
+			.join('');
 
-	const thumbs = data.images.length > 1
-		? `<div class="review-lightbox__thumbs swiper"><div class="swiper-wrapper">${data.images
-				.map((img) => `<div class="swiper-slide"><img src="${escapeHtml(img.thumb)}" alt="" loading="lazy" width="80" height="80"></div>`)
-				.join('')}</div></div>`
-		: '';
-
-	dialog.innerHTML = `
-		<div class="review-lightbox__inner">
-			${renderOverlayCloseButton(i18n.closeLightbox ?? 'Close', closeIcon)}
-			<div class="review-lightbox__layout${showSidebarColumn ? '' : ' is-gallery-only'}">
-				<div class="review-lightbox__gallery">
-					<div class="review-lightbox__stage">
-						<div class="review-lightbox__main swiper"><div class="swiper-wrapper">${slides}</div></div>
-						${data.images.length > 1 ? '<button type="button" class="review-lightbox__nav review-lightbox__nav--prev" aria-label="' + escapeHtml(i18n.previousImage ?? 'Previous') + '">‹</button><button type="button" class="review-lightbox__nav review-lightbox__nav--next" aria-label="' + escapeHtml(i18n.nextImage ?? 'Next') + '">›</button>' : ''}
+		dialog.innerHTML = `
+			<div class="review-lightbox__inner">
+				${renderOverlayCloseButton(i18n.closeLightbox ?? 'Close', closeIcon)}
+				<div class="review-lightbox__layout${showSidebarColumn ? '' : ' is-gallery-only'}">
+					<div class="review-lightbox__gallery">
+						<div class="review-lightbox__stage">
+							<div class="review-lightbox__main swiper"><div class="swiper-wrapper">${slides}</div></div>
+							${data.images.length > 1 ? '<button type="button" class="review-lightbox__nav review-lightbox__nav--prev" aria-label="' + escapeHtml(i18n.previousImage ?? 'Previous') + '">‹</button><button type="button" class="review-lightbox__nav review-lightbox__nav--next" aria-label="' + escapeHtml(i18n.nextImage ?? 'Next') + '">›</button>' : ''}
+						</div>
 					</div>
-					${thumbs}
+					${showSidebarColumn ? renderSidebarShell() : ''}
 				</div>
-				${showSidebarColumn ? renderSidebarShell() : ''}
 			</div>
-		</div>
-	`;
+		`;
 
-	document.body.appendChild(dialog);
+		document.body.appendChild(dialog);
 
-	const mainEl = dialog.querySelector<HTMLElement>('.review-lightbox__main');
-	const thumbsEl = dialog.querySelector<HTMLElement>('.review-lightbox__thumbs');
-	const sidebarEl = dialog.querySelector<HTMLElement>('.review-lightbox__sidebar');
+		const mainEl = dialog.querySelector<HTMLElement>('.review-lightbox__main');
+		const sidebarEl = dialog.querySelector<HTMLElement>('.review-lightbox__sidebar');
 
-	if (sidebarEl) {
-		updateSidebar(sidebarEl, initialMeta, i18n);
-	}
-
-	if (mainEl) {
-		if (thumbsEl && data.images.length > 1) {
-			thumbsSwiper = new Swiper(thumbsEl, {
-				modules: [Thumbs],
-				slidesPerView: 'auto',
-				spaceBetween: 8,
-				watchSlidesProgress: true,
-			});
+		if (sidebarEl) {
+			updateSidebar(sidebarEl, initialMeta, i18n);
 		}
 
-		mainSwiper = new Swiper(mainEl, {
-			modules: [A11y, Thumbs],
-			initialSlide: startIndex,
-			thumbs: thumbsSwiper ? { swiper: thumbsSwiper } : undefined,
-		});
-
-		if (data.images.length > 1) {
-			const wrapNav = bindSwiperWrapNavigation(mainSwiper, {
-				prevEl: dialog.querySelector<HTMLElement>('.review-lightbox__nav--prev'),
-				nextEl: dialog.querySelector<HTMLElement>('.review-lightbox__nav--next'),
-				slideCount: data.images.length,
-				keyboardRoot: dialog,
+		if (mainEl) {
+			mainSwiper = new Swiper(mainEl, {
+				modules: [A11y],
+				initialSlide: startIndex,
 			});
-			wrapNavCleanup = wrapNav.destroy;
-		}
 
-		if (showSidebarColumn && sidebarEl) {
-			mainSwiper.on('slideChange', () => {
-				const activeIndex = mainSwiper?.activeIndex ?? 0;
-				updateSidebar(sidebarEl, getSlideMeta(data, activeIndex), i18n);
-			});
+			if (data.images.length > 1) {
+				const wrapNav = bindSwiperWrapNavigation(mainSwiper, {
+					prevEl: dialog.querySelector<HTMLElement>('.review-lightbox__nav--prev'),
+					nextEl: dialog.querySelector<HTMLElement>('.review-lightbox__nav--next'),
+					slideCount: data.images.length,
+					keyboardRoot: dialog,
+				});
+				wrapNavCleanup = wrapNav.destroy;
+			}
+
+			if (showSidebarColumn && sidebarEl) {
+				mainSwiper.on('slideChange', () => {
+					const activeIndex = mainSwiper?.activeIndex ?? 0;
+					updateSidebar(sidebarEl, getSlideMeta(data, activeIndex), i18n);
+				});
+			}
 		}
-	}
 
 	dialog.querySelector('[data-action="close"]')?.addEventListener('click', closeReviewLightbox);
 	dialog.addEventListener('click', (event) => {
@@ -283,21 +263,19 @@ export function openReviewLightbox(trigger: HTMLElement, i18n: TailwindscoreRevi
 }
 
 export function closeReviewLightbox(): void {
-	wrapNavCleanup?.();
-	wrapNavCleanup = null;
-	mainSwiper?.destroy(true, true);
-	thumbsSwiper?.destroy(true, true);
-	mainSwiper = null;
-	thumbsSwiper = null;
+		wrapNavCleanup?.();
+		wrapNavCleanup = null;
+		mainSwiper?.destroy(true, true);
+		mainSwiper = null;
 
-	if (dialogEl) {
-		dialogEl.close();
-		dialogEl.remove();
-		dialogEl = null;
+		if (dialogEl) {
+			dialogEl.close();
+			dialogEl.remove();
+			dialogEl = null;
+		}
+
+		document.documentElement.classList.remove('review-lightbox-open');
 	}
-
-	document.documentElement.classList.remove('review-lightbox-open');
-}
 
 export function bindReviewLightbox(i18n: TailwindscoreReviewImagesI18n = {}): void {
 	document.addEventListener('click', (event) => {

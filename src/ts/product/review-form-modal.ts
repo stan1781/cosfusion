@@ -57,20 +57,25 @@ function initReviewFormRating(modal: HTMLElement): void {
 	select.addEventListener('change', () => syncStars(select.value));
 }
 
-export function openReviewFormModal(trigger?: HTMLElement): void {
-	const modal = getReviewFormModal();
+	export function openReviewFormModal(trigger?: HTMLElement): void {
+		const modal = getReviewFormModal();
 
-	if (!modal || isReviewFormModalOpen()) {
-		return;
-	}
+		if (!modal || isReviewFormModalOpen()) {
+			return;
+		}
 
-	reviewFormReturnFocus =
-		trigger ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+		reviewFormReturnFocus =
+			trigger ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
 
-	modal.hidden = false;
-	modal.setAttribute('aria-hidden', 'false');
-	document.body.classList.add('review-form-modal-open');
-	initReviewFormRating(modal);
+		// 挂到 body，避免祖先 display:none / overflow:hidden 裁切固定定位层
+		if (modal.parentElement !== document.body) {
+			document.body.appendChild(modal);
+		}
+
+		modal.hidden = false;
+		modal.setAttribute('aria-hidden', 'false');
+		document.body.classList.add('review-form-modal-open');
+		initReviewFormRating(modal);
 
 	window.requestAnimationFrame(() => {
 		const focusTarget =

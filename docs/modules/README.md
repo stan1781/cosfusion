@@ -38,7 +38,7 @@ modules/{slug}/
 | size-guide | `modules/size-guide` | 0.1.1 | ✅ | JSON 尺码表 modal + 选码单行 |
 | related-products | `modules/related-products` | 0.1.0 | ✅ | 单品页相关产品引擎 |
 | quick-view | `modules/quick-view` | 0.1.7 | ✅ | 归档 / 首页 / 购物车 / 404 轮播 Quick View |
-| review-images | `modules/review-images` | 0.1.0 | ✅ | 评论附图、买家秀 Showcase |
+| review-images | `modules/review-images` | 0.1.1 | ✅ | 评论附图、买家秀 Showcase |
 | account-auth | `modules/account-auth` | 0.1.1 | ✅ | 分屏登录、独立注册页、Google 登录预设 |
 | content-blocks | `modules/content-blocks` | 0.1.0 | ✅ | CPT `ts_block` + `[block]` 可复用 HTML/CSS 片段 |
 
@@ -89,6 +89,7 @@ modules/{slug}/
 - 评论上传图片、后台管理
 - Showcase Gallery 买家秀
 - TS：`review-images.ts`、`showcase-gallery.ts`、`review-lightbox.ts`
+- Lightbox：弹窗较窄（`max-width: 36rem`）；md+ 图文各半；不展示底部缩略图条（仍可用左右箭头切换）
 
 ### account-auth
 

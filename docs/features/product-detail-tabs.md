@@ -67,6 +67,16 @@ add_action( 'wp', 'tailwindscore_remove_default_product_tabs', 99 );
 
 支持 cm / inch，逻辑与弹窗一致；**弹窗与内嵌各自维护单位状态**，不共享。
 
+## 评价表单弹窗
+
+桌面与手风琴各自调用 `comments_template()`，但 **Write a review** 弹窗只渲染一次，挂在 `.product-detail-sections` 末尾（两套布局之外）。打开时 JS 再挂到 `document.body`，避免小屏桌面行 `display: none` 或手风琴 `overflow: hidden` 裁切固定层。
+
+| 层 | 路径 |
+|----|------|
+| 模板 | `template-parts/woocommerce/review-form-modal.php`（由 `inc/woocommerce/product-tabs.php` 引入） |
+| TS | `src/ts/product/review-form-modal.ts` |
+| SCSS | `src/scss/components/_review-form-modal.scss` |
+
 ## 无障碍
 
 - 手风琴按钮：`aria-expanded`

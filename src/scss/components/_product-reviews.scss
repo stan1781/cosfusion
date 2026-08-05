@@ -234,11 +234,12 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
+	justify-content: space-between;
 	gap: var(--ts-spacer-2) var(--ts-spacer-2);
-	margin-top: 0.25rem;
+	margin-top: var(--ts-spacer-2);
 
 	time {
-		font-size: 0.8125rem;
+		font-size: var(--ts-font-size-xs);
 		color: $ts-text-secondary;
 	}
 }
@@ -297,12 +298,8 @@
 		display: block;
 	}
 
-	.wc-review__rating-row {
-		margin-top: var(--ts-spacer-1);
-	}
-
 	.wc-review__body {
-		margin-top: map.get($ts-spacers, 1);
+		margin-top: var(--ts-spacer-3);
 		flex-direction: column;
 	}
 

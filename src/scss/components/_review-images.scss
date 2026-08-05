@@ -210,7 +210,7 @@
 .review-lightbox {
 	border: 0;
 	padding: 0;
-	max-width: min(92vw, 52rem);
+	max-width: min(92vw, 42rem);
 	width: 100%;
 	background: transparent;
 	color: $ts-text-primary;
@@ -226,6 +226,7 @@
 	border-radius: $ts-border-radius;
 	overflow: hidden;
 	max-height: 90vh;
+	padding: var(--ts-spacer-3);
 
 	&:has(.review-lightbox__layout.is-gallery-only) {
 		max-width: 36rem;
@@ -240,9 +241,10 @@
 	max-height: 90vh;
 
 	@include mixins.ts-up(md) {
-		grid-template-columns: minmax(0, 1fr) minmax(14rem, 18rem);
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 
-		&.is-gallery-only {
+		&.is-gallery-only,
+		&:has(.review-lightbox__sidebar.hidden) {
 			grid-template-columns: 1fr;
 		}
 	}
@@ -325,35 +327,15 @@
 	}
 }
 
-.review-lightbox__thumbs {
-	flex: 0 0 auto;
-	margin-top: var(--ts-spacer-2);
-	overflow: hidden;
-
-	.swiper-slide {
-		width: 3rem;
-
-		img {
-			display: block;
-			width: 3rem;
-			height: 3rem;
-			object-fit: cover;
-			border-radius: $ts-border-radius-sm;
-			cursor: pointer;
-		}
-	}
-}
-
 .review-lightbox__sidebar {
 	min-width: 0;
 	min-height: 0;
 	padding: map.get($ts-spacers, 1);
 	overflow-y: auto;
-	border-top: 1px solid $ts-border-color;
 
 	@include mixins.ts-up(md) {
 		border-top: 0;
-		border-left: 1px solid $ts-border-color;
+		padding: var(--ts-spacer-3);
 	}
 
 	&.hidden {

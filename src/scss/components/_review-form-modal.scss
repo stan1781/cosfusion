@@ -170,7 +170,7 @@ body.review-form-modal-open {
 
 .review-form-modal .comment-form {
 	display: grid;
-	gap: map.get($ts-spacers, 1);
+	gap: map.get($ts-spacers, 3);
 	margin: 0;
 }
 

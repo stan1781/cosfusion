@@ -200,6 +200,17 @@ function tailwindscore_render_product_detail_sections(): void {
 				</div>
 			<?php endif; ?>
 		</div>
+
+		<?php
+		/*
+		 * 评价表单弹窗只渲染一次，挂在桌面行 / 手风琴之外。
+		 * comments_template() 会分别嵌进桌面（小屏 display:none）与手风琴（overflow:hidden），
+		 * 若弹窗跟在评论模板里，手机端 querySelector 会打开不可见副本。
+		 */
+		if ( $has_reviews ) {
+			get_template_part( 'template-parts/woocommerce/review-form-modal' );
+		}
+		?>
 	</div>
 	<?php
 }

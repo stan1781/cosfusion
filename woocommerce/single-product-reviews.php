@@ -68,9 +68,7 @@ if ( ! comments_open() ) {
 		<?php tailwindscore_render_review_form_fallback_cta(); ?>
 	</div>
 
-	<?php if ( tailwindscore_can_leave_product_review( $product ) ) : ?>
-		<?php get_template_part( 'template-parts/woocommerce/review-form-modal' ); ?>
-	<?php elseif ( ! tailwindscore_product_has_showcase_images( $product->get_id() ) ) : ?>
+	<?php if ( ! tailwindscore_can_leave_product_review( $product ) && ! tailwindscore_product_has_showcase_images( $product->get_id() ) ) : ?>
 		<p class="woocommerce-verification-required"><?php esc_html_e( 'Only logged in customers who have purchased this product may leave a review.', 'woocommerce' ); ?></p>
 	<?php endif; ?>
 

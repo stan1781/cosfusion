@@ -1,5 +1,9 @@
 # Review Images 模块变更记录
 
+## 0.1.1 — 2026-08-05
+
+- Lightbox：弹窗最大宽度改为 `36rem`；md+ 图文栏各 50%；隐藏 `review-lightbox__thumbs` 缩略图条。
+
 ## 0.1.0 — 2026-05-23
 
 - 从 `wc-enhanced-tools` 迁入评论图片上传、展示、买家秀 Showcase、后台 metabox/批量操作。
