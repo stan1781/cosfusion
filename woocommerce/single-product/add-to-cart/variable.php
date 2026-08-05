@@ -42,10 +42,11 @@ $ts_variations_client = wp_json_encode(
 	array(
 		'settings' => Tailwindscore_Variation_Settings::get_frontend_config( $product_id ),
 		'i18n'     => array(
-			'list'         => __( 'List', 'tailwindscore' ),
-			'grid'         => __( 'Grid', 'tailwindscore' ),
-			'switchToList' => __( 'Switch to list mode', 'tailwindscore' ),
-			'switchToGrid' => __( 'Switch to grid mode', 'tailwindscore' ),
+			'list'            => __( 'List', 'tailwindscore' ),
+			'grid'            => __( 'Grid', 'tailwindscore' ),
+			'switchToList'    => __( 'Switch to list mode', 'tailwindscore' ),
+			'switchToGrid'    => __( 'Switch to grid mode', 'tailwindscore' ),
+			'selectAttribute' => __( 'Select %s', 'tailwindscore' ),
 		),
 	)
 );
@@ -66,7 +67,10 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 				$is_size_attribute  = tailwindscore_is_size_variation_attribute( $attribute_name );
 				$attr_slug          = sanitize_title( $attribute_name );
 				?>
-				<div class="variation-row variation-row<?php echo $is_size_attribute ? ' variation-row--size' : ''; ?>">
+				<div
+					class="variation-row variation-row<?php echo $is_size_attribute ? ' variation-row--size' : ''; ?>"
+					data-ts-attribute-label="<?php echo esc_attr( wc_attribute_label( $attribute_name ) ); ?>"
+				>
 					<div class="label variation-row__label">
 						<label for="<?php echo esc_attr( $attr_slug ); ?>">
 							<?php echo wc_attribute_label( $attribute_name ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>:

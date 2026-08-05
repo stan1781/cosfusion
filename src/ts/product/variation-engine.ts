@@ -1,4 +1,5 @@
 import type { WcVariationRow } from './types';
+import { resolveVariationsI18n, syncVariationAtcButtons } from './variation-atc-ready';
 
 export type ChosenAttributesState = {
 	count: number;
@@ -228,35 +229,41 @@ function setVariationId(form: HTMLFormElement, variationId: number): void {
 	}
 }
 
-function checkVariations(
-	form: HTMLFormElement,
-	variations: WcVariationRow[],
-	callbacks: VariationFormCallbacks,
-): void {
-	updateVariationSelects(form, variations);
-	syncSwatchDisabledFromSelects(form);
+	function checkVariations(
+		form: HTMLFormElement,
+		variations: WcVariationRow[],
+		callbacks: VariationFormCallbacks,
+	): void {
+		updateVariationSelects(form, variations);
+		syncSwatchDisabledFromSelects(form);
 
-	if (ensureRequiredSelections(form, variations, callbacks)) {
-		return;
-	}
-
-	const { count, chosenCount, data } = getChosenAttributesState(form);
-
-	if (count > 0 && chosenCount === count) {
-		const matches = findMatchingVariations(variations, data);
-		const variation =
-			matches.find((row) => row.variation_is_visible !== false) ?? matches[0] ?? null;
-
-		if (variation) {
-			setVariationId(form, variation.variation_id);
-			callbacks.onShowVariation?.(variation);
+		if (ensureRequiredSelections(form, variations, callbacks)) {
 			return;
 		}
-	}
 
-	setVariationId(form, 0);
-	callbacks.onHideVariation?.();
-}
+		const { count, chosenCount, data } = getChosenAttributesState(form);
+		let matched: WcVariationRow | null = null;
+
+		if (count > 0 && chosenCount === count) {
+			const matches = findMatchingVariations(variations, data);
+			const variation =
+				matches.find((row) => row.variation_is_visible !== false) ?? matches[0] ?? null;
+
+			if (variation) {
+				setVariationId(form, variation.variation_id);
+				callbacks.onShowVariation?.(variation);
+				matched = variation;
+			} else {
+				setVariationId(form, 0);
+				callbacks.onHideVariation?.();
+			}
+		} else {
+			setVariationId(form, 0);
+			callbacks.onHideVariation?.();
+		}
+
+		syncVariationAtcButtons(form, resolveVariationsI18n(form), matched);
+	}
 
 function ensureRequiredSelections(
 	form: HTMLFormElement,

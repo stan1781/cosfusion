@@ -1,4 +1,4 @@
-import { notify } from '../cart/index';
+import { guideIncompleteVariation } from './variation-atc-ready';
 
 function getProductForm(): HTMLFormElement | null {
 	return document.querySelector<HTMLFormElement>('form.cart, form.variations_form');
@@ -6,32 +6,6 @@ function getProductForm(): HTMLFormElement | null {
 
 function getMainAddToCartButton(form: HTMLFormElement): HTMLButtonElement | null {
 	return form.querySelector<HTMLButtonElement>('button.single_add_to_cart_button');
-}
-
-function scrollToVariations(): void {
-	const target =
-		document.querySelector<HTMLElement>('.variation-row') ??
-		document.querySelector<HTMLElement>('.custom-variation-selector');
-
-	if (!target) {
-		return;
-	}
-
-	target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-	const focusable = target.querySelector<HTMLElement>('li[tabindex="0"], select, button');
-
-	if (focusable) {
-		window.requestAnimationFrame(() => {
-			focusable.focus();
-		});
-	}
-
-	notify({
-		type: 'warning',
-		message: 'Please select product options.',
-		surface: 'toast',
-	});
 }
 
 function handleStickyAddToCart(): void {
@@ -42,10 +16,8 @@ function handleStickyAddToCart(): void {
 	}
 
 	const isVariationForm = form.classList.contains('variations_form');
-	const variationId = Number(form.querySelector<HTMLInputElement>('input.variation_id')?.value ?? '0');
 
-	if (isVariationForm && variationId < 1) {
-		scrollToVariations();
+	if (isVariationForm && guideIncompleteVariation(form)) {
 		return;
 	}
 

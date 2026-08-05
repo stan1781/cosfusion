@@ -34,12 +34,14 @@ export interface TailwindscoreProductGalleryConfig {
 	};
 }
 
-export interface WcVariationRow {
-	variation_id: number;
-	attributes: Record<string, string>;
-	price_html?: string;
-	variation_is_visible?: boolean;
-	variation_is_active?: boolean;
+	export interface WcVariationRow {
+		variation_id: number;
+		attributes: Record<string, string>;
+		price_html?: string;
+		display_price?: number;
+		display_regular_price?: number;
+		variation_is_visible?: boolean;
+		variation_is_active?: boolean;
 	image?: {
 		src?: string;
 		full_src?: string;
@@ -145,12 +147,13 @@ export type VariationSettings = {
 	priceSelector: string;
 };
 
-export type VariationsI18n = {
-	list: string;
-	grid: string;
-	switchToList: string;
-	switchToGrid: string;
-};
+	export type VariationsI18n = {
+		list: string;
+		grid: string;
+		switchToList: string;
+		switchToGrid: string;
+		selectAttribute: string;
+	};
 
 /** Merged single-product runtime config (gallery + modules). */
 export type TailwindscoreProductPageConfig = Partial<TailwindscoreProductGalleryConfig> & {

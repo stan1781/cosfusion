@@ -21,6 +21,7 @@ class Tailwindscore_Variation_Assets {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 99 );
 		add_filter( 'wc_get_template', array( $this, 'prefer_theme_variable_template' ), 20, 5 );
 		add_filter( 'body_class', array( $this, 'body_class' ) );
+		add_filter( 'woocommerce_available_variation', array( $this, 'ensure_variation_price_html' ), 10, 3 );
 	}
 
 	/**
@@ -45,6 +46,33 @@ class Tailwindscore_Variation_Assets {
 		}
 
 		return $located;
+	}
+
+	/**
+	 * 同价变体时 Woo 会把 price_html 置空；ATC 按钮需要始终能读到价格文案。
+	 *
+	 * @param array<string, mixed> $data      变体 payload。
+	 * @param WC_Product           $product   父商品。
+	 * @param WC_Product           $variation 变体。
+	 * @return array<string, mixed>
+	 */
+	public function ensure_variation_price_html( array $data, $product, $variation ): array {
+		unset( $product );
+
+		if ( ! empty( $data['price_html'] ) ) {
+			return $data;
+		}
+
+		if ( ! $variation instanceof WC_Product ) {
+			return $data;
+		}
+
+		$html = $variation->get_price_html();
+		if ( '' !== $html && false !== $html ) {
+			$data['price_html'] = '<span class="price">' . $html . '</span>';
+		}
+
+		return $data;
 	}
 
 	/**

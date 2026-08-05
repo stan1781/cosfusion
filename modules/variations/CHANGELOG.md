@@ -1,5 +1,12 @@
 # Variations 模块变更记录
 
+## 0.1.5
+
+- 未选齐变体时主加购 / sticky ATC 灰显并显示 `Select {Attribute}`；点击滚到未选属性，无 toast / alert。
+- 选齐后主加购文案前缀变体价格；sticky ATC 不加价格。
+- i18n：`selectAttribute`（`Select %s`）；`.variation-row` 增加 `data-ts-attribute-label`。
+- 修复：同价变体时 Woo 清空 `price_html` 导致主 ATC 无价格；`woocommerce_available_variation` 强制补全，并回退读取摘要区价格。
+
 ## 0.1.4
 
 - 文本/尺码 `text-selector` 同步 `shape-square` / `shape-round`；选中态改为加粗边框（浅色底），对齐尺码圆钮参考样式。

@@ -201,10 +201,11 @@ function tailwindscore_variations_config( ?int $product_id = null ): array {
 	return array(
 		'variations' => Tailwindscore_Variation_Settings::get_frontend_config( $product_id ),
 		'i18n'       => array(
-			'list'         => __( 'List', 'tailwindscore' ),
-			'grid'         => __( 'Grid', 'tailwindscore' ),
-			'switchToList' => __( 'Switch to list mode', 'tailwindscore' ),
-			'switchToGrid' => __( 'Switch to grid mode', 'tailwindscore' ),
+			'list'            => __( 'List', 'tailwindscore' ),
+			'grid'            => __( 'Grid', 'tailwindscore' ),
+			'switchToList'    => __( 'Switch to list mode', 'tailwindscore' ),
+			'switchToGrid'    => __( 'Switch to grid mode', 'tailwindscore' ),
+			'selectAttribute' => __( 'Select %s', 'tailwindscore' ),
 		),
 	);
 }

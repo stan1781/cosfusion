@@ -122,12 +122,13 @@ function isVariationSelectorEnabled(settings: VariationSettings | undefined): bo
 	return enabled !== false && enabled !== 0 && enabled !== '0' && enabled !== '';
 }
 
-const DEFAULT_I18N: VariationsI18n = {
-	list: 'List',
-	grid: 'Grid',
-	switchToList: 'Switch to list mode',
-	switchToGrid: 'Switch to grid mode',
-};
+	const DEFAULT_I18N: VariationsI18n = {
+		list: 'List',
+		grid: 'Grid',
+		switchToList: 'Switch to list mode',
+		switchToGrid: 'Switch to grid mode',
+		selectAttribute: 'Select %s',
+	};
 
 function parseFormConfig(form: HTMLFormElement): { settings: VariationSettings; i18n: VariationsI18n } | null {
 	const raw = form.getAttribute('data-tailwindscore-variations-config');

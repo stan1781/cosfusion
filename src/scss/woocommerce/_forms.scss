@@ -15,15 +15,23 @@
 }
 
 @media (hover: hover) {
-	.woocommerce .button:not(:disabled):not(.disabled):hover,
-	.woocommerce a.button:not(:disabled):not(.disabled):hover,
-	.woocommerce button.button:not(:disabled):not(.disabled):hover,
-	.woocommerce input.button:not(:disabled):not(.disabled):hover,
-	.woocommerce #respond input#submit:not(:disabled):not(.disabled):hover,
-	.woocommerce .single_add_to_cart_button:not(:disabled):not(.disabled):hover,
-	.woocommerce button.single_add_to_cart_button:not(:disabled):not(.disabled):hover {
+	.woocommerce .button:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover,
+	.woocommerce a.button:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover,
+	.woocommerce button.button:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover,
+	.woocommerce input.button:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover,
+	.woocommerce #respond input#submit:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover,
+	.woocommerce .single_add_to_cart_button:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover,
+	.woocommerce button.single_add_to_cart_button:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover {
 		@include mixins.ts-control-button-primary-hover;
 	}
+}
+
+.woocommerce .single_add_to_cart_button.is-variation-incomplete,
+.woocommerce button.single_add_to_cart_button.is-variation-incomplete,
+.product-sticky-bar__atc.is-variation-incomplete {
+	opacity: 0.55;
+	cursor: pointer;
+	pointer-events: auto;
 }
 
 .woocommerce form .button,

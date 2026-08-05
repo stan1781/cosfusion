@@ -3,6 +3,7 @@ import { buildAddToCartRequest } from './add-to-cart-request';
 import { resolveSubmitButton, setButtonsLoading } from '../ui/button-loading';
 import { initSizeGuide } from './size-guide';
 import { initProductDetailTabs } from './product-detail-tabs';
+import { guideIncompleteVariation } from './variation-atc-ready';
 
 function getProductForms() {
 	return document.querySelectorAll<HTMLFormElement>('form.cart, form.variations_form');
@@ -81,6 +82,26 @@ if (isProductPage) {
 	document.documentElement.classList.add('has-product-ui');
 
 	getProductForms().forEach((form) => {
+		form.addEventListener('click', (event) => {
+			const target = event.target;
+			if (!(target instanceof Element)) {
+				return;
+			}
+
+			const button = target.closest<HTMLButtonElement>('button.single_add_to_cart_button');
+			if (!button || !form.contains(button)) {
+				return;
+			}
+
+			if (button.getAttribute('aria-disabled') !== 'true') {
+				return;
+			}
+
+			event.preventDefault();
+			event.stopPropagation();
+			guideIncompleteVariation(form);
+		});
+
 		form.addEventListener('submit', async (event) => {
 			if (form.dataset.tsBypassAjaxSubmit === 'true') {
 				delete form.dataset.tsBypassAjaxSubmit;
@@ -92,6 +113,10 @@ if (isProductPage) {
 			const request = buildAddToCartRequest(form, submitter);
 
 			if (!request) {
+				if (form.classList.contains('variations_form')) {
+					event.preventDefault();
+					guideIncompleteVariation(form);
+				}
 				return;
 			}
 
