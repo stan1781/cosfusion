@@ -19,6 +19,8 @@ TailwindScore 主导航支持标准下拉、Mega 菜单与移动端钻取抽屉�
 3. 桌面端（`≥ lg`）：悬停或键盘聚焦时打开 flyout。
 4. 移动端抽屉：点击行展开（`<details>`）。
 
+一级菜单标签（`.nav__list > .nav__item > .nav__link`）为大写 + 略增字距；项间距桌面端 `gap: var(--ts-spacer-4)`。子菜单 / mega 列内链接不受影响。
+
 ## Mega 菜单
 
 仅在 **顶级** 菜单项上添加 CSS 类 **`mega-menu`**。
@@ -62,10 +64,28 @@ Walker：`inc/navigation/class-nav-menu-walker.php`。
 | `new` | `.nav__badge--new` | 成功色（绿）pill |
 | `sale` | `.nav__badge--sale` | 警告色（琥珀）pill |
 
-- 顶级项：`.nav__badge--top`（略小，标签前）
-- 子项 / mega 链接：`.nav__badge--inline`（行内）
+- 位置：链接标题文字之后（仍在 `<a>` / drill `<button>` 内；有 chevron 时在图标前）
+- 字号：`var(--ts-font-size-xs)`
+- 顶级项：`.nav__badge--top`
+- 子项 / mega 链接：`.nav__badge--inline`
 
 样式：`src/scss/components/_navigation.scss`；HTML：`tailwindscore_nav_item_badge_html()`。
+
+## 子菜单缩略图
+
+子级菜单链接（`depth > 0`）按 **缩略图 → 名称** 排列，适用于：
+
+- 移动端 drawer 子 panel
+- 桌面端标准下拉 flyout
+- Mega 菜单列标题与子链接
+
+### 缩略图来源（优先级）
+
+1. **菜单项手动指定** — 外观 → 菜单，展开菜单项，在「Nav thumbnail」字段用媒体库选图（meta：`_ts_nav_item_thumbnail_id`）。适用于自定义链接、页面等非分类项，也可覆盖分类默认图。
+2. **产品分类 Thumbnail** — `product_cat` 菜单项，或自定义链接 URL 可反查到分类归档页时，读取 WooCommerce 分类 Thumbnail（`thumbnail_id` term meta）。
+3. **不显示** — 未手动指定且无法解析到带缩略图的分类时保持纯文本（无占位图）。
+
+实现：`inc/navigation/menu-item-helpers.php`（前台解析）、`inc/navigation/menu-item-admin.php`（后台字段）；样式 `.nav__thumb` / `.nav__link--with-thumb` / `.nav__link-label`（左图右文、垂直居中，文字过长在 label 内换行）。
 
 ## 开发者过滤器
 
@@ -74,6 +94,8 @@ Walker：`inc/navigation/class-nav-menu-walker.php`。
 | `tailwindscore_nav_menu_args` | 调整 `wp_nav_menu()` 参数 |
 | `tailwindscore_nav_menu_item_classes` | 额外 `<li>` 类名 |
 | `tailwindscore_nav_menu_is_mega_item` | 覆盖 mega 检测逻辑 |
+| `tailwindscore_nav_menu_item_product_cat` | 覆盖菜单项解析到的 `product_cat` |
+| `tailwindscore_nav_menu_item_thumbnail_html` | 覆盖子菜单缩略图 HTML |
 
 ## 兼容性说明
 

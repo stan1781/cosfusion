@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require_once get_template_directory() . '/inc/navigation/menu-item-helpers.php';
+require_once get_template_directory() . '/inc/navigation/menu-item-admin.php';
 require_once get_template_directory() . '/inc/navigation/class-nav-menu-walker.php';
 
 /**

@@ -144,6 +144,14 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 			$classes[] = 'nav__link--has-children';
 		}
 
+		$thumbnail = '';
+		if ( $depth > 0 ) {
+			$thumbnail = tailwindscore_nav_menu_item_thumbnail_html( $item, $depth );
+			if ( '' !== $thumbnail ) {
+				$classes[] = 'nav__link--with-thumb';
+			}
+		}
+
 		$atts           = array();
 		$atts['href']   = ! empty( $item->url ) ? $item->url : '';
 		$atts['class']  = implode( ' ', array_filter( $classes ) );
@@ -175,7 +183,13 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 			? $this->render_chevron_icon()
 			: '';
 
-		return '<a' . $attributes . '>' . $badge . $link_before . esc_html( $title ) . $link_after . $chevron . '</a>';
+		// 角标在标题后、chevron 前。有缩略图时包一层 label，保证左图右文换行布局。
+		$label = $link_before . esc_html( $title ) . $link_after . $badge;
+		if ( '' !== $thumbnail ) {
+			$label = '<span class="nav__link-label">' . $label . '</span>';
+		}
+
+		return '<a' . $attributes . '>' . $thumbnail . $label . $chevron . '</a>';
 	}
 
 	/**
@@ -199,8 +213,8 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 			. ' data-ts-nav-title="' . esc_attr( $title ) . '"'
 			. ' data-ts-nav-url="' . esc_url( $url ) . '"'
 			. ' aria-haspopup="true" aria-expanded="false">'
-			. $badge
 			. esc_html( $title )
+			. $badge
 			. '</button></li>';
 	}
 
