@@ -28,6 +28,7 @@ require_once __DIR__ . '/woocommerce/archive/context.php';
 require_once __DIR__ . '/woocommerce/helpers.php';
 require_once __DIR__ . '/woocommerce/product-image-aspect.php';
 require_once __DIR__ . '/woocommerce/product-tabs.php';
+require_once __DIR__ . '/woocommerce/product-assurances.php';
 require_once __DIR__ . '/woocommerce/loop.php';
 require_once __DIR__ . '/woocommerce/loop-variant-swatches.php';
 require_once __DIR__ . '/woocommerce/price-display.php';

@@ -1,0 +1,51 @@
+// 单品摘要加购下方的政策保障列表。
+
+.product-assurances {
+	display: grid;
+	gap: var(--ts-spacer-2);
+	margin: var(--ts-spacer-3) 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.product-assurances__item {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--ts-spacer-2);
+	margin: 0;
+	color: var(--ts-text-secondary);
+	font-size: var(--ts-font-size-sm);
+	line-height: var(--ts-line-height-base);
+}
+
+.product-assurances__icon {
+	flex-shrink: 0;
+	width: var(--ts-font-size-lg);
+	height: var(--ts-font-size-lg);
+	margin-block-start: 0.125rem;
+	color: var(--ts-text-primary);
+}
+
+.product-assurances__body {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--ts-spacer-1);
+	min-width: 0;
+}
+
+.product-assurances__text {
+	margin: 0;
+}
+
+.product-assurances__link {
+	color: var(--ts-text-primary);
+	text-decoration: underline;
+	text-underline-offset: 0.125rem;
+
+	@media (hover: hover) {
+		&:hover {
+			color: var(--ts-text-secondary);
+		}
+	}
+}
