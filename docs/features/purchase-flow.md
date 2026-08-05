@@ -25,6 +25,7 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 - 头部 **购物车 Drawer** 为主要交互界面（数量、删除、小计、Checkout CTA）
 - 单品加购成功后 **自动打开 Drawer**
 - Drawer / 购物车页 **优惠码**（`cart-config.php` 中 drawer coupon 设置、`ui/coupon-form.ts`）
+- Drawer / 购物车页 **免运进度条**（`cart-free-shipping-progress.php`；Drawer 行项上方；Cart 页在 `.wc-cart__sidebar` 内与 aside 卡片同级；门槛读 Woo 条件免运 `min_amount`；Store API `extensions.tailwindscore.freeShippingProgress`；`refreshCart()` 后 TS 重绘）
 - 购物车页 **产品推荐轮播**（`cart-product-suggestions.php`，共享 [产品轮播](product-carousel.md) 壳层；不进 Drawer）
 - **统一通知**接口（`src/ts/cart/notifications.ts`）：支持 toast 与 inline/drawer 反馈
 - 购物车行项 **编辑 modal**（`cart-item-edit.ts`）

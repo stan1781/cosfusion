@@ -36,13 +36,16 @@ $cart = WC()->cart;
 				<?php tailwindscore_render_cart_product_suggestions(); ?>
 			<?php endif; ?>
 		</div>
-		<aside class="wc-cart__aside">
-			<div class="cart-drawer-cart__coupon" data-ts-cart-coupon>
-				<?php tailwindscore_render_coupon_form( array( 'context' => 'cart' ) ); ?>
-			</div>
-			<div class="wc-cart__footer-bar">
-				<?php tailwindscore_render_cart_summary( array( 'context' => 'cart' ) ); ?>
-			</div>
-		</aside>
+		<div class="wc-cart__sidebar">
+			<?php tailwindscore_render_cart_free_shipping_progress(); ?>
+			<aside class="wc-cart__aside">
+				<div class="cart-drawer-cart__coupon" data-ts-cart-coupon>
+					<?php tailwindscore_render_coupon_form( array( 'context' => 'cart' ) ); ?>
+				</div>
+				<div class="wc-cart__footer-bar">
+					<?php tailwindscore_render_cart_summary( array( 'context' => 'cart' ) ); ?>
+				</div>
+			</aside>
+		</div>
 	<?php endif; ?>
 </div>

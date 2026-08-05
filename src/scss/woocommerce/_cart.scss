@@ -43,6 +43,12 @@
 	min-width: 0;
 }
 
+.wc-cart__sidebar {
+	display: grid;
+	gap: var(--ts-spacer-3);
+	min-width: 0;
+}
+
 .wc-cart__aside {
 	display: grid;
 	gap: var(--ts-spacer-3);
@@ -110,11 +116,15 @@
 		grid-column: 1;
 	}
 
-	.wc-cart__aside {
+	.wc-cart__sidebar {
 		grid-column: 2;
 		position: sticky;
 		top: var(--ts-spacer-4);
-		bottom: auto;
+		align-self: start;
+	}
+
+	.wc-cart__aside {
+		position: static;
 		margin-inline: 0;
 		padding: var(--ts-spacer-3);
 		border: 1px solid var(--ts-border-color);

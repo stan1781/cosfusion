@@ -42,6 +42,7 @@ type CartIconConfig = {
 	minus: string;
 	trash: string;
 	pencil: string;
+	gift?: string;
 };
 
 type NotificationSelectorConfig = {
@@ -76,6 +77,7 @@ type TailwindscoreCartConfig = {
 	storeApiUrl: string;
 	nonce: string;
 	showDrawerCoupon?: boolean;
+	showDrawerFreeShippingProgress?: boolean;
 	couponJs?: boolean;
 	cartUrl: string;
 	checkoutUrl: string;
@@ -153,6 +155,15 @@ type StoreApiCart = {
 	totals: StoreApiCurrency & {
 		total_items: string;
 		total_discount: string;
+	};
+	extensions?: {
+		tailwindscore?: {
+			freeShippingProgress?: {
+				qualified?: boolean;
+				percent?: number;
+				message?: string;
+			} | null;
+		};
 	};
 };
 
@@ -571,6 +582,47 @@ function renderCartCouponMarkup(config: TailwindscoreCartConfig, surface: 'drawe
 	`;
 }
 
+function renderFreeShippingProgress(cart: StoreApiCart, config: TailwindscoreCartConfig): string {
+	if (config.showDrawerFreeShippingProgress === false) {
+		return '';
+	}
+
+	const progress = cart.extensions?.tailwindscore?.freeShippingProgress;
+
+	if (!progress || typeof progress.message !== 'string') {
+		return '';
+	}
+
+	const percent = Math.max(0, Math.min(100, Number(progress.percent) || 0));
+	const qualified = progress.qualified === true;
+	const giftIcon = config.icons.gift ?? '';
+
+	return `
+		<div
+			class="cart-free-shipping-progress"
+			data-ts-cart-free-shipping-progress
+			${qualified ? ' data-qualified="true"' : ''}
+		>
+			<p class="cart-free-shipping-progress__message">
+				<span class="cart-free-shipping-progress__icon" aria-hidden="true"><span class="icon">${giftIcon}</span></span>
+				<span class="cart-free-shipping-progress__text">${escapeHtml(progress.message)}</span>
+			</p>
+			<div class="cart-free-shipping-progress__track">
+				<div
+					class="cart-free-shipping-progress__bar"
+					role="progressbar"
+					aria-valuemin="0"
+					aria-valuemax="100"
+					aria-valuenow="${percent}"
+					aria-label="${escapeHtml('Free shipping progress')}"
+				>
+					<div class="cart-free-shipping-progress__fill" style="width: ${percent}%;"></div>
+				</div>
+				<span class="cart-free-shipping-progress__percent">${percent}%</span>
+			</div>
+		</div>`;
+}
+
 function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 	if (cart.items.length < 1) {
 		return `
@@ -586,6 +638,7 @@ function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 	return `
 		<div class="cart-drawer-cart cart-drawer-cart--filled">
 			<div class="cart-drawer-cart__body">
+				${renderFreeShippingProgress(cart, config)}
 				<ul class="cart-drawer-cart__items" data-ts-cart-items>
 					${cart.items.map((item) => renderCartItem(item, config)).join('')}
 				</ul>
@@ -622,15 +675,18 @@ function renderCartPage(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 				</div>
 				${config.productSuggestionsHtml ?? ''}
 			</div>
-			<aside class="wc-cart__aside">
-				${renderCartCouponMarkup(config, 'page')}
-				<div class="wc-cart__footer-bar">
-					<div class="cart-drawer-cart__footer stack cart-drawer-cart__footer--cart-page" data-ts-cart-footer>
-						${renderCartFooterTotals(cart, config, true)}
-						<a class="btn btn-primary" href="${escapeHtml(config.checkoutUrl)}" data-ts-button-loading>${escapeHtml(config.i18n.checkout)}</a>
+			<div class="wc-cart__sidebar">
+				${renderFreeShippingProgress(cart, config)}
+				<aside class="wc-cart__aside">
+					${renderCartCouponMarkup(config, 'page')}
+					<div class="wc-cart__footer-bar">
+						<div class="cart-drawer-cart__footer stack cart-drawer-cart__footer--cart-page" data-ts-cart-footer>
+							${renderCartFooterTotals(cart, config, true)}
+							<a class="btn btn-primary" href="${escapeHtml(config.checkoutUrl)}" data-ts-button-loading>${escapeHtml(config.i18n.checkout)}</a>
+						</div>
 					</div>
-				</div>
-			</aside>
+				</aside>
+			</div>
 		</div>
 	`;
 }

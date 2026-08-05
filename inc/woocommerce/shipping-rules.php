@@ -141,6 +141,63 @@ function tailwindscore_free_shipping_threshold( array $package = array() ): floa
 }
 
 /**
+ * 当前购物车第一个配送包裹（免运门槛计算用）。
+ *
+ * @return array<string, mixed>
+ */
+function tailwindscore_get_cart_shipping_package(): array {
+	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
+		return array();
+	}
+
+	$packages = WC()->cart->get_shipping_packages();
+
+	return isset( $packages[0] ) && is_array( $packages[0] ) ? $packages[0] : array();
+}
+
+/**
+ * 免运门槛金额的格式化标签（纯文本，已解码实体）。
+ *
+ * @param array<string, mixed> $package
+ */
+function tailwindscore_free_shipping_threshold_label( array $package = array() ): string {
+	$threshold = tailwindscore_free_shipping_threshold( $package );
+
+	if ( $threshold <= 0 ) {
+		return '';
+	}
+
+	return tailwindscore_format_price_plain( $threshold );
+}
+
+/**
+ * 将 wc_price() 输出转为可再 esc_html / escapeHtml 的纯文本金额。
+ *
+ * wc_price 含 HTML 与 &#36; 等实体；去标签后须解码，否则二次转义会显示字面 &#36;。
+ */
+function tailwindscore_format_price_plain( float $amount ): string {
+	$plain = wp_strip_all_tags( wc_price( $amount ) );
+
+	return html_entity_decode( $plain, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+}
+
+/**
+ * 距免运门槛还差的金额（不低于 0）。
+ *
+ * @param array<string, mixed> $package
+ */
+function tailwindscore_free_shipping_remaining_amount( array $package = array() ): float {
+	$instance = tailwindscore_get_free_shipping_threshold_instance( $package );
+	if ( ! $instance ) {
+		return 0.0;
+	}
+
+	$remaining = tailwindscore_free_shipping_threshold( $package ) - tailwindscore_cart_subtotal_for_free_shipping( $instance );
+
+	return max( 0.0, (float) wc_format_decimal( $remaining, wc_get_price_decimals() ) );
+}
+
+/**
  * 折后小计达到阈值时要移除的运费 rate ID。
  *
  * 输入名 `shipping_method_0_flat_rate2` 对应 rate ID `flat_rate:2`。

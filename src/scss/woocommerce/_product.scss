@@ -93,7 +93,7 @@
 	margin: 0;
 	border: none;
 	border-radius: var(--ts-border-radius-pill);
-	background: color-mix(in srgb, var(--ts-surface) 92%, transparent);
+	background: color-mix(in srgb, var(--ts-surface-muted) 92%, transparent);
 	color: var(--ts-text-primary);
 	box-shadow: var(--ts-shadow-sm);
 	cursor: pointer;
@@ -102,7 +102,7 @@
 }
 
 .product-gallery__nav:hover {
-	background: var(--ts-surface);
+	background: var(--ts-surface-muted);
 }
 
 .product-gallery__nav--prev {

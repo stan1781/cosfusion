@@ -1,0 +1,67 @@
+.cart-free-shipping-progress {
+	display: grid;
+	gap: var(--ts-spacer-1);
+	margin-block-end: var(--ts-spacer-2);
+	padding: var(--ts-spacer-2);
+	border-radius: var(--ts-border-radius);
+	border: 1px solid color-mix(in srgb, var(--ts-success) 22%, transparent);
+	background: color-mix(in srgb, var(--ts-success) 8%, transparent);
+	color: color-mix(in srgb, var(--ts-success) 78%, var(--ts-text-primary));
+}
+
+.cart-free-shipping-progress__message {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--ts-spacer-1);
+	margin: 0;
+	color: inherit;
+	font-size: var(--ts-font-size-xs);
+	line-height: var(--ts-line-height-base);
+}
+
+.cart-free-shipping-progress__icon {
+	flex-shrink: 0;
+	display: inline-flex;
+	margin-block-start: 0.0625rem;
+
+	.icon {
+		width: 1rem;
+		height: 1rem;
+	}
+}
+
+.cart-free-shipping-progress__text {
+	min-width: 0;
+}
+
+.cart-free-shipping-progress__track {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-spacer-2);
+}
+
+.cart-free-shipping-progress__bar {
+	flex: 1;
+	height: 0.5rem;
+	overflow: hidden;
+	border-radius: var(--ts-border-radius-pill);
+	background: color-mix(in srgb, var(--ts-success) 14%, var(--ts-surface));
+}
+
+.cart-free-shipping-progress__fill {
+	height: 100%;
+	border-radius: inherit;
+	background: color-mix(in srgb, var(--ts-success) 72%, white);
+	transition: width 0.25s ease;
+}
+
+.cart-free-shipping-progress__percent {
+	flex-shrink: 0;
+	color: inherit;
+	font-size: var(--ts-font-size-sm);
+	font-variant-numeric: tabular-nums;
+}
+
+.wc-cart__sidebar > .cart-free-shipping-progress {
+	margin-block-end: 0;
+}

@@ -18,6 +18,7 @@ $cart = WC()->cart;
 		</div>
 	<?php else : ?>
 		<div class="cart-drawer-cart__body">
+			<?php tailwindscore_render_cart_free_shipping_progress(); ?>
 			<ul class="cart-drawer-cart__items" data-ts-cart-items>
 				<?php foreach ( $cart->get_cart() as $cart_item_key => $cart_item ) : ?>
 					<?php

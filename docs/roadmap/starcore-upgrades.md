@@ -8,7 +8,7 @@
 | High | Kirki 按域拆分 + `tokens-output.php` | 颜色/字体集中维护 |
 | Done | Header bar repeater 轮播 | 见 [site-shell.md](../features/site-shell.md) |
 | High | 导航 submenu 缩略图 | 品类视觉 |
-| High | Drawer 免运进度条 | 转化 |
+| Done | Drawer 免运进度条 | 见 [purchase-flow.md](../features/purchase-flow.md) |
 | High | `--site-header-height` 同步 | sticky 布局一致 |
 | High | UI：global loading、woo-notices→toast、bottom-sheet | 购买流打磨 |
 | Medium | 产品轮播 banner + view_all | 营销块 |
