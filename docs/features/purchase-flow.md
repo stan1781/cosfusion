@@ -30,6 +30,8 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 - **统一通知**接口（`src/ts/cart/notifications.ts`）：支持 toast 与 inline/drawer 反馈
 - 购物车行项 **编辑 modal**（`cart-item-edit.ts`）
 - 结账页布局与登录 dialog（`checkout-layout.php`、`ui/login-modal.ts`）
+- 结账 Payment 区隐藏空的 PPCP `.ppcp-messages`（Pay Later 占位未出文案时避免 flex gap 留白；`_checkout.scss`）
+- 结账条款文案 `.woocommerce-terms-and-conditions-wrapper`：`--ts-font-size-xs` + `--ts-text-muted`；内链用 `--ts-link-color` + underline（覆盖全局 `a { color: inherit }`）
 - Store API 缓存优化（`store-api-cache.php`）
 - Store API nonce：页注入 nonce 视为新鲜（TTL 60s），冷加购默认 **单次 POST**；仅 TTL 过期或 `woocommerce_rest_invalid_nonce` 时才先 `GET /cart`
 - 运费规则（`shipping-rules.php`）：达标后隐藏付费配送；门槛读取当前配送 zone 内条件免运的 **Minimum order amount**（`min_amount`），与 Starcore 一致，Customizer 仅配置开关与要隐藏的 rate ID，不手填门槛金额

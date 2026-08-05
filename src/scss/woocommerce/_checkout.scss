@@ -49,6 +49,14 @@
 	gap: var(--ts-checkout-section-title-gap);
 }
 
+// WooCommerce PayPal Payments 在 Payment 标题与 #payment 之间注入 .ppcp-messages（Pay Later）。
+// 文案未渲染时仍因行内 span 的 line-height + flex gap 双边留白；空壳移出布局。
+// 若结账区需要展示 Pay Later 文案，删除本规则并在插件后台确认该位置已启用。
+.wc-checkout__payment-wrap > .ppcp-messages {
+	// PPCP JS 会写 inline display:block，需 !important 才能压掉空占位。
+	display: none !important;
+}
+
 .checkout-layout__section + .checkout-layout__section {
 	margin-top: var(--ts-spacer-3);
 }
@@ -700,6 +708,23 @@
 	font-size: var(--ts-font-size-base);
 	font-weight: 600;
 	border-radius: var(--ts-border-radius-sm);
+}
+
+.woocommerce-terms-and-conditions-wrapper {
+	font-size: var(--ts-font-size-xs);
+	color: var(--ts-text-muted);
+
+	a {
+		color: var(--ts-link-color);
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				color: var(--ts-text-primary);
+			}
+		}
+	}
 }
 
 .woocommerce-checkout #payment {
