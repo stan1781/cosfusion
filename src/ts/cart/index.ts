@@ -444,6 +444,10 @@ function renderCartItem(item: StoreApiCartItem, config: TailwindscoreCartConfig)
 	const maxAttribute = typeof maxQuantity === 'number' && Number.isFinite(maxQuantity) ? ` max="${maxQuantity}"` : '';
 	const productUrl = item.permalink ? escapeHtml(item.permalink) : '';
 	const productName = escapeHtml(item.name);
+	const isRemoveStep = item.quantity < 2;
+	const decreaseLabel = escapeHtml(isRemoveStep ? config.i18n.removeItem : config.i18n.decreaseQuantity);
+	const decreaseIcon = isRemoveStep ? config.icons.trash : config.icons.minus;
+	const decreaseClass = isRemoveStep ? 'quantity__step quantity__step--remove' : 'quantity__step';
 
 	return `
 		<li class="cart-drawer-cart__item" data-ts-cart-item data-cart-item-key="${escapeHtml(item.key)}">
@@ -457,26 +461,17 @@ function renderCartItem(item: StoreApiCartItem, config: TailwindscoreCartConfig)
 						${renderCartLineItemMeta(item)}
 						<span class="cart-drawer-cart__quantity">${item.quantity} x ${escapeHtml(unitPrice)}</span>
 					</div>
-					<button
-						type="button"
-						class="cart-drawer-cart__remove"
-						data-ts-cart-remove
-						data-cart-item-key="${escapeHtml(item.key)}"
-						aria-label="${escapeHtml(config.i18n.removeItem)}"
-					>
-						<span class="icon" aria-hidden="true">${config.icons.trash}</span>
-					</button>
 				</div>
 				<div class="cart-drawer-cart__controls">
 					<div class="quantity quantity quantity-compact" data-ts-quantity data-ts-cart-quantity-controls>
 						<button
 							type="button"
-							class="quantity__step"
+							class="${decreaseClass}"
 							data-ts-quantity-step="-1"
 							data-cart-item-key="${escapeHtml(item.key)}"
-							aria-label="${escapeHtml(config.i18n.decreaseQuantity)}"
+							aria-label="${decreaseLabel}"
 						>
-							<span class="icon" aria-hidden="true">${config.icons.minus}</span>
+							<span class="icon" aria-hidden="true">${decreaseIcon}</span>
 						</button>
 						<label class="screen-reader-text" for="cart-qty-${escapeHtml(item.key)}">${escapeHtml(config.i18n.quantityLabel)}</label>
 						<input
@@ -711,7 +706,7 @@ function syncPendingCartItems() {
 
 		item
 			.querySelectorAll<HTMLButtonElement | HTMLInputElement>(
-				'[data-ts-quantity-step], [data-ts-quantity-input], [data-ts-cart-remove], [data-ts-cart-item-edit]',
+				'[data-ts-quantity-step], [data-ts-quantity-input], [data-ts-cart-item-edit]',
 			)
 			.forEach((control) => {
 				control.disabled = isPending;
@@ -1191,28 +1186,6 @@ function bindQuantityControls() {
 			} catch (error) {
 				reportCartError(error);
 			}
-
-			return;
-		}
-
-		const removeButton = target.closest<HTMLButtonElement>('[data-ts-cart-remove]');
-
-		if (!removeButton) {
-			return;
-		}
-
-		event.preventDefault();
-
-		const cartItemKey = removeButton.dataset.cartItemKey;
-
-		if (!cartItemKey) {
-			return;
-		}
-
-		try {
-			await removeCartItem(cartItemKey);
-		} catch (error) {
-			reportCartError(error);
 		}
 	});
 

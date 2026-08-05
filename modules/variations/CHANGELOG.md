@@ -1,5 +1,10 @@
 # Variations 模块变更记录
 
+## 0.1.6
+
+- 移除主加购按钮价格前缀；选齐变体后主 / sticky ATC 均为默认「Add to cart」。
+- 删除仅为 ATC 价格服务的 `ensure_variation_price_html` 与 `getVariationPriceText`。
+
 ## 0.1.5
 
 - 未选齐变体时主加购 / sticky ATC 灰显并显示 `Select {Attribute}`；点击滚到未选属性，无 toast / alert。

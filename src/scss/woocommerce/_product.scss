@@ -40,7 +40,25 @@
 		}
 	}
 
+	.woocommerce-product-details__short-description {
+		font-size: var(--ts-font-size-sm);
+		color: var(--ts-text-secondary);
+
+		p {
+			margin: 0;
+		}
+	}
+	.woocommerce-variation-availability {
+		p.stock {
+			display: none;
+		}
+	}
+	.ppcp-messages {
+		display: none;
+	}
+
 }
+
 
 .wc-product-detail__price-row {
 	display: flex;

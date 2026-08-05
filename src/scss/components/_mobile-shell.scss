@@ -1,7 +1,6 @@
 @use "../abstracts/mixins";
 
 :root {
-	--ts-mobile-tab-bar-height: 3.5rem;
 	--ts-product-sticky-bar-height: 3.5rem;
 }
 
@@ -24,7 +23,7 @@
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	min-height: var(--ts-mobile-tab-bar-height);
+
 }
 
 .mobile-tab-bar__item {
@@ -41,13 +40,10 @@
 	gap: calc(var(--ts-spacer-1) / 2);
 	width: 100%;
 	height: 100%;
-	min-height: var(--ts-mobile-tab-bar-height);
 	padding: var(--ts-spacer-1) var(--ts-spacer-1);
 	border: none;
 	background: transparent;
 	color: var(--ts-text-secondary);
-	font-size: var(--ts-font-size-xs);
-	line-height: 1.2;
 	text-decoration: none;
 	cursor: pointer;
 	transition: color 0.15s ease;
@@ -69,8 +65,8 @@
 
 .mobile-tab-bar__icon {
 	display: inline-flex;
-	width: var(--ts-font-size-lg);
-	height: var(--ts-font-size-lg);
+	width: 1.5rem;
+	height: 1.5rem;
 }
 
 .mobile-tab-bar__icon svg {
@@ -89,8 +85,8 @@
 
 .mobile-tab-bar__badge-slot {
 	position: absolute;
-	top: 0;
-	inset-inline-end: calc(50% - 1.35rem);
+	top: -0.25rem;
+	inset-inline-end: calc(50% - 1.45rem);
 }
 
 .mobile-tab-bar__badge-slot .site-header__badge,
@@ -210,19 +206,14 @@ body.product-sticky-bar--visible .product-sticky-bar {
 .product-sticky-bar__atc-wrapper {
 	display: flex;
 	align-self: stretch;
-	// margin-block: calc(var(--ts-spacer-1) * -1);
-	margin-inline-end: calc(var(--ts-spacer-2) * -1);
 }
 
 .product-sticky-bar__atc {
 	flex: 1;
 	min-width: 7.5rem;
-	white-space: nowrap;
-	margin: 0;
-	padding-inline: var(--ts-spacer-2);
-	border-radius: 0;
-	height: 100%;
+	padding-inline: var(--ts-spacer-2) !important;
 	border-radius: 0 !important;
+	font-size: var(--ts-font-size-sm);
 }
 
 body.product-sticky-bar--visible.has-product-sticky-bar .main {

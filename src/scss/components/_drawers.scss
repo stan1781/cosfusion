@@ -360,10 +360,7 @@
 
 .cart-drawer-cart__row {
 	grid-area: info;
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) auto;
-	align-items: start;
-	gap: var(--ts-spacer-1);
+	min-width: 0;
 }
 
 .cart-drawer-cart__totals {
@@ -395,9 +392,6 @@
 	overflow: hidden;
 	color: var(--ts-text-primary);
 	font-size: var(--ts-font-size-sm);
-	font-weight: 600;
-	line-height: 1.35;
-	text-decoration: none;
 }
 
 .cart-drawer-cart__details {
@@ -438,44 +432,17 @@
 	max-width: 100%;
 }
 
-.cart-drawer-cart__remove {
-	font: inherit;
-}
-
 .cart-drawer-cart__quantity {
 	color: var(--ts-text-secondary);
 	font-size: var(--ts-font-size-xs);
 	line-height: 1.4;
+	//删除数量*单价
+	display: none;
 }
 
 .cart-drawer-cart__meta {
 	min-width: 0;
 	gap: 0.25rem;
-}
-
-.cart-drawer-cart__remove {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	flex: 0 0 auto;
-	width: 2rem;
-	height: 2rem;
-	border: 0;
-	padding: 0;
-	background: transparent;
-	color: var(--ts-text-secondary);
-	border-radius: var(--ts-border-radius-sm);
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.cart-drawer-cart__remove .icon {
-	width: var(--ts-font-size-sm);
-	height: var(--ts-font-size-sm);
-}
-
-.cart-drawer-cart__remove[aria-disabled="true"] {
-	cursor: wait;
 }
 
 .cart-drawer-cart__subtotal {

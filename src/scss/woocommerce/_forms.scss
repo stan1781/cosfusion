@@ -14,6 +14,13 @@
 	);
 }
 
+.woocommerce .single_add_to_cart_button,
+.woocommerce button.single_add_to_cart_button,
+.product-sticky-bar__atc {
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
 @media (hover: hover) {
 	.woocommerce .button:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover,
 	.woocommerce a.button:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover,

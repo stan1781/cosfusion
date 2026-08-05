@@ -67,15 +67,6 @@ $remove_label      = sprintf(
 					?>
 				</span>
 			</div>
-			<button
-				type="button"
-				class="cart-drawer-cart__remove"
-				data-ts-cart-remove
-				data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>"
-				aria-label="<?php echo esc_attr( $remove_label ); ?>"
-			>
-				<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'trash' ); ?></span>
-			</button>
 		</div>
 		<div class="cart-drawer-cart__controls">
 			<?php
@@ -89,6 +80,7 @@ $remove_label      = sprintf(
 					'cart_item_key'  => $cart_item_key,
 					'context'        => $context,
 					'aria_label'     => __( 'Product quantity', 'woocommerce' ),
+					'remove_label'   => $remove_label,
 				)
 			);
 			?>

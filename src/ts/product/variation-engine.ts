@@ -262,7 +262,7 @@ function setVariationId(form: HTMLFormElement, variationId: number): void {
 			callbacks.onHideVariation?.();
 		}
 
-		syncVariationAtcButtons(form, resolveVariationsI18n(form), matched);
+		syncVariationAtcButtons(form, resolveVariationsI18n(form));
 	}
 
 function ensureRequiredSelections(

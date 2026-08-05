@@ -1,4 +1,4 @@
-import type { VariationsI18n, WcVariationRow } from './types';
+import type { VariationsI18n } from './types';
 
 export type MissingAttributeInfo = {
 	select: HTMLSelectElement;
@@ -54,34 +54,6 @@ export function getFirstMissingAttribute(form: HTMLFormElement): MissingAttribut
 	return null;
 }
 
-export function getVariationPriceText(
-	variation?: Pick<WcVariationRow, 'price_html' | 'display_price' | 'display_regular_price'> | null,
-): string {
-	const html = variation?.price_html;
-	if (html) {
-		const holder = document.createElement('div');
-		holder.innerHTML = html;
-		const fromHtml = (holder.textContent || '').replace(/\s+/g, ' ').trim();
-		if (fromHtml) {
-			return fromHtml;
-		}
-	}
-
-	// 同价变体：Woo 可能仍留下空 price_html；回退到摘要区已渲染价格。
-	const priceRoot = document.querySelector<HTMLElement>(
-		'.wc-product-detail__summary .price, .entry-summary .price, [data-ts-product-sticky-price]',
-	);
-	if (priceRoot) {
-		const amount = priceRoot.querySelector<HTMLElement>('.woocommerce-Price-amount');
-		const fromDom = ((amount ?? priceRoot).textContent || '').replace(/\s+/g, ' ').trim();
-		if (fromDom && !/^[–—-]/.test(fromDom)) {
-			return fromDom;
-		}
-	}
-
-	return '';
-}
-
 function ensureDefaultLabel(button: HTMLButtonElement): string {
 	const stored = button.dataset.tsAtcDefaultLabel?.trim();
 	if (stored) {
@@ -116,13 +88,11 @@ function getStickyAtcButton(): HTMLButtonElement | null {
 }
 
 /**
- * 同步主加购与 sticky 按钮的就绪态 / 文案。
- * 主按钮就绪时带价格前缀；sticky 永不带价格。
+ * 同步主加购与 sticky 按钮的就绪态 / 文案（就绪时均为默认「Add to cart」，不含价格）。
  */
 export function syncVariationAtcButtons(
 	form: HTMLFormElement,
 	i18n?: Partial<VariationsI18n> | null,
-	variation?: WcVariationRow | null,
 ): void {
 	const main = getMainAtcButton(form);
 	const sticky = getStickyAtcButton();
@@ -146,17 +116,8 @@ export function syncVariationAtcButtons(
 		return;
 	}
 
-	const defaultLabel = ensureDefaultLabel(buttons[0]);
-	const priceText = getVariationPriceText(variation);
-	const mainLabel = priceText ? `${priceText} ${defaultLabel}` : defaultLabel;
-
-	if (main) {
-		setButtonReady(main, mainLabel);
-	}
-
-	if (sticky) {
-		const stickyDefault = ensureDefaultLabel(sticky);
-		setButtonReady(sticky, stickyDefault);
+	for (const button of buttons) {
+		setButtonReady(button, ensureDefaultLabel(button));
 	}
 }
 

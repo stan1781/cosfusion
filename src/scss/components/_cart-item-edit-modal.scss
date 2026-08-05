@@ -91,7 +91,6 @@ body.cart-item-edit-modal-open {
 .cart-item-edit-form__name {
 	margin: 0 0 var(--ts-spacer-2);
 	font-size: var(--ts-font-size-sm);
-	font-weight: 600;
 }
 
 .cart-item-edit-form__variations {
@@ -146,6 +145,7 @@ body.cart-item-edit-modal-open {
 	gap: var(--ts-spacer-1);
 }
 
+// 编辑：控件行内图标按钮（删除并入数量减号，qty=1 时显示垃圾桶）
 .cart-drawer-cart__edit {
 	display: inline-flex;
 	align-items: center;
@@ -159,6 +159,7 @@ body.cart-item-edit-modal-open {
 	background: var(--ts-surface);
 	border: 1px solid var(--ts-border-color);
 	border-radius: var(--ts-border-radius-sm);
+	text-decoration: none;
 	cursor: pointer;
 }
 
