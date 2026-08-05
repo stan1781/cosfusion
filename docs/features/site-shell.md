@@ -11,6 +11,7 @@
 | 主导航 | `inc/navigation/nav.php`、`class-nav-menu-walker.php` | `src/scss/components/_navigation.scss` | `src/ts/site/mobile-nav.ts`、`menu-drawer-panel.ts` |
 | 移动壳层 | `inc/navigation/mobile-shell.php` | `src/scss/components/_drawers.scss` | Alpine + TS |
 | 移动底栏 | — | `src/scss/components/_mobile-tab-bar.scss` | `src/ts/site/mobile-tab-bar.ts` |
+| 单品底部 sticky 购买条 | `template-parts/woocommerce/product-sticky-bar.php` | `src/scss/components/_mobile-shell.scss` | `src/ts/product/sticky-bar.ts` |
 | 页脚 | `inc/navigation/footer-nav.php` | `src/scss/components/_footer.scss` | — |
 | 搜索 | `inc/woocommerce/ajax-search.php` | 搜索相关组件 SCSS | `src/ts/search/` |
 

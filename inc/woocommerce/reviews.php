@@ -41,20 +41,12 @@ function tailwindscore_product_has_showcase_images( int $product_id ): bool {
 }
 
 /**
- * 打开评价表单弹窗的标签文案。
+ * 打开评价表单弹窗的标签文案（固定短文案，不嵌入产品名）。
  *
  * @return string
  */
 function tailwindscore_get_review_form_open_label(): string {
-	if ( have_comments() ) {
-		return esc_html__( 'Write a review', 'tailwindscore' );
-	}
-
-	/* translators: %s: product title */
-	return sprintf(
-		esc_html__( 'Be the first to review &ldquo;%s&rdquo;', 'tailwindscore' ),
-		get_the_title()
-	);
+	return esc_html__( 'Write a review', 'tailwindscore' );
 }
 
 /**

@@ -193,7 +193,6 @@ body.review-form-modal-open {
 .review-form-modal .comment-form label {
 	display: block;
 	font-size: var(--ts-font-size-sm);
-	font-weight: 600;
 	color: $ts-text-secondary;
 	margin-bottom: 0.35rem;
 }
@@ -261,7 +260,7 @@ body.review-form-modal-open {
 	background: $ts-surface-muted;
 	border: 1px dashed var(--ts-border-color);
 	border-radius: $ts-border-radius;
-	padding: map.get($ts-spacers, 1);
+	padding: map.get($ts-spacers, 3);
 }
 
 .review-form-modal .review-images-toolbar__row {

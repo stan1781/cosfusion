@@ -642,30 +642,14 @@ body.archive-filters-drawer-open {
 .wc-product-card__price {
 	flex-shrink: 0;
 	text-align: left;
-	color: var(--ts-text-secondary);
-	font-size: var(--ts-font-size-sm);
-	font-weight: 600;
 	line-height: 1.4;
-}
+	// 卡片价与现价同档字号；原价仅变灰删除线，不继续缩小。
+	@include mixins.ts-price-html(var(--ts-font-size-sm), var(--ts-font-size-sm));
 
-.wc-product-card__price .price {
-	display: inline-flex;
-	flex-wrap: wrap;
-	align-items: baseline;
-	gap: 0.35rem;
-}
-
-.wc-product-card__price del {
-	color: var(--ts-text-secondary);
-	font-size: var(--ts-font-size-sm);
-	font-weight: 400;
-	opacity: 0.85;
-}
-
-.wc-product-card__price ins {
-	text-decoration: none;
-	color: var(--ts-text-primary);
-	font-weight: 600;
+	.price {
+		display: contents;
+		margin: 0;
+	}
 }
 
 .wc-product-card__footer {

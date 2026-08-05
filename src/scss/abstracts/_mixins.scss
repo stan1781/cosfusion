@@ -182,6 +182,45 @@ $ts-animation-slide-duration: 0.22s;
 	}
 }
 
+/// WooCommerce `get_price_html()` 促销标记：原价缩小变灰删除线，特价无下划线。
+/// 可单独用于已有布局容器（如 widget 绝对定位价）。
+@mixin ts-price-sale($del-font-size: null) {
+	del {
+		color: var(--ts-text-secondary);
+		font-weight: 400;
+		opacity: 0.85;
+		text-decoration: line-through;
+
+		@if $del-font-size {
+			font-size: $del-font-size;
+		}
+	}
+
+	ins {
+		text-decoration: none;
+		color: var(--ts-text-primary);
+		font-weight: 600;
+	}
+}
+
+/// 价格 HTML 行：布局 + `ts-price-sale`。用于 `.price` 或直接包裹 `get_price_html()` 的容器。
+/// `$font-size` 现价字号；`$del-font-size` 原价字号（通常小一档）。
+@mixin ts-price-html(
+	$font-size: var(--ts-font-size-sm),
+	$del-font-size: var(--ts-font-size-xs)
+) {
+	display: inline-flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.35rem;
+	font-size: $font-size;
+	font-weight: 600;
+	line-height: var(--ts-line-height-base);
+	color: var(--ts-text-primary);
+
+	@include ts-price-sale($del-font-size);
+}
+
 /// Underline animation from left to right on hover.
 /// Usage: @include ts-underline-hover($color: currentColor, $height: 2px, $duration: 0.3s);
 @mixin ts-underline-hover($color: currentColor, $height: 2px, $duration: 0.3s) {

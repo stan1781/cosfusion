@@ -71,6 +71,8 @@ add_action( 'wp', 'tailwindscore_remove_default_product_tabs', 99 );
 
 桌面与手风琴各自调用 `comments_template()`，但 **Write a review** 弹窗只渲染一次，挂在 `.product-detail-sections` 末尾（两套布局之外）。打开时 JS 再挂到 `document.body`，避免小屏桌面行 `display: none` 或手风琴 `overflow: hidden` 裁切固定层。
 
+摘要卡按钮与无买家秀时的 fallback 链接均经 `tailwindscore_get_review_form_open_label()`，固定为 **Write a review**（不嵌入产品名，避免长标题撑破 CTA）。
+
 | 层 | 路径 |
 |----|------|
 | 模板 | `template-parts/woocommerce/review-form-modal.php`（由 `inc/woocommerce/product-tabs.php` 引入） |

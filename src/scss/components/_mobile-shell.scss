@@ -196,31 +196,14 @@ body.product-sticky-bar--visible .product-sticky-bar {
 	text-overflow: ellipsis;
 }
 
+// get_price_html() / 变体 price_html 可能直接输出 del/ins，或再包一层 .price。
 .product-sticky-bar__price {
-	font-size: var(--ts-font-size-sm);
-	font-weight: 600;
+	@include mixins.ts-price-html(var(--ts-font-size-sm), var(--ts-font-size-xs));
 	line-height: 1.2;
-}
 
-.product-sticky-bar__price .price {
-	display: inline-flex;
-	flex-wrap: wrap;
-	align-items: baseline;
-	gap: 0.35rem;
-	margin: 0;
-
-	del {
-		color: var(--ts-text-secondary);
-		font-size: var(--ts-font-size-xs);
-		font-weight: 400;
-		opacity: 0.85;
-		text-decoration: line-through;
-	}
-
-	ins {
-		text-decoration: none;
-		color: var(--ts-text-primary);
-		font-weight: 600;
+	.price {
+		display: contents;
+		margin: 0;
 	}
 }
 
@@ -239,6 +222,7 @@ body.product-sticky-bar--visible .product-sticky-bar {
 	padding-inline: var(--ts-spacer-2);
 	border-radius: 0;
 	height: 100%;
+	border-radius: 0 !important;
 }
 
 body.product-sticky-bar--visible.has-product-sticky-bar .main {

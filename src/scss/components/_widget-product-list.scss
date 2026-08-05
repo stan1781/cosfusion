@@ -89,14 +89,7 @@
 			text-align: right;
 		}
 
-		ins {
-			text-decoration: none;
-		}
-
-		del {
-			font-weight: 400;
-			color: var(--ts-text-secondary);
-		}
+		@include mixins.ts-price-sale;
 	}
 
 	@include reviews.ts-wc-star-rating-block;

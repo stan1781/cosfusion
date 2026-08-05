@@ -8,7 +8,7 @@ TailwindScore 使用 **SCSS 变量 → `:root` CSS 变量 → 组件 `var(--ts-*
 |------|------|
 | `src/scss/abstracts/_variables.scss` | 所有 `$ts-*` 字面量（颜色、间距、断点 rem 等） |
 | `src/scss/abstracts/_root.scss` | 将 `$ts-*` 导出为 `:root` 上的 `--ts-*` |
-| `src/scss/abstracts/_mixins.scss` | `ts-up` / `ts-down` 断点 mixin、表单/动效 mixin |
+| `src/scss/abstracts/_mixins.scss` | `ts-up` / `ts-down` 断点 mixin、表单/动效 mixin、`ts-price-html` / `ts-price-sale` 价格展示 |
 | `src/ts/breakpoints.ts` | JS `matchMedia` 与 SCSS 断点对齐 |
 
 **改风格时优先只改 `_variables.scss`**，不要在各组件里逐个改数值。断点与抽屉宽等可用 Sass 直接引用，不必全部进 `:root`。
@@ -117,6 +117,17 @@ Swiper `breakpoints`、手风琴/Tab 切换等运行时逻辑须与 SCSS 断点�
 - **WooCommerce**：结账/账户可在 `lg` 启用多列；商品网格在 `md`/`xl` 按需加分列
 - **产品详情 Tab**：手风琴 `< md`，两列网格 `≥ md`
 - **容器宽度**：`--ts-container-max` 在较宽视口内居中
+
+## 价格 HTML（`get_price_html`）
+
+促销价展示集中在 mixin，避免单品 / 卡片 / sticky bar / widget 各写一份 `del`/`ins`：
+
+| Mixin | 用途 |
+|-------|------|
+| `ts-price-sale($del-font-size)` | 仅原价/特价标记样式；布局另有约束时用 |
+| `ts-price-html($font-size, $del-font-size)` | 行内布局 + 促销样式；包在 `.price` 或直接包 HTML 的容器上 |
+
+调用方只传字号档位（如单品 `lg`/`sm`，sticky `sm`/`xs`）。
 
 ## 扩展令牌流程
 
