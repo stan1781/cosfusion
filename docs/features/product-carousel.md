@@ -1,6 +1,6 @@
 # 产品轮播
 
-共享产品列表 Swiper 壳层，供短代码、首页精选商品、购物车推荐与 404 人气商品复用。
+共享产品列表 Swiper 壳层，供短代码、首页精选商品、购物车推荐、单品 Cross-sells 与 404 人气商品复用。
 
 ## 短代码
 
@@ -34,11 +34,16 @@
 
 ## 购物车推荐
 
-- Customizer → Cart：开关、标题、数量、排序、分类 ID（`0` = 不限）
+- Customizer → Cart：开关、标题、数量、补齐层排序（**已废弃**全局分类 ID）
+- 取数瀑布（`product-suggestions.php`）：① 车内商品 Cross-sells 合并 → ② 车内商品所属分类 → ③ 人气（或配置 orderby）补齐到上限；空则隐藏
 - 挂载：**仅购物车页**行项列表下方（不进 Drawer）
 - 可变品按钮走 Quick View（Customizer → 产品 → 快速查看 → 生效页面含「购物车页」）
 - 运行时：`window.tailwindscoreCart.productSuggestionsHtml`；购物车页 Store API 重绘后再次 `initProductCarousels`
 - 排除购物车内已有 product / variation ID
+
+## 单品 Cross-sells
+
+见 [配件搭配](product-cross-sells.md)。壳层 class：`product-cross-sells`；仅当前商品 Cross-sells，无则不渲染。
 
 ## 404 人气商品
 
@@ -50,7 +55,7 @@
 
 | 层 | 路径 |
 |----|------|
-| PHP | `inc/woocommerce/product-carousel.php`、`cart-product-suggestions.php`、`inc/not-found.php` |
+| PHP | `inc/woocommerce/product-carousel.php`、`product-suggestions.php`、`cart-product-suggestions.php`、`product-cross-sells.php`、`inc/not-found.php` |
 | 模板 | `template-parts/woocommerce/product-carousel.php` |
 | TS | `src/ts/shop/product-carousel.ts`（`app.ts` 全局初始化） |
 | SCSS | `src/scss/components/_product-carousel.scss` |
@@ -67,4 +72,5 @@
 
 - [首页](homepage.md)
 - [购买流程](purchase-flow.md)
+- [配件搭配](product-cross-sells.md)
 - 设计归档：`docs/archive/superpowers/specs/2026-07-15-product-carousel-design.md`

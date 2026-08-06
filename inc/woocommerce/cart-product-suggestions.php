@@ -64,30 +64,13 @@ function tailwindscore_get_cart_product_suggestions_limit(): int {
 }
 
 /**
- * 购物车推荐排序字段。
+ * 购物车推荐排序字段（仅作用于分类 / 人气补齐层）。
  */
 function tailwindscore_get_cart_product_suggestions_orderby(): string {
 	$orderby = sanitize_key( (string) tailwindscore_mod( 'cart_product_suggestions_orderby', 'popularity' ) );
 	$allowed = array( 'popularity', 'date', 'menu_order', 'title' );
 
 	return in_array( $orderby, $allowed, true ) ? $orderby : 'popularity';
-}
-
-/**
- * 购物车推荐所属 product_cat term ID（0 = 不限分类）。
- */
-function tailwindscore_get_cart_product_suggestions_category_id(): int {
-	/**
-	 * 过滤购物车推荐分类 ID。
-	 *
-	 * @param int $category_id 分类 ID。
-	 */
-	$category_id = (int) apply_filters(
-		'tailwindscore_cart_product_suggestions_category_id',
-		(int) tailwindscore_mod( 'cart_product_suggestions_category_id', 0 )
-	);
-
-	return max( 0, $category_id );
 }
 
 /**
@@ -123,73 +106,14 @@ function tailwindscore_should_show_cart_product_suggestions(): bool {
  * @return int[]
  */
 function tailwindscore_get_cart_product_suggestion_ids(): array {
-	if ( ! tailwindscore_cart_product_suggestions_are_enabled() || ! function_exists( 'wc_get_products' ) || ! function_exists( 'WC' ) || ! WC()->cart ) {
+	if ( ! tailwindscore_cart_product_suggestions_are_enabled() || ! function_exists( 'tailwindscore_resolve_cart_suggestion_ids' ) ) {
 		return array();
 	}
 
-	$limit   = tailwindscore_get_cart_product_suggestions_limit();
-	$exclude = array();
-
-	foreach ( WC()->cart->get_cart() as $cart_item ) {
-		$product_id = (int) ( $cart_item['product_id'] ?? 0 );
-		if ( $product_id > 0 ) {
-			$exclude[] = $product_id;
-		}
-
-		$variation_id = (int) ( $cart_item['variation_id'] ?? 0 );
-		if ( $variation_id > 0 ) {
-			$exclude[] = $variation_id;
-		}
-	}
-
-	$exclude = array_values( array_unique( array_filter( $exclude ) ) );
-
-	$query_args = array(
-		'status'  => 'publish',
-		'type'    => array( 'simple', 'variable' ),
-		'limit'   => $limit + count( $exclude ),
-		'orderby' => tailwindscore_get_cart_product_suggestions_orderby(),
-		'order'   => 'DESC',
-		'exclude' => $exclude,
+	$ids = tailwindscore_resolve_cart_suggestion_ids(
+		tailwindscore_get_cart_product_suggestions_limit(),
+		tailwindscore_get_cart_product_suggestions_orderby()
 	);
-
-	$category_id = tailwindscore_get_cart_product_suggestions_category_id();
-	if ( $category_id > 0 ) {
-		$query_args['tax_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
-			array(
-				'taxonomy' => 'product_cat',
-				'field'    => 'term_id',
-				'terms'    => array( $category_id ),
-			),
-		);
-	}
-
-	/**
-	 * 过滤购物车推荐查询参数。
-	 *
-	 * @param array<string, mixed> $query_args 查询参数。
-	 */
-	$query_args = (array) apply_filters( 'tailwindscore_cart_product_suggestions_query_args', $query_args );
-
-	$products = wc_get_products( $query_args );
-
-	if ( ! is_array( $products ) ) {
-		return array();
-	}
-
-	$ids = array();
-
-	foreach ( $products as $product ) {
-		if ( ! $product instanceof WC_Product || ! $product->is_visible() ) {
-			continue;
-		}
-
-		$ids[] = (int) $product->get_id();
-
-		if ( count( $ids ) >= $limit ) {
-			break;
-		}
-	}
 
 	/**
 	 * 过滤购物车推荐产品 ID。
@@ -252,7 +176,7 @@ function tailwindscore_get_cart_product_suggestions_html(): string {
 }
 
 /**
- * @param string               $cfg     Kirki 配置 ID。
+ * @param string                $cfg     Kirki 配置 ID。
  * @param array<string, string> $targets 按区域索引的 Customizer 面板 / 区块 ID。
  */
 function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, array $targets ): void {
@@ -266,7 +190,7 @@ function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, arr
 			'type'        => 'toggle',
 			'settings'    => 'cart_product_suggestions_enable',
 			'label'       => esc_html__( '在购物车页显示商品推荐', 'tailwindscore' ),
-			'description' => esc_html__( '仅在购物车页商品行下方显示商品轮播（迷你购物车抽屉中不显示）。', 'tailwindscore' ),
+			'description' => esc_html__( '仅在购物车页商品行下方显示商品轮播（迷你购物车抽屉中不显示）。优先 Cross-sells，其次车内分类，再人气补齐。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_cart_settings',
 			'default'     => true,
 			'priority'    => 40,
@@ -313,7 +237,8 @@ function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, arr
 		array(
 			'type'            => 'select',
 			'settings'        => 'cart_product_suggestions_orderby',
-			'label'           => esc_html__( '推荐排序', 'tailwindscore' ),
+			'label'           => esc_html__( '补齐层排序', 'tailwindscore' ),
+			'description'     => esc_html__( '仅影响分类与人气补齐；Cross-sells 保持后台设定顺序。', 'tailwindscore' ),
 			'section'         => 'tailwindscore_cart_settings',
 			'default'         => 'popularity',
 			'choices'         => array(
@@ -326,26 +251,6 @@ function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, arr
 				return (bool) tailwindscore_mod( 'cart_product_suggestions_enable', true );
 			},
 			'priority'        => 43,
-		)
-	);
-
-	Kirki::add_field(
-		$cfg,
-		array(
-			'type'            => 'number',
-			'settings'        => 'cart_product_suggestions_category_id',
-			'label'           => esc_html__( '推荐分类 ID', 'tailwindscore' ),
-			'description'     => esc_html__( '限制推荐到指定商品分类 term ID。填 0 表示不限分类。', 'tailwindscore' ),
-			'section'         => 'tailwindscore_cart_settings',
-			'default'         => 0,
-			'choices'         => array(
-				'min'  => 0,
-				'step' => 1,
-			),
-			'active_callback' => static function (): bool {
-				return (bool) tailwindscore_mod( 'cart_product_suggestions_enable', true );
-			},
-			'priority'        => 44,
 		)
 	);
 }
