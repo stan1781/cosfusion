@@ -280,6 +280,23 @@ function tailwindscore_get_not_found_products_orderby(): string {
 }
 
 /**
+ * Kirki active_callback：快捷导航相关字段是否显示（与 tailwindscore_not_found_categories_are_enabled() 逻辑一致，
+ * 供多个字段的 active_callback 复用，避免重复闭包）。
+ */
+function tailwindscore_not_found_categories_active_callback(): bool {
+	return tailwindscore_not_found_categories_are_enabled();
+}
+
+/**
+ * Kirki active_callback：人气商品相关字段是否显示（仅看未过滤的 theme_mod 原始值，
+ * 供多个字段的 active_callback 复用；与 tailwindscore_not_found_products_are_enabled() 的
+ * 过滤后判断不同，勿混用）。
+ */
+function tailwindscore_not_found_products_active_callback(): bool {
+	return (bool) tailwindscore_mod( 'not_found_products_enable', true );
+}
+
+/**
  * 是否启用人气商品区块。
  */
 function tailwindscore_not_found_products_are_enabled(): bool {
@@ -492,9 +509,7 @@ function tailwindscore_not_found_kirki_register( string $cfg, array $targets ): 
 			'label'           => esc_html__( '快捷导航标题', 'tailwindscore' ),
 			'section'         => 'tailwindscore_not_found',
 			'default'         => __( 'Looking for something?', 'tailwindscore' ),
-			'active_callback' => static function (): bool {
-				return (bool) tailwindscore_mod( 'not_found_categories_enable', true );
-			},
+			'active_callback' => 'tailwindscore_not_found_categories_active_callback',
 			'priority'        => 60,
 		)
 	);
@@ -514,9 +529,7 @@ function tailwindscore_not_found_kirki_register( string $cfg, array $targets ): 
 				'field' => 'title',
 			),
 			'default'         => tailwindscore_not_found_category_repeater_defaults(),
-			'active_callback' => static function (): bool {
-				return (bool) tailwindscore_mod( 'not_found_categories_enable', true );
-			},
+			'active_callback' => 'tailwindscore_not_found_categories_active_callback',
 			'fields'          => array(
 				'title'    => array(
 					'type'    => 'text',
@@ -567,9 +580,7 @@ function tailwindscore_not_found_kirki_register( string $cfg, array $targets ): 
 			'label'           => esc_html__( '人气商品标题', 'tailwindscore' ),
 			'section'         => 'tailwindscore_not_found',
 			'default'         => __( 'Popular right now', 'tailwindscore' ),
-			'active_callback' => static function (): bool {
-				return (bool) tailwindscore_mod( 'not_found_products_enable', true );
-			},
+			'active_callback' => 'tailwindscore_not_found_products_active_callback',
 			'priority'        => 90,
 		)
 	);
@@ -588,9 +599,7 @@ function tailwindscore_not_found_kirki_register( string $cfg, array $targets ): 
 				'max'  => 12,
 				'step' => 1,
 			),
-			'active_callback' => static function (): bool {
-				return (bool) tailwindscore_mod( 'not_found_products_enable', true );
-			},
+			'active_callback' => 'tailwindscore_not_found_products_active_callback',
 		)
 	);
 
@@ -609,9 +618,7 @@ function tailwindscore_not_found_kirki_register( string $cfg, array $targets ): 
 				'max'  => 99999,
 				'step' => 1,
 			),
-			'active_callback' => static function (): bool {
-				return (bool) tailwindscore_mod( 'not_found_products_enable', true );
-			},
+			'active_callback' => 'tailwindscore_not_found_products_active_callback',
 		)
 	);
 
@@ -630,9 +637,7 @@ function tailwindscore_not_found_kirki_register( string $cfg, array $targets ): 
 				'menu_order' => esc_html__( '菜单顺序', 'tailwindscore' ),
 				'title'      => esc_html__( '标题', 'tailwindscore' ),
 			),
-			'active_callback' => static function (): bool {
-				return (bool) tailwindscore_mod( 'not_found_products_enable', true );
-			},
+			'active_callback' => 'tailwindscore_not_found_products_active_callback',
 		)
 	);
 }

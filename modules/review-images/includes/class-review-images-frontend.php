@@ -616,12 +616,13 @@ class Tailwindscore_Review_Images_Frontend {
 	}
 
 	/**
-	 * @param string $country_code 国家代码。
-	 * @return array{code: string, name: string, flag_url: string}
+	 * 支持的国家列表（code => 显示名）。前后台唯一数据源，
+	 * 避免 Admin / Frontend 各维护一份易漂移的重复列表。
+	 *
+	 * @return array<string, string>
 	 */
-	public static function get_country_info( string $country_code ): array {
-		$country_code = strtoupper( $country_code );
-		$countries    = array(
+	public static function get_supported_countries(): array {
+		return array(
 			'US' => __( 'United States', 'tailwindscore' ),
 			'GB' => __( 'United Kingdom', 'tailwindscore' ),
 			'CA' => __( 'Canada', 'tailwindscore' ),
@@ -639,6 +640,15 @@ class Tailwindscore_Review_Images_Frontend {
 			'IN' => __( 'India', 'tailwindscore' ),
 			'RU' => __( 'Russia', 'tailwindscore' ),
 		);
+	}
+
+	/**
+	 * @param string $country_code 国家代码。
+	 * @return array{code: string, name: string, flag_url: string}
+	 */
+	public static function get_country_info( string $country_code ): array {
+		$country_code = strtoupper( $country_code );
+		$countries    = self::get_supported_countries();
 
 		if ( ! isset( $countries[ $country_code ] ) ) {
 			$country_code = 'US';
@@ -685,20 +695,7 @@ class Tailwindscore_Review_Images_Frontend {
 			return $unused_images_ids;
 		}
 
-		global $wpdb;
-		$review_image_ids = array();
-		$comment_metas    = $wpdb->get_col(
-			"SELECT meta_value FROM {$wpdb->commentmeta} WHERE meta_key = '_review_images' AND meta_value != ''"
-		);
-
-		foreach ( (array) $comment_metas as $meta_value ) {
-			$ids = maybe_unserialize( $meta_value );
-			if ( is_array( $ids ) ) {
-				$review_image_ids = array_merge( $review_image_ids, array_map( 'intval', $ids ) );
-			}
-		}
-
-		return array_values( array_diff( $unused_images_ids, array_unique( $review_image_ids ) ) );
+		return array_values( array_diff( $unused_images_ids, self::get_all_review_image_ids() ) );
 	}
 
 	/**
@@ -711,19 +708,31 @@ class Tailwindscore_Review_Images_Frontend {
 			return $keep;
 		}
 
+		return in_array( (int) $attachment_id, self::get_all_review_image_ids(), true ) ? true : $keep;
+	}
+
+	/**
+	 * 所有已挂载到评论的图片 ID（跨评论合集，已去重）。
+	 * 供 `exclude_review_images_from_unused()` / `mark_review_images_as_used()` 共用，
+	 * 避免重复查询与反序列化循环。
+	 *
+	 * @return int[]
+	 */
+	private static function get_all_review_image_ids(): array {
 		global $wpdb;
 		$comment_metas = $wpdb->get_col(
 			"SELECT meta_value FROM {$wpdb->commentmeta} WHERE meta_key = '_review_images' AND meta_value != ''"
 		);
 
+		$ids = array();
 		foreach ( (array) $comment_metas as $meta_value ) {
-			$ids = maybe_unserialize( $meta_value );
-			if ( is_array( $ids ) && in_array( (int) $attachment_id, array_map( 'intval', $ids ), true ) ) {
-				return true;
+			$decoded = maybe_unserialize( $meta_value );
+			if ( is_array( $decoded ) ) {
+				$ids = array_merge( $ids, array_map( 'intval', $decoded ) );
 			}
 		}
 
-		return $keep;
+		return array_values( array_unique( $ids ) );
 	}
 
 	/**

@@ -10,7 +10,8 @@
 **Phase 2 状态：** Done（2026-08-06）  
 **Phase 3 状态：** Done（2026-08-06；范围调整为不拆文件，见 Phase 3 章节）  
 **Phase 4 状态：** Done（2026-08-06）  
-**下一闸门：** 手测 Phase 4 清单后，再单独开 Phase 5；**禁止**自动连跑多阶段。
+**Phase 5 状态：** Done（2026-08-06）  
+**下一闸门：** 手测 Phase 5 清单后，再单独开 Phase 6（默认不开，需产品/技术评审）；**禁止**自动连跑多阶段。
 
 ## 原则
 
@@ -44,8 +45,8 @@
 | 5 | 购物车「全局分类 ID」已废弃 | 遗留 | 低 | 低 | 2 | **已核实**：`cart-product-suggestions.php` 与 Kirki 注册均无该字段；代码侧已完全干净，文档「已废弃」为历史记录，无需进一步动作 |
 | 6 | `cart/index.ts` 上帝文件 | 过大 | 高 | 中 | 3 | Store API + HTML 渲染 + 优惠券 + 免运进度 + 绑定；导出：`refreshCart`、`addCartItem`、re-export `notify` |
 | 7 | Modal / dialog 开闭散落 | 重复模式 | 中 | 中 | 4 | **原生 `<dialog>`**：`size-guide.ts`、`review-lightbox.ts`；**`hidden` + body class**：`login-modal.ts`、`item-edit-modal.ts`、`quick-view.ts`、`review-form-modal.ts` 等。抽薄辅助，不改 markup 语义 |
-| 8 | `inc/not-found.php` ~568 行 | 过大（观察） | 低 | 低 | 5 | Kirki + 插图 + 分类 repeater + 人气商品；**不拆分**，仅检查内部是否有冗余代码/逻辑 |
-| 9 | `review-images` PHP 体积 | 过大（观察） | 中 | 低 | 5 | admin 669 / frontend 623 / upload 470 / showcase 330；**不拆分**，仅检查各文件内部冗余（如重复的字段渲染 / 校验逻辑） |
+| 8 | `inc/not-found.php` ~568 行 | 过大（观察） | 低 | 低 | 5 | Kirki + 插图 + 分类 repeater + 人气商品；**不拆分**；已去重 5 处重复 `active_callback` 闭包，**Done** |
+| 9 | `review-images` PHP 体积 | 过大（观察） | 中 | 低 | 5 | admin 669 / frontend 623 / upload 470 / showcase 330；**不拆分**；已抽取国家列表唯一数据源 + 查询去重 + 删 3 个死方法，**Done** |
 | 10 | 建议引擎边界 | 假冗余 | — | 高若硬合并 | 6 | `product-suggestions.php`（cart/PDP 共享） vs `modules/related-products`（单品页底）；PDP cross-sells 紧凑列表 vs 购物车轮播壳——**有意双轨** |
 | 11 | PhotoSwipe vs 评论灯箱 | 假冗余 | — | 高若统一 | 6 | `gallery-photoswipe.ts` vs `review-lightbox.ts`；无产品决策则保持分离 |
 | 12 | `variations.ts` 仍偏厚 | 过大 | 中 | 中 | 6 或另开 | sticky / URL / display；核心已在 `variation-engine.ts`；QV 侧已薄。非早阶 |
@@ -125,11 +126,16 @@ Phase 0 (Audit_Doc) → 1 SharedUtils → 2 LegacyPrune → 3 CartDedup
 
 | 项 | 内容 |
 |----|------|
-| 范围 | `inc/not-found.php`（~568 行）、`modules/review-images`（admin/frontend/upload/showcase 共 ~2092 行） |
-| 检查方向 | 重复的字段渲染 / sanitize 校验 / Kirki 注册样板；同一文件内或跨这些文件间是否有可提取的重复逻辑；仅在**有证据**时抽取共享函数（同文件内或既有 helper 文件），不新建按职责划分的文件 |
+| 范围 | `inc/not-found.php`（~568 行）、`modules/review-images`（admin/frontend/upload/showcase/kirki/settings） |
+| 已实施 — `inc/not-found.php` | 新增 `tailwindscore_not_found_categories_active_callback()`、`tailwindscore_not_found_products_active_callback()` 两个具名函数，替换 5 处内容完全相同的 Kirki `active_callback` 匿名闭包（`not_found_categories_enable` 判断重复 2 处、`not_found_products_enable` 判断重复 3 处），改为传函数名字符串复用 |
+| 已实施 — `review-images` 跨文件重复 | `Tailwindscore_Review_Images_Admin::get_country_list()`（16 国家 code=>name）与 `Tailwindscore_Review_Images_Frontend::get_country_info()` 内联的同一份国家数组几乎完全重复（仅顺序不同），存在两处独立维护易漂移的风险；抽取为 `Frontend::get_supported_countries()` 唯一数据源，`Admin::get_country_list()` 改为委托调用。**已知微小影响**：admin 评论 metabox 国家 `<select>` 的选项顺序变化（CA/GB 顺序），纯后台展示顺序，无数据/权限影响 |
+| 已实施 — `review-images` 文件内重复 | `class-showcase-gallery.php` 的 `mark_showcase_images_as_used()` / `filter_unused_ids()`、`class-review-images-frontend.php` 的 `mark_review_images_as_used()` / `exclude_review_images_from_unused()` 各自两两重复同一段 `$wpdb->get_col(...)` 查询 + `maybe_unserialize` 循环；分别抽取 `get_all_showcase_selected_image_ids()` / `get_all_review_image_ids()` 私有方法复用 |
+| 已实施 — 死代码 | 删除 `Tailwindscore_Review_Images_Admin::register_settings()`、`sanitize_settings()`、`woocommerce_missing_notice()`：均无 `add_action`/`add_filter` 挂载、`wc_review_images_settings` option 全项目零读取，确认为遗留 Settings API 页面的死代码 |
+| 复核但未改动 | `admin_enqueue_scripts()` / `modify_comment_author_column()` / `handle_product_reviews_bulk_actions()` 中三处「是否为 WooCommerce 产品评论页」判断逻辑相似但依据变量不同（`$hook` vs `$screen` vs 纯 `$_GET`），强行合并需统一判断依据、有引入行为差异的风险，判定为**假冗余**不合并 |
 | 不做 | 按职责拆分为多文件；调整 hook 优先级或函数签名 |
-| 手测 | 404 Hero / 快捷导航 / 人气轮播；评论附图上传与 Showcase |
-| 进度 | **Pending** |
+| 验证命令 | `php -l`（4 个改动文件均通过）；`ReadLints` 无错误 |
+| 手测 | 404 Hero / 快捷导航 / 人气轮播（含仅启用其一/关闭快捷导航或人气商品时 Customizer 面板字段显隐是否正常）；评论附图上传与 Showcase；后台评论 metabox 国家下拉选择与保存；后台评论列表批量标记认证买家/取消/设置国家 |
+| 进度 | **Done**（2026-08-06） |
 
 ### Phase 6 — 可选边界（高风险，单独评审）
 
@@ -158,7 +164,7 @@ Phase 0 (Audit_Doc) → 1 SharedUtils → 2 LegacyPrune → 3 CartDedup
 | 2 遗留修剪 | Done | 2026-08-06；已删 2 个死函数 + header_bar legacy fallback/migrator |
 | 3 Cart 去重优化 | Done | 2026-08-06；范围改为不拆文件（用户决定）；已消除空购物车 markup 重复 + `syncCartUi` 惰性渲染 |
 | 4 Dialog 辅助 | Done | 2026-08-06；新增 `src/ts/ui/dialog.ts`，接入 6 个 modal，保留各自差异化行为 |
-| 5 大文件冗余复核 | Pending | 范围已改为不拆分，仅查冗余（用户决定，2026-08-06） |
+| 5 大文件冗余复核 | Done | 2026-08-06；`not-found.php` 去重 5 处 Kirki active_callback 闭包；`review-images` 抽取国家列表唯一数据源 + 两处查询去重 + 删 3 个死方法 |
 | 6 可选边界 | Pending | 需单独产品/技术评审 |
 
 ## 工作方式

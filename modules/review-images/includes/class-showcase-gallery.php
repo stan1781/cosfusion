@@ -365,15 +365,7 @@ class Tailwindscore_Showcase_Gallery {
 		if ( $keep ) {
 			return $keep;
 		}
-		global $wpdb;
-		$product_metas = $wpdb->get_col( "SELECT meta_value FROM {$wpdb->postmeta} WHERE meta_key = '_product_showcase_images' AND meta_value != ''" );
-		foreach ( (array) $product_metas as $meta_value ) {
-			$ids = maybe_unserialize( $meta_value );
-			if ( is_array( $ids ) && in_array( (int) $attachment_id, array_map( 'intval', $ids ), true ) ) {
-				return true;
-			}
-		}
-		return $keep;
+		return in_array( (int) $attachment_id, $this->get_all_showcase_selected_image_ids(), true ) ? true : $keep;
 	}
 
 	/**
@@ -384,15 +376,25 @@ class Tailwindscore_Showcase_Gallery {
 		if ( empty( $unused_images_ids ) ) {
 			return $unused_images_ids;
 		}
+		return array_values( array_diff( $unused_images_ids, $this->get_all_showcase_selected_image_ids() ) );
+	}
+
+	/**
+	 * 所有商品「展示画廊」精选图片 ID（跨商品合集，已去重）。
+	 * 供 `mark_showcase_images_as_used()` / `filter_unused_ids()` 共用，避免重复查询与反序列化循环。
+	 *
+	 * @return int[]
+	 */
+	private function get_all_showcase_selected_image_ids(): array {
 		global $wpdb;
-		$protected = array();
-		$metas     = $wpdb->get_col( "SELECT meta_value FROM {$wpdb->postmeta} WHERE meta_key = '_product_showcase_images' AND meta_value != ''" );
+		$metas = $wpdb->get_col( "SELECT meta_value FROM {$wpdb->postmeta} WHERE meta_key = '_product_showcase_images' AND meta_value != ''" );
+		$ids   = array();
 		foreach ( (array) $metas as $meta_value ) {
-			$ids = maybe_unserialize( $meta_value );
-			if ( is_array( $ids ) ) {
-				$protected = array_merge( $protected, array_map( 'intval', $ids ) );
+			$decoded = maybe_unserialize( $meta_value );
+			if ( is_array( $decoded ) ) {
+				$ids = array_merge( $ids, array_map( 'intval', $decoded ) );
 			}
 		}
-		return array_values( array_diff( $unused_images_ids, array_unique( $protected ) ) );
+		return array_values( array_unique( $ids ) );
 	}
 }

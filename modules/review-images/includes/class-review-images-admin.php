@@ -51,48 +51,6 @@ class Tailwindscore_Review_Images_Admin {
         add_filter('comment_author', array($this, 'modify_comment_author_column'), 10, 2);
     }
 
-    public function woocommerce_missing_notice() {
-        echo '<div class="notice notice-error"><p>';
-        echo __('The review images feature requires the WooCommerce plugin to work.', 'tailwindscore');
-        echo '</p></div>';
-    }
-
-    public function register_settings() {
-        register_setting('wc_review_images_settings', 'wc_review_images_settings', array($this, 'sanitize_settings'));
-    }
-
-    public function sanitize_settings($input) {
-        $sanitized = array();
-        $sanitized['enabled'] = isset($input['enabled']) ? 1 : 0;
-        $sanitized['max_images'] = isset($input['max_images']) ? absint($input['max_images']) : 6;
-        if (isset($input['max_file_size'])) {
-            $raw_value = $input['max_file_size'];
-            $numeric = is_numeric($raw_value) ? (float) $raw_value : 5;
-            // 兼容旧版以字节存储的最大文件大小，转换为 MB。
-            if ($numeric > 20) {
-                // 若数值大于 20，可能是字节；超过 1MB 则尝试换算为 MB。
-                $maybe_bytes = (int) $numeric;
-                if ($maybe_bytes > 1048576) {
-                    $maybe_mb = (int) round($maybe_bytes / 1048576);
-                    if ($maybe_mb >= 1 && $maybe_mb <= 20) {
-                        $numeric = $maybe_mb;
-                    }
-                }
-            }
-            // 最终限制在 1–20 MB。
-            $max_mb = (int) round($numeric);
-            if ($max_mb < 1) { $max_mb = 1; }
-            if ($max_mb > 20) { $max_mb = 20; }
-            $sanitized['max_file_size'] = $max_mb * 1048576;
-        } else {
-            $sanitized['max_file_size'] = 5 * 1048576;
-        }
-        $sanitized['max_width'] = isset($input['max_width']) ? absint($input['max_width']) : 1000;
-        $sanitized['max_height'] = isset($input['max_height']) ? absint($input['max_height']) : 1000;
-        $sanitized['thumbnail_size'] = isset($input['thumbnail_size']) ? sanitize_text_field($input['thumbnail_size']) : 'thumbnail';
-        return $sanitized;
-    }
-
     public function admin_enqueue_scripts($hook) {
         // 未启用功能时不加载脚本。
         if (!$this->options['enabled']) {
@@ -688,28 +646,11 @@ class Tailwindscore_Review_Images_Admin {
     }
 
     /**
-     * 获取支持的国家列表。
+     * 获取支持的国家列表（委托 Frontend 的唯一数据源，避免两处各维护一份易漂移的列表）。
      * @return array 国家代码 => 名称。
      */
     public function get_country_list() {
-        return array(
-            'US' => __('United States', 'tailwindscore'),
-            'CA' => __('Canada', 'tailwindscore'),
-            'GB' => __('United Kingdom', 'tailwindscore'),
-            'AU' => __('Australia', 'tailwindscore'),
-            'CN' => __('China', 'tailwindscore'),
-            'JP' => __('Japan', 'tailwindscore'),
-            'KR' => __('South Korea', 'tailwindscore'),
-            'SG' => __('Singapore', 'tailwindscore'),
-            'DE' => __('Germany', 'tailwindscore'),
-            'FR' => __('France', 'tailwindscore'),
-            'ES' => __('Spain', 'tailwindscore'),
-            'IT' => __('Italy', 'tailwindscore'),
-            'BR' => __('Brazil', 'tailwindscore'),
-            'MX' => __('Mexico', 'tailwindscore'),
-            'IN' => __('India', 'tailwindscore'),
-            'RU' => __('Russia', 'tailwindscore'),
-        );
+        return Tailwindscore_Review_Images_Frontend::get_supported_countries();
     }
     
     /**
