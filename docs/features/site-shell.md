@@ -33,7 +33,7 @@
 - **1 条**：静态输出
 - **≥2 条**：`src/ts/site/header-bar.ts` 初始化垂直 Swiper（`rewind`）；`prefers-reduced-motion` 时关闭 autoplay
 - 链接缺 label 时前台 fallback：`Learn more`
-- **迁移**：若尚无有效 `header_bar_items`、但 theme_mods 中仍有旧 `header_bar_text`（及可选 `link_*`），`after_setup_theme` 一次性写入为 repeater 第一条；读取层仍保留 legacy fallback
+- 旧版单条 `header_bar_text` 迁移桥接已于 2026-08-06 移除（生产已确认无依赖）；`header_bar_items` 为唯一数据源，尚未设置时回退默认一条
 
 ## 响应式行为
 

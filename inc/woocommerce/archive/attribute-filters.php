@@ -171,13 +171,6 @@ function tailwindscore_archive_category_url( string $term_url ): string {
 }
 
 /**
- * @deprecated 使用 tailwindscore_archive_category_url()；分类不再附带属性筛选。
- */
-function tailwindscore_archive_category_url_with_filters( string $term_url ): string {
-	return tailwindscore_archive_category_url( $term_url );
-}
-
-/**
  * 属性 chip URL：All 传空 slug 清除该维；具体 term 始终写入该 slug（激活态不反转为清除）。
  * 点已选项清除由前端导航到同组 All 链接完成。
  */

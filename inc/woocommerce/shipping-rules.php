@@ -242,27 +242,6 @@ function tailwindscore_cart_subtotal_for_free_shipping( WC_Shipping_Free_Shippin
 }
 
 /**
- * 折后购物车小计（兼容旧调用；新逻辑请用 tailwindscore_cart_subtotal_for_free_shipping）。
- *
- * @deprecated 使用 tailwindscore_cart_subtotal_for_free_shipping()
- */
-function tailwindscore_cart_discounted_subtotal(): float {
-	if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
-		return 0.0;
-	}
-
-	$cart  = WC()->cart;
-	$total = (float) $cart->get_displayed_subtotal();
-	$total -= (float) $cart->get_discount_total();
-
-	if ( $cart->display_prices_including_tax() ) {
-		$total -= (float) $cart->get_discount_tax();
-	}
-
-	return (float) wc_format_decimal( $total, wc_get_price_decimals() );
-}
-
-/**
  * 购物车小计是否达到参考免运的 Minimum order amount。
  *
  * @param array<string, mixed> $package

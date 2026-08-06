@@ -5,7 +5,8 @@
 **审计日期：** 2026-08-06  
 **Phase 0 状态：** Done（本文件）  
 **Phase 1 状态：** Done（2026-08-06）  
-**下一闸门：** 手测 Phase 1 清单后，再单独开 Phase 2；**禁止**自动连跑多阶段。
+**Phase 2 状态：** Done（2026-08-06）  
+**下一闸门：** 手测 Phase 2 清单后，再单独开 Phase 3；**禁止**自动连跑多阶段。
 
 ## 原则
 
@@ -32,9 +33,10 @@
 |---|-----|------|------|------|-------|-------------|
 | 1 | `escapeHtml` 六处副本 | 重复 | 中 | 低 | 1 | `cart/index.ts`、`cart/notifications.ts`、`gallery-photoswipe.ts`、`review-lightbox.ts`、`size-guide.ts`、`search/ajax-live.ts`（后者用 `&#39;`，其余 `&#039;`，抽取时统一） |
 | 2 | Swiper `parseSlideCount` / `parseGap` 双份 | 重复 | 中 | 低 | 1 | `shop/product-carousel.ts`、`home/hero-carousel.ts`；已有 `src/ts/swiper/wrap-navigation.ts` |
-| 3 | 可删 `@deprecated` 无调用方 | 遗留 | 中 | 低 | 2 | `tailwindscore_cart_discounted_subtotal()`（仅定义）；`tailwindscore_archive_category_url_with_filters()`（仅包装新函数） |
-| 4 | Header bar legacy fallback / migrator | 遗留 | 低–中 | 低–中 | 2 | `inc/navigation/header-bar.php`；文档见 [site-shell](../features/site-shell.md)。**生产确认无旧 `header_bar_text` 依赖后再删 fallback** |
-| 5 | 购物车「全局分类 ID」已废弃 | 遗留 | 低 | 低 | 2 | 文档已标废弃（[product-carousel](../features/product-carousel.md)）；Kirki 侧已无该字段时仅核对 DB/theme_mod 脏键，勿误伤瀑布逻辑 |
+| 3 | 可删 `@deprecated` 无调用方 | 遗留 | 中 | 低 | 2 | **已删除**（2026-08-06）：`tailwindscore_cart_discounted_subtotal()`（`shipping-rules.php`）、`tailwindscore_archive_category_url_with_filters()`（`archive/attribute-filters.php`）；主题内确认零调用方，`php -l` 通过 |
+| 4 | Header bar legacy fallback / migrator | 遗留 | 低–中 | 低–中 | 2 | **已删除**（2026-08-06，用户确认生产无依赖）：`tailwindscore_header_bar_legacy_items()`、`tailwindscore_header_bar_maybe_migrate_legacy()` 及其 `add_action`；`header_bar_items` 为唯一数据源。同步更新 [site-shell.md](../features/site-shell.md) |
+| 4b | Mega menu 一次性清理 | 遗留 | 低 | 低 | 2 | `inc/navigation/nav.php` `tailwindscore_maybe_delete_legacy_mega_menu_option()`；已用 `tailwindscore_legacy_mega_option_removed` 自我加锁，成本极低，**保留**（无需在本阶段删除该清理函数本身） |
+| 5 | 购物车「全局分类 ID」已废弃 | 遗留 | 低 | 低 | 2 | **已核实**：`cart-product-suggestions.php` 与 Kirki 注册均无该字段；代码侧已完全干净，文档「已废弃」为历史记录，无需进一步动作 |
 | 6 | `cart/index.ts` 上帝文件 | 过大 | 高 | 中 | 3 | Store API + HTML 渲染 + 优惠券 + 免运进度 + 绑定；导出：`refreshCart`、`addCartItem`、re-export `notify` |
 | 7 | Modal / dialog 开闭散落 | 重复模式 | 中 | 中 | 4 | **原生 `<dialog>`**：`size-guide.ts`、`review-lightbox.ts`；**`hidden` + body class**：`login-modal.ts`、`item-edit-modal.ts`、`quick-view.ts`、`review-form-modal.ts` 等。抽薄辅助，不改 markup 语义 |
 | 8 | `inc/not-found.php` ~568 行 | 过大（组织） | 低–中 | 低 | 5 | Kirki + 插图 + 分类 repeater + 人气商品；仅拆文件 |
@@ -81,11 +83,11 @@ Phase 0 (Audit_Doc) → 1 SharedUtils → 2 LegacyPrune → 3 CartSplit
 
 | 项 | 内容 |
 |----|------|
-| 可立即评估删除 | `tailwindscore_cart_discounted_subtotal`、`tailwindscore_archive_category_url_with_filters`（主题内无引用） |
-| 需生产确认后删 | header_bar `header_bar_text` fallback / migrator；mega menu one-shot option 清理是否已完成 |
-| 保留 | size-guide `legacyHtml` 路径（内容未迁完前）；mailnest 表单 legacy nonce 字段 |
-| 手测 | 受影响 Customizer 读写；header bar 有/无 items；商店分类链接；免运进度仍正确 |
-| 进度 | **Pending** |
+| 已删除 | `tailwindscore_cart_discounted_subtotal`、`tailwindscore_archive_category_url_with_filters`（主题内无引用，`php -l` 通过）；header_bar `header_bar_text` legacy fallback + 一次性 migrator（用户确认生产无依赖后删除） |
+| 已核实无需动作 | mega menu one-shot 清理函数自带加锁，成本低，保留；购物车全局分类 ID 代码侧已干净 |
+| 保留（禁区内） | size-guide `legacyHtml` 路径（内容未迁完前）；mailnest 表单 legacy nonce 字段 |
+| 手测 | 商店分类链接（`tailwindscore_archive_category_url` 未受影响）；免运进度条金额计算仍正确；Header bar：设置多条 repeater 消息 / 仅一条 / 未配置时的默认文案，均正常渲染与轮播 |
+| 进度 | **Done** |
 
 ### Phase 3 — 拆分 `cart/index.ts`（中风险）
 
@@ -138,7 +140,7 @@ Phase 0 (Audit_Doc) → 1 SharedUtils → 2 LegacyPrune → 3 CartSplit
 |-------|------|------|
 | 0 审计文档 | Done | 2026-08-06 |
 | 1 共享 util | Done | 2026-08-06；`escape-html.ts` + `swiper/parse.ts` |
-| 2 遗留修剪 | Pending | |
+| 2 遗留修剪 | Done | 2026-08-06；已删 2 个死函数 + header_bar legacy fallback/migrator |
 | 3 Cart 拆分 | Pending | |
 | 4 Dialog 辅助 | Pending | |
 | 5 组织拆分 | Pending | |

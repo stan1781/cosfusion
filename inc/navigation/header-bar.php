@@ -107,34 +107,7 @@ function tailwindscore_header_bar_normalize_items( $raw ): array {
 }
 
 /**
- * 从旧单条 theme_mod 拼一条公告（仅当 mods 中存在旧 key 时）。
- *
- * @return array<int, array{text: string, link_url: string, link_label: string}>
- */
-function tailwindscore_header_bar_legacy_items(): array {
-	$mods = get_theme_mods();
-
-	if ( ! is_array( $mods ) || ! array_key_exists( 'header_bar_text', $mods ) ) {
-		return array();
-	}
-
-	$text = trim( (string) $mods['header_bar_text'] );
-
-	if ( '' === $text ) {
-		return array();
-	}
-
-	return array(
-		array(
-			'text'       => $text,
-			'link_url'   => trim( (string) ( $mods['header_bar_link_url'] ?? '' ) ),
-			'link_label' => trim( (string) ( $mods['header_bar_link_label'] ?? '' ) ),
-		),
-	);
-}
-
-/**
- * 过滤后的公告条目（跳过空文案；空 items 时回退旧字段或默认一条）。
+ * 过滤后的公告条目（跳过空文案；尚未设置 items 时回退默认一条）。
  *
  * @return array<int, array{text: string, link_url: string, link_label: string}>
  */
@@ -143,24 +116,10 @@ function tailwindscore_header_bar_items(): array {
 	$has_items_key = is_array( $mods ) && array_key_exists( 'header_bar_items', $mods );
 
 	if ( $has_items_key ) {
-		$items = tailwindscore_header_bar_normalize_items( $mods['header_bar_items'] );
-
-		if ( array() !== $items ) {
-			return $items;
-		}
+		return tailwindscore_header_bar_normalize_items( $mods['header_bar_items'] );
 	}
 
-	$legacy = tailwindscore_header_bar_legacy_items();
-
-	if ( array() !== $legacy ) {
-		return $legacy;
-	}
-
-	if ( ! $has_items_key ) {
-		return tailwindscore_header_bar_items_default();
-	}
-
-	return array();
+	return tailwindscore_header_bar_items_default();
 }
 
 /**
@@ -208,34 +167,6 @@ function tailwindscore_render_header_bar_message( array $item ): void {
 	</p>
 	<?php
 }
-
-/**
- * 一次性：将旧单条文案写入 header_bar_items（仅当尚无有效 items）。
- */
-function tailwindscore_header_bar_maybe_migrate_legacy(): void {
-	$mods = get_theme_mods();
-
-	if ( ! is_array( $mods ) ) {
-		return;
-	}
-
-	if ( array_key_exists( 'header_bar_items', $mods ) ) {
-		$existing = tailwindscore_header_bar_normalize_items( $mods['header_bar_items'] );
-
-		if ( array() !== $existing ) {
-			return;
-		}
-	}
-
-	$legacy = tailwindscore_header_bar_legacy_items();
-
-	if ( array() === $legacy ) {
-		return;
-	}
-
-	set_theme_mod( 'header_bar_items', $legacy );
-}
-add_action( 'after_setup_theme', 'tailwindscore_header_bar_maybe_migrate_legacy', 20 );
 
 /**
  * @param string                $cfg     Kirki 配置 ID。
