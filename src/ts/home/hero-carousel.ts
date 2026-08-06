@@ -6,32 +6,13 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 import { TS_BREAKPOINT_MD_REM } from '../breakpoints';
+import { parseGap, parseSlideCount } from '../swiper/parse';
 import { bindSwiperWrapNavigation } from '../swiper/wrap-navigation';
 
 const DEFAULT_COLUMNS = 1;
 const DEFAULT_GAP = 0;
 const DEFAULT_AUTOPLAY_DELAY = 5000;
 const MD_BREAKPOINT_PX = TS_BREAKPOINT_MD_REM * 16;
-
-function parseSlideCount(value: string | undefined, fallback: number): number {
-	const parsed = Number.parseFloat(value ?? '');
-
-	if (Number.isNaN(parsed)) {
-		return fallback;
-	}
-
-	return Math.max(1, Math.min(4, Math.round(parsed * 2) / 2));
-}
-
-function parseGap(value: string | undefined): number {
-	const parsed = Number.parseInt(value ?? '', 10);
-
-	if (Number.isNaN(parsed)) {
-		return DEFAULT_GAP;
-	}
-
-	return Math.max(0, Math.min(48, parsed));
-}
 
 function parseDelay(value: string | undefined): number {
 	const parsed = Number.parseInt(value ?? '', 10);
@@ -60,9 +41,9 @@ function initHeroCarousel(section: HTMLElement): void {
 	}
 
 	const slideCount = slides.length;
-	const slidesMobile = parseSlideCount(section.dataset.tsColumnsMobile, DEFAULT_COLUMNS);
-	const slidesDesktop = parseSlideCount(section.dataset.tsColumnsDesktop, DEFAULT_COLUMNS);
-	const spaceBetween = parseGap(section.dataset.tsGap);
+	const slidesMobile = parseSlideCount(section.dataset.tsColumnsMobile, DEFAULT_COLUMNS, 4);
+	const slidesDesktop = parseSlideCount(section.dataset.tsColumnsDesktop, DEFAULT_COLUMNS, 4);
+	const spaceBetween = parseGap(section.dataset.tsGap, DEFAULT_GAP);
 	const autoplayEnabled = section.dataset.tsAutoplay === '1';
 	const autoplayDelay = parseDelay(section.dataset.tsAutoplayDelay);
 

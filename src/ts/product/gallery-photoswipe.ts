@@ -1,4 +1,5 @@
 import type { GalleryImage } from './types';
+import { escapeHtml } from '../utils/escape-html';
 
 import '../../scss/vendor/_photoswipe.scss';
 
@@ -174,14 +175,6 @@ function buildCaptionHtml(meta: GalleryLightboxMeta | undefined): string {
 	}
 
 	return parts.join('');
-}
-
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/"/g, '&quot;');
 }
 
 function applyCaptionToItems(items: PhotoSwipeItem[], captionHtml: string): PhotoSwipeItem[] {

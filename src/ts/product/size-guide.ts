@@ -3,6 +3,7 @@
  */
 
 import type { SizeGuideConfig, SizeGuideRow, SizeGuideTable } from './types';
+import { escapeHtml } from '../utils/escape-html';
 
 const CM_PER_INCH = 2.54;
 
@@ -90,12 +91,6 @@ function renderInlineRow(row: SizeGuideRow, table: SizeGuideTable, unit: 'cm' | 
 		html += `<span class="size-guide-inline__unit">(${escapeHtml(unit)})</span>`;
 	}
 	return html;
-}
-
-function escapeHtml(s: string): string {
-	const div = document.createElement('div');
-	div.textContent = s;
-	return div.innerHTML;
 }
 
 function escapeAttr(s: string): string {

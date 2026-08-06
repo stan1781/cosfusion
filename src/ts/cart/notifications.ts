@@ -1,3 +1,5 @@
+import { escapeHtml } from '../utils/escape-html';
+
 export type NotificationSurface = 'toast' | 'inline' | 'drawer' | 'page';
 
 export type NotificationType = 'success' | 'info' | 'warning' | 'error';
@@ -60,15 +62,6 @@ function resolveTarget(surface: NotificationSurface, context?: string) {
 
 function renderInlineMessage(notification: PurchaseFlowNotification) {
 	return `<p class="cart-feedback__message cart-feedback__message--${notification.type}">${escapeHtml(notification.message)}</p>`;
-}
-
-function escapeHtml(value: string) {
-	return value
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/"/g, '&quot;')
-		.replace(/'/g, '&#039;');
 }
 
 /** Decode entities from WooCommerce / Store API messages before re-escaping for display. */

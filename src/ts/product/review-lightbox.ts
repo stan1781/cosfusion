@@ -6,6 +6,7 @@ import type { TailwindscoreReviewImagesI18n } from './types';
 import 'swiper/css';
 
 import { bindSwiperWrapNavigation } from '../swiper/wrap-navigation';
+import { escapeHtml } from '../utils/escape-html';
 
 export interface ReviewLightboxImage {
 	full: string;
@@ -59,15 +60,6 @@ function renderOverlayCloseButton(label: string, closeIcon: string): string {
 		: '<span class="icon" aria-hidden="true">×</span>';
 
 	return `<button type="button" class="btn-close review-lightbox__close" data-action="close" aria-label="${escapeHtml(label)}">${iconMarkup}<span class="screen-reader-text">${escapeHtml(label)}</span></button>`;
-}
-
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/"/g, '&quot;')
-		.replace(/'/g, '&#039;');
 }
 
 function renderStarRatingHtml(rating: number): string {

@@ -6,6 +6,7 @@ import {
 	syncCouponApplyButtonForInput,
 } from '../ui/coupon-form';
 import { initProductCarousels } from '../shop/product-carousel';
+import { escapeHtml } from '../utils/escape-html';
 
 export { notify } from './notifications';
 
@@ -220,15 +221,6 @@ let storeApiNonceFreshAt = 0;
 /** Trust page-injected nonce for a short window; 403 still retries with a fresh GET. */
 const STORE_API_NONCE_TTL_MS = 60_000;
 let lastCartSyncAt = 0;
-
-function escapeHtml(value: string) {
-	return value
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/"/g, '&quot;')
-		.replace(/'/g, '&#039;');
-}
 
 function getCartConfig() {
 	if (window.tailwindscoreCart) {

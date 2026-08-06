@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 import { TS_BREAKPOINT_MD_REM, TS_BREAKPOINT_XL_REM } from '../breakpoints';
+import { parseGap, parseSlideCount } from '../swiper/parse';
 import { bindSwiperWrapNavigation } from '../swiper/wrap-navigation';
 
 const DEFAULT_COLUMNS_MOBILE = 2.5;
@@ -14,26 +15,6 @@ const DEFAULT_COLUMNS_DESKTOP = 4;
 const DEFAULT_GAP = 16;
 const MD_BREAKPOINT_PX = TS_BREAKPOINT_MD_REM * 16;
 const XL_BREAKPOINT_PX = TS_BREAKPOINT_XL_REM * 16;
-
-function parseSlideCount(value: string | undefined, fallback: number): number {
-	const parsed = Number.parseFloat(value ?? '');
-
-	if (Number.isNaN(parsed)) {
-		return fallback;
-	}
-
-	return Math.max(1, Math.min(6, Math.round(parsed * 2) / 2));
-}
-
-function parseGap(value: string | undefined): number {
-	const parsed = Number.parseInt(value ?? '', 10);
-
-	if (Number.isNaN(parsed)) {
-		return DEFAULT_GAP;
-	}
-
-	return Math.max(0, Math.min(48, parsed));
-}
 
 function unwrapProductsList(root: HTMLElement, list: HTMLElement): void {
 	const parent = list.parentElement;
@@ -86,7 +67,7 @@ function initProductCarousel(section: HTMLElement): void {
 		wideRaw !== undefined && wideRaw !== ''
 			? parseSlideCount(wideRaw, slidesDesktop)
 			: null;
-	const spaceBetween = parseGap(section.dataset.tsGap);
+	const spaceBetween = parseGap(section.dataset.tsGap, DEFAULT_GAP);
 	const slideCount = items.length;
 
 	const mountSwiper = (): void => {

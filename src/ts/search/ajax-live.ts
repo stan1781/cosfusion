@@ -1,3 +1,5 @@
+import { escapeHtml } from '../utils/escape-html';
+
 type SearchItem = {
 	id: number;
 	title: string;
@@ -64,15 +66,6 @@ function rememberCachedResult(query: string, payload: SearchPayload): void {
 
 function getCachedResult(query: string): SearchPayload | undefined {
 	return resultCache.get(query);
-}
-
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/"/g, '&quot;')
-		.replace(/'/g, '&#39;');
 }
 
 function getField(form: HTMLFormElement): HTMLInputElement | null {
