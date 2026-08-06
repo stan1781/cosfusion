@@ -1,13 +1,16 @@
 # 冗余精简与逻辑优化路线图
 
-本文档是 TailwindScore **去重 / 精简 / 文件职责拆分** 的正式路线图（与 [Starcore 升级评估](starcore-upgrades.md) 分开：后者是能力移植，本表是存量清理）。
+本文档是 TailwindScore **去重 / 精简 / 冗余逻辑复核** 的正式路线图（与 [Starcore 升级评估](starcore-upgrades.md) 分开：后者是能力移植，本表是存量清理）。
+
+**范围收窄（2026-08-06，用户决定）：** 后续阶段**不再做文件拆分 / 组织重构**，仅检查并处理冗余代码与冗余逻辑；原 Phase 5「组织拆分」已相应改为「大文件冗余复核（不拆分）」。
 
 **审计日期：** 2026-08-06  
 **Phase 0 状态：** Done（本文件）  
 **Phase 1 状态：** Done（2026-08-06）  
 **Phase 2 状态：** Done（2026-08-06）  
 **Phase 3 状态：** Done（2026-08-06；范围调整为不拆文件，见 Phase 3 章节）  
-**下一闸门：** 手测 Phase 3 清单后，再单独开 Phase 4；**禁止**自动连跑多阶段。
+**Phase 4 状态：** Done（2026-08-06）  
+**下一闸门：** 手测 Phase 4 清单后，再单独开 Phase 5；**禁止**自动连跑多阶段。
 
 ## 原则
 
@@ -17,6 +20,7 @@
 4. **一阶一验**：每阶段 `npm run build` + `npm run typecheck`（见 [开发入门](../development/getting-started.md)）+ 该阶手测清单通过后，才开下一阶。
 5. **可独立回滚**：每阶段变更集中、提交边界清晰。
 6. **文档同步**：结构或行为有用户可见变化时，更新对应 `docs/features/` / `docs/modules/`（简体中文）。
+7. **不做文件拆分**（2026-08-06 起）：后续阶段仅检查并处理冗余代码 / 冗余逻辑，不进行文件拆分或目录重组；文件体积过大本身不再作为独立整改项。
 
 ## 规模快照（审计时）
 
@@ -40,8 +44,8 @@
 | 5 | 购物车「全局分类 ID」已废弃 | 遗留 | 低 | 低 | 2 | **已核实**：`cart-product-suggestions.php` 与 Kirki 注册均无该字段；代码侧已完全干净，文档「已废弃」为历史记录，无需进一步动作 |
 | 6 | `cart/index.ts` 上帝文件 | 过大 | 高 | 中 | 3 | Store API + HTML 渲染 + 优惠券 + 免运进度 + 绑定；导出：`refreshCart`、`addCartItem`、re-export `notify` |
 | 7 | Modal / dialog 开闭散落 | 重复模式 | 中 | 中 | 4 | **原生 `<dialog>`**：`size-guide.ts`、`review-lightbox.ts`；**`hidden` + body class**：`login-modal.ts`、`item-edit-modal.ts`、`quick-view.ts`、`review-form-modal.ts` 等。抽薄辅助，不改 markup 语义 |
-| 8 | `inc/not-found.php` ~568 行 | 过大（组织） | 低–中 | 低 | 5 | Kirki + 插图 + 分类 repeater + 人气商品；仅拆文件 |
-| 9 | `review-images` PHP 体积 | 过大（组织） | 中 | 低–中 | 5 | admin 669 / frontend 623 / upload 470 / showcase 330；可选切块，零行为变化 |
+| 8 | `inc/not-found.php` ~568 行 | 过大（观察） | 低 | 低 | 5 | Kirki + 插图 + 分类 repeater + 人气商品；**不拆分**，仅检查内部是否有冗余代码/逻辑 |
+| 9 | `review-images` PHP 体积 | 过大（观察） | 中 | 低 | 5 | admin 669 / frontend 623 / upload 470 / showcase 330；**不拆分**，仅检查各文件内部冗余（如重复的字段渲染 / 校验逻辑） |
 | 10 | 建议引擎边界 | 假冗余 | — | 高若硬合并 | 6 | `product-suggestions.php`（cart/PDP 共享） vs `modules/related-products`（单品页底）；PDP cross-sells 紧凑列表 vs 购物车轮播壳——**有意双轨** |
 | 11 | PhotoSwipe vs 评论灯箱 | 假冗余 | — | 高若统一 | 6 | `gallery-photoswipe.ts` vs `review-lightbox.ts`；无产品决策则保持分离 |
 | 12 | `variations.ts` 仍偏厚 | 过大 | 中 | 中 | 6 或另开 | sticky / URL / display；核心已在 `variation-engine.ts`；QV 侧已薄。非早阶 |
@@ -58,7 +62,7 @@
 
 ```text
 Phase 0 (Audit_Doc) → 1 SharedUtils → 2 LegacyPrune → 3 CartDedup
-  → 4 DialogHelper → 5 OrgSplits → 6 OptionalBoundaries
+  → 4 DialogHelper → 5 LargeFileDedup(不拆分) → 6 OptionalBoundaries
 ```
 
 ### Phase 0 — 审计与路线图
@@ -92,7 +96,7 @@ Phase 0 (Audit_Doc) → 1 SharedUtils → 2 LegacyPrune → 3 CartDedup
 
 ### Phase 3 — `cart/index.ts` 去重与逻辑优化（不拆分文件）（低–中风险）
 
-**范围调整（2026-08-06，用户决定）：** 原计划拆分为 `cart/api.ts` / `cart/render.ts` / `cart/coupons.ts` 等多文件；改为**只做内部去重与优化，保持单文件**，降低本阶段风险与改动面。文件体积过大的结构性拆分问题移至 Phase 6 之后视需要再评估，不在当前路线图强制执行。
+**范围调整（2026-08-06，用户决定）：** 原计划拆分为 `cart/api.ts` / `cart/render.ts` / `cart/coupons.ts` 等多文件；改为**只做内部去重与优化，保持单文件**。此后本路线图**不再对文件体积过大本身做结构性拆分**（见「原则」第 7 条），仅作为观察项记录，不在任何后续阶段强制执行拆分。
 
 | 项 | 内容 |
 |----|------|
@@ -107,17 +111,23 @@ Phase 0 (Audit_Doc) → 1 SharedUtils → 2 LegacyPrune → 3 CartDedup
 
 | 项 | 内容 |
 |----|------|
-| 动作 | 新增薄层 helper（如 `src/ts/ui/dialog.ts`）：覆盖 showModal/close 与 `hidden`+aria 两套模式的公共部分（Esc、return focus、body class 可选） |
-| 约束 | **不改**各 modal 的 HTML 结构与 CSS 类名；逐个接入，可分提交 |
-| 候选接入 | size-guide、review-lightbox、login-modal、item-edit-modal、quick-view、review-form-modal |
-| 手测 | 各 modal 开/关、Esc、焦点返回、与壳层抽屉互斥（登录 modal） |
-| 进度 | **Pending** |
+| 新增 | `src/ts/ui/dialog.ts`：`isHiddenModalOpen`/`showHiddenModal`/`hideHiddenModal`/`restoreFocus`/`bindEscapeToClose`（`hidden`+aria 型公共部分）、`bindBackdropClickToClose`（原生 `<dialog>` 型 backdrop 关闭） |
+| 约束 | **不改**各 modal 的 HTML 结构与 CSS 类名；焦点目标解析、returnFocus 存储时机、Esc 是否 `preventDefault` 等差异化行为**原样保留**在各调用方，未被强行统一 |
+| 已接入 | `login-modal.ts`、`cart/item-edit-modal.ts`、`shop/quick-view.ts`、`product/review-form-modal.ts`（四者的 `hidden`/`aria-hidden`/body class 切换、Esc 绑定、returnFocus 收尾改为调用共享辅助）；`product/size-guide.ts`、`product/review-lightbox.ts`（backdrop 点击关闭改为调用 `bindBackdropClickToClose`） |
+| 顺手统一（用户确认） | quick-view 的 Esc 处理原本未 `preventDefault`（其余三个 `hidden` 型均有），确认无特殊语义依赖后统一为 `preventDefault`；`bindEscapeToClose` 相应简化为无 options 参数 |
+| 验证命令 | `npm run typecheck` && `npm run build`（均通过） |
+| 手测 | 各 modal 开/关、Esc、焦点返回、与壳层抽屉互斥（登录 modal）；size-guide / review-lightbox 点击 backdrop 关闭 |
+| 进度 | **Done**（2026-08-06） |
 
-### Phase 5 — 仅组织拆分（低风险）
+### Phase 5 — 大文件冗余复核（不拆分）（低风险）
+
+**范围调整（2026-08-06，用户决定）：** 原计划拆分 `inc/not-found.php`、`modules/review-images`；改为**只在原文件内检查并处理冗余代码/逻辑，不拆分文件**，与 Phase 3 的调整原则一致。
 
 | 项 | 内容 |
 |----|------|
-| 动作 | 拆 `inc/not-found.php`；可选拆 `modules/review-images` 过大 PHP（按职责文件，不改 hook 优先级与签名） |
+| 范围 | `inc/not-found.php`（~568 行）、`modules/review-images`（admin/frontend/upload/showcase 共 ~2092 行） |
+| 检查方向 | 重复的字段渲染 / sanitize 校验 / Kirki 注册样板；同一文件内或跨这些文件间是否有可提取的重复逻辑；仅在**有证据**时抽取共享函数（同文件内或既有 helper 文件），不新建按职责划分的文件 |
+| 不做 | 按职责拆分为多文件；调整 hook 优先级或函数签名 |
 | 手测 | 404 Hero / 快捷导航 / 人气轮播；评论附图上传与 Showcase |
 | 进度 | **Pending** |
 
@@ -147,8 +157,8 @@ Phase 0 (Audit_Doc) → 1 SharedUtils → 2 LegacyPrune → 3 CartDedup
 | 1 共享 util | Done | 2026-08-06；`escape-html.ts` + `swiper/parse.ts` |
 | 2 遗留修剪 | Done | 2026-08-06；已删 2 个死函数 + header_bar legacy fallback/migrator |
 | 3 Cart 去重优化 | Done | 2026-08-06；范围改为不拆文件（用户决定）；已消除空购物车 markup 重复 + `syncCartUi` 惰性渲染 |
-| 4 Dialog 辅助 | Pending | |
-| 5 组织拆分 | Pending | |
+| 4 Dialog 辅助 | Done | 2026-08-06；新增 `src/ts/ui/dialog.ts`，接入 6 个 modal，保留各自差异化行为 |
+| 5 大文件冗余复核 | Pending | 范围已改为不拆分，仅查冗余（用户决定，2026-08-06） |
 | 6 可选边界 | Pending | 需单独产品/技术评审 |
 
 ## 工作方式

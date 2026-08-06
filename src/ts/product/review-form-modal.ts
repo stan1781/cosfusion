@@ -1,3 +1,5 @@
+import { bindEscapeToClose, hideHiddenModal, isHiddenModalOpen, restoreFocus, showHiddenModal } from '../ui/dialog';
+
 let reviewFormReturnFocus: HTMLElement | null = null;
 
 function getReviewFormModal(): HTMLElement | null {
@@ -5,8 +7,7 @@ function getReviewFormModal(): HTMLElement | null {
 }
 
 export function isReviewFormModalOpen(): boolean {
-	const modal = getReviewFormModal();
-	return modal !== null && !modal.hasAttribute('hidden');
+	return isHiddenModalOpen(getReviewFormModal());
 }
 
 function initReviewFormRating(modal: HTMLElement): void {
@@ -72,9 +73,7 @@ function initReviewFormRating(modal: HTMLElement): void {
 			document.body.appendChild(modal);
 		}
 
-		modal.hidden = false;
-		modal.setAttribute('aria-hidden', 'false');
-		document.body.classList.add('review-form-modal-open');
+		showHiddenModal(modal, 'review-form-modal-open');
 		initReviewFormRating(modal);
 
 	window.requestAnimationFrame(() => {
@@ -90,18 +89,12 @@ function initReviewFormRating(modal: HTMLElement): void {
 export function closeReviewFormModal(): void {
 	const modal = getReviewFormModal();
 
-	if (!modal || modal.hasAttribute('hidden')) {
+	if (!modal || !isHiddenModalOpen(modal)) {
 		return;
 	}
 
-	modal.hidden = true;
-	modal.setAttribute('aria-hidden', 'true');
-	document.body.classList.remove('review-form-modal-open');
-
-	if (reviewFormReturnFocus?.isConnected) {
-		reviewFormReturnFocus.focus();
-	}
-
+	hideHiddenModal(modal, 'review-form-modal-open');
+	restoreFocus(reviewFormReturnFocus);
 	reviewFormReturnFocus = null;
 }
 
@@ -133,10 +126,5 @@ export function initReviewFormModal(): void {
 		}
 	});
 
-	document.addEventListener('keydown', (event) => {
-		if (event.key === 'Escape' && isReviewFormModalOpen()) {
-			event.preventDefault();
-			closeReviewFormModal();
-		}
-	});
+	bindEscapeToClose(isReviewFormModalOpen, closeReviewFormModal);
 }

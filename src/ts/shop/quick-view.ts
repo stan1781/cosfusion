@@ -1,6 +1,7 @@
 import { addCartItem, notify } from '../cart/index';
 import { buildAddToCartRequest } from '../product/add-to-cart-request';
 import { resolveSubmitButton, setButtonsLoading } from '../ui/button-loading';
+import { bindEscapeToClose, hideHiddenModal, isHiddenModalOpen, restoreFocus, showHiddenModal } from '../ui/dialog';
 import { initQuickViewVariations } from './quick-view-variations';
 
 type QuickViewConfig = {
@@ -50,8 +51,7 @@ function getLoadingEl(): HTMLElement | null {
 }
 
 function isOpen(): boolean {
-	const modal = getModal();
-	return modal !== null && !modal.hasAttribute('hidden');
+	return isHiddenModalOpen(getModal());
 }
 
 function setLoading(isLoading: boolean): void {
@@ -74,9 +74,7 @@ function openModal(): void {
 	}
 
 	returnFocusEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-	modal.hidden = false;
-	modal.setAttribute('aria-hidden', 'false');
-	document.body.classList.add('quick-view-modal-open');
+	showHiddenModal(modal, 'quick-view-modal-open');
 
 	const focusTarget =
 		modal.querySelector<HTMLElement>('[data-ts-quick-view-close]') ??
@@ -86,15 +84,13 @@ function openModal(): void {
 
 function closeModal(): void {
 	const modal = getModal();
-	if (!modal || modal.hasAttribute('hidden')) {
+	if (!modal || !isOpen()) {
 		return;
 	}
 
 	loadGeneration += 1;
 
-	modal.hidden = true;
-	modal.setAttribute('aria-hidden', 'true');
-	document.body.classList.remove('quick-view-modal-open');
+	hideHiddenModal(modal, 'quick-view-modal-open');
 
 	const content = getContentEl();
 	if (content) {
@@ -103,10 +99,8 @@ function closeModal(): void {
 
 	setLoading(false);
 
-	if (returnFocusEl) {
-		returnFocusEl.focus();
-		returnFocusEl = null;
-	}
+	restoreFocus(returnFocusEl);
+	returnFocusEl = null;
 }
 
 function readProductId(trigger: HTMLElement): number {
@@ -446,11 +440,7 @@ function initQuickView(): void {
 		}
 	});
 
-	document.addEventListener('keydown', (event) => {
-		if (event.key === 'Escape' && isOpen()) {
-			closeModal();
-		}
-	});
+	bindEscapeToClose(isOpen, closeModal);
 }
 
 initQuickView();

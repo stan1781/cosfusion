@@ -1,4 +1,5 @@
 import { resolveSubmitButton, setControlLoading } from './button-loading';
+import { bindEscapeToClose, hideHiddenModal, isHiddenModalOpen, restoreFocus, showHiddenModal } from './dialog';
 
 let loginModalReturnFocus: HTMLElement | null = null;
 
@@ -7,9 +8,7 @@ export function getLoginModal(): HTMLElement | null {
 }
 
 export function isLoginModalOpen(): boolean {
-	const modal = getLoginModal();
-
-	return modal !== null && !modal.hasAttribute('hidden');
+	return isHiddenModalOpen(getLoginModal());
 }
 
 function closeSiteShellPanels(): void {
@@ -60,9 +59,7 @@ export function openLoginModal(trigger?: HTMLElement): void {
 	loginModalReturnFocus =
 		trigger ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
 
-	modal.hidden = false;
-	modal.setAttribute('aria-hidden', 'false');
-	document.body.classList.add('login-modal-open');
+	showHiddenModal(modal, 'login-modal-open');
 
 	window.requestAnimationFrame(() => {
 		const focusTarget =
@@ -76,18 +73,12 @@ export function openLoginModal(trigger?: HTMLElement): void {
 export function closeLoginModal(): void {
 	const modal = getLoginModal();
 
-	if (!modal || modal.hasAttribute('hidden')) {
+	if (!modal || !isHiddenModalOpen(modal)) {
 		return;
 	}
 
-	modal.hidden = true;
-	modal.setAttribute('aria-hidden', 'true');
-	document.body.classList.remove('login-modal-open');
-
-	if (loginModalReturnFocus?.isConnected) {
-		loginModalReturnFocus.focus();
-	}
-
+	hideHiddenModal(modal, 'login-modal-open');
+	restoreFocus(loginModalReturnFocus);
 	loginModalReturnFocus = null;
 }
 
@@ -113,12 +104,7 @@ function initLoginModal(): void {
 		}
 	});
 
-	document.addEventListener('keydown', (event) => {
-		if (event.key === 'Escape' && isLoginModalOpen()) {
-			event.preventDefault();
-			closeLoginModal();
-		}
-	});
+	bindEscapeToClose(isLoginModalOpen, closeLoginModal);
 
 	document.addEventListener(
 		'submit',

@@ -1,5 +1,6 @@
 import { collectVariationFromUi, initQuickViewVariations } from '../shop/quick-view-variations';
 import { withControlLoading } from '../ui/button-loading';
+import { bindEscapeToClose, hideHiddenModal, isHiddenModalOpen, restoreFocus, showHiddenModal } from '../ui/dialog';
 import { notify } from './notifications';
 import { refreshCart } from './index';
 
@@ -54,8 +55,7 @@ function getLoadingEl(): HTMLElement | null {
 }
 
 function isOpen(): boolean {
-	const modal = getModal();
-	return modal !== null && !modal.hasAttribute('hidden');
+	return isHiddenModalOpen(getModal());
 }
 
 function setLoading(isLoading: boolean): void {
@@ -77,9 +77,7 @@ function openModal(): void {
 		return;
 	}
 
-	modal.hidden = false;
-	modal.setAttribute('aria-hidden', 'false');
-	document.body.classList.add('cart-item-edit-modal-open');
+	showHiddenModal(modal, 'cart-item-edit-modal-open');
 
 	const focusTarget =
 		modal.querySelector<HTMLElement>('[data-ts-cart-item-edit-close]') ??
@@ -89,7 +87,7 @@ function openModal(): void {
 
 function closeModal(): void {
 	const modal = getModal();
-	if (!modal || modal.hasAttribute('hidden')) {
+	if (!modal || !isOpen()) {
 		return;
 	}
 
@@ -98,9 +96,7 @@ function closeModal(): void {
 		pendingAbort = null;
 	}
 
-	modal.hidden = true;
-	modal.setAttribute('aria-hidden', 'true');
-	document.body.classList.remove('cart-item-edit-modal-open');
+	hideHiddenModal(modal, 'cart-item-edit-modal-open');
 
 	const content = getContentEl();
 	if (content) {
@@ -110,10 +106,8 @@ function closeModal(): void {
 	setLoading(false);
 	activeCartItemKey = '';
 
-	if (returnFocusEl) {
-		returnFocusEl.focus();
-		returnFocusEl = null;
-	}
+	restoreFocus(returnFocusEl);
+	returnFocusEl = null;
 }
 
 async function fetchEditForm(cartItemKey: string, signal?: AbortSignal): Promise<string | null> {
@@ -306,14 +300,7 @@ function bindCartItemEditControls(): void {
 		}
 	});
 
-	document.addEventListener('keydown', (event) => {
-		if (event.key !== 'Escape' || !isOpen()) {
-			return;
-		}
-
-		event.preventDefault();
-		closeModal();
-	});
+	bindEscapeToClose(isOpen, closeModal);
 }
 
 bindCartItemEditControls();

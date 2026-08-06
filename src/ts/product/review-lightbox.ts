@@ -7,6 +7,7 @@ import 'swiper/css';
 
 import { bindSwiperWrapNavigation } from '../swiper/wrap-navigation';
 import { escapeHtml } from '../utils/escape-html';
+import { bindBackdropClickToClose } from '../ui/dialog';
 
 export interface ReviewLightboxImage {
 	full: string;
@@ -223,11 +224,7 @@ function buildDialog(
 		}
 
 	dialog.querySelector('[data-action="close"]')?.addEventListener('click', closeReviewLightbox);
-	dialog.addEventListener('click', (event) => {
-		if (event.target === dialog) {
-			closeReviewLightbox();
-		}
-	});
+	bindBackdropClickToClose(dialog, closeReviewLightbox);
 	dialog.addEventListener('cancel', () => {
 		closeReviewLightbox();
 	});

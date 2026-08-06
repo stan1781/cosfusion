@@ -4,6 +4,7 @@
 
 import type { SizeGuideConfig, SizeGuideRow, SizeGuideTable } from './types';
 import { escapeHtml } from '../utils/escape-html';
+import { bindBackdropClickToClose } from '../ui/dialog';
 
 const CM_PER_INCH = 2.54;
 
@@ -162,11 +163,7 @@ function initModal(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inch', setUnit: 
 		btn.addEventListener('click', () => dialog.close());
 	});
 
-	dialog.addEventListener('click', (e) => {
-		if (e.target === dialog) {
-			dialog.close();
-		}
-	});
+	bindBackdropClickToClose(dialog, () => dialog.close());
 
 	updateBody();
 }
