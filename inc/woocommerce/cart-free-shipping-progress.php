@@ -162,7 +162,7 @@ function tailwindscore_cart_free_shipping_progress_kirki_register( string $cfg, 
 			'description'     => esc_html__( '可用占位符：{threshold}（门槛金额）、{remaining}（还差金额）。', 'tailwindscore' ),
 			'section'         => 'tailwindscore_cart_settings',
 			'default'         => 'Spend {threshold} for free shipping — only {remaining} to go!',
-			'priority'        => 30,
+			'priority'        => 21,
 			'active_callback' => static function (): bool {
 				return (bool) tailwindscore_mod( 'cart_drawer_free_shipping_progress_enable', true );
 			},
@@ -178,7 +178,7 @@ function tailwindscore_cart_free_shipping_progress_kirki_register( string $cfg, 
 			'description'     => esc_html__( '可用占位符：{threshold}、{remaining}。', 'tailwindscore' ),
 			'section'         => 'tailwindscore_cart_settings',
 			'default'         => "You've unlocked free shipping!",
-			'priority'        => 40,
+			'priority'        => 22,
 			'active_callback' => static function (): bool {
 				return (bool) tailwindscore_mod( 'cart_drawer_free_shipping_progress_enable', true );
 			},

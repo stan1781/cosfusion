@@ -269,7 +269,7 @@ function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, arr
 			'description' => esc_html__( '仅在购物车页商品行下方显示商品轮播（迷你购物车抽屉中不显示）。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_cart_settings',
 			'default'     => true,
-			'priority'    => 30,
+			'priority'    => 40,
 		)
 	);
 
@@ -284,7 +284,7 @@ function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, arr
 			'active_callback' => static function (): bool {
 				return (bool) tailwindscore_mod( 'cart_product_suggestions_enable', true );
 			},
-			'priority'        => 31,
+			'priority'        => 41,
 		)
 	);
 
@@ -304,7 +304,7 @@ function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, arr
 			'active_callback' => static function (): bool {
 				return (bool) tailwindscore_mod( 'cart_product_suggestions_enable', true );
 			},
-			'priority'        => 32,
+			'priority'        => 42,
 		)
 	);
 
@@ -325,7 +325,7 @@ function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, arr
 			'active_callback' => static function (): bool {
 				return (bool) tailwindscore_mod( 'cart_product_suggestions_enable', true );
 			},
-			'priority'        => 33,
+			'priority'        => 43,
 		)
 	);
 
@@ -345,7 +345,7 @@ function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, arr
 			'active_callback' => static function (): bool {
 				return (bool) tailwindscore_mod( 'cart_product_suggestions_enable', true );
 			},
-			'priority'        => 34,
+			'priority'        => 44,
 		)
 	);
 }

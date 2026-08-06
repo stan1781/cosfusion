@@ -29,14 +29,12 @@
 }
 
 .wc-account-nav__link {
+	font-size: var(--ts-font-size-sm);
 	display: flex;
 	align-items: center;
-	gap: 0.625rem;
-	padding: 0.625rem 0.75rem;
+	gap: var(--ts-spacer-2);
+	padding: var(--ts-spacer-2) var(--ts-spacer-3);
 	border-radius: var(--ts-border-radius-sm);
-	text-decoration: none;
-	color: var(--ts-text-secondary);
-	font-weight: 500;
 	transition: background-color 0.15s ease, color 0.15s ease;
 }
 
