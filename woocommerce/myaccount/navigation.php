@@ -13,12 +13,6 @@ defined( 'ABSPATH' ) || exit;
 $nav_icons        = tailwindscore_account_nav_icons();
 $nav_short_labels = tailwindscore_account_nav_short_labels();
 
-// 从账户导航中移除支付方式
-add_filter( 'woocommerce_account_menu_items', function( $items ) {
-	unset( $items['payment-methods'] );
-	return $items;
-} );
-
 do_action( 'woocommerce_before_account_navigation' );
 ?>
 
@@ -39,6 +33,9 @@ do_action( 'woocommerce_before_account_navigation' );
 					<span class="icon wc-account-nav__icon" aria-hidden="true"><?php echo tailwindscore_icon( $icon ); ?></span>
 					<span class="wc-account-nav__label wc-account-nav__label--full"><?php echo esc_html( $label ); ?></span>
 					<span class="wc-account-nav__label wc-account-nav__label--short" aria-hidden="true"><?php echo esc_html( $short_label ); ?></span>
+					<?php if ( 'wishlist' === $endpoint && function_exists( 'tailwindscore_render_account_wishlist_badge' ) ) : ?>
+						<?php tailwindscore_render_account_wishlist_badge(); ?>
+					<?php endif; ?>
 				</a>
 			</li>
 		<?php endforeach; ?>

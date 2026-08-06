@@ -63,6 +63,7 @@ woocommerce/archive-product.php
 
 - **桌面 `md+`**：`.wc-archive-layout` 约 `3fr / 9fr`；侧栏 sticky（`top` 用 `--ts-site-header-height`，缺省回退 `5rem`）。移动筛选触发与 Drawer 隐藏。
 - **移动端 `< md`**：内联侧栏隐藏；工具栏单行 **筛选图标 + orderby**（隐藏 result count）；筛选为左侧 fixed Drawer（`var(--ts-drawer-width)`，非底部 Sheet）。
+- **商品卡操作区**（`.wc-product-card__actions`）：叠在媒体图上（绝对定位），不占卡片文档流；`< md` 常显，`md+` 悬停/焦点显。右上圆形图标统一样式：简单商品加购（cart）/ 可变品 QV（eye）/ Wishlist（heart）；Woo 可变品 `screen-reader-text` 与未图标化的文字链在此隐藏。
 
 ## PHP
 
@@ -76,4 +77,4 @@ woocommerce/archive-product.php
 ## 不做（本版）
 
 价格区间、Size/鞋码归档筛、网格/紧凑视图、FacetWP / WC 小工具侧栏、移动端底部 Sheet、与 menu/cart Alpine 互斥编排。
-
+

@@ -150,33 +150,3 @@ function tailwindscore_nocache_guest_account_login_pages(): void {
 	nocache_headers();
 }
 add_action( 'template_redirect', 'tailwindscore_nocache_guest_account_login_pages', 0 );
-
-/**
- * WooCommerce 账户菜单 endpoint 图标映射。
- *
- * @return array<string, string>
- */
-function tailwindscore_account_nav_icons(): array {
-	return array(
-		'dashboard'       => 'package',
-		'orders'          => 'package',
-		'edit-address'    => 'map-pin',
-		'edit-account'    => 'user',
-		'customer-logout' => 'log-out',
-	);
-}
-
-/**
- * 账户菜单 endpoint 的短标签。
- *
- * @return array<string, string>
- */
-function tailwindscore_account_nav_short_labels(): array {
-	return array(
-		'dashboard'       => __( 'Orders', 'tailwindscore' ),
-		'orders'          => __( 'Orders', 'tailwindscore' ),
-		'edit-address'    => __( 'Address', 'tailwindscore' ),
-		'edit-account'    => __( 'Profile', 'tailwindscore' ),
-		'customer-logout' => __( 'Log out', 'tailwindscore' ),
-	);
-}

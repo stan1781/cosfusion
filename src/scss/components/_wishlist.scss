@@ -1,0 +1,183 @@
+@use "../abstracts/mixins";
+
+.wishlist-btn {
+	flex-shrink: 0;
+	background: var(--ts-surface);
+	color: var(--ts-text-primary);
+
+	.icon svg {
+		stroke: currentColor;
+		fill: none;
+		transition: fill 0.15s ease, stroke 0.15s ease;
+	}
+
+	&[aria-pressed="true"],
+	&.is-active {
+		color: var(--ts-danger, #c45c5c);
+
+		.icon svg {
+			fill: currentColor;
+			stroke: currentColor;
+		}
+	}
+
+	@media (hover: hover) {
+		&:hover {
+			background: var(--ts-surface-muted);
+		}
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: wait;
+	}
+
+	// 归档叠图图标：背景由 .product-card-action（surface-alt）接管。
+	&.product-card-action {
+		background: var(--ts-surface-alt);
+
+		@media (hover: hover) {
+			&:hover {
+				background: var(--ts-surface-alt);
+			}
+		}
+	}
+}
+
+.wishlist-btn--single {
+	margin-inline-start: var(--ts-spacer-2);
+	vertical-align: middle;
+	border-radius: 50%;
+}
+
+.wishlist-account {
+	display: grid;
+	gap: var(--ts-spacer-4);
+}
+
+.wishlist-account__header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--ts-spacer-2);
+}
+
+.wishlist-account__title {
+	margin: 0;
+	font-size: var(--ts-font-size-xl);
+	font-weight: 600;
+}
+
+.wishlist-account__count {
+	margin: 0;
+	color: var(--ts-text-secondary);
+	font-size: var(--ts-font-size-sm);
+}
+
+.wishlist-account__empty {
+	display: grid;
+	gap: var(--ts-spacer-3);
+	justify-items: start;
+	padding: var(--ts-spacer-6) 0;
+	color: var(--ts-text-secondary);
+}
+
+.wishlist-account__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: var(--ts-spacer-3);
+}
+
+.wishlist-account__item {
+	display: grid;
+	grid-template-columns: 4.5rem 1fr;
+	gap: var(--ts-spacer-2);
+	align-items: center;
+	padding: var(--ts-spacer-2);
+	border: 1px solid var(--ts-border-color);
+	border-radius: var(--ts-border-radius-sm);
+	background: var(--ts-surface);
+
+	@include mixins.ts-up(md) {
+		grid-template-columns: 5rem 1fr auto;
+	}
+}
+
+.wishlist-account__media {
+	width: 4.5rem;
+
+	@include mixins.ts-up(md) {
+		width: 5rem;
+	}
+
+	img {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: var(--ts-border-radius-sm);
+	}
+}
+
+.wishlist-account__info {
+	display: grid;
+	gap: 0.25rem;
+	min-width: 0;
+}
+
+.wishlist-account__name {
+	color: var(--ts-text-primary);
+	text-decoration: none;
+	font-size: var(--ts-font-size-sm);
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: normal;
+
+	@media (hover: hover) {
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+.wishlist-account__price {
+	@include mixins.ts-price-html(var(--ts-font-size-sm), var(--ts-font-size-xs));
+
+	.price {
+		display: contents;
+		margin: 0;
+	}
+}
+
+.wishlist-account__actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--ts-spacer-2);
+	grid-column: 1 / -1;
+
+	@include mixins.ts-up(md) {
+		grid-column: auto;
+		justify-content: flex-end;
+	}
+}
+
+.wishlist-account__remove {
+	width: 2rem;
+	height: 2rem;
+	border-radius: 50%;
+	border-color: var(--ts-border-color);
+	color: var(--ts-text-secondary);
+
+	@media (hover: hover) {
+		&:hover {
+			background: var(--ts-surface-muted);
+			color: var(--ts-text-primary);
+		}
+	}
+}

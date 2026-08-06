@@ -165,6 +165,7 @@ async function loadNext(): Promise<void> {
 
 		replacePagination(mainEl, payload.mainHtml);
 		nextUrl = readNextUrl(mainEl);
+		document.dispatchEvent(new CustomEvent('tailwindscore:archive-updated'));
 
 		if (nextUrl) {
 			prefetchArchiveNav(nextUrl, { preserveFilters: false });

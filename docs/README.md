@@ -34,6 +34,7 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 |------|------|
 | [主题模块](modules/README.md) | `modules/` 目录能力与登记表 |
 | [内容区块](modules/content-blocks.md) | CPT `ts_block` 与 `[block]` |
+| [心愿单](modules/wishlist.md) | 访客收藏、登录合并、Account 列表 |
 | [独立插件整合](integrations/README.md) | 插件逻辑 + 主题前台资源 |
 | [后续升级评估](roadmap/starcore-upgrades.md) | 可从 Starcore 继续移植的非套餐能力 |
 

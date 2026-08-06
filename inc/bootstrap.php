@@ -45,6 +45,7 @@ require_once __DIR__ . '/woocommerce/cart-item-edit.php';
 require_once __DIR__ . '/woocommerce/checkout-layout.php';
 require_once __DIR__ . '/woocommerce/checkout.php';
 require_once __DIR__ . '/woocommerce/account-header.php';
+require_once __DIR__ . '/woocommerce/account-nav.php';
 require_once __DIR__ . '/woocommerce/ajax-search.php';
 require_once __DIR__ . '/woocommerce/checkout-coupon.php';
 require_once __DIR__ . '/woocommerce/reviews.php';
@@ -62,6 +63,7 @@ require_once get_template_directory() . '/modules/related-products/module.php';
 require_once get_template_directory() . '/modules/quick-view/module.php';
 require_once get_template_directory() . '/modules/review-images/module.php';
 require_once get_template_directory() . '/modules/account-auth/module.php';
+require_once get_template_directory() . '/modules/wishlist/module.php';
 require_once get_template_directory() . '/modules/content-blocks/module.php';
 
 require_once __DIR__ . '/integrations/wc-order-process-manager.php';

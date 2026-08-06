@@ -64,6 +64,10 @@
 	}
 }
 
+.wc-account-nav__link .account-menu__badge {
+	margin-inline-start: auto;
+}
+
 // Hero
 .wc-account-hero {
 	display: grid;
@@ -822,13 +826,14 @@ body.confirm-receipt-open {
 	}
 
 	.wc-account-nav__list {
-		grid-template-columns: repeat(4, minmax(0, 1fr));
+		grid-template-columns: repeat(5, minmax(0, 1fr));
 		gap: var(--ts-spacer-1);
 		padding: var(--ts-spacer-2);
 		overflow: visible;
 	}
 
 	.wc-account-nav__link {
+		position: relative;
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-start;
@@ -836,6 +841,18 @@ body.confirm-receipt-open {
 		padding: 0.5rem 0.25rem;
 		text-align: center;
 		white-space: normal;
+	}
+
+	// 数量角标叠在图标右上角（对齐 mobile-tab-bar）。
+	.wc-account-nav__link .account-menu__badge {
+		position: absolute;
+		top: 0.25rem;
+		inset-inline-end: calc(50% - 1.25rem);
+		margin-inline-start: 0;
+		min-width: 1.125rem;
+		height: 1.125rem;
+		padding-inline: 0.25rem;
+		z-index: 1;
 	}
 
 	.wc-account-nav__icon {

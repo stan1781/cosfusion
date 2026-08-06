@@ -306,6 +306,7 @@ async function navigateArchive(url: string, options: NavigateOptions = {}): Prom
 		moveFocusAfterNavigation(mainEl);
 		closeArchiveFiltersMobile();
 		document.dispatchEvent(new CustomEvent('tailwindscore:archive-filters-close'));
+		document.dispatchEvent(new CustomEvent('tailwindscore:archive-updated'));
 	} catch {
 		if (generation !== navigationGeneration) {
 			return;

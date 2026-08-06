@@ -226,6 +226,7 @@ function setVariationId(form: HTMLFormElement, variationId: number): void {
 	const input = form.querySelector<HTMLInputElement>('input.variation_id, input[name="variation_id"]');
 	if (input) {
 		input.value = variationId > 0 ? String(variationId) : '';
+		input.dispatchEvent(new Event('change', { bubbles: true }));
 	}
 }
 

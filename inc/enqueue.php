@@ -75,6 +75,13 @@ function tailwindscore_runtime_config_inline(): string {
 		);
 	}
 
+	if ( isset( $parts['wishlist'] ) ) {
+		$inline .= sprintf(
+			'window.tailwindscoreWishlist = %s;',
+			wp_json_encode( $parts['wishlist'] )
+		);
+	}
+
 	if ( isset( $parts['ajaxSearch'] ) ) {
 		$inline .= sprintf(
 			'window.tailwindscoreAjaxSearch = %s;',

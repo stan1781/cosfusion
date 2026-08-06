@@ -29,7 +29,18 @@ $permalink_label = sprintf(
 			<?php tailwindscore_render_loop_product_images( $product ); ?>
 		</a>
 		<div class="wc-product-card__actions" data-product-card-actions>
-			<?php woocommerce_template_loop_add_to_cart(); ?>
+			<?php
+			// 顺序：Quick View（可变品）在上、心形在下，对齐圆形图标叠放。
+			woocommerce_template_loop_add_to_cart();
+			if ( function_exists( 'tailwindscore_render_wishlist_button' ) ) {
+				tailwindscore_render_wishlist_button(
+					(int) $product->get_id(),
+					array(
+						'class' => 'wishlist-btn wishlist-btn--loop product-card-action product-card-action--wishlist',
+					)
+				);
+			}
+			?>
 		</div>
 	</div>
 	<?php

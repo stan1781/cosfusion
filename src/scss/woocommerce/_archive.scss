@@ -446,8 +446,10 @@ body.archive-filters-drawer-open {
 }
 
 .wc-product-card__media-wrap {
+	position: relative;
 	display: grid;
 	gap: var(--ts-spacer-2);
+	overflow: hidden;
 }
 
 .wc-product-card__media-link {
@@ -741,46 +743,39 @@ body.archive-filters-drawer-open {
 	white-space: nowrap;
 }
 
+// 操作钮叠在图上（absolute），不占卡片文档流；手机端常显，md+ 悬停显。
 .wc-product-card__actions {
+	position: absolute;
+	z-index: 3;
+	inset: 0;
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-wrap: wrap;
-	gap: var(--ts-spacer-1);
-	width: 100%;
-}
-
-.wc-product-card__actions .button,
-.wc-product-card__actions a.button {
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: flex-start;
+	flex-wrap: nowrap;
+	gap: var(--ts-spacer-2);
 	width: auto;
-	min-height: unset;
-	padding: var(--ts-spacer-1) var(--ts-spacer-2);
-	font-size: var(--ts-font-size-xs);
-	line-height: 1.25;
+	height: auto;
+	padding: var(--ts-spacer-2);
+	pointer-events: none;
+
+	> * {
+		pointer-events: auto;
+	}
+
+	// Woo loop ATC 的 aria-describedby 文案；图标钮已有 aria-label。
+	.screen-reader-text {
+		display: none;
+	}
 }
 
 @include mixins.ts-up(md) {
 	@media (hover: hover) {
-		.wc-product-card__media-wrap {
-			position: relative;
-			overflow: hidden;
-		}
-
 		.wc-product-card__actions {
-			position: absolute;
-			z-index: 3;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			justify-content: center;
-			padding: var(--ts-spacer-2);
 			opacity: 0;
 			visibility: hidden;
-			pointer-events: none;
-			transform: translateY(100%);
 			transition:
 				opacity 0.2s ease,
-				transform 0.2s ease,
 				visibility 0.2s ease;
 		}
 
@@ -788,10 +783,76 @@ body.archive-filters-drawer-open {
 		.wc-product-card:focus-within .wc-product-card__media-wrap .wc-product-card__actions {
 			opacity: 1;
 			visibility: visible;
-			pointer-events: auto;
-			transform: translateY(0);
 		}
 	}
+}
+
+// 归档圆形操作钮：加购 / QV / Wishlist 同一套（surface-alt；压过 Woo .button 黑底白字）。
+.woocommerce .wc-product-card__actions .product-card-action,
+.woocommerce .wc-product-card__actions a.button.product-card-action {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 2.5rem;
+	height: 2.5rem;
+	min-width: 2.5rem;
+	min-height: 2.5rem;
+	padding: 0;
+	border: none;
+	border-radius: 50%;
+	background: var(--ts-surface-alt);
+	color: var(--ts-text-primary);
+	box-shadow: 0 1px 3px color-mix(in srgb, var(--ts-text-primary) 12%, transparent);
+	text-decoration: none;
+	line-height: 1;
+	font-size: 0;
+	cursor: pointer;
+
+	.icon {
+		width: 1.25rem;
+		height: 1.25rem;
+	}
+
+	.icon svg {
+		width: 100%;
+		height: 100%;
+		stroke: currentColor;
+		fill: none;
+	}
+
+	@media (hover: hover) {
+		&:hover,
+		&:not(:disabled):not(.disabled):hover {
+			background: var(--ts-surface-alt);
+			color: var(--ts-text-primary);
+			box-shadow: 0 2px 6px color-mix(in srgb, var(--ts-text-primary) 18%, transparent);
+		}
+	}
+
+	&:focus,
+	&:focus-visible,
+	&.loading,
+	&.added {
+		background: var(--ts-surface-alt);
+		color: var(--ts-text-primary);
+	}
+}
+
+.wc-product-card__actions .wishlist-btn--loop[aria-pressed="true"],
+.wc-product-card__actions .wishlist-btn--loop.is-active {
+	color: var(--ts-danger, #c45c5c);
+
+	.icon svg {
+		fill: currentColor;
+		stroke: currentColor;
+	}
+}
+
+// 未换成圆形图标的文字链（可变品兜底 / 外部商品等）隐藏，避免占位。
+.wc-product-card__actions a.button:not(.product-card-action) {
+	display: none;
 }
 
 .wc-archive__pagination {

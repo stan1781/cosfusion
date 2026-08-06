@@ -117,28 +117,29 @@ class Tailwindscore_Quick_View_Settings {
 	 */
 	public static function is_target_page(): bool {
 		$target_pages = self::get_target_pages();
+		$matched      = false;
 
 		if ( in_array( 'shop_archive', $target_pages, true ) && ( is_shop() || is_product_category() || is_product_tag() ) ) {
-			return true;
+			$matched = true;
 		}
 
-		if ( in_array( 'single_product', $target_pages, true ) && function_exists( 'is_product' ) && is_product() ) {
-			return true;
+		if ( ! $matched && in_array( 'single_product', $target_pages, true ) && function_exists( 'is_product' ) && is_product() ) {
+			$matched = true;
 		}
 
-		if ( in_array( 'homepage', $target_pages, true ) && self::is_homepage_context() ) {
-			return true;
+		if ( ! $matched && in_array( 'homepage', $target_pages, true ) && self::is_homepage_context() ) {
+			$matched = true;
 		}
 
-		if ( in_array( 'cart', $target_pages, true ) && function_exists( 'is_cart' ) && is_cart() ) {
-			return true;
+		if ( ! $matched && in_array( 'cart', $target_pages, true ) && function_exists( 'is_cart' ) && is_cart() ) {
+			$matched = true;
 		}
 
-		if ( in_array( 'not_found', $target_pages, true ) && is_404() ) {
-			return true;
+		if ( ! $matched && in_array( 'not_found', $target_pages, true ) && is_404() ) {
+			$matched = true;
 		}
 
-		return false;
+		return (bool) apply_filters( 'tailwindscore_quick_view_is_target_page', $matched );
 	}
 
 	/**

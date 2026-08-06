@@ -5,12 +5,6 @@ defined( 'ABSPATH' ) || exit;
 
 $nav_icons        = tailwindscore_account_nav_icons();
 $nav_short_labels = tailwindscore_account_nav_short_labels();
-
-// 从账户菜单下拉中移除支付方式
-add_filter( 'woocommerce_account_menu_items', function( $items ) {
-	unset( $items['payment-methods'] );
-	return $items;
-} );
 ?>
 <div
 	id="ts-account-menu-panel"
@@ -37,6 +31,8 @@ add_filter( 'woocommerce_account_menu_items', function( $items ) {
 					<span class="account-menu__label"><?php echo esc_html( $short_label ); ?></span>
 					<?php if ( 'dashboard' === $endpoint || 'orders' === $endpoint ) : ?>
 						<?php tailwindscore_render_account_order_badge(); ?>
+					<?php elseif ( 'wishlist' === $endpoint && function_exists( 'tailwindscore_render_account_wishlist_badge' ) ) : ?>
+						<?php tailwindscore_render_account_wishlist_badge(); ?>
 					<?php endif; ?>
 				</a>
 			</li>

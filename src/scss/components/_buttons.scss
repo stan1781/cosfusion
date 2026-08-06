@@ -153,3 +153,28 @@ a[role="button"].is-loading::after,
 	width: var(--ts-font-size-sm);
 	height: var(--ts-font-size-sm);
 }
+
+// 图标按钮：隐藏图标，居中显示 spinner（文案按钮走上方 :not(.btn-icon) 规则）。
+.btn-icon.is-loading,
+.btn-icon.loading {
+	pointer-events: none;
+	cursor: wait;
+
+	.icon {
+		visibility: hidden;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		width: 1rem;
+		height: 1rem;
+		margin: auto;
+		border: 2px solid transparent;
+		border-top-color: currentColor;
+		border-inline-end-color: currentColor;
+		border-radius: 50%;
+		@include mixins.ts-animation-spin;
+	}
+}

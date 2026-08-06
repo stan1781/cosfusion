@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * 归档商品卡片：徽章、评分、主副图。
+ * 归档商品卡片：徽章、评分、主副图、简单商品圆形加购图标。
  *
  * @package TailwindScore
  */
@@ -171,3 +171,38 @@ function tailwindscore_render_loop_product_images( WC_Product $product ): void {
 
 	echo '</div>';
 }
+
+/**
+ * 归档卡片：简单商品加购改为圆形购物车图标（与 QV / Wishlist 一致）。
+ *
+ * @param string               $html    加购链接 HTML。
+ * @param WC_Product|mixed     $product 商品。
+ * @param array<string, mixed> $args    循环参数。
+ * @return string
+ */
+function tailwindscore_filter_loop_add_to_cart_icon( string $html, $product, array $args ): string {
+	if ( ! $product instanceof WC_Product || ! $product->is_type( 'simple' ) ) {
+		return $html;
+	}
+
+	if ( ! $product->is_purchasable() || ! $product->is_in_stock() || ! $product->supports( 'ajax_add_to_cart' ) ) {
+		return $html;
+	}
+
+	$quantity = isset( $args['quantity'] ) ? $args['quantity'] : 1;
+	$label    = $product->add_to_cart_description();
+	$icon     = function_exists( 'tailwindscore_icon' ) ? tailwindscore_icon( 'cart' ) : '';
+
+	// Icon SVG 来自主题 map，信任输出。
+	return sprintf(
+		'<a href="%1$s" data-quantity="%2$s" class="%3$s" data-product_id="%4$s" data-product_sku="%5$s" aria-label="%6$s" rel="nofollow"><span class="icon" aria-hidden="true">%7$s</span></a>',
+		esc_url( $product->add_to_cart_url() ),
+		esc_attr( (string) $quantity ),
+		esc_attr( 'btn-icon product-card-action product-card-action--add-to-cart button product_type_simple add_to_cart_button ajax_add_to_cart' ),
+		esc_attr( (string) $product->get_id() ),
+		esc_attr( $product->get_sku() ),
+		esc_attr( $label ),
+		$icon
+	);
+}
+add_filter( 'woocommerce_loop_add_to_cart_link', 'tailwindscore_filter_loop_add_to_cart_icon', 15, 3 );

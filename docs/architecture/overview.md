@@ -75,6 +75,7 @@ tailwindscore/
 | `window.tailwindscoreProduct` | 单品页：图库、变体、Size Guide |
 | `window.tailwindscoreQuickView` | 归档页 Quick View |
 | `window.tailwindscoreAccountAuth` | 登录/注册 |
+| `window.tailwindscoreWishlist` | 心愿单 |
 | `window.tailwindscoreAjaxSearch` | 实时搜索 |
 | `window.wcOrderProcessFrontend` | 订单流程（确认收货等） |
 

@@ -67,21 +67,16 @@ class Tailwindscore_Quick_View_Frontend {
 		}
 
 		$product_id = $product->get_id();
-		$label      = esc_html__( 'Quick view', 'tailwindscore' );
+		$label      = __( 'Quick view', 'tailwindscore' );
+		$icon       = function_exists( 'tailwindscore_icon' ) ? tailwindscore_icon( 'eye' ) : '';
 
-		if ( preg_match( '/class="([^"]*)"/', $html, $class_match ) ) {
-			$classes = $class_match[1] . ' quick-view-loop-trigger';
-			$html    = preg_replace( '/class="[^"]*"/', 'class="' . esc_attr( $classes ) . '"', $html, 1 );
-		}
-
-		$html = preg_replace( '/href="[^"]*"/', 'href="#"', $html, 1 );
-		$html = preg_replace( '/>.*?<\/a>/s', '>' . $label . '</a>', $html, 1 );
-
-		if ( false === strpos( $html, 'data-ts-quick-view' ) ) {
-			$html = str_replace( '<a ', '<a data-ts-quick-view data-product-id="' . esc_attr( (string) $product_id ) . '" ', $html );
-		}
-
-		return $html;
+		// Icon SVG 来自主题 map，信任输出。
+		return sprintf(
+			'<a href="#" class="btn-icon product-card-action product-card-action--quick-view quick-view-loop-trigger button" data-ts-quick-view data-product-id="%1$s" aria-label="%2$s"><span class="icon" aria-hidden="true">%3$s</span></a>',
+			esc_attr( (string) $product_id ),
+			esc_attr( $label ),
+			$icon
+		);
 	}
 
 	/**

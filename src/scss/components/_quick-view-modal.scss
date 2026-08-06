@@ -87,6 +87,12 @@ body.quick-view-modal-open {
 	.wc-product-card__media {
 		border-radius: var(--ts-border-radius-sm);
 	}
+
+	// QV 模板直接输出 .price（无 price-row 包裹），需单独套用全局价格样式。
+	.wc-product-detail__summary > .price {
+		@include mixins.ts-price-html(var(--ts-font-size-lg), var(--ts-font-size-sm));
+		margin: 0;
+	}
 }
 
 @include mixins.ts-down(md) {

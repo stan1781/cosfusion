@@ -1,4 +1,5 @@
 import './account-auth/index';
+import './wishlist/index';
 import './ui/login-modal';
 import './ui/quantity-input';
 import './ui/button-loading';
