@@ -33,8 +33,8 @@ function tailwindscore_gallery_kirki_register( string $cfg, array $targets ): vo
 		array(
 			'type'        => 'slider',
 			'settings'    => 'product_gallery_thumb_limit',
-			'label'       => esc_html__( '缩略图条数量上限（桌面）', 'tailwindscore' ),
-			'description' => esc_html__( '滚动前最多显示的缩略图数量。', 'tailwindscore' ),
+			'label'       => esc_html__( '缩略图均分下限张数（桌面）', 'tailwindscore' ),
+			'description' => esc_html__( '用于推导缩略图最小边长：列高按此张数均分。实际张数更少时放大铺满；更多时用该下限尺寸并滚动居中。', 'tailwindscore' ),
 			'section'     => 'tailwindscore_product_gallery',
 			'default'     => 6,
 			'choices'     => array(

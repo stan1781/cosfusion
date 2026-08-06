@@ -15,10 +15,15 @@ import {
 	parseVariationsForm,
 	resolveGalleryAction,
 } from './gallery-variations';
-import type { GalleryAction, GalleryImage, TailwindscoreProductGalleryConfig, WcVariationRow } from './types';
+import type { GalleryAction, GalleryImage, TailwindscoreProductGalleryConfig } from './types';
 import { TS_MEDIA_UP } from '../breakpoints';
 
 const DESKTOP_MQ = TS_MEDIA_UP.lg;
+/** 与竖向 thumbs Swiper `spaceBetween` 一致。 */
+const THUMBS_GAP_PX = 8;
+const THUMB_LIMIT_DEFAULT = 6;
+const THUMB_LIMIT_MIN = 3;
+const THUMB_LIMIT_MAX = 12;
 
 function parseConfigFromRoot(root: HTMLElement): TailwindscoreProductGalleryConfig | null {
 	const raw = root.getAttribute('data-product-gallery');
@@ -48,11 +53,10 @@ function getConfig(root: HTMLElement): TailwindscoreProductGalleryConfig | null 
 	return fromAttr;
 }
 
-function slideImageUrls(img: GalleryImage, forThumb = false): {
-	src: string;
-	srcset: string;
-	sizes: string;
-} {
+function slideImageUrls(
+	img: GalleryImage,
+	forThumb: boolean,
+): { src: string; srcset: string; sizes: string } {
 	if (forThumb) {
 		return {
 			src: img.thumbnail || img.gallery_thumbnail_src || img.src,
@@ -67,36 +71,13 @@ function slideImageUrls(img: GalleryImage, forThumb = false): {
 	};
 }
 
-function createSlideElement(img: GalleryImage, index: number, eager: boolean): HTMLElement {
-	const slide = document.createElement('div');
-	slide.className = 'swiper-slide';
-	slide.dataset.slideIndex = String(index);
-
-	const { src, srcset, sizes } = slideImageUrls(img, false);
-	const el = document.createElement('img');
-	el.src = src;
-	if (srcset) {
-		el.setAttribute('srcset', srcset);
-	}
-	if (sizes) {
-		el.setAttribute('sizes', sizes);
-	}
-	el.alt = img.alt || '';
-	el.decoding = 'async';
-	el.loading = eager ? 'eager' : 'lazy';
-	if (eager) {
-		el.setAttribute('fetchpriority', 'high');
-	}
-	slide.appendChild(el);
-	return slide;
-}
-
-function applyImageToSlide(slide: HTMLElement, img: GalleryImage, eager = false): void {
-	const el = slide.querySelector('img');
-	if (!el) {
-		return;
-	}
-	const { src, srcset, sizes } = slideImageUrls(img, false);
+function applyImgAttrs(
+	el: HTMLImageElement,
+	img: GalleryImage,
+	forThumb: boolean,
+	eager: boolean,
+): void {
+	const { src, srcset, sizes } = slideImageUrls(img, forThumb);
 	el.src = src;
 	if (srcset) {
 		el.setAttribute('srcset', srcset);
@@ -109,13 +90,49 @@ function applyImageToSlide(slide: HTMLElement, img: GalleryImage, eager = false)
 		el.removeAttribute('sizes');
 	}
 	el.alt = img.alt || '';
+	el.decoding = 'async';
 	el.loading = eager ? 'eager' : 'lazy';
+	if (eager) {
+		el.setAttribute('fetchpriority', 'high');
+	} else {
+		el.removeAttribute('fetchpriority');
+	}
+}
+
+function createSlideElement(
+	img: GalleryImage,
+	index: number,
+	eager: boolean,
+	forThumb = false,
+): HTMLElement {
+	const slide = document.createElement('div');
+	slide.className = 'swiper-slide';
+	slide.dataset.slideIndex = String(index);
+	const el = document.createElement('img');
+	applyImgAttrs(el, img, forThumb, eager);
+	slide.appendChild(el);
+	return slide;
+}
+
+function applyImageToSlide(
+	slide: HTMLElement,
+	img: GalleryImage,
+	eager = false,
+	forThumb = false,
+): void {
+	const el = slide.querySelector('img');
+	if (!el) {
+		return;
+	}
+	applyImgAttrs(el, img, forThumb, eager);
 }
 
 class ProductGallery {
 	private readonly root: HTMLElement;
 	private readonly config: TailwindscoreProductGalleryConfig;
 	private readonly parentGallery: GalleryImage[];
+	private readonly mainEl: HTMLElement;
+	private readonly thumbsEl: HTMLElement;
 	private readonly mainWrapper: HTMLElement;
 	private readonly thumbsWrapper: HTMLElement;
 	private readonly paginationEl: HTMLElement;
@@ -123,22 +140,23 @@ class ProductGallery {
 	private readonly navPrev: HTMLButtonElement | null;
 	private readonly navNext: HTMLButtonElement | null;
 	private readonly form: HTMLFormElement | null;
+	private readonly lightbox: GalleryLightboxController;
+	private readonly desktopMq: MediaQueryList;
 
 	private mainSwiper: SwiperInstance | null = null;
 	private thumbsSwiper: SwiperInstance | null = null;
 	private wrapNavCleanup: (() => void) | null = null;
-	private readonly lightbox: GalleryLightboxController;
 	private mainClickHandler: ((swiper: SwiperInstance) => void) | null = null;
-	private desktopMq: MediaQueryList;
 	private currentImages: GalleryImage[] = [];
-	private mode: 'parent' | 'custom' = 'parent';
-	private patchedFirst = false;
 	private lastActionKey = '';
+	private resizeTimer: number | null = null;
 
 	constructor(root: HTMLElement, config: TailwindscoreProductGalleryConfig) {
 		this.root = root;
 		this.config = config;
 		this.parentGallery = [...config.parent];
+		this.mainEl = root.querySelector('[data-ts-gallery-main]') as HTMLElement;
+		this.thumbsEl = root.querySelector('[data-ts-gallery-thumbs]') as HTMLElement;
 		this.mainWrapper = root.querySelector('[data-ts-gallery-main-wrapper]') as HTMLElement;
 		this.thumbsWrapper = root.querySelector('[data-ts-gallery-thumbs-wrapper]') as HTMLElement;
 		this.paginationEl = root.querySelector('[data-ts-gallery-pagination]') as HTMLElement;
@@ -151,17 +169,26 @@ class ProductGallery {
 	}
 
 	init(): void {
-		const hasSsrSlides = this.mainWrapper.querySelector('.swiper-slide') !== null;
-		if (hasSsrSlides) {
+		if (this.mainWrapper.querySelector('.swiper-slide')) {
 			this.currentImages = [...this.parentGallery];
-			this.mode = 'parent';
 			this.initSwipers();
 		} else {
 			this.rebuildGallery(this.parentGallery);
 		}
 		this.bindVariationEvents();
-		this.desktopMq.addEventListener('change', () => this.refreshSwiperMode());
+		this.desktopMq.addEventListener('change', () => this.initSwipers());
+		window.addEventListener('resize', this.onWindowResize);
 	}
+
+	private readonly onWindowResize = (): void => {
+		if (this.resizeTimer !== null) {
+			window.clearTimeout(this.resizeTimer);
+		}
+		this.resizeTimer = window.setTimeout(() => {
+			this.resizeTimer = null;
+			this.applyThumbsMetrics();
+		}, 100);
+	};
 
 	private actionKey(action: GalleryAction): string {
 		if (action.type === 'activateSlide') {
@@ -185,10 +212,9 @@ class ProductGallery {
 			this.counterEl.hidden = true;
 			return;
 		}
-		const current = (this.mainSwiper?.activeIndex ?? 0) + 1;
 		this.counterEl.hidden = false;
 		this.counterEl.textContent = this.config.i18n.counter
-			.replace('%1$d', String(current))
+			.replace('%1$d', String((this.mainSwiper?.activeIndex ?? 0) + 1))
 			.replace('%2$d', String(total));
 	}
 
@@ -213,93 +239,144 @@ class ProductGallery {
 
 		this.mainClickHandler = (swiper: SwiperInstance) => {
 			const clickedIndex = swiper.clickedIndex;
-			if (clickedIndex === undefined || clickedIndex < 0) {
+			if (clickedIndex === undefined || clickedIndex < 0 || !this.currentImages[clickedIndex]) {
 				return;
 			}
-
-			if (!this.currentImages[clickedIndex]) {
-				return;
-			}
-
 			const slide = swiper.slides[clickedIndex] as HTMLElement | undefined;
-			const img = slide?.querySelector('img') ?? null;
-			void this.lightbox.open(clickedIndex, this.currentImages, img, {
-				productTitle: this.config.productTitle,
-				attributeLabels: this.config.attributeLabels,
-				variationsForm: this.form,
-			});
+			void this.lightbox.open(
+				clickedIndex,
+				this.currentImages,
+				slide?.querySelector('img') ?? null,
+				{
+					productTitle: this.config.productTitle,
+					attributeLabels: this.config.attributeLabels,
+					variationsForm: this.form,
+				},
+			);
 		};
 
 		this.mainSwiper.on('click', this.mainClickHandler);
 	}
 
-	private isDesktopThumbs(): boolean {
-		return this.desktopMq.matches;
+	private resolveThumbLimit(): number {
+		const raw = Number(this.config.thumbLimit);
+		const limit = Number.isFinite(raw) ? Math.floor(raw) : THUMB_LIMIT_DEFAULT;
+		return Math.max(THUMB_LIMIT_MIN, Math.min(THUMB_LIMIT_MAX, limit));
+	}
+
+	/** 按主图高度均分缩略图边长，并校正激活项位置。 */
+	private applyThumbsMetrics(): void {
+		if (!this.desktopMq.matches || this.currentImages.length < 2 || !this.thumbsSwiper) {
+			return;
+		}
+
+		const height = this.mainEl.clientHeight;
+		const colW = this.thumbsEl.clientWidth;
+		if (height <= 0 || colW <= 0) {
+			return;
+		}
+
+		const n = this.currentImages.length;
+		const thumbLimit = this.resolveThumbLimit();
+		const fitSize = (height - (n - 1) * THUMBS_GAP_PX) / n;
+		const minSize = (height - (thumbLimit - 1) * THUMBS_GAP_PX) / thumbLimit;
+		this.root.style.setProperty(
+			'--ts-gallery-thumb-size',
+			`${Math.min(colW, Math.max(minSize, fitSize))}px`,
+		);
+		this.thumbsSwiper.update();
+		this.ensureActiveThumbCentered(0);
+	}
+
+	/**
+	 * 激活项尽量垂直居中；translate 夹紧后首尾完整显示，避免半张裁切。
+	 */
+	private ensureActiveThumbCentered(speed = 300): void {
+		const thumbs = this.thumbsSwiper;
+		const main = this.mainSwiper;
+		if (!thumbs || !main) {
+			return;
+		}
+
+		const index = main.activeIndex;
+		const slideOffset = thumbs.slidesGrid[index];
+		const slideSize = thumbs.slidesSizesGrid[index];
+		const viewSize = thumbs.height;
+		if (slideOffset === undefined || !slideSize || viewSize <= 0) {
+			return;
+		}
+
+		let target = -(slideOffset + slideSize / 2 - viewSize / 2);
+		target = Math.max(thumbs.maxTranslate(), Math.min(thumbs.minTranslate(), target));
+		if (Math.abs(thumbs.getTranslate() - target) < 0.5) {
+			return;
+		}
+		void thumbs.translateTo(target, speed, false, true);
+	}
+
+	private onMainSlideChange(): void {
+		this.updateCounter();
+		this.ensureActiveThumbCentered();
 	}
 
 	private initSwipers(): void {
 		this.destroySwipers();
 
-		const useThumbs = this.isDesktopThumbs() && this.currentImages.length > 1;
+		const hasMultiple = this.currentImages.length > 1;
+		const useThumbs = this.desktopMq.matches && hasMultiple;
 
 		if (useThumbs) {
-			this.thumbsSwiper = new Swiper(this.root.querySelector('[data-ts-gallery-thumbs]') as HTMLElement, {
+			this.thumbsSwiper = new Swiper(this.thumbsEl, {
 				modules: [A11y],
 				direction: 'vertical',
 				slidesPerView: 'auto',
-				spaceBetween: 8,
+				spaceBetween: THUMBS_GAP_PX,
 				watchSlidesProgress: true,
-				freeMode: true,
 				slideToClickedSlide: true,
 			});
 		}
 
-		const hasMultiple = this.currentImages.length > 1;
 		const mainModules = [A11y];
 		if (useThumbs) {
 			mainModules.push(Thumbs);
-		}
-		if (!useThumbs && hasMultiple) {
+		} else if (hasMultiple) {
 			mainModules.push(Pagination);
 		}
 
-		this.mainSwiper = new Swiper(this.root.querySelector('[data-ts-gallery-main]') as HTMLElement, {
+		this.mainSwiper = new Swiper(this.mainEl, {
 			modules: mainModules,
 			spaceBetween: 0,
 			slidesPerView: 1,
 			...(useThumbs && this.thumbsSwiper ? { thumbs: { swiper: this.thumbsSwiper } } : {}),
 			...(!useThumbs && hasMultiple
-				? {
-						pagination: {
-							el: this.paginationEl,
-							clickable: true,
-						},
-					}
+				? { pagination: { el: this.paginationEl, clickable: true } }
 				: {}),
 			a11y: {
 				prevSlideMessage: this.config.i18n.prev,
 				nextSlideMessage: this.config.i18n.next,
 			},
 			on: {
-				slideChange: () => this.updateCounter(),
+				slideChange: () => this.onMainSlideChange(),
 			},
 		});
 
 		if (hasMultiple && this.navPrev && this.navNext) {
-			const wrapNav = bindSwiperWrapNavigation(this.mainSwiper, {
+			this.wrapNavCleanup = bindSwiperWrapNavigation(this.mainSwiper, {
 				prevEl: this.navPrev,
 				nextEl: this.navNext,
 				slideCount: this.currentImages.length,
 				keyboardRoot: document,
 				keyboardWithin: this.root,
-			});
-			this.wrapNavCleanup = wrapNav.destroy;
+			}).destroy;
 		}
 
 		this.toggleNavVisibility(hasMultiple);
 		this.bindMainLightboxClick();
-
 		this.updateCounter();
+
+		if (useThumbs) {
+			window.requestAnimationFrame(() => this.applyThumbsMetrics());
+		}
 	}
 
 	private toggleNavVisibility(show: boolean): void {
@@ -312,34 +389,26 @@ class ProductGallery {
 		}
 	}
 
-	private refreshSwiperMode(): void {
-		this.initSwipers();
-	}
-
 	rebuildGallery(images: GalleryImage[]): void {
 		if (gallerySetsEqual(images, this.currentImages)) {
 			return;
 		}
 
 		this.currentImages = [...images];
-		this.mode = gallerySetsEqual(images, this.parentGallery) ? 'parent' : 'custom';
-		this.patchedFirst = false;
-
 		this.mainWrapper.replaceChildren();
 		this.thumbsWrapper.replaceChildren();
 
 		images.forEach((img, index) => {
-			this.mainWrapper.appendChild(createSlideElement(img, index, index === 0));
-			this.thumbsWrapper.appendChild(createSlideElement(img, index, false));
+			this.mainWrapper.appendChild(createSlideElement(img, index, index === 0, false));
+			this.thumbsWrapper.appendChild(createSlideElement(img, index, false, true));
 		});
 
 		this.initSwipers();
 		this.mainSwiper?.slideTo(0, 0);
-		this.toggleNavVisibility(images.length > 1);
 	}
 
 	private ensureParentSlides(): void {
-		if (this.mode === 'parent' && gallerySetsEqual(this.currentImages, this.parentGallery)) {
+		if (gallerySetsEqual(this.currentImages, this.parentGallery)) {
 			return;
 		}
 		this.rebuildGallery(this.parentGallery);
@@ -353,9 +422,8 @@ class ProductGallery {
 		this.ensureParentSlides();
 		const safeIndex = Math.max(0, Math.min(index, this.currentImages.length - 1));
 		this.mainSwiper?.slideTo(safeIndex, 0);
-		this.thumbsSwiper?.slideTo(safeIndex, 0);
-		this.patchedFirst = false;
-		this.updateCounter();
+		// 同索引时 slideChange 可能不触发，仍校正 thumbs / 计数。
+		this.onMainSlideChange();
 	}
 
 	patchFirstSlide(patchImage: GalleryImage): void {
@@ -363,12 +431,11 @@ class ProductGallery {
 		const firstSlide = this.mainWrapper.querySelector('.swiper-slide');
 		const firstThumb = this.thumbsWrapper.querySelector('.swiper-slide');
 		if (firstSlide) {
-			applyImageToSlide(firstSlide as HTMLElement, patchImage, true);
+			applyImageToSlide(firstSlide as HTMLElement, patchImage, true, false);
 		}
 		if (firstThumb) {
-			applyImageToSlide(firstThumb as HTMLElement, patchImage, false);
+			applyImageToSlide(firstThumb as HTMLElement, patchImage, false, true);
 		}
-		this.patchedFirst = true;
 		this.mainSwiper?.slideTo(0, 0);
 		this.updateCounter();
 	}
@@ -408,8 +475,7 @@ class ProductGallery {
 		}
 		const variations = parseVariationsForm(this.form);
 		const match = findMatchingVariation(this.form, variations);
-		const action = resolveGalleryAction(match, this.parentGallery);
-		this.applyAction(action);
+		this.applyAction(resolveGalleryAction(match, this.parentGallery));
 	}
 
 	private bindVariationEvents(): void {
@@ -422,8 +488,6 @@ class ProductGallery {
 			this.lastActionKey = '';
 			this.restoreParent();
 		});
-
-		// Initial state if attributes pre-selected from URL.
 		this.syncFromForm();
 	}
 }
@@ -437,8 +501,7 @@ function bootstrap(): void {
 	if (!config) {
 		return;
 	}
-	const gallery = new ProductGallery(root, config);
-	gallery.init();
+	new ProductGallery(root, config).init();
 }
 
 bootstrap();

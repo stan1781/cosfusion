@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * 单品页 Cross-sells（配件 / 搭配）迷你轮播。
+ * 单品页 Cross-sells（配件 / 搭配）紧凑列表。
  *
  * @package TailwindScore
  */
@@ -58,24 +58,6 @@ function tailwindscore_get_product_cross_sells_limit(): int {
 }
 
 /**
- * 单品 Cross-sells 移动端可见 slide 数。
- */
-function tailwindscore_get_product_cross_sells_columns_mobile(): float {
-	return tailwindscore_sanitize_products_carousel_slide_count(
-		apply_filters( 'tailwindscore/product/cross_sells_columns_mobile', 2.5 )
-	);
-}
-
-/**
- * 单品 Cross-sells 桌面端可见 slide 数。
- */
-function tailwindscore_get_product_cross_sells_columns_desktop(): float {
-	return tailwindscore_sanitize_products_carousel_slide_count(
-		apply_filters( 'tailwindscore/product/cross_sells_columns_desktop', 3.0 )
-	);
-}
-
-/**
  * @return int[]
  */
 function tailwindscore_get_product_cross_sell_ids_for_current(): array {
@@ -115,7 +97,7 @@ function tailwindscore_should_show_product_cross_sells(): bool {
 }
 
 /**
- * 渲染单品 Cross-sells 迷你轮播。
+ * 渲染单品 Cross-sells 紧凑列表。
  */
 function tailwindscore_render_product_cross_sells(): void {
 	if ( ! function_exists( 'is_product' ) || ! is_product() || ! tailwindscore_should_show_product_cross_sells() ) {
@@ -127,35 +109,15 @@ function tailwindscore_render_product_cross_sells(): void {
 		return;
 	}
 
-	$title_tag_filter = static function (): string {
-		return 'h3';
-	};
-	add_filter( 'woocommerce_loop_product_title_tag', $title_tag_filter );
-
-	$markup = tailwindscore_render_products_carousel_shell(
+	get_template_part(
+		'template-parts/woocommerce/product-cross-sells',
+		null,
 		array(
-			'product_ids'        => $product_ids,
-			'title'              => tailwindscore_get_product_cross_sells_title(),
-			'columns_mobile'     => tailwindscore_get_product_cross_sells_columns_mobile(),
-			'columns_desktop'    => tailwindscore_get_product_cross_sells_columns_desktop(),
-			'gap'                => 12,
-			'section_class'      => 'product-cross-sells',
-			'section_data_attrs' => array(
-				'data-ts-product-cross-sells' => '',
-			),
-			'section_id'         => 'ts-product-cross-sells-title',
-			'title_class'        => 'heading',
+			'title'       => tailwindscore_get_product_cross_sells_title(),
+			'section_id'  => 'ts-product-cross-sells-title',
+			'product_ids' => $product_ids,
 		)
 	);
-
-	remove_filter( 'woocommerce_loop_product_title_tag', $title_tag_filter );
-
-	if ( '' === trim( $markup ) ) {
-		return;
-	}
-
-	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Carousel shell markup from theme template.
-	echo $markup;
 }
 
 /**
@@ -201,7 +163,7 @@ function tailwindscore_product_cross_sells_kirki_register( string $cfg, array $t
 		'tailwindscore_product_cross_sells',
 		array(
 			'title'       => esc_html__( '配件搭配（Cross-sells）', 'tailwindscore' ),
-			'description' => esc_html__( '单品页加购附近的 Cross-sells 迷你轮播（弱推荐，不与主品合并提交）。', 'tailwindscore' ),
+			'description' => esc_html__( '单品页加购附近的 Cross-sells 紧凑列表（弱推荐，不与主品合并提交）。', 'tailwindscore' ),
 			'panel'       => $targets['product'],
 			'priority'    => 70,
 		)

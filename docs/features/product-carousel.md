@@ -1,6 +1,6 @@
 # 产品轮播
 
-共享产品列表 Swiper 壳层，供短代码、首页精选商品、购物车推荐、单品 Cross-sells 与 404 人气商品复用。
+共享产品列表 Swiper 壳层，供短代码、首页精选商品、购物车推荐与 404 人气商品复用。
 
 ## 短代码
 
@@ -43,7 +43,7 @@
 
 ## 单品 Cross-sells
 
-见 [配件搭配](product-cross-sells.md)。壳层 class：`product-cross-sells`；仅当前商品 Cross-sells，无则不渲染。
+见 [配件搭配](product-cross-sells.md)。PDP 使用**紧凑行列表**（非本轮播壳）；购物车推荐仍用本壳层。
 
 ## 404 人气商品
 
@@ -55,7 +55,7 @@
 
 | 层 | 路径 |
 |----|------|
-| PHP | `inc/woocommerce/product-carousel.php`、`product-suggestions.php`、`cart-product-suggestions.php`、`product-cross-sells.php`、`inc/not-found.php` |
+| PHP | `inc/woocommerce/product-carousel.php`、`product-suggestions.php`、`cart-product-suggestions.php`、`inc/not-found.php` |
 | 模板 | `template-parts/woocommerce/product-carousel.php` |
 | TS | `src/ts/shop/product-carousel.ts`（`app.ts` 全局初始化） |
 | SCSS | `src/scss/components/_product-carousel.scss` |

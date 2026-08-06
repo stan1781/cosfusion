@@ -62,8 +62,8 @@
 
 .custom-variation-selector.text-selector li.selected {
 	border-color: var(--ts-text-primary);
-	background-color: var(--ts-surface);
-	color: var(--ts-text-primary);
+	background-color: var(--ts-text-primary);
+	color: var(--ts-surface);
 }
 
 .custom-variation-selector.text-selector li.selected .variation-desc {
