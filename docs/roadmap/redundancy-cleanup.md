@@ -6,7 +6,8 @@
 **Phase 0 状态：** Done（本文件）  
 **Phase 1 状态：** Done（2026-08-06）  
 **Phase 2 状态：** Done（2026-08-06）  
-**下一闸门：** 手测 Phase 2 清单后，再单独开 Phase 3；**禁止**自动连跑多阶段。
+**Phase 3 状态：** Done（2026-08-06；范围调整为不拆文件，见 Phase 3 章节）  
+**下一闸门：** 手测 Phase 3 清单后，再单独开 Phase 4；**禁止**自动连跑多阶段。
 
 ## 原则
 
@@ -56,7 +57,7 @@
 ## 阶段定义
 
 ```text
-Phase 0 (Audit_Doc) → 1 SharedUtils → 2 LegacyPrune → 3 CartSplit
+Phase 0 (Audit_Doc) → 1 SharedUtils → 2 LegacyPrune → 3 CartDedup
   → 4 DialogHelper → 5 OrgSplits → 6 OptionalBoundaries
 ```
 
@@ -89,14 +90,18 @@ Phase 0 (Audit_Doc) → 1 SharedUtils → 2 LegacyPrune → 3 CartSplit
 | 手测 | 商店分类链接（`tailwindscore_archive_category_url` 未受影响）；免运进度条金额计算仍正确；Header bar：设置多条 repeater 消息 / 仅一条 / 未配置时的默认文案，均正常渲染与轮播 |
 | 进度 | **Done** |
 
-### Phase 3 — 拆分 `cart/index.ts`（中风险）
+### Phase 3 — `cart/index.ts` 去重与逻辑优化（不拆分文件）（低–中风险）
+
+**范围调整（2026-08-06，用户决定）：** 原计划拆分为 `cart/api.ts` / `cart/render.ts` / `cart/coupons.ts` 等多文件；改为**只做内部去重与优化，保持单文件**，降低本阶段风险与改动面。文件体积过大的结构性拆分问题移至 Phase 6 之后视需要再评估，不在当前路线图强制执行。
 
 | 项 | 内容 |
 |----|------|
-| 建议拆分 | 例如 `cart/api.ts`（nonce / `requestStoreApi` / `refreshCart` / mutations）、`cart/render.ts`（line item / drawer / page HTML）、`cart/coupons.ts`（drawer + checkout 优惠券绑定）、`cart/index.ts`（编排与 `initializeCartUi`） |
 | 必须保持 | `export async function refreshCart`、`addCartItem`；`export { notify }`；Drawer 打开 2s 内跳过冗余 GET；nonce TTL / 403 重试 |
-| 手测 | 加购→Drawer；改数量 / 删除；优惠券应用与移除；免运进度条；购物车页重绘 + 推荐轮播再 init；item-edit 保存后 `refreshCart`；结账页优惠券 |
-| 进度 | **Pending** |
+| 已实施 | ① 抽取 `renderEmptyCartMarkup(config, wrapperClass)`，消除 `renderCartDrawer`/`renderCartPage` 完全重复的空购物车 markup；② `syncCartUi` 改为仅在 Drawer / 购物车页对应 DOM 存在时才渲染各自的完整 HTML 字符串，避免非购物车页仍计算购物车页 markup（反之亦然）的多余开销 |
+| 复核但未改动 | `getCartConfig()` 的内联 fallback i18n/图标字面量（仅在 `data-ts-cart-config` 无 `window.tailwindscoreCart` 时触发，非重复逻辑，属兜底数据）；`bindCouponControls` 与 `applyCheckoutCouponFromButton` 表面相似但服务不同 DOM/流程（购物车表单 vs 结账页），强行合并会引入 `refreshCheckoutOrderReview` 等分支耦合，判定为**假冗余**不合并 |
+| 验证命令 | `npm run typecheck` && `npm run build`（均通过） |
+| 手测 | 加购→Drawer；改数量 / 删除；优惠券应用与移除；免运进度条；购物车页重绘 + 推荐轮播再 init；item-edit 保存后 `refreshCart`；结账页优惠券；**验证空购物车状态在 Drawer 与购物车页均正常展示**（重点回归项，因改了共享路径） |
+| 进度 | **Done**（2026-08-06；范围已按用户决定调整为不拆分） |
 
 ### Phase 4 — Dialog 薄辅助（中风险）
 
@@ -141,7 +146,7 @@ Phase 0 (Audit_Doc) → 1 SharedUtils → 2 LegacyPrune → 3 CartSplit
 | 0 审计文档 | Done | 2026-08-06 |
 | 1 共享 util | Done | 2026-08-06；`escape-html.ts` + `swiper/parse.ts` |
 | 2 遗留修剪 | Done | 2026-08-06；已删 2 个死函数 + header_bar legacy fallback/migrator |
-| 3 Cart 拆分 | Pending | |
+| 3 Cart 去重优化 | Done | 2026-08-06；范围改为不拆文件（用户决定）；已消除空购物车 markup 重复 + `syncCartUi` 惰性渲染 |
 | 4 Dialog 辅助 | Pending | |
 | 5 组织拆分 | Pending | |
 | 6 可选边界 | Pending | 需单独产品/技术评审 |

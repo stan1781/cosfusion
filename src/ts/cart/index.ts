@@ -610,16 +610,20 @@ function renderFreeShippingProgress(cart: StoreApiCart, config: TailwindscoreCar
 		</div>`;
 }
 
+function renderEmptyCartMarkup(config: TailwindscoreCartConfig, wrapperClass: string): string {
+	return `
+		<div class="${wrapperClass}">
+			<div class="cart-drawer-cart__empty stack">
+				<p>${escapeHtml(config.i18n.emptyCartMessage)}</p>
+				<a class="btn btn-outline" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
+			</div>
+		</div>
+	`;
+}
+
 function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 	if (cart.items.length < 1) {
-		return `
-			<div class="cart-drawer-cart">
-				<div class="cart-drawer-cart__empty stack">
-					<p>${escapeHtml(config.i18n.emptyCartMessage)}</p>
-					<a class="btn btn-outline" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
-				</div>
-			</div>
-		`;
+		return renderEmptyCartMarkup(config, 'cart-drawer-cart');
 	}
 
 	return `
@@ -642,14 +646,7 @@ function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 
 function renderCartPage(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 	if (cart.items.length < 1) {
-		return `
-			<div class="cart-page-cart">
-				<div class="cart-drawer-cart__empty stack">
-					<p>${escapeHtml(config.i18n.emptyCartMessage)}</p>
-					<a class="btn btn-outline" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
-				</div>
-			</div>
-		`;
+		return renderEmptyCartMarkup(config, 'cart-page-cart');
 	}
 
 	return `
@@ -710,8 +707,6 @@ function syncCartUi(cart: StoreApiCart) {
 	const config = getConfigOrThrow();
 	const count = Number(cart.items_count || 0);
 	const summary = renderCartSummary(count, config);
-	const drawerMarkup = renderCartDrawer(cart, config);
-	const pageMarkup = renderCartPage(cart, config);
 
 	document.querySelectorAll<HTMLElement>('[data-ts-cart-badge]').forEach((element) => {
 		element.innerHTML = renderCartBadge(count);
@@ -725,16 +720,26 @@ function syncCartUi(cart: StoreApiCart) {
 		element.textContent = summary;
 	});
 
-	document.querySelectorAll<HTMLElement>(cartDrawerSelector).forEach((element) => {
-		element.innerHTML = drawerMarkup;
-		initCouponApplyDisabledState(element);
-	});
+	// Only build each markup string when its target exists on the current page
+	// (drawer is sitewide, cart page is not; avoids rendering unused HTML on every sync).
+	const drawerElements = document.querySelectorAll<HTMLElement>(cartDrawerSelector);
+	if (drawerElements.length > 0) {
+		const drawerMarkup = renderCartDrawer(cart, config);
+		drawerElements.forEach((element) => {
+			element.innerHTML = drawerMarkup;
+			initCouponApplyDisabledState(element);
+		});
+	}
 
-	document.querySelectorAll<HTMLElement>(cartPageSelector).forEach((element) => {
-		element.innerHTML = pageMarkup;
-		initCouponApplyDisabledState(element);
-		initProductCarousels(element);
-	});
+	const pageElements = document.querySelectorAll<HTMLElement>(cartPageSelector);
+	if (pageElements.length > 0) {
+		const pageMarkup = renderCartPage(cart, config);
+		pageElements.forEach((element) => {
+			element.innerHTML = pageMarkup;
+			initCouponApplyDisabledState(element);
+			initProductCarousels(element);
+		});
+	}
 
 	syncPendingCartItems();
 }
