@@ -4,6 +4,7 @@
 $ts-section-y-mobile: 1rem;
 $ts-section-y: 2rem;
 $ts-search-max: 32rem;
+$ts-entry-measure: 42rem;
 
 .site {
 	--ts-section-y-mobile: #{$ts-section-y-mobile};
@@ -88,6 +89,12 @@ $ts-search-max: 32rem;
 	gap: var(--ts-spacer-3);
 }
 
+.entry--post {
+	width: min(100%, $ts-entry-measure);
+	margin-inline: auto;
+	gap: var(--ts-spacer-4);
+}
+
 .empty-state {
 	gap: var(--ts-spacer-2);
 }
@@ -101,6 +108,112 @@ $ts-search-max: 32rem;
 
 .entry__content > * {
 	min-width: 0;
+}
+
+.entry--post .entry__content {
+	gap: var(--ts-spacer-4);
+	color: var(--ts-text-primary);
+	line-height: 1.7;
+	font-size: var(--ts-font-size-base);
+
+	h2,
+	h3,
+	h4 {
+		margin: 0;
+		color: var(--ts-text-primary);
+		font-family: var(--ts-font-heading);
+		font-weight: 600;
+		line-height: 1.25;
+		letter-spacing: -0.015em;
+	}
+
+	h2 {
+		font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+		margin-block-start: var(--ts-spacer-2);
+	}
+
+	h3 {
+		font-size: clamp(1.125rem, 1.8vw, 1.375rem);
+	}
+
+	h4 {
+		font-size: var(--ts-font-size-lg);
+	}
+
+	p,
+	ul,
+	ol,
+	blockquote,
+	figure,
+	pre {
+		margin: 0;
+	}
+
+	ul,
+	ol {
+		padding-inline-start: var(--ts-spacer-4);
+		display: grid;
+		gap: var(--ts-spacer-1);
+	}
+
+	li::marker {
+		color: var(--ts-text-secondary);
+	}
+
+	a {
+		color: var(--ts-link-color);
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+		transition: color 0.15s ease;
+
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				color: var(--ts-text-primary);
+			}
+		}
+	}
+
+	blockquote {
+		padding-block: var(--ts-spacer-2);
+		padding-inline: var(--ts-spacer-3);
+		border-inline-start: 3px solid var(--ts-border-color-strong);
+		color: var(--ts-text-secondary);
+		font-style: italic;
+	}
+
+	img,
+	.wp-block-image img {
+		display: block;
+		max-width: 100%;
+		width: 100%;
+		height: auto;
+		border-radius: var(--ts-border-radius-sm);
+	}
+
+	figure,
+	.wp-block-image,
+	.wp-block-quote {
+		margin: 0;
+	}
+
+	figcaption,
+	.wp-element-caption {
+		margin-block-start: var(--ts-spacer-1);
+		font-size: var(--ts-font-size-sm);
+		color: var(--ts-text-secondary);
+		text-align: center;
+	}
+
+	hr {
+		margin: 0;
+		border: 0;
+		border-block-start: 1px solid var(--ts-border-color);
+	}
+
+	// grid gap 已负责块间距；覆盖浏览器默认 margin，避免双重空隙
+	> * {
+		margin-block: 0;
+	}
 }
 
 .d-none {

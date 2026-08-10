@@ -7,6 +7,7 @@ import './site/index';
 import './site/header-sticky';
 import './site/mobile-nav';
 import './site/mobile-tab-bar';
+import './site/post-sidebar-drawer';
 import { initHeaderBar } from './site/header-bar';
 import './shop/loop-swatches';
 import './shop/loop-add-to-cart';

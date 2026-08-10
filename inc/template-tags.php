@@ -133,6 +133,13 @@ function tailwindscore_has_sidebar(): bool {
 	return is_active_sidebar( 'sidebar-1' );
 }
 
+/**
+ * 文章页是否显示专用侧栏（Post Sidebar 有小工具时）。
+ */
+function tailwindscore_has_post_sidebar(): bool {
+	return is_singular( 'post' ) && is_active_sidebar( 'sidebar-post' );
+}
+
 function tailwindscore_account_url(): string {
 	if ( function_exists( 'wc_get_page_permalink' ) ) {
 		return wc_get_page_permalink( 'myaccount' );

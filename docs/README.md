@@ -28,6 +28,7 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 | [产品保障](features/product-assurances.md) | 单品加购下方政策提示（Kirki repeater） |
 | [配件搭配 Cross-sells](features/product-cross-sells.md) | 单品紧凑列表；购物车瀑布见购买流程 |
 | [商店 / 分类归档](features/shop-archive.md) | AJAX 筛选导航、无限滚动、桌面侧栏 / 移动端工具栏图标 + 左侧 Drawer |
+| [博客文章页](features/blog-post.md) | singular post：阅读栏、相关文章、Post Sidebar（桌面列 / 移动 Drawer） |
 | [404 页面](features/not-found.md) | Hero、快捷导航卡片、人气商品轮播 |
 
 ## 模块与整合

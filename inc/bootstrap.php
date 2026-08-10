@@ -18,6 +18,8 @@ require_once __DIR__ . '/enqueue.php';
 require_once __DIR__ . '/performance.php';
 require_once __DIR__ . '/icons.php';
 require_once __DIR__ . '/template-tags.php';
+require_once __DIR__ . '/blog/queries.php';
+require_once __DIR__ . '/blog/widgets.php';
 require_once __DIR__ . '/woocommerce/setup.php';
 require_once __DIR__ . '/woocommerce/hooks.php';
 require_once __DIR__ . '/woocommerce/archive-hero.php';

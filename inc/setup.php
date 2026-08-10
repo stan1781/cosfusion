@@ -47,6 +47,18 @@ function tailwindscore_register_sidebars(): void {
 		)
 	);
 
+	register_sidebar(
+		array(
+			'name'          => __( 'Post Sidebar', 'tailwindscore' ),
+			'id'            => 'sidebar-post',
+			'description'   => __( 'Widgets for single blog posts. Shown as a column on large screens and a drawer on smaller screens.', 'tailwindscore' ),
+			'before_widget' => '<section class="widget card">',
+			'after_widget'  => '</section>',
+			'before_title'  => '<h2 class="widget-title">',
+			'after_title'   => '</h2>',
+		)
+	);
+
 	for ( $index = 1; $index <= 4; $index++ ) {
 		register_sidebar(
 			array(
