@@ -1,5 +1,9 @@
 # 相册模块更新日志
 
+## 0.2.1
+
+- 单品页 `wp_head` 预加载父商品首张主图（`woocommerce_single` + srcset），缩短 LCP 发现延迟；占位图与变体图不 preload。
+
 ## 0.2.0
 
 - 主图点击打开 PhotoSwipe 4 全屏灯箱（`full` 尺寸），库与样式首次点击再加载。

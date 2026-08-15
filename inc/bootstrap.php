@@ -75,3 +75,4 @@ require_once get_template_directory() . '/modules/content-blocks/module.php';
 require_once __DIR__ . '/integrations/wc-order-process-manager.php';
 require_once __DIR__ . '/integrations/wc-mailnest.php';
 require_once __DIR__ . '/integrations/iconic-linked-variations.php';
+require_once __DIR__ . '/integrations/wp-enhanced-tools.php';

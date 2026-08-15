@@ -131,6 +131,33 @@ function tailwindscore_loop_product_secondary_image_id( WC_Product $product ): i
 }
 
 /**
+ * 循环主图 loading：默认 lazy；Shop/分类主查询且无归档 Hero 图时前 4 张 eager。
+ */
+function tailwindscore_loop_primary_image_loading(): string {
+	if ( ! function_exists( 'is_shop' ) || ( ! is_shop() && ! is_product_taxonomy() ) ) {
+		return 'lazy';
+	}
+
+	if ( ! in_the_loop() || ! is_main_query() ) {
+		return 'lazy';
+	}
+
+	if ( function_exists( 'wc_get_loop_prop' ) && wc_get_loop_prop( 'is_shortcode' ) ) {
+		return 'lazy';
+	}
+
+	// 归档 Hero 已是 LCP，卡片一律 lazy，避免抢 fetchpriority。
+	if ( function_exists( 'tailwindscore_wc_archive_has_hero_image' ) && tailwindscore_wc_archive_has_hero_image() ) {
+		return 'lazy';
+	}
+
+	global $wp_query;
+	$index = isset( $wp_query->current_post ) ? (int) $wp_query->current_post : -1;
+
+	return $index >= 0 && $index < 4 ? 'eager' : 'lazy';
+}
+
+/**
  * 为归档卡片渲染主图 + 副图。
  */
 function tailwindscore_render_loop_product_images( WC_Product $product ): void {
@@ -148,8 +175,9 @@ function tailwindscore_render_loop_product_images( WC_Product $product ): void {
 	$primary_html = $product->get_image(
 		'woocommerce_thumbnail',
 		array(
-			'class'   => 'wc-product-card__image wc-product-card__image--primary',
-			'loading' => 'eager',
+			'class'    => 'wc-product-card__image wc-product-card__image--primary',
+			'loading'  => tailwindscore_loop_primary_image_loading(),
+			'decoding' => 'async',
 		)
 	);
 
@@ -161,8 +189,9 @@ function tailwindscore_render_loop_product_images( WC_Product $product ): void {
 			'woocommerce_thumbnail',
 			false,
 			array(
-				'class'   => 'wc-product-card__image wc-product-card__image--secondary',
-				'loading' => 'lazy',
+				'class'    => 'wc-product-card__image wc-product-card__image--secondary',
+				'loading'  => 'lazy',
+				'decoding' => 'async',
 			)
 		);
 

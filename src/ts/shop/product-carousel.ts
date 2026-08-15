@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 import { TS_BREAKPOINT_MD_REM, TS_BREAKPOINT_XL_REM } from '../breakpoints';
+import { TS_SWIPER_A11Y } from '../swiper/a11y-i18n';
 import { parseGap, parseSlideCount } from '../swiper/parse';
 import { bindSwiperWrapNavigation } from '../swiper/wrap-navigation';
 
@@ -100,6 +101,9 @@ function initProductCarousel(section: HTMLElement): void {
 				pagination: {
 					el: pagination,
 					clickable: true,
+				},
+				a11y: {
+					...TS_SWIPER_A11Y,
 				},
 			});
 

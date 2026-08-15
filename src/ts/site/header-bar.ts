@@ -4,6 +4,8 @@ import type { Swiper as SwiperInstance } from 'swiper';
 
 import 'swiper/css';
 
+import { TS_SWIPER_A11Y } from '../swiper/a11y-i18n';
+
 const DEFAULT_AUTOPLAY_DELAY = 4000;
 
 function parseDelay(value: string | undefined): number {
@@ -57,7 +59,7 @@ function initHeaderBarRoot(root: HTMLElement): void {
 						},
 					}),
 			a11y: {
-				enabled: true,
+				...TS_SWIPER_A11Y,
 			},
 		});
 	} catch {

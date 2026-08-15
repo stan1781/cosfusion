@@ -13,10 +13,6 @@ $ts-archive-hero-height-desktop: 10rem;
 	min-height: var(--ts-wc-archive-hero-height);
 	overflow: hidden;
 	background-color: var(--ts-surface-muted);
-	background-image: var(--ts-wc-archive-hero-bg);
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
 
 	@include mixins.ts-up(md) {
 		--ts-wc-archive-hero-height: #{$ts-archive-hero-height-desktop};
@@ -27,8 +23,25 @@ $ts-archive-hero-height-desktop: 10rem;
 	}
 }
 
+.wc-archive-hero__media {
+	grid-area: 1 / 1;
+	position: relative;
+	min-height: var(--ts-wc-archive-hero-height);
+	overflow: hidden;
+}
+
+.wc-archive-hero__img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-height: var(--ts-wc-archive-hero-height);
+	object-fit: cover;
+	object-position: center;
+}
+
 .wc-archive-hero__overlay {
 	grid-area: 1 / 1;
+	z-index: 1;
 	background: color-mix(in srgb, var(--ts-text-primary) 36%, transparent);
 
 	.wc-archive-hero--no-media & {
@@ -38,7 +51,7 @@ $ts-archive-hero-height-desktop: 10rem;
 
 .wc-archive-hero__inner {
 	grid-area: 1 / 1;
-	z-index: 1;
+	z-index: 2;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

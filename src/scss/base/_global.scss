@@ -43,3 +43,25 @@ a {
 	width: 1px;
 	word-wrap: normal !important;
 }
+
+.skip-link:focus,
+.screen-reader-text:focus {
+	clip: auto;
+	clip-path: none;
+	display: block;
+	height: auto;
+	left: var(--ts-spacer-3);
+	top: var(--ts-spacer-3);
+	width: auto;
+	z-index: var(--ts-z-toast);
+	padding: var(--ts-spacer-2) var(--ts-spacer-3);
+	background: var(--ts-surface);
+	color: var(--ts-text-primary);
+	border: 1px solid var(--ts-border-color);
+	border-radius: var(--ts-radius-sm, 0.25rem);
+	box-shadow: var(--ts-shadow-md);
+	font-size: var(--ts-font-size-sm);
+	font-weight: 600;
+	line-height: 1.4;
+	text-decoration: none;
+}

@@ -1,6 +1,6 @@
 # Starcore → TailwindScore 后续升级评估
 
-首页已对齐 Starcore（Hero Kirki + Content Blocks + Page 短代码）。下表为其余可移植项（**本轮未实现**），排除套餐 / 港送等专属能力。
+首页已对齐 Starcore（Hero Kirki + Content Blocks + Page 短代码）。下表为其余可移植项，排除套餐 / 港送等专属能力。
 
 | 优先级 | 项 | 理由 |
 |--------|----|------|
@@ -10,7 +10,8 @@
 | Done | 导航 submenu 缩略图 | 见 [navigation.md](../features/navigation.md) |
 | Done | 导航紧凑 Mega / 扁平多列 / 后台 CSS 类 chips | 见 [navigation.md](../features/navigation.md) |
 | Done | Drawer 免运进度条 | 见 [purchase-flow.md](../features/purchase-flow.md) |
-| High | `--site-header-height` 同步 | sticky 布局一致 |
+| Done | `--site-header-height` 同步 | 见 [site-shell.md](../features/site-shell.md)、[performance.md](../architecture/performance.md) |
+| Done | 归档 LCP + 循环图 loading + skip-link + Swiper a11y / reduced-motion | 见 [performance.md](../architecture/performance.md) |
 | High | UI：global loading、woo-notices→toast、bottom-sheet | 购买流打磨 |
 | Medium | 产品轮播 banner + view_all | 营销块 |
 | Medium | Section title 组件 | 区块标题一致 |
@@ -19,4 +20,4 @@
 | Done | 商店归档 AJAX + 侧栏筛选 | 见 [shop-archive.md](../features/shop-archive.md) |
 | Skip | Composite / Coderockz / remote-area / Catering Core | 与 Cosfusion 无关 |
 
-参考：`starcore/docs/architecture/customizer.md`、`starcore/docs/components/ui-primitives.md`。
+参考：`starcore/docs/architecture/customizer.md`、`starcore/docs/components/ui-primitives.md`、`starcore/docs/architecture/performance.md`。

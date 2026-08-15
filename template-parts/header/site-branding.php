@@ -21,6 +21,9 @@ $home_url    = esc_url( home_url( '/' ) );
 					alt="<?php echo esc_attr( $site_name ); ?>"
 					width="<?php echo esc_attr( (string) $logo_pc_dims['width'] ); ?>"
 					height="<?php echo esc_attr( (string) $logo_pc_dims['height'] ); ?>"
+					loading="eager"
+					decoding="async"
+					data-no-lazy="1"
 				>
 			<?php endif; ?>
 
@@ -34,6 +37,9 @@ $home_url    = esc_url( home_url( '/' ) );
 					alt="<?php echo esc_attr( $site_name ); ?>"
 					width="<?php echo esc_attr( (string) $logo_mobile_dims['width'] ); ?>"
 					height="<?php echo esc_attr( (string) $logo_mobile_dims['height'] ); ?>"
+					loading="eager"
+					decoding="async"
+					data-no-lazy="1"
 				>
 			<?php endif; ?>
 

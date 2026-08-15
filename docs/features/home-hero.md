@@ -95,6 +95,9 @@
 - 首页 / 含 `[ts_home_hero]` 的 singular：`wp_head` 对首张输出桌面/手机分流 **preload**（`media="(width < 48rem)"` / `>= 48rem`）。
 - 禁止 WP 对 `.hero-carousel__img` 注入 `sizes="auto"`（`wp_img_tag_add_auto_sizes`）。
 - 有 `link_url` 时链接带 `aria-label`（title → 附件 alt →「Promotional banner」），图 `alt=""`。
+- Swiper：`TS_SWIPER_A11Y` 英文文案；`prefers-reduced-motion: reduce` 时关闭 Autoplay。
+
+详见 [前台性能](../architecture/performance.md)。
 
 ## PHP API
 

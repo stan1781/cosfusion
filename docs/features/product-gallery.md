@@ -31,6 +31,15 @@ Customizer → 商品画廊 →「缩略图均分下限张数」即 `product_gal
 
 `variations_form` 变更时按匹配结果：`restoreParent` / `activateSlide` / `patchFirstSlide` / `replaceAllSlides`（见 `gallery-variations.ts`）。重建后重新初始化 Swiper 并重算缩略图尺寸。
 
+## 图片与 LCP
+
+- SSR 首张主图：`loading="eager"` + `fetchpriority="high"` + `data-no-lazy="1"`（`woocommerce_single` + srcset）。
+- 单品页 `wp_head`：`tailwindscore_gallery_preload_lcp_in_head()` 对父商品第一张输出 `<link rel="preload" as="image">`（`imagesrcset` / `imagesizes`）；占位图与变体图不 preload。
+- `imagesizes`：`(max-width: 63.999rem) 100vw, min(50vw, 36rem)`（对齐 `lg`：手机全宽、桌面半栏+缩略图）。
+
+详见 [前台性能](../architecture/performance.md)。
+
 ## 不做
 
 - 末张 `+N` 遮罩、缩略图专用上下箭头、非正方形缩略图。
+- 变体图 `<head>` preload（发生在 JS 之后，预载浪费带宽）。

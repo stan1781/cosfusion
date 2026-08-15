@@ -22,6 +22,7 @@
 | wc-mailnest | `inc/integrations/wc-mailnest.php` | `wcSubscribeAjax`、`wcMailnestFormAjax` | 弹窗/短代码/联系表单页；**非** cart/checkout | 档 B + `src/ts/integrations/mailnest.ts` | ✅ 已完成 |
 | wc-order-process-manager | `inc/integrations/wc-order-process-manager.php` | `wcOrderProcessFrontend` | `is_account_page()` | 模板迁主题 + `order-process.ts`；去 Bootstrap Modal | ✅ 已完成 |
 | Iconic Linked Variations | `inc/integrations/iconic-linked-variations.php` | — | 按插件条件 | 样式/资源协调 | ✅ 已整合 |
+| WP Enhanced Tools（脚本管理） | `inc/integrations/wp-enhanced-tools.php` | — | 插件 Head/Body/Foot 直出 | 滤镜 `wp_enhanced_tools_script_output`：仅 Hotjar idle/交互延迟 | ✅ 已整合 |
 | wc-enhanced-user | — | `wcUserEnhancedLogin`、`wcUserEnhancedParams` | 账户页 / 单品积分 | 档 B（待实现） | ⏸ 待做 |
 | feed-export | — | — | 仅后台 | 跳过 | — |
 
@@ -37,6 +38,16 @@
 - 确认收货等 My Account 前台流程
 - Bootstrap Modal 改为主题 `<dialog>` / TS
 - Woo 模板优先使用 `themes/tailwindscore/woocommerce/`
+
+### WP Enhanced Tools（脚本管理）
+
+- 插件 `Script_Manager` 在 Head / Body / Foot 直出管理员粘贴的 HTML（option `wc_enhanced_tools_scripts`）
+- 输出前经滤镜 `wp_enhanced_tools_script_output`（`$content`, `$location`）
+- 主题仅延迟含 Hotjar 的 `<script>`（idle / 首次交互）；GTM、gtag、`noscript` 原样
+- GTM **容器内** 的 Hotjar 主题改不到，须在 GTM 设触发延迟
+- 与 WP Rocket Delay JS：**同一段 Hotjar 勿叠两次**（二选一）
+
+详见 [前台性能](../architecture/performance.md)。
 
 ### wc-enhanced-user（待做）
 

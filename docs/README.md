@@ -11,6 +11,7 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 | [架构总览](architecture/overview.md) | 目录结构、技术栈、分层边界 |
 | [设计令牌](architecture/design-tokens.md) | SCSS/CSS 变量、断点、组件样式规范 |
 | [构建系统](architecture/build-system.md) | Vite 入口、资源清单、按页加载、release 打包 |
+| [前台性能](architecture/performance.md) | LCP / CLS / WP Rocket 分工与排除；禁止第三方懒加载破坏 Hero |
 | [Bootscore 映射](architecture/bootscore-mapping.md) | 与 Bootscore 的继承与替换关系 |
 
 ## 功能文档

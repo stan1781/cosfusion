@@ -76,6 +76,9 @@ function tailwindscore_hero_render_responsive_image( int $attachment_id, string 
 	$decoding      = isset( $attrs['decoding'] ) ? (string) $attrs['decoding'] : 'async';
 	$fetchpriority = isset( $attrs['fetchpriority'] ) ? (string) $attrs['fetchpriority'] : '';
 	$sizes         = isset( $attrs['sizes'] ) ? (string) $attrs['sizes'] : '(max-width: 47.999rem) 100vw, min(100vw, 1200px)';
+	// LCP 候选：阻止 WP Rocket / 懒加载插件改写 src。
+	$skip_lazy = ( 'eager' === $loading || 'high' === $fetchpriority )
+		|| ( isset( $attrs['data-no-lazy'] ) && $attrs['data-no-lazy'] );
 
 	if ( $attachment_id > 0 ) {
 		$img_attrs = array(
@@ -88,6 +91,9 @@ function tailwindscore_hero_render_responsive_image( int $attachment_id, string 
 		if ( '' !== $fetchpriority ) {
 			$img_attrs['fetchpriority'] = $fetchpriority;
 		}
+		if ( $skip_lazy ) {
+			$img_attrs['data-no-lazy'] = '1';
+		}
 
 		$html = wp_get_attachment_image( $attachment_id, 'large', false, $img_attrs );
 
@@ -99,16 +105,18 @@ function tailwindscore_hero_render_responsive_image( int $attachment_id, string 
 	}
 
 	$priority_attr = '' !== $fetchpriority ? ' fetchpriority="' . esc_attr( $fetchpriority ) . '"' : '';
+	$nolazy_attr   = $skip_lazy ? ' data-no-lazy="1"' : '';
 
 	return sprintf(
-		'<img class="%1$s" src="%2$s" alt="%3$s" loading="%4$s" decoding="%5$s" sizes="%6$s"%7$s>',
+		'<img class="%1$s" src="%2$s" alt="%3$s" loading="%4$s" decoding="%5$s" sizes="%6$s"%7$s%8$s>',
 		esc_attr( $class ),
 		esc_url( $fallback_url ),
 		esc_attr( $alt ),
 		esc_attr( $loading ),
 		esc_attr( $decoding ),
 		esc_attr( $sizes ),
-		$priority_attr
+		$priority_attr,
+		$nolazy_attr
 	);
 }
 
@@ -211,7 +219,7 @@ function tailwindscore_hero_preload_lcp_in_head(): void {
 add_action( 'wp_head', 'tailwindscore_hero_preload_lcp_in_head', 2 );
 
 /**
- * 禁止 WP 给 Hero 图注入 sizes="auto, …"（会干扰 LCP 候选）。
+ * 禁止 WP 给 Hero / 归档 Hero 图注入 sizes="auto, …"（会干扰 LCP 候选）。
  *
  * @param bool   $add   是否添加 auto sizes。
  * @param string $image 完整 img HTML（WP 6.7+ 第二参；旧版可能缺失）。
@@ -221,7 +229,11 @@ function tailwindscore_hero_disable_auto_sizes( bool $add, $image = '' ): bool {
 		return false;
 	}
 
-	if ( is_string( $image ) && str_contains( $image, 'hero-carousel__img' ) ) {
+	if (
+		is_string( $image )
+		&& ( str_contains( $image, 'hero-carousel__img' )
+			|| str_contains( $image, 'wc-archive-hero__img' ) )
+	) {
 		return false;
 	}
 

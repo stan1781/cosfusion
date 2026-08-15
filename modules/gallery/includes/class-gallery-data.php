@@ -285,9 +285,10 @@ function tailwindscore_gallery_render_slide_html( array $img, int $index, bool $
 
 	$loading = $eager ? 'eager' : 'lazy';
 	$fetch   = $eager ? ' fetchpriority="high"' : '';
+	$nolazy  = $eager ? ' data-no-lazy="1"' : '';
 
 	$html = '<div class="swiper-slide" data-slide-index="' . esc_attr( (string) $index ) . '">';
-	$html .= '<img src="' . esc_url( $src ) . '" alt="' . esc_attr( $alt ) . '" loading="' . esc_attr( $loading ) . '" decoding="async"' . $fetch;
+	$html .= '<img src="' . esc_url( $src ) . '" alt="' . esc_attr( $alt ) . '" loading="' . esc_attr( $loading ) . '" decoding="async"' . $fetch . $nolazy;
 	if ( $srcset ) {
 		$html .= ' srcset="' . esc_attr( $srcset ) . '"';
 	}
@@ -299,3 +300,50 @@ function tailwindscore_gallery_render_slide_html( array $img, int $index, bool $
 
 	return $html;
 }
+
+/**
+ * 单品页：在 <head> 预加载父商品首张主图（woocommerce_single），缩短 LCP 发现延迟。
+ * 不 preload 变体图 / 占位图。
+ */
+function tailwindscore_gallery_preload_lcp_in_head(): void {
+	if ( is_admin() || ! function_exists( 'is_product' ) || ! is_product() ) {
+		return;
+	}
+
+	$product = null;
+	if ( isset( $GLOBALS['product'] ) && $GLOBALS['product'] instanceof WC_Product ) {
+		$product = $GLOBALS['product'];
+	}
+
+	if ( ! $product instanceof WC_Product ) {
+		$product = wc_get_product( get_queried_object_id() );
+	}
+
+	if ( ! $product instanceof WC_Product ) {
+		return;
+	}
+
+	$images = tailwindscore_gallery_parent_images( $product );
+	if ( empty( $images[0] ) || ! is_array( $images[0] ) ) {
+		return;
+	}
+
+	$first = $images[0];
+	$id    = isset( $first['id'] ) ? (int) $first['id'] : 0;
+	$src   = ! empty( $first['gallery'] ) ? (string) $first['gallery'] : '';
+
+	if ( $id < 1 || '' === $src ) {
+		return;
+	}
+
+	$srcset = ! empty( $first['gallery_srcset'] ) ? (string) $first['gallery_srcset'] : $src;
+	$sizes  = '(max-width: 63.999rem) 100vw, min(50vw, 36rem)';
+
+	printf(
+		'<link rel="preload" as="image" href="%1$s" imagesrcset="%2$s" imagesizes="%3$s" fetchpriority="high" />' . "\n",
+		esc_url( $src ),
+		esc_attr( $srcset ),
+		esc_attr( $sizes )
+	);
+}
+add_action( 'wp_head', 'tailwindscore_gallery_preload_lcp_in_head', 2 );

@@ -6,6 +6,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 
 import { TS_BREAKPOINT_MD_REM } from '../breakpoints';
+import { TS_SWIPER_A11Y } from '../swiper/a11y-i18n';
 import { parseGap, parseSlideCount } from '../swiper/parse';
 import { bindSwiperWrapNavigation } from '../swiper/wrap-navigation';
 
@@ -35,6 +36,10 @@ function parseDelay(value: string | undefined): number {
 	return Math.max(2000, Math.min(10000, parsed));
 }
 
+function prefersReducedMotion(): boolean {
+	return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
 function initHeroCarousel(section: HTMLElement): void {
 	if (section.dataset.tsHeroReady === '1') {
 		return;
@@ -62,7 +67,8 @@ function initHeroCarousel(section: HTMLElement): void {
 		? 1
 		: parseSlideCount(section.dataset.tsColumnsDesktop, DEFAULT_COLUMNS, 4);
 	const spaceBetween = parseGap(section.dataset.tsGap, DEFAULT_GAP);
-	const autoplayEnabled = section.dataset.tsAutoplay === '1';
+	const reduceMotion = prefersReducedMotion();
+	const autoplayEnabled = section.dataset.tsAutoplay === '1' && !reduceMotion;
 	const autoplayDelay = parseDelay(section.dataset.tsAutoplayDelay);
 
 	if (slideCount <= 1) {
@@ -115,7 +121,7 @@ function initHeroCarousel(section: HTMLElement): void {
 					}
 				: {}),
 			a11y: {
-				enabled: true,
+				...TS_SWIPER_A11Y,
 			},
 		});
 

@@ -9,6 +9,7 @@ declare(strict_types=1);
 </head>
 <body <?php body_class( 'site-body' ); ?>>
 <?php wp_body_open(); ?>
+<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'tailwindscore' ); ?></a>
 <div id="page" class="site">
 	<?php get_template_part( 'template-parts/header/header-bar' ); ?>
 	<div class="site-header__scroll-sentinel" aria-hidden="true"></div>

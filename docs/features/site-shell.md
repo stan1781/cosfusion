@@ -7,7 +7,7 @@
 | 区域 | PHP | 样式 | 交互 |
 |------|-----|------|------|
 | 公告栏 | `inc/navigation/header-bar.php`、`template-parts/header/header-bar.php` | `src/scss/components/_header.scss` | `src/ts/site/header-bar.ts` |
-| 吸顶头部 | — | 同上 | `src/ts/site/header-sticky.ts` |
+| 吸顶头部 | — | 同上 | `src/ts/site/header-sticky.ts`（compact + `--ts-site-header-height`） |
 | 主导航 | `inc/navigation/nav.php`、`class-nav-menu-walker.php` | `src/scss/components/_navigation.scss` | `src/ts/site/mobile-nav.ts`、`menu-drawer-panel.ts` |
 | 移动壳层 | `inc/navigation/mobile-shell.php` | `src/scss/components/_drawers.scss` | Alpine + TS |
 | 移动底栏 | — | `src/scss/components/_mobile-tab-bar.scss` | `src/ts/site/mobile-tab-bar.ts` |
@@ -16,6 +16,13 @@
 | 搜索 | `inc/woocommerce/ajax-search.php` | 搜索相关组件 SCSS | `src/ts/search/` |
 
 模板入口：`header.php`、`footer.php`、`template-parts/header/`、`template-parts/footer/`。
+
+## 无障碍与吸顶
+
+- **Skip link**：`header.php` 在 `wp_body_open` 后输出「Skip to content」→ `#primary`；聚焦时可见（`.skip-link:focus`）。商城 `<main>` 由 `tailwindscore_wc_wrapper_open()` 带 `id="primary"`。
+- **吸顶高度**：`header-sticky.ts` 用 `ResizeObserver` 把 `.site-header` 实测高度写入 `--ts-site-header-height`，供归档侧栏 / 文章侧栏 sticky `top`；compact 切换后同步更新。
+- **Logo**：`loading="eager"` + `decoding="async"` + 固有宽高，降低 CLS。
+- 性能总览见 [前台性能](../architecture/performance.md)。
 
 ## 顶部公告栏（Kirki）
 

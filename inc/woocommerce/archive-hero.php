@@ -77,7 +77,15 @@ function tailwindscore_wc_archive_hero_attachment_id(): int {
 }
 
 /**
- * 若已配置，归档 hero 的全尺寸背景 URL。
+ * 当前归档是否已配置 Hero 图（LCP 候选；有图时产品卡应 lazy）。
+ */
+function tailwindscore_wc_archive_has_hero_image(): bool {
+	return tailwindscore_wc_archive_has_hero_layout()
+		&& tailwindscore_wc_archive_hero_attachment_id() > 0;
+}
+
+/**
+ * 若已配置，归档 hero 的展示用 URL（优先 large，兼容旧调用方）。
  */
 function tailwindscore_wc_archive_hero_background_url(): string {
 	$attachment_id = tailwindscore_wc_archive_hero_attachment_id();
@@ -86,10 +94,41 @@ function tailwindscore_wc_archive_hero_background_url(): string {
 		return '';
 	}
 
-	$url = wp_get_attachment_image_url( $attachment_id, 'full' );
+	$url = wp_get_attachment_image_url( $attachment_id, 'large' );
+	if ( ! is_string( $url ) || '' === $url ) {
+		$url = wp_get_attachment_image_url( $attachment_id, 'full' );
+	}
 
 	return is_string( $url ) ? $url : '';
 }
+
+/**
+ * 商店 / 分类归档：在 <head> 预加载 Hero 图，缩短 LCP 发现延迟。
+ */
+function tailwindscore_wc_archive_hero_preload_lcp_in_head(): void {
+	if ( is_admin() || ! tailwindscore_wc_archive_has_hero_image() ) {
+		return;
+	}
+
+	if ( ! function_exists( 'tailwindscore_hero_attachment_srcset_pair' ) ) {
+		return;
+	}
+
+	$attachment_id = tailwindscore_wc_archive_hero_attachment_id();
+	$pair          = tailwindscore_hero_attachment_srcset_pair( $attachment_id, '' );
+
+	if ( '' === $pair['src'] ) {
+		return;
+	}
+
+	printf(
+		'<link rel="preload" as="image" href="%1$s" imagesrcset="%2$s" imagesizes="%3$s" fetchpriority="high" />' . "\n",
+		esc_url( $pair['src'] ),
+		esc_attr( '' !== $pair['srcset'] ? $pair['srcset'] : $pair['src'] ),
+		esc_attr( '100vw' )
+	);
+}
+add_action( 'wp_head', 'tailwindscore_wc_archive_hero_preload_lcp_in_head', 2 );
 
 /**
  * 在面包屑上方渲染全宽归档 hero。

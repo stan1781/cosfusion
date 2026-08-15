@@ -53,7 +53,7 @@ function tailwindscore_nocache_when_cart_has_items(): void {
 add_action( 'template_redirect', 'tailwindscore_nocache_when_cart_has_items', 0 );
 
 /**
- * 提示反向代理按会话 Cookie 区分全页缓存。
+ * 提示反向代理 / 全页缓存（含 WP Rocket）按会话 Cookie 区分。
  */
 function tailwindscore_vary_cache_on_cookies(): void {
 	if ( is_admin() || wp_doing_ajax() || wp_is_json_request() ) {

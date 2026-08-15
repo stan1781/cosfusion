@@ -298,3 +298,124 @@ function tailwindscore_disable_attachment_pages(): void {
 	nocache_headers();
 }
 add_action( 'template_redirect', 'tailwindscore_disable_attachment_pages' );
+
+/**
+ * 是否已安装并可用 WP Rocket（产线全页缓存层）。
+ */
+function tailwindscore_is_wp_rocket_active(): bool {
+	return defined( 'WP_ROCKET_VERSION' ) || function_exists( 'rocket_clean_domain' );
+}
+
+/**
+ * 主题 dist 路径片段（WP Rocket 排除用；hash 文件名可变）。
+ */
+function tailwindscore_wp_rocket_theme_asset_patterns(): array {
+	$slug = basename( get_template_directory() );
+
+	return array(
+		'/themes/' . $slug . '/assets/dist/',
+		'/themes/' . $slug . '/assets/fonts/',
+	);
+}
+
+/**
+ * WP Rocket LazyLoad：排除 LCP / Logo / 主题已控 loading 的图。
+ *
+ * @param string[] $attributes 排除属性片段。
+ * @return string[]
+ */
+function tailwindscore_wp_rocket_lazyload_excluded_attributes( array $attributes ): array {
+	$extra = array(
+		'data-no-lazy',
+		'fetchpriority="high"',
+		'hero-carousel__img',
+		'wc-archive-hero__img',
+		'branding__logo',
+	);
+
+	return array_values( array_unique( array_merge( $attributes, $extra ) ) );
+}
+add_filter( 'rocket_lazyload_excluded_attributes', 'tailwindscore_wp_rocket_lazyload_excluded_attributes' );
+
+/**
+ * WP Rocket Delay JS：主题 ES module（含 Alpine / Swiper 动态 chunk）不可延迟。
+ *
+ * @param string[] $exclusions 排除模式。
+ * @return string[]
+ */
+function tailwindscore_wp_rocket_delay_js_exclusions( array $exclusions ): array {
+	$extra = array_merge(
+		tailwindscore_wp_rocket_theme_asset_patterns(),
+		array(
+			'tailwindscore-app',
+			'tailwindscore-runtime-config',
+			'type="module"',
+		)
+	);
+
+	return array_values( array_unique( array_merge( $exclusions, $extra ) ) );
+}
+add_filter( 'rocket_delay_js_exclusions', 'tailwindscore_wp_rocket_delay_js_exclusions' );
+
+/**
+ * WP Rocket Defer JS：同上，避免 module 入口被 defer 打乱。
+ *
+ * @param string[] $excluded 排除模式。
+ * @return string[]
+ */
+function tailwindscore_wp_rocket_exclude_defer_js( array $excluded ): array {
+	return array_values(
+		array_unique(
+			array_merge( $excluded, tailwindscore_wp_rocket_theme_asset_patterns() )
+		)
+	);
+}
+add_filter( 'rocket_exclude_defer_js', 'tailwindscore_wp_rocket_exclude_defer_js' );
+
+/**
+ * WP Rocket 合并/压缩 JS：Vite 已产出 hashed + minified module，勿再合并。
+ *
+ * @param string[] $excluded 排除 URL 片段。
+ * @return string[]
+ */
+function tailwindscore_wp_rocket_exclude_js( array $excluded ): array {
+	return array_values(
+		array_unique(
+			array_merge( $excluded, tailwindscore_wp_rocket_theme_asset_patterns() )
+		)
+	);
+}
+add_filter( 'rocket_exclude_js', 'tailwindscore_wp_rocket_exclude_js' );
+
+/**
+ * WP Rocket 合并/压缩 CSS：主题 styles / woo 已由 Vite 构建。
+ *
+ * @param string[] $excluded 排除 URL 片段。
+ * @return string[]
+ */
+function tailwindscore_wp_rocket_exclude_css( array $excluded ): array {
+	return array_values(
+		array_unique(
+			array_merge( $excluded, tailwindscore_wp_rocket_theme_asset_patterns() )
+		)
+	);
+}
+add_filter( 'rocket_exclude_css', 'tailwindscore_wp_rocket_exclude_css' );
+
+/**
+ * WP Rocket Lazy Render Content：首屏 Hero / 壳层不要延后渲染。
+ *
+ * @param string[] $exclusions 排除选择器片段。
+ * @return string[]
+ */
+function tailwindscore_wp_rocket_lrc_exclusions( array $exclusions ): array {
+	$extra = array(
+		'hero-carousel',
+		'wc-archive-hero',
+		'site-header',
+		'site-header-bar',
+	);
+
+	return array_values( array_unique( array_merge( $exclusions, $extra ) ) );
+}
+add_filter( 'rocket_lrc_exclusions', 'tailwindscore_wp_rocket_lrc_exclusions' );

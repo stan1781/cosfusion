@@ -94,8 +94,10 @@ function applyImgAttrs(
 	el.loading = eager ? 'eager' : 'lazy';
 	if (eager) {
 		el.setAttribute('fetchpriority', 'high');
+		el.setAttribute('data-no-lazy', '1');
 	} else {
 		el.removeAttribute('fetchpriority');
+		el.removeAttribute('data-no-lazy');
 	}
 }
 
