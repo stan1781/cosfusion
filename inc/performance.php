@@ -67,7 +67,7 @@ add_action( 'wp_head', 'tailwindscore_performance_dequeue_wc_block_styles', 100 
 
 /**
  * 主题购物车 / 列表加购使用 Store API；WC 全局 add-to-cart 脚本冗余。
- * 同时移除的 `woocommerce.js` 含归档 orderby 自动提交；由 src/ts/shop/ordering.ts 替代。
+ * 同时移除的 `woocommerce.js` 含归档 orderby 自动提交；归档页由页内 Sort 下拉 + archive-nav 处理，其它页仍由 src/ts/shop/ordering.ts 提交 form。
  */
 function tailwindscore_performance_dequeue_legacy_wc_scripts(): void {
 	if ( ! function_exists( 'WC' ) || tailwindscore_needs_wc_core_script() ) {

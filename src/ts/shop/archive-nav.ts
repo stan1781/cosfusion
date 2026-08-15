@@ -29,7 +29,6 @@ const MAIN_SELECTOR = '.wc-archive-main';
 const FILTER_GROUPS_SELECTOR = '.wc-archive-sidebar__groups';
 const NAV_LINK_SELECTOR = '[data-ts-archive-nav]';
 const PAGINATION_LINK_SELECTOR = '.woocommerce-pagination a.page-numbers';
-const ORDERING_SELECT_SELECTOR = '.woocommerce-ordering select';
 const LIVE_REGION_ID = 'ts-archive-live';
 const FILTER_QUERY_PREFIXES = ['filter_', 'query_type_'] as const;
 
@@ -130,6 +129,11 @@ function syncFilterNavHrefs(targetUrl: string): void {
 			return;
 		}
 
+		// 排序链接 URL 由服务端写入，勿当分类 chip 重写。
+		if (link.getAttribute('data-ts-archive-nav-type') === 'orderby') {
+			return;
+		}
+
 		try {
 			const current = new URL(href, window.location.href);
 
@@ -180,6 +184,11 @@ function syncFilterActiveFromHrefs(activeNavHrefs: ReadonlySet<string>): void {
 	}
 
 	archiveRoot.querySelectorAll<HTMLAnchorElement>(NAV_LINK_SELECTOR).forEach((link) => {
+		// 排序当前项由服务端 HTML 标记，勿被筛选 active 集合清掉。
+		if (link.getAttribute('data-ts-archive-nav-type') === 'orderby') {
+			return;
+		}
+
 		const href = link.getAttribute('href');
 		const isActive = href ? activeNavHrefs.has(canonicalizeUrl(href)) : false;
 
@@ -322,22 +331,6 @@ async function navigateArchive(url: string, options: NavigateOptions = {}): Prom
 	}
 }
 
-function buildOrderByUrl(select: HTMLSelectElement): string {
-	const form = select.closest('form');
-	const url = new URL(form?.getAttribute('action') || window.location.href, window.location.href);
-	const formData = new FormData(form ?? undefined);
-
-	formData.forEach((value, key) => {
-		if (typeof value === 'string') {
-			url.searchParams.set(key, value);
-		}
-	});
-
-	url.searchParams.set(select.name || 'orderby', select.value);
-
-	return preserveArchiveFilterParams(url.href);
-}
-
 function handleDocumentClick(event: MouseEvent): void {
 	if (!archiveRoot || !mainEl || isModifiedClick(event)) {
 		return;
@@ -401,56 +394,6 @@ function handleDocumentClick(event: MouseEvent): void {
 	}
 }
 
-function handleOrderingSubmit(event: SubmitEvent): void {
-	if (!archiveRoot || !mainEl) {
-		return;
-	}
-
-	const form = event.target;
-
-	if (!(form instanceof HTMLFormElement)) {
-		return;
-	}
-
-	if (!form.closest(`${ARCHIVE_SELECTOR} ${MAIN_SELECTOR} .woocommerce-ordering`)) {
-		return;
-	}
-
-	event.preventDefault();
-	event.stopPropagation();
-
-	const url = new URL(form.getAttribute('action') || window.location.href, window.location.href);
-	const formData = new FormData(form);
-
-	formData.forEach((value, key) => {
-		if (typeof value === 'string') {
-			url.searchParams.set(key, value);
-		}
-	});
-
-	void navigateArchive(preserveArchiveFilterParams(url.href), { pushState: true });
-}
-
-function handleDocumentChange(event: Event): void {
-	if (!archiveRoot || !mainEl) {
-		return;
-	}
-
-	const target = event.target;
-
-	if (!(target instanceof HTMLSelectElement)) {
-		return;
-	}
-
-	if (!target.matches(`${ARCHIVE_SELECTOR} ${MAIN_SELECTOR} ${ORDERING_SELECT_SELECTOR}`)) {
-		return;
-	}
-
-	event.preventDefault();
-	event.stopImmediatePropagation();
-	void navigateArchive(buildOrderByUrl(target), { pushState: true });
-}
-
 function handlePopState(): void {
 	if (!archiveRoot || !mainEl || isPopstateNavigation) {
 		return;
@@ -502,8 +445,6 @@ function initArchiveNav(): void {
 	resetArchiveInfiniteScroll(mainEl);
 
 	document.addEventListener('click', handleDocumentClick);
-	document.addEventListener('change', handleDocumentChange, true);
-	document.addEventListener('submit', handleOrderingSubmit, true);
 	window.addEventListener('popstate', handlePopState);
 
 	if (!history.state || !(history.state as { tsArchive?: boolean }).tsArchive) {

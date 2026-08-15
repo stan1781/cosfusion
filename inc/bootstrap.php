@@ -27,6 +27,7 @@ require_once __DIR__ . '/woocommerce/archive/attribute-filters.php';
 require_once __DIR__ . '/woocommerce/archive/category-repository.php';
 require_once __DIR__ . '/woocommerce/archive/filter-registry.php';
 require_once __DIR__ . '/woocommerce/archive/context.php';
+require_once __DIR__ . '/woocommerce/archive/ordering.php';
 require_once __DIR__ . '/woocommerce/helpers.php';
 require_once __DIR__ . '/woocommerce/product-image-aspect.php';
 require_once __DIR__ . '/woocommerce/product-tabs.php';
