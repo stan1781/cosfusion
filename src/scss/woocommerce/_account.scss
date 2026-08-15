@@ -12,6 +12,13 @@
 	background: var(--ts-surface);	
 }
 
+@include mixins.ts-up("md") {
+.wc-account__content {
+	box-shadow: var(--ts-shadow-md);
+		border-radius: var(--ts-border-radius);
+		padding: var(--ts-spacer-4);
+	}
+}
 
 .wc-account__content > .woocommerce-order-details,
 .wc-account__content > .woocommerce-MyAccount-content > .stack {
@@ -694,7 +701,7 @@ body.confirm-receipt-open {
 	.form-row-wide,
 	fieldset,
 	.clear,
-	> p {
+	> p:not(.form-row) {
 		grid-column: 1 / -1;
 	}
 
@@ -815,6 +822,27 @@ body.confirm-receipt-open {
 }
 
 @include mixins.ts-down("lg") {
+	// 贴齐头部：取消 .section 上内边距，导航全宽突破 .container gutter。
+	.woocommerce-account .section {
+		padding-block-start: 0;
+	}
+
+	// 单列 grid 行高等于导航自身，sticky 没有滑动空间；改 flex 后随账户内容一起滚动。
+	.wc-account {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.wc-account__nav {
+		position: sticky;
+		top: var(--ts-site-header-height, 5rem);
+		z-index: var(--ts-z-sticky);
+		box-shadow: var(--ts-shadow-sm);
+		width: calc(100% + 2 * var(--ts-container-inline-gutter, 1rem));
+		max-width: none;
+		margin-inline: calc(-1 * var(--ts-container-inline-gutter, 1rem));
+	}
+
 	.wc-account-nav__label--full {
 		display: none;
 	}
@@ -856,8 +884,8 @@ body.confirm-receipt-open {
 	.wc-account-nav__icon {
 		display: grid;
 		place-items: center;
-		width: 2rem;
-		height: 2rem;
+		width: 1.3rem;
+		height: 1.3rem;
 		border-radius: var(--ts-border-radius);
 		background: var(--ts-surface-muted);
 		transition: background-color 0.15s ease;

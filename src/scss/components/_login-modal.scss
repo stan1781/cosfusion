@@ -44,7 +44,6 @@ body.login-modal-open {
 	align-items: center;
 	justify-content: space-between;
 	gap: var(--ts-spacer-3);
-	margin-bottom: var(--ts-spacer-3);
 }
 
 .login-modal__title {
@@ -71,8 +70,22 @@ body.login-modal-open {
 .login-modal .account-auth__form,
 .login-modal form.woocommerce-form-login {
 	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	grid-auto-flow: dense;
 	gap: var(--ts-spacer-3);
 	margin: 0;
+
+	> *:not(.account-auth__remember):not(.account-auth__lost-password) {
+		grid-column: 1 / -1;
+	}
+
+	> .account-auth__remember {
+		grid-column: 1;
+	}
+
+	> .account-auth__lost-password {
+		grid-column: 2;
+	}
 
 	.form-row,
 	.woocommerce-form-row {
@@ -139,7 +152,9 @@ body.login-modal-open {
 }
 
 .login-modal .account-auth__lost-password {
-	margin: calc(-1 * var(--ts-spacer-1)) 0 0;
+	grid-column: 2;
+	align-self: center;
+	margin: 0;
 	text-align: right;
 	font-size: var(--ts-font-size-sm);
 
@@ -156,6 +171,8 @@ body.login-modal-open {
 }
 
 .login-modal .account-auth__remember {
+	grid-column: 1;
+	align-self: center;
 	margin: 0;
 	font-size: var(--ts-font-size-sm);
 

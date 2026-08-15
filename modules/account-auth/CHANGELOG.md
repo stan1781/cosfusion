@@ -1,5 +1,9 @@
 # Account Auth Module
 
+## 0.1.2
+
+- 登录 modal 补齐与账户页相同的密码明文切换（主题 TS，不依赖 `woocommerce.js`）。
+
 ## 0.1.1
 
 - Kirki「我的账户」改为 Customizer 根级区块（不再挂在 WooCommerce panel 下）。

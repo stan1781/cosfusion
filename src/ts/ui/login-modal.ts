@@ -1,5 +1,6 @@
 import { resolveSubmitButton, setControlLoading } from './button-loading';
 import { bindEscapeToClose, hideHiddenModal, isHiddenModalOpen, restoreFocus, showHiddenModal } from './dialog';
+import { initPasswordVisibility } from './password-visibility';
 
 let loginModalReturnFocus: HTMLElement | null = null;
 
@@ -83,6 +84,12 @@ export function closeLoginModal(): void {
 }
 
 function initLoginModal(): void {
+	const modal = getLoginModal();
+
+	if (modal) {
+		initPasswordVisibility(modal);
+	}
+
 	document.addEventListener('click', (event) => {
 		const target = event.target;
 

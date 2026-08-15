@@ -1,10 +1,12 @@
-/** Strings for AJAX login (merged into window.tailwindscoreAccountAuth.i18n). */
+/** AJAX 登录文案（合并进 window.tailwindscoreAccountAuth.i18n）。 */
 export type AccountAuthLoginI18n = {
 	usernameRequired: string;
 	passwordRequired: string;
 	loginFailed: string;
 	networkError: string;
 	registrationSuccess?: string;
+	showPassword?: string;
+	hidePassword?: string;
 };
 
 /** Strings for AJAX register (window.tailwindscoreAccountAuth.registerI18n). */

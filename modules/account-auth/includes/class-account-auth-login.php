@@ -159,6 +159,8 @@ class Tailwindscore_Account_Auth_Login {
 				'loginFailed'           => __( 'Login failed. Please try again.', 'tailwindscore' ),
 				'networkError'          => __( 'Network error. Please try again.', 'tailwindscore' ),
 				'registrationSuccess'   => __( 'Registration successful. You can now sign in.', 'tailwindscore' ),
+				'showPassword'          => __( 'Show password', 'woocommerce' ),
+				'hidePassword'          => __( 'Hide password', 'woocommerce' ),
 			),
 		);
 
