@@ -12,7 +12,18 @@ import { bindSwiperWrapNavigation } from '../swiper/wrap-navigation';
 const DEFAULT_COLUMNS = 1;
 const DEFAULT_GAP = 0;
 const DEFAULT_AUTOPLAY_DELAY = 5000;
+const DEFAULT_LAYOUT = 'full';
 const MD_BREAKPOINT_PX = TS_BREAKPOINT_MD_REM * 16;
+
+type HeroLayout = 'full' | 'peek';
+
+function parseLayout(value: string | undefined): HeroLayout {
+	if (value === 'peek') {
+		return 'peek';
+	}
+
+	return DEFAULT_LAYOUT;
+}
 
 function parseDelay(value: string | undefined): number {
 	const parsed = Number.parseInt(value ?? '', 10);
@@ -40,14 +51,21 @@ function initHeroCarousel(section: HTMLElement): void {
 		return;
 	}
 
+	const layout = parseLayout(section.dataset.tsLayout);
+	const isFull = layout === 'full';
+	const isPeek = layout === 'peek';
 	const slideCount = slides.length;
-	const slidesMobile = parseSlideCount(section.dataset.tsColumnsMobile, DEFAULT_COLUMNS, 4);
-	const slidesDesktop = parseSlideCount(section.dataset.tsColumnsDesktop, DEFAULT_COLUMNS, 4);
+	const slidesMobile = isFull
+		? 1
+		: parseSlideCount(section.dataset.tsColumnsMobile, DEFAULT_COLUMNS, 4);
+	const slidesDesktop = isFull
+		? 1
+		: parseSlideCount(section.dataset.tsColumnsDesktop, DEFAULT_COLUMNS, 4);
 	const spaceBetween = parseGap(section.dataset.tsGap, DEFAULT_GAP);
 	const autoplayEnabled = section.dataset.tsAutoplay === '1';
 	const autoplayDelay = parseDelay(section.dataset.tsAutoplayDelay);
 
-	if (slideCount <= 1 && slidesMobile <= 1 && slidesDesktop <= 1) {
+	if (slideCount <= 1) {
 		pagination.hidden = true;
 		if (navGroup) {
 			navGroup.hidden = true;
@@ -57,7 +75,7 @@ function initHeroCarousel(section: HTMLElement): void {
 	}
 
 	const modules = [Pagination, A11y];
-	if (autoplayEnabled && slideCount > 1) {
+	if (autoplayEnabled) {
 		modules.push(Autoplay);
 	}
 
@@ -69,6 +87,8 @@ function initHeroCarousel(section: HTMLElement): void {
 			modules,
 			slidesPerView: slidesMobile,
 			spaceBetween,
+			// peek：居中激活卡，两侧露出邻张（首尾仍会贴边，无三倍轨无限循环）
+			centeredSlides: isPeek,
 			watchOverflow: true,
 			observer: true,
 			observeParents: true,
@@ -78,13 +98,14 @@ function initHeroCarousel(section: HTMLElement): void {
 				[MD_BREAKPOINT_PX]: {
 					slidesPerView: slidesDesktop,
 					spaceBetween,
+					centeredSlides: isPeek,
 				},
 			},
 			pagination: {
 				el: pagination,
 				clickable: true,
 			},
-			...(autoplayEnabled && slideCount > 1
+			...(autoplayEnabled
 				? {
 						autoplay: {
 							delay: autoplayDelay,

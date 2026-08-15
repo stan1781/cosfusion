@@ -21,7 +21,7 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 | [主导航](features/navigation.md) | 下拉菜单、Mega 菜单、移动端钻取抽屉 |
 | [购买流程](features/purchase-flow.md) | Drawer-first 购物车、结账、通知策略 |
 | [首页](features/homepage.md) | 静态 Page + 短代码；Hero Kirki + Content Blocks |
-| [首页 Hero](features/home-hero.md) | `[ts_home_hero]` 图轮播（mobile 图 / peek / rewind） |
+| [首页 Hero](features/home-hero.md) | `[ts_home_hero]` 图轮播（full / peek、srcset、LCP preload） |
 | [产品轮播](features/product-carousel.md) | `[ts_products_carousel]`、购物车 / 404 共享 Swiper 壳层 |
 | [单品商品画廊](features/product-gallery.md) | 主图 Swiper、桌面竖向缩略图均分与居中、PhotoSwipe |
 | [产品详情 Tab](features/product-detail-tabs.md) | 响应式描述 / Size Guide / 评论布局 |

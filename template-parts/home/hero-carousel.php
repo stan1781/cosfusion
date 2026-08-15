@@ -17,6 +17,7 @@ if ( array() === $slides ) {
 
 $autoplay        = ! empty( $args['autoplay'] );
 $autoplay_delay  = isset( $args['autoplay_delay'] ) ? tailwindscore_sanitize_hero_autoplay_delay( $args['autoplay_delay'] ) : 5000;
+$layout          = isset( $args['layout'] ) ? tailwindscore_sanitize_hero_layout( $args['layout'] ) : 'full';
 $columns_mobile  = isset( $args['columns_mobile'] ) ? tailwindscore_sanitize_hero_carousel_slide_count( $args['columns_mobile'] ) : 1.0;
 $columns_desktop = isset( $args['columns_desktop'] ) ? tailwindscore_sanitize_hero_carousel_slide_count( $args['columns_desktop'] ) : 1.0;
 $gap             = isset( $args['gap'] )
@@ -25,13 +26,16 @@ $gap             = isset( $args['gap'] )
 		: max( 0, min( 48, (int) $args['gap'] ) ) )
 	: 0;
 $section_class = isset( $args['section_class'] ) ? trim( (string) $args['section_class'] ) : '';
-$section_class = trim( 'hero-carousel ' . $section_class );
+$section_class = trim( 'hero-carousel hero-carousel--' . $layout . ' ' . $section_class );
 
 $slide_count = count( $slides );
+$hero_sizes  = '(max-width: 47.999rem) 100vw, min(100vw, 1200px)';
+$is_peek     = 'peek' === $layout;
 ?>
 <section
 	class="<?php echo esc_attr( $section_class ); ?>"
 	data-ts-hero-carousel
+	data-ts-layout="<?php echo esc_attr( $layout ); ?>"
 	data-ts-columns-mobile="<?php echo esc_attr( (string) $columns_mobile ); ?>"
 	data-ts-columns-desktop="<?php echo esc_attr( (string) $columns_desktop ); ?>"
 	data-ts-gap="<?php echo esc_attr( (string) $gap ); ?>"
@@ -43,49 +47,72 @@ $slide_count = count( $slides );
 		<div class="swiper-wrapper">
 			<?php foreach ( $slides as $index => $slide ) : ?>
 				<?php
-				$image        = (string) ( $slide['image'] ?? '' );
-				$image_mobile = (string) ( $slide['image_mobile'] ?? '' );
-				$title        = (string) ( $slide['title'] ?? '' );
-				$link_url     = (string) ( $slide['link_url'] ?? '' );
-				$link_target  = (string) ( $slide['link_target'] ?? '_self' );
-				$alt          = (string) ( $slide['alt'] ?? '' );
-				if ( '' === $alt && '' !== $title ) {
-					$alt = $title;
+				$image           = (string) ( $slide['image'] ?? '' );
+				$image_id        = isset( $slide['image_id'] ) ? (int) $slide['image_id'] : 0;
+				$image_mobile    = (string) ( $slide['image_mobile'] ?? '' );
+				$image_mobile_id = isset( $slide['image_mobile_id'] ) ? (int) $slide['image_mobile_id'] : 0;
+				$title           = (string) ( $slide['title'] ?? '' );
+				$link_url        = (string) ( $slide['link_url'] ?? '' );
+				$attachment_alt  = $image_id > 0
+					? sanitize_text_field( (string) get_post_meta( $image_id, '_wp_attachment_image_alt', true ) )
+					: '';
+				$accessible_name = '' !== $title
+					? $title
+					: ( '' !== $attachment_alt ? $attachment_alt : __( 'Promotional banner', 'tailwindscore' ) );
+				$has_link        = '' !== $link_url;
+				$is_first        = 0 === (int) $index;
+
+				$img_attrs = array(
+					'class'    => 'hero-carousel__img',
+					// 有链接时名称放在 <a aria-label>，图用空 alt 避免读两遍。
+					'alt'      => $has_link ? '' : $accessible_name,
+					'decoding' => 'async',
+					'sizes'    => $hero_sizes,
+					'loading'  => $is_first ? 'eager' : 'lazy',
+				);
+				if ( $is_first ) {
+					$img_attrs['fetchpriority'] = 'high';
 				}
-				$has_link = '' !== $link_url;
 				?>
 				<div class="swiper-slide hero-carousel__slide">
 					<?php if ( $has_link ) : ?>
 						<a
 							class="hero-carousel__link"
 							href="<?php echo esc_url( $link_url ); ?>"
-							<?php echo '_blank' === $link_target ? 'target="_blank" rel="noopener noreferrer"' : ''; ?>
+							aria-label="<?php echo esc_attr( $accessible_name ); ?>"
 						>
 					<?php endif; ?>
 
-					<figure class="hero-carousel__media">
-						<?php if ( '' !== $image_mobile ) : ?>
+					<figure
+						class="hero-carousel__media"
+						<?php
+						if ( $is_peek ) {
+							$media_style = tailwindscore_hero_media_aspect_ratio_style( $image_id, $image_mobile_id );
+							if ( '' !== $media_style ) {
+								echo ' style="' . esc_attr( $media_style ) . '"';
+							}
+						}
+						?>
+					>
+						<?php if ( $image_mobile_id > 0 || '' !== $image_mobile ) : ?>
+							<?php
+							$mobile_pair = tailwindscore_hero_attachment_srcset_pair( $image_mobile_id, $image_mobile );
+							?>
 							<picture>
-								<source media="(width < 48rem)" srcset="<?php echo esc_url( $image_mobile ); ?>">
-								<img
-									class="hero-carousel__img"
-									src="<?php echo esc_url( $image ); ?>"
-									alt="<?php echo esc_attr( $alt ); ?>"
-									<?php echo 0 === (int) $index ? 'fetchpriority="high"' : 'loading="lazy"'; ?>
-									decoding="async"
-								>
+								<?php if ( '' !== $mobile_pair['srcset'] || '' !== $mobile_pair['src'] ) : ?>
+									<source
+										media="(width < 48rem)"
+										srcset="<?php echo esc_attr( '' !== $mobile_pair['srcset'] ? $mobile_pair['srcset'] : $mobile_pair['src'] ); ?>"
+										sizes="100vw"
+									>
+								<?php endif; ?>
+								<?php echo tailwindscore_hero_render_responsive_image( $image_id, $image, $img_attrs ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in helper. ?>
 							</picture>
 						<?php else : ?>
-							<img
-								class="hero-carousel__img"
-								src="<?php echo esc_url( $image ); ?>"
-								alt="<?php echo esc_attr( $alt ); ?>"
-								<?php echo 0 === (int) $index ? 'fetchpriority="high"' : 'loading="lazy"'; ?>
-								decoding="async"
-							>
+							<?php echo tailwindscore_hero_render_responsive_image( $image_id, $image, $img_attrs ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in helper. ?>
 						<?php endif; ?>
 
-						<?php if ( '' !== $title ) : ?>
+						<?php if ( '' !== $title && ! $has_link ) : ?>
 							<figcaption class="hero-carousel__caption screen-reader-text">
 								<?php echo esc_html( $title ); ?>
 							</figcaption>

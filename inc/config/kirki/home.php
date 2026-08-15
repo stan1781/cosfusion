@@ -87,9 +87,26 @@ function tailwindscore_kirki_register_home( string $cfg, array $targets ): void 
 		$cfg,
 		array(
 			'type'        => 'select',
+			'settings'    => 'home_hero_layout',
+			'label'       => esc_html__( '布局模式', 'tailwindscore' ),
+			'description' => esc_html__( 'full＝一屏；peek＝居中多张，两侧露出邻张。', 'tailwindscore' ),
+			'section'     => $section,
+			'default'     => 'full',
+			'priority'    => 35,
+			'choices'     => array(
+				'full' => esc_html__( '一屏（full）', 'tailwindscore' ),
+				'peek' => esc_html__( 'Peek（居中）', 'tailwindscore' ),
+			),
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'        => 'select',
 			'settings'    => 'home_hero_columns_mobile',
 			'label'       => esc_html__( '手机可见张数', 'tailwindscore' ),
-			'description' => esc_html__( 'slidesPerView；1.5 / 2.5 等为 peek。', 'tailwindscore' ),
+			'description' => esc_html__( 'slidesPerView；仅 peek 模式生效。', 'tailwindscore' ),
 			'section'     => $section,
 			'default'     => '1',
 			'priority'    => 40,
@@ -103,7 +120,7 @@ function tailwindscore_kirki_register_home( string $cfg, array $targets ): void 
 			'type'        => 'select',
 			'settings'    => 'home_hero_columns_desktop',
 			'label'       => esc_html__( '桌面可见张数', 'tailwindscore' ),
-			'description' => esc_html__( 'md+（48rem）slidesPerView。', 'tailwindscore' ),
+			'description' => esc_html__( 'md+（48rem）slidesPerView；仅 peek 模式生效。', 'tailwindscore' ),
 			'section'     => $section,
 			'default'     => '1',
 			'priority'    => 50,
@@ -158,26 +175,12 @@ function tailwindscore_kirki_register_home( string $cfg, array $targets ): void 
 				),
 				'title' => array(
 					'type'    => 'text',
-					'label'   => esc_html__( '标题（可选）', 'tailwindscore' ),
+					'label'   => esc_html__( '标题（可选，兼作无障碍名称）', 'tailwindscore' ),
 					'default' => '',
 				),
 				'link_url' => array(
 					'type'    => 'text',
 					'label'   => esc_html__( '链接 URL', 'tailwindscore' ),
-					'default' => '',
-				),
-				'link_target' => array(
-					'type'    => 'select',
-					'label'   => esc_html__( '链接打开方式', 'tailwindscore' ),
-					'default' => '_self',
-					'choices' => array(
-						'_self'  => esc_html__( '同一窗口', 'tailwindscore' ),
-						'_blank' => esc_html__( '新窗口', 'tailwindscore' ),
-					),
-				),
-				'alt' => array(
-					'type'    => 'text',
-					'label'   => esc_html__( '替代文字', 'tailwindscore' ),
 					'default' => '',
 				),
 			),

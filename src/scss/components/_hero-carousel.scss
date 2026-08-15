@@ -5,8 +5,49 @@
 	--ts-hero-carousel-aspect-desktop: 21 / 9;
 
 	position: relative;
-	width: 100%;
+	// 突破 .container，两侧 peek 贴齐视口（100vw 可能含滚动条，由 .site-main clip）
+	width: 100vw;
+	max-width: 100vw;
+	margin-inline: calc(50% - 50vw);
 	min-width: 0;
+}
+
+// 避免 Hero 100vw breakout 造成横向滚动条
+.site-main:has(.hero-carousel) {
+	overflow-x: clip;
+}
+
+.hero-carousel--full {
+	.hero-carousel__slide {
+		width: 100%;
+	}
+
+	.hero-carousel__media {
+		aspect-ratio: var(--ts-hero-carousel-aspect-mobile);
+
+		@include mixins.ts-up(md) {
+			aspect-ratio: var(--ts-hero-carousel-aspect-desktop);
+		}
+	}
+
+	.hero-carousel__img {
+		object-fit: cover;
+	}
+}
+
+.hero-carousel--peek {
+	.hero-carousel__media {
+		// 桌面 / 手机比例分开：PHP 写 --ts-hero-ar / --ts-hero-ar-mobile；无元数据时按运营常用尺寸兜底
+		aspect-ratio: var(--ts-hero-ar, 1200 / 504);
+
+		@include mixins.ts-down(md) {
+			aspect-ratio: var(--ts-hero-ar-mobile, 768 / 600);
+		}
+	}
+
+	.hero-carousel__img {
+		object-fit: contain;
+	}
 }
 
 .hero-carousel__swiper {
@@ -31,13 +72,8 @@
 .hero-carousel__media {
 	margin: 0;
 	width: 100%;
-	aspect-ratio: var(--ts-hero-carousel-aspect-mobile);
 	overflow: hidden;
 	background-color: var(--ts-surface-muted);
-
-	@include mixins.ts-up(md) {
-		aspect-ratio: var(--ts-hero-carousel-aspect-desktop);
-	}
 }
 
 .hero-carousel__media picture,
@@ -48,7 +84,6 @@
 }
 
 .hero-carousel__img {
-	object-fit: cover;
 	object-position: center;
 }
 
