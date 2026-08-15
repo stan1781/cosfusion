@@ -4,7 +4,7 @@
 
 | 优先级 | 项 | 理由 |
 |--------|----|------|
-| High | Kirki theme_mod import/export | 环境间迁移 Customizer 配置 |
+| Done | Kirki theme_mod import/export | 见 [theme-settings-import-export.md](../features/theme-settings-import-export.md) |
 | High | Kirki 按域拆分 + `tokens-output.php` | 颜色/字体集中维护 |
 | Done | Header bar repeater 轮播 | 见 [site-shell.md](../features/site-shell.md) |
 | Done | 导航 submenu 缩略图 | 见 [navigation.md](../features/navigation.md) |

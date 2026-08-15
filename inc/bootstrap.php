@@ -54,6 +54,7 @@ require_once __DIR__ . '/woocommerce/ajax-search.php';
 require_once __DIR__ . '/woocommerce/checkout-coupon.php';
 require_once __DIR__ . '/woocommerce/reviews.php';
 require_once __DIR__ . '/config/kirki-config.php';
+require_once __DIR__ . '/config/kirki/import-export.php';
 require_once __DIR__ . '/config/kirki/home.php';
 require_once __DIR__ . '/home/hero-carousel.php';
 require_once __DIR__ . '/home/purge-legacy-homepage-mods.php';
