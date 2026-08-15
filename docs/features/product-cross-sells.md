@@ -14,7 +14,7 @@
 
 ## Customizer
 
-路径：外观 → 自定义 → WooCommerce → **配件搭配（Cross-sells）**
+路径：外观 → 自定义 → 商品详情页 → **配件搭配（Cross-sells）**
 
 | 字段 | 说明 |
 |------|------|

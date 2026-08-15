@@ -433,7 +433,7 @@ function tailwindscore_not_found_kirki_register( string $cfg, array $targets ): 
 		'tailwindscore_not_found',
 		array(
 			'title'    => esc_html__( '404 页面', 'tailwindscore' ),
-			'priority' => 38,
+			'priority' => tailwindscore_kirki_root_priority( 'not_found' ),
 		)
 	);
 

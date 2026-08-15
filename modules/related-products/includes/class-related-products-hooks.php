@@ -117,6 +117,61 @@ class Tailwindscore_Related_Products_Hooks {
 			return;
 		}
 
-		woocommerce_output_related_products();
+		if ( ! Tailwindscore_Related_Products_Settings::is_carousel_enabled() ) {
+			woocommerce_output_related_products();
+			return;
+		}
+
+		$this->output_related_products_carousel();
+	}
+
+	/**
+	 * 以共享产品轮播壳层输出相关产品。
+	 *
+	 * @return void
+	 */
+	private function output_related_products_carousel(): void {
+		if ( ! function_exists( 'wc_get_related_products' ) || ! function_exists( 'tailwindscore_render_products_carousel_shell' ) ) {
+			woocommerce_output_related_products();
+			return;
+		}
+
+		$product = wc_get_product( get_the_ID() );
+		if ( ! $product instanceof WC_Product ) {
+			return;
+		}
+
+		$product_id = (int) $product->get_id();
+		$limit      = Tailwindscore_Related_Products_Settings::get_max_products();
+		$exclude    = $this->engine()->get_excluded_product_ids( $product_id );
+		$ids        = wc_get_related_products( $product_id, $limit, $exclude );
+		$ids        = array_values( array_filter( array_map( 'absint', is_array( $ids ) ? $ids : array() ) ) );
+
+		if ( array() === $ids ) {
+			return;
+		}
+
+		$markup = tailwindscore_render_products_carousel_shell(
+			array(
+				'product_ids'        => $ids,
+				'title'              => __( 'Related products', 'woocommerce' ),
+				'columns_mobile'     => 2.5,
+				'columns_desktop'    => 4.0,
+				'gap'                => 16,
+				'section_class'      => 'related products product-carousel--related',
+				'section_id'         => 'ts-related-products-title',
+				'section_data_attrs' => array(
+					'data-ts-related-products' => '',
+				),
+				'title_class'        => 'heading',
+			)
+		);
+
+		if ( '' === trim( $markup ) ) {
+			return;
+		}
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Carousel shell markup from theme template.
+		echo $markup;
 	}
 }

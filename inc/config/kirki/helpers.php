@@ -53,7 +53,76 @@ function tailwindscore_kirki_section_home_hero(): string {
 }
 
 /**
- * Customizer 目标 ID：主题 panel 加上原生 WordPress / WooCommerce panel 与区块。
+ * Kirki panel ID：商店/归档。
+ */
+function tailwindscore_kirki_panel_shop(): string {
+	return 'tailwindscore_shop';
+}
+
+/**
+ * Kirki panel ID：商品详情页。
+ */
+function tailwindscore_kirki_panel_product(): string {
+	return 'tailwindscore_product';
+}
+
+/**
+ * Kirki panel ID：设计（排版等；颜色令牌仍以 SCSS 为真源）。
+ */
+function tailwindscore_kirki_panel_design(): string {
+	return 'tailwindscore_design';
+}
+
+/**
+ * Customizer 根级区块 ID：购物车（无二级 panel）。
+ */
+function tailwindscore_kirki_section_cart(): string {
+	return 'tailwindscore_cart_settings';
+}
+
+/**
+ * Customizer 根级区块 ID：结账（无二级 panel）。
+ */
+function tailwindscore_kirki_section_checkout(): string {
+	return 'tailwindscore_checkout_settings';
+}
+
+/**
+ * Customizer 根级菜单 priority（数字越小越靠前）。
+ *
+ * 1 站点身份 → 2 设计 → 3 页头 → 4 页脚 → 5 首页 →
+ * 6 商店/归档 → 7 商品详情页 → 8 购物车 → 9 结账页面 →
+ * 10 我的账户 → 11 404 页面。
+ *
+ * @return array<string, int>
+ */
+function tailwindscore_kirki_root_priorities(): array {
+	return array(
+		'title_tagline' => 1,
+		'design'        => 10,
+		'header'        => 20,
+		'footer'        => 30,
+		'home'          => 40,
+		'shop'          => 50,
+		'product'       => 60,
+		'cart'          => 70,
+		'checkout'      => 80,
+		'account'       => 90,
+		'not_found'     => 100,
+	);
+}
+
+/**
+ * 读取根级菜单 priority。
+ */
+function tailwindscore_kirki_root_priority( string $key, int $fallback = 160 ): int {
+	$priorities = tailwindscore_kirki_root_priorities();
+
+	return $priorities[ $key ] ?? $fallback;
+}
+
+/**
+ * Customizer 目标 ID：主题 panel / 区块，以及原生 WooCommerce panel（兼容）。
  *
  * @return array<string, string>
  */
@@ -64,10 +133,13 @@ function tailwindscore_kirki_customizer_targets(): array {
 		'home'        => tailwindscore_kirki_panel_home(),
 		'home_hero'   => tailwindscore_kirki_section_home_hero(),
 		'account'     => tailwindscore_kirki_section_account(),
+		'design'      => tailwindscore_kirki_panel_design(),
+		'shop'        => tailwindscore_kirki_panel_shop(),
+		'product'     => tailwindscore_kirki_panel_product(),
+		'cart'        => tailwindscore_kirki_section_cart(),
+		'checkout'    => tailwindscore_kirki_section_checkout(),
+		// 原生 WooCommerce panel；主题 section 不再挂载于此。
 		'woocommerce' => 'woocommerce',
-		'product'     => 'woocommerce',
-		'shop'        => 'woocommerce_product_catalog',
-		'checkout'    => 'woocommerce_checkout',
 	);
 }
 

@@ -3,6 +3,7 @@
 ## 0.1.9
 
 - 弹窗价格套用全局 `ts-price-html`（QV 模板 `.price` 不在 `price-row` 内）。
+- 弹窗关闭按钮改为小尺寸（`btn-close-sm`）。
 
 ## 0.1.8
 

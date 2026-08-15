@@ -142,8 +142,7 @@ function tailwindscore_cart_drawer_coupon_kirki_register( string $cfg, array $ta
 		array(
 			'title'       => esc_html__( '购物车', 'tailwindscore' ),
 			'description' => esc_html__( '迷你购物车抽屉与购物车页选项。', 'tailwindscore' ),
-			'panel'       => $targets['woocommerce'],
-			'priority'    => 20,
+			'priority'    => tailwindscore_kirki_root_priority( 'cart' ),
 		)
 	);
 

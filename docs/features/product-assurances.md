@@ -13,7 +13,7 @@
 
 ## Customizer
 
-路径：外观 → 自定义 → WooCommerce → **产品保障**
+路径：外观 → 自定义 → 商品详情页 → **产品保障**
 
 Repeater 每行字段：
 

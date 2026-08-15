@@ -168,3 +168,16 @@
 		letter-spacing: 0;
 	}
 }
+
+// 单品 Related：覆盖归档 `.related.products` 网格标题规则，统一用轮播壳层间距。
+.product-carousel.related.products {
+	gap: var(--ts-spacer-3);
+	margin-top: var(--ts-spacer-4);
+	min-width: 0;
+
+	.product-carousel__header .heading {
+		font-size: var(--ts-font-size-lg);
+		line-height: var(--ts-line-height-base);
+		font-weight: 600;
+	}
+}

@@ -32,6 +32,7 @@ defined( 'ABSPATH' ) || exit;
 		tailwindscore_render_close_button(
 			__( 'Close quick view', 'tailwindscore' ),
 			array(
+				'class' => 'btn-close-sm',
 				'attrs' => array(
 					'data-ts-quick-view-close' => '',
 				),

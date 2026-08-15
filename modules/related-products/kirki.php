@@ -42,6 +42,25 @@ function tailwindscore_related_products_kirki_register( string $cfg, array $targ
 	Kirki::add_field(
 		$cfg,
 		array(
+			'type'            => 'toggle',
+			'settings'        => 'product_related_carousel',
+			'label'           => esc_html__( '相关产品使用轮播', 'tailwindscore' ),
+			'description'     => esc_html__( '开启后单品页 Related 使用共享产品 Swiper；关闭则保留 WooCommerce 默认网格。', 'tailwindscore' ),
+			'section'         => 'tailwindscore_product_related',
+			'default'         => true,
+			'active_callback' => array(
+				array(
+					'setting'  => 'product_related_enabled',
+					'operator' => '==',
+					'value'    => true,
+				),
+			),
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
 			'type'     => 'select',
 			'settings' => 'product_related_algorithm',
 			'label'    => esc_html__( '推荐算法', 'tailwindscore' ),

@@ -81,7 +81,7 @@ woocommerce/loop/orderby.php           # 覆盖 WC：页内 Sort 下拉（非 fo
 
 ## 归档 Hero 与 LCP
 
-全宽 Hero（`template-parts/woocommerce/archive-hero.php`）在面包屑上方：
+全宽 Hero（`template-parts/woocommerce/archive-hero.php`）在面包屑上方。Kirki：外观 → 自定义 → **商店/归档** → 归档 Hero。
 
 | 项 | 行为 |
 |----|------|

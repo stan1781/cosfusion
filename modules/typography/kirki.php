@@ -25,7 +25,7 @@ function tailwindscore_typography_kirki_register( string $cfg, array $targets ):
 		array(
 			'title'       => esc_html__( '排版', 'tailwindscore' ),
 			'description' => esc_html__( '从主题内置字体（assets/fonts）中选择正文与标题字体。通过主题清单添加字体；可从 Google Webfonts Helper 下载 woff2。', 'tailwindscore' ),
-			'panel'       => $targets['header'],
+				'panel'       => $targets['design'],
 			'priority'    => 10,
 		)
 	);

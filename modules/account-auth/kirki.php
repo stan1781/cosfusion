@@ -24,7 +24,7 @@ function tailwindscore_account_auth_kirki_register( string $cfg, array $targets 
 		array(
 			'title'       => esc_html__( '我的账户', 'tailwindscore' ),
 			'description' => esc_html__( '登录与注册页布局及文案。', 'tailwindscore' ),
-			'priority'    => 25,
+			'priority'    => tailwindscore_kirki_root_priority( 'account' ),
 		)
 	);
 

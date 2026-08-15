@@ -25,6 +25,16 @@ class Tailwindscore_Related_Products_Settings {
 	}
 
 	/**
+	 * 单品页相关产品是否使用 Swiper 轮播（否则 Woo 默认网格）。
+	 *
+	 * @return bool
+	 */
+	public static function is_carousel_enabled(): bool {
+		$value = tailwindscore_mod( 'product_related_carousel', true );
+		return self::to_bool( $value, true );
+	}
+
+	/**
 	 * @return string simple|tag_based|category_based|hybrid
 	 */
 	public static function get_algorithm(): string {

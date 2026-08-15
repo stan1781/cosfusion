@@ -36,7 +36,7 @@ modules/{slug}/
 | gallery | `modules/gallery` | 0.1.0 | ✅ | Swiper 单品图库、变体相册 `_variation_images` |
 | variations | `modules/variations` | 0.1.0 | ✅ | 图片/色块 swatch、grid/list 布局 |
 | size-guide | `modules/size-guide` | 0.1.1 | ✅ | JSON 尺码表 modal + 选码单行 |
-| related-products | `modules/related-products` | 0.1.0 | ✅ | 单品页相关产品引擎 |
+| related-products | `modules/related-products` | 0.2.0 | ✅ | 单品页相关产品引擎 + Kirki 轮播/网格切换 |
 | quick-view | `modules/quick-view` | 0.1.8 | ✅ | 归档 / 首页 / 购物车 / 404 轮播 Quick View |
 | review-images | `modules/review-images` | 0.1.1 | ✅ | 评论附图、买家秀 Showcase |
 | account-auth | `modules/account-auth` | 0.1.2 | ✅ | 分屏登录、独立注册页、Google 登录预设、登录 modal 密码明文切换 |
@@ -58,13 +58,13 @@ modules/{slug}/
 
 - 桌面左侧缩略图 + 主图，移动端 dots
 - 变体图行为对齐 WooCommerce（父相册激活 / 首张替换 / 自定义多图整组切换）
-- Customizer → Gallery（需 [Kirki](https://wordpress.org/plugins/kirki/)）
+- Customizer → Gallery（需 [Kirki](https://wordpress.org/plugins/kirki/)）；路径：商品详情页 → 商品画廊
 - TS：`src/ts/product/gallery.ts`、`gallery-variations.ts`、`gallery-photoswipe.ts`
 
 ### variations
 
 - 可变商品：swatch、grid/list、产品级覆盖
-- Customizer → Variation selector
+- Customizer → 商品详情页 → 变体选择器
 - Hooks：`tailwindscore_after_size_attribute_label`、`tailwindscore_after_size_attribute_value`（供 Size Guide）
 - TS：`src/ts/product/variations.ts`、`variation-engine.ts`
 
@@ -77,14 +77,17 @@ modules/{slug}/
 ### quick-view
 
 - 商店归档、首页、购物车推荐、404 人气商品等循环中的可变品 AJAX 快速查看
+- Customizer：商店/归档 → 快速查看
 - 变体 UI 为文字按钮方案，不 enqueue 归档页完整 `variations.ts`
 - 卡片悬停预读（180ms 延迟）：移开不取消；打开复用同一 in-flight Promise；`saveData` / 2g 跳过
 - TS：`src/ts/shop/quick-view.ts`、`quick-view-variations.ts`
 
 ### related-products
 
-- Customizer 控制数量与分类策略
+- Customizer（商品详情页 → 相关产品）控制数量与分类策略
 - 子分类不足时回退父分类商品
+- `product_related_carousel`：单品 Related 使用共享产品 Swiper（默认开）；关闭则 Woo 默认网格
+- 详见 [产品轮播](../features/product-carousel.md)
 
 ### review-images
 
@@ -112,7 +115,9 @@ modules/{slug}/
 ### typography
 
 - 自定义字体 enqueue 与 Kirki 排版控件
+- Customizer：设计 → 排版（标题字体 / 正文字体）
 - 输出 CSS 变量覆盖全局字号/字体族
+- 品牌色等颜色令牌仍以 `src/scss/abstracts/_variables.scss` 为真源（无 Customizer 颜色 panel）
 
 ## 前台配置注入
 

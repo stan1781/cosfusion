@@ -1,5 +1,11 @@
 # Related products 模块变更记录
 
+## 0.2.0 — 2026-08-15
+
+- Kirki `product_related_carousel`：运营可在单品 Related 的 Swiper 轮播与 Woo 默认网格之间切换（默认轮播）。
+- 轮播开启时复用 `tailwindscore_render_products_carousel_shell()`；ID 仍经 `woocommerce_related_products` 过滤链。
+- 布局开关不参与 transient 缓存指纹。
+
 ## 0.1.0 — 2026-05-22
 
 - 从 `wc-enhanced-tools` 的 `Related_Products_Manager` 迁入主题 `modules/related-products`。

@@ -23,7 +23,7 @@ function tailwindscore_quick_view_kirki_register( string $cfg, array $targets ):
 		array(
 			'title'       => esc_html__( '快速查看', 'tailwindscore' ),
 			'description' => esc_html__( '归档、首页、购物车与 404 产品轮播中的可变商品快速查看弹层。', 'tailwindscore' ),
-			'panel'       => $targets['product'],
+				'panel'       => $targets['shop'],
 			'priority'    => 68,
 		)
 	);

@@ -25,7 +25,7 @@
 
 主图切换（箭头 / 键盘 / 点击缩略图）时 thumbs 跟随居中（带边界）。窗口 resize 与断点切换会重算尺寸。
 
-Customizer → 商品画廊 →「缩略图均分下限张数」即 `product_gallery_thumb_limit`。
+Customizer → 商品详情页 → 商品画廊 →「缩略图均分下限张数」即 `product_gallery_thumb_limit`。
 
 ## 变体
 

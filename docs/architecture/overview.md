@@ -81,6 +81,28 @@ tailwindscore/
 
 模块可通过 `tailwindscore_runtime_config_parts` 过滤器追加片段。
 
+### Customizer 一级菜单（Kirki）
+
+主题设置按域挂在根级；商城主题项**不再**挂在原生 WooCommerce panel 下。根级顺序由 `tailwindscore_kirki_root_priorities()` 固定：
+
+| 顺序 | 一级菜单 | 类型 | ID | 主要内容 |
+|------|----------|------|-----|----------|
+| 1 | 站点身份 | 根级 section | `title_tagline` | 站点标题、图标、主题 Logo |
+| 2 | 设计 | panel | `tailwindscore_design` | 排版（标题/正文字体）；颜色令牌仍以 SCSS `--ts-*` 为真源 |
+| 3 | 页头 | panel | `tailwindscore_header` | 顶栏、搜索弹层等 |
+| 4 | 页脚 | 根级 section | `tailwindscore_footer` | 页脚导航与支付图标 |
+| 5 | 首页 | panel | `tailwindscore_home` | 静态首页 + Hero Banner |
+| 6 | 商店/归档 | panel | `tailwindscore_shop` | 归档 Hero、快速查看 |
+| 7 | 商品详情页 | panel | `tailwindscore_product` | 画廊、变体、尺码、保障、相关产品等 |
+| 8 | 购物车 | 根级 section | `tailwindscore_cart_settings` | Drawer / 购物车页（无二级） |
+| 9 | 结账页面 | 根级 section | `tailwindscore_checkout_settings` | 运费规则等（无二级） |
+| 10 | 我的账户 | 根级 section | `tailwindscore_account_auth` | 登录/注册布局与文案 |
+| 11 | 404 页面 | 根级 section | `tailwindscore_not_found` | 404 Hero、快捷导航、人气商品 |
+
+原生 **WooCommerce** panel 仍保留插件自带区块。配置经 `inc/config/kirki/helpers.php` 的 `tailwindscore_kirki_customizer_targets()` 索引。
+
+> **说明**：本主题尚未接入 Customizer 品牌色覆盖（Starcore 的 `tokens-output` / 颜色 panel）；见 [roadmap](../roadmap/starcore-upgrades.md)。排版在「设计 → 排版」。
+
 ## WooCommerce 整合策略
 
 1. 主题 `woo.scss` 接管 WooCommerce 前台默认样式。

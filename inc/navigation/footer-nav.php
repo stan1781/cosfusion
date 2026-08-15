@@ -129,7 +129,7 @@ function tailwindscore_footer_nav_kirki_register( string $cfg, array $targets ):
 		array(
 			'title'       => esc_html__( '页脚', 'tailwindscore' ),
 			'description' => esc_html__( '页脚导航与布局。', 'tailwindscore' ),
-			'priority'    => 20,
+			'priority'    => tailwindscore_kirki_root_priority( 'footer' ),
 		)
 	);
 

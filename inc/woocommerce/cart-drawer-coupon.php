@@ -72,10 +72,9 @@ function tailwindscore_cart_drawer_coupon_kirki_register( string $cfg, array $ta
 	Kirki::add_section(
 		'tailwindscore_cart_settings',
 		array(
-			'title'       => esc_html__( 'Cart', 'tailwindscore' ),
-			'description' => esc_html__( 'Mini cart drawer and cart page options.', 'tailwindscore' ),
-			'panel'       => $targets['woocommerce'],
-			'priority'    => 20,
+			'title'       => esc_html__( '购物车', 'tailwindscore' ),
+			'description' => esc_html__( '迷你购物车抽屉与购物车页选项。', 'tailwindscore' ),
+			'priority'    => function_exists( 'tailwindscore_kirki_root_priority' ) ? tailwindscore_kirki_root_priority( 'cart' ) : 70,
 		)
 	);
 
