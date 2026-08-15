@@ -2,13 +2,22 @@
 
 TailwindScore 主导航支持标准下拉、Mega 菜单与移动端钻取抽屉，由主题 `inc/navigation/` 实现，不依赖 wp-enhanced-tools。
 
+## 后台 CSS 类说明
+
+外观 → 菜单，展开菜单项。核心「CSS Classes」字段下方会显示主题类名与简短用法；点击类名即可写入该字段（再点一次移除）。
+
+- **顶级项**：布局类（`mega-menu`、`cols-2` / `cols-3`、`cols-mobile`）+ 角标（`hot` / `new` / `sale`）
+- **子级项**：仅角标；布局分组不显示
+
+须在右上角「显示选项」中勾选 **CSS Classes**。实现：`inc/navigation/menu-item-admin.php`。
+
 ## 移动端抽屉（钻取面板）
 
 - 有子项的顶级菜单显示 **钻取按钮**（chevron）。点击后子面板从右侧滑入。
 - 抽屉顶栏（`.site-menu-drawer__header`）：`#ts-site-menu-title` 固定为 **Menu** + 关闭按钮。
 - 钻取时 `.site-menu-drawer__nav-head` 显示 **← Back** 与当前面板名（有 URL 时可点进该分类）；返回上一级。
 - 关闭抽屉时重置到根面板。
-- Mega 项（`mega-menu` / `mega-menu`）在面板内渲染列布局；带子项的 mega 列也可使用相同钻取模式。
+- Mega 项（`mega-menu`）在面板内渲染列布局；带子项的 mega 列也可使用相同钻取模式。
 
 实现：`template-parts/header/menu-drawer.php`、`src/ts/site/menu-drawer-panel.ts`、`mobile-nav.ts`。
 
@@ -17,9 +26,30 @@ TailwindScore 主导航支持标准下拉、Mega 菜单与移动端钻取抽屉�
 1. 在 **外观 → 菜单** 中，在顶级菜单项下添加子项。
 2. 无需额外 CSS 类。
 3. 桌面端（`≥ lg`）：悬停或键盘聚焦时打开 flyout。
-4. 移动端抽屉：点击行展开（`<details>`）。
+4. 移动端抽屉：点击钻取行进入子 panel。
 
 一级菜单标签（`.nav__list > .nav__item > .nav__link`）为大写 + 略增字距；项间距桌面端 `gap: var(--ts-spacer-4)`。子菜单 / mega 列内链接不受影响。
+
+## 扁平子菜单多列
+
+适用于短标签等**同级扁平列表**（两级：父项 → 子链接）。若需要三级「列标题 → 链接」且非全宽，改用下方 **紧凑 Mega**。
+
+在 **顶级** 菜单项的「CSS 类」中添加：
+
+| 类名 | 作用 |
+|------|------|
+| `cols-2` | 2 列 |
+| `cols-3` | 3 列 |
+| `cols-mobile` | 多列同时作用于移动端 drawer（默认仅桌面 `≥ lg`） |
+
+示例：
+
+- 仅桌面 2 列：`cols-2`
+- 桌面 + 手机 3 列：`cols-3 cols-mobile`
+
+同时写 `cols-2` 与 `cols-3` 时取 3。单独使用时渲染标准 flyout（非 mega 结构）。
+
+实现：Walker 将列数规范化为 `nav__item--cols-{n}`；移动端仅在带 `cols-mobile` 时给 panel 加 `nav__panel--cols-{n}`。
 
 ## Mega 菜单
 
@@ -43,7 +73,7 @@ Products (mega-menu)
 
 Walker：`inc/navigation/class-nav-menu-walker.php`。
 
-### 桌面端（`≥ lg`）
+### 桌面端全宽（仅 `mega-menu`，无 `cols-*`）
 
 - 悬停或键盘聚焦时，在 **sticky header 下方**展开**全宽**面板（相对 `.site-header` 定位，而非菜单项）。
 - 列网格对齐站点 `.container`（`max-width: var(--ts-container-max)` + 水平 gutter），`auto-fit` 多列横向排布。
@@ -51,6 +81,28 @@ Walker：`inc/navigation/class-nav-menu-walker.php`。
 - 关闭态折叠高度并 `overflow: hidden`，避免隐藏面板撑高页面（footer 下空白）。
 - 桌面端导航行拉伸至 header 内容区高度，避免标签与面板之间的 padding 死区打断 `:hover`。
 - 全宽隐形悬停桥仅在该 mega 项 `:hover` / `:focus-within` 时出现（覆盖 header 底 padding + 面板衔接带）；常驻桥会与其他 mega 项叠在同一条带上并抢悬停。
+
+### 桌面端紧凑（`mega-menu` + `cols-2` / `cols-3`）
+
+三级结构与全宽 mega 相同，但面板**相对菜单项**展开（直角、无边框，阴影区分层次），列数为固定 2 或 3，不拉满顶栏。
+
+| 顶级 CSS 类 | 效果 |
+|-------------|------|
+| `mega-menu` | 全宽 |
+| `mega-menu cols-2` | 紧凑 2 列 |
+| `mega-menu cols-3` | 紧凑 3 列 |
+
+示例：
+
+```text
+Collections (mega-menu cols-2)
+├── Men
+│   ├── Shirts
+│   └── Pants
+└── Women
+    ├── Dresses
+    └── Tops
+```
 
 样式：`src/scss/components/_navigation.scss`。
 
@@ -94,8 +146,11 @@ Walker：`inc/navigation/class-nav-menu-walker.php`。
 | `tailwindscore_nav_menu_args` | 调整 `wp_nav_menu()` 参数 |
 | `tailwindscore_nav_menu_item_classes` | 额外 `<li>` 类名 |
 | `tailwindscore_nav_menu_is_mega_item` | 覆盖 mega 检测逻辑 |
+| `tailwindscore_nav_menu_submenu_cols` | 覆盖扁平子菜单列数（0 / 2 / 3） |
+| `tailwindscore_nav_menu_submenu_cols_include_mobile` | 覆盖多列是否含移动端 |
 | `tailwindscore_nav_menu_item_product_cat` | 覆盖菜单项解析到的 `product_cat` |
 | `tailwindscore_nav_menu_item_thumbnail_html` | 覆盖子菜单缩略图 HTML |
+| `tailwindscore_nav_menu_css_class_guide_groups` | 覆盖后台「CSS Classes」旁的类名说明 |
 
 ## 兼容性说明
 

@@ -5,7 +5,9 @@ declare(strict_types=1);
  * 导航菜单项辅助函数。
  *
  * 菜单编辑器 CSS class：
- * - mega-menu — mega panel（三级：顶栏 → 列 → 链接）
+ * - mega-menu — mega panel（三级：顶栏 → 列 → 链接）；无 cols-* 时全宽
+ * - cols-2 / cols-3 — 扁平多列下拉；与 mega-menu 合用则为紧凑 mega
+ * - cols-mobile — 多列同时作用于移动端 drawer（默认仅桌面）
  * - hot、new、sale — 角标（样式见 `_navigation.scss`）
  *
  * 子菜单缩略图：手动 meta `_ts_nav_item_thumbnail_id`，或 product_cat Thumbnail。
@@ -45,10 +47,51 @@ function tailwindscore_nav_item_has_children( object $item, object $args ): bool
  * @param object $item 导航菜单项。
  */
 function tailwindscore_nav_item_is_mega( object $item ): bool {
-	$is_mega = tailwindscore_nav_item_has_class( $item, 'mega-menu' )
-		|| tailwindscore_nav_item_has_class( $item, 'mega-menu' );
+	$is_mega = tailwindscore_nav_item_has_class( $item, 'mega-menu' );
 
 	return (bool) apply_filters( 'tailwindscore_nav_menu_is_mega_item', $is_mega, $item );
+}
+
+/**
+ * 扁平子菜单列数（2 或 3；未设置则 0）。
+ *
+ * @param object $item 导航菜单项。
+ */
+function tailwindscore_nav_item_submenu_cols( object $item ): int {
+	$cols = 0;
+
+	if ( tailwindscore_nav_item_has_class( $item, 'cols-3' ) ) {
+		$cols = 3;
+	} elseif ( tailwindscore_nav_item_has_class( $item, 'cols-2' ) ) {
+		$cols = 2;
+	}
+
+	/**
+	 * @param int    $cols 列数（0 / 2 / 3）。
+	 * @param object $item 菜单项。
+	 */
+	$cols = (int) apply_filters( 'tailwindscore_nav_menu_submenu_cols', $cols, $item );
+
+	if ( 2 !== $cols && 3 !== $cols ) {
+		return 0;
+	}
+
+	return $cols;
+}
+
+/**
+ * 多列是否在移动端 drawer 生效（需同时有 cols-2/3）。
+ *
+ * @param object $item 导航菜单项。
+ */
+function tailwindscore_nav_item_submenu_cols_include_mobile( object $item ): bool {
+	$include = tailwindscore_nav_item_has_class( $item, 'cols-mobile' );
+
+	/**
+	 * @param bool   $include 是否含移动端。
+	 * @param object $item    菜单项。
+	 */
+	return (bool) apply_filters( 'tailwindscore_nav_menu_submenu_cols_include_mobile', $include, $item );
 }
 
 /**

@@ -19,7 +19,7 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 	protected ?string $mobile_active_panel_id = null;
 
 	/**
-	 * @var array<string, array{title: string, is_mega: bool, html: string}>
+	 * @var array<string, array{title: string, is_mega: bool, cols: int, cols_mobile: bool, html: string}>
 	 */
 	protected array $mobile_panel_buffers = array();
 
@@ -53,6 +53,11 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 
 			if ( ! empty( $panel['is_mega'] ) ) {
 				$panel_classes .= ' nav__panel--mega';
+			}
+
+			$cols = isset( $panel['cols'] ) ? (int) $panel['cols'] : 0;
+			if ( ! empty( $panel['cols_mobile'] ) && ( 2 === $cols || 3 === $cols ) ) {
+				$panel_classes .= ' nav__panel--cols-' . $cols;
 			}
 
 			$panels_html .= sprintf(
@@ -104,6 +109,16 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 
 		if ( 0 === $depth && tailwindscore_nav_item_is_mega( $item ) ) {
 			$classes[] = 'nav__item--mega';
+		}
+
+		if ( 0 === $depth ) {
+			$cols = tailwindscore_nav_item_submenu_cols( $item );
+			if ( $cols > 0 ) {
+				$classes[] = 'nav__item--cols-' . $cols;
+				if ( tailwindscore_nav_item_submenu_cols_include_mobile( $item ) ) {
+					$classes[] = 'nav__item--cols-mobile';
+				}
+			}
 		}
 
 		$classes = array_filter( array_unique( $classes ) );
@@ -241,9 +256,11 @@ class Tailwindscore_Nav_Menu_Walker extends Walker_Nav_Menu {
 
 			$this->mobile_active_panel_id           = $panel_id;
 			$this->mobile_panel_buffers[ $panel_id ] = array(
-				'title'   => $title,
-				'is_mega' => $is_mega,
-				'html'    => '',
+				'title'       => $title,
+				'is_mega'     => $is_mega,
+				'cols'        => tailwindscore_nav_item_submenu_cols( $item ),
+				'cols_mobile' => tailwindscore_nav_item_submenu_cols_include_mobile( $item ),
+				'html'        => '',
 			);
 
 			if ( $is_mega ) {

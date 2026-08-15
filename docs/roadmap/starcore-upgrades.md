@@ -7,7 +7,8 @@
 | High | Kirki theme_mod import/export | 环境间迁移 Customizer 配置 |
 | High | Kirki 按域拆分 + `tokens-output.php` | 颜色/字体集中维护 |
 | Done | Header bar repeater 轮播 | 见 [site-shell.md](../features/site-shell.md) |
-| High | 导航 submenu 缩略图 | 品类视觉 |
+| Done | 导航 submenu 缩略图 | 见 [navigation.md](../features/navigation.md) |
+| Done | 导航紧凑 Mega / 扁平多列 / 后台 CSS 类 chips | 见 [navigation.md](../features/navigation.md) |
 | Done | Drawer 免运进度条 | 见 [purchase-flow.md](../features/purchase-flow.md) |
 | High | `--site-header-height` 同步 | sticky 布局一致 |
 | High | UI：global loading、woo-notices→toast、bottom-sheet | 购买流打磨 |
