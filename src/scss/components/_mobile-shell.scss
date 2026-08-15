@@ -120,10 +120,6 @@ html.has-overlay .product-sticky-bar {
 	pointer-events: none;
 }
 
-body.has-mobile-tab-bar .purchase-flow-toast-root {
-	bottom: calc(var(--ts-mobile-tab-bar-height) + env(safe-area-inset-bottom, 0) + var(--ts-spacer-4));
-}
-
 // Product sticky purchase bar
 .product-sticky-bar {
 	position: fixed;
@@ -218,10 +214,6 @@ body.product-sticky-bar--visible .product-sticky-bar {
 
 body.product-sticky-bar--visible.has-product-sticky-bar .main {
 	padding-bottom: calc(var(--ts-product-sticky-bar-height) + env(safe-area-inset-bottom, 0));
-}
-
-body.product-sticky-bar--visible .purchase-flow-toast-root {
-	bottom: calc(var(--ts-product-sticky-bar-height) + env(safe-area-inset-bottom, 0) + var(--ts-spacer-4));
 }
 
 // Search modal chips (shared desktop + mobile)

@@ -47,7 +47,7 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 | 库存不足、数量被修正、Drawer 内无效优惠码 | **Drawer 内联**持久反馈 |
 | 结账表单校验、支付失败 | **checkout 页面 inline** |
 
-Toast 底部有与自动关闭时长（4200ms）同步的倒计时进度条（`purchase-flow-toast__progress`，CSS `scaleX` 动画）。
+Toast 贴顶（对齐 Starcore）：桌面（`≥ md`）右上限宽卡片；手机（`< md`）顶部全宽（含 `safe-area-inset-top`），圆角仅底部。入场 / 离场共用 `is-entering` / `is-leaving` 从上滑入、向上滑出。手机底部有 `.purchase-flow-toast__handle` pill，向上拖过阈值关闭（拖拽中暂停自动关闭）；保留 `btn-close`。底部进度条（`purchase-flow-toast__progress`）与自动关闭时长（4200ms）同步（CSS `scaleX` 动画）。
 
 不把阻塞型结账错误只做成短暂 toast。
 
@@ -86,6 +86,7 @@ npm run build
 3. 优惠码成功/失败反馈位置正确
 4. Checkout CTA 跳转正常
 5. 结账页阻塞型校验错误可见
+6. Toast：桌面右上卡片；手机顶部全宽；向上拖动手柄可关闭
 
 ## 相关文档
 

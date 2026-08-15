@@ -743,8 +743,9 @@ body.archive-filters-drawer-open {
 	white-space: nowrap;
 }
 
-// 操作钮叠在图上（absolute），不占卡片文档流；手机端常显，md+ 悬停显。
+// 操作钮叠在图上（absolute），不占卡片文档流；手机端常显且略小，md+ 悬停显。
 .wc-product-card__actions {
+	--wc-card-action-size: calc(var(--ts-control-min-height) * 0.8);
 	position: absolute;
 	z-index: 3;
 	inset: 0;
@@ -753,10 +754,10 @@ body.archive-filters-drawer-open {
 	align-items: flex-end;
 	justify-content: flex-start;
 	flex-wrap: nowrap;
-	gap: var(--ts-spacer-2);
+	gap: var(--ts-spacer-1);
 	width: auto;
 	height: auto;
-	padding: var(--ts-spacer-2);
+	padding: var(--ts-spacer-1);
 	pointer-events: none;
 
 	> * {
@@ -770,6 +771,12 @@ body.archive-filters-drawer-open {
 }
 
 @include mixins.ts-up(md) {
+	.wc-product-card__actions {
+		--wc-card-action-size: var(--ts-control-min-height);
+		gap: var(--ts-spacer-2);
+		padding: var(--ts-spacer-2);
+	}
+
 	@media (hover: hover) {
 		.wc-product-card__actions {
 			opacity: 0;
@@ -795,10 +802,10 @@ body.archive-filters-drawer-open {
 	align-items: center;
 	justify-content: center;
 	flex-shrink: 0;
-	width: 2.5rem;
-	height: 2.5rem;
-	min-width: 2.5rem;
-	min-height: 2.5rem;
+	width: var(--wc-card-action-size);
+	height: var(--wc-card-action-size);
+	min-width: var(--wc-card-action-size);
+	min-height: var(--wc-card-action-size);
 	padding: 0;
 	border: none;
 	border-radius: 50%;
@@ -811,8 +818,8 @@ body.archive-filters-drawer-open {
 	cursor: pointer;
 
 	.icon {
-		width: 1.25rem;
-		height: 1.25rem;
+		width: calc(var(--wc-card-action-size) * 0.5);
+		height: calc(var(--wc-card-action-size) * 0.5);
 	}
 
 	.icon svg {

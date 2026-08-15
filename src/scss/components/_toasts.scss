@@ -1,31 +1,60 @@
+@use "../abstracts/mixins";
+
+// 单组件尺寸，不进全局 token（对齐 Starcore toast）
+$toast-max-width: 22rem;
+$toast-handle-width: 2.5rem;
+$toast-handle-height: 0.25rem;
+$toast-progress-height: 2px;
+
 .purchase-flow-toast-root {
 	position: fixed;
-	inset-inline-start: var(--ts-spacer-4);
-	bottom: var(--ts-spacer-4);
+	top: 0;
+	bottom: auto;
 	z-index: var(--ts-z-toast);
 	display: grid;
 	gap: var(--ts-spacer-2);
 	justify-items: stretch;
-	width: min(100% - (var(--ts-spacer-4) * 2), 22rem);
 	pointer-events: none;
+
+	@include mixins.ts-down(md) {
+		inset-inline: 0;
+		width: 100%;
+		padding-top: env(safe-area-inset-top, 0px);
+	}
+
+	@include mixins.ts-up(md) {
+		inset-inline-end: var(--ts-spacer-4);
+		inset-inline-start: auto;
+		width: min(100% - (var(--ts-spacer-4) * 2), $toast-max-width);
+		padding-top: var(--ts-spacer-4);
+	}
 }
 
 .purchase-flow-toast {
 	pointer-events: auto;
 	overflow: hidden;
 	border: 1px solid var(--ts-border-color);
-	border-radius: var(--ts-border-radius-sm);
+	border-radius: var(--ts-border-radius);
 	background: var(--ts-surface);
 	color: var(--ts-text-primary);
-	box-shadow:
-		0 0.25rem 0.75rem color-mix(in srgb, var(--ts-text-primary) 8%, transparent),
-		0 0.5rem 1.5rem color-mix(in srgb, var(--ts-text-primary) 6%, transparent);
-	transition: opacity 0.22s ease, transform 0.22s ease;
+	box-shadow: var(--ts-shadow-md);
+	transition: opacity mixins.$ts-animation-slide-duration ease, transform mixins.$ts-animation-slide-duration ease;
+	will-change: transform, opacity;
+
+	@include mixins.ts-down(md) {
+		border-radius: 0 0 var(--ts-border-radius) var(--ts-border-radius);
+		border-top: 0;
+	}
 }
 
+.purchase-flow-toast.is-entering,
 .purchase-flow-toast.is-leaving {
 	opacity: 0;
-	transform: translateY(0.35rem);
+	transform: translateY(-100%);
+}
+
+.purchase-flow-toast.is-dragging {
+	transition: none;
 }
 
 .purchase-flow-toast__header {
@@ -33,15 +62,15 @@
 	grid-template-columns: auto 1fr auto;
 	align-items: center;
 	gap: var(--ts-spacer-2);
-	padding: var(--ts-spacer-1) var(--ts-spacer-3);
+	padding: var(--ts-spacer-1) var(--ts-spacer-2);
 	border-bottom: 1px solid var(--ts-border-color);
 	background: color-mix(in srgb, var(--ts-surface) 92%, var(--ts-border-color));
 }
 
 .purchase-flow-toast__accent {
-	width: var(--ts-font-size-lg);
-	height: var(--ts-font-size-lg);
-	border-radius: 0.2rem;
+	width: var(--ts-font-size-sm);
+	height: var(--ts-font-size-sm);
+	border-radius: var(--ts-border-radius-sm);
 	background: var(--ts-info);
 }
 
@@ -68,13 +97,13 @@
 }
 
 .purchase-flow-toast__body {
-	padding: var(--ts-spacer-3);
+	padding: var(--ts-spacer-2) var(--ts-spacer-3);
 	font-size: var(--ts-font-size-sm);
-	line-height: 1.5;
+	line-height: var(--ts-line-height-base);
 }
 
 .purchase-flow-toast__progress {
-	height: 2px;
+	height: $toast-progress-height;
 	background: color-mix(in srgb, var(--ts-border-color) 50%, transparent);
 }
 
@@ -98,6 +127,20 @@
 
 .purchase-flow-toast--error .purchase-flow-toast__progress-bar {
 	background: var(--ts-danger);
+}
+
+.purchase-flow-toast__handle {
+	display: none;
+	width: $toast-handle-width;
+	height: $toast-handle-height;
+	margin: var(--ts-spacer-1) auto var(--ts-spacer-2);
+	border-radius: var(--ts-border-radius-pill);
+	background: var(--ts-border-color);
+	touch-action: none;
+
+	@include mixins.ts-down(md) {
+		display: block;
+	}
 }
 
 @keyframes purchase-flow-toast-progress-shrink {
