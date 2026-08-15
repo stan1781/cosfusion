@@ -15,6 +15,9 @@ $cart = WC()->cart;
 			<p><?php esc_html_e( 'Your cart is empty.', 'tailwindscore' ); ?></p>
 			<a class="btn btn-outline" href="<?php echo esc_url( wc_get_page_permalink( 'shop' ) ); ?>"><?php esc_html_e( 'Browse products', 'tailwindscore' ); ?></a>
 		</div>
+		<?php if ( function_exists( 'tailwindscore_recently_viewed_show_on_cart' ) && tailwindscore_recently_viewed_show_on_cart() ) : ?>
+			<?php echo tailwindscore_render_recently_viewed_host(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		<?php endif; ?>
 	<?php else : ?>
 		<div class="wc-cart__scroll">
 			<div class="cart-drawer-cart__body">

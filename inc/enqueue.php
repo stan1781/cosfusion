@@ -89,6 +89,20 @@ function tailwindscore_runtime_config_inline(): string {
 		);
 	}
 
+	if ( isset( $parts['recentlyViewed'] ) ) {
+		$inline .= sprintf(
+			'window.tailwindscoreRecentlyViewed = %s;',
+			wp_json_encode( $parts['recentlyViewed'] )
+		);
+	}
+
+	if ( isset( $parts['tsPwa'] ) ) {
+		$inline .= sprintf(
+			'window.tsPwa = %s;',
+			wp_json_encode( $parts['tsPwa'] )
+		);
+	}
+
 	if ( isset( $parts['mailnest'] ) && is_array( $parts['mailnest'] ) ) {
 		if ( isset( $parts['mailnest']['subscribe'] ) ) {
 			$inline .= sprintf(

@@ -21,7 +21,7 @@ $columns_wide       = isset( $args['columns_wide'] ) && null !== $args['columns_
 	: null;
 $gap                = isset( $args['gap'] ) ? (int) $args['gap'] : 16;
 $section_class      = isset( $args['section_class'] ) ? trim( (string) $args['section_class'] ) : '';
-$title_class        = isset( $args['title_class'] ) ? trim( (string) $args['title_class'] ) : 'heading';
+$title_class        = isset( $args['title_class'] ) ? trim( (string) $args['title_class'] ) : 'section-title--inline';
 $section_data_attrs = isset( $args['section_data_attrs'] ) && is_array( $args['section_data_attrs'] )
 	? $args['section_data_attrs']
 	: array();
@@ -59,9 +59,15 @@ $section_class = trim( 'product-carousel ' . $section_class );
 >
 	<header class="product-carousel__header">
 		<?php if ( $has_title ) : ?>
-			<h2 id="<?php echo esc_attr( $section_id ); ?>" class="<?php echo esc_attr( $title_class ); ?>">
-				<?php echo esc_html( $title ); ?>
-			</h2>
+			<?php
+			tailwindscore_render_section_title(
+				$title,
+				array(
+					'id'    => $section_id,
+					'class' => $title_class,
+				)
+			);
+			?>
 		<?php endif; ?>
 		<div class="product-carousel__nav-group" data-ts-product-carousel-nav hidden>
 			<button

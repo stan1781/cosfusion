@@ -1,5 +1,10 @@
 # Quick View 模块变更记录
 
+## 0.1.10
+
+- 修复：REST 水合（Recently viewed 等）渲染循环卡时无目标页上下文，可变品不再漏掉 `data-ts-quick-view` 触发器；弹层 / JS 仍仅在生效页面加载。
+- 改进：打开 QV 取 HTML 不再套全局 loading（弹层内 spinner 即可，避免挡住关闭）。
+
 ## 0.1.9
 
 - 弹窗价格套用全局 `ts-price-html`（QV 模板 `.price` 不在 `price-row` 内）。

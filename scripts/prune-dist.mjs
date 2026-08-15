@@ -15,7 +15,7 @@ if (!fs.existsSync(manifestPath)) {
 }
 
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-const keep = new Set(['manifest.json']);
+const keep = new Set(['manifest.json', 'pwa-precache.json', 'sw.js']);
 
 for (const entry of Object.values(manifest)) {
 	if (!entry || typeof entry !== 'object') {

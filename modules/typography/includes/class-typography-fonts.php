@@ -4,7 +4,9 @@ declare(strict_types=1);
 /**
  * 主题字体 manifest 与 @font-face 生成。
  *
- * 从 https://gwfh.mranftl.com/fonts 添加字体（latin 子集、woff2、字重 400 + 600）。
+ * 从 https://gwfh.mranftl.com/fonts 添加字体（latin 子集、woff2）。
+ * 正文字体默认只打包字重 400 + 600；标题衬线可另加 700。
+ * SCSS 勿使用未加载字重（尤其 500）：见 docs/architecture/design-tokens.md。
  *
  * @package TailwindScore
  */

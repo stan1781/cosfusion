@@ -18,8 +18,13 @@ export default defineConfig({
 				styles: path.resolve(__dirname, 'src/scss/app.scss'),
 				woo: path.resolve(__dirname, 'src/scss/woo.scss'),
 				editor: path.resolve(__dirname, 'src/scss/editor.scss'),
+				sw: path.resolve(__dirname, 'src/ts/pwa/sw.ts'),
 			},
 			output: {
+				entryFileNames: (chunk) =>
+					chunk.name === 'sw' ? 'sw.js' : 'assets/[name]-[hash].js',
+				chunkFileNames: 'assets/[name]-[hash].js',
+				assetFileNames: 'assets/[name]-[hash][extname]',
 				manualChunks( id ) {
 					if ( id.includes( 'node_modules/swiper' ) ) {
 						return 'swiper';

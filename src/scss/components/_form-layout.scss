@@ -16,13 +16,13 @@
 .field__label,
 .field__legend {
 	@include mixins.ts-form-label-text;
-	font-weight: 500;
+	font-weight: 600;
 	color: var(--ts-text-primary);
 }
 
 .field__required {
 	color: var(--ts-danger);
-	font-weight: 500;
+	font-weight: 600;
 }
 
 .field-error {

@@ -77,6 +77,8 @@ tailwindscore/
 | `window.tailwindscoreAccountAuth` | 登录/注册 |
 | `window.tailwindscoreWishlist` | 心愿单 |
 | `window.tailwindscoreAjaxSearch` | 实时搜索 |
+| `window.tailwindscoreRecentlyViewed` | Recently viewed |
+| `window.tsPwa` | PWA Level 1 |
 | `window.wcOrderProcessFrontend` | 订单流程（确认收货等） |
 
 模块可通过 `tailwindscore_runtime_config_parts` 过滤器追加片段。

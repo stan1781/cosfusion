@@ -18,7 +18,9 @@
 | `gap` | `16` | 间距 px，0–48 |
 | `orderby` | `date` | `date` / `popularity` / `menu_order` / `title` |
 | `order` | `DESC` | `ASC` / `DESC` |
-| `title` | 空 | 区块标题；空则仅保留导航位 |
+| `title` | 空 | 区块标题（[`section-title`](section-title.md)）；空则仅保留导航位 |
+
+不支持短代码 `banner` / `view_all`（Cosfusion 不做）。
 
 查询可过滤：`tailwindscore_products_carousel_query_args`。
 

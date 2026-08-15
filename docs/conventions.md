@@ -89,6 +89,7 @@ TailwindScore 是 **英文站点模板**：前台默认可视文案为英文；�
 - 配置：`theme_mod` + `tailwindscore_mod()`；新站禁止读插件 `wc_*` option。
 - 模板：无 `ts-` 前缀的语义类（如 `btn btn-outline-primary`）；禁止 Bootstrap 运行时 / `data-bs-*` / 前台 jQuery。
 - 断点与令牌：以 `src/scss/abstracts/_variables.scss` 为真源；样式用 `ts-up` / `ts-down` mixin，禁止裸写无关断点。
+- **字重**：自托管字体一般只加载 **400** / **600**；SCSS 禁止 `font-weight: 500`（会假粗）；需要强调用 `600`。`700` 仅当当前字体族清单确有该 face（如 Playfair Display）。详见 `docs/architecture/design-tokens.md` 与 `.cursor/rules/scss-design-tokens.mdc`。
 
 ## 文件数量
 

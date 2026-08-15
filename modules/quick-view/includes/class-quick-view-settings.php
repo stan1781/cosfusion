@@ -99,18 +99,42 @@ class Tailwindscore_Quick_View_Settings {
 		return $default;
 	}
 
-	/**
-	 * 当前请求是否应加载 Quick View 资源与弹层。
-	 *
-	 * @return bool
-	 */
-	public static function should_load_frontend(): bool {
-		if ( ! self::is_enabled() || ! class_exists( 'WooCommerce' ) ) {
-			return false;
+		/**
+		 * 当前请求是否应加载 Quick View 资源与弹层。
+		 *
+		 * @return bool
+		 */
+		public static function should_load_frontend(): bool {
+			if ( ! self::is_enabled() || ! class_exists( 'WooCommerce' ) ) {
+				return false;
+			}
+
+			return self::is_target_page();
 		}
 
-		return self::is_target_page();
-	}
+		/**
+		 * 循环卡片是否输出 QV 触发器。
+		 *
+		 * 与 should_load_frontend() 分离：Recently viewed 等经 REST 水合时无 is_shop / is_product
+		 * 上下文，但仍须输出 data-ts-quick-view；弹层与 JS 仍只在目标页加载。
+		 *
+		 * @return bool
+		 */
+		public static function should_emit_loop_trigger(): bool {
+			if ( ! self::is_enabled() || ! class_exists( 'WooCommerce' ) ) {
+				return false;
+			}
+
+			if ( self::is_target_page() ) {
+				return true;
+			}
+
+			if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+				return true;
+			}
+
+			return (bool) apply_filters( 'tailwindscore_quick_view_emit_loop_trigger', false );
+		}
 
 	/**
 	 * @return bool

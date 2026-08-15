@@ -1,0 +1,56 @@
+// 区块标题 — 时尚编辑风：衬线标题 + 细线；无 Starcore 餐饮纹样 SVG。
+@use "../abstracts/mixins";
+
+@mixin ts-section-title-typography {
+	font-family: var(--ts-font-heading);
+	font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+	font-weight: 600;
+	line-height: 1.25;
+	letter-spacing: 0.02em;
+	color: var(--ts-text-primary);
+}
+
+@mixin ts-section-title {
+	@include ts-section-title-typography;
+	display: block;
+	margin: 0 0 var(--ts-spacer-4);
+	text-align: center;
+
+	&::after {
+		content: "";
+		display: block;
+		width: 2.5rem;
+		height: 1px;
+		margin: var(--ts-spacer-2) auto 0;
+		background-color: var(--ts-border-color-strong);
+	}
+}
+
+.section-title {
+	@include ts-section-title;
+}
+
+// 轮播 / 工具栏：与导航同一行（无下划线，避免挤占 header）
+.section-title--inline {
+	@include ts-section-title-typography;
+	display: block;
+	flex: 1 1 auto;
+	margin: 0;
+	min-width: 0;
+	text-align: start;
+
+	&::after {
+		content: none;
+	}
+
+	@include mixins.ts-down(md) {
+		font-size: var(--ts-font-size-base);
+	}
+}
+
+// WooCommerce 原生 related / upsells / cross-sells 标题（模板无法加 class）
+.related.products > h2,
+.upsells.products > h2,
+.cross-sells > h2 {
+	@include ts-section-title;
+}

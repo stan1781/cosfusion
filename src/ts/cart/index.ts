@@ -6,6 +6,7 @@ import {
 	syncCouponApplyButtonForInput,
 } from '../ui/coupon-form';
 import { initProductCarousels } from '../shop/product-carousel';
+import { mountRecentlyViewedHosts } from '../product/recently-viewed';
 import { escapeHtml } from '../utils/escape-html';
 
 export { notify } from './notifications';
@@ -611,12 +612,18 @@ function renderFreeShippingProgress(cart: StoreApiCart, config: TailwindscoreCar
 }
 
 function renderEmptyCartMarkup(config: TailwindscoreCartConfig, wrapperClass: string): string {
+	const recentlyHost =
+		wrapperClass.includes('cart-page-cart') && window.tailwindscoreRecentlyViewed?.showOnCart
+			? `<div class="recently-viewed-host" data-ts-recently-viewed-host data-ts-recently-viewed-exclude="0" data-ts-recently-viewed-limit="8" hidden></div>`
+			: '';
+
 	return `
 		<div class="${wrapperClass}">
 			<div class="cart-drawer-cart__empty stack">
 				<p>${escapeHtml(config.i18n.emptyCartMessage)}</p>
 				<a class="btn btn-outline" href="${escapeHtml(config.shopUrl)}">${escapeHtml(config.i18n.browseProducts)}</a>
 			</div>
+			${recentlyHost}
 		</div>
 	`;
 }
@@ -738,6 +745,7 @@ function syncCartUi(cart: StoreApiCart) {
 			element.innerHTML = pageMarkup;
 			initCouponApplyDisabledState(element);
 			initProductCarousels(element);
+			mountRecentlyViewedHosts(element);
 		});
 	}
 

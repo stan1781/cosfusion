@@ -1,8 +1,8 @@
 import { addCartItem, notify } from '../cart/index';
 import { buildAddToCartRequest } from '../product/add-to-cart-request';
 import { resolveSubmitButton, setButtonsLoading } from '../ui/button-loading';
-import { bindEscapeToClose, hideHiddenModal, isHiddenModalOpen, restoreFocus, showHiddenModal } from '../ui/dialog';
-import { initQuickViewVariations } from './quick-view-variations';
+	import { bindEscapeToClose, hideHiddenModal, isHiddenModalOpen, restoreFocus, showHiddenModal } from '../ui/dialog';
+	import { initQuickViewVariations } from './quick-view-variations';
 
 type QuickViewConfig = {
 	ajaxUrl: string;
@@ -292,8 +292,9 @@ async function loadProduct(productId: number): Promise<void> {
 	const generation = ++loadGeneration;
 	setLoading(true);
 
-	try {
-		const html = await ensureProductHtml(productId);
+		try {
+			// 仅用弹层内 loading；勿套全局遮罩（会盖住关闭按钮）。
+			const html = await ensureProductHtml(productId);
 
 		if (generation !== loadGeneration) {
 			return;

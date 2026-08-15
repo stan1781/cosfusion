@@ -1,6 +1,7 @@
 import { collectVariationFromUi, initQuickViewVariations } from '../shop/quick-view-variations';
 import { withControlLoading } from '../ui/button-loading';
 import { bindEscapeToClose, hideHiddenModal, isHiddenModalOpen, restoreFocus, showHiddenModal } from '../ui/dialog';
+import { withGlobalLoading } from '../ui/global-loading';
 import { notify } from './notifications';
 import { refreshCart } from './index';
 
@@ -217,9 +218,10 @@ export async function openCartItemEditModal(trigger: HTMLElement, cartItemKey: s
 	}
 
 	pendingAbort = new AbortController();
+	const abort = pendingAbort;
 
 	try {
-		const html = await fetchEditForm(cartItemKey, pendingAbort.signal);
+		const html = await withGlobalLoading(() => fetchEditForm(cartItemKey, abort.signal));
 		const content = getContentEl();
 
 		if (!html || !content) {
@@ -284,7 +286,7 @@ function bindCartItemEditControls(): void {
 
 			void withControlLoading(saveButton, async () => {
 				try {
-					await saveEdit(activeCartItemKey);
+					await withGlobalLoading(() => saveEdit(activeCartItemKey));
 					closeModal();
 				} catch (error) {
 					notify({

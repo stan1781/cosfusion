@@ -77,6 +77,7 @@ woocommerce/loop/orderby.php           # 覆盖 WC：页内 Sort 下拉（非 fo
 
 - **桌面 `md+`**：`.wc-archive-layout` 约 `3fr / 9fr`；侧栏 sticky（`top` 用 `--ts-site-header-height`，由 `header-sticky.ts` 实测写入，缺省回退 `5rem`）。移动筛选触发与 Drawer 隐藏；工具栏左侧 result count、右侧同一套 Sort 下拉。
 - **移动端 `< md`**：内联侧栏隐藏；工具栏用 **两列 grid（`1fr 1fr`）** 让 Filters 与 Sort 等宽（隐藏 result count）；空结果仅有 Filters 时退回单列内容宽。筛选为左侧 fixed Drawer（`var(--ts-drawer-width)`，非底部 Sheet）。
+- **商品卡标题**（`.wc-product-card__title`）：使用 `--ts-font-body`（覆盖全局 heading 字体），与正文同栈。
 - **商品卡操作区**（`.wc-product-card__actions`）：叠在媒体图上（绝对定位），不占卡片文档流；`< md` 常显，按钮为 `0.8 × --ts-control-min-height`（约 2rem），避免两列网格里挡住主图；`md+` 恢复标准控件高度，悬停/焦点显。右上圆形图标统一样式：简单商品加购（cart）/ 可变品 QV（eye）/ Wishlist（heart）；Woo 可变品 `screen-reader-text` 与未图标化的文字链在此隐藏。
 
 ## 归档 Hero 与 LCP

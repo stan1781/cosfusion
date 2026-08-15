@@ -149,7 +149,7 @@ function tailwindscore_render_cart_product_suggestions(): void {
 				'data-ts-cart-suggestions' => '',
 			),
 			'section_id'         => 'ts-cart-suggestions-title',
-			'title_class'        => 'heading',
+			'title_class'        => 'section-title--inline',
 		)
 	);
 

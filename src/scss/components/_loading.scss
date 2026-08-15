@@ -47,3 +47,29 @@
 	@include mixins.ts-animation-spin(mixins.$ts-animation-spin-duration-slow);
 	pointer-events: none;
 }
+
+.global-loading {
+	position: fixed;
+	inset: 0;
+	z-index: calc(var(--ts-z-modal) + 1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: color-mix(in srgb, var(--ts-surface) 55%, transparent);
+	backdrop-filter: blur(2px);
+	pointer-events: all;
+
+	&[hidden] {
+		display: none;
+	}
+
+	.spinner {
+		width: 2.5rem;
+		height: 2.5rem;
+		border-width: 3px;
+	}
+}
+
+.is-global-loading {
+	overflow: hidden;
+}

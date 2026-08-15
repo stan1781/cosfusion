@@ -37,7 +37,7 @@ modules/{slug}/
 | variations | `modules/variations` | 0.1.0 | ✅ | 图片/色块 swatch、grid/list 布局 |
 | size-guide | `modules/size-guide` | 0.1.1 | ✅ | JSON 尺码表 modal + 选码单行 |
 | related-products | `modules/related-products` | 0.2.0 | ✅ | 单品页相关产品引擎 + Kirki 轮播/网格切换 |
-| quick-view | `modules/quick-view` | 0.1.8 | ✅ | 归档 / 首页 / 购物车 / 404 轮播 Quick View |
+| quick-view | `modules/quick-view` | 0.1.10 | ✅ | 归档 / 首页 / 购物车 / 404 轮播 Quick View |
 | review-images | `modules/review-images` | 0.1.1 | ✅ | 评论附图、买家秀 Showcase |
 | account-auth | `modules/account-auth` | 0.1.2 | ✅ | 分屏登录、独立注册页、Google 登录预设、登录 modal 密码明文切换 |
 | wishlist | `modules/wishlist` | 0.1.3 | ✅ | 心愿单：父商品收藏、登录合并、Account + QV 加购 |
@@ -76,10 +76,11 @@ modules/{slug}/
 
 ### quick-view
 
-- 商店归档、首页、购物车推荐、404 人气商品等循环中的可变品 AJAX 快速查看
+- 商店归档、首页、购物车推荐、404 人气商品、Recently viewed 等循环中的可变品 AJAX 快速查看
 - Customizer：商店/归档 → 快速查看
 - 变体 UI 为文字按钮方案，不 enqueue 归档页完整 `variations.ts`
 - 卡片悬停预读（180ms 延迟）：移开不取消；打开复用同一 in-flight Promise；`saveData` / 2g 跳过
+- REST 水合循环（如 Recently viewed）亦输出 QV 触发器；弹层 / runtime 仍仅在「生效页面」加载
 - TS：`src/ts/shop/quick-view.ts`、`quick-view-variations.ts`
 
 ### related-products

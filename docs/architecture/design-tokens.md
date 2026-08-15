@@ -27,6 +27,7 @@ TailwindScore 使用 **SCSS 变量 → `:root` CSS 变量 → 组件 `var(--ts-*
 | 圆角 | `--ts-border-radius-sm`、`--ts-border-radius`、`--ts-border-radius-lg`、`--ts-border-radius-pill` |
 | 字号 / 行高 | `--ts-font-size-xs` … `lg`、`--ts-line-height-base` |
 | 字体栈 | `--ts-font-body`、`--ts-font-heading`（typography 模块可覆盖） |
+| 字重 | 默认仅 **400** / **600**（未加载的字重假粗不可靠）；`500` 禁止；`700` 仅当标题字体清单确有该 face（如 Playfair） |
 | 阴影 | `--ts-shadow-sm`、`md`、`lg` |
 | 布局 | `--ts-container-max`、`$ts-drawer-width` / `--ts-drawer-width` |
 | z-index | `--ts-z-sticky`、`panel`、`drawer`、`modal`、`toast` |

@@ -273,7 +273,7 @@ function tailwindscore_render_products_carousel_shell( array $config ): string {
 			'section_data_attrs' => is_array( $config['section_data_attrs'] ?? null )
 				? $config['section_data_attrs']
 				: array(),
-			'title_class'        => (string) ( $config['title_class'] ?? 'heading' ),
+			'title_class'        => (string) ( $config['title_class'] ?? 'section-title--inline' ),
 		)
 	);
 

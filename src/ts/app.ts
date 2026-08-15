@@ -3,6 +3,8 @@ import './wishlist/index';
 import './ui/login-modal';
 import './ui/quantity-input';
 import './ui/button-loading';
+import { initWooSuccessNotices } from './ui/woo-notices';
+import { registerServiceWorker } from './pwa/register';
 import './site/index';
 import './site/header-sticky';
 import './site/mobile-nav';
@@ -19,6 +21,7 @@ import { initProductCarousels } from './shop/product-carousel';
 import { initHeroCarousels } from './home/hero-carousel';
 import './search/index';
 import './product/index';
+import { initRecentlyViewed } from './product/recently-viewed';
 import './cart/index';
 import './cart/item-edit-modal';
 import './cart/cart-page';
@@ -27,6 +30,9 @@ import './checkout/index';
 initHeaderBar();
 initProductCarousels();
 initHeroCarousels();
+initWooSuccessNotices();
+initRecentlyViewed();
+registerServiceWorker();
 
 function scheduleIdleTask(task: () => void, timeoutMs = 4000): void {
 	if ('requestIdleCallback' in window) {

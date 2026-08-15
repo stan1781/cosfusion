@@ -1,3 +1,5 @@
+@use "../abstracts/mixins";
+
 .product-carousel {
 	display: grid;
 	gap: var(--ts-spacer-3);
@@ -11,10 +13,11 @@
 	gap: var(--ts-spacer-3);
 	min-width: 0;
 
-	&:not(:has(.heading)):has(.product-carousel__nav-group[hidden]) {
+	&:not(:has(.section-title, .heading)):has(.product-carousel__nav-group[hidden]) {
 		display: none;
 	}
 
+	.section-title,
 	.heading {
 		flex: 1 1 auto;
 		margin: 0;
@@ -53,7 +56,30 @@
 	overflow: hidden;
 }
 
-// Swiper 挂载前先切到 flex，避免按 grid 计算 slide 宽度。
+// Swiper 挂载前即用横向 flex + 父级 overflow，避免 Woo grid 露出多张首图再被 JS 收起。
+.product-carousel__swiper ul.products:not(.swiper-wrapper) {
+	display: flex;
+	flex-wrap: nowrap;
+	grid-template-columns: unset;
+	gap: 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.product-carousel__swiper ul.products:not(.swiper-wrapper) > li.product {
+	flex: 0 0 40%;
+	min-width: 0;
+	box-sizing: border-box;
+}
+
+@include mixins.ts-up(md) {
+	.product-carousel__swiper ul.products:not(.swiper-wrapper) > li.product {
+		flex-basis: 25%;
+	}
+}
+
+// Swiper 挂载后仍保持 flex（slide 宽度由 Swiper 写入）。
 .product-carousel__swiper ul.products.swiper-wrapper {
 	display: flex;
 	grid-template-columns: unset;
@@ -163,6 +189,7 @@
 		text-transform: none;
 	}
 
+	.product-carousel__header .section-title,
 	.product-carousel__header .heading {
 		font-size: var(--ts-font-size-base);
 		letter-spacing: 0;
@@ -175,6 +202,7 @@
 	margin-top: var(--ts-spacer-4);
 	min-width: 0;
 
+	.product-carousel__header .section-title,
 	.product-carousel__header .heading {
 		font-size: var(--ts-font-size-lg);
 		line-height: var(--ts-line-height-base);

@@ -13,6 +13,7 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 | [构建系统](architecture/build-system.md) | Vite 入口、资源清单、按页加载、release 打包 |
 | [前台性能](architecture/performance.md) | LCP / CLS / WP Rocket 分工与排除；禁止第三方懒加载破坏 Hero |
 | [Bootscore 映射](architecture/bootscore-mapping.md) | 与 Bootscore 的继承与替换关系 |
+| [UI 原语](components/ui-primitives.md) | loading / toast 桥 / dialog / bottom-sheet |
 
 ## 功能文档
 
@@ -27,6 +28,9 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 | [单品商品画廊](features/product-gallery.md) | 主图 Swiper、桌面竖向缩略图均分与居中、PhotoSwipe |
 | [产品详情 Tab](features/product-detail-tabs.md) | 响应式描述 / Size Guide / 评论布局 |
 | [产品保障](features/product-assurances.md) | 单品加购下方政策提示（Kirki repeater） |
+| [Recently viewed](features/recently-viewed.md) | 浏览记录轮播：空购物车 / 单品 Related 上方 |
+| [Section title](features/section-title.md) | 区块标题纹样组件 |
+| [PWA](features/pwa.md) | Level 1 可安装 + 静态缓存（无专属券） |
 | [配件搭配 Cross-sells](features/product-cross-sells.md) | 单品紧凑列表；购物车瀑布见购买流程 |
 | [商店 / 分类归档](features/shop-archive.md) | AJAX 筛选导航、无限滚动、桌面侧栏 / 移动端 Filters+Sort 各半 + 左侧 Drawer |
 | [博客文章页](features/blog-post.md) | singular post：阅读栏、相关文章、Post Sidebar（桌面列 / 移动 Drawer） |
@@ -42,6 +46,7 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 | [心愿单](modules/wishlist.md) | 访客收藏、登录合并、Account 列表 |
 | [独立插件整合](integrations/README.md) | 插件逻辑 + 主题前台资源 |
 | [后续升级评估](roadmap/starcore-upgrades.md) | 可从 Starcore 继续移植的非套餐能力 |
+| [B2C 转化优化](roadmap/b2c-conversion.md) | UI 反馈 / Recently viewed / Section title / PWA / E2E；一阶一验 |
 | [冗余精简路线图](roadmap/redundancy-cleanup.md) | 去重 / 遗留修剪 / 文件拆分；分阶段 + 验收门禁（与升级评估分开） |
 
 ## 历史文档（归档）

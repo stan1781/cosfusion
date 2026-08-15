@@ -163,7 +163,7 @@ class Tailwindscore_Related_Products_Hooks {
 				'section_data_attrs' => array(
 					'data-ts-related-products' => '',
 				),
-				'title_class'        => 'heading',
+				'title_class'        => 'section-title--inline',
 			)
 		);
 

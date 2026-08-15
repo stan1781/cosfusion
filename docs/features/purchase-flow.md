@@ -44,12 +44,24 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 | 场景 | 承载方式 |
 |------|----------|
 | 加购成功、优惠码成功、删除成功 | **toast**（短时） |
+| WooCommerce `.woocommerce-message` / `.woocommerce-info`（非结账校验） | **toast**（`woo-notices.ts` 提升后移除原 banner） |
 | 库存不足、数量被修正、Drawer 内无效优惠码 | **Drawer 内联**持久反馈 |
-| 结账表单校验、支付失败 | **checkout 页面 inline** |
+| 结账表单校验、支付失败 | **checkout 页面 inline**（不提升为 toast） |
 
 Toast 贴顶（对齐 Starcore）：桌面（`≥ md`）右上限宽卡片；手机（`< md`）顶部全宽（含 `safe-area-inset-top`），圆角仅底部。入场 / 离场共用 `is-entering` / `is-leaving` 从上滑入、向上滑出。手机底部有 `.purchase-flow-toast__handle` pill，向上拖过阈值关闭（拖拽中暂停自动关闭）；保留 `btn-close`。底部进度条（`purchase-flow-toast__progress`）与自动关闭时长（4200ms）同步（CSS `scaleX` 动画）。
 
 不把阻塞型结账错误只做成短暂 toast。
+
+### 全局 loading
+
+- `src/ts/ui/global-loading.ts`：全屏 `.global-loading` 引用计数遮罩（`setGlobalLoading` / `withGlobalLoading`）
+- 已接入：购物车行项编辑打开 / 保存；**Quick View 取 HTML 只用弹层内 loading**（可关闭，不挡 Esc / 关按钮）
+- **不**替代结账页 `checkout-processing` / `.loading-host` 区域遮罩
+
+### Bottom sheet 原语
+
+- TS：`src/ts/ui/bottom-sheet.ts`；SCSS mixin：`ts-bottom-sheet-panel` / `ts-bottom-sheet-panel-open` / `ts-bottom-sheet-overlay-shell`
+- 首个业务消费者：PWA install 提示（见 [b2c-conversion.md](../roadmap/b2c-conversion.md) Phase 4）
 
 前端 API 形态（`notifications.ts`）：
 

@@ -1,7 +1,12 @@
 node_modules/
 assets/dist/
+assets/pwa/
 .worktrees/
 .cursor/
 .codegraph/
 release/
 *.zip
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

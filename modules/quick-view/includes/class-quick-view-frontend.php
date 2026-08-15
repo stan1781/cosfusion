@@ -57,10 +57,10 @@ class Tailwindscore_Quick_View_Frontend {
 	 * @param array<mixed> $args   参数。
 	 * @return string
 	 */
-	public function filter_loop_add_to_cart_link( string $html, $product, array $args ): string {
-		if ( ! Tailwindscore_Quick_View_Settings::should_load_frontend() ) {
-			return $html;
-		}
+		public function filter_loop_add_to_cart_link( string $html, $product, array $args ): string {
+			if ( ! Tailwindscore_Quick_View_Settings::should_emit_loop_trigger() ) {
+				return $html;
+			}
 
 		if ( ! $product instanceof WC_Product || ! $product->is_type( 'variable' ) ) {
 			return $html;

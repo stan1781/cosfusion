@@ -9,6 +9,53 @@ function tailwindscore_site_name(): string {
 }
 
 /**
+ * 输出区块标题（`.section-title`：左右 SVG 纹样，右侧镜像）。
+ *
+ * @param array{id?: string, tag?: string, class?: string} $args
+ */
+function tailwindscore_render_section_title( string $title, array $args = array() ): void {
+	$title = trim( $title );
+
+	if ( '' === $title ) {
+		return;
+	}
+
+	$args = wp_parse_args(
+		$args,
+		array(
+			'id'    => '',
+			'tag'   => 'h2',
+			'class' => '',
+		)
+	);
+
+	$allowed_tags = array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' );
+	$tag          = strtolower( (string) $args['tag'] );
+	$tag          = in_array( $tag, $allowed_tags, true ) ? $tag : 'h2';
+
+	$classes = trim( 'section-title ' . (string) $args['class'] );
+	$id      = trim( (string) $args['id'] );
+
+	if ( '' !== $id ) {
+		printf(
+			'<%1$s id="%2$s" class="%3$s">%4$s</%1$s>',
+			esc_attr( $tag ),
+			esc_attr( $id ),
+			esc_attr( $classes ),
+			esc_html( $title )
+		);
+		return;
+	}
+
+	printf(
+		'<%1$s class="%2$s">%3$s</%1$s>',
+		esc_attr( $tag ),
+		esc_attr( $classes ),
+		esc_html( $title )
+	);
+}
+
+/**
  * 媒体库中图片 URL 的固有尺寸。
  *
  * 用于 width/height 属性，使浏览器在图片加载前预留布局空间（PageSpeed / CLS）。

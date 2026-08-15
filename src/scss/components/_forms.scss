@@ -117,7 +117,7 @@
 
 .coupon-form__label {
 	@include mixins.ts-form-label-text;
-	font-weight: 500;
+	font-weight: 600;
 	color: var(--ts-text-primary);
 }
 

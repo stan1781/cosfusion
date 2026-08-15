@@ -406,7 +406,7 @@ function tailwindscore_render_not_found_product_carousel(): void {
 				'data-ts-not-found-products' => '',
 			),
 			'section_id'         => 'ts-not-found-products-title',
-			'title_class'        => 'heading',
+			'title_class'        => 'section-title--inline',
 		)
 	);
 

@@ -437,7 +437,7 @@ body.archive-filters-drawer-open {
 .wc-archive-ordering__title {
 	flex: 0 0 auto;
 	color: var(--ts-text-secondary);
-	font-weight: 500;
+	font-weight: 600;
 }
 
 .wc-archive-ordering__value {
@@ -741,6 +741,8 @@ body.archive-filters-drawer-open {
 
 .wc-product-card__title {
 	margin: 0;
+	// 覆盖全局 h1–h6 的 heading 字体；卡片标题与正文同栈。
+	font-family: var(--ts-font-body);
 	font-size: var(--ts-font-size-xs);
 	min-height: calc(1.35 * 1rem);
 	line-height: 1.35;
@@ -1019,7 +1021,7 @@ body.archive-filters-drawer-open {
 	height: 2rem;
 	padding: 0 var(--ts-spacer-2);
 	font-size: var(--ts-font-size-xs);
-	font-weight: 500;
+	font-weight: 600;
 	line-height: 1;
 	text-decoration: none;
 	color: var(--ts-text-secondary);

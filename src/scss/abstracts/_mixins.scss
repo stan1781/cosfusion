@@ -245,3 +245,38 @@ $ts-animation-slide-duration: 0.22s;
 		transform: scaleX(1);
 	}
 }
+
+/// 底部滑入面板位移与过渡（关闭态 translateY(100%) → .is-open 时 translateY(0)）。
+@mixin ts-bottom-sheet-panel(
+	$duration: 0.38s,
+	$easing: cubic-bezier(0.32, 0.72, 0, 1)
+) {
+	transform: translateY(100%);
+	transition: transform $duration $easing;
+	will-change: transform;
+}
+
+@mixin ts-bottom-sheet-panel-open {
+	transform: translateY(0);
+}
+
+/// 固定层 + 底对齐布局（modal / install overlay 壳层共用）。
+@mixin ts-bottom-sheet-overlay-shell($z-index: var(--ts-z-modal)) {
+	position: fixed;
+	inset: 0;
+	z-index: $z-index;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: stretch;
+	visibility: hidden;
+	pointer-events: none;
+
+	&:not([hidden]) {
+		visibility: visible;
+	}
+
+	&.is-open {
+		pointer-events: auto;
+	}
+}

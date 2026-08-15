@@ -5,15 +5,18 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "vite build && node scripts/prune-dist.mjs",
+		"build": "vite build && node scripts/generate-pwa-precache.mjs && node scripts/prune-dist.mjs",
 		"clean:dist": "node -e \"import('node:fs').then(fs=>fs.rmSync('assets/dist',{recursive:true,force:true}))\"",
 		"package": "node scripts/package-theme.mjs",
 		"release": "node scripts/bump-version.mjs && npm run build && node scripts/package-theme.mjs",
 		"release:minor": "node scripts/bump-version.mjs minor && npm run build && node scripts/package-theme.mjs",
 		"release:major": "node scripts/bump-version.mjs major && npm run build && node scripts/package-theme.mjs",
-		"typecheck": "tsc --noEmit"
+		"pwa:icons": "node scripts/generate-pwa-icons.mjs",
+		"typecheck": "tsc --noEmit",
+		"test:e2e": "playwright test"
 	},
 	"devDependencies": {
+		"@playwright/test": "^1.55.0",
 		"@types/node": "^22.15.21",
 		"archiver": "^7.0.1",
 		"sass": "^1.89.0",

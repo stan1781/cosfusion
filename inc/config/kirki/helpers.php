@@ -138,6 +138,7 @@ function tailwindscore_kirki_customizer_targets(): array {
 		'product'     => tailwindscore_kirki_panel_product(),
 		'cart'        => tailwindscore_kirki_section_cart(),
 		'checkout'    => tailwindscore_kirki_section_checkout(),
+		'pwa'         => 'tailwindscore_pwa',
 		// 原生 WooCommerce panel；主题 section 不再挂载于此。
 		'woocommerce' => 'woocommerce',
 	);

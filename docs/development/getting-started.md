@@ -24,6 +24,13 @@ npm run build
 npm run typecheck
 ```
 
+购买流冒烟（需可访问的站点与简单商品 URL）：
+
+```bash
+npx playwright install chromium
+TS_E2E_BASE_URL=https://your-site.test TS_E2E_PRODUCT_PATH=/product/your-simple-sku/ npm run test:e2e
+```
+
 ## Vite 开发模式
 
 ```bash
