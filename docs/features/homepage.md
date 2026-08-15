@@ -15,7 +15,8 @@
 ```
 
 4. **外观 → 自定义 → 首页 → Hero Banner**：上传幻灯片并调整布局  
-5. **外观 → 内容区块**：维护可复用 HTML/CSS 片段（`[block]`）
+5. **外观 → 内容区块**：维护可复用 HTML/CSS 片段（`[block]`）  
+6. 单页一次性 HTML（含 `<style>`）：可直接贴在 Page 正文，主题会把样式抽到「页面 CSS」meta（`_ts_page_css`）
 
 ## Customizer 范围
 

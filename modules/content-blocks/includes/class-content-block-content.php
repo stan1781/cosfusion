@@ -41,10 +41,28 @@ final class Tailwindscore_Content_Block_Content {
 	/**
 	 * 从 HTML 中提取 <style> 块，返回剥离后的 HTML 与合并的 CSS。
 	 *
+	 * 先遮蔽 HTML 注释，避免注释中的「&lt;style&gt;」字面量被误匹配并吞掉正文。
+	 *
 	 * @return array{0: string, 1: string}
 	 */
 	public static function extract_styles_from_html( string $html ): array {
 		$extracted = array();
+		$comments  = array();
+
+		$masked = preg_replace_callback(
+			'/<!--.*?-->/s',
+			static function ( array $matches ) use ( &$comments ): string {
+				$index      = count( $comments );
+				$comments[] = $matches[0];
+
+				return '<!--TS_STYLE_EXTRACT_COMMENT_' . $index . '-->';
+			},
+			$html
+		);
+
+		if ( ! is_string( $masked ) ) {
+			$masked = $html;
+		}
 
 		$cleaned = preg_replace_callback(
 			'/<style\b[^>]*>(.*?)<\/style>/is',
@@ -56,8 +74,24 @@ final class Tailwindscore_Content_Block_Content {
 
 				return '';
 			},
-			$html
+			$masked
 		);
+
+		if ( ! is_string( $cleaned ) ) {
+			$cleaned = $masked;
+		}
+
+		if ( ! empty( $comments ) ) {
+			$cleaned = preg_replace_callback(
+				'/<!--TS_STYLE_EXTRACT_COMMENT_(\d+)-->/',
+				static function ( array $matches ) use ( $comments ): string {
+					$index = (int) $matches[1];
+
+					return $comments[ $index ] ?? '';
+				},
+				$cleaned
+			);
+		}
 
 		return array(
 			is_string( $cleaned ) ? trim( $cleaned ) : trim( $html ),

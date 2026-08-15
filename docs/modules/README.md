@@ -41,7 +41,7 @@ modules/{slug}/
 | review-images | `modules/review-images` | 0.1.1 | ✅ | 评论附图、买家秀 Showcase |
 | account-auth | `modules/account-auth` | 0.1.1 | ✅ | 分屏登录、独立注册页、Google 登录预设 |
 | wishlist | `modules/wishlist` | 0.1.3 | ✅ | 心愿单：父商品收藏、登录合并、Account + QV 加购 |
-| content-blocks | `modules/content-blocks` | 0.1.0 | ✅ | CPT `ts_block` + `[block]` 可复用 HTML/CSS 片段 |
+| content-blocks | `modules/content-blocks` | 0.2.0 | ✅ | CPT `ts_block` + `[block]` 可复用 HTML/CSS；Page 页面 CSS 抽离 |
 
 各模块详细变更见对应 `CHANGELOG.md`。
 
@@ -51,6 +51,7 @@ modules/{slug}/
 
 - CPT `ts_block`，后台：**外观 → 内容区块**
 - 短代码 `[block id="slug|id"]`（Flatsome 兼容）
+- Page「页面 CSS」：正文 `<style>` 抽离至 `_ts_page_css`，前台 inline 到 `tailwindscore-app`
 - 详见 [content-blocks.md](content-blocks.md)
 
 ### gallery

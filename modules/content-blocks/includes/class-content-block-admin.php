@@ -66,23 +66,46 @@ final class Tailwindscore_Content_Block_Admin {
 			$ver
 		);
 
-		wp_enqueue_script(
-			'tailwindscore-content-block-preview',
-			$base . 'admin-preview.js',
-			array(),
-			$ver,
-			true
-		);
+			wp_enqueue_script(
+				'tailwindscore-content-block-preview',
+				$base . 'admin-preview.js',
+				array(),
+				$ver,
+				true
+			);
 
-		wp_localize_script(
-			'tailwindscore-content-block-preview',
-			'tsContentBlockPreview',
-			array(
-				'resetCss' => self::preview_reset_css(),
-				'tokenCss' => self::preview_token_css(),
-			)
-		);
-	}
+			// 加载 CodeMirror 用于代码高亮编辑。
+			$settings = wp_enqueue_code_editor(
+				array(
+					'type'       => 'text/html',
+					'codemirror' => array(
+						'indentUnit'   => 2,
+						'tabSize'      => 2,
+						'lineNumbers'  => true,
+						'lineWrapping' => true,
+					),
+				)
+			);
+
+			if ( $settings ) {
+				wp_add_inline_script(
+					'code-editor',
+					sprintf(
+						'window.tsContentBlockCodeEditor = %s;',
+						wp_json_encode( $settings )
+					)
+				);
+			}
+
+			wp_localize_script(
+				'tailwindscore-content-block-preview',
+				'tsContentBlockPreview',
+				array(
+					'resetCss' => self::preview_reset_css(),
+					'tokenCss' => self::preview_token_css(),
+				)
+			);
+		}
 
 	public static function render_fields_metabox( WP_Post $post ): void {
 		wp_nonce_field( self::NONCE_ACTION, self::NONCE_FIELD );

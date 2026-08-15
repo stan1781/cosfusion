@@ -5,9 +5,37 @@
 	'use strict';
 
 	var config = window.tsContentBlockPreview || {};
+	var codeEditorConfig = window.tsContentBlockCodeEditor || null;
 	var DEBOUNCE_MS = 400;
 	var timer = null;
 	var activeTab = 'code';
+
+	var htmlEditor = null;
+	var cssEditor = null;
+
+	/**
+	 * 初始化 CodeMirror 编辑器；不可用时保持原生 textarea。
+	 */
+	function initCodeEditors() {
+		if (!codeEditorConfig || typeof wp === 'undefined' || typeof wp.CodeMirror === 'undefined') {
+			return;
+		}
+
+		var htmlEl = document.getElementById('ts_block_html');
+		var cssEl = document.getElementById('ts_block_css');
+
+		if (htmlEl) {
+			var htmlSettings = JSON.parse(JSON.stringify(codeEditorConfig));
+			htmlSettings.codemirror.mode = 'text/html';
+			htmlEditor = wp.CodeMirror.fromTextArea(htmlEl, htmlSettings.codemirror);
+		}
+
+		if (cssEl) {
+			var cssSettings = JSON.parse(JSON.stringify(codeEditorConfig));
+			cssSettings.codemirror.mode = 'css';
+			cssEditor = wp.CodeMirror.fromTextArea(cssEl, cssSettings.codemirror);
+		}
+	}
 
 	/**
 	 * 避免 textarea 中的 </style> 提前关闭预览文档里的 style 块。
@@ -54,16 +82,30 @@
 		);
 	}
 
+	function getHtmlValue() {
+		if (htmlEditor) {
+			return htmlEditor.getValue();
+		}
+		var htmlEl = document.getElementById('ts_block_html');
+		return htmlEl ? htmlEl.value : '';
+	}
+
+	function getCssValue() {
+		if (cssEditor) {
+			return cssEditor.getValue();
+		}
+		var cssEl = document.getElementById('ts_block_css');
+		return cssEl ? cssEl.value : '';
+	}
+
 	function refresh() {
 		var iframe = document.getElementById('ts-block-preview-frame');
-		var htmlEl = document.getElementById('ts_block_html');
-		var cssEl = document.getElementById('ts_block_css');
 
-		if (!iframe || !htmlEl || !cssEl) {
+		if (!iframe) {
 			return;
 		}
 
-		iframe.srcdoc = buildSrcdoc(htmlEl.value, cssEl.value);
+		iframe.srcdoc = buildSrcdoc(getHtmlValue(), getCssValue());
 	}
 
 	function scheduleRefresh() {
@@ -109,10 +151,8 @@
 
 	function bind() {
 		var root = document.querySelector('[data-ts-block-editor]');
-		var htmlEl = document.getElementById('ts_block_html');
-		var cssEl = document.getElementById('ts_block_css');
 
-		if (!root || !htmlEl || !cssEl) {
+		if (!root) {
 			return;
 		}
 
@@ -126,13 +166,33 @@
 			});
 		});
 
-		htmlEl.addEventListener('input', scheduleRefresh);
-		cssEl.addEventListener('input', scheduleRefresh);
+		if (htmlEditor) {
+			htmlEditor.on('change', scheduleRefresh);
+		} else {
+			var htmlEl = document.getElementById('ts_block_html');
+			if (htmlEl) {
+				htmlEl.addEventListener('input', scheduleRefresh);
+			}
+		}
+
+		if (cssEditor) {
+			cssEditor.on('change', scheduleRefresh);
+		} else {
+			var cssEl = document.getElementById('ts_block_css');
+			if (cssEl) {
+				cssEl.addEventListener('input', scheduleRefresh);
+			}
+		}
+	}
+
+	function boot() {
+		initCodeEditors();
+		bind();
 	}
 
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', bind);
+		document.addEventListener('DOMContentLoaded', boot);
 	} else {
-		bind();
+		boot();
 	}
 })();

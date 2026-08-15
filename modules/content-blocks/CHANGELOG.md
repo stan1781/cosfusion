@@ -1,5 +1,12 @@
 # Content Blocks
 
+## 0.2.0
+
+- **Page 页面 CSS**：编辑 Page 时新增「页面 CSS」metabox；正文内 `<style>` 保存时自动抽离至 `_ts_page_css`，前台挂到 `tailwindscore-app` inline style
+- 修复 Page 正文连续 `[block]` 经 `wpautop` 后残留空 `<br>` / `<p></p>` 造成多余间距
+- `extract_styles_from_html`：抽取前遮蔽 HTML 注释，避免注释内的 `<style>` 字面量误匹配并吞掉正文
+- 区块编辑页 HTML/CSS 使用 WordPress CodeMirror（不可用时回退 textarea）
+
 ## 0.1.0
 
 - 从 Starcore 移植内容区块 CPT（`ts_block`）与 `[block]` 短代码
