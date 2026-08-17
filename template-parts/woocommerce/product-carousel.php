@@ -26,12 +26,50 @@ $section_data_attrs = isset( $args['section_data_attrs'] ) && is_array( $args['s
 	? $args['section_data_attrs']
 	: array();
 
+$display  = function_exists( 'tailwindscore_normalize_products_carousel_display' )
+	? tailwindscore_normalize_products_carousel_display( $args['card'] ?? 'grid', $args['carousel'] ?? '1' )
+	: array(
+		'card'     => 'grid',
+		'carousel' => '1',
+	);
+$card     = $display['card'];
+$carousel = $display['carousel'];
+
+if ( ! isset( $section_data_attrs['data-ts-card'] ) ) {
+	$section_data_attrs['data-ts-card'] = $card;
+}
+if ( ! isset( $section_data_attrs['data-ts-carousel'] ) ) {
+	$section_data_attrs['data-ts-carousel'] = $carousel;
+}
+
 if ( '' === trim( $loop_html ) ) {
 	return;
 }
 
 $has_title     = '' !== $title;
 $section_class = trim( 'product-carousel ' . $section_class );
+
+$is_static     = '0' === $carousel;
+$static_style  = '';
+if ( $is_static && function_exists( 'tailwindscore_products_carousel_static_columns' ) ) {
+	// list / static grid 共用列变量；list 默认由调用方或短代码解析给 1 / 2。
+	$cols_mobile  = tailwindscore_products_carousel_static_columns( $columns_mobile );
+	$cols_desktop = tailwindscore_products_carousel_static_columns( $columns_desktop );
+	$cols_wide    = null;
+	if ( null !== $columns_wide ) {
+		$cols_wide = tailwindscore_products_carousel_static_columns( $columns_wide );
+	}
+
+	$static_style = sprintf(
+		'--ts-product-carousel-cols-mobile:%d;--ts-product-carousel-cols-desktop:%d;--ts-product-carousel-gap:%dpx;',
+		$cols_mobile,
+		$cols_desktop,
+		max( 0, min( 48, $gap ) )
+	);
+	if ( null !== $cols_wide ) {
+		$static_style .= sprintf( '--ts-product-carousel-cols-wide:%d;', $cols_wide );
+	}
+}
 ?>
 <section
 	class="<?php echo esc_attr( $section_class ); ?>"
@@ -56,6 +94,9 @@ $section_class = trim( 'product-carousel ' . $section_class );
 		data-ts-columns-wide="<?php echo esc_attr( (string) $columns_wide ); ?>"
 	<?php endif; ?>
 	data-ts-gap="<?php echo esc_attr( (string) $gap ); ?>"
+	<?php if ( '' !== $static_style ) : ?>
+		style="<?php echo esc_attr( $static_style ); ?>"
+	<?php endif; ?>
 >
 	<header class="product-carousel__header">
 		<?php if ( $has_title ) : ?>

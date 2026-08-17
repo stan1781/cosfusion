@@ -213,7 +213,21 @@
 .product-gallery__pagination {
 	display: flex;
 	justify-content: center;
+	gap: var(--ts-spacer-1);
 	margin-top: var(--ts-spacer-2);
+
+	.swiper-pagination-bullet {
+		width: 0.5rem;
+		height: 0.5rem;
+		margin: 0;
+		border-radius: var(--ts-border-radius-pill);
+		background: var(--ts-border-color-strong);
+		opacity: 1;
+	}
+
+	.swiper-pagination-bullet-active {
+		background: var(--ts-primary);
+	}
 }
 
 .product-gallery__counter {

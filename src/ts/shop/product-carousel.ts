@@ -31,6 +31,11 @@ function unwrapProductsList(root: HTMLElement, list: HTMLElement): void {
 }
 
 function initProductCarousel(section: HTMLElement): void {
+	// 短代码 carousel="0"：静态网格 / list，不挂 Swiper。
+	if (section.dataset.tsCarousel === '0') {
+		return;
+	}
+
 	const root = section.querySelector<HTMLElement>('.product-carousel__swiper');
 	const content = section.querySelector<HTMLElement>('.product-carousel__content');
 	const list = root?.querySelector<HTMLElement>('ul.products');

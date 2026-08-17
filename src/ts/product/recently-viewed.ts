@@ -97,10 +97,30 @@ async function hydrateHost(host: HTMLElement): Promise<void> {
 
 	const exclude = Number(host.dataset.tsRecentlyViewedExclude ?? '0') || 0;
 	const limit = Number(host.dataset.tsRecentlyViewedLimit ?? '8') || 8;
+	const card = host.dataset.tsRecentlyViewedCard ?? 'grid';
+	const carousel = host.dataset.tsRecentlyViewedCarousel ?? '1';
+	const columnsMobile = host.dataset.tsRecentlyViewedColumnsMobile;
+	const columnsDesktop = host.dataset.tsRecentlyViewedColumnsDesktop;
+	const columnsWide = host.dataset.tsRecentlyViewedColumnsWide;
+	const gap = host.dataset.tsRecentlyViewedGap;
 	const url = new URL(config.restUrl, window.location.origin);
 	url.searchParams.set('ids', ids.join(','));
 	url.searchParams.set('exclude', String(exclude));
 	url.searchParams.set('limit', String(limit));
+	url.searchParams.set('card', card);
+	url.searchParams.set('carousel', carousel);
+	if (columnsMobile) {
+		url.searchParams.set('columns_mobile', columnsMobile);
+	}
+	if (columnsDesktop) {
+		url.searchParams.set('columns_desktop', columnsDesktop);
+	}
+	if (columnsWide) {
+		url.searchParams.set('columns_wide', columnsWide);
+	}
+	if (gap) {
+		url.searchParams.set('gap', gap);
+	}
 
 	try {
 		const response = await fetch(url.toString(), {

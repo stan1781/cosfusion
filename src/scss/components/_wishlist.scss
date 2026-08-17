@@ -8,7 +8,7 @@
 	.icon svg {
 		stroke: currentColor;
 		fill: none;
-		transition: fill 0.15s ease, stroke 0.15s ease;
+		transition: fill 0.15s ease, stroke 0.15s ease, color 0.15s ease;
 	}
 
 	&[aria-pressed="true"],
@@ -24,6 +24,12 @@
 	@media (hover: hover) {
 		&:hover {
 			background: var(--ts-surface-muted);
+			color: var(--ts-danger, #c45c5c);
+		}
+
+		&[aria-pressed="true"]:hover,
+		&.is-active:hover {
+			color: var(--ts-danger, #c45c5c);
 		}
 	}
 
@@ -32,13 +38,44 @@
 		cursor: wait;
 	}
 
-	// 归档叠图图标：背景由 .product-card-action（surface-alt）接管。
+	// 归档 / 循环叠图图标：背景由 surface-alt 接管；悬停与激活仍为红色。
 	&.product-card-action {
 		background: var(--ts-surface-alt);
 
 		@media (hover: hover) {
 			&:hover {
 				background: var(--ts-surface-alt);
+				color: var(--ts-danger, #c45c5c);
+			}
+		}
+	}
+}
+
+// 压过归档圆形钮 / list 小钮的「悬停保持主色」规则。
+.woocommerce .wc-product-card__actions .wishlist-btn.product-card-action,
+.wc-product-card__actions .wishlist-btn.product-card-action {
+	color: var(--ts-text-primary);
+
+	@media (hover: hover) {
+		&:hover,
+		&:not(:disabled):not(.disabled):hover {
+			color: var(--ts-danger, #c45c5c);
+		}
+	}
+
+	&[aria-pressed="true"],
+	&.is-active {
+		color: var(--ts-danger, #c45c5c);
+
+		.icon svg {
+			fill: currentColor;
+			stroke: currentColor;
+		}
+
+		@media (hover: hover) {
+			&:hover,
+			&:not(:disabled):not(.disabled):hover {
+				color: var(--ts-danger, #c45c5c);
 			}
 		}
 	}

@@ -27,6 +27,8 @@
 
 改短代码属性或默认示例时，同步更新 `tailwindscore_shortcode_help_catalog()` 与对应功能文档。
 
+`[ts_products_carousel]` / `[ts_recently_viewed]` 的 `card` / `carousel` 说明以 [产品轮播](product-carousel.md) 为准；侧栏速查表需与 `shortcode_atts` 同步。
+
 ## 相关文档
 
 - [产品轮播](product-carousel.md)

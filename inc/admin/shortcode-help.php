@@ -32,7 +32,7 @@ function tailwindscore_shortcode_help_catalog(): array {
 		array(
 			'tag'     => 'ts_products_carousel',
 			'label'   => __( '产品轮播', 'tailwindscore' ),
-			'blurb'   => __( '按分类或排序输出产品 Swiper 列表。', 'tailwindscore' ),
+			'blurb'   => __( '按分类或排序输出产品列表（默认 Swiper 轮播）。', 'tailwindscore' ),
 			'example' => '[ts_products_carousel limit="8" orderby="date" title="New arrivals"]',
 			'attrs'   => array(
 				array(
@@ -44,8 +44,16 @@ function tailwindscore_shortcode_help_catalog(): array {
 					'desc' => __( '数量，1–24，默认 8', 'tailwindscore' ),
 				),
 				array(
+					'name' => 'card',
+					'desc' => __( 'grid（竖卡，默认）或 list（横卡；list 强制关轮播；未指定列数时默认手机 1 / 桌面 2）', 'tailwindscore' ),
+				),
+				array(
+					'name' => 'carousel',
+					'desc' => __( '1 轮播（默认）或 0 静态网格；全断点生效', 'tailwindscore' ),
+				),
+				array(
 					'name' => 'columns_mobile / columns_desktop / columns_wide',
-					'desc' => __( '可见列数；wide 可选，设值后在 xl 生效', 'tailwindscore' ),
+					'desc' => __( '可见列数；轮播为 slidesPerView，静态/list 为 CSS grid 列；wide 可选，设值后在 xl 生效', 'tailwindscore' ),
 				),
 				array(
 					'name' => 'gap',
@@ -64,7 +72,7 @@ function tailwindscore_shortcode_help_catalog(): array {
 		array(
 			'tag'     => 'ts_recently_viewed',
 			'label'   => __( 'Recently viewed', 'tailwindscore' ),
-			'blurb'   => __( '访客最近浏览的商品轮播。', 'tailwindscore' ),
+			'blurb'   => __( '访客最近浏览的商品列表（默认轮播）。', 'tailwindscore' ),
 			'example' => '[ts_recently_viewed limit="8" title="Recently viewed" exclude="0"]',
 			'attrs'   => array(
 				array(
@@ -78,6 +86,18 @@ function tailwindscore_shortcode_help_catalog(): array {
 				array(
 					'name' => 'exclude',
 					'desc' => __( '排除的商品 ID，默认 0', 'tailwindscore' ),
+				),
+				array(
+					'name' => 'card',
+					'desc' => __( 'grid（默认）或 list（横卡；list 强制关轮播；列数可用 columns_*）', 'tailwindscore' ),
+				),
+				array(
+					'name' => 'carousel',
+					'desc' => __( '1（默认）或 0；list 时强制为 0', 'tailwindscore' ),
+				),
+				array(
+					'name' => 'columns_mobile / columns_desktop / columns_wide',
+					'desc' => __( '可选；list 默认 1 / 2，grid 默认 2.5 / 4', 'tailwindscore' ),
 				),
 			),
 		),
