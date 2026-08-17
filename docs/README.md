@@ -29,6 +29,7 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 | [产品详情 Tab](features/product-detail-tabs.md) | 响应式描述 / Size Guide / 评论布局 |
 | [产品保障](features/product-assurances.md) | 单品加购下方政策提示（Kirki repeater） |
 | [Recently viewed](features/recently-viewed.md) | 浏览记录轮播：空购物车 / 单品 Related 上方 |
+| [主题短代码速查](features/shortcode-help.md) | post / page / ts_block 编辑页侧栏：轮播 / Recently viewed / Hero |
 | [Section title](features/section-title.md) | 区块标题纹样组件 |
 | [PWA](features/pwa.md) | Level 1 可安装 + 静态缓存（无专属券） |
 | [配件搭配 Cross-sells](features/product-cross-sells.md) | 单品紧凑列表；购物车瀑布见购买流程 |

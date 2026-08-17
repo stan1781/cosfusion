@@ -17,6 +17,8 @@
 [ts_recently_viewed limit="8" title="Recently viewed" exclude="0"]
 ```
 
+编辑页侧栏速查见 [主题短代码](shortcode-help.md)。
+
 挂载点：`[data-ts-recently-viewed-host]`；客户端用 REST `GET /wp-json/tailwindscore/v1/recently-viewed?ids=&exclude=&limit=` 水合。
 
 ## 默认挂载

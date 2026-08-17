@@ -24,6 +24,8 @@
 
 查询可过滤：`tailwindscore_products_carousel_query_args`。
 
+编辑页侧栏速查见 [主题短代码](shortcode-help.md)。
+
 ## 首页
 
 首页为静态 Page，直接在正文放入短代码即可，例如：

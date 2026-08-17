@@ -30,6 +30,7 @@ tailwindscore/
 ├── docs/                 # 项目文档（本目录）
 ├── inc/
 │   ├── bootstrap.php     # 统一 require（functions.php 仅引导此处）
+│   ├── admin/            # 后台编辑页辅助（主题短代码速查等）
 │   ├── icons.php         # 内联 SVG 图标 map / tailwindscore_icon()
 │   ├── config/           # Kirki 注册与 helpers（含 home Hero）
 │   ├── home/             # Hero 轮播与旧首页 theme_mod 清理

@@ -19,6 +19,8 @@
 3. 正文放入：`[ts_home_hero]`  
 4. **外观 → 自定义 → 首页 → Hero Banner**：上传幻灯片并调整布局  
 
+编辑页侧栏速查见 [主题短代码](shortcode-help.md)（运营侧仅示例，不含可选覆盖属性）。
+
 临时试布局（不改 Customizer）：
 
 ```text
