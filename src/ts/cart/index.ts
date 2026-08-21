@@ -553,7 +553,7 @@ function renderCartCouponMarkup(config: TailwindscoreCartConfig, surface: 'drawe
 		<div class="cart-drawer-cart__coupon" data-ts-cart-coupon>
 			<form class="cart-drawer-cart__coupon-form coupon-form ${formModifier}" data-ts-cart-coupon-form action="${escapeHtml(config.cartUrl)}" method="post">
 				<label class="coupon-form__label" for="${inputId}">${escapeHtml(config.i18n.couponLabel)}</label>
-				<div class="input-group">
+				<div class="input-inline">
 					<input
 						id="${inputId}"
 						class="input"

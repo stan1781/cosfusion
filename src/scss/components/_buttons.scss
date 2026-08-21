@@ -149,7 +149,9 @@ a[role="button"].is-loading::after,
 }
 
 .input-group .btn.is-loading:not(.btn-icon)::after,
-.input-group .btn.loading:not(.btn-icon)::after {
+.input-group .btn.loading:not(.btn-icon)::after,
+.input-inline .btn.is-loading:not(.btn-icon)::after,
+.input-inline .btn.loading:not(.btn-icon)::after {
 	width: var(--ts-font-size-sm);
 	height: var(--ts-font-size-sm);
 }

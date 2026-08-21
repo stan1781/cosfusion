@@ -1,6 +1,7 @@
 @use "../abstracts/mixins";
 
-// Subscribe newsletter modal (wc-mailnest popup)
+// 订阅弹窗 / 短代码（wc-mailnest）
+
 .mailnest-subscribe-modal {
 	position: fixed;
 	inset: 0;
@@ -22,12 +23,14 @@ body.mailnest-subscribe-open {
 	position: absolute;
 	inset: 0;
 	border: 0;
+	padding: 0;
 	background: var(--ts-overlay);
 	cursor: pointer;
 }
 
 .mailnest-subscribe-modal__dialog {
 	position: relative;
+	z-index: 1;
 	display: flex;
 	flex-direction: column;
 	width: min(100%, 28rem);
@@ -35,7 +38,7 @@ body.mailnest-subscribe-open {
 	overflow: hidden;
 	border-radius: var(--ts-border-radius);
 	background: var(--ts-surface);
-	box-shadow: var(--ts-shadow-sm);
+	box-shadow: var(--ts-shadow-md);
 }
 
 .mailnest-subscribe-modal__dialog--split {
@@ -123,7 +126,7 @@ body.mailnest-subscribe-open {
 	}
 }
 
-// Split layout: pin dismiss checkbox to the bottom of the content column.
+// 分栏布局：将 dismiss 钉在内容列底部
 .mailnest-subscribe-modal__dialog--split .wc-subscribe-popup-dismiss-wrap {
 	@include mixins.ts-up("md") {
 		margin-top: auto;
@@ -134,29 +137,54 @@ body.mailnest-subscribe-open {
 
 .mailnest-subscribe-modal__content .mailnest-subscribe__title {
 	margin: 0;
+	color: var(--ts-text-primary);
 	font-size: var(--ts-font-size-lg);
 	font-weight: 600;
-	line-height: 1.3;
+	line-height: var(--ts-line-height-base);
 }
 
 .mailnest-subscribe-modal__content .mailnest-subscribe__description {
 	margin: 0;
-	color: var(--ts-text-secondary, var(--ts-text-primary));
+	color: var(--ts-text-secondary);
 	font-size: var(--ts-font-size-sm);
-	line-height: 1.5;
+	line-height: var(--ts-line-height-base);
 }
 
 .mailnest-subscribe-modal__content .wc-subscribe-form {
+	display: grid;
+	gap: var(--ts-spacer-2);
 	margin: 0;
 }
 
 .mailnest-subscribe-modal__content .mailnest-check {
 	margin: 0;
+	color: var(--ts-text-secondary);
 	font-size: var(--ts-font-size-sm);
 }
 
+// —— 短代码布局 ——
+
+.mailnest-subscribe__title {
+	margin: 0;
+	color: var(--ts-text-primary);
+	font-size: var(--ts-font-size-lg);
+	font-weight: 600;
+	line-height: var(--ts-line-height-base);
+}
+
+.mailnest-subscribe__description {
+	margin: 0;
+	color: var(--ts-text-secondary);
+	font-size: var(--ts-font-size-sm);
+	line-height: var(--ts-line-height-base);
+}
+
 .mailnest-subscribe__description--on-dark {
-	color: rgb(255 255 255 / 70%);
+	color: color-mix(in srgb, var(--ts-on-primary) 70%, transparent);
+}
+
+.mailnest-subscribe__layout {
+	min-width: 0;
 }
 
 .mailnest-subscribe__layout--horizontal {
@@ -164,9 +192,25 @@ body.mailnest-subscribe-open {
 	gap: var(--ts-spacer-4);
 
 	@include mixins.ts-up("md") {
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 		align-items: center;
 	}
+}
+
+.mailnest-subscribe__header {
+	display: grid;
+	gap: var(--ts-spacer-2);
+	min-width: 0;
+}
+
+.mailnest-subscribe__form-col {
+	min-width: 0;
+}
+
+.wc-subscribe-form {
+	display: grid;
+	gap: var(--ts-spacer-2);
+	min-width: 0;
 }
 
 .mailnest-subscribe--align-center {
@@ -185,11 +229,15 @@ body.mailnest-subscribe-open {
 }
 
 .mailnest-check__input {
-	margin-top: 0.2rem;
+	margin-block-start: var(--ts-spacer-1);
 	flex-shrink: 0;
 }
 
-// Field layout: see _form-layout.scss (.field, .form-layout-stacked | .form-layout-floating).
+.mailnest-check__label {
+	min-width: 0;
+}
+
+// 字段布局见 _form-layout.scss（.field / .form-layout-*）
 
 .mailnest-contact-form__actions {
 	margin-top: var(--ts-spacer-3);
@@ -215,7 +263,7 @@ body.mailnest-subscribe-open {
 .mailnest-subscribe__feedback {
 	margin: 0;
 	font-size: var(--ts-font-size-sm);
-	line-height: 1.4;
+	line-height: var(--ts-line-height-base);
 }
 
 .mailnest-subscribe__feedback[hidden] {
@@ -230,8 +278,8 @@ body.mailnest-subscribe-open {
 	color: var(--ts-danger);
 }
 
-// Narrow content column: stack email + button vertically in the popup.
-.mailnest-subscribe-modal__content .input-group {
+// 弹窗窄列：分体 .input-inline 改为纵向堆叠；贴合 .input-group 保持一体
+.mailnest-subscribe-modal__content .input-inline {
 	@include mixins.ts-down("md") {
 		grid-template-columns: minmax(0, 1fr);
 	}
@@ -243,7 +291,7 @@ body.mailnest-subscribe-open {
 	}
 }
 
-.mailnest-subscribe-modal__content .input-group .btn {
+.mailnest-subscribe-modal__content .input-inline .btn {
 	@include mixins.ts-down("md") {
 		width: 100%;
 	}

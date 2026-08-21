@@ -33,7 +33,7 @@ if ( $ts_command ) {
 				<?php tailwindscore_render_search_hidden_fields(); ?>
 			</div>
 		<?php else : ?>
-			<div class="input-group">
+			<div class="input-inline">
 				<input id="ts-search-field" class="input" type="search" name="s" value="<?php echo esc_attr( get_search_query() ); ?>" placeholder="<?php echo esc_attr( $ts_placeholder ); ?>" autocomplete="off"<?php echo $ts_ajax_search_active ? ' aria-controls="ts-search-suggest" aria-expanded="false" aria-autocomplete="list"' : ''; ?>>
 				<?php tailwindscore_render_search_hidden_fields(); ?>
 				<button class="btn-icon" type="submit" aria-label="<?php echo esc_attr( tailwindscore_search_submit_text() ); ?>">

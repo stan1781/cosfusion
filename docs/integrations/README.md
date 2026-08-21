@@ -19,7 +19,7 @@
 
 | 插件 | 主题文件 | 全局 config | 加载条件 | 策略 | 状态 |
 |------|----------|-------------|----------|------|------|
-| wc-mailnest | `inc/integrations/wc-mailnest.php` | `wcSubscribeAjax`、`wcMailnestFormAjax` | 弹窗/短代码/联系表单页；**非** cart/checkout | 档 B + `src/ts/integrations/mailnest.ts` | ✅ 已完成 |
+| wc-mailnest | `inc/integrations/wc-mailnest.php` | `wcSubscribeAjax`、`wcMailnestFormAjax` | 弹窗/短代码/联系表单页；前台**非** cart/checkout（结账自动订阅为插件服务端钩子） | 档 B + `src/ts/integrations/mailnest.ts` | ✅ 已完成 |
 | wc-order-process-manager | `inc/integrations/wc-order-process-manager.php` | `wcOrderProcessFrontend` | `is_account_page()` | 模板迁主题 + `order-process.ts`；去 Bootstrap Modal | ✅ 已完成 |
 | Iconic Linked Variations | `inc/integrations/iconic-linked-variations.php` | — | 按插件条件 | 样式/资源协调 | ✅ 已整合 |
 | WP Enhanced Tools（脚本管理） | `inc/integrations/wp-enhanced-tools.php` | — | 插件 Head/Body/Foot 直出 | 滤镜 `wp_enhanced_tools_script_output`：仅 Hotjar idle/交互延迟 | ✅ 已整合 |
@@ -29,9 +29,13 @@
 ### wc-mailnest
 
 - 订阅弹窗、联系表单前台交互
-- cart/checkout 通过 `tailwindscore_dequeue_mailnest_assets()` 卸载无关资源
+- cart/checkout 通过 `tailwindscore_dequeue_mailnest_assets()` 卸载无关资源（前台 JS/CSS）
+- **结账自动订阅**由插件服务端钩子 `woocommerce_checkout_order_processed` 写入（与前台资源卸载无关）；默认直接 `confirmed`，可在「邮件订阅 → 邮件设置」关闭
 - 样式：`src/scss/components/_mailnest-subscribe-modal.scss`
-- 插件 SSR 类名须对齐主题约定（**无** `ts-` 前缀）：`mailnest-subscribe*`、`btn` / `form-control` / `input-group` / `stack`、`field` / `form-layout-*`；行为钩子仍用 `data-ts-mailnest-*`
+- 插件 SSR 类名须对齐主题约定（**无** `ts-` 前缀）：`mailnest-subscribe*`、`mailnest-contact-form*`、`btn` / `form-control` / `input-group` / `input-inline` / `input-stack`、`field` / `form-layout-*`；行为钩子仍用 `data-ts-mailnest-*`
+- 订阅 `form_style` 与全局控件组类名一致：`input-group` / `input-inline` / `input-stack`
+- 订阅按钮样式（后台 `button_color`）：仅 `primary` / `secondary` / `outline`（→ `btn` / `btn-secondary` / `btn-outline`）；`form_size` 仅默认或 `sm`（→ `btn-sm`）
+- 联系表单 `form_style`：`stacked` → `form-layout-stacked`；`floating` → `form-layout-floating`（字段用 `.field` / `.form-control`）
 
 ### wc-order-process-manager
 

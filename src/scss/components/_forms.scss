@@ -22,55 +22,14 @@
 	border-color: var(--ts-danger);
 }
 
-// Input + action side-by-side (Shopify-style): separate bordered controls, not merged.
-.input-group {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) minmax(auto, max-content);
-	grid-template-rows: auto;
-	align-items: stretch;
-	gap: var(--ts-spacer-2);
-	min-width: 0;
-}
+// ---------------------------------------------------------------------------
+// 控件组三种布局（类名均以 input- 为前缀，避免与通用 .inline / .stack 冲突）
+// - .input-group：贴合一体（Bootstrap Input group）
+// - .input-inline：分体同行 + 间距（搜索 / 优惠券等）
+// - .input-stack：上下堆叠（提交按钮全宽）
+// ---------------------------------------------------------------------------
 
-// Pin primary controls to two columns so injected siblings (LastPass, hidden fields) do not wrap the button.
-.input-group > :is(.input, .form-control) {
-	grid-column: 1;
-	grid-row: 1;
-	width: 100%;
-	min-width: 0;
-	height: var(--ts-control-min-height);
-	min-height: var(--ts-control-min-height);
-}
-
-.input-group > :is(.btn, .btn-icon) {
-	grid-column: 2;
-	grid-row: 1;
-}
-
-.input-group .btn {
-	height: var(--ts-control-min-height);
-	min-height: var(--ts-control-min-height);
-	padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
-	white-space: nowrap;
-}
-
-.input-group .btn-icon {
-	width: var(--ts-control-min-height);
-	height: var(--ts-control-min-height);
-	min-height: var(--ts-control-min-height);
-	border: 1px solid var(--ts-border-color);
-	border-radius: var(--ts-border-radius-sm);
-	background: var(--ts-surface);
-}
-
-// Password managers inject nodes between input and button (e.g. LastPass data-lastpass-icon-root).
-.input-group > :is(
-	[data-lastpass-icon-root],
-	[data-lastpass-root],
-	[data-dashlane-root],
-	[data-dashlanecreated],
-	.com-onepassword-button
-) {
+@mixin ts-pm-injector-collapse {
 	grid-column: 1;
 	grid-row: 1;
 	justify-self: end;
@@ -90,7 +49,113 @@
 	background: transparent;
 }
 
-.input-group > :is(
+// 1) input-group — 贴合一体
+.input-group {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: stretch;
+	width: 100%;
+	min-width: 0;
+}
+
+.input-group > :is(.input, .form-control) {
+	position: relative;
+	flex: 1 1 auto;
+	width: 1%;
+	min-width: 0;
+	height: var(--ts-control-min-height);
+	min-height: var(--ts-control-min-height);
+	margin: 0;
+	border-start-end-radius: 0;
+	border-end-end-radius: 0;
+}
+
+.input-group > :is(.btn, .btn-icon) {
+	position: relative;
+	flex: 0 0 auto;
+	height: var(--ts-control-min-height);
+	min-height: var(--ts-control-min-height);
+	margin: 0;
+	margin-inline-start: -1px;
+	border-start-start-radius: 0;
+	border-end-start-radius: 0;
+	white-space: nowrap;
+}
+
+.input-group > .btn {
+	padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
+}
+
+.input-group > .btn-icon {
+	width: var(--ts-control-min-height);
+	border: 1px solid var(--ts-border-color);
+	background: var(--ts-surface);
+}
+
+.input-group > :is(.input, .form-control):focus,
+.input-group > :is(.input, .form-control):focus-visible,
+.input-group > :is(.btn, .btn-icon):focus,
+.input-group > :is(.btn, .btn-icon):focus-visible {
+	z-index: 2;
+}
+
+.input-group > .btn-icon:focus,
+.input-group > .btn-icon:focus-visible {
+	outline: none;
+	border-color: var(--ts-primary);
+}
+
+// 2) input-inline — 分体同行（密码管理器注入节点压进输入格，避免挤掉按钮）
+.input-inline {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(auto, max-content);
+	grid-template-rows: auto;
+	align-items: stretch;
+	gap: var(--ts-spacer-2);
+	min-width: 0;
+}
+
+.input-inline > :is(.input, .form-control) {
+	grid-column: 1;
+	grid-row: 1;
+	width: 100%;
+	min-width: 0;
+	height: var(--ts-control-min-height);
+	min-height: var(--ts-control-min-height);
+}
+
+.input-inline > :is(.btn, .btn-icon) {
+	grid-column: 2;
+	grid-row: 1;
+}
+
+.input-inline > .btn {
+	height: var(--ts-control-min-height);
+	min-height: var(--ts-control-min-height);
+	padding: var(--ts-form-padding-y) var(--ts-form-padding-x);
+	white-space: nowrap;
+}
+
+.input-inline > .btn-icon {
+	width: var(--ts-control-min-height);
+	height: var(--ts-control-min-height);
+	min-height: var(--ts-control-min-height);
+	border: 1px solid var(--ts-border-color);
+	border-radius: var(--ts-border-radius-sm);
+	background: var(--ts-surface);
+}
+
+.input-inline > :is(
+	[data-lastpass-icon-root],
+	[data-lastpass-root],
+	[data-dashlane-root],
+	[data-dashlanecreated],
+	.com-onepassword-button
+) {
+	@include ts-pm-injector-collapse;
+}
+
+.input-inline > :is(
 	[data-lastpass-icon-root],
 	[data-lastpass-root],
 	[data-dashlane-root],
@@ -100,10 +165,21 @@
 	pointer-events: auto;
 }
 
-.input-group .btn-icon:focus,
-.input-group .btn-icon:focus-visible {
+.input-inline > .btn-icon:focus,
+.input-inline > .btn-icon:focus-visible {
 	outline: none;
 	border-color: var(--ts-primary);
+}
+
+// 3) input-stack — 上下堆叠，提交全宽
+.input-stack {
+	display: grid;
+	gap: var(--ts-spacer-3);
+	min-width: 0;
+}
+
+.input-stack > .btn {
+	width: 100%;
 }
 
 // --- coupon form (was _coupon-form.scss) ---

@@ -34,14 +34,16 @@ TailwindScore 是 **英文站点模板**：前台默认可视文案为英文；�
 | 基础 + 变体 | `btn btn-primary`、`btn btn-outline-secondary`、`btn btn-sm` |
 | 子部件连字符 | `nav-link`、`card-body`、`modal-header` |
 | 域组件 | `site-header`、`cart-drawer`、`hero-carousel` 等（可读即可） |
+| 控件组布局 | `input-group`（贴合）/ `input-inline`（分体）/ `input-stack`（上下）；见 `src/scss/components/_forms.scss` |
 
 说明：
 
 1. **按钮用 `btn`，不要用裸 `button` 当主题类**（WooCommerce 已有 `.button`，双挂时主题样式挂在 `btn` 上即可）。
-2. 禁止引入 Bootstrap 运行时、`data-bs-*`、网格类（`row` / `col-*`）与前台 jQuery；需要栅格时用语义结构或少量布局 utility。
-3. `$ts-*`、`--ts-*`、`data-ts-*`、mixin 名 **保持** `ts` 命名空间，勿与类名一并去掉。
-4. 元素 `id` 仍可用 `ts-*` 前缀（与类名策略分开），`aria-controls` 等指向这些 id。
-5. 存量 BEM（`__` / `--`）可按触达范围逐步改成连字符 / 变体类；不必单开全站重命名工程。
+2. **输入 + 操作按钮**优先用上述三种控件组类，勿再造 `*-subscribe__input-group` 一类重复布局。
+3. 禁止引入 Bootstrap 运行时、`data-bs-*`、网格类（`row` / `col-*`）与前台 jQuery；需要栅格时用语义结构或少量布局 utility。
+4. `$ts-*`、`--ts-*`、`data-ts-*`、mixin 名 **保持** `ts` 命名空间，勿与类名一并去掉。
+5. 元素 `id` 仍可用 `ts-*` 前缀（与类名策略分开），`aria-controls` 等指向这些 id。
+6. 存量 BEM（`__` / `--`）可按触达范围逐步改成连字符 / 变体类；不必单开全站重命名工程。
 
 ## 语言
 

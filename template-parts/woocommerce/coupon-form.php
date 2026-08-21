@@ -45,7 +45,7 @@ $control_markup = static function () use (
 	$use_cart_ajax
 ): void {
 	?>
-	<div class="input-group">
+	<div class="input-inline">
 		<input
 			id="<?php echo esc_attr( $input_id ); ?>"
 			class="input"

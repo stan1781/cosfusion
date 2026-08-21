@@ -77,8 +77,8 @@
 /* Classic search field (non-command variant) */
 .search-form .input:focus,
 .search-form .input:focus-visible,
-.search-form .input-group .input:focus-visible,
-.search-form .input-group .form-control:focus-visible {
+.search-form .input-inline .input:focus-visible,
+.search-form .input-inline .form-control:focus-visible {
 	outline: none;
 	box-shadow: none;
 }
