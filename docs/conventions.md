@@ -32,6 +32,7 @@ TailwindScore 是 **英文站点模板**：前台默认可视文案为英文；�
 | 习惯 | 本主题 |
 |------|--------|
 | 基础 + 变体 | `btn btn-primary`、`btn btn-outline-secondary`、`btn btn-sm` |
+| 关闭按钮 | `btn-close`（仅图标、无边框；文案用 `screen-reader-text` / `aria-label`；`tailwindscore_render_close_button()`） |
 | 子部件连字符 | `nav-link`、`card-body`、`modal-header` |
 | 域组件 | `site-header`、`cart-drawer`、`hero-carousel` 等（可读即可） |
 | 控件组布局 | `input-group`（贴合）/ `input-inline`（分体）/ `input-stack`（上下）；见 `src/scss/components/_forms.scss` |

@@ -90,6 +90,8 @@
 
 选择器：`[data-ts-product-carousel]`、`data-ts-card`、`data-ts-carousel`、`data-ts-columns-mobile|desktop|wide`、`data-ts-gap`。
 
+导航箭头（`.product-carousel__nav`）尺寸为 `--ts-control-min-height`（与表单控件同高），图标 `--ts-spacer-3`。
+
 ## 降级行为
 
 - WooCommerce 未启用或无可见产品 → 不输出

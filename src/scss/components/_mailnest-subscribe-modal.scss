@@ -43,9 +43,11 @@ body.mailnest-subscribe-open {
 
 .mailnest-subscribe-modal__dialog--split {
 	width: min(100%, 44rem);
-	max-height: min(90vh, 26rem);
+	// 窄屏纵向堆叠：与无图弹窗同高，避免图占满后表单被 overflow 裁切
+	max-height: min(90vh, 36rem);
 
 	@include mixins.ts-up("md") {
+		max-height: min(90vh, 26rem);
 		min-height: 18rem;
 	}
 }
@@ -83,6 +85,14 @@ body.mailnest-subscribe-open {
 	overflow: hidden;
 	background: var(--ts-surface-muted);
 
+	// 分栏在 md 以下变纵向：限制配图高度，保证内容列可见
+	.mailnest-subscribe-modal__dialog--split & {
+		@include mixins.ts-down("md") {
+			max-height: 12rem;
+			min-height: 0;
+		}
+	}
+
 	@include mixins.ts-up("md") {
 		.mailnest-subscribe-modal__body--split & {
 			min-height: 100%;
@@ -100,6 +110,13 @@ body.mailnest-subscribe-open {
 	height: 100%;
 	min-height: 10rem;
 	object-fit: cover;
+
+	.mailnest-subscribe-modal__dialog--split & {
+		@include mixins.ts-down("md") {
+			min-height: 0;
+			max-height: 12rem;
+		}
+	}
 
 	@include mixins.ts-up("md") {
 		.mailnest-subscribe-modal__body--split & {

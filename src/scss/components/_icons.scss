@@ -16,7 +16,7 @@
 	cursor: pointer;
 }
 
-// 全站关闭按钮：弹层、抽屉、lightbox、toast 等。
+// 全站关闭按钮：仅图标、无边框；文案走 .screen-reader-text / aria-label。
 .btn-close {
 	box-sizing: border-box;
 	position: relative;
@@ -24,13 +24,14 @@
 	align-items: center;
 	justify-content: center;
 	flex-shrink: 0;
-	width: var(--ts-control-min-height);
-	height: var(--ts-control-min-height);
-	padding: 0;
-	border: 1px solid var(--ts-border-color);
-	border-radius: var(--ts-border-radius-pill);
-	background: var(--ts-surface);
+	width: auto;
+	height: auto;
+	padding: var(--ts-spacer-2);
+	border: 0;
+	border-radius: var(--ts-border-radius-sm);
+	background: transparent;
 	color: var(--ts-text-primary);
+	line-height: 0;
 	text-decoration: none;
 	cursor: pointer;
 
@@ -47,12 +48,11 @@
 }
 
 .btn-close-sm {
-	width: var(--ts-spacer-4);
-	height: var(--ts-spacer-4);
+	padding: var(--ts-spacer-2);
 
 	.icon {
-		width: var(--ts-font-size-lg);
-		height: var(--ts-font-size-lg);
+		width: var(--ts-font-size-base);
+		height: var(--ts-font-size-base);
 	}
 }
 

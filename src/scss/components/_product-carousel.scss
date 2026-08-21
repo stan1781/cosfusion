@@ -117,7 +117,7 @@
 	flex-shrink: 0;
 	align-items: center;
 	justify-content: center;
-	padding: 0;
+	padding: var(--ts-spacer-2);
 	margin: 0;
 	border: 1px solid var(--ts-border-color);
 	border-radius: var(--ts-border-radius-pill);
@@ -142,8 +142,8 @@
 
 .product-carousel__nav-icon {
 	display: inline-flex;
-	width: var(--ts-font-size-lg);
-	height: var(--ts-font-size-lg);
+	width: var(--ts-spacer-3);
+	height: var(--ts-spacer-3);
 }
 
 .product-carousel__nav-icon svg {
