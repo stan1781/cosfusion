@@ -74,3 +74,9 @@
 	stroke-linejoin: round;
 	stroke-width: 1.75;
 }
+
+// 品牌 / 实心图标（如 WhatsApp）：覆盖上方 stroke 规则
+.icon--solid svg {
+	fill: currentColor;
+	stroke: none;
+}

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * 「订单已收到」消息。
+ * 「订单已收到」Hero。
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package TailwindScore
@@ -12,36 +12,27 @@ declare(strict_types=1);
  */
 
 defined( 'ABSPATH' ) || exit;
-
-/**
- * 筛选结账完成后显示的消息。
- *
- * @since 2.2.0
- *
- * @param string         $message 消息文本。
- * @param WC_Order|false $order   结账时创建的订单；若订单数据不可用则为 false。
- */
-$message = apply_filters(
-	'woocommerce_thankyou_order_received_text',
-	esc_html( __( 'Thank you. Your order has been received.', 'woocommerce' ) ),
-	$order
-);
 ?>
 <header class="wc-thankyou__hero">
+	<div class="wc-thankyou__hero-icon" aria-hidden="true">
+		<span class="icon"><?php echo tailwindscore_icon( 'check' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+	</div>
 	<h1 class="wc-thankyou__title woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">
-		<?php
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo $message;
-		?>
+		<?php echo esc_html( tailwindscore_get_thankyou_hero_title() ); ?>
 	</h1>
 	<?php if ( $order instanceof WC_Order ) : ?>
+		<div class="wc-thankyou__subtitle">
+			<?php echo wp_kses_post( nl2br( esc_html( tailwindscore_get_thankyou_hero_subtitle() ) ) ); ?>
+		</div>
+		<?php tailwindscore_render_order_success_partial( 'overview-stats', array( 'order' => $order ) ); ?>
+	<?php else : ?>
 		<p class="wc-thankyou__subtitle">
 			<?php
-			echo wp_kses_post(
-				sprintf(
-					/* translators: %s: order number */
-					__( 'Order #%s is confirmed. We will send you updates by email.', 'tailwindscore' ),
-					'<strong>' . esc_html( $order->get_order_number() ) . '</strong>'
+			echo esc_html(
+				apply_filters(
+					'woocommerce_thankyou_order_received_text',
+					__( 'Thank you. Your order has been received.', 'woocommerce' ),
+					false
 				)
 			);
 			?>

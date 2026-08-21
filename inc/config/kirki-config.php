@@ -36,8 +36,8 @@ function tailwindscore_kirki_register(): void {
 	Kirki::add_panel(
 		$targets['design'],
 		array(
-			'title'       => esc_html__( '设计', 'tailwindscore' ),
-			'description' => esc_html__( '排版等。品牌色等设计令牌仍以 SCSS（--ts-*）为真源，Customizer 颜色覆盖尚未接入。', 'tailwindscore' ),
+				'title'       => esc_html__( '设计', 'tailwindscore' ),
+				'description' => esc_html__( '排版、联络方式等。品牌色等设计令牌仍以 SCSS（--ts-*）为真源，Customizer 颜色覆盖尚未接入。', 'tailwindscore' ),
 			'priority'    => tailwindscore_kirki_root_priority( 'design' ),
 		)
 	);

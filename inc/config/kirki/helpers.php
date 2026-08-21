@@ -67,7 +67,7 @@ function tailwindscore_kirki_panel_product(): string {
 }
 
 /**
- * Kirki panel ID：设计（排版等；颜色令牌仍以 SCSS 为真源）。
+ * Kirki panel ID：设计（排版、联络方式等；颜色令牌仍以 SCSS 为真源）。
  */
 function tailwindscore_kirki_panel_design(): string {
 	return 'tailwindscore_design';
@@ -85,6 +85,20 @@ function tailwindscore_kirki_section_cart(): string {
  */
 function tailwindscore_kirki_section_checkout(): string {
 	return 'tailwindscore_checkout_settings';
+}
+
+/**
+ * Kirki section ID：联络方式（挂在设计 panel 下；原根级 panel 已撤销）。
+ */
+function tailwindscore_kirki_section_contact(): string {
+	return 'tailwindscore_contact_whatsapp';
+}
+
+/**
+ * @deprecated 联络方式已并入设计 panel；请用 tailwindscore_kirki_section_contact()。
+ */
+function tailwindscore_kirki_panel_contact(): string {
+	return tailwindscore_kirki_section_contact();
 }
 
 /**
@@ -130,6 +144,7 @@ function tailwindscore_kirki_customizer_targets(): array {
 	return array(
 		'header'      => tailwindscore_kirki_panel_header(),
 		'footer'      => tailwindscore_kirki_panel_footer(),
+		'contact'     => tailwindscore_kirki_section_contact(),
 		'home'        => tailwindscore_kirki_panel_home(),
 		'home_hero'   => tailwindscore_kirki_section_home_hero(),
 		'account'     => tailwindscore_kirki_section_account(),

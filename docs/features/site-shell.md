@@ -60,6 +60,19 @@
 
 对齐修饰符类：`.site-footer__nav--align-{left|center|right}`。
 
+## 联络方式（WhatsApp）
+
+Customizer **设计 → 联络方式**（`inc/contact/whatsapp.php`、`inc/config/kirki/contact.php`）：
+
+| theme_mod | 说明 |
+|-----------|------|
+| `contact_whatsapp_number` | E.164 数字（不含 +） |
+| `contact_whatsapp_display` | 展示号码（可选） |
+| `contact_whatsapp_message_default` | 通用预填 |
+| `contact_whatsapp_message_order` | 订单场景预填（`{order_number}` / `{order_total}`） |
+
+成功页 CTA 见 [购买流程](purchase-flow.md)。**页头顶栏 / FAB 入口本轮未接入**（以后可再挂）。
+
 ## 搜索
 
 - 全站搜索表单与头部搜索入口

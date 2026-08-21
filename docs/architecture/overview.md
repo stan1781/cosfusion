@@ -91,7 +91,7 @@ tailwindscore/
 | 顺序 | 一级菜单 | 类型 | ID | 主要内容 |
 |------|----------|------|-----|----------|
 | 1 | 站点身份 | 根级 section | `title_tagline` | 站点标题、图标、主题 Logo |
-| 2 | 设计 | panel | `tailwindscore_design` | 排版（标题/正文字体）；颜色令牌仍以 SCSS `--ts-*` 为真源 |
+| 2 | 设计 | panel | `tailwindscore_design` | 排版（标题/正文字体）、联络方式（WhatsApp）；颜色令牌仍以 SCSS `--ts-*` 为真源 |
 | 3 | 页头 | panel | `tailwindscore_header` | 顶栏、搜索弹层等 |
 | 4 | 页脚 | 根级 section | `tailwindscore_footer` | 页脚导航与支付图标 |
 | 5 | 首页 | panel | `tailwindscore_home` | 静态首页 + Hero Banner |
@@ -104,7 +104,7 @@ tailwindscore/
 
 原生 **WooCommerce** panel 仍保留插件自带区块。配置经 `inc/config/kirki/helpers.php` 的 `tailwindscore_kirki_customizer_targets()` 索引。
 
-> **说明**：本主题尚未接入 Customizer 品牌色覆盖（Starcore 的 `tokens-output` / 颜色 panel）；见 [roadmap](../roadmap/starcore-upgrades.md)。排版在「设计 → 排版」。
+> **说明**：本主题尚未接入 Customizer 品牌色覆盖（Starcore 的 `tokens-output` / 颜色 panel）；见 [roadmap](../roadmap/starcore-upgrades.md)。排版在「设计 → 排版」；WhatsApp 等联络设定在「设计 → 联络方式」。
 
 ## WooCommerce 整合策略
 

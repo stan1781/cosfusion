@@ -33,6 +33,8 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 - 结账页布局与登录 dialog（`checkout-layout.php`、`ui/login-modal.ts`）；modal 密码框带明文切换（`ui/password-visibility.ts`，账户页仍由 `woocommerce.js` 处理）；Remember me 与 Lost password 同一行左右排
 - 结账 Payment 区隐藏空的 PPCP `.ppcp-messages`（Pay Later 占位未出文案时避免 flex gap 留白；`_checkout.scss`）
 - 结账条款文案 `.woocommerce-terms-and-conditions-wrapper`：`--ts-font-size-xs` + `--ts-text-muted`；内链用 `--ts-link-color` + underline（覆盖全局 `a { color: inherit }`）
+- **订单成功页**（`order-received`）：对齐 Starcore 布局——Hero（可配置标题/副标题）+ 三格 overview stats + 行项摘要/总计 + 侧栏配送方式与地址 + Next steps + Actions；移除 Woo 默认 `woocommerce_order_details_table` 以免重复
+- **WhatsApp CTA**（成功页）：号码未配置时不渲染；预填消息支持 `{order_number}` / `{order_total}`（Customizer → 设计 → 联络方式）。**页头顶栏 / FAB 本轮未接入**
 - Store API 缓存优化（`store-api-cache.php`）
 - Store API nonce：页注入 nonce 视为新鲜（TTL 60s），冷加购默认 **单次 POST**；仅 TTL 过期或 `woocommerce_rest_invalid_nonce` 时才先 `GET /cart`
 - 运费规则（`shipping-rules.php`）：达标后隐藏付费配送；门槛读取当前配送 zone 内条件免运的 **Minimum order amount**（`min_amount`），与 Starcore 一致，Customizer（根级「结账」）仅配置开关与要隐藏的 rate ID，不手填门槛金额
@@ -92,7 +94,8 @@ notify({
 | 路径 | 内容 |
 |------|------|
 | 购物车（根级） | Drawer 优惠码、免运进度、购物车页推荐等 |
-| 结账页面（根级） | 运费规则开关与要隐藏的 rate ID |
+| 结账页面（根级） | 运费规则；订单成功页 Hero / Next steps |
+| 设计 → 联络方式 | E.164 号码、展示号码、通用/订单预填消息（成功页 CTA；无 Header 入口） |
 
 ## 验证清单
 
@@ -109,7 +112,9 @@ npm run build
 4. Checkout CTA 跳转正常
 5. 结账页阻塞型校验错误可见
 6. Toast：桌面右上卡片；手机顶部全宽；向上拖动手柄可关闭
+7. 订单成功：Hero / stats / 行项 / 地址 / next steps；配置 WhatsApp 后出现 CTA，清空号码后消失；失败单仍显示 Pay；无重复 Woo 订单详情表
 
 ## 相关文档
 
 - 原始设计（归档）：[archive/superpowers/specs/2026-05-21-woocommerce-purchase-flow-design.md](../archive/superpowers/specs/2026-05-21-woocommerce-purchase-flow-design.md)
+- 实现文件：`woocommerce/checkout/thankyou.php`、`order-received.php`、`inc/woocommerce/thankyou.php`、`inc/contact/whatsapp.php`、`template-parts/woocommerce/order-success/`、`src/scss/woocommerce/_thankyou.scss`

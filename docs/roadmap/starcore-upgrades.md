@@ -19,6 +19,7 @@
 | Done | Section title 组件 | 见 [section-title.md](../features/section-title.md) |
 | Done | PWA Level 1（无专属券） | 见 [pwa.md](../features/pwa.md)；默认关 |
 | Done | 订单摘要折叠 | Shopify 风格单页；见 [purchase-flow.md](../features/purchase-flow.md) |
+| Done | 订单成功页 + WhatsApp helpers（无 Header） | Hero / 行项 / 地址 / Next steps / WA CTA；见 [purchase-flow.md](../features/purchase-flow.md) |
 | Skip | Checkout 移动步进 | 欧美站保持 Shopify 单页结账，不移植步进 |
 | Done | 商店归档 AJAX + 侧栏筛选 | 见 [shop-archive.md](../features/shop-archive.md) |
 | Skip | Composite / Coderockz / remote-area / Catering Core | 与 Cosfusion 无关 |
