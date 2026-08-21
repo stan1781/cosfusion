@@ -49,6 +49,7 @@ require_once __DIR__ . '/woocommerce/store-api.php';
 require_once __DIR__ . '/woocommerce/store-api-cache.php';
 require_once __DIR__ . '/woocommerce/cart-item-edit.php';
 require_once __DIR__ . '/woocommerce/checkout-layout.php';
+require_once __DIR__ . '/woocommerce/checkout-region-restrictions.php';
 require_once __DIR__ . '/woocommerce/checkout.php';
 require_once __DIR__ . '/woocommerce/account-header.php';
 require_once __DIR__ . '/woocommerce/account-nav.php';

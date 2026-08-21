@@ -300,11 +300,12 @@
 		grid-column: 2;
 		grid-row: 1;
 		position: sticky;
-		top: var(--ts-spacer-4);
+		top: 5rem;
 		align-self: start;
 		background: var(--ts-surface-muted);
 		padding: var(--ts-spacer-4);
 		border-radius: var(--ts-border-radius);
+		box-shadow: var(--ts-shadow-lg);
 
 		// .loading-host sets position:relative after checkout in woo.scss — sticky must win.
 		&.loading-host {

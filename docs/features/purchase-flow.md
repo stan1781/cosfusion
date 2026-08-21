@@ -36,6 +36,7 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 - Store API 缓存优化（`store-api-cache.php`）
 - Store API nonce：页注入 nonce 视为新鲜（TTL 60s），冷加购默认 **单次 POST**；仅 TTL 过期或 `woocommerce_rest_invalid_nonce` 时才先 `GET /cart`
 - 运费规则（`shipping-rules.php`）：达标后隐藏付费配送；门槛读取当前配送 zone 内条件免运的 **Minimum order amount**（`min_amount`），与 Starcore 一致，Customizer（根级「结账」）仅配置开关与要隐藏的 rate ID，不手填门槛金额
+- **区域限制**（`checkout-region-restrictions.php`，策略 B）：账单或收货任一为 `US` + `IL`（Illinois）则拒绝下单；经典结账用 `woocommerce_after_checkout_validation`，Store API / Blocks 用 `woocommerce_store_api_checkout_update_order_from_request`；前台 `woocommerce_states` 去掉 Illinois，后台改单仍可选；不改 `form-checkout.php`、不依赖 Shipping Zone
 - 可变商品 **未选齐变体**：主加购与 sticky ATC 灰显，文案为 `Select {Attribute}`（首个未选属性）；点击仅滚到对应属性行，不弹 toast / alert（`variation-atc-ready.ts`）
 - 可变商品 **选齐变体**：主加购与 sticky ATC 文案均为 `Add to cart`（价格在摘要区 / sticky 价格区展示，不写入按钮）。
 
