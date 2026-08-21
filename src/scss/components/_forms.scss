@@ -15,6 +15,17 @@
 	border-color: var(--ts-primary);
 }
 
+// 日期 / 时间：整块可点（配合 form-floating.ts showPicker）
+:is(
+	input[type="date"],
+	input[type="time"],
+	input[type="datetime-local"],
+	input[type="month"],
+	input[type="week"]
+).form-control {
+	cursor: pointer;
+}
+
 [aria-invalid="true"].form-control:focus,
 [aria-invalid="true"].form-control:focus-visible,
 [aria-invalid="true"].input:focus,

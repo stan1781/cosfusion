@@ -312,6 +312,18 @@ function clearFieldErrors(form: HTMLFormElement): void {
 	});
 }
 
+function clearFieldError(form: HTMLFormElement, name: string): void {
+	const slot = form.querySelector<HTMLElement>(`[data-ts-mailnest-field-error="${name}"]`);
+	if (slot) {
+		slot.hidden = true;
+		slot.textContent = '';
+	}
+
+	form.querySelectorAll<HTMLElement>(`[name="${name}"], [name="${name}[]"]`).forEach((field) => {
+		field.removeAttribute('aria-invalid');
+	});
+}
+
 function showFieldError(form: HTMLFormElement, name: string, message: string): void {
 	const slot = form.querySelector<HTMLElement>(`[data-ts-mailnest-field-error="${name}"]`);
 	const field = form.querySelector<HTMLElement>(`[name="${name}"], [name="${name}[]"]`);
@@ -322,6 +334,34 @@ function showFieldError(form: HTMLFormElement, name: string, message: string): v
 		slot.textContent = message;
 		slot.hidden = false;
 	}
+}
+
+function syncFieldErrorState(
+	form: HTMLFormElement,
+	field: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement,
+): void {
+	const name = field.getAttribute('name')?.replace(/\[\]$/, '') ?? '';
+	if (!name) {
+		return;
+	}
+
+	if (field.validity.valid) {
+		clearFieldError(form, name);
+		return;
+	}
+
+	// 仅在已标过无效时，随输入持续同步文案（避免未交互就打断输入）。
+	if (field.getAttribute('aria-invalid') !== 'true') {
+		return;
+	}
+
+	const config = getFormConfig();
+	if (!config) {
+		return;
+	}
+
+	const message = field.validity.valueMissing ? config.messages.required : config.messages.invalid;
+	showFieldError(form, name, message);
 }
 
 function collectFormData(form: HTMLFormElement, formId: string): URLSearchParams {
@@ -393,6 +433,8 @@ async function submitContactForm(form: HTMLFormElement): Promise<void> {
 
 	if (!form.checkValidity()) {
 		const messages = config.messages;
+		// 先清空，避免已改正字段仍残留上次 required / invalid 提示。
+		clearFieldErrors(form);
 		form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
 			'input, textarea, select',
 		).forEach((field) => {
@@ -474,6 +516,16 @@ async function submitContactForm(form: HTMLFormElement): Promise<void> {
 	}
 }
 
+function isContactFormField(
+	target: EventTarget | null,
+): target is HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement {
+	return (
+		target instanceof HTMLInputElement ||
+		target instanceof HTMLTextAreaElement ||
+		target instanceof HTMLSelectElement
+	);
+}
+
 function bindContactForms(): void {
 	document.addEventListener(
 		'submit',
@@ -492,32 +544,74 @@ function bindContactForms(): void {
 		true,
 	);
 
-	document.addEventListener('blur', (event) => {
-		const target = event.target;
-		if (
-			!(target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement)
-		) {
-			return;
-		}
+	document.addEventListener(
+		'blur',
+		(event) => {
+			if (!isContactFormField(event.target)) {
+				return;
+			}
 
-		const form = target.closest<HTMLFormElement>('[data-ts-mailnest-form], .mailnest-form');
-		if (!form) {
-			return;
-		}
+			const form = event.target.closest<HTMLFormElement>('[data-ts-mailnest-form], .mailnest-form');
+			if (!form) {
+				return;
+			}
 
-		const name = target.getAttribute('name')?.replace(/\[\]$/, '') ?? '';
-		if (!name || target.validity.valid) {
-			return;
-		}
+			const name = event.target.getAttribute('name')?.replace(/\[\]$/, '') ?? '';
+			if (!name) {
+				return;
+			}
 
-		const config = getFormConfig();
-		if (!config) {
-			return;
-		}
+			if (event.target.validity.valid) {
+				clearFieldError(form, name);
+				return;
+			}
 
-		const message = target.validity.valueMissing ? config.messages.required : config.messages.invalid;
-		showFieldError(form, name, message);
-	}, true);
+			const config = getFormConfig();
+			if (!config) {
+				return;
+			}
+
+			const message = event.target.validity.valueMissing
+				? config.messages.required
+				: config.messages.invalid;
+			showFieldError(form, name, message);
+		},
+		true,
+	);
+
+	document.addEventListener(
+		'input',
+		(event) => {
+			if (!isContactFormField(event.target)) {
+				return;
+			}
+
+			const form = event.target.closest<HTMLFormElement>('[data-ts-mailnest-form], .mailnest-form');
+			if (!form) {
+				return;
+			}
+
+			syncFieldErrorState(form, event.target);
+		},
+		true,
+	);
+
+	document.addEventListener(
+		'change',
+		(event) => {
+			if (!isContactFormField(event.target)) {
+				return;
+			}
+
+			const form = event.target.closest<HTMLFormElement>('[data-ts-mailnest-form], .mailnest-form');
+			if (!form) {
+				return;
+			}
+
+			syncFieldErrorState(form, event.target);
+		},
+		true,
+	);
 }
 
 export function initMailnest(): void {

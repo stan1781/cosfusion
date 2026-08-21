@@ -88,6 +88,7 @@ woocommerce/loop/orderby.php           # 覆盖 WC：页内 Sort 下拉（非 fo
 |----|------|
 | 有图 | 装饰性 `<img class="wc-archive-hero__img">`（`large` + srcset / `sizes=100vw`），`eager` + `fetchpriority="high"` + `decoding="async"`；固定高度盒（7rem / 10rem）+ `object-fit: cover` |
 | 无图 | `.wc-archive-hero--no-media`，仅标题区 |
+| 分类描述 | `woocommerce_archive_description` 在 Hero 标题下；默认最多两行（`line-clamp`），溢出时显示 **More / Less** 展开全文（`archive-hero-desc.ts`） |
 | Preload | `tailwindscore_wc_archive_hero_preload_lcp_in_head()` 在 `wp_head` 输出 |
 | 产品卡 | 有 Hero 图时主图一律 `lazy`；无图时主查询前 4 张 `eager`（`tailwindscore_loop_primary_image_loading()`） |
 

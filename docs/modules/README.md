@@ -39,7 +39,7 @@ modules/{slug}/
 | related-products | `modules/related-products` | 0.2.0 | ✅ | 单品页相关产品引擎 + Kirki 轮播/网格切换 |
 | quick-view | `modules/quick-view` | 0.1.10 | ✅ | 归档 / 首页 / 购物车 / 404 轮播 Quick View |
 | review-images | `modules/review-images` | 0.1.1 | ✅ | 评论附图、买家秀 Showcase |
-| account-auth | `modules/account-auth` | 0.1.2 | ✅ | 分屏登录、独立注册页、Google 登录预设、登录 modal 密码明文切换 |
+| account-auth | `modules/account-auth` | 0.1.4 | ✅ | 分屏登录、独立注册页、Google 登录预设、登录 modal 密码明文切换、注册表单隐藏隐私政策说明 |
 | wishlist | `modules/wishlist` | 0.1.3 | ✅ | 心愿单：父商品收藏、登录合并、Account + QV 加购 |
 | content-blocks | `modules/content-blocks` | 0.2.0 | ✅ | CPT `ts_block` + `[block]` 可复用 HTML/CSS；Page 页面 CSS 抽离 |
 
@@ -101,6 +101,8 @@ modules/{slug}/
 
 - 访客 My Account：分屏登录（无内联注册）
 - 独立 `/register/` + `[ts_registration_form]`
+- 注册表单不输出 WooCommerce 默认隐私政策说明（`wc_registration_privacy_policy_text`；结账页不受影响）
+- 登录表单 meta 行：`Remember me` 与 `Lost your password?` 同行
 - Site Kit Google 登录 Kirki 开关（默认关）
 - 独立认证页布局（无站点 header/footer）
 - 头部登录 modal：密码明文切换（`ui/password-visibility.ts`，与账户页 Woo 眼睛按钮同一套标记）

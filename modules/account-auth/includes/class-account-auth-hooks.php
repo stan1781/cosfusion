@@ -14,21 +14,31 @@ defined( 'ABSPATH' ) || exit;
  */
 class Tailwindscore_Account_Auth_Hooks {
 
-	public function __construct() {
-		add_filter( 'template_include', array( $this, 'filter_template_include' ), 99 );
-		add_action( 'after_switch_theme', array( $this, 'ensure_register_page' ) );
-		add_action( 'init', array( $this, 'ensure_register_page_once' ), 20 );
-		add_action( 'woocommerce_init', array( $this, 'configure_auth_notices' ), 1000 );
-		add_action( 'woocommerce_init', array( $this, 'detach_sitekit_default_login_button' ), 999 );
-		add_action( 'woocommerce_init', array( $this, 'guard_wc_enhanced_user_register_link' ), 999 );
-	}
+		public function __construct() {
+			add_filter( 'template_include', array( $this, 'filter_template_include' ), 99 );
+			add_action( 'after_switch_theme', array( $this, 'ensure_register_page' ) );
+			add_action( 'init', array( $this, 'ensure_register_page_once' ), 20 );
+			add_action( 'woocommerce_init', array( $this, 'configure_auth_notices' ), 1000 );
+			add_action( 'woocommerce_init', array( $this, 'hide_registration_privacy_policy' ), 20 );
+			add_action( 'woocommerce_init', array( $this, 'detach_sitekit_default_login_button' ), 999 );
+			add_action( 'woocommerce_init', array( $this, 'guard_wc_enhanced_user_register_link' ), 999 );
+		}
 
-	/**
-	 * 仅在认证壳 wrapper 内渲染通知（避免重复 wrapper / 布局偏移）。
-	 *
-	 * @return void
-	 */
-	public function configure_auth_notices(): void {
+		/**
+		 * 注册表单不展示 WooCommerce 默认隐私政策说明（结账页文案不受影响）。
+		 *
+		 * @return void
+		 */
+		public function hide_registration_privacy_policy(): void {
+			remove_action( 'woocommerce_register_form', 'wc_registration_privacy_policy_text', 20 );
+		}
+
+		/**
+		 * 仅在认证壳 wrapper 内渲染通知（避免重复 wrapper / 布局偏移）。
+		 *
+		 * @return void
+		 */
+		public function configure_auth_notices(): void {
 		if ( ! tailwindscore_is_account_auth_surface() ) {
 			return;
 		}

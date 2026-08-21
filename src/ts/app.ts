@@ -16,6 +16,7 @@ import './shop/loop-add-to-cart';
 import './shop/ordering';
 import './shop/archive-filters-mobile';
 import './shop/archive-ordering';
+import './shop/archive-hero-desc';
 import './shop/archive-nav';
 import { initProductCarousels } from './shop/product-carousel';
 import { initHeroCarousels } from './home/hero-carousel';

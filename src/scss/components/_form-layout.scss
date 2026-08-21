@@ -76,6 +76,32 @@
 	line-height: 1;
 }
 
+// Date / time：浏览器空值仍绘制原生占位（年/月/日、--:--），标签不能居中叠在上面。
+.form-layout-floating
+	.field__float:has(
+		:is(
+			input[type="date"],
+			input[type="time"],
+			input[type="datetime-local"],
+			input[type="month"],
+			input[type="week"]
+		)
+	) {
+	.field__label {
+		top: var(--ts-form-floating-label-active-top);
+		transform: none;
+		font-size: var(--ts-font-size-xs);
+		color: var(--ts-text-secondary);
+	}
+
+	// 覆盖空态 `:not(.is-filled):not(:focus-within) … padding-block`（特异性需更高）。
+	&:not(.is-filled):not(:focus-within) input.form-control {
+		padding-top: var(--ts-form-floating-value-padding-top);
+		padding-bottom: var(--ts-form-padding-y);
+		line-height: 1.25;
+	}
+}
+
 // Chevron + appearance: components/_forms.scss (global on select.form-control).
 
 // Single min-height for all states — only padding changes on focus/fill (avoids height jump).

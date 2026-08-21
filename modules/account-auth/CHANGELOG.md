@@ -1,5 +1,13 @@
 # Account Auth Module
 
+## 0.1.4
+
+- 登录表单「Remember me」与「Lost your password?」同一行（左勾选 / 右链接）。
+
+## 0.1.3
+
+- 注册表单隐藏 WooCommerce 默认隐私政策说明文案。
+
 ## 0.1.2
 
 - 登录 modal 补齐与账户页相同的密码明文切换（主题 TS，不依赖 `woocommerce.js`）。
