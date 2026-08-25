@@ -9,10 +9,11 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'TAILWINDSCORE_MODULE_TYPOGRAPHY_VERSION', '0.1.0' );
+define( 'TAILWINDSCORE_MODULE_TYPOGRAPHY_VERSION', '0.2.0' );
 
 $tailwindscore_typography_dir = __DIR__;
 
+require_once $tailwindscore_typography_dir . '/includes/font-catalog.php';
 require_once $tailwindscore_typography_dir . '/includes/class-typography-fonts.php';
 require_once $tailwindscore_typography_dir . '/includes/class-typography-settings.php';
 require_once $tailwindscore_typography_dir . '/includes/class-typography-frontend.php';

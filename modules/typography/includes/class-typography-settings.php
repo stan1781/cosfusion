@@ -31,14 +31,13 @@ class Tailwindscore_Typography_Settings {
 			tailwindscore_mod( 'typography_body_font', 'system' )
 		);
 	}
-	
 
 	/**
 	 * @param mixed $value 原始 theme_mod。
 	 * @return string
 	 */
-	private static function sanitize_slug( $value ): string {
-		$slug     = is_string( $value ) ? sanitize_key( $value ) : 'system';
+	public static function sanitize_slug( $value ): string {
+		$slug     = is_string( $value ) ? sanitize_title( $value ) : 'system';
 		$manifest = Tailwindscore_Typography_Fonts::get_manifest();
 
 		if ( ! isset( $manifest[ $slug ] ) ) {

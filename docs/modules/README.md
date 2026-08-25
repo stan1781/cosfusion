@@ -32,7 +32,7 @@ modules/{slug}/
 
 | 模块 | 路径 | 版本 | 状态 | 说明 |
 |------|------|------|------|------|
-| typography | `modules/typography` | 0.1.0 | ✅ | 字体加载与 Kirki 排版设置 |
+| typography | `modules/typography` | 0.2.0 | ✅ | 站外字体目录（uploads）+ Kirki 分组选择 |
 | gallery | `modules/gallery` | 0.1.0 | ✅ | Swiper 单品图库、变体相册 `_variation_images` |
 | variations | `modules/variations` | 0.1.0 | ✅ | 图片/色块 swatch、grid/list 布局 |
 | size-guide | `modules/size-guide` | 0.1.1 | ✅ | JSON 尺码表 modal + 选码单行 |
@@ -117,9 +117,10 @@ modules/{slug}/
 
 ### typography
 
-- 自定义字体 enqueue 与 Kirki 排版控件
-- Customizer：设计 → 排版（标题字体 / 正文字体）
-- 输出 CSS 变量覆盖全局字号/字体族
+- 字体文件：`uploads/tailwindscore-fonts/{slug}/`（GWFH 原文件名）；目录见 `font-catalog.php`
+- Customizer：设计 → 排版（optgroup 分组；选项含风格/备注）
+- 输出 `@font-face` 与 `--ts-font-body` / `--ts-font-heading`
+- 详见 [typography.md](../features/typography.md)
 - 品牌色等颜色令牌仍以 `src/scss/abstracts/_variables.scss` 为真源（无 Customizer 颜色 panel）
 
 ## 前台配置注入

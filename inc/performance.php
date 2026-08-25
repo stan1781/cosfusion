@@ -139,43 +139,21 @@ function tailwindscore_performance_async_style_loader_tag( string $html, string 
 add_filter( 'style_loader_tag', 'tailwindscore_performance_async_style_loader_tag', 10, 4 );
 
 /**
+ * 当前选用字体的 preload URL（uploads/tailwindscore-fonts）。
+ *
  * @return string[]
  */
-function tailwindscore_performance_font_preload_files(): array {
+function tailwindscore_performance_font_preload_urls(): array {
 	if ( ! class_exists( 'Tailwindscore_Typography_Settings' ) || ! class_exists( 'Tailwindscore_Typography_Fonts' ) ) {
 		return array();
 	}
 
-	$slugs = array(
-		Tailwindscore_Typography_Settings::get_body_font_slug(),
-		Tailwindscore_Typography_Settings::get_heading_font_slug(),
+	return Tailwindscore_Typography_Fonts::get_preload_urls(
+		array(
+			Tailwindscore_Typography_Settings::get_body_font_slug(),
+			Tailwindscore_Typography_Settings::get_heading_font_slug(),
+		)
 	);
-	$files = array();
-
-	foreach ( array_unique( $slugs ) as $slug ) {
-		if ( 'system' === $slug ) {
-			continue;
-		}
-
-		$font = Tailwindscore_Typography_Fonts::get_font( $slug );
-		if ( null === $font || empty( $font['faces'] ) ) {
-			continue;
-		}
-
-		foreach ( $font['faces'] as $face ) {
-			$file = isset( $face['file'] ) ? (string) $face['file'] : '';
-			if ( '' === $file ) {
-				continue;
-			}
-
-			$path = get_template_directory() . '/assets/fonts/' . ltrim( $file, '/' );
-			if ( is_readable( $path ) ) {
-				$files[] = $file;
-			}
-		}
-	}
-
-	return array_values( array_unique( $files ) );
 }
 
 /**
@@ -247,11 +225,8 @@ function tailwindscore_performance_resource_hints(): void {
 		}
 	}
 
-	foreach ( tailwindscore_performance_font_preload_files() as $file ) {
-		$preload(
-			get_template_directory_uri() . '/assets/fonts/' . ltrim( $file, '/' ),
-			'font'
-		);
+	foreach ( tailwindscore_performance_font_preload_urls() as $url ) {
+		$preload( $url, 'font' );
 	}
 }
 add_action( 'wp_head', 'tailwindscore_performance_resource_hints', 1 );
@@ -314,7 +289,7 @@ function tailwindscore_wp_rocket_theme_asset_patterns(): array {
 
 	return array(
 		'/themes/' . $slug . '/assets/dist/',
-		'/themes/' . $slug . '/assets/fonts/',
+		'/uploads/tailwindscore-fonts/',
 	);
 }
 

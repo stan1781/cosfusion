@@ -52,7 +52,7 @@
 主题自动注入的排除（无需在后台重复手填，但后台可再加第三方脚本）：
 
 - LazyLoad 属性：`data-no-lazy`、`fetchpriority="high"`、`hero-carousel__img`、`wc-archive-hero__img`、`branding__logo`
-- Delay / Defer / 合并 JS·CSS：`/themes/tailwindscore/assets/dist/`、`/assets/fonts/`
+- Delay / Defer / 合并 JS·CSS：`/themes/tailwindscore/assets/dist/`、`/uploads/tailwindscore-fonts/`
 - Lazy Render：`hero-carousel`、`wc-archive-hero`、`site-header`、`site-header-bar`
 
 ### 缓存与购买流
