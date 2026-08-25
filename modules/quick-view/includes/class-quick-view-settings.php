@@ -52,6 +52,11 @@ class Tailwindscore_Quick_View_Settings {
 	 * @return string[]
 	 */
 	public static function sanitize_target_pages( $value ): array {
+		// 旧版误用 checkbox 时可能存成 bool；视为未配置，回退完整默认。
+		if ( is_bool( $value ) ) {
+			return self::default_target_pages();
+		}
+
 		$values = array();
 
 		if ( is_array( $value ) ) {

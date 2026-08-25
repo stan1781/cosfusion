@@ -1,5 +1,10 @@
 # Quick View 模块变更记录
 
+## 0.1.11
+
+- 修复：Customizer「生效页面」字段由误用的 `checkbox` 改为 `multicheck`，恢复单品页 / 首页 / 购物车 / 404 等多选项。
+- 修复：旧站若将该 theme_mod 存成 bool，sanitize 回退完整默认页面列表（不再只剩 `shop_archive`）。
+
 ## 0.1.10
 
 - 修复：REST 水合（Recently viewed 等）渲染循环卡时无目标页上下文，可变品不再漏掉 `data-ts-quick-view` 触发器；弹层 / JS 仍仅在生效页面加载。
