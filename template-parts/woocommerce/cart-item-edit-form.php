@@ -27,6 +27,23 @@ $product = $edit_product;
 $selected_variation_attributes = tailwindscore_cart_item_edit_selected_attributes( $cart_item );
 $variation_product             = $cart_item['data'] ?? null;
 $display_name                  = $variation_product instanceof WC_Product ? $variation_product->get_name() : $edit_product->get_name();
+$price_html                    = $variation_product instanceof WC_Product
+	? $variation_product->get_price_html()
+	: $edit_product->get_price_html();
+
+$thumb_product = $variation_product instanceof WC_Product ? $variation_product : $edit_product;
+$thumb_id      = (int) $thumb_product->get_image_id();
+if ( $thumb_id < 1 ) {
+	$thumb_id = (int) $edit_product->get_image_id();
+}
+
+$thumb_src    = $thumb_id > 0 ? (string) wp_get_attachment_image_url( $thumb_id, 'woocommerce_gallery_thumbnail' ) : '';
+$thumb_srcset = $thumb_id > 0 ? (string) wp_get_attachment_image_srcset( $thumb_id, 'woocommerce_gallery_thumbnail' ) : '';
+$thumb_sizes  = $thumb_id > 0 ? (string) wp_get_attachment_image_sizes( $thumb_id, 'woocommerce_gallery_thumbnail' ) : '';
+$thumb_alt    = $thumb_id > 0 ? (string) get_post_meta( $thumb_id, '_wp_attachment_image_alt', true ) : '';
+if ( '' === $thumb_alt ) {
+	$thumb_alt = $display_name;
+}
 ?>
 <div
 	class="cart-item-edit-form"
@@ -38,22 +55,54 @@ $display_name                  = $variation_product instanceof WC_Product ? $var
 		tailwindscore_print_size_guide_config_script( (int) $edit_product->get_id() );
 	}
 	?>
-	<p class="cart-item-edit-form__name"><?php echo esc_html( $display_name ); ?></p>
+	<div class="cart-item-edit-form__layout">
+		<?php if ( '' !== $thumb_src ) : ?>
+			<div class="cart-item-edit-form__image">
+				<img
+					class="cart-item-edit-form__thumb"
+					src="<?php echo esc_url( $thumb_src ); ?>"
+					<?php if ( '' !== $thumb_srcset ) : ?>
+						srcset="<?php echo esc_attr( $thumb_srcset ); ?>"
+					<?php endif; ?>
+					<?php if ( '' !== $thumb_sizes ) : ?>
+						sizes="<?php echo esc_attr( $thumb_sizes ); ?>"
+					<?php endif; ?>
+					alt="<?php echo esc_attr( $thumb_alt ); ?>"
+					width="96"
+					height="96"
+					decoding="async"
+					data-ts-cart-item-edit-image-fallback-src="<?php echo esc_url( $thumb_src ); ?>"
+					data-ts-cart-item-edit-image-fallback-srcset="<?php echo esc_attr( $thumb_srcset ); ?>"
+					data-ts-cart-item-edit-image-fallback-sizes="<?php echo esc_attr( $thumb_sizes ); ?>"
+					data-ts-cart-item-edit-image-fallback-alt="<?php echo esc_attr( $thumb_alt ); ?>"
+				/>
+			</div>
+		<?php endif; ?>
 
-	<div class="cart-item-edit-form__variations">
-		<?php
-		wc_get_template(
-			'single-product/add-to-cart/variable-quick-view.php',
-			array(
-				'attributes'                    => $edit_product->get_variation_attributes(),
-				'available_variations'          => $edit_product->get_available_variations(),
-				'selected_variation'            => false,
-				'selected_variation_attributes' => $selected_variation_attributes,
-				'context'                       => 'cart-edit',
-				'current_variation_id'          => isset( $cart_item['variation_id'] ) ? absint( $cart_item['variation_id'] ) : 0,
-			)
-		);
-		?>
+		<div class="cart-item-edit-form__main">
+			<p class="cart-item-edit-form__name"><?php echo esc_html( $display_name ); ?></p>
+			<?php if ( '' !== $price_html ) : ?>
+				<div class="cart-item-edit-form__price price">
+					<?php echo wp_kses_post( $price_html ); ?>
+				</div>
+			<?php endif; ?>
+
+			<div class="cart-item-edit-form__variations">
+				<?php
+				wc_get_template(
+					'single-product/add-to-cart/variable-quick-view.php',
+					array(
+						'attributes'                    => $edit_product->get_variation_attributes(),
+						'available_variations'          => $edit_product->get_available_variations(),
+						'selected_variation'            => false,
+						'selected_variation_attributes' => $selected_variation_attributes,
+						'context'                       => 'cart-edit',
+						'current_variation_id'          => isset( $cart_item['variation_id'] ) ? absint( $cart_item['variation_id'] ) : 0,
+					)
+				);
+				?>
+			</div>
+		</div>
 	</div>
 
 	<?php

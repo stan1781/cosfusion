@@ -29,7 +29,7 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 - 购物车页 **产品推荐轮播**（`cart-product-suggestions.php` + 共享引擎 `product-suggestions.php`：Cross-sells → 车内分类 → 人气补齐；共享 [产品轮播](product-carousel.md) 壳层；不进 Drawer）
 - 单品页 **配件搭配**（Cross-sells 紧凑列表，见 [配件搭配](product-cross-sells.md)）
 - **统一通知**接口（`src/ts/cart/notifications.ts`）：支持 toast 与 inline/drawer 反馈
-- 购物车行项 **编辑 modal**（`cart-item-edit.ts`）
+- 购物车行项 **编辑 modal**（`cart-item-edit.ts`）：左固定缩略图 + 右品名/价格/变体选项；匹配变体时联动更新价格与图片（有变体图才换，未选齐时回退初始图）
 - 结账页布局与登录 dialog（`checkout-layout.php`、`ui/login-modal.ts`）；modal 密码框带明文切换（`ui/password-visibility.ts`，账户页仍由 `woocommerce.js` 处理）；Remember me 与 Lost password 同一行左右排
 - 结账 Payment 区隐藏空的 PPCP `.ppcp-messages`（Pay Later 占位未出文案时避免 flex gap 留白；`_checkout.scss`）
 - 结账条款文案 `.woocommerce-terms-and-conditions-wrapper`：`--ts-font-size-xs` + `--ts-text-muted`；内链用 `--ts-link-color` + underline（覆盖全局 `a { color: inherit }`）
