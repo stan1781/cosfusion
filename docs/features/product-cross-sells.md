@@ -8,6 +8,7 @@
 |----|------|
 | 位置 | 默认 `woocommerce_single_product_summary` priority **32**（ATC 30 与 Assurances 35 之间）；可用 `tailwindscore/product/cross_sells_hook` 改挂载 |
 | 形态 | 竖排 list：小图 + 名/价 + 操作；非轮播（配件数量通常少，轮播性价比低） |
+| 价格 | `.product-cross-sells__price` 套用 `ts-price-html`（原价删除线；特价无下划线 + `font-weight: 600`） |
 | 数据 | 当前商品 `get_cross_sell_ids()`；无可展示项则不输出 DOM |
 | 交互 | 简单品：`ajax_add_to_cart`（Store API → Drawer）；变体：现有 Quick View |
 | 开关 | `product_cross_sells_enable`（默认开） |

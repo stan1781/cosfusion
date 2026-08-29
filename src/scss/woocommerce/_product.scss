@@ -66,6 +66,14 @@
 	justify-content: space-between;
 	gap: var(--ts-spacer-2);
 
+	.wc-product-detail__price-main {
+		display: inline-flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: var(--ts-spacer-2);
+		min-width: 0;
+	}
+
 	.wc-product-detail__sku {
 		flex-shrink: 0;
 		margin-left: auto;
@@ -77,6 +85,19 @@
 	.price {
 		@include mixins.ts-price-html(var(--ts-font-size-lg), var(--ts-font-size-sm));
 		margin: 0;
+	}
+
+	.onsale {
+		display: inline-block;
+		margin: 0;
+		padding: 0.2rem 0.45rem;
+		font-size: var(--ts-font-size-xs);
+		font-weight: 600;
+		line-height: 1.2;
+		letter-spacing: 0.02em;
+		color: var(--ts-on-primary);
+		background: var(--ts-danger);
+		border-radius: var(--ts-border-radius-sm);
 	}
 }
 

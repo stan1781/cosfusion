@@ -1,3 +1,5 @@
+@use "../abstracts/mixins";
+
 // 单品摘要内 Cross-sells 紧凑行列表。
 
 .product-cross-sells {
@@ -80,8 +82,7 @@
 }
 
 .product-cross-sells__price {
-	font-size: var(--ts-font-size-xs);
-	line-height: 1.35;
+	@include mixins.ts-price-html(var(--ts-font-size-xs), var(--ts-font-size-xs));
 	color: var(--ts-text-secondary);
 }
 

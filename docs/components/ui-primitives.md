@@ -4,7 +4,7 @@
 
 | 原语 | 路径 | 说明 |
 |------|------|------|
-| Button loading | `src/ts/ui/button-loading.ts` | `.btn.is-loading` + spinner |
+| Button loading | `src/ts/ui/button-loading.ts` | `.btn.is-loading` + spinner；主色按钮 spinner 用 `--ts-on-primary`；`.btn-icon` 用 `currentColor`（浅底圆形加购等） |
 | Loading host | `src/ts/ui/loading-host.ts` | 区域 `.loading-host.is-loading` |
 | Global loading | `src/ts/ui/global-loading.ts` | 全屏遮罩，引用计数 |
 | Woo → toast | `src/ts/ui/woo-notices.ts` | 成功/信息 notice 提升为 toast |
