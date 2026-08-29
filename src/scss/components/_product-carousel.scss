@@ -352,7 +352,8 @@
 
 	// 非圆形：对齐 btn-sm / btn-outline 小型常规按钮（wishlist 颜色见 _wishlist.scss）。
 	.woocommerce .wc-product-card__actions .product-card-action:not(.wishlist-btn),
-	.woocommerce .wc-product-card__actions a.button.product-card-action:not(.wishlist-btn) {
+	.woocommerce .wc-product-card__actions a.button.product-card-action:not(.wishlist-btn),
+	.woocommerce .wc-product-card__actions button.button.product-card-action:not(.wishlist-btn) {
 		width: auto;
 		height: auto;
 		min-width: 0;

@@ -101,15 +101,18 @@ button.btn.is-loading:not(.btn-icon),
 button.btn.loading:not(.btn-icon),
 a.btn.is-loading:not(.btn-icon),
 a[role="button"].is-loading:not(.btn-icon),
-.woocommerce .button.is-loading:not(.btn-icon),
-.woocommerce .button.loading:not(.btn-icon),
-.woocommerce button.button.is-loading:not(.btn-icon),
-.woocommerce button.button.loading:not(.btn-icon),
+.woocommerce .button.is-loading:not(.btn-icon):not(.product-card-action),
+.woocommerce .button.loading:not(.btn-icon):not(.product-card-action),
+.woocommerce button.button.is-loading:not(.btn-icon):not(.product-card-action),
+.woocommerce button.button.loading:not(.btn-icon):not(.product-card-action),
 .woocommerce .single_add_to_cart_button.is-loading,
 .woocommerce .single_add_to_cart_button.loading,
+.woocommerce button.single_add_to_cart_button.is-loading,
+.woocommerce button.single_add_to_cart_button.loading,
 .woocommerce #respond input#submit.is-loading,
 .woocommerce #respond input#submit.loading {
-	color: transparent;
+	color: transparent !important;
+	-webkit-text-fill-color: transparent !important;
 }
 
 .btn.is-loading:not(.btn-icon)::after,
@@ -118,12 +121,14 @@ button.btn.is-loading:not(.btn-icon)::after,
 button.btn.loading:not(.btn-icon)::after,
 a.btn.is-loading:not(.btn-icon)::after,
 a[role="button"].is-loading:not(.btn-icon)::after,
-.woocommerce .button.is-loading:not(.btn-icon)::after,
-.woocommerce .button.loading:not(.btn-icon)::after,
-.woocommerce button.button.is-loading:not(.btn-icon)::after,
-.woocommerce button.button.loading:not(.btn-icon)::after,
+.woocommerce .button.is-loading:not(.btn-icon):not(.product-card-action)::after,
+.woocommerce .button.loading:not(.btn-icon):not(.product-card-action)::after,
+.woocommerce button.button.is-loading:not(.btn-icon):not(.product-card-action)::after,
+.woocommerce button.button.loading:not(.btn-icon):not(.product-card-action)::after,
 .woocommerce .single_add_to_cart_button.is-loading::after,
 .woocommerce .single_add_to_cart_button.loading::after,
+.woocommerce button.single_add_to_cart_button.is-loading::after,
+.woocommerce button.single_add_to_cart_button.loading::after,
 .woocommerce #respond input#submit.is-loading::after,
 .woocommerce #respond input#submit.loading::after {
 	content: '';

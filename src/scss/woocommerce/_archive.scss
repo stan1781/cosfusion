@@ -925,16 +925,21 @@ body.archive-filters-drawer-open {
 
 // 归档圆形操作钮：加购 / QV / Wishlist 同一套（surface-alt；压过 Woo .button 黑底白字）。
 .woocommerce .wc-product-card__actions .product-card-action,
-.woocommerce .wc-product-card__actions a.button.product-card-action {
+.woocommerce .wc-product-card__actions a.button.product-card-action,
+.woocommerce .wc-product-card__actions button.button.product-card-action {
 	box-sizing: border-box;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	flex-shrink: 0;
+	appearance: none;
 	width: var(--wc-card-action-size);
 	height: var(--wc-card-action-size);
 	min-width: var(--wc-card-action-size);
 	min-height: var(--wc-card-action-size);
+	max-width: var(--wc-card-action-size);
+	max-height: var(--wc-card-action-size);
+	aspect-ratio: 1;
 	padding: 0;
 	border: none;
 	border-radius: 50%;

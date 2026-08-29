@@ -1,9 +1,9 @@
 @use "../abstracts/mixins";
 @use "../abstracts/variables";
 
-.woocommerce .button,
-.woocommerce a.button,
-.woocommerce button.button,
+.woocommerce .button:not(.btn-icon):not(.product-card-action),
+.woocommerce a.button:not(.btn-icon):not(.product-card-action),
+.woocommerce button.button:not(.btn-icon):not(.product-card-action),
 .woocommerce input.button,
 .woocommerce #respond input#submit,
 .woocommerce .single_add_to_cart_button,
@@ -22,9 +22,9 @@
 }
 
 @media (hover: hover) {
-	.woocommerce .button:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover,
-	.woocommerce a.button:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover,
-	.woocommerce button.button:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover,
+	.woocommerce .button:not(:disabled):not(.disabled):not(.is-variation-incomplete):not(.btn-icon):not(.product-card-action):hover,
+	.woocommerce a.button:not(:disabled):not(.disabled):not(.is-variation-incomplete):not(.btn-icon):not(.product-card-action):hover,
+	.woocommerce button.button:not(:disabled):not(.disabled):not(.is-variation-incomplete):not(.btn-icon):not(.product-card-action):hover,
 	.woocommerce input.button:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover,
 	.woocommerce #respond input#submit:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover,
 	.woocommerce .single_add_to_cart_button:not(:disabled):not(.disabled):not(.is-variation-incomplete):hover,
@@ -279,4 +279,19 @@
 		display: block;
 		margin-inline-end: 0;
 	}
+}
+
+// Loading：同文件压过上方 button base 的 color；保留主色背景。排除浅底圆形图标钮。
+.woocommerce .button.is-loading:not(.btn-icon):not(.product-card-action),
+.woocommerce .button.loading:not(.btn-icon):not(.product-card-action),
+.woocommerce button.button.is-loading:not(.btn-icon):not(.product-card-action),
+.woocommerce button.button.loading:not(.btn-icon):not(.product-card-action),
+.woocommerce .single_add_to_cart_button.is-loading,
+.woocommerce .single_add_to_cart_button.loading,
+.woocommerce button.single_add_to_cart_button.is-loading,
+.woocommerce button.single_add_to_cart_button.loading,
+.woocommerce #respond input#submit.is-loading,
+.woocommerce #respond input#submit.loading {
+	color: transparent !important;
+	-webkit-text-fill-color: transparent !important;
 }

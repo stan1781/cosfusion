@@ -205,10 +205,9 @@ function tailwindscore_filter_loop_add_to_cart_icon( string $html, $product, arr
 	$label    = $product->add_to_cart_description();
 	$icon     = function_exists( 'tailwindscore_icon' ) ? tailwindscore_icon( 'cart' ) : '';
 
-	// Icon SVG 来自主题 map，信任输出。
+	// 无 ?add-to-cart= URL：仅 Store API（loop-add-to-cart.ts）；避免 bot 扫描 GET 加购。
 	return sprintf(
-		'<a href="%1$s" data-quantity="%2$s" class="%3$s" data-product_id="%4$s" data-product_sku="%5$s" aria-label="%6$s" rel="nofollow"><span class="icon" aria-hidden="true">%7$s</span></a>',
-		esc_url( $product->add_to_cart_url() ),
+		'<button type="button" data-quantity="%1$s" class="%2$s" data-product_id="%3$s" data-product_sku="%4$s" aria-label="%5$s"><span class="icon" aria-hidden="true">%6$s</span></button>',
 		esc_attr( (string) $quantity ),
 		esc_attr( 'btn-icon product-card-action product-card-action--add-to-cart button product_type_simple add_to_cart_button ajax_add_to_cart' ),
 		esc_attr( (string) $product->get_id() ),

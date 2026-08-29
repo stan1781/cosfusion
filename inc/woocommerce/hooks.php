@@ -47,6 +47,27 @@ function tailwindscore_redirect_product_add_to_cart_post(): void {
 }
 
 /**
+ * 拦截 GET ?add-to-cart=（Woo 默认无 nonce，易被扫描滥用）。
+ * 单品加购仍走 POST / Store API；须在 WC_Form_Handler::add_to_cart_action（20）之前执行。
+ */
+function tailwindscore_block_get_add_to_cart(): void {
+	if ( wp_doing_ajax() || is_admin() ) {
+		return;
+	}
+
+	if ( 'GET' !== strtoupper( (string) ( $_SERVER['REQUEST_METHOD'] ?? '' ) ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		return;
+	}
+
+	if ( ! isset( $_GET['add-to-cart'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return;
+	}
+
+	unset( $_GET['add-to-cart'], $_REQUEST['add-to-cart'] );
+}
+add_action( 'wp_loaded', 'tailwindscore_block_get_add_to_cart', 5 );
+
+/**
  * 归档模板在 shop-loop 工具栏外渲染通知。
  */
 function tailwindscore_wc_archive_detach_loop_notices(): void {

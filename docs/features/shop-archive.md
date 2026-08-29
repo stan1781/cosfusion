@@ -71,7 +71,7 @@ woocommerce/loop/orderby.php           # 覆盖 WC：页内 Sort 下拉（非 fo
 - 只替换 `.wc-archive-main`；筛选 chip 组（`.wc-archive-sidebar__groups`）随目标页 HTML 同步替换，使属性选项随当前列表裁剪；再同步 `is-active`。Drawer 壳在主区外，替换后不丢；工具栏 Filters / Sort 随主区重建。
 - 点 chip / 排序成功后关闭 Drawer 与排序菜单；徽标用 `syncArchiveFiltersMobileCount`。
 - 移动 Drawer **打开**时导航：对 `.wc-archive-filters-mobile__body` 同步 `loading-host`（主区 loading 仍保留，但会被 z-panel 挡住，故面板内需可见反馈）。
-- `loop-add-to-cart` / swatches / Quick View 为 document 委托，主区替换后无需重绑。
+- `loop-add-to-cart` / swatches / Quick View 为 document 委托，主区替换后无需重绑。简单品卡片加购为 `<button type="button">`（无 `?add-to-cart=` URL），经 Store API；主题另在 `wp_loaded` 拦截 GET `add-to-cart`。
 
 ## 布局
 
@@ -80,7 +80,7 @@ woocommerce/loop/orderby.php           # 覆盖 WC：页内 Sort 下拉（非 fo
 - **商品卡标题**（`.wc-product-card__title`）：使用 `--ts-font-body`（覆盖全局 heading 字体），与正文同栈。
 - **商品卡价格**（`.wc-product-card__price`）：现价 `sm`；划线原价 `< md` 为 `xs`，`md+` 与现价同档 `sm`（仅灰删除线）。
 - **商品卡促销徽章**（`.wc-product-card__badges .onsale`）：`inc/woocommerce/sale-badge.php` 计算具体折扣——优先 `-12%`（四舍五入），无法算百分比时回退 `-$10`（`wc_price`）；可变商品取各促销变体**最大**折扣；无节省额则不渲染。
-- **商品卡操作区**（`.wc-product-card__actions`）：叠在媒体图上（绝对定位），不占卡片文档流；`< md` 常显，按钮为 `0.8 × --ts-control-min-height`（约 2rem），避免两列网格里挡住主图；`md+` 恢复标准控件高度，悬停/焦点显。右上圆形图标统一样式：简单商品加购（cart）/ 可变品 QV（eye）/ Wishlist（heart）；Woo 可变品 `screen-reader-text` 与未图标化的文字链在此隐藏。AJAX 加购 loading 走 `.btn-icon` 的 `currentColor` spinner（勿用主色按钮白圈）。
+- **商品卡操作区**（`.wc-product-card__actions`）：叠在媒体图上（绝对定位），不占卡片文档流；`< md` 常显，按钮为 `0.8 × --ts-control-min-height`（约 2rem），避免两列网格里挡住主图；`md+` 恢复标准控件高度，悬停/焦点显。右上圆形图标统一样式：简单商品加购（cart，`<button>`）/ 可变品 QV（eye）/ Wishlist（heart）；`button.button.product-card-action` 排除 Woo 主色按钮 padding，强制 `aspect-ratio: 1`；Woo 可变品 `screen-reader-text` 与未图标化的文字链在此隐藏。AJAX 加购 loading 走 `.btn-icon` 的 `currentColor` spinner（勿用主色按钮白圈）。
 
 ## 归档 Hero 与 LCP
 
