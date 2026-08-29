@@ -384,7 +384,16 @@
 	font-weight: 600;
 }
 
+.cart-drawer-cart__title {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--ts-spacer-1);
+	min-width: 0;
+}
+
 .cart-drawer-cart__name {
+	flex: 1 1 auto;
+	min-width: 0;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;

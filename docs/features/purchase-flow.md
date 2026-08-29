@@ -22,7 +22,7 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 
 ## 已实现能力
 
-- 头部 **购物车 Drawer** 为主要交互界面（数量步进、编辑、小计、Checkout CTA）；数量为 1 时减号切换为删除图标，再点即移除行项（无独立删除按钮）
+- 头部 **购物车 Drawer** 为主要交互界面（数量步进、编辑、小计、Checkout CTA）；数量步进始终为减号（qty→0 仍删行）；独立删除按钮在产品名称行右侧，一点即移除行项
 - 单品加购成功后 **自动打开 Drawer**
 - Drawer / 购物车页 **优惠码**（`cart-config.php` 中 drawer coupon 设置、`ui/coupon-form.ts`）
 - Drawer / 购物车页 **免运进度条**（`cart-free-shipping-progress.php`；Drawer 行项上方；Cart 页在 `.wc-cart__sidebar` 内与 aside 卡片同级；门槛读 Woo 条件免运 `min_amount`；Store API `extensions.tailwindscore.freeShippingProgress`；`refreshCart()` 后 TS 重绘）

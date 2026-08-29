@@ -190,16 +190,19 @@ body.cart-item-edit-modal-open {
 	gap: var(--ts-spacer-1);
 }
 
-// 编辑：控件行内图标按钮（删除并入数量减号，qty=1 时显示垃圾桶）
+// 编辑：图标 + 可见文案；删除紧跟产品名称行右侧
 .cart-drawer-cart__edit {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	flex: 0 0 auto;
-	width: 1.6rem;
-	height: 1.6rem;
-	padding: 0;
+	gap: var(--ts-spacer-1);
+	min-height: 1.6rem;
+	padding: 0 var(--ts-spacer-2);
 	font: inherit;
+	font-size: var(--ts-font-size-xs);
+	font-weight: 400;
+	line-height: 1.2;
 	color: var(--ts-text-secondary);
 	background: var(--ts-surface);
 	border: 1px solid var(--ts-border-color);
@@ -211,6 +214,11 @@ body.cart-item-edit-modal-open {
 .cart-drawer-cart__edit .icon {
 	width: 0.75rem;
 	height: 0.75rem;
+	flex: 0 0 auto;
+}
+
+.cart-drawer-cart__edit-label {
+	white-space: nowrap;
 }
 
 .cart-drawer-cart__edit:hover:not(:disabled) {
@@ -219,6 +227,38 @@ body.cart-item-edit-modal-open {
 }
 
 .cart-drawer-cart__edit:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.cart-drawer-cart__remove {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: 1.5rem;
+	height: 1.5rem;
+	margin-top: 0.1rem;
+	padding: 0;
+	font: inherit;
+	color: var(--ts-text-muted);
+	background: transparent;
+	border: none;
+	border-radius: var(--ts-border-radius-sm);
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.cart-drawer-cart__remove .icon {
+	width: 0.875rem;
+	height: 0.875rem;
+}
+
+.cart-drawer-cart__remove:hover:not(:disabled) {
+	color: var(--ts-text-primary);
+}
+
+.cart-drawer-cart__remove:disabled {
 	opacity: 0.5;
 	cursor: not-allowed;
 }

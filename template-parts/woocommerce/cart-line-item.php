@@ -45,16 +45,26 @@ $remove_label      = sprintf(
 		<?php else : ?>
 			<?php echo wp_kses_post( $product_thumbnail ); ?>
 		<?php endif; ?>
-		
 	</div>
 	<div class="cart-drawer-cart__content stack">
 		<div class="cart-drawer-cart__row">
 			<div class="cart-drawer-cart__meta stack">
-				<?php if ( $product_permalink ) : ?>
-					<a class="cart-drawer-cart__name" href="<?php echo esc_url( $product_permalink ); ?>"><?php echo esc_html( $product_name ); ?></a>
-				<?php else : ?>
-					<span class="cart-drawer-cart__name"><?php echo esc_html( $product_name ); ?></span>
-				<?php endif; ?>
+				<div class="cart-drawer-cart__title">
+					<?php if ( $product_permalink ) : ?>
+						<a class="cart-drawer-cart__name" href="<?php echo esc_url( $product_permalink ); ?>"><?php echo esc_html( $product_name ); ?></a>
+					<?php else : ?>
+						<span class="cart-drawer-cart__name"><?php echo esc_html( $product_name ); ?></span>
+					<?php endif; ?>
+					<button
+						type="button"
+						class="cart-drawer-cart__remove"
+						data-ts-cart-item-remove
+						data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>"
+						aria-label="<?php echo esc_attr( $remove_label ); ?>"
+					>
+						<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'trash' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+					</button>
+				</div>
 				<?php tailwindscore_render_cart_line_item_meta( $cart_item, $cart_item_key ); ?>
 				<span class="cart-drawer-cart__quantity">
 					<?php
@@ -72,15 +82,14 @@ $remove_label      = sprintf(
 			<?php
 			tailwindscore_render_quantity_input(
 				array(
-					'input_id'       => 'cart-qty-' . $cart_item_key,
-					'input_name'     => $quantity_name,
-					'input_value'    => (string) $cart_item['quantity'],
-					'min_value'      => '0',
-					'max_value'      => $max_quantity,
-					'cart_item_key'  => $cart_item_key,
-					'context'        => $context,
-					'aria_label'     => __( 'Product quantity', 'woocommerce' ),
-					'remove_label'   => $remove_label,
+					'input_id'      => 'cart-qty-' . $cart_item_key,
+					'input_name'    => $quantity_name,
+					'input_value'   => (string) $cart_item['quantity'],
+					'min_value'     => '0',
+					'max_value'     => $max_quantity,
+					'cart_item_key' => $cart_item_key,
+					'context'       => $context,
+					'aria_label'    => __( 'Product quantity', 'woocommerce' ),
 				)
 			);
 			?>
@@ -93,6 +102,7 @@ $remove_label      = sprintf(
 					aria-label="<?php esc_attr_e( 'Edit options', 'tailwindscore' ); ?>"
 				>
 					<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'pencil' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+					<span class="cart-drawer-cart__edit-label"><?php esc_html_e( 'Edit', 'tailwindscore' ); ?></span>
 				</button>
 			<?php endif; ?>
 		</div>

@@ -410,7 +410,8 @@ function renderCartItemEditButton(item: StoreApiCartItem, config: TailwindscoreC
 		return '';
 	}
 
-	const label = escapeHtml(config.cartItemEdit.i18n.title);
+	const ariaLabel = escapeHtml(config.cartItemEdit.i18n.title);
+	const visibleLabel = escapeHtml(config.cartItemEdit.i18n.edit);
 
 	return `
 		<button
@@ -418,9 +419,26 @@ function renderCartItemEditButton(item: StoreApiCartItem, config: TailwindscoreC
 			class="cart-drawer-cart__edit"
 			data-ts-cart-item-edit
 			data-cart-item-key="${escapeHtml(item.key)}"
-			aria-label="${label}"
+			aria-label="${ariaLabel}"
 		>
 			<span class="icon" aria-hidden="true">${config.icons.pencil}</span>
+			<span class="cart-drawer-cart__edit-label">${visibleLabel}</span>
+		</button>
+	`;
+}
+
+function renderCartItemRemoveButton(item: StoreApiCartItem, config: TailwindscoreCartConfig): string {
+	const label = escapeHtml(config.i18n.removeItem);
+
+	return `
+		<button
+			type="button"
+			class="cart-drawer-cart__remove"
+			data-ts-cart-item-remove
+			data-cart-item-key="${escapeHtml(item.key)}"
+			aria-label="${label}"
+		>
+			<span class="icon" aria-hidden="true">${config.icons.trash}</span>
 		</button>
 	`;
 }
@@ -437,10 +455,7 @@ function renderCartItem(item: StoreApiCartItem, config: TailwindscoreCartConfig)
 	const maxAttribute = typeof maxQuantity === 'number' && Number.isFinite(maxQuantity) ? ` max="${maxQuantity}"` : '';
 	const productUrl = item.permalink ? escapeHtml(item.permalink) : '';
 	const productName = escapeHtml(item.name);
-	const isRemoveStep = item.quantity < 2;
-	const decreaseLabel = escapeHtml(isRemoveStep ? config.i18n.removeItem : config.i18n.decreaseQuantity);
-	const decreaseIcon = isRemoveStep ? config.icons.trash : config.icons.minus;
-	const decreaseClass = isRemoveStep ? 'quantity__step quantity__step--remove' : 'quantity__step';
+	const decreaseLabel = escapeHtml(config.i18n.decreaseQuantity);
 
 	return `
 		<li class="cart-drawer-cart__item" data-ts-cart-item data-cart-item-key="${escapeHtml(item.key)}">
@@ -450,7 +465,10 @@ function renderCartItem(item: StoreApiCartItem, config: TailwindscoreCartConfig)
 			<div class="cart-drawer-cart__content stack">
 				<div class="cart-drawer-cart__row">
 					<div class="cart-drawer-cart__meta stack">
-						${productUrl ? `<a class="cart-drawer-cart__name" href="${productUrl}">${productName}</a>` : `<span class="cart-drawer-cart__name">${productName}</span>`}
+						<div class="cart-drawer-cart__title">
+							${productUrl ? `<a class="cart-drawer-cart__name" href="${productUrl}">${productName}</a>` : `<span class="cart-drawer-cart__name">${productName}</span>`}
+							${renderCartItemRemoveButton(item, config)}
+						</div>
 						${renderCartLineItemMeta(item)}
 						<span class="cart-drawer-cart__quantity">${item.quantity} x ${escapeHtml(unitPrice)}</span>
 					</div>
@@ -459,12 +477,12 @@ function renderCartItem(item: StoreApiCartItem, config: TailwindscoreCartConfig)
 					<div class="quantity quantity quantity-compact" data-ts-quantity data-ts-cart-quantity-controls>
 						<button
 							type="button"
-							class="${decreaseClass}"
+							class="quantity__step"
 							data-ts-quantity-step="-1"
 							data-cart-item-key="${escapeHtml(item.key)}"
 							aria-label="${decreaseLabel}"
 						>
-							<span class="icon" aria-hidden="true">${decreaseIcon}</span>
+							<span class="icon" aria-hidden="true">${config.icons.minus}</span>
 						</button>
 						<label class="screen-reader-text" for="cart-qty-${escapeHtml(item.key)}">${escapeHtml(config.i18n.quantityLabel)}</label>
 						<input
@@ -702,7 +720,7 @@ function syncPendingCartItems() {
 
 		item
 			.querySelectorAll<HTMLButtonElement | HTMLInputElement>(
-				'[data-ts-quantity-step], [data-ts-quantity-input], [data-ts-cart-item-edit]',
+				'[data-ts-quantity-step], [data-ts-quantity-input], [data-ts-cart-item-edit], [data-ts-cart-item-remove]',
 			)
 			.forEach((control) => {
 				control.disabled = isPending;
@@ -1158,6 +1176,26 @@ function bindQuantityControls() {
 		const target = event.target;
 
 		if (!(target instanceof Element)) {
+			return;
+		}
+
+		const removeButton = target.closest<HTMLButtonElement>('[data-ts-cart-item-remove]');
+
+		if (removeButton) {
+			event.preventDefault();
+
+			const cartItemKey = removeButton.dataset.cartItemKey;
+
+			if (!cartItemKey || removeButton.disabled) {
+				return;
+			}
+
+			try {
+				await removeCartItem(cartItemKey);
+			} catch (error) {
+				reportCartError(error);
+			}
+
 			return;
 		}
 
