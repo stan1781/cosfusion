@@ -1,5 +1,10 @@
 # Quick View 模块变更记录
 
+## 0.1.12
+
+- 改进：可变品 QV（及 cart-item-edit）尺码选择器下方显示与 PDP 相同的选码 inline 测量摘要；不含 Size Guide 整表弹窗。
+- HTML 嵌入 `data-ts-size-guide-config`；模板挂 `variation-row--size` + `tailwindscore_after_size_attribute_value`。
+
 ## 0.1.11
 
 - 修复：Customizer「生效页面」字段由误用的 `checkbox` 改为 `multicheck`，恢复单品页 / 首页 / 购物车 / 404 等多选项。

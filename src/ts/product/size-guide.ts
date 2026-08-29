@@ -115,7 +115,12 @@ function syncUnitToggle(unitToggle: Element | null, unit: 'cm' | 'inch'): void {
 	});
 }
 
-function initModal(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inch', setUnit: (u: 'cm' | 'inch') => void): void {
+function initModal(
+	cfg: SizeGuideConfig,
+	getUnit: () => 'cm' | 'inch',
+	setUnit: (u: 'cm' | 'inch') => void,
+	inlineRoot: ParentNode,
+): void {
 	const dialog = document.getElementById('ts-size-guide-dialog') as HTMLDialogElement | null;
 	const body = document.querySelector('[data-ts-size-guide-body]');
 	const unitToggle = document.querySelector('[data-ts-size-guide-unit-toggle]');
@@ -147,7 +152,7 @@ function initModal(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inch', setUnit: 
 				setUnit(u);
 				syncUnitToggle(unitToggle, u);
 				updateBody();
-				updateInline(cfg, getUnit());
+				updateInline(inlineRoot, cfg, getUnit());
 			});
 		});
 	}
@@ -168,10 +173,6 @@ function initModal(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inch', setUnit: 
 	updateBody();
 }
 
-function findSizeRow(): HTMLElement | null {
-	return document.querySelector('.variation-row--size');
-}
-
 function getSelectedSizeSlug(form: HTMLFormElement, bindAttr: string): string {
 	const slug = bindAttr.replace(/^attribute_/, '');
 	const selectors = [`select[name="attribute_${slug}"]`, `select[name="attribute_pa_${slug}"]`, `select[name="attribute_${bindAttr}"]`];
@@ -187,8 +188,8 @@ function getSelectedSizeSlug(form: HTMLFormElement, bindAttr: string): string {
 	return val ? normalizeSlug(val) : '';
 }
 
-function updateInline(cfg: SizeGuideConfig, unit: 'cm' | 'inch'): void {
-	const inline = document.querySelector('[data-ts-size-guide-inline]');
+function updateInline(root: ParentNode, cfg: SizeGuideConfig, unit: 'cm' | 'inch'): void {
+	const inline = root.querySelector('[data-ts-size-guide-inline]');
 	if (!inline || !cfg.inlineEnabled) {
 		return;
 	}
@@ -199,7 +200,7 @@ function updateInline(cfg: SizeGuideConfig, unit: 'cm' | 'inch'): void {
 		return;
 	}
 
-	const form = document.querySelector<HTMLFormElement>('form.variations_form');
+	const form = root.querySelector<HTMLFormElement>('form.variations_form');
 	if (!form) {
 		return;
 	}
@@ -223,13 +224,13 @@ function updateInline(cfg: SizeGuideConfig, unit: 'cm' | 'inch'): void {
 	inline.removeAttribute('hidden');
 }
 
-function bindVariationListeners(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inch'): void {
-	const form = document.querySelector<HTMLFormElement>('form.variations_form');
+function bindVariationListeners(root: ParentNode, cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inch'): void {
+	const form = root.querySelector<HTMLFormElement>('form.variations_form');
 	if (!form) {
 		return;
 	}
 
-	const onChange = (): void => updateInline(cfg, getUnit());
+	const onChange = (): void => updateInline(root, cfg, getUnit());
 
 	form.addEventListener('click', (e) => {
 		const t = e.target;
@@ -246,6 +247,40 @@ function bindVariationListeners(cfg: SizeGuideConfig, getUnit: () => 'cm' | 'inc
 	});
 
 	onChange();
+}
+
+function parseEmbeddedConfig(root: ParentNode): SizeGuideConfig | null {
+	const el = root.querySelector('[data-ts-size-guide-config]');
+	if (!el?.textContent?.trim()) {
+		return null;
+	}
+
+	try {
+		const parsed: unknown = JSON.parse(el.textContent);
+		if (!parsed || typeof parsed !== 'object') {
+			return null;
+		}
+		const cfg = parsed as SizeGuideConfig;
+		return cfg.enabled ? cfg : null;
+	} catch {
+		return null;
+	}
+}
+
+/**
+ * QV / cart-item-edit：从 root 内嵌 JSON 初始化选码 inline（无弹窗、单位用 defaultUnit）。
+ */
+export function initSizeGuideInlineInRoot(root: HTMLElement): void {
+	const cfg = parseEmbeddedConfig(root);
+	if (!cfg?.inlineEnabled || !cfg.table) {
+		return;
+	}
+	if (!cfg.hasContent && cfg.displayMode !== 'always') {
+		return;
+	}
+
+	const unit: 'cm' | 'inch' = cfg.defaultUnit === 'inch' ? 'inch' : 'cm';
+	bindVariationListeners(root, cfg, () => unit);
 }
 
 export function initSizeGuide(): void {
@@ -268,9 +303,9 @@ export function initSizeGuide(): void {
 		currentUnit = u;
 	};
 
-	initModal(cfg, getUnit, setUnit);
+	initModal(cfg, getUnit, setUnit, document);
 	if (cfg.inlineEnabled && cfg.table) {
-		bindVariationListeners(cfg, getUnit);
+		bindVariationListeners(document, cfg, getUnit);
 	}
 }
 

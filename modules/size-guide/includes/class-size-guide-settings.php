@@ -125,3 +125,30 @@ final class Tailwindscore_Size_Guide_Settings {
 function tailwindscore_size_guide_config( ?int $product_id = null ): ?array {
 	return Tailwindscore_Size_Guide_Settings::get_frontend_config( $product_id );
 }
+
+/**
+ * 输出 QV / cart-edit 用的 sizeGuide JSON（供选码 inline；无 table 或未开 inline 则跳过）。
+ *
+ * @param int $product_id 商品 ID。
+ */
+function tailwindscore_print_size_guide_config_script( int $product_id ): void {
+	$product_id = absint( $product_id );
+	if ( $product_id < 1 ) {
+		return;
+	}
+
+	$cfg = tailwindscore_size_guide_config( $product_id );
+	if ( null === $cfg || empty( $cfg['inlineEnabled'] ) || empty( $cfg['table'] ) ) {
+		return;
+	}
+
+	$json = wp_json_encode( $cfg );
+	if ( ! is_string( $json ) || '' === $json ) {
+		return;
+	}
+
+	printf(
+		'<script type="application/json" data-ts-size-guide-config>%s</script>',
+		$json // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON payload for TS.
+	);
+}

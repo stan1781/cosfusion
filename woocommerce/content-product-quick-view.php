@@ -20,6 +20,11 @@ if ( ! $product instanceof WC_Product || ! $product->is_purchasable() ) {
 ?>
 
 <div <?php wc_product_class( 'wc-product-detail quick-view-product', $product ); ?>>
+	<?php
+	if ( function_exists( 'tailwindscore_print_size_guide_config_script' ) ) {
+		tailwindscore_print_size_guide_config_script( (int) $product->get_id() );
+	}
+	?>
 	<div class="wc-product-detail__media">
 		<?php tailwindscore_render_loop_product_images( $product ); ?>
 	</div>

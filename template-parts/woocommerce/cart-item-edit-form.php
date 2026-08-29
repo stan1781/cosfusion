@@ -33,6 +33,11 @@ $display_name                  = $variation_product instanceof WC_Product ? $var
 	data-ts-cart-item-edit-form
 	data-cart-item-key="<?php echo esc_attr( $cart_item_key ); ?>"
 >
+	<?php
+	if ( function_exists( 'tailwindscore_print_size_guide_config_script' ) ) {
+		tailwindscore_print_size_guide_config_script( (int) $edit_product->get_id() );
+	}
+	?>
 	<p class="cart-item-edit-form__name"><?php echo esc_html( $display_name ); ?></p>
 
 	<div class="cart-item-edit-form__variations">

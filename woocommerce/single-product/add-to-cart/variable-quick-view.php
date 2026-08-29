@@ -48,12 +48,14 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 		<div class="variations variations quick-view-variations" role="presentation">
 			<?php foreach ( $attributes as $attribute_name => $options ) : ?>
 				<?php
-				$attr_slug = sanitize_title( $attribute_name );
-				$selected  = $selected_variation_attributes[ $attribute_name ]
+				$is_size_attribute = function_exists( 'tailwindscore_is_size_variation_attribute' )
+					&& tailwindscore_is_size_variation_attribute( $attribute_name );
+				$attr_slug         = sanitize_title( $attribute_name );
+				$selected          = $selected_variation_attributes[ $attribute_name ]
 					?? $selected_variation_attributes[ 'attribute_' . $attr_slug ]
 					?? ( isset( $_REQUEST[ 'attribute_' . $attr_slug ] ) ? wc_clean( wp_unslash( $_REQUEST[ 'attribute_' . $attr_slug ] ) ) : $product->get_variation_default_attribute( $attribute_name ) ); // phpcs:ignore WordPress.Security.NonceVerification
 				?>
-				<div class="variation-row variation-row">
+				<div class="variation-row variation-row<?php echo $is_size_attribute ? ' variation-row--size' : ''; ?>">
 					<div class="label variation-row__label">
 						<label for="<?php echo esc_attr( $attr_slug ); ?>">
 							<?php echo wc_attribute_label( $attribute_name ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>:
@@ -110,6 +112,16 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 						}
 
 						echo '</ul>';
+
+						if ( $is_size_attribute ) {
+							/**
+							 * 尺码属性值行之后（内联尺码测量；QV 不挂 Size Guide 按钮）。
+							 *
+							 * @param string     $attribute_name 属性键。
+							 * @param WC_Product $product        商品对象。
+							 */
+							do_action( 'tailwindscore_after_size_attribute_value', $attribute_name, $product );
+						}
 						?>
 					</div>
 				</div>

@@ -2,6 +2,7 @@ import {
 	collectVariationFromUi,
 	initVariationForm,
 } from '../product/variation-engine';
+import { initSizeGuideInlineInRoot } from '../product/size-guide';
 
 /**
  * Initialize variation forms inside Quick View or cart-item-edit content.
@@ -15,6 +16,7 @@ export async function initQuickViewVariations(root: HTMLElement): Promise<void> 
 			}
 		},
 	});
+	initSizeGuideInlineInRoot(root);
 }
 
 export { collectVariationFromUi };
