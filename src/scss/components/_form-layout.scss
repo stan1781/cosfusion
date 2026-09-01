@@ -1,6 +1,6 @@
 @use "../abstracts/mixins";
 
-// Floating layout computed tokens: abstracts/_root.scss
+// Floating layout: notch label on border-top (tokens in abstracts/_root.scss)
 
 .field {
 	display: flex;
@@ -41,10 +41,11 @@
 	display: block;
 }
 
-// --- Floating: label inside bordered control (48px / 3rem controls) ---
+// --- Floating: notch label on border-top (same height as normal controls) ---
 
-.form-layout-floating {
-	--ts-control-min-height: var(--ts-form-floating-min-height);
+// 骑边标签半悬在字段上方，避免与上一字段重叠。
+.form-layout-floating .field:not(.field-choice) {
+	padding-top: var(--ts-spacer-2);
 }
 
 .form-layout-floating .field__float {
@@ -54,29 +55,74 @@
 }
 
 .form-layout-floating .field__float :is(input, select).form-control {
-	height: var(--ts-form-floating-min-height);
-	min-height: var(--ts-form-floating-min-height);
+	height: var(--ts-control-min-height);
+	min-height: var(--ts-control-min-height);
 }
 
-// Empty: room for centered label; filled/focused: value sits under top label (avoids select clipping).
-.form-layout-floating .field__float:not(.is-filled):not(:focus-within) :is(input, select).form-control {
-	padding-block: var(--ts-form-padding-y);
+// Chevron + appearance: components/_forms.scss (global on select.form-control).
+
+.form-layout-floating .field__float textarea.form-control {
+	min-height: var(--ts-form-floating-textarea-min-height);
+	height: auto;
 }
 
-.form-layout-floating .field__float:is(.is-filled, :focus-within) input.form-control {
-	padding-top: var(--ts-form-floating-value-padding-top);
-	padding-bottom: var(--ts-form-padding-y);
-	line-height: 1.25;
+.form-layout-floating .field__float .field__label {
+	position: absolute;
+	z-index: 1;
+	// 仅锚左侧；宽度随文案收缩（勿用 inset-inline 拉满）。
+	inset-inline-start: var(--ts-form-padding-x);
+	inset-inline-end: auto;
+	top: 50%;
+	width: max-content;
+	max-width: calc(100% - 2 * var(--ts-form-padding-x));
+	margin: 0;
+	transform: translateY(-50%);
+	padding-inline: 0;
+	font-size: var(--ts-font-size-base);
+	font-weight: 400;
+	line-height: 1.2;
+	color: var(--ts-text-secondary);
+	background-color: transparent;
+	pointer-events: none;
+	transition:
+		top 0.15s ease,
+		transform 0.15s ease,
+		font-size 0.15s ease,
+		color 0.15s ease,
+		background-color 0.15s ease,
+		padding 0.15s ease;
 }
 
-// Select: fixed 48px + large padding-top clips the option text on Windows/Chromium.
-.form-layout-floating .field__float:is(.is-filled, :focus-within) select.form-control {
-	padding-top: var(--ts-form-floating-value-padding-top);
-	padding-bottom: calc(var(--ts-spacer-1) / 2);
-	line-height: 1;
+// Textarea empty: align label with the first line band, not the vertical center of the whole box.
+.form-layout-floating
+	.field__float:has(textarea):not(.is-filled):not(:focus-within)
+	.field__label {
+	top: calc(var(--ts-control-min-height) / 2);
+	transform: translateY(-50%);
+	font-size: var(--ts-font-size-base);
 }
 
-// Date / time：浏览器空值仍绘制原生占位（年/月/日、--:--），标签不能居中叠在上面。
+// 激活：标签骑在顶边中线，surface 背景切开边框（宽度仍随文案）。
+.form-layout-floating .field__float:focus-within .field__label,
+.form-layout-floating .field__float.is-filled .field__label {
+	top: 0;
+	transform: translateY(-50%);
+	font-size: var(--ts-font-size-xs);
+	background-color: var(--ts-surface);
+	padding-inline: var(--ts-spacer-1);
+	inset-inline-start: calc(var(--ts-form-padding-x) - var(--ts-spacer-1));
+	inset-inline-end: auto;
+}
+
+.form-layout-floating .field__float:focus-within .field__label {
+	color: var(--ts-text-secondary);
+}
+
+.form-layout-floating .field__float.is-filled:not(:focus-within) .field__label {
+	color: var(--ts-text-secondary);
+}
+
+// Date / time：浏览器空值仍绘制原生占位，标签始终上浮（骑边）。
 .form-layout-floating
 	.field__float:has(
 		:is(
@@ -86,81 +132,16 @@
 			input[type="month"],
 			input[type="week"]
 		)
-	) {
+	)
 	.field__label {
-		top: var(--ts-form-floating-label-active-top);
-		transform: none;
-		font-size: var(--ts-font-size-xs);
-		color: var(--ts-text-secondary);
-	}
-
-	// 覆盖空态 `:not(.is-filled):not(:focus-within) … padding-block`（特异性需更高）。
-	&:not(.is-filled):not(:focus-within) input.form-control {
-		padding-top: var(--ts-form-floating-value-padding-top);
-		padding-bottom: var(--ts-form-padding-y);
-		line-height: 1.25;
-	}
-}
-
-// Chevron + appearance: components/_forms.scss (global on select.form-control).
-
-// Single min-height for all states — only padding changes on focus/fill (avoids height jump).
-.form-layout-floating .field__float textarea.form-control {
-	min-height: var(--ts-form-floating-textarea-min-height);
-	height: auto;
-}
-
-.form-layout-floating .field__float:not(.is-filled):not(:focus-within) textarea.form-control {
-	padding-block: var(--ts-form-padding-y);
-}
-
-// 导致textarea高度不正常
-// .form-layout-floating .field__float:is(.is-filled, :focus-within) textarea.form-control {
-// 	padding-top: calc(var(--ts-form-floating-value-padding-top) + 0.25rem);
-// 	padding-bottom: var(--ts-form-padding-y);
-// }
-
-.form-layout-floating .field__float .field__label {
-	position: absolute;
-	z-index: 1;
-	inset-inline: var(--ts-form-padding-x);
-	top: 50%;
-	margin: 0;
+	top: 0;
 	transform: translateY(-50%);
-	font-size: var(--ts-font-size-base);
-	font-weight: 400;
-	line-height: 1.2;
-	color: var(--ts-text-secondary);
-	pointer-events: none;
-	transition:
-		top 0.15s ease,
-		transform 0.15s ease,
-		font-size 0.15s ease,
-		color 0.15s ease;
-}
-
-// Textarea empty: align label with the first line (48px band), not the vertical center of the whole box.
-.form-layout-floating
-	.field__float:has(textarea):not(.is-filled):not(:focus-within)
-	.field__label {
-	top: calc(var(--ts-form-floating-min-height) / 2);
-	transform: translateY(-50%);
-	font-size: var(--ts-font-size-base);
-}
-
-.form-layout-floating .field__float:focus-within .field__label,
-.form-layout-floating .field__float.is-filled .field__label {
-	top: var(--ts-form-floating-label-active-top);
-	transform: none;
 	font-size: var(--ts-font-size-xs);
-}
-
-.form-layout-floating .field__float:focus-within .field__label {
 	color: var(--ts-text-secondary);
-}
-
-.form-layout-floating .field__float.is-filled:not(:focus-within) .field__label {
-	color: var(--ts-text-secondary);
+	background-color: var(--ts-surface);
+	padding-inline: var(--ts-spacer-1);
+	inset-inline-start: calc(var(--ts-form-padding-x) - var(--ts-spacer-1));
+	inset-inline-end: auto;
 }
 
 // Autofill detection (paired with form-floating.ts)

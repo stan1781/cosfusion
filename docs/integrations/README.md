@@ -35,9 +35,9 @@
 - 插件 SSR 类名须对齐主题约定（**无** `ts-` 前缀）：`mailnest-subscribe*`、`mailnest-contact-form*`、`btn` / `form-control` / `input-group` / `input-inline` / `input-stack`、`field` / `form-layout-*`；行为钩子仍用 `data-ts-mailnest-*`
 - 订阅 `form_style` 与全局控件组类名一致：`input-group` / `input-inline` / `input-stack`
 - 订阅按钮样式（后台 `button_color`）：仅 `primary` / `secondary` / `outline`（→ `btn` / `btn-secondary` / `btn-outline`）；`form_size` 仅默认或 `sm`（→ `btn-sm`）
-- 联系表单 `form_style`：`stacked` → `form-layout-stacked`；`floating` → `form-layout-floating`（字段用 `.field` / `.form-control`）
+- 联系表单 `form_style`：`stacked` → `form-layout-stacked`；`floating` → `form-layout-floating`（字段用 `.field` / `.form-control`；高度与普通 `form-control` 一致）
 - 联系表单字段校验：提交 / blur 显示 `data-ts-mailnest-field-error`；字段变为有效时在 `input` / `change` / blur 清除；再次提交前会先清空再只标仍无效的字段
-- floating 下 `date` / `time` / `datetime-local`（及 `month` / `week`）：浏览器空值仍有原生占位，标签始终上浮（见 `_form-layout.scss`）；点击整块控件调用 `showPicker()`（见 `form-floating.ts`）；stacked 上标签 `for=` 激活不打开选择器
+- floating：空态标签居中于控件内；聚焦 / `is-filled` 时标签骑在顶边（`--ts-surface` 背景切开边框）；`date` / `time` / `datetime-local`（及 `month` / `week`）因浏览器空值仍有原生占位，标签始终上浮；点击整块控件调用 `showPicker()`（见 `form-floating.ts`）；stacked 上标签 `for=` 激活不打开选择器
 
 ### wc-order-process-manager
 

@@ -61,14 +61,8 @@
 	--ts-control-min-height: #{variables.$ts-control-min-height};
 	--ts-form-padding-y: #{variables.$ts-form-padding-y};
 	--ts-form-padding-x: #{variables.$ts-form-padding-x};
-	--ts-form-floating-min-height: #{variables.$ts-form-floating-min-height};
-	--ts-form-floating-label-active-top: #{variables.$ts-form-floating-label-active-top};
-	--ts-form-floating-value-padding-top: calc(
-		var(--ts-form-floating-label-active-top) + var(--ts-font-size-xs) + var(--ts-spacer-1)
-	);
 	--ts-form-floating-textarea-min-height: calc(
-		#{variables.$ts-form-textarea-min-rows} * 1.25em + var(--ts-form-floating-value-padding-top) + var(--ts-spacer-1) +
-			var(--ts-form-padding-y)
+		#{variables.$ts-form-textarea-min-rows} * 1.25em + 2 * var(--ts-form-padding-y)
 	);
 
 	color-scheme: light;

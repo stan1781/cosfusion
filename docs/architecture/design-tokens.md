@@ -31,7 +31,7 @@ TailwindScore 使用 **SCSS 变量 → `:root` CSS 变量 → 组件 `var(--ts-*
 | 阴影 | `--ts-shadow-sm`、`md`、`lg` |
 | 布局 | `--ts-container-max`、`$ts-drawer-width` / `--ts-drawer-width` |
 | z-index | `--ts-z-sticky`、`panel`、`drawer`、`modal`、`toast` |
-| 控件 | `--ts-control-min-height`、`--ts-form-padding-*`、`--ts-btn-padding-*`；floating 表单另有 `--ts-form-floating-*` |
+| 控件 | `--ts-control-min-height`、`--ts-form-padding-*`、`--ts-btn-padding-*`；floating 与普通控件同高，另有 `--ts-form-floating-textarea-min-height`（激活标签骑顶边 + `--ts-surface` 切口） |
 
 单页尺寸（hero 高度、search 最大宽、section 垂直间距等）**不进全局 token**，写在对应组件局部 Sass 变量中。
 
