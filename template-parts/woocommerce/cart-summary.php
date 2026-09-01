@@ -33,10 +33,10 @@ $subtotal_after  = max( 0, $subtotal_before - $discount_total );
 			<p class="wc-cart__shipping-note"><?php esc_html_e( 'Shipping and taxes calculated at checkout.', 'tailwindscore' ); ?></p>
 		<?php endif; ?>
 	</div>
-	<a class="btn<?php echo $is_cart_page ? ' btn-primary' : ''; ?>" href="<?php echo esc_url( tailwindscore_checkout_url() ); ?>" data-ts-button-loading>
-		<?php esc_html_e( 'Checkout', 'tailwindscore' ); ?>
-	</a>
 	<?php if ( ! $is_cart_page ) : ?>
+		<a class="btn" href="<?php echo esc_url( tailwindscore_checkout_url() ); ?>" data-ts-button-loading>
+			<?php esc_html_e( 'Checkout', 'tailwindscore' ); ?>
+		</a>
 		<a class="cart-drawer-cart__view-cart" href="<?php echo esc_url( tailwindscore_cart_url() ); ?>"><?php esc_html_e( 'View cart', 'tailwindscore' ); ?></a>
 	<?php endif; ?>
 </div>

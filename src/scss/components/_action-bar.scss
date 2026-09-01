@@ -1,0 +1,149 @@
+@use "../abstracts/mixins";
+
+// 购物车页底部操作栏（白底、圆角、阴影；结账 Place order 栏可复用同类）。
+.action-bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ts-spacer-3);
+	padding: var(--ts-spacer-2) var(--ts-spacer-3);
+	border: 1px solid var(--ts-border-color);
+	border-radius: var(--ts-border-radius-lg);
+	background: var(--ts-surface);
+	box-shadow: var(--ts-shadow-lg);
+}
+
+.action-bar--fixed {
+	position: fixed;
+	left: 50%;
+	bottom: calc(var(--ts-spacer-2) + env(safe-area-inset-bottom, 0px));
+	z-index: var(--ts-z-sticky);
+	width: min(calc(100vw - var(--ts-spacer-4)), var(--ts-container-max));
+	transform: translateX(-50%);
+
+	@include mixins.ts-down(md) {
+		width: 100%;
+		padding: var(--ts-spacer-2);
+		border-radius: 0;
+		align-items: flex-start;
+		transform: none;
+		left: 0;
+		bottom: 0;
+	}
+}
+
+.action-bar__secondary-link {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--ts-spacer-1);
+	min-width: 0;
+	color: var(--ts-text-primary);
+	font-size: var(--ts-font-size-sm);
+	font-weight: 400;
+	line-height: 1.35;
+	text-decoration: none;
+	transition: color 0.15s ease;
+
+	@include mixins.ts-down(md) {
+		flex: 1 1 auto;
+	}
+}
+
+.action-bar__secondary-icon {
+	display: inline-flex;
+	flex-shrink: 0;
+	width: 1rem;
+	height: 1rem;
+
+	.icon,
+	svg {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.action-bar__secondary-label {
+	min-width: 0;
+}
+
+@media (hover: hover) {
+	.action-bar__secondary-link:hover {
+		color: var(--ts-primary);
+	}
+}
+
+.action-bar__primary {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	gap: 0.125rem;
+	min-width: 0;
+	max-width: 20rem;
+	margin-inline-start: auto;
+}
+
+.action-bar__cta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--ts-spacer-1);
+	min-height: 2.75rem;
+	padding-inline: var(--ts-spacer-3);
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.action-bar__cta-label {
+	min-width: 0;
+}
+
+.action-bar__cta-icon {
+	display: inline-flex;
+	flex-shrink: 0;
+	width: 1rem;
+	height: 1rem;
+
+	.icon,
+	svg {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.wc-cart__action-bar .action-bar__primary {
+	flex: 0 1 auto;
+	flex-direction: row;
+	max-width: none;
+}
+
+// 购物车：body 预留底栏高度，避免内容被挡住。
+body.woocommerce-cart {
+	--ts-action-bar-height: 5.5rem;
+	padding-bottom: calc(
+		var(--ts-action-bar-height) + var(--ts-spacer-2) + env(safe-area-inset-bottom, 0px)
+	);
+}
+
+body.ts-site-footer-hidden.woocommerce-cart {
+	@include mixins.ts-up(md) {
+		padding-bottom: calc(
+			var(--ts-action-bar-height) + var(--ts-spacer-3) + env(safe-area-inset-bottom, 0px)
+		);
+	}
+}
+
+@include mixins.ts-down(md) {
+	.wc-cart__action-bar {
+		flex-wrap: wrap;
+		align-items: stretch;
+	}
+
+	.wc-cart__action-bar .action-bar__primary {
+		flex: 1 1 100%;
+		margin-inline-start: 0;
+	}
+
+	.wc-cart__action-bar .action-bar__cta {
+		width: 100%;
+	}
+}

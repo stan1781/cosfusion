@@ -35,6 +35,8 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 - 结账 Payment 区隐藏空的 PPCP `.ppcp-messages`（Pay Later 占位未出文案时避免 flex gap 留白；`_checkout.scss`）
 - 结账条款文案 `.woocommerce-terms-and-conditions-wrapper`：`--ts-font-size-xs` + `--ts-text-muted`；内链用 `--ts-link-color` + underline（覆盖全局 `a { color: inherit }`）
 - 结账 **Terms / Privacy modal**（`checkout-legal-modals.php` + `legal-modals.ts`）：点击条款或隐私政策链接打开原生 `<dialog>` 展示对应页面全文；移除 Woo 内联条款 slideToggle 区块；无 JS 时链接仍指向页面 permalink
+- 购物车 / 结账表单页默认不输出站点页脚（Kirki `footer_hide_on_cart` / `footer_hide_on_checkout`；订单成功页仍显示；见 [站点壳层](site-shell.md)）
+- 购物车页 **底部固定操作栏**（`cart-action-bar.php` + `renderCartFixedActionBar`）：Continue shopping + Checkout（含订单总额）；侧栏仅 totals / coupon，不重复 CTA；空车不渲染；`body.woocommerce-cart` 预留 `--ts-action-bar-height`
 - **订单成功页**（`order-received`）：对齐 Starcore 布局——Hero（可配置标题/副标题）+ 三格 overview stats + 行项摘要/总计 + 侧栏配送方式与地址 + Next steps + Actions；移除 Woo 默认 `woocommerce_order_details_table` 以免重复
 - **WhatsApp CTA**（成功页）：号码未配置时不渲染；预填消息支持 `{order_number}` / `{order_total}`（Customizer → 设计 → 联络方式）。**页头顶栏 / FAB 本轮未接入**
 - Store API 缓存优化（`store-api-cache.php`）
@@ -112,10 +114,11 @@ npm run build
 1. 单品加购 → Drawer 自动打开
 2. Drawer 内数量更新、删除商品
 3. 优惠码成功/失败反馈位置正确
-4. Checkout CTA 跳转正常
+4. Checkout CTA 跳转正常（购物车页底部固定栏；Drawer 内 CTA）
 5. 结账页阻塞型校验错误可见
 6. Toast：桌面右上卡片；手机顶部全宽；向上拖动手柄可关闭
 7. 订单成功：Hero / stats / 行项 / 地址 / next steps；配置 WhatsApp 后出现 CTA，清空号码后消失；失败单仍显示 Pay；无重复 Woo 订单详情表
+8. 购物车有货：底部固定栏可见、侧栏无 Checkout、改数量后栏内总额更新；空车无底栏
 
 ## 相关文档
 

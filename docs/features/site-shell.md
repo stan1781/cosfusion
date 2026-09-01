@@ -52,13 +52,18 @@
 
 ## 页脚
 
-页脚通过 Kirki 配置：
+页脚通过 Kirki 配置（Customizer → **页脚**）：
 
-- 导航水平对齐：`left` / `center` / `right`（`footer_nav_alignment`）
-- 支付方式图标 repeater
-- Widget 区域与版权信息
+| theme_mod | 类型 | 默认 | 说明 |
+|-----------|------|------|------|
+| `footer_hide_on_cart` | toggle | `true` | 购物车页不输出 `.site-footer` |
+| `footer_hide_on_checkout` | toggle | `true` | 结账表单页不输出 `.site-footer`（`order-received` 仍显示） |
+| `footer_nav_alignment` | radio | `center` | 导航水平对齐：`left` / `center` / `right` |
+| `footer_payment_image` | image | — | 支付方式图标 |
 
-对齐修饰符类：`.site-footer__nav--align-{left|center|right}`。
+隐藏页脚时 `body` 带 `ts-site-footer-hidden`。实现：`inc/navigation/footer-nav.php`（`tailwindscore_site_footer_should_render()`）、`footer.php`。
+
+对齐修饰符类：`.site-footer__nav--align-{left|center|right}`。Widget 区域与版权信息见模板片段。
 
 ## 联络方式（WhatsApp）
 

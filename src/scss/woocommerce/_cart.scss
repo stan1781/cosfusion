@@ -7,16 +7,18 @@
 
 .wc-cart__header {
 	display: grid;
-	gap: var(--ts-spacer-2);
+	gap: 0;
 }
 
 .wc-cart__title {
 	font-size: clamp(1.5rem, 2vw, 2rem);
 	font-weight: 700;
+	margin-bottom: 0;
 }
 
 .wc-cart__summary {
 	color: var(--ts-text-secondary);
+	margin-top: 0;
 }
 
 .wc-cart__items {
@@ -52,15 +54,8 @@
 .wc-cart__aside {
 	display: grid;
 	gap: var(--ts-spacer-3);
-	position: sticky;
-	bottom: 0;
-	z-index: 2;
-	margin-inline: calc(-1 * var(--ts-container-inline-gutter, 1rem));
-	padding: var(--ts-spacer-3) var(--ts-container-inline-gutter, 1rem);
-	padding-bottom: calc(var(--ts-spacer-3) + env(safe-area-inset-bottom, 0));
-	border-top: 1px solid var(--ts-border-color);
-	background: var(--ts-surface);
-	box-shadow: var(--ts-shadow-sm);
+	min-width: 0;
+	padding: var(--ts-spacer-3) 0;
 }
 
 .wc-cart__footer-bar {

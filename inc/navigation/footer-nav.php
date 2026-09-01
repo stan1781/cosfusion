@@ -10,6 +10,44 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * 当前请求是否应输出站点 `.site-footer`。
+ *
+ * 订单成功页（order-received）仍显示页脚；购物车 / 结账表单页可由 Kirki 关闭。
+ */
+function tailwindscore_site_footer_should_render(): bool {
+	$hide = false;
+
+	if ( function_exists( 'is_cart' ) && is_cart() && (bool) tailwindscore_mod( 'footer_hide_on_cart', true ) ) {
+		$hide = true;
+	} elseif (
+		function_exists( 'is_checkout' )
+		&& is_checkout()
+		&& ! ( function_exists( 'is_order_received_page' ) && is_order_received_page() )
+		&& (bool) tailwindscore_mod( 'footer_hide_on_checkout', true )
+	) {
+		$hide = true;
+	}
+
+	/**
+	 * @param bool $show 是否输出站点页脚。
+	 */
+	return (bool) apply_filters( 'tailwindscore_site_footer_should_render', ! $hide );
+}
+
+/**
+ * @param array<int, string> $classes Body class 列表。
+ * @return array<int, string>
+ */
+function tailwindscore_site_footer_body_class( array $classes ): array {
+	if ( ! tailwindscore_site_footer_should_render() ) {
+		$classes[] = 'ts-site-footer-hidden';
+	}
+
+	return $classes;
+}
+add_filter( 'body_class', 'tailwindscore_site_footer_body_class' );
+
+/**
  * 允许的页脚导航对齐值。
  *
  * @return array<string, string>
@@ -136,9 +174,36 @@ function tailwindscore_footer_nav_kirki_register( string $cfg, array $targets ):
 	Kirki::add_field(
 		$cfg,
 		array(
+			'type'        => 'toggle',
+			'settings'    => 'footer_hide_on_cart',
+			'label'       => esc_html__( '购物车页隐藏页脚', 'tailwindscore' ),
+			'description' => esc_html__( '开启后购物车页不输出网站页脚。', 'tailwindscore' ),
+			'section'     => $targets['footer'],
+			'default'     => true,
+			'priority'    => 5,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'        => 'toggle',
+			'settings'    => 'footer_hide_on_checkout',
+			'label'       => esc_html__( '结账页隐藏页脚', 'tailwindscore' ),
+			'description' => esc_html__( '开启后结账表单页不输出网站页脚（订单成功页仍显示）。', 'tailwindscore' ),
+			'section'     => $targets['footer'],
+			'default'     => true,
+			'priority'    => 6,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
 			'type'     => 'custom',
 			'settings' => 'footer_nav_menu_notice',
 			'section'  => $targets['footer'],
+			'priority' => 10,
 			'default'  => '<p class="description">' . esc_html__( '在「外观 → 菜单」中为「Footer Menu」菜单位置指定菜单。链接在版权区域上方以单行横向展示。', 'tailwindscore' ) . '</p>',
 		)
 	);
@@ -151,6 +216,7 @@ function tailwindscore_footer_nav_kirki_register( string $cfg, array $targets ):
 			'label'             => esc_html__( '页脚菜单对齐', 'tailwindscore' ),
 			'section'           => $targets['footer'],
 			'default'           => 'center',
+			'priority'          => 15,
 			'choices'           => tailwindscore_footer_nav_alignment_choices(),
 			'sanitize_callback' => 'tailwindscore_footer_nav_alignment_sanitize',
 		)

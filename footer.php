@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 ?>
+<?php if ( function_exists( 'tailwindscore_site_footer_should_render' ) ? tailwindscore_site_footer_should_render() : true ) : ?>
 	<footer class="site-footer">
 		<div class="container site-footer__inner">
 			<?php if ( is_active_sidebar( 'footer-top' ) ) : ?>
@@ -13,6 +14,7 @@ declare(strict_types=1);
 			<?php get_template_part( 'template-parts/footer/footer-info' ); ?>
 		</div>
 	</footer>
+<?php endif; ?>
 </div>
 <?php
 $ts_show_toast_root = function_exists( 'WC' )

@@ -50,5 +50,6 @@ $cart = WC()->cart;
 				</div>
 			</aside>
 		</div>
+		<?php tailwindscore_render_cart_action_bar(); ?>
 	<?php endif; ?>
 </div>

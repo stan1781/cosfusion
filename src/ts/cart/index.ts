@@ -36,6 +36,7 @@ type CartI18nConfig = {
 	itemRemoved: string;
 	addedToCart: string;
 	shippingAtCheckout: string;
+	continueShoppingBar: string;
 };
 
 type CartIconConfig = {
@@ -45,6 +46,8 @@ type CartIconConfig = {
 	trash: string;
 	pencil: string;
 	gift?: string;
+	'chevron-left'?: string;
+	lock?: string;
 };
 
 type NotificationSelectorConfig = {
@@ -157,6 +160,7 @@ type StoreApiCart = {
 	totals: StoreApiCurrency & {
 		total_items: string;
 		total_discount: string;
+		total_price?: string;
 	};
 	extensions?: {
 		tailwindscore?: {
@@ -270,12 +274,16 @@ function getCartConfig() {
 			itemRemoved: 'Item removed from your cart.',
 			addedToCart: 'Added to your cart.',
 			shippingAtCheckout: 'Shipping and taxes calculated at checkout.',
+			continueShoppingBar: 'Continue shopping',
 		},
 		icons: {
 			plus: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>',
 			minus: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14"></path></svg>',
 			trash: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M6 7l1 12h10l1-12"></path><path d="M9 7V5h6v2"></path></svg>',
 			pencil: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>',
+			'chevron-left':
+				'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 6l-6 6 6 6"></path></svg>',
+			lock: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" stroke-width="1.25"><rect x="5.5" y="11" width="13" height="9" rx="1"></rect><path d="M8.5 11V8.5a3.5 3.5 0 0 1 7 0V11"></path></svg>',
 		},
 	};
 }
@@ -646,6 +654,32 @@ function renderEmptyCartMarkup(config: TailwindscoreCartConfig, wrapperClass: st
 	`;
 }
 
+function renderCartFixedActionBar(cart: StoreApiCart, config: TailwindscoreCartConfig): string {
+	const chevronLeft = config.icons['chevron-left'] ?? '';
+	const lockIcon = config.icons.lock ?? '';
+	const totalHtml = cart.totals.total_price
+		? formatMoney(String(cart.totals.total_price), cart.totals)
+		: '';
+
+	return `
+		<div class="action-bar action-bar--fixed wc-cart__action-bar" data-ts-cart-action-bar>
+			<a class="action-bar__secondary-link" href="${escapeHtml(config.shopUrl)}">
+				<span class="action-bar__secondary-icon" aria-hidden="true"><span class="icon">${chevronLeft}</span></span>
+				<span class="action-bar__secondary-label">${escapeHtml(config.i18n.continueShoppingBar)}</span>
+			</a>
+			<div class="action-bar__primary wc-cart__action-bar-primary">
+				<a class="btn btn-primary action-bar__cta" href="${escapeHtml(config.checkoutUrl)}" data-ts-button-loading>
+					<span class="action-bar__cta-label">
+						${escapeHtml(config.i18n.checkout)}
+						(<span data-ts-cart-checkout-total>${escapeHtml(totalHtml)}</span>)
+					</span>
+					<span class="action-bar__cta-icon" aria-hidden="true"><span class="icon">${lockIcon}</span></span>
+				</a>
+			</div>
+		</div>
+	`;
+}
+
 function renderCartDrawer(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 	if (cart.items.length < 1) {
 		return renderEmptyCartMarkup(config, 'cart-drawer-cart');
@@ -691,11 +725,11 @@ function renderCartPage(cart: StoreApiCart, config: TailwindscoreCartConfig) {
 					<div class="wc-cart__footer-bar">
 						<div class="cart-drawer-cart__footer stack cart-drawer-cart__footer--cart-page" data-ts-cart-footer>
 							${renderCartFooterTotals(cart, config, true)}
-							<a class="btn btn-primary" href="${escapeHtml(config.checkoutUrl)}" data-ts-button-loading>${escapeHtml(config.i18n.checkout)}</a>
 						</div>
 					</div>
 				</aside>
 			</div>
+			${renderCartFixedActionBar(cart, config)}
 		</div>
 	`;
 }

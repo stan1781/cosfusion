@@ -472,7 +472,7 @@
 .cart-drawer-cart__footer {
 	gap: var(--ts-spacer-2);
 	padding: var(--ts-spacer-2) var(--ts-spacer-2) var(--ts-spacer-2);
-	border-top: 1px solid var(--ts-border-color);
+	// border-top: 1px solid var(--ts-border-color);
 	background: var(--ts-surface);
 }
 
@@ -511,6 +511,7 @@
 .cart-drawer-cart__coupon-form label {
 	font-size: var(--ts-font-size-sm);
 	font-weight: 600;
+	display: none;
 }
 
 .cart-drawer-cart__totals--discount {

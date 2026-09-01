@@ -122,6 +122,13 @@ function tailwindscore_render_cart_summary( array $args = array() ): void {
 	tailwindscore_load_woocommerce_template_part( 'cart-summary', $args );
 }
 
+/**
+ * 购物车页底部固定操作栏（Continue shopping + Checkout）。
+ */
+function tailwindscore_render_cart_action_bar(): void {
+	tailwindscore_load_woocommerce_template_part( 'cart-action-bar' );
+}
+
 function tailwindscore_render_cart_feedback( array $args = array() ): void {
 	tailwindscore_load_woocommerce_template_part( 'cart-feedback', $args );
 }
