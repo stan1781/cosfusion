@@ -3,7 +3,7 @@ import { setControlLoading } from '../ui/button-loading';
 
 const LOOP_ADD_TO_CART_SELECTOR = '[data-product-card-actions] .ajax_add_to_cart';
 
-function readLoopProductId(button: HTMLElement) {
+function readLoopProductId(button: HTMLButtonElement | HTMLAnchorElement) {
 	return Number(button.getAttribute('data-product_id') ?? button.dataset.productId ?? '0');
 }
 
@@ -17,14 +17,17 @@ function bindLoopAddToCart() {
 				return;
 			}
 
-			const button = target.closest<HTMLElement>(LOOP_ADD_TO_CART_SELECTOR);
+			const control = target.closest(LOOP_ADD_TO_CART_SELECTOR);
 
-			if (!button || !window.tailwindscoreCart) {
+			if (
+				!(control instanceof HTMLButtonElement || control instanceof HTMLAnchorElement) ||
+				!window.tailwindscoreCart
+			) {
 				return;
 			}
 
-			const productId = readLoopProductId(button);
-			const quantity = Math.max(1, Number(button.dataset.quantity ?? '1'));
+			const productId = readLoopProductId(control);
+			const quantity = Math.max(1, Number(control.dataset.quantity ?? '1'));
 
 			if (productId < 1) {
 				return;
@@ -34,11 +37,11 @@ function bindLoopAddToCart() {
 			event.stopPropagation();
 			event.stopImmediatePropagation();
 
-			setControlLoading(button, true);
+			setControlLoading(control, true);
 
 			try {
 				await addCartItem({ productId, quantity });
-				button.classList.add('added');
+				control.classList.add('added');
 			} catch (error) {
 				console.error(error);
 				notify({
@@ -47,7 +50,7 @@ function bindLoopAddToCart() {
 					surface: 'toast',
 				});
 			} finally {
-				setControlLoading(button, false);
+				setControlLoading(control, false);
 			}
 		},
 		true,
