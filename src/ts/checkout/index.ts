@@ -1,4 +1,5 @@
 import { initCheckoutLoading, refreshCheckoutLoadingHosts, setCheckoutPageLoading } from './loading';
+import { initCheckoutLegalModals } from './legal-modals';
 import { setControlLoading } from '../ui/button-loading';
 
 import { TS_MEDIA_UP } from '../breakpoints';
@@ -144,6 +145,7 @@ function beginCheckoutSubmitLoading(): void {
 function initCheckoutUi(): void {
 	initCheckoutDetails();
 	initCheckoutLoading();
+	initCheckoutLegalModals();
 	initPaymentMethodListClick();
 
 	const checkoutForm = document.querySelector<HTMLFormElement>('form.checkout');

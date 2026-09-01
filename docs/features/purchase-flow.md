@@ -34,6 +34,7 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 - 结账页布局与登录 dialog（`checkout-layout.php`、`ui/login-modal.ts`）；modal 密码框带明文切换（`ui/password-visibility.ts`，账户页仍由 `woocommerce.js` 处理）；Remember me 与 Lost password 同一行左右排
 - 结账 Payment 区隐藏空的 PPCP `.ppcp-messages`（Pay Later 占位未出文案时避免 flex gap 留白；`_checkout.scss`）
 - 结账条款文案 `.woocommerce-terms-and-conditions-wrapper`：`--ts-font-size-xs` + `--ts-text-muted`；内链用 `--ts-link-color` + underline（覆盖全局 `a { color: inherit }`）
+- 结账 **Terms / Privacy modal**（`checkout-legal-modals.php` + `legal-modals.ts`）：点击条款或隐私政策链接打开原生 `<dialog>` 展示对应页面全文；移除 Woo 内联条款 slideToggle 区块；无 JS 时链接仍指向页面 permalink
 - **订单成功页**（`order-received`）：对齐 Starcore 布局——Hero（可配置标题/副标题）+ 三格 overview stats + 行项摘要/总计 + 侧栏配送方式与地址 + Next steps + Actions；移除 Woo 默认 `woocommerce_order_details_table` 以免重复
 - **WhatsApp CTA**（成功页）：号码未配置时不渲染；预填消息支持 `{order_number}` / `{order_total}`（Customizer → 设计 → 联络方式）。**页头顶栏 / FAB 本轮未接入**
 - Store API 缓存优化（`store-api-cache.php`）
