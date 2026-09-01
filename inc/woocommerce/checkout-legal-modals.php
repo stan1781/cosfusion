@@ -213,7 +213,7 @@ function tailwindscore_render_checkout_legal_modal( WP_Post $page, string $dialo
 				);
 				?>
 			</header>
-			<div class="checkout-legal-modal__body">
+			<div class="checkout-legal-modal__body entry__content">
 				<?php echo wc_format_content( $sanitizer->styled_post_content( $page->post_content ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</div>
 			<footer class="checkout-legal-modal__footer">

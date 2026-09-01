@@ -3,7 +3,7 @@
 .wc-checkout {
 	--ts-checkout-field-min-height: 2.375rem; // 38px
 	--ts-control-min-height: var(--ts-checkout-field-min-height);
-	--ts-checkout-section-title-gap: var(--ts-spacer-3);
+	--ts-checkout-section-title-gap: var(--ts-spacer-2);
 	max-width: 100%;
 	min-width: 0;
 }
@@ -58,12 +58,12 @@
 }
 
 .checkout-layout__section + .checkout-layout__section {
-	margin-top: var(--ts-spacer-3);
+	margin-top: var(--ts-spacer-4);
 }
 
 .wc-checkout__details > .woocommerce-checkout-shipping-methods,
 .wc-checkout__details > .woocommerce-checkout-payment-wrap {
-	margin-top: var(--ts-spacer-3);
+	margin-top: var(--ts-spacer-4);
 }
 
 .woocommerce-checkout .woocommerce-account-fields {
@@ -582,19 +582,23 @@
 .checkout-line-item__media {
 	position: relative;
 	flex-shrink: 0;
+	width: 3.75rem;
 }
 
-.checkout-line-item__img {
+// 高于 .entry__content img（结账页正文包在 entry__content 内）
+.checkout-line-item__media .checkout-line-item__img {
 	display: block;
-	width: 3.75rem;
-	height: 3.75rem;
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+	aspect-ratio: 1;
 	object-fit: cover;
 	border-radius: var(--ts-border-radius-sm);
 }
 
 .checkout-line-item__placeholder {
-	width: 3.75rem;
-	height: 3.75rem;
+	width: 100%;
+	aspect-ratio: 1;
 	background: var(--ts-surface-muted);
 	border-radius: var(--ts-border-radius-sm);
 }
@@ -789,17 +793,6 @@
 	min-height: 0;
 	max-height: min(60vh, 32rem);
 	overflow: auto;
-	font-size: var(--ts-font-size-sm);
-	line-height: var(--ts-line-height-base);
-	color: var(--ts-text-primary);
-
-	> *:first-child {
-		margin-top: 0;
-	}
-
-	> *:last-child {
-		margin-bottom: 0;
-	}
 }
 
 .checkout-legal-modal__footer {

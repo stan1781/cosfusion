@@ -102,19 +102,19 @@ $ts-entry-measure: 42rem;
 	gap: var(--ts-spacer-2);
 }
 
-.entry__content {
+// Page / Post / 结账法律 modal 共用正文排版（.entry--post 仅保留阅读栏布局）
+// 壳层与排版分离：cart / checkout 页的 .entry__content 只保留壳层，避免 a/列表/标题泄漏到 Woo UI
+@mixin ts-entry-content-shell {
 	display: grid;
-	gap: var(--ts-spacer-3);
-	color: var(--ts-text-secondary);
-	line-height: 1.6;
-}
-
-.entry__content > * {
-	min-width: 0;
-}
-
-.entry--post .entry__content {
 	gap: var(--ts-spacer-4);
+
+	> * {
+		min-width: 0;
+		margin-block: 0;
+	}
+}
+
+@mixin ts-entry-content-prose {
 	color: var(--ts-text-primary);
 	line-height: 1.7;
 	font-size: var(--ts-font-size-base);
@@ -188,7 +188,7 @@ $ts-entry-measure: 42rem;
 	.wp-block-image img {
 		display: block;
 		max-width: 100%;
-		width: 100%;
+		width: auto;
 		height: auto;
 		border-radius: var(--ts-border-radius-sm);
 	}
@@ -212,11 +212,16 @@ $ts-entry-measure: 42rem;
 		border: 0;
 		border-block-start: 1px solid var(--ts-border-color);
 	}
+}
 
-	// grid gap 已负责块间距；覆盖浏览器默认 margin，避免双重空隙
-	> * {
-		margin-block: 0;
-	}
+.entry__content {
+	@include ts-entry-content-shell;
+}
+
+// 普通 Page / Post；cart、checkout 表单页排除（其 .woocommerce UI 不应继承正文 a/列表）
+body:not(.woocommerce-cart):not(.woocommerce-checkout) .entry__content,
+.checkout-legal-modal__body.entry__content {
+	@include ts-entry-content-prose;
 }
 
 .d-none {
