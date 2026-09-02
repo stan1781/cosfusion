@@ -86,7 +86,7 @@ function tailwindscore_nav_menu_item_setup_thumbnail( object $item ): object {
 add_filter( 'wp_setup_nav_menu_item', 'tailwindscore_nav_menu_item_setup_thumbnail' );
 
 /**
- * 菜单编辑页加载媒体库。
+ * 菜单编辑页：媒体库 + CSS 类说明样式 + 子树折叠/批量移动资源。
  *
  * @param string $hook_suffix 当前 admin 页面 hook。
  */
@@ -96,6 +96,45 @@ function tailwindscore_nav_menu_item_admin_enqueue_scripts( string $hook_suffix 
 	}
 
 	wp_enqueue_media();
+
+	$tree_css = get_template_directory() . '/assets/admin/nav-menus-tree.css';
+	$tree_js  = get_template_directory() . '/assets/admin/nav-menus-tree.js';
+	$tree_ver = '0.1.1.' . (string) filemtime( $tree_css );
+
+	wp_enqueue_style(
+		'tailwindscore-nav-menus-tree',
+		get_template_directory_uri() . '/assets/admin/nav-menus-tree.css',
+		array( 'nav-menus', 'dashicons' ),
+		$tree_ver
+	);
+
+	wp_enqueue_script(
+		'tailwindscore-nav-menus-tree',
+		get_template_directory_uri() . '/assets/admin/nav-menus-tree.js',
+		array( 'jquery', 'nav-menu' ),
+		'0.1.1.' . (string) filemtime( $tree_js ),
+		true
+	);
+
+	wp_localize_script(
+		'tailwindscore-nav-menus-tree',
+		'tsNavMenusTree',
+		array(
+			'collapseAll'     => __( 'Collapse all', 'tailwindscore' ),
+			'expandAll'       => __( 'Expand all', 'tailwindscore' ),
+			'collapseSubtree' => __( 'Collapse submenu', 'tailwindscore' ),
+			'expandSubtree'   => __( 'Expand submenu', 'tailwindscore' ),
+			'moveSelected'    => __( 'Move selected', 'tailwindscore' ),
+			'parent'          => __( 'Parent', 'tailwindscore' ),
+			'position'        => __( 'Position', 'tailwindscore' ),
+			'endOfParent'     => __( 'End of parent', 'tailwindscore' ),
+			'beforeItem'      => __( 'Before: %s', 'tailwindscore' ),
+			'noParent'        => __( 'No Parent', 'tailwindscore' ),
+			'noSelection'     => __( 'Select at least one menu item.', 'tailwindscore' ),
+			'invalidParent'   => __( 'Cannot move an item under itself or its descendant.', 'tailwindscore' ),
+		)
+	);
+
 	wp_add_inline_style(
 		'common',
 		'.ts-nav-item-thumb__preview img{display:block;width:60px;height:60px;margin:.5rem 0;object-fit:cover;border-radius:4px}.ts-nav-item-thumb__actions{display:flex;gap:.5rem;align-items:center}'

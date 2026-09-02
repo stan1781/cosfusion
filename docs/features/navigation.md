@@ -11,6 +11,26 @@ TailwindScore 主导航支持标准下拉、Mega 菜单与移动端钻取抽屉�
 
 须在右上角「显示选项」中勾选 **CSS Classes**。实现：`inc/navigation/menu-item-admin.php`。
 
+## 后台大菜单编辑（折叠 + 批量移动）
+
+主题在 **外观 → 菜单** 增强核心编辑器，减轻大型 mega（如数十个子分类）的操作压力。资源：`assets/admin/nav-menus-tree.js` / `.css`，由 `menu-item-admin.php` 仅在 `nav-menus.php` 入队。
+
+### 子树折叠
+
+- 有子项的菜单行在标题同一行左侧显示折叠按钮，其后为 Bulk 多选框与标题；标题旁显示子项数量（如 `(12)`）。
+- 菜单项手柄加宽至约 560px，便于 PC 端浏览长标题。
+- 折叠只隐藏后代行（不删 DOM），不影响 Save Menu / 拖拽数据结构。
+- Bulk Select 旁提供 **Collapse all** / **Expand all**。
+
+### 批量移动
+
+1. 勾选 **Bulk Select**。
+2. 勾选要移动的菜单项（若同时勾选父与子，只移动父项及其整棵子树，避免双重移动）。
+3. 在 **Parent** 下拉中选目标父级（或 No Parent）；**Position** 默认 **End of parent**（接到该父级子项末尾），也可选 **Before: 某标题** 插到该同级项之前。
+4. 点击 **Move selected**，再点核心 **Save Menu** 持久化。
+
+不能把项移到自身或其后代下。仍可使用核心的 Bulk 删除。
+
 ## 移动端抽屉（钻取面板）
 
 - 有子项的顶级菜单显示 **钻取按钮**（chevron）。点击后子面板从右侧滑入。

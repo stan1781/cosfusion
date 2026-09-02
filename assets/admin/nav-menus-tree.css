@@ -1,0 +1,166 @@
+/**
+ * 外观 → 菜单：子树折叠 + 批量移动工具条。
+ */
+
+/* —— 加宽菜单项行 / 设置面板（PC 编辑；提高优先级覆盖 core） —— */
+.nav-menus-php .menu-item-bar .menu-item-handle {
+	max-width: 560px;
+}
+
+.nav-menus-php .menu-item-settings {
+	max-width: 570px;
+}
+
+.nav-menus-php .menu .sortable-placeholder {
+	width: 590px;
+}
+
+/* 标题行：折叠钮 + 多选框 + 标题同一行 */
+.nav-menus-php .menu-item-handle .item-title {
+	display: inline-flex;
+	align-items: center;
+	flex-wrap: nowrap;
+	gap: 0 4px;
+	max-width: calc(100% - 13em);
+	margin-right: 13em;
+	vertical-align: middle;
+}
+
+/* —— 折叠控件 —— */
+.nav-menus-php .ts-nav-tree-toggle {
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	width: 22px;
+	height: 22px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 3px;
+	background: transparent;
+	color: #787c82;
+	cursor: pointer;
+	vertical-align: middle;
+	line-height: 1;
+}
+
+.nav-menus-php .ts-nav-tree-toggle:hover,
+.nav-menus-php .ts-nav-tree-toggle:focus {
+	color: #1d2327;
+	background: #f0f0f1;
+	outline: none;
+}
+
+.nav-menus-php .ts-nav-tree-toggle .dashicons {
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+	line-height: 1;
+}
+
+.nav-menus-php .menu-item.is-ts-subtree-collapsed > .menu-item-bar .ts-nav-tree-toggle .dashicons {
+	transform: none;
+}
+
+.nav-menus-php .menu-item-handle .menu-item-checkbox {
+	flex: 0 0 auto;
+	margin-top: 0;
+	margin-bottom: 0;
+	vertical-align: middle;
+}
+
+.nav-menus-php .bulk-selection .menu-item-handle .menu-item-checkbox {
+	margin-right: 2px;
+}
+
+.nav-menus-php .menu-item-handle .menu-item-title {
+	flex: 0 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.nav-menus-php .menu-item-handle .ts-nav-tree-child-count {
+	flex: 0 0 auto;
+	margin-left: 0.15em;
+	color: #787c82;
+	font-weight: 400;
+	font-size: 12px;
+	white-space: nowrap;
+}
+
+.nav-menus-php .menu-item-handle .is-submenu {
+	flex: 0 0 auto;
+}
+
+.nav-menus-php #menu-to-edit > .menu-item.is-ts-subtree-hidden {
+	display: none !important;
+}
+
+/* —— 工具条（折叠始终可见；移动仅在 bulk-selection） —— */
+.nav-menus-php .ts-nav-tree-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 12px;
+	margin: 0 0 1em;
+}
+
+.nav-menus-php .ts-nav-tree-toolbar__collapse {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	align-items: center;
+}
+
+.nav-menus-php .ts-nav-tree-move {
+	display: none;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 10px;
+}
+
+.nav-menus-php #nav-menu-bulk-actions-top.bulk-selection .ts-nav-tree-move,
+.nav-menus-php #nav-menu-bulk-actions-bottom.bulk-selection .ts-nav-tree-move {
+	display: inline-flex;
+}
+
+.nav-menus-php .ts-nav-tree-move__label {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin: 0;
+	font-size: 13px;
+}
+
+.nav-menus-php .ts-nav-tree-move__label select {
+	max-width: 280px;
+	vertical-align: middle;
+}
+
+.nav-menus-php .ts-nav-tree-move__button:disabled {
+	opacity: 0.6;
+	cursor: default;
+}
+
+.nav-menus-php .ts-nav-tree-move__error {
+	display: none;
+	width: 100%;
+	margin: 0;
+	color: #b32d2e;
+	font-size: 13px;
+}
+
+.nav-menus-php .ts-nav-tree-move__error.is-visible {
+	display: block;
+}
+
+/* Bulk 行内：折叠工具条与 Bulk Select 并排 */
+.nav-menus-php #nav-menu-bulk-actions-top .ts-nav-tree-toolbar,
+.nav-menus-php #nav-menu-bulk-actions-bottom .ts-nav-tree-toolbar {
+	display: inline-flex;
+	margin: 0 0 0 12px;
+	vertical-align: top;
+}
