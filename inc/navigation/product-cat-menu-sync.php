@@ -75,6 +75,80 @@ function tailwindscore_nav_product_cat_sync_load_terms(): array {
 }
 
 /**
+ * 顶级 product_cat（parent=0），按 name 排序。
+ *
+ * @param array<int, WP_Term> $terms
+ * @return list<WP_Term>
+ */
+function tailwindscore_nav_product_cat_sync_top_level_terms( array $terms ): array {
+	$roots = array();
+	foreach ( $terms as $term ) {
+		if ( 0 === (int) $term->parent ) {
+			$roots[] = $term;
+		}
+	}
+
+	usort(
+		$roots,
+		static function ( WP_Term $a, WP_Term $b ): int {
+			return strcasecmp( $a->name, $b->name );
+		}
+	);
+
+	return $roots;
+}
+
+/**
+ * 选中一级分类及其全部后代（含自身）。
+ *
+ * @param list<int>           $root_ids
+ * @param array<int, WP_Term> $terms
+ * @return array<int, true>
+ */
+function tailwindscore_nav_product_cat_sync_expand_root_scope( array $root_ids, array $terms ): array {
+	$root_ids = array_values(
+		array_unique(
+			array_filter(
+				array_map( 'absint', $root_ids ),
+				static function ( int $id ): bool {
+					return $id > 0;
+				}
+			)
+		)
+	);
+
+	if ( array() === $root_ids ) {
+		return array();
+	}
+
+	$children = array();
+	foreach ( $terms as $tid => $term ) {
+		$parent = (int) $term->parent;
+		if ( ! isset( $children[ $parent ] ) ) {
+			$children[ $parent ] = array();
+		}
+		$children[ $parent ][] = (int) $tid;
+	}
+
+	$scope = array();
+	$stack = $root_ids;
+	while ( array() !== $stack ) {
+		$tid = (int) array_pop( $stack );
+		if ( isset( $scope[ $tid ] ) || ! isset( $terms[ $tid ] ) ) {
+			continue;
+		}
+		$scope[ $tid ] = true;
+		if ( ! empty( $children[ $tid ] ) ) {
+			foreach ( $children[ $tid ] as $child_id ) {
+				$stack[] = (int) $child_id;
+			}
+		}
+	}
+
+	return $scope;
+}
+
+/**
  * 剪枝：保留 count>0 或拥有需同步后代的祖先。
  *
  * @param array<int, WP_Term> $terms term_id => term
@@ -287,9 +361,11 @@ function tailwindscore_nav_product_cat_sync_upsert_item(
 /**
  * 执行同步。
  *
+ * @param int      $menu_id        菜单 ID；0 则按配置 / primary 解析。
+ * @param list<int> $root_term_ids 一级分类 term_id；空数组 = 全量同步。
  * @return array{ok: bool, menu_id: int, added: int, updated: int, removed: int, message?: string}
  */
-function tailwindscore_sync_product_cat_menu( int $menu_id ): array {
+function tailwindscore_sync_product_cat_menu( int $menu_id, array $root_term_ids = array() ): array {
 	$menu_id = tailwindscore_nav_product_cat_sync_resolve_menu_id( $menu_id );
 	if ( $menu_id <= 0 ) {
 		return array(
@@ -316,15 +392,32 @@ function tailwindscore_sync_product_cat_menu( int $menu_id ): array {
 	$terms   = tailwindscore_nav_product_cat_sync_load_terms();
 	$include = tailwindscore_nav_product_cat_sync_prune_included( $terms );
 
+	$selective = array() !== $root_term_ids;
+	$scope     = array();
+	if ( $selective ) {
+		$scope = tailwindscore_nav_product_cat_sync_expand_root_scope( $root_term_ids, $terms );
+		if ( array() === $scope ) {
+			return array(
+				'ok'      => false,
+				'menu_id' => $menu_id,
+				'added'   => 0,
+				'updated' => 0,
+				'removed' => 0,
+				'message' => __( 'No valid top-level product categories selected.', 'tailwindscore' ),
+			);
+		}
+		$include = array_intersect_key( $include, $scope );
+	}
+
 	$raw_items = wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'any' ) );
 	if ( ! is_array( $raw_items ) ) {
 		$raw_items = array();
 	}
 
-	/** @var array<int, object> $by_term term_id => menu item */
-	$by_term    = array();
-	$removed    = 0;
-	$to_delete  = array();
+	/** @var array<int, object> $by_term term_id => menu item（仅同步范围内） */
+	$by_term   = array();
+	$removed   = 0;
+	$to_delete = array();
 
 	foreach ( $raw_items as $item ) {
 		if ( 'taxonomy' !== $item->type || 'product_cat' !== $item->object ) {
@@ -333,6 +426,11 @@ function tailwindscore_sync_product_cat_menu( int $menu_id ): array {
 
 		$tid  = (int) $item->object_id;
 		$dbid = (int) $item->ID;
+
+		// 选择性同步：范围外的分类项完全不动。
+		if ( $selective && ! isset( $scope[ $tid ] ) ) {
+			continue;
+		}
 
 		if ( isset( $by_term[ $tid ] ) ) {
 			$to_delete[] = $dbid;
@@ -368,10 +466,23 @@ function tailwindscore_sync_product_cat_menu( int $menu_id ): array {
 		$term_to_db[ (int) $tid ] = (int) $item->ID;
 	}
 
+	// 选择性时：范围外已有分类项也要能作为「菜单父级」引用（通常不需要），
+	// 但顶级落位需知道全部顶级项的 order。
+	if ( $selective ) {
+		foreach ( $items as $item ) {
+			if ( 'taxonomy' !== $item->type || 'product_cat' !== $item->object ) {
+				continue;
+			}
+			$tid = (int) $item->object_id;
+			if ( ! isset( $term_to_db[ $tid ] ) ) {
+				$term_to_db[ $tid ] = (int) $item->ID;
+			}
+		}
+	}
+
 	$added   = 0;
 	$updated = 0;
 
-	// 按菜单父级深度处理：先 0，再已有 db 映射的父级。
 	$pending_parents = array( 0 );
 	$done_parents    = array();
 
@@ -394,13 +505,32 @@ function tailwindscore_sync_product_cat_menu( int $menu_id ): array {
 			$parent_db = $term_to_db[ $parent_term ];
 		}
 
-		$position = tailwindscore_nav_product_cat_sync_max_non_cat_order( $items, $parent_db );
+		$is_top_level_group = ( 0 === $parent_term );
+		$next_append        = 0;
+		if ( $is_top_level_group ) {
+			foreach ( $items as $item ) {
+				if ( 0 === (int) $item->menu_item_parent ) {
+					$next_append = max( $next_append, (int) $item->menu_order );
+				}
+			}
+		} else {
+			$next_append = tailwindscore_nav_product_cat_sync_max_non_cat_order( $items, $parent_db );
+		}
+
+		$child_slot = $next_append;
 
 		foreach ( $groups[ $parent_term ] as $tid ) {
 			$tid      = (int) $tid;
 			$term     = $terms[ $tid ];
-			$existing = $term_to_db[ $tid ] ?? 0;
-			++$position;
+			$existing = isset( $by_term[ $tid ] ) ? (int) $by_term[ $tid ]->ID : 0;
+
+			if ( $is_top_level_group && $existing > 0 ) {
+				// 已有顶级项：保持原 menu_order，避免搅动未选中的兄弟项。
+				$position = (int) $by_term[ $tid ]->menu_order;
+			} else {
+				++$child_slot;
+				$position = $child_slot;
+			}
 
 			$result = tailwindscore_nav_product_cat_sync_upsert_item(
 				$menu_id,
@@ -417,6 +547,7 @@ function tailwindscore_sync_product_cat_menu( int $menu_id ): array {
 			$term_to_db[ $tid ] = $result['db_id'];
 			if ( $result['created'] ) {
 				++$added;
+				// 新顶级项占用了 append 槽，刷新 items 缓存中的 max 不必；child_slot 已递增。
 			} else {
 				++$updated;
 			}
@@ -516,7 +647,48 @@ function tailwindscore_nav_product_cat_sync_handle_admin_post(): void {
 	check_admin_referer( 'ts_sync_product_cat_menu' );
 
 	$menu_id = isset( $_REQUEST['menu'] ) ? absint( $_REQUEST['menu'] ) : 0;
-	$result  = tailwindscore_sync_product_cat_menu( $menu_id );
+
+	$root_ids = array();
+	if ( isset( $_REQUEST['roots'] ) && is_array( $_REQUEST['roots'] ) ) {
+		foreach ( $_REQUEST['roots'] as $root_id ) {
+			$root_ids[] = absint( $root_id );
+		}
+	} elseif ( isset( $_REQUEST['roots'] ) && is_string( $_REQUEST['roots'] ) ) {
+		foreach ( explode( ',', wp_unslash( $_REQUEST['roots'] ) ) as $root_id ) {
+			$root_ids[] = absint( $root_id );
+		}
+	}
+
+	$root_ids = array_values( array_unique( array_filter( $root_ids ) ) );
+
+	$sync_all = isset( $_REQUEST['sync_all'] ) && '1' === (string) wp_unslash( $_REQUEST['sync_all'] );
+
+	if ( ! $sync_all && array() === $root_ids ) {
+		set_transient(
+			'ts_nav_cat_sync_notice_' . get_current_user_id(),
+			array(
+				'ok'      => false,
+				'menu_id' => $menu_id,
+				'added'   => 0,
+				'updated' => 0,
+				'removed' => 0,
+				'message' => __( 'Select at least one top-level category, or use Sync all.', 'tailwindscore' ),
+			),
+			120
+		);
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'menu'             => $menu_id,
+					'ts_cat_sync_done' => '0',
+				),
+				admin_url( 'nav-menus.php' )
+			)
+		);
+		exit;
+	}
+
+	$result = tailwindscore_sync_product_cat_menu( $menu_id, $sync_all ? array() : $root_ids );
 
 	set_transient(
 		'ts_nav_cat_sync_notice_' . get_current_user_id(),
@@ -527,8 +699,8 @@ function tailwindscore_nav_product_cat_sync_handle_admin_post(): void {
 	$redirect_menu = $result['menu_id'] > 0 ? $result['menu_id'] : $menu_id;
 	$redirect      = add_query_arg(
 		array(
-			'menu'              => $redirect_menu,
-			'ts_cat_sync_done'  => $result['ok'] ? '1' : '0',
+			'menu'             => $redirect_menu,
+			'ts_cat_sync_done' => $result['ok'] ? '1' : '0',
 		),
 		admin_url( 'nav-menus.php' )
 	);
@@ -582,7 +754,7 @@ function tailwindscore_nav_product_cat_sync_admin_notice(): void {
 add_action( 'admin_notices', 'tailwindscore_nav_product_cat_sync_admin_notice' );
 
 /**
- * 菜单编辑页：注入 Sync 按钮。
+ * 菜单编辑页：一级分类多选 + Sync selected / Sync all。
  *
  * @param string $hook_suffix Admin hook.
  */
@@ -607,72 +779,189 @@ function tailwindscore_nav_product_cat_sync_admin_enqueue( string $hook_suffix )
 		$menu_id = (int) get_user_option( 'nav_menu_recently_edited' );
 	}
 
-	$base_url = wp_nonce_url(
-		add_query_arg(
-			array(
-				'action' => 'ts_sync_product_cat_menu',
-				'menu'   => $menu_id,
-			),
-			admin_url( 'admin-post.php' )
-		),
-		'ts_sync_product_cat_menu'
+	$terms = tailwindscore_nav_product_cat_sync_load_terms();
+	$roots = tailwindscore_nav_product_cat_sync_top_level_terms( $terms );
+	$root_choices = array();
+	foreach ( $roots as $term ) {
+		$root_choices[] = array(
+			'id'    => (int) $term->term_id,
+			'name'  => $term->name,
+			'count' => (int) $term->count,
+		);
+	}
+
+	$action_url = admin_url( 'admin-post.php' );
+	$nonce      = wp_create_nonce( 'ts_sync_product_cat_menu' );
+
+	wp_register_script( 'tailwindscore-nav-cat-sync', false, array( 'jquery', 'nav-menu' ), '1.1.0', true );
+	wp_enqueue_script( 'tailwindscore-nav-cat-sync' );
+	wp_add_inline_style(
+		'nav-menus',
+		'#ts-sync-product-cat-panel{margin:12px 0 0;padding:12px 14px;background:#fff;border:1px solid #c3c4c7;box-shadow:0 1px 1px rgba(0,0,0,.04)}'
+		. '#ts-sync-product-cat-panel h3{margin:0 0 8px;font-size:13px}'
+		. '#ts-sync-product-cat-panel .ts-sync-roots{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0 0 10px;max-height:9em;overflow:auto}'
+		. '#ts-sync-product-cat-panel .ts-sync-roots label{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}'
+		. '#ts-sync-product-cat-panel .ts-sync-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}'
+		. '#ts-sync-product-cat-panel .description{margin:8px 0 0}'
 	);
 
-	wp_register_script( 'tailwindscore-nav-cat-sync', false, array( 'jquery', 'nav-menu' ), '1.0.0', true );
-	wp_enqueue_script( 'tailwindscore-nav-cat-sync' );
 	wp_add_inline_script(
 		'tailwindscore-nav-cat-sync',
 		'(function () {
-			var baseUrl = ' . wp_json_encode( $base_url ) . ';
-			var confirmMsg = ' . wp_json_encode( __( 'Sync product categories into this menu? Non-category items are kept. Empty categories are skipped. Missing category items will be removed.', 'tailwindscore' ) ) . ';
-			var label = ' . wp_json_encode( __( 'Sync product categories', 'tailwindscore' ) ) . ';
+			var actionUrl = ' . wp_json_encode( $action_url ) . ';
+			var nonce = ' . wp_json_encode( $nonce ) . ';
+			var menuIdHint = ' . wp_json_encode( (string) $menu_id ) . ';
+			var roots = ' . wp_json_encode( $root_choices ) . ';
+			var i18n = {
+				title: ' . wp_json_encode( __( 'Sync product categories', 'tailwindscore' ) ) . ',
+				selectAll: ' . wp_json_encode( __( 'Select all', 'tailwindscore' ) ) . ',
+				selectNone: ' . wp_json_encode( __( 'Select none', 'tailwindscore' ) ) . ',
+				syncSelected: ' . wp_json_encode( __( 'Sync selected', 'tailwindscore' ) ) . ',
+				syncAll: ' . wp_json_encode( __( 'Sync all', 'tailwindscore' ) ) . ',
+				help: ' . wp_json_encode( __( 'Choose one or more top-level categories to sync (subtree only). Unselected category trees in the menu are left unchanged. Empty leaf categories are skipped.', 'tailwindscore' ) ) . ',
+				confirmSelected: ' . wp_json_encode( __( 'Sync the selected top-level categories into this menu?', 'tailwindscore' ) ) . ',
+				confirmAll: ' . wp_json_encode( __( 'Sync ALL product categories into this menu? Missing category items will be removed.', 'tailwindscore' ) ) . ',
+				needSelection: ' . wp_json_encode( __( 'Select at least one top-level category.', 'tailwindscore' ) ) . '
+			};
+
 			function currentMenuId() {
 				var input = document.getElementById("menu");
 				if (input && input.value) {
 					return String(parseInt(input.value, 10) || 0);
 				}
-				return "0";
+				return menuIdHint || "0";
 			}
-			function syncUrl() {
-				try {
-					var url = new URL(baseUrl, window.location.origin);
-					url.searchParams.set("menu", currentMenuId());
-					return url.toString();
-				} catch (err) {
-					return baseUrl;
-				}
+
+			function selectedRootIds() {
+				return Array.prototype.map.call(
+					document.querySelectorAll("#ts-sync-product-cat-panel input.ts-sync-root:checked"),
+					function (el) { return el.value; }
+				);
 			}
-			function injectSyncButton() {
-				var actions = document.querySelector("#nav-menu-footer .major-publishing-actions");
-				if (!actions || document.getElementById("ts-sync-product-cat-menu")) {
+
+			function submitSync(syncAll) {
+				var menuId = currentMenuId();
+				if (!syncAll) {
+					var ids = selectedRootIds();
+					if (!ids.length) {
+						window.alert(i18n.needSelection);
+						return;
+					}
+					if (!window.confirm(i18n.confirmSelected)) {
+						return;
+					}
+				} else if (!window.confirm(i18n.confirmAll)) {
 					return;
 				}
-				var wrap = document.createElement("div");
-				wrap.className = "publishing-action";
-				wrap.style.marginRight = "8px";
-				var link = document.createElement("a");
-				link.id = "ts-sync-product-cat-menu";
-				link.className = "button button-secondary";
-				link.href = syncUrl();
-				link.textContent = label;
-				link.addEventListener("click", function (e) {
-					link.href = syncUrl();
-					if (!window.confirm(confirmMsg)) {
-						e.preventDefault();
-					}
-				});
-				wrap.appendChild(link);
-				var publish = actions.querySelector(".publishing-action");
-				if (publish) {
-					actions.insertBefore(wrap, publish);
+
+				var form = document.createElement("form");
+				form.method = "POST";
+				form.action = actionUrl;
+				form.style.display = "none";
+
+				function add(name, value) {
+					var input = document.createElement("input");
+					input.type = "hidden";
+					input.name = name;
+					input.value = value;
+					form.appendChild(input);
+				}
+
+				add("action", "ts_sync_product_cat_menu");
+				add("_wpnonce", nonce);
+				add("menu", menuId);
+				if (syncAll) {
+					add("sync_all", "1");
 				} else {
-					actions.appendChild(wrap);
+					selectedRootIds().forEach(function (id) {
+						add("roots[]", id);
+					});
+				}
+				document.body.appendChild(form);
+				form.submit();
+			}
+
+			function injectPanel() {
+				var frame = document.getElementById("nav-menus-frame");
+				var footer = document.getElementById("nav-menu-footer");
+				if (!footer || document.getElementById("ts-sync-product-cat-panel")) {
+					return;
+				}
+
+				var panel = document.createElement("div");
+				panel.id = "ts-sync-product-cat-panel";
+
+				var heading = document.createElement("h3");
+				heading.textContent = i18n.title;
+				panel.appendChild(heading);
+
+				var list = document.createElement("div");
+				list.className = "ts-sync-roots";
+				roots.forEach(function (root) {
+					var label = document.createElement("label");
+					var cb = document.createElement("input");
+					cb.type = "checkbox";
+					cb.className = "ts-sync-root";
+					cb.value = String(root.id);
+					label.appendChild(cb);
+					label.appendChild(document.createTextNode(" " + root.name + " (" + root.count + ")"));
+					list.appendChild(label);
+				});
+				panel.appendChild(list);
+
+				var actions = document.createElement("div");
+				actions.className = "ts-sync-actions";
+
+				var btnAll = document.createElement("button");
+				btnAll.type = "button";
+				btnAll.className = "button-link";
+				btnAll.textContent = i18n.selectAll;
+				btnAll.addEventListener("click", function () {
+					panel.querySelectorAll("input.ts-sync-root").forEach(function (el) { el.checked = true; });
+				});
+
+				var btnNone = document.createElement("button");
+				btnNone.type = "button";
+				btnNone.className = "button-link";
+				btnNone.textContent = i18n.selectNone;
+				btnNone.addEventListener("click", function () {
+					panel.querySelectorAll("input.ts-sync-root").forEach(function (el) { el.checked = false; });
+				});
+
+				var btnSelected = document.createElement("button");
+				btnSelected.type = "button";
+				btnSelected.className = "button button-secondary";
+				btnSelected.textContent = i18n.syncSelected;
+				btnSelected.addEventListener("click", function () { submitSync(false); });
+
+				var btnSyncAll = document.createElement("button");
+				btnSyncAll.type = "button";
+				btnSyncAll.className = "button";
+				btnSyncAll.textContent = i18n.syncAll;
+				btnSyncAll.addEventListener("click", function () { submitSync(true); });
+
+				actions.appendChild(btnAll);
+				actions.appendChild(btnNone);
+				actions.appendChild(btnSelected);
+				actions.appendChild(btnSyncAll);
+				panel.appendChild(actions);
+
+				var help = document.createElement("p");
+				help.className = "description";
+				help.textContent = i18n.help;
+				panel.appendChild(help);
+
+				if (frame && footer.parentNode) {
+					footer.parentNode.insertBefore(panel, footer);
+				} else {
+					footer.insertBefore(panel, footer.firstChild);
 				}
 			}
+
 			if (document.readyState === "loading") {
-				document.addEventListener("DOMContentLoaded", injectSyncButton);
+				document.addEventListener("DOMContentLoaded", injectPanel);
 			} else {
-				injectSyncButton();
+				injectPanel();
 			}
 		})();'
 	);
@@ -697,7 +986,7 @@ function tailwindscore_nav_product_cat_sync_kirki_register( string $cfg, array $
 		$section,
 		array(
 			'title'       => esc_html__( '商品分类菜单同步', 'tailwindscore' ),
-			'description' => esc_html__( '将非空 product_cat 树同步到指定导航菜单；空叶子分类跳过，有商品后代的空父级仍保留。', 'tailwindscore' ),
+			'description' => esc_html__( '将非空 product_cat 同步到指定导航菜单。手动可在外观→菜单勾选一级分类后 Sync selected；空叶子跳过，有商品后代的空父级仍保留。', 'tailwindscore' ),
 			'panel'       => $panel,
 			'priority'    => 45,
 		)
