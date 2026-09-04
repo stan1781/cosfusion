@@ -41,6 +41,7 @@ function tailwindscore_kirki_export_site_bound_key_labels(): array {
 		'shop_archive_header_bg_default'  => __( '默认归档 Hero 背景（附件 ID）', 'tailwindscore' ),
 		'shop_page_header_bg'             => __( '商店页 Hero 背景（附件 ID）', 'tailwindscore' ),
 		'footer_payment_image'            => __( '页脚支付图标（附件 ID）', 'tailwindscore' ),
+		'nav_product_cat_sync_menu_id'    => __( '商品分类菜单同步目标菜单 ID', 'tailwindscore' ),
 	);
 
 	/**
