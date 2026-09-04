@@ -90,154 +90,23 @@ function tailwindscore_gallery_collect_attachment_ids( WC_Product $product ): ar
 }
 
 /**
- * 判断属性键是否为颜色类（与 variations 模块配置对齐；无该类时用启发式）。
- *
- * @param string $attribute_name 属性名（如 pa_color / Color）。
- * @param int    $product_id     商品 ID。
- * @return bool
- */
-function tailwindscore_gallery_is_color_attribute( string $attribute_name, int $product_id = 0 ): bool {
-	if ( function_exists( 'tailwindscore_is_color_variation_attribute' ) ) {
-		return tailwindscore_is_color_variation_attribute( $attribute_name, $product_id > 0 ? $product_id : null );
-	}
-
-	$key = strtolower( $attribute_name );
-	$key = preg_replace( '/^attribute_/', '', $key ) ?? $key;
-	$key = preg_replace( '/^pa_/', '', $key ) ?? $key;
-	return in_array( $key, array( 'color', 'colour', 'style' ), true );
-}
-
-/**
- * 规范化变体属性映射键，便于与 default_attributes 比对。
- *
- * @param array<string, string> $attributes 变体 attributes。
- * @return array<string, string> 小写键 => 小写值。
- */
-function tailwindscore_gallery_normalize_attr_map( array $attributes ): array {
-	$out = array();
-	foreach ( $attributes as $key => $value ) {
-		$k = strtolower( (string) $key );
-		$k = preg_replace( '/^attribute_/', '', $k ) ?? $k;
-		$out[ $k ] = strtolower( (string) $value );
-	}
-	return $out;
-}
-
-/**
- * 解析可变商品的「默认」变体：优先 Woo default_attributes 全匹配；
- * 否则按颜色类属性的第一个选项匹配；再否则第一个有图的可见变体。
+ * 父可变商品无特色图/画廊图时，使用可见变体图片。
  *
  * @param WC_Product_Variable $product 可变商品。
- * @return WC_Product_Variation|null
- */
-function tailwindscore_gallery_resolve_default_variation( WC_Product_Variable $product ): ?WC_Product_Variation {
-	$children = $product->get_visible_children();
-	if ( empty( $children ) ) {
-		return null;
-	}
-
-	$defaults_raw = $product->get_default_attributes();
-	$defaults     = is_array( $defaults_raw )
-		? tailwindscore_gallery_normalize_attr_map( array_map( 'strval', $defaults_raw ) )
-		: array();
-
-	if ( ! empty( $defaults ) ) {
-		foreach ( $children as $child_id ) {
-			$variation = wc_get_product( $child_id );
-			if ( ! $variation instanceof WC_Product_Variation ) {
-				continue;
-			}
-			$attrs = tailwindscore_gallery_normalize_attr_map( $variation->get_attributes() );
-			$match = true;
-			foreach ( $defaults as $key => $expected ) {
-				if ( '' === $expected ) {
-					continue;
-				}
-				$actual = $attrs[ $key ] ?? $attrs[ 'pa_' . $key ] ?? '';
-				// Empty variation value = "any" for that attribute → matches default.
-				if ( '' !== $actual && $actual !== $expected ) {
-					$match = false;
-					break;
-				}
-			}
-			if ( $match ) {
-				return $variation;
-			}
-		}
-	}
-
-	// 颜色属性第一个选项。
-	$product_id = $product->get_id();
-	foreach ( $product->get_variation_attributes() as $attribute_name => $options ) {
-		if ( ! is_array( $options ) || empty( $options ) ) {
-			continue;
-		}
-		if ( ! tailwindscore_gallery_is_color_attribute( (string) $attribute_name, $product_id ) ) {
-			continue;
-		}
-		$first_opt = strtolower( (string) reset( $options ) );
-		$attr_key  = sanitize_title( (string) $attribute_name );
-		$keys      = array(
-			strtolower( (string) $attribute_name ),
-			'pa_' . $attr_key,
-			$attr_key,
-			'attribute_' . $attr_key,
-			'attribute_pa_' . $attr_key,
-		);
-
-		foreach ( $children as $child_id ) {
-			$variation = wc_get_product( $child_id );
-			if ( ! $variation instanceof WC_Product_Variation ) {
-				continue;
-			}
-			$attrs = tailwindscore_gallery_normalize_attr_map( $variation->get_attributes() );
-			foreach ( $keys as $k ) {
-				$k = strtolower( preg_replace( '/^attribute_/', '', $k ) ?? $k );
-				$val = $attrs[ $k ] ?? '';
-				if ( '' !== $val && $val === $first_opt ) {
-					return $variation;
-				}
-			}
-		}
-		break;
-	}
-
-	foreach ( $children as $child_id ) {
-		$variation = wc_get_product( $child_id );
-		if ( $variation instanceof WC_Product_Variation && $variation->get_image_id() ) {
-			return $variation;
-		}
-	}
-
-	$first = wc_get_product( (int) $children[0] );
-	return $first instanceof WC_Product_Variation ? $first : null;
-}
-
-/**
- * 变体主图 + `_variation_images`（与 available_variation / REST 一致）。
- *
- * @param WC_Product_Variation $variation 变体。
  * @return int[]
  */
-function tailwindscore_gallery_variation_attachment_ids( WC_Product_Variation $variation ): array {
-	$ids  = array();
-	$seen = array();
+function tailwindscore_gallery_variation_fallback_ids( WC_Product_Variable $product ): array {
+	$ids = array();
 
-	$main_id = (int) $variation->get_image_id();
-	if ( $main_id > 0 ) {
-		$ids[]            = $main_id;
-		$seen[ $main_id ] = true;
-	}
+	foreach ( $product->get_visible_children() as $child_id ) {
+		$variation = wc_get_product( $child_id );
+		if ( ! $variation instanceof WC_Product_Variation ) {
+			continue;
+		}
 
-	$extra = get_post_meta( $variation->get_id(), '_variation_images', true );
-	if ( is_array( $extra ) ) {
-		foreach ( $extra as $attachment_id ) {
-			$attachment_id = absint( $attachment_id );
-			if ( ! $attachment_id || isset( $seen[ $attachment_id ] ) ) {
-				continue;
-			}
-			$ids[]                      = $attachment_id;
-			$seen[ $attachment_id ] = true;
+		$image_id = $variation->get_image_id();
+		if ( $image_id > 0 && ! in_array( $image_id, $ids, true ) ) {
+			$ids[] = $image_id;
 		}
 	}
 
@@ -275,24 +144,16 @@ function tailwindscore_gallery_placeholder_item(): array {
 }
 
 /**
- * 可变商品：初始画廊 = 默认色变体相册（主图 + `_variation_images`），不用父商品图库。
- * 简单商品：仍用特色图 + 图库。
- *
  * @param WC_Product $product 商品。
  * @return list<array<string, mixed>>
  */
 function tailwindscore_gallery_parent_images( WC_Product $product ): array {
 	$images   = array();
-	$ids      = array();
+	$ids      = tailwindscore_gallery_collect_attachment_ids( $product );
 	$is_first = true;
 
-	if ( $product->is_type( 'variable' ) && $product instanceof WC_Product_Variable ) {
-		$default_variation = tailwindscore_gallery_resolve_default_variation( $product );
-		if ( $default_variation instanceof WC_Product_Variation ) {
-			$ids = tailwindscore_gallery_variation_attachment_ids( $default_variation );
-		}
-	} else {
-		$ids = tailwindscore_gallery_collect_attachment_ids( $product );
+	if ( empty( $ids ) && $product->is_type( 'variable' ) && $product instanceof WC_Product_Variable ) {
+		$ids = tailwindscore_gallery_variation_fallback_ids( $product );
 	}
 
 	foreach ( $ids as $image_id ) {
@@ -441,8 +302,8 @@ function tailwindscore_gallery_render_slide_html( array $img, int $index, bool $
 }
 
 /**
- * 单品页：在 <head> 预加载画廊首张（可变商品为默认色变体相册首图）。
- * 不 preload 占位图。
+ * 单品页：在 <head> 预加载父商品首张主图（woocommerce_single），缩短 LCP 发现延迟。
+ * 不 preload 变体图 / 占位图。
  */
 function tailwindscore_gallery_preload_lcp_in_head(): void {
 	if ( is_admin() || ! function_exists( 'is_product' ) || ! is_product() ) {

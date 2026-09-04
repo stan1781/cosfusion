@@ -1,11 +1,5 @@
 # 相册模块更新日志
 
-## 0.2.2
-
-- 可变商品初始画廊改为默认色变体相册（变体主图 + `_variation_images`），不再渲染父商品特色图/图库或混色变体主图回退。
-- 默认变体：优先 `default_attributes` 全匹配；否则颜色类属性的第一个选项；再否则第一个有图的可见变体。
-- SSR、JS `parentGallery` / reset、LCP preload 均自动使用该默认色套图。
-
 ## 0.2.1
 
 - 单品页 `wp_head` 预加载父商品首张主图（`woocommerce_single` + srcset），缩短 LCP 发现延迟；占位图与变体图不 preload。
