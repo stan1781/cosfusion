@@ -7,32 +7,72 @@ $ts-breakpoint-lg: 64rem;
 $ts-breakpoint-xl: 80rem;
 $ts-breakpoint-2xl: 96rem;
 
-// 颜色 — 品牌（值保留本站）
-$ts-primary: #181818;
-$ts-on-primary: #fff;
-$ts-secondary: #faf8f6;
-$ts-on-secondary: #181818;
-$ts-border-color: #ece6df;
-$ts-border-color-strong: #d8cec4;
+// ======================================================
+// COSFUSION — Light Theme
+// White / Pink / Purple
+// ======================================================
+
+
+// ------------------------------------------------------
+// Brand
+// Pink = CTA / 价格 / Sale；Purple（on-secondary）= Fantasy / 分类氛围
+// ------------------------------------------------------
+
+$ts-primary: #f22986;
+$ts-primary-hover: #dc176f;
+$ts-primary-soft: #fff0f7;
+$ts-on-primary: #ffffff;
+$ts-secondary: #f5efff;
+$ts-on-secondary: #6d35d9;
+$ts-border-color: #e9e4f2;
+$ts-border-color-strong: #d8d0e8;
 $ts-link-color: $ts-primary;
 
-// 颜色 — Surface
+
+// ------------------------------------------------------
+// Surface
+// surface = Header / Card / Modal；alt = 页面底；muted = Filter / 弱底
+// ------------------------------------------------------
+
 $ts-surface: #ffffff;
-$ts-surface-alt: #faf9f7;
-$ts-surface-muted: #faf8f6;
+$ts-surface-alt: #faf8ff;
+$ts-surface-muted: #f5f2fa;
 
-// 颜色 — Text
-$ts-text-primary: #181818;
-$ts-text-secondary: #4a4a4a;
-$ts-text-muted: #949494;
 
-$ts-success: #198754;
-$ts-info: #0d6efd;
+// ------------------------------------------------------
+// Text
+// ------------------------------------------------------
+
+$ts-text-primary: #20203a;
+$ts-text-secondary: #55556b;
+$ts-text-muted: #9292a5;
+
+
+// ------------------------------------------------------
+// Semantic
+// ------------------------------------------------------
+
+$ts-success: #19a974;
+$ts-info: #4778e8;
 $ts-warning: #f5a623;
-$ts-danger: #d0021b;
+$ts-danger: #e5395b;
 
-$ts-overlay: rgb(0 0 0 / 45%);
-$ts-overlay-dark: rgb(0 0 0 / 60%);
+
+// ------------------------------------------------------
+// Gradients（仅公告栏 / Hero / Newsletter / Banner；勿铺商品卡与 Filter）
+// ------------------------------------------------------
+
+$ts-gradient-brand: linear-gradient(90deg, #{$ts-primary} 0%, #{$ts-on-secondary} 50%, #7c3aed 100%);
+$ts-gradient-promo: linear-gradient(135deg, #{$ts-on-secondary} 0%, #{$ts-primary} 100%);
+$ts-gradient-soft: linear-gradient(135deg, #{$ts-primary-soft} 0%, #{$ts-secondary} 100%);
+
+
+// ------------------------------------------------------
+// Overlay
+// ------------------------------------------------------
+
+$ts-overlay: rgb(28 20 55 / 45%);
+$ts-overlay-dark: rgb(28 20 55 / 65%);
 
 // 间距（BS $spacer 倍数，0–5）
 $ts-spacer: 1rem;

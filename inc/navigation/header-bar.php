@@ -38,8 +38,8 @@ function tailwindscore_header_bar_items_default(): array {
  */
 function tailwindscore_header_bar_scheme_choices(): array {
 	return array(
-		'dark'  => esc_html__( '深色（主色）', 'tailwindscore' ),
-		'light' => esc_html__( '浅色', 'tailwindscore' ),
+			'dark'  => esc_html__( '深色（品牌渐变）', 'tailwindscore' ),
+			'light' => esc_html__( '浅色', 'tailwindscore' ),
 	);
 }
 

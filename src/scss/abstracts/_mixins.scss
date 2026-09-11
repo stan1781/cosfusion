@@ -122,8 +122,8 @@ $ts-animation-slide-duration: 0.22s;
 
 /// Primary button hover (pair inside `@media (hover: hover)`).
 @mixin ts-control-button-primary-hover {
-	background: color-mix(in srgb, var(--ts-primary) 88%, white);
-	border-color: color-mix(in srgb, var(--ts-primary) 88%, white);
+	background: var(--ts-primary-hover);
+	border-color: var(--ts-primary-hover);
 	color: var(--ts-on-primary);
 }
 
@@ -198,7 +198,7 @@ $ts-animation-slide-duration: 0.22s;
 
 	ins {
 		text-decoration: none;
-		color: var(--ts-text-primary);
+		color: var(--ts-primary);
 		font-weight: 600;
 	}
 }
@@ -216,7 +216,7 @@ $ts-animation-slide-duration: 0.22s;
 	font-size: $font-size;
 	font-weight: 600;
 	line-height: var(--ts-line-height-base);
-	color: var(--ts-text-primary);
+	color: var(--ts-primary);
 
 	@include ts-price-sale($del-font-size);
 }

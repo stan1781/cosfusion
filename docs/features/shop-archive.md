@@ -75,6 +75,7 @@ woocommerce/loop/orderby.php           # 覆盖 WC：页内 Sort 下拉（非 fo
 
 ## 布局
 
+- **页面底 / 卡片**：全站 `body` 为 `surface-alt`；Header / Footer 为 `surface`；归档 `.wc-product-card` 背景为 `surface`，商品图仍为视觉中心（粉紫渐变不进卡片）。
 - **桌面 `md+`**：`.wc-archive-layout` 约 `3fr / 9fr`；侧栏 sticky（`top` 用 `--ts-site-header-height`，由 `header-sticky.ts` 实测写入，缺省回退 `5rem`）。移动筛选触发与 Drawer 隐藏；工具栏左侧 result count、右侧同一套 Sort 下拉。
 - **移动端 `< md`**：内联侧栏隐藏；工具栏用 **两列 grid（`1fr 1fr`）** 让 Filters 与 Sort 等宽（隐藏 result count）；空结果仅有 Filters 时退回单列内容宽。筛选为左侧 fixed Drawer（`var(--ts-drawer-width)`，非底部 Sheet）。
 - **商品卡标题**（`.wc-product-card__title`）：使用 `--ts-font-body`（覆盖全局 heading 字体），与正文同栈。

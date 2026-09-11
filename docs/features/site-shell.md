@@ -26,12 +26,12 @@
 
 ## 顶部公告栏（Kirki）
 
-可选顶栏位于 sticky `.site-header` 之前，随页面滚动离开；主页头保持粘性。Customizer 路径：页头 → **顶部公告栏**。
+可选顶栏位于 sticky `.site-header` 之前，随页面滚动离开；主页头保持粘性。Customizer 路径：页头 → **顶部公告栏**。`dark` 方案使用全局 `--ts-gradient-brand`（粉 → 品牌紫 → violet）；字号 `sm`、字重 `600`，保证渐变底上白字可读。`light` 方案为 `surface-muted` 底 + 正文色。
 
 | `theme_mod` | 类型 | 默认 | 说明 |
 |-------------|------|------|------|
 | `header_bar_enable` | toggle | `true` | 显示顶栏 |
-| `header_bar_scheme` | radio-buttonset | `light` | `dark`（主色底）/ `light`（弱化底） |
+| `header_bar_scheme` | radio-buttonset | `light` | `dark`（`--ts-gradient-brand`）/ `light`（弱化底） |
 | `header_bar_autoplay_delay` | slider 2500–8000 | `4000` | 多条时垂直轮播间隔（ms） |
 | `header_bar_items` | repeater | 一条默认英文文案 | 每行 `text`、`link_url`、`link_label`；空文案行前台略过 |
 

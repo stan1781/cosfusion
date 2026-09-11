@@ -17,11 +17,12 @@ TailwindScore 使用 **SCSS 变量 → `:root` CSS 变量 → 组件 `var(--ts-*
 
 | 类别 | 示例 token |
 |------|------------|
-| 品牌色 | `primary` / `on-primary`、`secondary` / `on-secondary`、`link-color` |
+| 品牌色 | `primary` / `primary-hover` / `primary-soft` / `on-primary`、`secondary` / `on-secondary`、`link-color` |
 | Surface | `surface`、`surface-alt`、`surface-muted` |
 | 文本 | `text-primary`、`text-secondary`、`text-muted` |
 | 边框 | `border-color`、`border-color-strong`（本站扩展） |
 | 反馈色 | `info`、`success`、`warning`、`danger` |
+| 渐变 | `gradient-brand`、`gradient-promo`、`gradient-soft` |
 | 遮罩 | `overlay`、`overlay-dark` |
 | 间距 | `$ts-spacer` + `$ts-spacers`（0–5）→ `--ts-spacer-0` … `--ts-spacer-5` |
 | 圆角 | `--ts-border-radius-sm`、`--ts-border-radius`、`--ts-border-radius-lg`、`--ts-border-radius-pill` |
@@ -34,6 +35,22 @@ TailwindScore 使用 **SCSS 变量 → `:root` CSS 变量 → 组件 `var(--ts-*
 | 控件 | `--ts-control-min-height`、`--ts-form-padding-*`、`--ts-btn-padding-*`；floating 与普通控件同高，另有 `--ts-form-floating-textarea-min-height`（激活标签骑顶边 + `--ts-surface` 切口） |
 
 单页尺寸（hero 高度、search 最大宽、section 垂直间距等）**不进全局 token**，写在对应组件局部 Sass 变量中。
+
+## COSFUSION 品牌双色与 Surface
+
+本站亮色主题为 **White + Soft Lavender + Pink + Purple**。不另建 `$ts-pink` / `$ts-purple` 别名，沿用现有对偶：
+
+| 语义 | Token | 用途 |
+|------|--------|------|
+| Pink / CTA | `primary`、`primary-hover`、`primary-soft` | 按钮、链接、现价、Wishlist、Active |
+| Purple / Fantasy | `on-secondary`（实色）、`secondary`（浅底） | 分类氛围、Guide、次要强调 |
+| 页面底 | `surface-alt` | `body`、大区块底（让商品图成为中心） |
+| 抬升面 | `surface` | Header、Footer、Card、Modal、Dropdown |
+| 弱底 | `surface-muted` | Filter、Input 辅区、轻分隔 |
+
+**渐变预算**：仅公告栏（`gradient-brand`）、Hero / Newsletter / Category banner（`gradient-promo` / `gradient-soft`）。主按钮保持实色 `primary`（hover 用 `primary-hover`），**禁止**在商品卡与 Filter 铺渐变。分类 / 归档页以 `surface-alt` + 白卡为主，粉紫只负责 CTA、Active、Badge 与 Banner。
+
+价格 HTML（`ts-price-html` / `ts-price-sale`）：现价 / `ins` 用 `primary`；划线原价用 `text-secondary`。
 
 ## 响应式断点
 
@@ -114,10 +131,11 @@ Swiper `breakpoints`、手风琴/Tab 切换等运行时逻辑须与 SCSS 断点�
 
 ## 与站点壳层、商城的关系
 
-- **Header / 主导航**：移动壳 `< lg`，桌面 inline 导航 `≥ lg`
-- **WooCommerce**：结账/账户可在 `lg` 启用多列；商品网格在 `md`/`xl` 按需加分列
+- **Header / 主导航**：移动壳 `< lg`，桌面 inline 导航 `≥ lg`；页头 / 页脚背景为 `surface`（抬升于 `body` 的 `surface-alt`）
+- **WooCommerce**：结账/账户可在 `lg` 启用多列；商品网格在 `md`/`xl` 按需加分列；归档商品卡背景为 `surface`
 - **产品详情 Tab**：手风琴 `< md`，两列网格 `≥ md`
 - **容器宽度**：`--ts-container-max` 在较宽视口内居中
+- **公告栏 dark**：`background: var(--ts-gradient-brand)`（见 [站点壳层](../features/site-shell.md)）
 
 ## 价格 HTML（`get_price_html`）
 
@@ -125,8 +143,8 @@ Swiper `breakpoints`、手风琴/Tab 切换等运行时逻辑须与 SCSS 断点�
 
 | Mixin | 用途 |
 |-------|------|
-| `ts-price-sale($del-font-size)` | 仅原价/特价标记样式；布局另有约束时用 |
-| `ts-price-html($font-size, $del-font-size)` | 行内布局 + 促销样式；包在 `.price` 或直接包 HTML 的容器上 |
+| `ts-price-sale($del-font-size)` | 仅原价/特价标记样式；`ins` / 现价为 `primary`，划线价为 `text-secondary` |
+| `ts-price-html($font-size, $del-font-size)` | 行内布局 + `ts-price-sale`；容器默认色 `primary` |
 
 调用方只传字号档位（如单品 `lg`/`sm`，sticky `sm`/`xs`）。
 

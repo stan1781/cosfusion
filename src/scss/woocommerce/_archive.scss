@@ -565,6 +565,7 @@ body.archive-filters-drawer-open {
 	display: grid;
 	gap: var(--ts-spacer-1);
 	height: 100%;
+	background: var(--ts-surface);
 }
 
 .wc-product-card__media-wrap {

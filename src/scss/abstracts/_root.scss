@@ -3,6 +3,8 @@
 // 运行时 token：组件用 var(--ts-*)。断点 / 抽屉宽等用 Sass + mixins.ts-up()。
 :root {
 	--ts-primary: #{variables.$ts-primary};
+	--ts-primary-hover: #{variables.$ts-primary-hover};
+	--ts-primary-soft: #{variables.$ts-primary-soft};
 	--ts-on-primary: #{variables.$ts-on-primary};
 	--ts-secondary: #{variables.$ts-secondary};
 	--ts-on-secondary: #{variables.$ts-on-secondary};
@@ -19,6 +21,9 @@
 	--ts-info: #{variables.$ts-info};
 	--ts-warning: #{variables.$ts-warning};
 	--ts-danger: #{variables.$ts-danger};
+	--ts-gradient-brand: #{variables.$ts-gradient-brand};
+	--ts-gradient-promo: #{variables.$ts-gradient-promo};
+	--ts-gradient-soft: #{variables.$ts-gradient-soft};
 	--ts-overlay: #{variables.$ts-overlay};
 	--ts-overlay-dark: #{variables.$ts-overlay-dark};
 
