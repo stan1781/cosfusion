@@ -34,7 +34,7 @@ modules/{slug}/
 |------|------|------|------|------|
 | typography | `modules/typography` | 0.2.0 | ✅ | 站外字体目录（uploads）+ Kirki 分组选择 |
 | gallery | `modules/gallery` | 0.1.0 | ✅ | Swiper 单品图库、变体相册 `_variation_images` |
-| variations | `modules/variations` | 0.1.0 | ✅ | 图片/色块 swatch、grid/list 布局 |
+| variations | `modules/variations` | 0.1.7 | ✅ | 图片/色块 swatch、grid/list 布局；已选不可取消 |
 | size-guide | `modules/size-guide` | 0.1.2 | ✅ | JSON 尺码表 modal + 选码单行；QV/cart-edit 复用 inline |
 | related-products | `modules/related-products` | 0.2.0 | ✅ | 单品页相关产品引擎 + Kirki 轮播/网格切换 |
 | quick-view | `modules/quick-view` | 0.1.12 | ✅ | 归档 / 首页 / 单品 / 购物车 / 404 轮播 Quick View；选码 inline 尺码摘要 |
@@ -65,6 +65,7 @@ modules/{slug}/
 
 - 可变商品：swatch、grid/list、产品级覆盖
 - Customizer → 商品详情页 → 变体选择器
+- 表单 `data-ts-require-variation-selection`：已选值再点不取消（只能换选）；无选中时自动选第一项可用值
 - Hooks：`tailwindscore_after_size_attribute_label`、`tailwindscore_after_size_attribute_value`（供 Size Guide）
 - TS：`src/ts/product/variations.ts`、`variation-engine.ts`
 

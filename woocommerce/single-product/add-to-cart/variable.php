@@ -54,7 +54,7 @@ $ts_variations_client = wp_json_encode(
 do_action( 'woocommerce_before_add_to_cart_form' );
 ?>
 
-<form class="variations_form cart" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype="multipart/form-data" data-product_id="<?php echo absint( $product_id ); ?>" data-ts-color-mode="<?php echo esc_attr( $color_selector_default_mode ); ?>" data-tailwindscore-variations-config="<?php echo esc_attr( $ts_variations_client ); ?>" data-product_variations="<?php echo $variations_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
+<form class="variations_form cart" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype="multipart/form-data" data-product_id="<?php echo absint( $product_id ); ?>" data-ts-color-mode="<?php echo esc_attr( $color_selector_default_mode ); ?>" data-tailwindscore-variations-config="<?php echo esc_attr( $ts_variations_client ); ?>" data-product_variations="<?php echo $variations_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" data-ts-require-variation-selection>
 	<?php do_action( 'woocommerce_before_variations_form' ); ?>
 
 	<?php if ( empty( $available_variations ) && false !== $available_variations ) : ?>
