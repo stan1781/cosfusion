@@ -50,9 +50,9 @@ function tailwindscore_recently_viewed_product_display_args(): array {
 		: 1.0;
 	$columns_desktop = function_exists( 'tailwindscore_sanitize_products_carousel_slide_count' )
 		? tailwindscore_sanitize_products_carousel_slide_count(
-			tailwindscore_mod( 'recently_viewed_product_columns_desktop', 2 )
+			tailwindscore_mod( 'recently_viewed_product_columns_desktop', 3 )
 		)
-		: 2.0;
+		: 3.0;
 
 	return array(
 		'card'            => $display['card'],
@@ -162,9 +162,9 @@ function tailwindscore_render_recently_viewed( array $args = array() ): string {
 			'carousel' => '1',
 		);
 
-	// list 默认 1 / 2；grid 轮播默认 2.5 / 4。
+	// list 默认 1 / 3；grid 轮播默认 2.5 / 4。
 	$default_mobile  = 'list' === $display['card'] ? 1.0 : 2.5;
-	$default_desktop = 'list' === $display['card'] ? 2.0 : 4.0;
+	$default_desktop = 'list' === $display['card'] ? 3.0 : 4.0;
 	$columns_mobile  = isset( $args['columns_mobile'] )
 		? (float) $args['columns_mobile']
 		: $default_mobile;
@@ -216,7 +216,7 @@ function tailwindscore_render_recently_viewed_host( array $args = array() ): str
 		);
 
 	$default_mobile  = 'list' === $display['card'] ? 1.0 : 2.5;
-	$default_desktop = 'list' === $display['card'] ? 2.0 : 4.0;
+	$default_desktop = 'list' === $display['card'] ? 3.0 : 4.0;
 	$columns_mobile  = isset( $args['columns_mobile'] )
 		? (float) $args['columns_mobile']
 		: $default_mobile;
@@ -614,7 +614,7 @@ function tailwindscore_recently_viewed_kirki_register( string $cfg, array $targe
 			'settings'        => 'recently_viewed_product_columns_desktop',
 			'label'           => esc_html__( '桌面列数（md+）', 'tailwindscore' ),
 			'section'         => 'tailwindscore_recently_viewed',
-			'default'         => '2',
+			'default'         => '3',
 			'choices'         => $column_choices,
 			'active_callback' => static function (): bool {
 				return (bool) get_theme_mod( 'recently_viewed_show_on_product', true );

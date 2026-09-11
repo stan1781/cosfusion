@@ -5,8 +5,8 @@
 // Reviews hero (showcase + summary)
 .reviews-hero {
 	display: grid;
-	gap: map.get($ts-spacers, 2);
-	margin-bottom: map.get($ts-spacers, 2);
+	gap: map.get($ts-spacers, 3);
+	margin-bottom: map.get($ts-spacers, 3);
 
 	@include mixins.ts-up(md) {
 		grid-template-columns: minmax(0, 1fr) minmax(12rem, 24rem);

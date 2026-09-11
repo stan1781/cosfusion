@@ -24,7 +24,7 @@
 | `exclude` | `0` | 排除的商品 ID |
 | `card` | `grid` | 与 [产品轮播](product-carousel.md) 相同；`list` 强制关轮播 |
 | `carousel` | `1` | `0` 静态布局 |
-| `columns_mobile` / `columns_desktop` / `columns_wide` | list：`1` / `2`；grid：`2.5` / `4` | 未写时按 `card` 默认；list 下为 CSS grid 列数 |
+| `columns_mobile` / `columns_desktop` / `columns_wide` | list：`1` / `3`；grid：`2.5` / `4` | 未写时按 `card` 默认；list 下为 CSS grid 列数 |
 | `gap` | `16` | 间距 px |
 
 编辑页侧栏速查见 [主题短代码](shortcode-help.md)。
@@ -47,7 +47,7 @@ Customizer：**外观 → 自定义 → 商品详情页 → Recently viewed**。
 | `recently_viewed_product_card` | select | `list` | `grid` 竖卡 / `list` 横卡 |
 | `recently_viewed_product_carousel` | toggle | 关 | 仅 `card=grid` 时显示；list 强制关轮播 |
 | `recently_viewed_product_columns_mobile` | select 1–4 | `1` | 手机列数 |
-| `recently_viewed_product_columns_desktop` | select 1–4 | `2` | 桌面 `md+` 列数 |
+| `recently_viewed_product_columns_desktop` | select 1–4 | `3` | 桌面 `md+` 列数 |
 
 读取入口：`tailwindscore_recently_viewed_product_display_args()`。
 

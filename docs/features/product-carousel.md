@@ -71,7 +71,7 @@
 
 ## 单品 Cross-sells
 
-见 [配件搭配](product-cross-sells.md)。PDP 使用**紧凑行列表**（非本轮播壳）；购物车推荐仍用本壳层。
+见 [配件搭配](product-cross-sells.md)。PDP 复用本壳层 `card=list`（静态横卡，桌面 3 列）；购物车推荐仍用本壳层默认轮播。
 
 ## 404 人气商品
 
@@ -86,7 +86,7 @@
 | PHP | `inc/woocommerce/product-carousel.php`、`product-suggestions.php`、`cart-product-suggestions.php`、`inc/not-found.php`、`modules/related-products/` |
 | 模板 | `template-parts/woocommerce/product-carousel.php` |
 | TS | `src/ts/shop/product-carousel.ts`（`app.ts` 全局初始化；`data-ts-carousel="0"` 时跳过 Swiper） |
-| SCSS | `src/scss/components/_product-carousel.scss` |
+| SCSS | `src/scss/components/_product-carousel.scss`；横卡 `card=list` → `_product-card-list.scss` |
 
 选择器：`[data-ts-product-carousel]`、`data-ts-card`、`data-ts-carousel`、`data-ts-columns-mobile|desktop|wide`、`data-ts-gap`。
 

@@ -1,0 +1,175 @@
+@use "../abstracts/mixins";
+
+// 横卡 list 布局：Recently viewed / Cross-sells / 短代码 card=list 共用。
+// 列数由 .product-carousel--static 的 --ts-product-carousel-cols-* 控制。
+// actions 用 display:contents 从 media-wrap 提出，与 footer 同行靠右。
+
+.product-carousel--card-list {
+	// 横卡主图显示 100×100（6.25rem @ 16px root）。
+	--ts-product-carousel-list-media: 6.25rem;
+
+	.wc-product-card {
+		display: grid;
+		grid-template-columns: var(--ts-product-carousel-list-media) minmax(0, 1fr) auto;
+		grid-template-rows: auto auto;
+		column-gap: var(--ts-spacer-2);
+		row-gap: var(--ts-spacer-1);
+		align-items: start;
+		height: auto;
+		// 右侧标题 / 操作区与卡片边缘留白（图也一并内缩）。
+		padding: var(--ts-spacer-2);
+	}
+
+	.wc-product-card__media-wrap {
+		display: contents;
+	}
+
+	.wc-product-card__media-link {
+		grid-column: 1;
+		grid-row: 1 / span 2;
+		align-self: start;
+		width: var(--ts-product-carousel-list-media);
+		height: var(--ts-product-carousel-list-media);
+		min-width: 0;
+		overflow: hidden;
+	}
+
+	.wc-product-card__media {
+		width: 100%;
+		height: 100%;
+		aspect-ratio: 1;
+		object-fit: cover;
+	}
+
+	.wc-product-card__link {
+		grid-column: 2 / 4;
+		grid-row: 1;
+		gap: 0.25rem;
+		min-width: 0;
+		// 卡片已有 padding；去掉归档竖卡的 padding-inline，避免叠加倍增。
+		padding-inline: 0;
+	}
+
+	.wc-product-card__title {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		font-size: var(--ts-font-size-xs);
+		line-height: 1.35;
+	}
+
+	.wc-product-card__meta {
+		gap: var(--ts-spacer-1);
+	}
+
+	.wc-product-card__footer {
+		grid-column: 2;
+		grid-row: 2;
+		align-self: center;
+		min-width: 0;
+	}
+
+	.wc-product-card__swatches {
+		justify-content: flex-start;
+	}
+
+	.wc-product-card__actions {
+		grid-column: 3;
+		grid-row: 2;
+		align-self: center;
+		position: static;
+		inset: auto;
+		z-index: auto;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: flex-end;
+		gap: var(--ts-spacer-1);
+		width: auto;
+		height: auto;
+		padding: 0;
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+	}
+
+	// 覆盖归档「md+ 悬停才显」：list 操作区常显。
+	@media (hover: hover) {
+		.wc-product-card__actions,
+		.wc-product-card:hover .wc-product-card__actions,
+		.wc-product-card:focus-within .wc-product-card__actions {
+			opacity: 1;
+			visibility: visible;
+		}
+	}
+
+	// 非圆形：对齐 btn-sm / btn-outline 小型常规按钮（wishlist 颜色见 _wishlist.scss）。
+	.woocommerce .wc-product-card__actions .product-card-action:not(.wishlist-btn),
+	.woocommerce .wc-product-card__actions a.button.product-card-action:not(.wishlist-btn),
+	.woocommerce .wc-product-card__actions button.button.product-card-action:not(.wishlist-btn) {
+		width: auto;
+		height: auto;
+		min-width: 0;
+		min-height: auto;
+		padding: 0.3125rem 0.5rem;
+		border: 1px solid var(--ts-border-color-strong);
+		border-radius: 0.4rem;
+		background: var(--ts-surface);
+		color: var(--ts-text-primary);
+		box-shadow: none;
+		font-size: var(--ts-font-size-xs);
+		line-height: 1.25;
+		font-weight: 600;
+
+		.icon {
+			width: 0.875rem;
+			height: 0.875rem;
+		}
+
+		@media (hover: hover) {
+			&:hover,
+			&:not(:disabled):not(.disabled):hover {
+				background: var(--ts-surface-muted);
+				border-color: var(--ts-border-color-strong);
+				color: var(--ts-text-primary);
+				box-shadow: none;
+			}
+		}
+
+		&:focus,
+		&:focus-visible,
+		&.loading,
+		&.added {
+			background: var(--ts-surface);
+			color: var(--ts-text-primary);
+		}
+	}
+
+	.woocommerce .wc-product-card__actions .wishlist-btn.product-card-action {
+		width: auto;
+		height: auto;
+		min-width: 0;
+		min-height: auto;
+		padding: var(--ts-spacer-1) var(--ts-spacer-2);
+		border: 1px solid var(--ts-border-color-strong);
+		border-radius: var(--ts-border-radius-sm);
+		background: var(--ts-surface);
+		box-shadow: none;
+
+		.icon {
+			width: var(--ts-font-size-sm);
+			height: var(--ts-font-size-sm);
+		}
+
+		@media (hover: hover) {
+			&:hover,
+			&:not(:disabled):not(.disabled):hover {
+				background: var(--ts-surface-muted);
+				border-color: var(--ts-border-color-strong);
+				box-shadow: none;
+			}
+		}
+	}
+}

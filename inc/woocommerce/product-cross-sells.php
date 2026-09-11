@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * 单品页 Cross-sells（配件 / 搭配）紧凑列表。
+ * 单品页 Cross-sells（配件 / 搭配）：复用产品轮播 list 横卡壳。
  *
  * @package TailwindScore
  */
@@ -97,10 +97,14 @@ function tailwindscore_should_show_product_cross_sells(): bool {
 }
 
 /**
- * 渲染单品 Cross-sells 紧凑列表。
+ * 渲染单品 Cross-sells（复用产品轮播壳 + card=list 横卡，与 Recently viewed 同款）。
  */
 function tailwindscore_render_product_cross_sells(): void {
 	if ( ! function_exists( 'is_product' ) || ! is_product() || ! tailwindscore_should_show_product_cross_sells() ) {
+		return;
+	}
+
+	if ( ! function_exists( 'tailwindscore_render_products_carousel_shell' ) ) {
 		return;
 	}
 
@@ -109,15 +113,28 @@ function tailwindscore_render_product_cross_sells(): void {
 		return;
 	}
 
-	get_template_part(
-		'template-parts/woocommerce/product-cross-sells',
-		null,
+	$html = tailwindscore_render_products_carousel_shell(
 		array(
-			'title'       => tailwindscore_get_product_cross_sells_title(),
-			'section_id'  => 'ts-product-cross-sells-title',
-			'product_ids' => $product_ids,
+			'product_ids'        => $product_ids,
+			'title'              => tailwindscore_get_product_cross_sells_title(),
+			'section_id'         => 'ts-product-cross-sells-title',
+			'card'               => 'list',
+			'carousel'           => '0',
+			'columns_mobile'     => 1,
+			'columns_desktop'    => 3,
+			'gap'                => 16,
+			'section_class'      => 'product-carousel--cross-sells',
+			'section_data_attrs' => array(
+				'data-ts-product-cross-sells' => '',
+			),
 		)
 	);
+
+	if ( '' === $html ) {
+		return;
+	}
+
+	echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- carousel HTML from theme renderer.
 }
 
 /**
@@ -129,8 +146,8 @@ function tailwindscore_boot_product_cross_sells_hook(): void {
 	}
 
 	$defaults = array(
-		'hook'     => 'woocommerce_single_product_summary',
-		'priority' => 32,
+		'hook'     => 'woocommerce_after_single_product_summary',
+		'priority' => 8,
 	);
 
 	/**
@@ -163,7 +180,7 @@ function tailwindscore_product_cross_sells_kirki_register( string $cfg, array $t
 		'tailwindscore_product_cross_sells',
 		array(
 			'title'       => esc_html__( '配件搭配（Cross-sells）', 'tailwindscore' ),
-			'description' => esc_html__( '单品页加购附近的 Cross-sells 紧凑列表（弱推荐，不与主品合并提交）。', 'tailwindscore' ),
+				'description' => esc_html__( '单品主区下方的 Cross-sells 横卡列表（与 Recently viewed list 同壳，弱推荐，不与主品合并提交）。', 'tailwindscore' ),
 			'panel'       => $targets['product'],
 			'priority'    => 70,
 		)
