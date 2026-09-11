@@ -28,7 +28,7 @@
 |--------|------------|------|
 | `grid` | `1` | 竖卡 + Swiper（默认） |
 | `grid` | `0` | 竖卡 + CSS grid（无箭头/分页） |
-| `list` | `0`（或传入 `1` 被强制） | 横卡 + CSS grid；手机默认 1 列、桌面默认 2 列（可用 `columns_*` 覆盖）；操作区在 footer 右侧，小型非圆形按钮 |
+| `list` | `0`（或传入 `1` 被强制） | 横卡 + CSS grid；手机默认 1 列、桌面默认 2 列（可用 `columns_*` 覆盖）；卡片 `padding: --ts-spacer-2`，操作区在 footer 右侧，小型非圆形按钮 |
 
 非法值回退 `grid` + `1`。壳层标记：`data-ts-card`、`data-ts-carousel`；修饰类 `product-carousel--static`、`product-carousel--card-list`。
 

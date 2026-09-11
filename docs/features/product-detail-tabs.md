@@ -67,6 +67,10 @@ add_action( 'wp', 'tailwindscore_remove_default_product_tabs', 99 );
 
 支持 cm / inch，逻辑与弹窗一致；**弹窗与内嵌各自维护单位状态**，不共享。
 
+## 摘要区评分链接
+
+主题覆盖 `woocommerce/single-product/rating.php`：有评分且评论开放时，`.woocommerce-review-link` 文案为 `(N review)` / `(N reviews)`（无 customer），锚点仍为 `#reviews`。
+
 ## 评价表单弹窗
 
 桌面与手风琴各自调用 `comments_template()`，但 **Write a review** 弹窗只渲染一次，挂在 `.product-detail-sections` 末尾（两套布局之外）。打开时 JS 再挂到 `document.body`，避免小屏桌面行 `display: none` 或手风琴 `overflow: hidden` 裁切固定层。

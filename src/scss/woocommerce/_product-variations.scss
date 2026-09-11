@@ -60,10 +60,10 @@
 	display: none;
 }
 
-.custom-variation-selector.text-selector li.selected {
-	border-color: var(--ts-text-primary);
-	background-color: var(--ts-text-primary);
-	color: var(--ts-surface);
+.custom-variation-selector.text-selector li.selected,.custom-variation-selector.text-selector li:hover {
+	border-color: var(--ts-primary);
+	// background-color: var(--ts-text-primary);
+	color: var(--ts-primary);
 }
 
 .custom-variation-selector.text-selector li.selected .variation-desc {
@@ -275,9 +275,9 @@
 	.single_add_to_cart_button {
 		min-width: 0;
 		flex: 1 1 auto;
-		@include mixins.ts-up(md) {
-			height: 3rem !important;
-		}
+		// @include mixins.ts-up(md) {
+		// 	height: 3rem !important;
+		// }
 	}
 }
 

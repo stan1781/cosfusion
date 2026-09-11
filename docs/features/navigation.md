@@ -88,7 +88,7 @@ Customizer → 页头 → **商品分类菜单同步**：
 
 ## 扁平子菜单多列
 
-适用于短标签等**同级扁平列表**（两级：父项 → 子链接）。若需要三级「列标题 → 链接」且非全宽，改用下方 **紧凑 Mega**。
+适用于**同级扁平列表**（两级：父项 → 子链接）。若需要三级「列标题 → 链接」且非全宽，改用下方 **紧凑 Mega**。
 
 在 **顶级** 菜单项的「CSS 类」中添加：
 
@@ -104,6 +104,8 @@ Customizer → 页头 → **商品分类菜单同步**：
 - 桌面 + 手机 3 列：`cols-3 cols-mobile`
 
 同时写 `cols-2` 与 `cols-3` 时取 3。单独使用时渲染标准 flyout（非 mega 结构）。
+
+长分类名：桌面子链接（含缩略图）在列宽内**换行**，不横向溢出叠到邻列；多列面板 `min-width` 较单列更宽（2 列约 `24rem`、3 列约 `32rem`），并设视口上限。
 
 实现：Walker 将列数规范化为 `nav__item--cols-{n}`；移动端仅在带 `cols-mobile` 时给 panel 加 `nav__panel--cols-{n}`。
 
@@ -193,7 +195,7 @@ Collections (mega-menu cols-2)
 2. **产品分类 Thumbnail** — `product_cat` 菜单项，或自定义链接 URL 可反查到分类归档页时，读取 WooCommerce 分类 Thumbnail（`thumbnail_id` term meta）。
 3. **不显示** — 未手动指定且无法解析到带缩略图的分类时保持纯文本（无占位图）。
 
-实现：`inc/navigation/menu-item-helpers.php`（前台解析）、`inc/navigation/menu-item-admin.php`（后台字段）；样式 `.nav__thumb` / `.nav__link--with-thumb` / `.nav__link-label`（左图右文、垂直居中，文字过长在 label 内换行）。
+实现：`inc/navigation/menu-item-helpers.php`（前台解析）、`inc/navigation/menu-item-admin.php`（后台字段）；样式 `.nav__thumb` / `.nav__link--with-thumb` / `.nav__link-label`（左图右文、垂直居中；桌面与移动端均在 label 内换行，多列时不溢出邻列）。
 
 ## 开发者过滤器
 

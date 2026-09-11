@@ -266,10 +266,12 @@
 		display: grid;
 		grid-template-columns: var(--ts-product-carousel-list-media) minmax(0, 1fr) auto;
 		grid-template-rows: auto auto;
-		column-gap: var(--ts-spacer-3);
+		column-gap: var(--ts-spacer-2);
 		row-gap: var(--ts-spacer-1);
 		align-items: start;
 		height: auto;
+		// 右侧标题 / 操作区与卡片边缘留白（图也一并内缩）。
+		padding: var(--ts-spacer-2);
 	}
 
 	.wc-product-card__media-wrap {
@@ -293,6 +295,8 @@
 		grid-row: 1;
 		gap: 0.25rem;
 		min-width: 0;
+		// 卡片已有 padding；去掉归档竖卡的 padding-inline，避免叠加倍增。
+		padding-inline: 0;
 	}
 
 	.wc-product-card__title {

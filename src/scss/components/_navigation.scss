@@ -331,6 +331,8 @@
 			left: 0;
 			z-index: var(--ts-z-modal);
 			min-width: 12rem;
+			// 单列：限制最大宽，长标题在链接内换行，避免撑出视口。
+			max-width: min(22rem, calc(100vw - 2rem));
 			margin: 0;
 			padding: var(--ts-spacer-2);
 			list-style: none;
@@ -367,14 +369,22 @@
 			row-gap: var(--ts-spacer-1);
 		}
 
+		.nav__item--cols-2 > .nav__submenu > .nav__item,
+		.nav__item--cols-3 > .nav__submenu > .nav__item {
+			min-width: 0;
+		}
+
+		// 多列 + 缩略图需要更宽列槽，否则长分类名只能叠字或过度折行。
 		.nav__item--cols-2 > .nav__submenu {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
-			min-width: 18rem;
+			min-width: 24rem;
+			max-width: min(36rem, calc(100vw - 2rem));
 		}
 
 		.nav__item--cols-3 > .nav__submenu {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
-			min-width: 24rem;
+			min-width: 32rem;
+			max-width: min(48rem, calc(100vw - 2rem));
 		}
 
 		// 隐形桥接区：标准下拉 + 紧凑 mega（非全宽），便于鼠标移入面板。
@@ -392,10 +402,12 @@
 
 		.nav__link--child {
 			display: block;
+			max-width: 100%;
 			padding-block: 0.15rem;
 			color: var(--ts-text-secondary);
 			font-size: var(--ts-font-size-sm);
-			white-space: nowrap;
+			line-height: 1.35;
+			overflow-wrap: break-word;
 
 			&:hover,
 			&:focus-visible {
@@ -403,17 +415,20 @@
 			}
 		}
 
+		// 行内图文不换列；标题在 label 内换行（多列时避免叠到邻列）。
 		.nav__link--child.nav__link--with-thumb {
 			display: flex;
 			flex-wrap: nowrap;
 			align-items: center;
-			white-space: nowrap;
+			max-width: 100%;
 		}
 
 		.nav__link--child .nav__link-label {
-			flex: 0 1 auto;
+			flex: 1 1 auto;
 			min-width: 0;
-			white-space: nowrap;
+			white-space: normal;
+			text-wrap: pretty;
+			overflow-wrap: break-word;
 		}
 
 		// 全宽 mega：无 cols-* 时定位包含块为 sticky .site-header

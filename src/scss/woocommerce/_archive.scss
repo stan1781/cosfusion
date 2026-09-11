@@ -584,6 +584,7 @@ body.archive-filters-drawer-open {
 .wc-product-card__link {
 	display: grid;
 	gap: var(--ts-spacer-2);
+	padding-inline: var(--ts-spacer-2);
 	text-decoration: none;
 	color: inherit;
 }
