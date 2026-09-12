@@ -5,6 +5,8 @@ $toast-max-width: 22rem;
 $toast-handle-width: 2.5rem;
 $toast-handle-height: 0.25rem;
 $toast-progress-height: 2px;
+$toast-close-size: calc(var(--ts-font-size-lg) + var(--ts-spacer-2));
+$toast-tint: 8%;
 
 .purchase-flow-toast-root {
 	position: fixed;
@@ -19,7 +21,7 @@ $toast-progress-height: 2px;
 	@include mixins.ts-down(md) {
 		inset-inline: 0;
 		width: 100%;
-		padding-top: env(safe-area-inset-top, 0px);
+		// 不在 root 垫顶：由 toast 自身吃 safe-area，避免卡片与视口之间出现空隙
 	}
 
 	@include mixins.ts-up(md) {
@@ -31,11 +33,12 @@ $toast-progress-height: 2px;
 }
 
 .purchase-flow-toast {
+	position: relative;
 	pointer-events: auto;
-	overflow: hidden;
+	overflow: visible;
 	border: 1px solid var(--ts-border-color);
 	border-radius: var(--ts-border-radius);
-	background: var(--ts-surface);
+	background: color-mix(in srgb, var(--ts-info) $toast-tint, var(--ts-surface));
 	color: var(--ts-text-primary);
 	box-shadow: var(--ts-shadow-md);
 	transition: opacity mixins.$ts-animation-slide-duration ease, transform mixins.$ts-animation-slide-duration ease;
@@ -44,7 +47,21 @@ $toast-progress-height: 2px;
 	@include mixins.ts-down(md) {
 		border-radius: 0 0 var(--ts-border-radius) var(--ts-border-radius);
 		border-top: 0;
+		// 浅底铺满到刘海区，正文避开 safe-area
+		padding-top: env(safe-area-inset-top, 0px);
 	}
+}
+
+.purchase-flow-toast--success {
+	background: color-mix(in srgb, var(--ts-success) $toast-tint, var(--ts-surface));
+}
+
+.purchase-flow-toast--warning {
+	background: color-mix(in srgb, var(--ts-warning) $toast-tint, var(--ts-surface));
+}
+
+.purchase-flow-toast--error {
+	background: color-mix(in srgb, var(--ts-danger) $toast-tint, var(--ts-surface));
 }
 
 .purchase-flow-toast.is-entering,
@@ -57,54 +74,48 @@ $toast-progress-height: 2px;
 	transition: none;
 }
 
-.purchase-flow-toast__header {
-	display: grid;
-	grid-template-columns: auto 1fr auto;
-	align-items: center;
-	gap: var(--ts-spacer-2);
-	padding: var(--ts-spacer-1) var(--ts-spacer-2);
-	border-bottom: 1px solid var(--ts-border-color);
-	background: color-mix(in srgb, var(--ts-surface) 92%, var(--ts-border-color));
-}
+.purchase-flow-toast__close {
+	position: absolute;
+	inset-block-start: 0;
+	inset-inline-end: 0;
+	z-index: 1;
+	width: $toast-close-size;
+	height: $toast-close-size;
+	padding: 0;
+	border: 1px solid var(--ts-border-color);
+	border-radius: var(--ts-border-radius-pill);
+	background: var(--ts-surface);
+	box-shadow: var(--ts-shadow-sm);
+	transform: translate(40%, -40%);
 
-.purchase-flow-toast__accent {
-	width: var(--ts-font-size-sm);
-	height: var(--ts-font-size-sm);
-	border-radius: var(--ts-border-radius-sm);
-	background: var(--ts-info);
-}
+	@include mixins.ts-down(md) {
+		// 手机贴齐右上（safe-area 下），不向外溢出
+		inset-block-start: env(safe-area-inset-top, 0px);
+		transform: none;
+	}
 
-.purchase-flow-toast--success .purchase-flow-toast__accent {
-	background: var(--ts-success);
-}
-
-.purchase-flow-toast--warning .purchase-flow-toast__accent {
-	background: var(--ts-warning);
-}
-
-.purchase-flow-toast--error .purchase-flow-toast__accent {
-	background: var(--ts-danger);
-}
-
-.purchase-flow-toast__title {
-	font-size: var(--ts-font-size-sm);
-	font-weight: 600;
-	line-height: 1.25;
-}
-
-.purchase-flow-toast__header .btn-close {
-	margin-inline-start: auto;
+	@media (hover: hover) {
+		&:hover {
+			background: var(--ts-surface-muted);
+		}
+	}
 }
 
 .purchase-flow-toast__body {
-	padding: var(--ts-spacer-2) var(--ts-spacer-3);
+	padding: var(--ts-spacer-3) var(--ts-spacer-4) var(--ts-spacer-3) var(--ts-spacer-3);
 	font-size: var(--ts-font-size-sm);
 	line-height: var(--ts-line-height-base);
 }
 
 .purchase-flow-toast__progress {
 	height: $toast-progress-height;
+	overflow: hidden;
+	border-radius: 0 0 var(--ts-border-radius) var(--ts-border-radius);
 	background: color-mix(in srgb, var(--ts-border-color) 50%, transparent);
+
+	@include mixins.ts-down(md) {
+		border-radius: 0;
+	}
 }
 
 .purchase-flow-toast__progress-bar {

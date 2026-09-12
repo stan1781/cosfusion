@@ -58,7 +58,7 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 | 库存不足、数量被修正、Drawer 内无效优惠码 | **Drawer 内联**持久反馈 |
 | 结账表单校验、支付失败 | **checkout 页面 inline**（不提升为 toast） |
 
-Toast 贴顶（对齐 Starcore）：桌面（`≥ md`）右上限宽卡片；手机（`< md`）顶部全宽（含 `safe-area-inset-top`），圆角仅底部。入场 / 离场共用 `is-entering` / `is-leaving` 从上滑入、向上滑出。手机底部有 `.purchase-flow-toast__handle` pill，向上拖过阈值关闭（拖拽中暂停自动关闭）；保留 `btn-close`。底部进度条（`purchase-flow-toast__progress`）与自动关闭时长（4200ms）同步（CSS `scaleX` 动画）。
+Toast 贴顶（对齐 Starcore）：桌面（`≥ md`）右上限宽卡片；手机（`< md`）顶部全宽贴视口顶，浅底延伸进 `safe-area-inset-top`（padding 在 toast 自身，root 不垫顶以免出现顶缝），圆角仅底部。入场 / 离场共用 `is-entering` / `is-leaving` 从上滑入、向上滑出。外观为类型浅底色（`color-mix` 混入 success/warning/danger/info）+ 纯正文，无标题栏；圆形 `.purchase-flow-toast__close` 桌面溢出右上角，手机贴齐右上（safe-area 下、无 transform）。手机底部有 `.purchase-flow-toast__handle` pill，向上拖过阈值关闭（拖拽中暂停自动关闭）。底部进度条（`purchase-flow-toast__progress`）与自动关闭时长（4200ms）同步（CSS `scaleX` 动画）。
 
 不把阻塞型结账错误只做成短暂 toast。
 

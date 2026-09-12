@@ -28,13 +28,6 @@ const toastLeaveMs = 220;
 const toastDragThresholdPx = 48;
 const toastDragThresholdRatio = 0.35;
 
-const toastTitles: Record<NotificationType, string> = {
-	success: 'Success',
-	info: 'Notice',
-	warning: 'Warning',
-	error: 'Error',
-};
-
 function getSelectors(): Record<NotificationSurface, string> {
 	const configSelectors = window.tailwindscoreCart?.notifications?.selectors;
 
@@ -236,11 +229,7 @@ function showToast(notification: PurchaseFlowNotification) {
 	toast.setAttribute('aria-atomic', 'true');
 	toast.style.setProperty('--ts-toast-duration', `${toastDismissMs}ms`);
 	toast.innerHTML = `
-		<div class="purchase-flow-toast__header">
-			<span class="purchase-flow-toast__accent" aria-hidden="true"></span>
-			<strong class="purchase-flow-toast__title">${escapeHtml(toastTitles[notification.type])}</strong>
-			<button type="button" class="btn-close btn-close-sm" data-ts-close aria-label="Close"><span class="icon" aria-hidden="true">${window.tailwindscoreCart?.icons?.close ?? ''}</span><span class="screen-reader-text">Close</span></button>
-		</div>
+		<button type="button" class="btn-close btn-close-sm purchase-flow-toast__close" data-ts-close aria-label="Close"><span class="icon" aria-hidden="true">${window.tailwindscoreCart?.icons?.close ?? ''}</span><span class="screen-reader-text">Close</span></button>
 		<div class="purchase-flow-toast__body">${escapeHtml(notification.message)}</div>
 		<div class="purchase-flow-toast__progress" aria-hidden="true">
 			<span class="purchase-flow-toast__progress-bar"></span>
