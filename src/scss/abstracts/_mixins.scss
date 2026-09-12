@@ -221,9 +221,14 @@ $ts-animation-slide-duration: 0.22s;
 	@include ts-price-sale($del-font-size);
 }
 
-/// Underline animation from left to right on hover.
-/// Usage: @include ts-underline-hover($color: currentColor, $height: 2px, $duration: 0.3s);
-@mixin ts-underline-hover($color: currentColor, $height: 2px, $duration: 0.3s) {
+/// 悬停下划线：自左向右 scaleX（观感对齐产品 Tab 指示器；非共用滑动条）。
+/// Usage: @include ts-underline-hover;
+@mixin ts-underline-hover(
+	$color: var(--ts-primary),
+	$height: 0.1875rem,
+	$duration: 0.4s,
+	$easing: cubic-bezier(0.65, 0, 0.35, 1)
+) {
 	position: relative;
 	text-decoration: none;
 
@@ -237,12 +242,18 @@ $ts-animation-slide-duration: 0.22s;
 		background: $color;
 		transform: scaleX(0);
 		transform-origin: left;
-		transition: transform $duration ease;
+		transition: transform $duration $easing;
 	}
 
 	&:hover::after,
 	&:focus-visible::after {
 		transform: scaleX(1);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		&::after {
+			transition: none;
+		}
 	}
 }
 

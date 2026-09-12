@@ -314,10 +314,15 @@
 			padding-block: var(--ts-spacer-1);
 		}
 
-		// Underline hover only on top-level links, not inside dropdowns
+		// 一级链接下划线：scaleX 动效对齐 Tab；当前页常显（非共用滑动指示器）
 		> .nav__list > .nav__item > .nav__link,
 		> .nav__list > li > a {
 			@include mixins.ts-underline-hover;
+		}
+
+		> .nav__list > .nav__item > .nav__link--current::after,
+		> .nav__list > li > a.nav__link--current::after {
+			transform: scaleX(1);
 		}
 
 		.nav__item--has-children,
