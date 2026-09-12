@@ -7,13 +7,17 @@
 	max-width: 100%;
 	min-width: 0;
 }
-body.woocommerce-checkout .site-main .section {
-	padding-block: 0;
+
+@include mixins.ts-down(md) {
+	body.woocommerce-checkout .site-main .section {
+		padding-block: 0;
+	}
+
+	body.woocommerce-checkout .site-main .wc-checkout__summary {
+		border-block-start: 0;
+	}
 }
 
-body.woocommerce-checkout .site-main .wc-checkout__summary {
-	border-block-start: 0;
-}
 .wc-checkout__layout {
 	display: flex;
 	flex-direction: column;	
