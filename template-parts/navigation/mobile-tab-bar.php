@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-$ts_new_url    = tailwindscore_new_arrivals_url();
-$ts_tab_count  = class_exists( 'WooCommerce' ) ? 5 : 4;
-$ts_tab_style  = '--ts-mobile-tab-count: ' . (int) $ts_tab_count;
+$ts_new_url   = tailwindscore_new_arrivals_url();
+$ts_tab_count = class_exists( 'WooCommerce' ) ? 5 : 4;
+$ts_tab_style = '--ts-mobile-tab-count: ' . (int) $ts_tab_count;
+$ts_cart_icon = function_exists( 'tailwindscore_header_cart_icon' ) ? tailwindscore_header_cart_icon() : 'bag';
 ?>
 <nav class="mobile-tab-bar" style="<?php echo esc_attr( $ts_tab_style ); ?>" aria-label="<?php esc_attr_e( 'Primary mobile', 'tailwindscore' ); ?>">
 	<ul class="mobile-tab-bar__list">
@@ -48,13 +49,13 @@ $ts_tab_style  = '--ts-mobile-tab-count: ' . (int) $ts_tab_count;
 				data-ts-mobile-tab-cart
 				aria-label="<?php esc_attr_e( 'Cart', 'tailwindscore' ); ?>"
 			>
-				<span class="mobile-tab-bar__icon icon" aria-hidden="true"><?php echo tailwindscore_icon( 'cart' ); ?></span>
+				<span class="mobile-tab-bar__icon icon" aria-hidden="true"><?php echo tailwindscore_icon( $ts_cart_icon ); ?></span>
 				<span class="mobile-tab-bar__badge-slot" data-ts-cart-badge>
 					<?php tailwindscore_render_cart_badge(); ?>
 				</span>
 				<span class="mobile-tab-bar__label"><?php esc_html_e( 'Cart', 'tailwindscore' ); ?></span>
 			</button>
-		</li>		
+		</li>
 		<?php if ( class_exists( 'WooCommerce' ) ) : ?>
 			<li class="mobile-tab-bar__item">
 				<?php if ( is_user_logged_in() ) : ?>

@@ -169,6 +169,34 @@ function tailwindscore_render_header_bar_message( array $item ): void {
 }
 
 /**
+ * 页头 / 移动底栏购物车入口可选图标。
+ *
+ * @return array<string, string>
+ */
+function tailwindscore_header_cart_icon_choices(): array {
+	return array(
+		'bag'  => esc_html__( '购物袋', 'tailwindscore' ),
+		'cart' => esc_html__( '购物车', 'tailwindscore' ),
+	);
+}
+
+/**
+ * @param mixed $value Raw theme_mod.
+ */
+function tailwindscore_header_cart_icon_sanitize( $value ): string {
+	$value = is_string( $value ) ? $value : 'bag';
+
+	return array_key_exists( $value, tailwindscore_header_cart_icon_choices() ) ? $value : 'bag';
+}
+
+/**
+ * 当前购物车入口图标名（icons.php key；默认 bag）。
+ */
+function tailwindscore_header_cart_icon(): string {
+	return tailwindscore_header_cart_icon_sanitize( tailwindscore_mod( 'header_cart_icon', 'bag' ) );
+}
+
+/**
  * @param string                $cfg     Kirki 配置 ID。
  * @param array<string, string> $targets 按区域索引的 Customizer 面板 / 区块 ID。
  */
@@ -176,6 +204,30 @@ function tailwindscore_header_kirki_register( string $cfg, array $targets ): voi
 	if ( ! class_exists( 'Kirki' ) ) {
 		return;
 	}
+
+	Kirki::add_section(
+		'tailwindscore_header_icons',
+		array(
+			'title'       => esc_html__( '页头图标', 'tailwindscore' ),
+			'description' => esc_html__( '页头与移动底栏购物车入口图标。', 'tailwindscore' ),
+			'panel'       => $targets['header'],
+			'priority'    => 30,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'              => 'radio-buttonset',
+			'settings'          => 'header_cart_icon',
+			'label'             => esc_html__( '购物车图标', 'tailwindscore' ),
+			'section'           => 'tailwindscore_header_icons',
+			'default'           => 'bag',
+			'priority'          => 10,
+			'choices'           => tailwindscore_header_cart_icon_choices(),
+			'sanitize_callback' => 'tailwindscore_header_cart_icon_sanitize',
+		)
+	);
 
 	Kirki::add_section(
 		'tailwindscore_header',

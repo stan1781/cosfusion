@@ -72,7 +72,8 @@
 	stroke: currentColor;
 	stroke-linecap: round;
 	stroke-linejoin: round;
-	stroke-width: 1.75;
+	// 对齐 Heroicons Outline 标称线宽。
+	stroke-width: 1.5;
 }
 
 // 品牌 / 实心图标（如 WhatsApp）：覆盖上方 stroke 规则

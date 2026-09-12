@@ -28,25 +28,28 @@ function tailwindscore_product_assurances_icon_choices(): array {
 /**
  * Repeater 默认条目（前台英文；须与 Kirki default 一致）。
  *
- * @return array<int, array{icon: string, text: string, link_url: string, link_label: string}>
+ * @return array<int, array{icon: string, title: string, subtitle: string, link_url: string, link_label: string}>
  */
 function tailwindscore_product_assurances_items_default(): array {
 	return array(
 		array(
 			'icon'       => 'truck',
-			'text'       => __( 'Enjoy free shipping', 'tailwindscore' ),
+			'title'      => __( 'Free Shipping', 'tailwindscore' ),
+			'subtitle'   => __( 'Enjoy free shipping', 'tailwindscore' ),
 			'link_url'   => '',
 			'link_label' => '',
 		),
 		array(
 			'icon'       => 'box-return',
-			'text'       => __( '30-Day Free Returns & Exchanges', 'tailwindscore' ),
+			'title'      => __( '30-Day Returns', 'tailwindscore' ),
+			'subtitle'   => __( 'Free Returns & Exchanges', 'tailwindscore' ),
 			'link_url'   => '',
 			'link_label' => '',
 		),
 		array(
 			'icon'       => 'circle-check',
-			'text'       => __( 'Estimated delivery in 1–2 days', 'tailwindscore' ),
+			'title'      => __( 'Fast Delivery', 'tailwindscore' ),
+			'subtitle'   => __( 'Estimated in 1–2 days', 'tailwindscore' ),
 			'link_url'   => '',
 			'link_label' => '',
 		),
@@ -54,10 +57,10 @@ function tailwindscore_product_assurances_items_default(): array {
 }
 
 /**
- * 规范化保障行（跳过空文案；非法图标回退 truck）。
+ * 规范化保障行（跳过空文案；非法图标回退 truck；旧 text 迁入 title）。
  *
  * @param mixed $raw theme_mod 原始值。
- * @return array<int, array{icon: string, text: string, link_url: string, link_label: string}>
+ * @return array<int, array{icon: string, title: string, subtitle: string, link_url: string, link_label: string}>
  */
 function tailwindscore_product_assurances_normalize_items( $raw ): array {
 	if ( ! is_array( $raw ) ) {
@@ -72,9 +75,15 @@ function tailwindscore_product_assurances_normalize_items( $raw ): array {
 			continue;
 		}
 
-		$text = trim( (string) ( $row['text'] ?? '' ) );
+		$title    = trim( (string) ( $row['title'] ?? '' ) );
+		$subtitle = trim( (string) ( $row['subtitle'] ?? '' ) );
 
-		if ( '' === $text ) {
+		// 兼容旧 repeater 的单字段 text。
+		if ( '' === $title ) {
+			$title = trim( (string) ( $row['text'] ?? '' ) );
+		}
+
+		if ( '' === $title && '' === $subtitle ) {
 			continue;
 		}
 
@@ -86,7 +95,8 @@ function tailwindscore_product_assurances_normalize_items( $raw ): array {
 
 		$items[] = array(
 			'icon'       => $icon,
-			'text'       => $text,
+			'title'      => $title,
+			'subtitle'   => $subtitle,
 			'link_url'   => trim( (string) ( $row['link_url'] ?? '' ) ),
 			'link_label' => trim( (string) ( $row['link_label'] ?? '' ) ),
 		);
@@ -96,7 +106,7 @@ function tailwindscore_product_assurances_normalize_items( $raw ): array {
 }
 
 /**
- * @return array<int, array{icon: string, text: string, link_url: string, link_label: string}>
+ * @return array<int, array{icon: string, title: string, subtitle: string, link_url: string, link_label: string}>
  */
 function tailwindscore_get_product_assurances_items(): array {
 	$stored = tailwindscore_mod( 'product_assurances_items', tailwindscore_product_assurances_items_default() );
@@ -105,7 +115,7 @@ function tailwindscore_get_product_assurances_items(): array {
 	/**
 	 * 过滤单品保障列表。
 	 *
-	 * @param array<int, array{icon: string, text: string, link_url: string, link_label: string}> $items 列表。
+	 * @param array<int, array{icon: string, title: string, subtitle: string, link_url: string, link_label: string}> $items 列表。
 	 */
 	return (array) apply_filters( 'tailwindscore/product/assurances_items', $items );
 }
@@ -185,13 +195,13 @@ function tailwindscore_product_assurances_kirki_register( string $cfg, array $ta
 			'type'         => 'repeater',
 			'settings'     => 'product_assurances_items',
 			'label'        => esc_html__( '保障条目', 'tailwindscore' ),
-			'description'  => esc_html__( '每行一项；空白文案的行前台会略过。', 'tailwindscore' ),
+			'description'  => esc_html__( '每行一项；标题与副标题皆空的行前台会略过。', 'tailwindscore' ),
 			'section'      => 'tailwindscore_product_assurances',
 			'priority'     => 20,
 			'row_label'    => array(
 				'type'  => 'field',
 				'value' => esc_html__( '条目', 'tailwindscore' ),
-				'field' => 'text',
+				'field' => 'title',
 			),
 			'button_label' => esc_html__( '新增条目', 'tailwindscore' ),
 			'default'      => tailwindscore_product_assurances_items_default(),
@@ -202,9 +212,14 @@ function tailwindscore_product_assurances_kirki_register( string $cfg, array $ta
 					'default' => 'truck',
 					'choices' => tailwindscore_product_assurances_icon_choices(),
 				),
-				'text'       => array(
+				'title'      => array(
 					'type'    => 'text',
-					'label'   => esc_html__( '文案', 'tailwindscore' ),
+					'label'   => esc_html__( '标题', 'tailwindscore' ),
+					'default' => '',
+				),
+				'subtitle'   => array(
+					'type'    => 'text',
+					'label'   => esc_html__( '副标题', 'tailwindscore' ),
 					'default' => '',
 				),
 				'link_url'   => array(

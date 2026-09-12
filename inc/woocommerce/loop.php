@@ -184,26 +184,26 @@ function tailwindscore_render_loop_product_images( WC_Product $product ): void {
 	echo '</div>';
 }
 
-/**
- * 归档卡片：简单商品加购改为圆形购物车图标（与 QV / Wishlist 一致）。
- *
- * @param string               $html    加购链接 HTML。
- * @param WC_Product|mixed     $product 商品。
- * @param array<string, mixed> $args    循环参数。
- * @return string
- */
-function tailwindscore_filter_loop_add_to_cart_icon( string $html, $product, array $args ): string {
-	if ( ! $product instanceof WC_Product || ! $product->is_type( 'simple' ) ) {
-		return $html;
-	}
+	/**
+	 * 归档卡片：简单商品加购改为圆形加号图标（与 QV / Wishlist 一致）。
+	 *
+	 * @param string               $html    加购链接 HTML。
+	 * @param WC_Product|mixed     $product 商品。
+	 * @param array<string, mixed> $args    循环参数。
+	 * @return string
+	 */
+	function tailwindscore_filter_loop_add_to_cart_icon( string $html, $product, array $args ): string {
+		if ( ! $product instanceof WC_Product || ! $product->is_type( 'simple' ) ) {
+			return $html;
+		}
 
-	if ( ! $product->is_purchasable() || ! $product->is_in_stock() || ! $product->supports( 'ajax_add_to_cart' ) ) {
-		return $html;
-	}
+		if ( ! $product->is_purchasable() || ! $product->is_in_stock() || ! $product->supports( 'ajax_add_to_cart' ) ) {
+			return $html;
+		}
 
-	$quantity = isset( $args['quantity'] ) ? $args['quantity'] : 1;
-	$label    = $product->add_to_cart_description();
-	$icon     = function_exists( 'tailwindscore_icon' ) ? tailwindscore_icon( 'cart' ) : '';
+		$quantity = isset( $args['quantity'] ) ? $args['quantity'] : 1;
+		$label    = $product->add_to_cart_description();
+		$icon     = function_exists( 'tailwindscore_icon' ) ? tailwindscore_icon( 'plus' ) : '';
 
 	// 无 ?add-to-cart= URL：仅 Store API（loop-add-to-cart.ts）；避免 bot 扫描 GET 加购。
 	return sprintf(

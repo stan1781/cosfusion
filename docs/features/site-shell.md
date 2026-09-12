@@ -42,6 +42,16 @@
 - 链接缺 label 时前台 fallback：`Learn more`
 - 旧版单条 `header_bar_text` 迁移桥接已于 2026-08-06 移除（生产已确认无依赖）；`header_bar_items` 为唯一数据源，尚未设置时回退默认一条
 
+## 页头购物车图标（Kirki）
+
+Customizer 路径：页头 → **页头图标**。影响页头操作区与移动底栏购物车入口（商品卡加购等仍用 `cart`）。
+
+| `theme_mod` | 类型 | 默认 | 说明 |
+|-------------|------|------|------|
+| `header_cart_icon` | radio-buttonset | `bag` | `bag`（Heroicons shopping-bag）/ `cart`（shopping-cart） |
+
+实现：`tailwindscore_header_cart_icon()`（`inc/navigation/header-bar.php`）、`inc/icons.php` 的 `bag` / `cart`。
+
 ## 响应式行为
 
 - **`< lg`**：汉堡菜单打开移动抽屉；可选底部 Tab 栏（购物车、账户等快捷入口）

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 $is_checkout = function_exists( 'is_checkout' ) && is_checkout();
 $is_cart     = function_exists( 'is_cart' ) && is_cart();
+$cart_icon   = function_exists( 'tailwindscore_header_cart_icon' ) ? tailwindscore_header_cart_icon() : 'bag';
 ?>
 <div class="site-header__actions" aria-label="<?php esc_attr_e( 'Site actions', 'tailwindscore' ); ?>">
 	<?php if ( $is_checkout ) : ?>
@@ -14,7 +15,7 @@ $is_cart     = function_exists( 'is_cart' ) && is_cart();
 			href="<?php echo esc_url( $back_url ); ?>"
 			aria-label="<?php esc_attr_e( 'Return to cart', 'tailwindscore' ); ?>"
 		>
-			<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'cart' ); ?></span>
+			<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( $cart_icon ); ?></span>
 			<span class="screen-reader-text"><?php esc_html_e( 'Return to cart', 'tailwindscore' ); ?></span>
 		</a>
 	<?php else : ?>
@@ -68,7 +69,7 @@ $is_cart     = function_exists( 'is_cart' ) && is_cart();
 				aria-controls="ts-site-cart-panel"
 				aria-label="<?php esc_attr_e( 'Open cart', 'tailwindscore' ); ?>"
 			>
-				<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'cart' ); ?></span>
+				<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( $cart_icon ); ?></span>
 				<span class="site-header__badge-slot" data-ts-cart-badge>
 					<?php tailwindscore_render_cart_badge(); ?>
 				</span>
