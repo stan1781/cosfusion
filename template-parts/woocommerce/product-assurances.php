@@ -31,7 +31,7 @@ if ( array() === $items ) {
 		$wrap_body  = $has_link && '' === $link_label;
 		?>
 		<li class="product-assurances__item">
-			<span class="product-assurances__icon icon" aria-hidden="true">
+			<span class="product-assurances__icon icon<?php echo 'lock' === $icon ? ' icon--solid' : ''; ?>" aria-hidden="true">
 				<?php echo tailwindscore_icon( $icon ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</span>
 			<?php if ( $wrap_body ) : ?>

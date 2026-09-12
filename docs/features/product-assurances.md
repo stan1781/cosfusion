@@ -21,7 +21,7 @@ Repeater 每行字段：
 
 | 字段 | 说明 |
 |------|------|
-| 图标 | 预设：`truck` / `box-return` / `circle-check` / `package` / `gift` / `lock`（SVG 对齐 [Heroicons](https://heroicons.com/) Outline：`truck` / `arrow-path` / `check-circle` / `cube` / `gift` / `lock-closed`；key 不变） |
+| 图标 | 预设：`truck` / `box-return` / `circle-check` / `package` / `gift` / `lock`（多数对齐 [Heroicons](https://heroicons.com/) Outline：`truck` / `arrow-path` / `check-circle` / `cube` / `gift`；`lock` 为 Solid `lock-closed`，模板须加 `.icon--solid`） |
 | 标题 | 主行文案（默认英文，`font-weight: 600`） |
 | 副标题 | 次行说明（更小、次要色） |
 | 链接 URL | 可选 |
@@ -46,6 +46,6 @@ Repeater 每行字段：
 
 ## 维护
 
-1. 新增预设图标时：优先用 Heroicons Outline 24 path 写入 `inc/icons.php`，并加入 `tailwindscore_product_assurances_icon_choices()`；勿在 SVG 上写内联 `stroke-width`
+1. 新增预设图标时：优先用 Heroicons Outline 24 path 写入 `inc/icons.php`，并加入 `tailwindscore_product_assurances_icon_choices()`；勿在 SVG 上写内联 `stroke-width`。Solid 图标（如 `lock`）须在包装上加 `.icon--solid`
 2. 样式只用 `--ts-*` token，组件内不硬编码色值 / 间距；字重仅 400 / 600
 3. 修改后执行 `npm run build`

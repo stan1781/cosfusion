@@ -31,7 +31,7 @@ tailwindscore/
 ├── inc/
 │   ├── bootstrap.php     # 统一 require（functions.php 仅引导此处）
 │   ├── admin/            # 后台编辑页辅助（主题短代码速查等）
-│   ├── icons.php         # 内联 SVG：默认 Heroicons Outline 24；whatsapp / ruler 例外
+│   ├── icons.php         # 内联 SVG：默认 Heroicons Outline 24；whatsapp / lock（Solid）/ ruler 例外
 │   ├── config/           # Kirki 注册与 helpers（含 home Hero）
 │   ├── home/             # Hero 轮播与旧首页 theme_mod 清理
 │   ├── navigation/       # 头部、移动壳层、页脚导航

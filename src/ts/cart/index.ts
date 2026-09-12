@@ -673,7 +673,7 @@ function renderCartFixedActionBar(cart: StoreApiCart, config: TailwindscoreCartC
 						${escapeHtml(config.i18n.checkout)}
 						(<span data-ts-cart-checkout-total>${escapeHtml(totalHtml)}</span>)
 					</span>
-					<span class="action-bar__cta-icon" aria-hidden="true"><span class="icon">${lockIcon}</span></span>
+						<span class="action-bar__cta-icon" aria-hidden="true"><span class="icon icon--solid">${lockIcon}</span></span>
 				</a>
 			</div>
 		</div>

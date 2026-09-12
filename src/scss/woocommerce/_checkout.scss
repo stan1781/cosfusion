@@ -116,7 +116,7 @@
 
 .woocommerce-checkout .content-shell,
 .woocommerce-checkout .entry__content {
-	background: var(--ts-surface);
+	background: transparent;
 }
 
 // Shopify-like field stack: muted labels, taller controls.
@@ -411,12 +411,16 @@
 	gap: var(--ts-spacer-2);
 	min-width: 0;
 	align-items: center;
+	overflow: visible;
 }
 
 .checkout-order-summary__thumbs {
 	display: flex;
 	align-items: center;
 	flex-shrink: 0;
+	// 堆叠伪元素会越出缩略图，避免被裁切
+	overflow: visible;
+	padding-inline-end: var(--ts-spacer-1);
 }
 
 .checkout-order-summary__toggle-copy {
@@ -502,8 +506,6 @@
 .order-summary-thumb {
 	width: 3.75rem;
 	height: 3.75rem;
-	background: var(--ts-border-color);
-	border: 1px solid var(--ts-border-color-strong);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -519,7 +521,8 @@
 }
 
 .order-summary-thumb.has-stack {
-	box-shadow: var(--ts-shadow-md);
+	// 隔离堆叠上下文，避免 z-index:-1 沉到 .wc-checkout__summary（loading-host + 背景）后面
+	isolation: isolate;
 }
 
 .order-summary-thumb.has-stack::after {
@@ -527,8 +530,8 @@
 	position: absolute;
 	inset: 0;
 	background: var(--ts-surface-muted);
-	border: 2px solid var(--ts-border-color-strong);
-	transform: rotate(9deg) translate(8px, 1px);
+	border: 1px solid var(--ts-border-color-strong);
+	transform: rotate(6deg) translate(6px, -2px);
 	box-shadow: var(--ts-shadow-md);
 	z-index: -1;
 	border-radius: inherit;
@@ -540,6 +543,14 @@
 	overflow: hidden;
 	border-radius: inherit;
 	display: block;
+	// border / 阴影放在 media：画在 ::after 之上，避免堆叠层咬掉正面边框
+	background: var(--ts-border-color);
+	border: 1px solid var(--ts-border-color-strong);
+	position: relative;
+}
+
+.order-summary-thumb.has-stack .order-summary-thumb-media {
+	box-shadow: var(--ts-shadow-md);
 }
 
 .order-summary-thumb-img {

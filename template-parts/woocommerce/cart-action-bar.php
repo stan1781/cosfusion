@@ -23,7 +23,7 @@ $shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 
 				(<span data-ts-cart-checkout-total><?php wc_cart_totals_order_total_html(); ?></span>)
 			</span>
 			<span class="action-bar__cta-icon" aria-hidden="true">
-				<span class="icon"><?php echo tailwindscore_icon( 'lock' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted SVG from theme map. ?></span>
+				<span class="icon icon--solid"><?php echo tailwindscore_icon( 'lock' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted SVG from theme map. ?></span>
 			</span>
 		</a>
 	</div>

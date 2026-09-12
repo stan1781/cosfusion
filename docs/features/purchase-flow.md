@@ -37,7 +37,7 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 - 结账 **Terms / Privacy modal**（`checkout-legal-modals.php` + `legal-modals.ts`）：点击条款或隐私政策链接打开原生 `<dialog>` 展示对应页面全文；正文挂 `.entry__content` + `ts-entry-content-prose`（与 Page / Post 共用）；`body.woocommerce-cart` / `woocommerce-checkout` 上的 `.entry__content` 仅壳层、不套正文 `a`/列表，避免污染购物车链接与价格；移除 Woo 内联条款 slideToggle；无 JS 时链接仍指向页面 permalink
 - 结账订单摘要行项缩略图（`.checkout-line-item__media` 固定 `3.75rem` + `aspect-ratio: 1`）：选择器高于 `.entry__content img`；正文图为 `width: auto; max-width: 100%`（小图保持固有尺寸）
 - 购物车 / 结账表单页默认不输出站点页脚（Kirki `footer_hide_on_cart` / `footer_hide_on_checkout`；订单成功页仍显示；见 [站点壳层](site-shell.md)）
-- 购物车页 **底部固定操作栏**（`cart-action-bar.php` + `renderCartFixedActionBar`）：Continue shopping + Checkout（含订单总额）；侧栏仅 totals / coupon，不重复 CTA；空车不渲染；`body.woocommerce-cart` 预留 `--ts-action-bar-height`
+- 购物车页 **底部固定操作栏**（`cart-action-bar.php` + `renderCartFixedActionBar`）：Continue shopping + Checkout（含订单总额；CTA 旁实心 `lock` + `.icon--solid`）；侧栏仅 totals / coupon，不重复 CTA；空车不渲染；`body.woocommerce-cart` 预留 `--ts-action-bar-height`
 - **订单成功页**（`order-received`）：对齐 Starcore 布局——Hero（可配置标题/副标题）+ 三格 overview stats + 行项摘要/总计 + 侧栏配送方式与地址 + Next steps + Actions；移除 Woo 默认 `woocommerce_order_details_table` 以免重复
 - **WhatsApp CTA**（成功页）：号码未配置时不渲染；预填消息支持 `{order_number}` / `{order_total}`（Customizer → 设计 → 联络方式）。**页头顶栏 / FAB 本轮未接入**
 - Store API 缓存优化（`store-api-cache.php`）
