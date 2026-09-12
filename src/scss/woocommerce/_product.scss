@@ -59,6 +59,21 @@
 
 }
 
+/* 简单品 form.cart 与可变品 .woocommerce-variation-add-to-cart：数量 + 加购按钮占满剩余宽度 */
+.wc-product-detail__summary > form.cart:not(.variations_form),
+.woocommerce-variation-add-to-cart {
+	--ts-add-to-cart-row-gap: var(--ts-spacer-2);
+
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: var(--ts-add-to-cart-row-gap);
+
+	.single_add_to_cart_button {
+		min-width: 0;
+		flex: 1 1 auto;
+	}
+}
 
 .wc-product-detail__price-row {
 	display: flex;

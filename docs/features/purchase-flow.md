@@ -47,6 +47,7 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 - **区域限制**（`checkout-region-restrictions.php`，策略 B）：账单或收货任一为 `US` + `IL`（Illinois）则拒绝下单；经典结账用 `woocommerce_after_checkout_validation`，Store API / Blocks 用 `woocommerce_store_api_checkout_update_order_from_request`；前台 `woocommerce_states` 去掉 Illinois，后台改单仍可选；不改 `form-checkout.php`、不依赖 Shipping Zone
 - 可变商品 **未选齐变体**：主加购与 sticky ATC 灰显，文案为 `Select {Attribute}`（首个未选属性）；点击仅滚到对应属性行，不弹 toast / alert（`variation-atc-ready.ts`）
 - 可变商品 **选齐变体**：主加购与 sticky ATC 文案均为 `Add to cart`（价格在摘要区 / sticky 价格区展示，不写入按钮）。
+- 单品摘要 **加购行**：简单品 `form.cart:not(.variations_form)` 与可变品 `.woocommerce-variation-add-to-cart` 均为 flex；数量固定宽，`.single_add_to_cart_button` 以 `flex: 1 1 auto` 占满剩余宽度（`_product.scss`）。
 
 ## 通知策略
 

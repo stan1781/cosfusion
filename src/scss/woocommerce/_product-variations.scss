@@ -264,22 +264,7 @@
 	font-size: var(--ts-font-size-sm);
 }
 
-.woocommerce-variation-add-to-cart {
-	--ts-variation-add-to-cart-gap: var(--ts-spacer-2);
-
-	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-end;
-	gap: var(--ts-variation-add-to-cart-gap);
-
-	.single_add_to_cart_button {
-		min-width: 0;
-		flex: 1 1 auto;
-		// @include mixins.ts-up(md) {
-		// 	height: 3rem !important;
-		// }
-	}
-}
+/* ATC 行布局（flex + 按钮占满剩余）见 _product.scss */
 
 .single_variation_wrap {
 	.woocommerce-variation-availability {
