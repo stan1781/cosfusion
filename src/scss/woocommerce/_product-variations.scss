@@ -336,8 +336,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 1rem;
-	margin-bottom: 1rem;
+	gap: var(--ts-spacer-2);
+	margin-bottom: var(--ts-spacer-2);
 }
 
 .size-guide-dialog__title {

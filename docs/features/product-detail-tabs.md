@@ -6,8 +6,8 @@
 
 | 视口 | 布局 |
 |------|------|
-| `< md`（< 48rem） | 手风琴：描述、Size Guide、评论可独立展开/折叠 |
-| `≥ md` | 两列网格：左列描述、右列 Size Guide；评论单独占满下一行 |
+| `< md`（< 48rem） | 手风琴：描述、Size Guide（及 filter 扩展 Tab）、评论可独立展开/折叠 |
+| `≥ md` | 下划线滑动 Tab（描述 / Size Guide 等）；评论单独占满下一行（不进 Tab） |
 
 断点使用 `ts-up(md)` / `ts-down(md)`，与 [设计令牌](../architecture/design-tokens.md) 一致。
 
@@ -15,7 +15,27 @@
 
 - **描述**：产品有长描述时显示
 - **Size Guide**：产品配置了 Size Guide 且有内容时显示
-- **评论**：产品开启评论时显示
+- **评论**：产品开启评论时显示（桌面独立行；移动端手风琴末项）
+- **自定义 Tab**：经 `tailwindscore_product_detail_tabs` filter 注入（见下）
+
+## 自定义 Tab（filter）
+
+桌面 Tab 与移动端手风琴共享同一列表。评论**不**进入该 filter。
+
+```php
+add_filter( 'tailwindscore_product_detail_tabs', function ( array $tabs, WC_Product $product ): array {
+	$tabs['shipping'] = array(
+		'title'    => __( 'Shipping & Returns', 'tailwindscore' ),
+		'priority' => 30,
+		'callback' => static function (): void {
+			echo '<p>…</p>';
+		},
+	);
+	return $tabs;
+}, 10, 2 );
+```
+
+每项字段：`title`（string）、`priority`（int，默认 10）、`callback`（callable，输出 HTML）。内置 `description` priority `10`，`size_guide` priority `20`。
 
 ## 实现文件
 
@@ -31,6 +51,21 @@
 
 - `src/ts/product/index.ts` → `initProductDetailTabs()`
 - `src/scss/woo.scss` → `@use "woocommerce/product-detail-tabs"`
+
+## 桌面下划线动画
+
+- 指示器：`.product-detail-tabs__indicator`，相对 tablist 用 `getBoundingClientRect` 测距，以 `transform: translate3d` + `width` 滑动
+- 缓动：`cubic-bezier(0.65, 0, 0.35, 1)`，约 `0.4s`；动画期间忽略 ResizeObserver 同步，避免打断
+- 激活标签色：`--ts-primary`；未激活：`--ts-text-muted`；`color` 同步过渡
+- `prefers-reduced-motion: reduce`：指示器瞬时对齐，无过渡
+- `ResizeObserver`：窗口/布局变化时无动画重新对齐
+- 键盘：左右方向键 / Home / End 在 tablist 内切换
+
+## 描述限高与展开
+
+- 默认约 8 行高（`font-size-sm × 1.5 × 8`）；超出时显示 **Show more** / **Show less**
+- 折叠且可展开时底部 `--ts-surface` 白色渐变遮罩
+- 桌面 Tab panel 与移动端手风琴共用同一 markup（`data-ts-product-description`）
 
 ## 移除默认 WooCommerce Tabs
 
@@ -85,6 +120,7 @@ add_action( 'wp', 'tailwindscore_remove_default_product_tabs', 99 );
 
 ## 无障碍
 
+- 桌面：`role="tablist"` / `tab` / `tabpanel`；`aria-selected`、`aria-controls`、`hidden`
 - 手风琴按钮：`aria-expanded`
 - 折叠内容：`hidden` 属性
 - 装饰图标：`aria-hidden="true"`
@@ -96,6 +132,7 @@ add_action( 'wp', 'tailwindscore_remove_default_product_tabs', 99 );
 ```javascript
 console.log(window.tailwindscoreProduct?.sizeGuide);
 document.querySelector('.product-detail-sections');
+document.querySelector('.product-detail-tabs');
 document.querySelector('[data-ts-product-size-guide-embed]');
 ```
 
@@ -111,6 +148,7 @@ npm run build
 2. 修改 Size Guide 视觉时，在 `_product-variations.scss` 与 `_shell.scss`（表格段）统一修改，弹窗与内嵌同步
 3. 测试 `md` 断点前后布局切换
 4. 不影响现有 Size Guide `<dialog>` 弹窗功能
+5. 扩展 Tab 只用 `tailwindscore_product_detail_tabs`，勿把评论塞进该 filter
 
 ## 相关模块
 

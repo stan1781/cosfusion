@@ -1,11 +1,10 @@
 /**
- * Product detail tabs custom layout
- * - PC: Two columns (description + size guide), reviews full width below
- * - Mobile: Accordion style
+ * 单品详情 Tab / 手风琴
+ * - PC：下划线滑动 Tab（描述 / Size Guide 等）；评价全宽在下方
+ * - 移动端：手风琴
  */
 
 @use "../abstracts/mixins";
-
 
 // Desktop Layout
 .product-detail-row {
@@ -19,7 +18,7 @@
 
 	&--desktop {
 		@include mixins.ts-up(md) {
-			grid-template-columns: 1fr 1fr;
+			grid-template-columns: 1fr;
 		}
 	}
 
@@ -35,11 +34,10 @@
 	flex-direction: column;
 	gap: var(--ts-spacer-2);
 
-	&--description,
-	&--size-guide,
+	&--tabs,
 	&--reviews {
 		padding: var(--ts-spacer-2) var(--ts-spacer-4);
-		background-color: var(--ts-surface-muted);
+		background-color: var(--ts-surface);
 		border-radius: var(--ts-border-radius);
 	}
 }
@@ -52,13 +50,86 @@
 	color: var(--ts-text-primary);
 }
 
+// 桌面 Tab 栏（设计图式下划线指示器）
+.product-detail-tabs {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	gap: var(--ts-spacer-4);
+	margin-block-end: var(--ts-spacer-3);
+	border-block-end: 1px solid var(--ts-border-color);
+}
+
+.product-detail-tabs__indicator {
+	position: absolute;
+	inset-block-end: -1px;
+	inset-inline-start: 0;
+	z-index: 0;
+	height: 0.1875rem;
+	width: 0;
+	background-color: var(--ts-primary);
+	pointer-events: none;
+	transform: translate3d(0, 0, 0);
+	transform-origin: left center;
+	will-change: transform, width;
+	transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1), width 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+	opacity: 0;
+
+	.product-detail-tabs.is-ready & {
+		opacity: 1;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		transition: none;
+	}
+}
+
+.product-detail-tabs__tab {
+	z-index: 1;
+	margin: 0;
+	padding: var(--ts-spacer-2) 0;
+	border: none;
+	background: transparent;
+	font-size: var(--ts-font-size-base);
+	font-weight: 600;
+	line-height: var(--ts-line-height-base);
+	color: var(--ts-text-muted);
+	cursor: pointer;
+	transition: color 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+
+	&:hover {
+		color: var(--ts-text-secondary);
+	}
+
+	&[aria-selected="true"] {
+		color: var(--ts-primary);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		transition: none;
+	}
+}
+
+.product-detail-panels {
+	display: flex;
+	flex-direction: column;
+}
+
+.product-detail-panel {
+	&[hidden] {
+		display: none;
+	}
+}
+
 .product-detail-content {
 	font-size: var(--ts-font-size-sm);
 	line-height: var(--ts-line-height-base);
 	color: var(--ts-text-secondary);
-    .wp-block-paragraph {
-        line-height: 1.5;
-    }
+
+	.wp-block-paragraph {
+		line-height: 1.5;
+	}
 
 	p {
 		margin-block-end: var(--ts-spacer-2);
@@ -83,20 +154,70 @@
 	}
 }
 
-// Size guide embedded - reuse dialog styles
-.product-detail-size-guide-embed {
-	// Embed uses the same structure as .size-guide-dialog__inner
-	// All styles are inherited from _product-variations.scss
-	
-	// Prevent content from being stretched vertically by flex parent
-	align-self: flex-start; // Don't stretch in height
-	
-	// Override header alignment for embedded version
-	.size-guide-dialog__header {
-		justify-content: flex-end;
+// 描述限高 + 底部白色渐变 + 展开按钮
+.product-detail-description {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-spacer-2);
+}
+
+.product-detail-description__clip {
+	position: relative;
+	max-height: calc(var(--ts-font-size-sm) * 1.5 * 8);
+	overflow: hidden;
+
+	.product-detail-description.is-expanded & {
+		max-height: none;
+		overflow: visible;
+	}
+}
+
+.product-detail-description__fade {
+	display: none;
+	position: absolute;
+	inset-inline: 0;
+	inset-block-end: 0;
+	height: calc(var(--ts-spacer-5) * 1.25);
+	pointer-events: none;
+	background: linear-gradient(to top, var(--ts-surface) 0%, transparent 100%);
+
+	.product-detail-description.is-clampable:not(.is-expanded) & {
+		display: block;
+	}
+}
+
+.product-detail-description__toggle {
+	align-self: center;
+	margin: 0;
+	padding: 0;
+	border: none;
+	background: transparent;
+	font-size: var(--ts-font-size-sm);
+	font-weight: 600;
+	line-height: var(--ts-line-height-base);
+	color: var(--ts-primary);
+	cursor: pointer;
+	text-decoration: underline;
+	text-underline-offset: 0.125rem;
+
+	&:hover {
+		color: var(--ts-primary-hover);
 	}
 
-	// Remove dialog-specific height constraints
+	&[hidden] {
+		display: none;
+	}
+}
+
+// Size guide embedded - reuse dialog styles
+.product-detail-size-guide-embed {
+	align-self: flex-start;
+
+	.size-guide-dialog__header {
+		justify-content: flex-end;
+		margin-block-start: var(--ts-spacer-2);
+	}
+
 	.size-guide-dialog__body {
 		max-height: none;
 		overflow: visible;
@@ -107,6 +228,7 @@
 .product-detail-accordion {
 	display: block;
 	margin-inline: calc(var(--ts-section-y-mobile) * -1);
+	background-color: var(--ts-surface);
 
 	@include mixins.ts-up(md) {
 		display: none;
@@ -139,7 +261,7 @@
 
 	&[aria-expanded="true"] {
 		.product-detail-accordion-icon {
-			transform: rotate(0deg); // Expanded: point down (original SVG direction)
+			transform: rotate(0deg);
 		}
 	}
 }
@@ -158,7 +280,7 @@
 	width: calc(var(--ts-spacer-2) * 1.5);
 	height: calc(var(--ts-spacer-2) * 1.5);
 	flex-shrink: 0;
-	transform: rotate(-90deg); // Default: point right
+	transform: rotate(-90deg);
 	transition: transform 0.3s ease;
 	color: var(--ts-text-secondary);
 
@@ -179,7 +301,7 @@
 }
 
 .product-detail-accordion-body {
-	padding: 0 var(--ts-spacer-4) var(--ts-spacer-2);
+	padding: 0 var(--ts-spacer-3) var(--ts-spacer-2);
 	font-size: var(--ts-font-size-sm);
 	line-height: var(--ts-line-height-base);
 	color: var(--ts-text-secondary);
@@ -206,7 +328,6 @@
 		margin-block-end: var(--ts-spacer-1);
 	}
 
-	// Reviews specific styles
 	.woocommerce-Reviews {
 		margin: 0;
 	}
@@ -214,6 +335,6 @@
 	.woocommerce-Reviews-title {
 		font-size: var(--ts-font-size-base);
 		margin-block-end: var(--ts-spacer-2);
-        display: none;
+		display: none;
 	}
 }
