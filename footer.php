@@ -3,15 +3,21 @@ declare(strict_types=1);
 ?>
 <?php if ( function_exists( 'tailwindscore_site_footer_should_render' ) ? tailwindscore_site_footer_should_render() : true ) : ?>
 	<footer class="site-footer">
-		<div class="container site-footer__inner">
-			<?php if ( is_active_sidebar( 'footer-top' ) ) : ?>
-				<div class="site-footer__top">
-					<?php dynamic_sidebar( 'footer-top' ); ?>
+		<?php if ( is_active_sidebar( 'footer-top' ) ) : ?>
+			<div class="site-footer__band site-footer__band--top">
+				<div class="container site-footer__inner">
+					<div class="site-footer__top">
+						<?php dynamic_sidebar( 'footer-top' ); ?>
+					</div>
 				</div>
-			<?php endif; ?>
-			<?php get_template_part( 'template-parts/footer/footer-widgets' ); ?>
-			<?php get_template_part( 'template-parts/footer/footer-nav' ); ?>
-			<?php get_template_part( 'template-parts/footer/footer-info' ); ?>
+			</div>
+		<?php endif; ?>
+		<div class="site-footer__band site-footer__band--main">
+			<div class="container site-footer__inner">
+				<?php get_template_part( 'template-parts/footer/footer-widgets' ); ?>
+				<?php get_template_part( 'template-parts/footer/footer-nav' ); ?>
+				<?php get_template_part( 'template-parts/footer/footer-info' ); ?>
+			</div>
 		</div>
 	</footer>
 <?php endif; ?>

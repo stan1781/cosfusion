@@ -31,7 +31,7 @@
 - 订阅弹窗、联系表单前台交互
 - cart/checkout 通过 `tailwindscore_dequeue_mailnest_assets()` 卸载无关资源（前台 JS/CSS）
 - **结账自动订阅**由插件服务端钩子 `woocommerce_checkout_order_processed` 写入（与前台资源卸载无关）；默认直接 `confirmed`，可在「邮件订阅 → 邮件设置」关闭
-- 样式：`src/scss/components/_mailnest-subscribe-modal.scss`（分栏 `--split` 在 md 以下限制配图 `max-height: 12rem`，弹窗 `max-height` 与无图一致，避免只见图片）
+- 样式：`src/scss/components/_mailnest-subscribe-modal.scss`（分栏 `--split` 在 md 以下限制配图 `max-height: 12rem`，弹窗 `max-height` 与无图一致，避免只见图片）；短代码标题区 `.mailnest-subscribe__header` 左侧为 `envelope` 图标（`inc/icons.php`）
 - 插件 SSR 类名须对齐主题约定（**无** `ts-` 前缀）：`mailnest-subscribe*`、`mailnest-contact-form*`、`btn` / `form-control` / `input-group` / `input-inline` / `input-stack`、`field` / `form-layout-*`；行为钩子仍用 `data-ts-mailnest-*`
 - 订阅 `form_style` 与全局控件组类名一致：`input-group` / `input-inline` / `input-stack`
 - 订阅按钮样式（后台 `button_color`）：仅 `primary` / `secondary` / `outline`（→ `btn` / `btn-secondary` / `btn-outline`）；`form_size` 仅默认或 `sm`（→ `btn-sm`）

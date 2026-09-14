@@ -131,7 +131,7 @@ Swiper `breakpoints`、手风琴/Tab 切换等运行时逻辑须与 SCSS 断点�
 
 ## 与站点壳层、商城的关系
 
-- **Header / 主导航**：移动壳 `< lg`，桌面 inline 导航 `≥ lg`；页头 / 页脚背景为 `surface`（抬升于 `body` 的 `surface-alt`）
+- **Header / 主导航**：移动壳 `< lg`，桌面 inline 导航 `≥ lg`；页头背景为 `surface`（抬升于 `body` 的 `surface-alt`）；页脚 main band 为 `surface`，top band（`footer-top`）为 `surface-muted`
 - **WooCommerce**：结账/账户可在 `lg` 启用多列；商品网格在 `md`/`xl` 按需加分列；归档商品卡背景为 `surface`
 - **产品详情 Tab**：手风琴 `< md`，两列网格 `≥ md`
 - **容器宽度**：`--ts-container-max` 在较宽视口内居中

@@ -1,5 +1,17 @@
 @use "../abstracts/mixins";
 
+.site-footer__band {
+	width: 100%;
+}
+
+.site-footer__band--top {
+	background: var(--ts-surface-muted);
+}
+
+.site-footer__band--main {
+	background: var(--ts-surface-alt);
+}
+
 .site-footer__inner p {
 	color: var(--ts-text-secondary);
 }
@@ -86,7 +98,7 @@
 }
 
 .site-footer__top {
-	padding-bottom: var(--ts-spacer-3);
+	padding: var(--ts-spacer-2) 0;
 	// border-bottom: 1px solid var(--ts-border-color);
 }
 
@@ -102,6 +114,110 @@
 	color: var(--ts-text-primary);
 	font-weight: 600;
 	font-size: var(--ts-font-size-base);
+}
+
+// 列区菜单：手机端可折叠；lg 及以上常开（由 footer-widgets.ts 控制）
+.site-footer__accordion-trigger {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--ts-spacer-2);
+	width: 100%;
+	padding: var(--ts-spacer-2) 0;
+	margin: 0;
+	border: 0;
+	border-block-end: 1px solid var(--ts-border-color);
+	background: transparent;
+	cursor: pointer;
+	text-align: left;
+	color: inherit;
+	font: inherit;
+
+	&:disabled {
+		cursor: default;
+		opacity: 1;
+		color: inherit;
+	}
+
+	&[aria-expanded='true'] .site-footer__accordion-icon {
+		transform: rotate(0deg);
+	}
+}
+
+.site-footer__accordion-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: var(--ts-font-size-lg);
+	height: var(--ts-font-size-lg);
+	color: var(--ts-text-secondary);
+	transform: rotate(-90deg);
+	transition: transform 0.2s ease;
+
+	svg {
+		display: block;
+		width: var(--ts-font-size-base);
+		height: var(--ts-font-size-base);
+		fill: none;
+		stroke: currentColor;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		transition: none;
+	}
+}
+
+.site-footer__accordion-panel[hidden] {
+	display: none;
+}
+
+@include mixins.ts-up('lg') {
+	.site-footer__accordion-trigger {
+		padding: 0;
+		border-block-end: 0;
+		pointer-events: none;
+	}
+
+	.site-footer__accordion-icon {
+		display: none;
+	}
+
+	.site-footer__accordion-panel[hidden] {
+		display: block;
+	}
+}
+
+// 列区 Navigation Menu widget（与 .site-footer__nav 独立）
+.site-footer__content .widget .menu {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-spacer-1);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: var(--ts-font-size-sm);
+}
+
+.site-footer__content .widget .menu .sub-menu {
+	display: flex;
+	flex-direction: column;
+	gap: var(--ts-spacer-1);
+	list-style: none;
+	margin: var(--ts-spacer-1) 0 0;
+	padding: 0 0 0 var(--ts-spacer-3);
+}
+
+.site-footer__content .widget .menu a {
+	display: block;
+	padding-block: var(--ts-spacer-1);
+	color: var(--ts-text-secondary);
+	text-decoration: none;
+}
+
+.site-footer__content .widget .menu a:hover,
+.site-footer__content .widget .menu a:focus-visible {
+	color: var(--ts-primary);
 }
 
 .site-footer__meta {

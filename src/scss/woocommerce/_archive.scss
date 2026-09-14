@@ -835,7 +835,7 @@ body.archive-filters-drawer-open {
 
 	&.is-active {
 		border-color: var(--ts-text-primary);
-		box-shadow: 0 0 0 1px var(--ts-text-primary);
+		// box-shadow: 0 0 0 1px var(--ts-text-primary);
 	}
 }
 

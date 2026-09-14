@@ -75,6 +75,27 @@ Customizer 路径：页头 → **页头图标**。影响页头操作区与移动
 
 对齐修饰符类：`.site-footer__nav--align-{left|center|right}`。Widget 区域与版权信息见模板片段。
 
+### 双 Band 全宽背景
+
+`.site-footer` 拆成两个全宽带（背景画在 band 上，内容各自包 `.container`）：
+
+| Band | 类 | 默认背景 | 内容 |
+|------|-----|----------|------|
+| Top | `.site-footer__band--top` | `--ts-surface-muted` | `.site-footer__top`（`footer-top` widget；未启用则不输出该 band） |
+| Main | `.site-footer__band--main` | `--ts-surface` | `.site-footer__content` + `.site-footer__nav` + `.site-footer__info` |
+
+样式：`src/scss/components/_footer.scss`（band 背景）；壳层边框仍在 `_header.scss` 的 `.site-footer`。换色只改上述 token，不新增 footer 专用色。
+
+### 列区菜单（Navigation Menu widget）
+
+`.site-footer__content` 内 WP 菜单 widget（`ul.menu`）独立样式，不与主题位置 `.site-footer__nav` 共用：
+
+- 标题：`.site-footer__title`（`base` / `600` / `text-primary`）
+- 链接：`sm`、`text-secondary`；hover / focus-visible 为 `primary`
+- 列表：去 bullet，纵向 stack，子菜单左缩进 `spacer-3`
+
+**移动端折叠**（`< lg`）：`src/ts/site/footer-widgets.ts` 将带菜单的列 widget 标题增强为按钮；默认全部收起，可各自展开（非互斥）。`≥ lg` 常开并隐藏 chevron。无 JS 时菜单保持展开可见。
+
 ## 联络方式（WhatsApp）
 
 Customizer **设计 → 联络方式**（`inc/contact/whatsapp.php`、`inc/config/kirki/contact.php`）：

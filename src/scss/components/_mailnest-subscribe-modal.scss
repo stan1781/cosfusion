@@ -215,6 +215,21 @@ body.mailnest-subscribe-open {
 }
 
 .mailnest-subscribe__header {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--ts-spacer-3);
+	min-width: 0;
+}
+
+.mailnest-subscribe__icon {
+	flex-shrink: 0;
+	width: var(--ts-font-size-lg);
+	height: var(--ts-font-size-lg);
+	margin-block-start: 0.2em;
+	color: var(--ts-primary);
+}
+
+.mailnest-subscribe__copy {
 	display: grid;
 	gap: var(--ts-spacer-2);
 	min-width: 0;
