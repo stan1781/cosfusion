@@ -34,7 +34,7 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 - 结账页布局与登录 dialog（`checkout-layout.php`、`ui/login-modal.ts`）；modal 密码框带明文切换（`ui/password-visibility.ts`，账户页仍由 `woocommerce.js` 处理）；Remember me 与 Lost password 同一行左右排
 - 结账 Payment 区隐藏空的 PPCP `.ppcp-messages`（Pay Later 占位未出文案时避免 flex gap 留白；`_checkout.scss`）
 - 结账条款文案 `.woocommerce-terms-and-conditions-wrapper`：`--ts-font-size-xs` + `--ts-text-muted`；内链用 `--ts-link-color` + underline（覆盖全局 `a { color: inherit }`）
-- 结账 **Terms / Privacy modal**（`checkout-legal-modals.php` + `legal-modals.ts`）：点击条款或隐私政策链接打开原生 `<dialog>` 展示对应页面全文；正文挂 `.entry__content` + `ts-entry-content-prose`（与 Page / Post 共用）；`body.woocommerce-cart` / `woocommerce-checkout` 上的 `.entry__content` 仅壳层、不套正文 `a`/列表，避免污染购物车链接与价格；移除 Woo 内联条款 slideToggle；无 JS 时链接仍指向页面 permalink
+- 结账 **Terms / Privacy modal**（`checkout-legal-modals.php` + `legal-modals.ts`）：点击条款或隐私政策链接打开原生 `<dialog>` 展示对应页面全文；正文挂 `.entry__content` + `ts-entry-content-prose`（与 Page / Post 共用）；`body.woocommerce-cart` / `woocommerce-checkout` / `woocommerce-account` 上的 `.entry__content` 仅壳层、不套正文 `a`/列表，避免污染购物车 / 账户页链接与价格；移除 Woo 内联条款 slideToggle；无 JS 时链接仍指向页面 permalink
 - 结账订单摘要行项缩略图（`.checkout-line-item__media` 固定 `3.75rem` + `aspect-ratio: 1`）：选择器高于 `.entry__content img`；正文图为 `width: auto; max-width: 100%`（小图保持固有尺寸）
 - 购物车 / 结账表单页默认不输出站点页脚（Kirki `footer_hide_on_cart` / `footer_hide_on_checkout`；订单成功页仍显示；见 [站点壳层](site-shell.md)）
 - 购物车页 **底部固定操作栏**（`cart-action-bar.php` + `renderCartFixedActionBar`）：Continue shopping + Checkout（含订单总额；CTA 旁实心 `lock` + `.icon--solid`）；侧栏仅 totals / coupon，不重复 CTA；空车不渲染；`body.woocommerce-cart` 预留 `--ts-action-bar-height`

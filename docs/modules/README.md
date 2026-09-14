@@ -40,7 +40,7 @@ modules/{slug}/
 | quick-view | `modules/quick-view` | 0.1.12 | ✅ | 归档 / 首页 / 单品 / 购物车 / 404 轮播 Quick View；选码 inline 尺码摘要 |
 | review-images | `modules/review-images` | 0.1.1 | ✅ | 评论附图、买家秀 Showcase |
 | account-auth | `modules/account-auth` | 0.1.4 | ✅ | 分屏登录、独立注册页、Google 登录预设、登录 modal 密码明文切换、注册表单隐藏隐私政策说明 |
-| wishlist | `modules/wishlist` | 0.1.3 | ✅ | 心愿单：父商品收藏、登录合并、Account + QV 加购 |
+| wishlist | `modules/wishlist` | 0.1.7 | ✅ | 心愿单：父商品收藏、登录合并、Account + QV 加购 |
 | content-blocks | `modules/content-blocks` | 0.2.0 | ✅ | CPT `ts_block` + `[block]` 可复用 HTML/CSS；Page 页面 CSS 抽离 |
 
 各模块详细变更见对应 `CHANGELOG.md`。

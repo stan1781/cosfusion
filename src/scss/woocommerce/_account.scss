@@ -9,7 +9,7 @@
 
 .wc-account__nav,
 .wc-account__content {
-	background: var(--ts-surface);	
+	// background: var(--ts-surface);	
 }
 
 @include mixins.ts-up("md") {
@@ -42,6 +42,8 @@
 	gap: var(--ts-spacer-2);
 	padding: var(--ts-spacer-2) var(--ts-spacer-3);
 	border-radius: var(--ts-border-radius-sm);
+	color: var(--ts-text-primary);
+	text-decoration: none;
 	transition: background-color 0.15s ease, color 0.15s ease;
 }
 
@@ -155,6 +157,7 @@
 @include mixins.ts-up("md") {
 	.wc-account-status-grid {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
+		margin-bottom: var(--ts-spacer-3);
 	}
 }
 
@@ -281,47 +284,96 @@
 	height: 1rem;
 }
 
-// Order card
+// Order card（账户列表 / dashboard feed）
 .wc-account-order-card {
 	position: relative;
-	display: flex;
-	align-items: stretch;
-	gap: var(--ts-spacer-1);
-	padding: 0 0 var(--ts-spacer-2);
-	background: var(--ts-surface);
+	display: grid;
+	gap: var(--ts-spacer-2);
+	padding: var(--ts-spacer-2) 0;
 	border-bottom: 1px solid var(--ts-border-color);
+	transition: background-color 0.15s ease;
+
+	@media (hover: hover) {
+		&:hover {
+			background: color-mix(in srgb, var(--ts-surface-muted) 65%, transparent);
+		}
+	}
 }
 
-.wc-account-order-card__main {
+.wc-account-order-card__hit {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	text-decoration: none;
+}
+
+.wc-account-order-card__header {
 	display: flex;
-	flex: 1;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--ts-spacer-1) var(--ts-spacer-3);
+	font-size: var(--ts-font-size-sm);
+}
+
+.wc-account-order-card__id {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--ts-spacer-1);
+	min-width: 0;
+	color: var(--ts-text-secondary);
+}
+
+.wc-account-order-card__number {
+	font-weight: 600;
+	color: var(--ts-text-primary);
+}
+
+.wc-account-order-card__total {
+	font-weight: 600;
+	color: var(--ts-text-primary);
+	margin-inline-start: auto;
+}
+
+.wc-account-order-card__body {
+	display: flex;
 	flex-direction: column;
-	gap: var(--ts-spacer-3);
+	gap: var(--ts-spacer-2);
 	min-width: 0;
 }
 
-@include mixins.ts-up("sm") {
+@include mixins.ts-up("md") {
 	.wc-account-order-card {
-		gap: var(--ts-spacer-2);
-		padding: var(--ts-spacer-3);
+		padding: var(--ts-spacer-3) 0;
 	}
-	.wc-account-order-card__main {
-		flex-direction: row;
-		align-items: flex-start;
+
+	.wc-account-order-card__body {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(8rem, 12rem);
+		gap: var(--ts-spacer-3);
+		align-items: start;
 	}
 }
 
-.wc-account-order-card__thumbs {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--ts-spacer-1);
+.wc-account-order-card__lines {
+	display: grid;
+	gap: var(--ts-spacer-2);
 	list-style: none;
-	padding: 0;
 	margin: 0;
-	flex-shrink: 0;
+	padding: 0;
+	min-width: 0;
 }
 
-.wc-account-order-card__thumbs img {
+.wc-account-order-card__line {
+	display: grid;
+	grid-template-columns: 3.5rem minmax(0, 1fr);
+	gap: var(--ts-spacer-2);
+	align-items: start;
+}
+
+.wc-account-order-card__thumb {
+	display: block;
 	width: 3.5rem;
 	height: 3.5rem;
 	object-fit: cover;
@@ -329,93 +381,77 @@
 	background: var(--ts-surface-muted);
 }
 
-.wc-account-order-card__more {
+.wc-account-order-card__line-body {
 	display: grid;
-	place-items: center;
-	min-width: 3.5rem;
-	height: 3.5rem;
-	border-radius: var(--ts-border-radius-sm);
-	background: var(--ts-surface-muted);
-	font-size: 0.8125rem;
+	gap: 0.125rem;
+	min-width: 0;
+}
+
+.wc-account-order-card__line-name {
+	font-size: var(--ts-font-size-sm);
+	line-height: 1.35;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wc-account-order-card__line-meta {
+	font-size: var(--ts-font-size-xs);
+	line-height: 1.4;
+	color: var(--ts-text-secondary);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wc-account-order-card__more {
+	margin: 0;
+	padding-inline-start: calc(3.5rem + var(--ts-spacer-2));
+	font-size: var(--ts-font-size-sm);
 	font-weight: 600;
 	color: var(--ts-text-secondary);
 }
 
-.wc-account-order-card__content {
-	display: grid;
-	gap: var(--ts-spacer-1);
-	flex: 1;
-	min-width: 0;
-}
-
-.wc-account-order-card__summary {
+.wc-account-order-card__status {
 	display: flex;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 	align-items: center;
 	gap: var(--ts-spacer-2);
+	padding-block-start: var(--ts-spacer-2);
+	border-block-start: 1px solid color-mix(in srgb, var(--ts-border-color) 70%, transparent);
 }
 
-.wc-account-order-card__number {
-	font-size: var(--ts-font-size-base);
-	font-weight: 700;
-	text-decoration: none;
-	color: inherit;
-}
-
-.wc-account-order-card__meta {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: var(--ts-spacer-1);
-	color: var(--ts-text-secondary);
-	font-size: 0.8125rem;
+@include mixins.ts-up("md") {
+	.wc-account-order-card__status {
+		flex-direction: column;
+		flex-wrap: wrap;
+		align-items: flex-end;
+		gap: var(--ts-spacer-1);
+		padding-block-start: 0;
+		border-block-start: 0;
+		text-align: end;
+	}
 }
 
 .wc-account-order-card__message {
 	margin: 0;
+	min-width: 0;
+	flex: 1 1 auto;
 	color: var(--ts-text-secondary);
 	font-size: var(--ts-font-size-sm);
 	line-height: 1.45;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-.wc-account-order-card__action {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.25rem;
-	margin-top: 0.25rem;
-	font-size: var(--ts-font-size-sm);
-	font-weight: 600;
-	text-decoration: none;
-	color: var(--ts-info);
-}
-
-.wc-account-order-card__action .icon {
-	width: 1rem;
-	height: 1rem;
-}
-
-.wc-account-order-card__chevron {
-	display: grid;
-	place-items: center;
-	flex-shrink: 0;
-	align-self: center;
-	width: 2rem;
-	height: 2rem;
-	border-radius: var(--ts-border-radius-pill);
-	color: var(--ts-text-secondary);
-	text-decoration: none;
-	transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-.wc-account-order-card__chevron .icon {
-	width: var(--ts-font-size-lg);
-	height: var(--ts-font-size-lg);
-}
-
-@media (hover: hover) {
-	.wc-account-order-card__chevron:hover {
-		background: var(--ts-surface-muted);
-		color: var(--ts-text-primary);
+@include mixins.ts-up("md") {
+	.wc-account-order-card__message {
+		flex: none;
+		max-width: 12rem;
+		white-space: normal;
+		overflow: visible;
+		text-overflow: unset;
 	}
 }
 
@@ -822,25 +858,30 @@ body.confirm-receipt-open {
 }
 
 @include mixins.ts-down("lg") {
-	// 贴齐头部：取消 .section 上内边距，导航全宽突破 .container gutter。
-	.woocommerce-account .section {
-		padding-block-start: 0;
+
+	// 无站点 mobile-tab-bar 时，账户导航固定底部作 Tab 替代。
+	.woocommerce-account .main {
+		padding-bottom: calc(var(--ts-account-nav-bar-height, 3.75rem) + env(safe-area-inset-bottom, 0));
 	}
 
-	// 单列 grid 行高等于导航自身，sticky 没有滑动空间；改 flex 后随账户内容一起滚动。
 	.wc-account {
 		display: flex;
 		flex-direction: column;
 	}
 
 	.wc-account__nav {
-		position: sticky;
-		top: var(--ts-site-header-height, 5rem);
+		--ts-account-nav-bar-height: 3.75rem;
+		position: fixed;
+		inset-inline: 0;
+		bottom: 0;
 		z-index: var(--ts-z-sticky);
-		box-shadow: var(--ts-shadow-sm);
-		width: calc(100% + 2 * var(--ts-container-inline-gutter, 1rem));
+		width: 100%;
 		max-width: none;
-		margin-inline: calc(-1 * var(--ts-container-inline-gutter, 1rem));
+		margin-inline: 0;
+		padding-bottom: env(safe-area-inset-bottom, 0);
+		background: var(--ts-surface);
+		border-block-start: 1px solid var(--ts-border-color);
+		box-shadow: 0 -0.125rem 0.5rem color-mix(in srgb, var(--ts-text-primary) 6%, transparent);
 	}
 
 	.wc-account-nav__label--full {
@@ -864,7 +905,7 @@ body.confirm-receipt-open {
 		align-items: center;
 		justify-content: flex-start;
 		gap: var(--ts-spacer-1);
-		padding: 0.5rem 0.25rem;
+		padding: 0.25rem;
 		text-align: center;
 		white-space: normal;
 	}
@@ -872,7 +913,7 @@ body.confirm-receipt-open {
 	// 数量角标叠在图标右上角（对齐 mobile-tab-bar）。
 	.wc-account-nav__link .account-menu__badge {
 		position: absolute;
-		top: 0.25rem;
+		top: -0.15rem;
 		inset-inline-end: calc(50% - 1.25rem);
 		margin-inline-start: 0;
 		min-width: 1.125rem;

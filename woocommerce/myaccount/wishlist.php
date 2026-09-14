@@ -92,11 +92,11 @@ $items   = Tailwindscore_Wishlist_Repository::enrich_list(
 						<?php endif; ?>
 						<button
 							type="button"
-							class="btn-icon wishlist-account__remove"
+							class="btn btn-outline btn-sm wishlist-account__remove"
 							data-ts-wishlist-remove
 							aria-label="<?php esc_attr_e( 'Remove from wishlist', 'tailwindscore' ); ?>"
 						>
-							<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'close' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG 来自主题图标 map。 ?></span>
+							<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'heart' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG 来自主题图标 map。 ?></span>
 						</button>
 					</div>
 				</li>

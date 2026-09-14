@@ -115,7 +115,8 @@ html.has-overlay .site-header {
 }
 
 html.has-overlay .mobile-tab-bar,
-html.has-overlay .product-sticky-bar {
+html.has-overlay .product-sticky-bar,
+html.has-overlay .wc-account__nav {
 	visibility: hidden;
 	pointer-events: none;
 }

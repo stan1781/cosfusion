@@ -20,7 +20,8 @@
 ## 无障碍与吸顶
 
 - **Skip link**：`header.php` 在 `wp_body_open` 后输出「Skip to content」→ `#primary`；聚焦时可见（`.skip-link:focus`）。商城 `<main>` 由 `tailwindscore_wc_wrapper_open()` 带 `id="primary"`。
-- **吸顶高度**：`header-sticky.ts` 用 `ResizeObserver` 把 `.site-header` 实测高度写入 `--ts-site-header-height`，供归档侧栏 / 文章侧栏 / 手机端账户导航 sticky `top`；compact 切换后同步更新。
+- **吸顶高度**：`header-sticky.ts` 用 `ResizeObserver` 把 `.site-header` 实测高度写入 `--ts-site-header-height`，供归档侧栏 / 文章侧栏 sticky `top`；compact 切换后同步更新。
+- **账户页（`< lg`）**：无站点 `mobile-tab-bar`；`.wc-account__nav` 固定底部（对齐 Tab 栏视觉），`.main` 预留 `--ts-account-nav-bar-height` + safe-area；抽屉/overlay 打开时隐藏。`≥ lg` 仍为左侧栏。
 - **Logo**：`loading="eager"` + `decoding="async"` + 固有宽高，降低 CLS。
 - 性能总览见 [前台性能](../architecture/performance.md)。
 
@@ -55,6 +56,7 @@ Customizer 路径：页头 → **页头图标**。影响页头操作区与移动
 ## 响应式行为
 
 - **`< lg`**：汉堡菜单打开移动抽屉；可选底部 Tab 栏（购物车、账户等快捷入口）
+- **有底栏时（`body.has-mobile-tab-bar`，`< lg`）**：页头隐藏搜索与账户图标（与底栏入口重复）；购物车与菜单按钮保留。无底栏页（单品 / 购物车 / 结账 / 账户等）页头入口仍显示
 - **`≥ lg`**：横向 inline 主导航；下拉 / Mega 菜单悬停或键盘聚焦展开
 - 头部支持吸顶策略（`header-sticky.ts`）
 

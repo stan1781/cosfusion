@@ -44,6 +44,7 @@
 - 确认收货等 My Account 前台流程
 - Bootstrap Modal 改为主题 `<dialog>` / TS
 - Woo 模板优先使用 `themes/tailwindscore/woocommerce/`
+- 账户订单卡（`myaccount/partials/order-card.php`）：顶栏日期+编号 | 金额；左商品行（最多 3 + `+N`）；右状态；整卡 hit-link 进详情；无独立 View order；`< md` 状态沉底
 
 ### WP Enhanced Tools（脚本管理）
 

@@ -130,24 +130,33 @@
 
 .wishlist-account__item {
 	display: grid;
-	grid-template-columns: 4.5rem 1fr;
-	gap: var(--ts-spacer-2);
-	align-items: center;
+	// 手机：缩略图 | 品名（跨列）；下一行 价格 | 操作。
+	grid-template-columns: 4.5rem minmax(0, 1fr) auto;
+	grid-template-rows: auto auto;
+	gap: 0;
+	align-items: start;
 	padding: var(--ts-spacer-2);
 	border: 1px solid var(--ts-border-color);
 	border-radius: var(--ts-border-radius-sm);
 	background: var(--ts-surface);
 
 	@include mixins.ts-up(md) {
+		gap: var(--ts-spacer-2);
 		grid-template-columns: 5rem 1fr auto;
+		grid-template-rows: auto;
+		align-items: center;
 	}
 }
 
 .wishlist-account__media {
 	width: 4.5rem;
+	grid-column: 1;
+	grid-row: 1 / -1;
 
 	@include mixins.ts-up(md) {
 		width: 5rem;
+		grid-column: auto;
+		grid-row: auto;
 	}
 
 	img {
@@ -159,31 +168,56 @@
 }
 
 .wishlist-account__info {
-	display: grid;
-	gap: 0.25rem;
-	min-width: 0;
+	// 手机：拆开子项进父级 grid，使价格与操作同排。
+	display: contents;
+
+	@include mixins.ts-up(md) {
+		display: grid;
+		gap: 0.25rem;
+		min-width: 0;
+	}
 }
 
 .wishlist-account__name {
+	grid-column: 2 / -1;
+	grid-row: 1;
 	color: var(--ts-text-primary);
 	text-decoration: none;
-	font-size: var(--ts-font-size-sm);
+	font-size: var(--ts-font-size-xs);
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 2;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: normal;
+	min-width: 0;
+
+	@include mixins.ts-up(md) {
+		grid-column: auto;
+		grid-row: auto;
+		font-size: var(--ts-font-size-sm);
+	}
 
 	@media (hover: hover) {
 		&:hover {
+			color: var(--ts-link-color);
 			text-decoration: underline;
 		}
 	}
 }
 
 .wishlist-account__price {
+	grid-column: 2;
+	grid-row: 2;
+	align-self: center;
+	min-width: 0;
 	@include mixins.ts-price-html(var(--ts-font-size-sm), var(--ts-font-size-xs));
+
+	@include mixins.ts-up(md) {
+		grid-column: auto;
+		grid-row: auto;
+		align-self: auto;
+	}
 
 	.price {
 		display: contents;
@@ -193,28 +227,61 @@
 
 .wishlist-account__actions {
 	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
+	flex-wrap: nowrap;
+	align-items: stretch;
 	gap: var(--ts-spacer-2);
-	grid-column: 1 / -1;
+	grid-column: 3;
+	grid-row: 2;
+	align-self: center;
+	flex-shrink: 0;
 
 	@include mixins.ts-up(md) {
 		grid-column: auto;
+		grid-row: auto;
+		flex-wrap: wrap;
 		justify-content: flex-end;
 	}
 }
 
+// 与行内 Quick view / Add to cart 同为 btn-sm；仅图标、非圆形；线框心形 + 斜线表示取消收藏。
 .wishlist-account__remove {
-	width: 2rem;
-	height: 2rem;
-	border-radius: 50%;
-	border-color: var(--ts-border-color);
-	color: var(--ts-text-secondary);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	aspect-ratio: 1;
+	height: auto;
+	padding-inline: 0.3125rem;
+	// btn-sm 的 0.4rem 圆角在小方钮上会显圆；改用 sm token 保持方角。
+	border-radius: var(--ts-border-radius-sm);
 
-	@media (hover: hover) {
-		&:hover {
-			background: var(--ts-surface-muted);
-			color: var(--ts-text-primary);
+	.icon {
+		position: relative;
+		width: 0.875rem;
+		height: 0.875rem;
+
+		// 斜线：禁用 / 取消收藏语义。
+		&::after {
+			content: '';
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			width: 120%;
+			height: 1.5px;
+			background: currentColor;
+			border-radius: 1px;
+			transform: translate(-50%, -50%) rotate(-45deg);
+			pointer-events: none;
 		}
+	}
+
+	.icon svg {
+		fill: none;
+		stroke: currentColor;
+	}
+
+	// 文案按钮 loading 会 color:transparent；图标需一并藏起以免叠在 spinner 上。
+	&.is-loading .icon,
+	&.loading .icon {
+		visibility: hidden;
 	}
 }

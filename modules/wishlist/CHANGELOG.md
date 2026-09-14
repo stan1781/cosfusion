@@ -1,5 +1,17 @@
 # Wishlist Module
 
+## 0.1.7
+
+- Account 列表：手机端品名 `font-size-xs`；价格与操作区同一行（`display: contents`）；`md+` 仍为三列；取消收藏心形加斜线。
+
+## 0.1.6
+
+- Account 列表：取消收藏与主操作统一为 `btn btn-sm`（`btn-outline`）；去掉圆形；图标改为线框心形。
+
+## 0.1.5
+
+- Account 列表品名：默认正文色、hover 主色下划线；不再被 `.entry__content` 正文链接样式盖成常驻主色。
+
 ## 0.1.4
 
 - Account 列表：删除按钮请求期间显示 loading（与加购按钮同一套 `setControlLoading`）；补齐 `.btn-icon.is-loading` spinner 样式。

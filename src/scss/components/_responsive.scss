@@ -1,5 +1,16 @@
 @use "../abstracts/mixins";
 
+// 有移动底栏时，头部搜索 / 账户与底栏重复，手机端隐藏。
+@include mixins.ts-down(lg) {
+	body.has-mobile-tab-bar {
+		.site-header__action--search,
+		.site-header__account,
+		.site-header__action--account {
+			display: none;
+		}
+	}
+}
+
 @include mixins.ts-up('lg') {
 	.site-header__inner {
 		flex-wrap: nowrap;

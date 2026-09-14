@@ -93,12 +93,23 @@
 .woocommerce-message,
 .woocommerce-error,
 .woocommerce-info {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--ts-spacer-2);
 	margin-bottom: var(--ts-spacer-4);
 	padding: var(--ts-spacer-3);
 	border: 1px solid var(--ts-border-color);
 	border-radius: var(--ts-border-radius-sm);
 	background: var(--ts-surface-muted);
 	list-style: none;
+	font-size: var(--ts-font-size-sm);
+
+	// Woo 把 .button 写在文案前；用 order 放到文字下方。
+	> .button,
+	> a.button {
+		order: 2;
+	}
 }
 
 .woocommerce-tabs ul.tabs {

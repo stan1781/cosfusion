@@ -103,7 +103,7 @@ $ts-entry-measure: 42rem;
 }
 
 // Page / Post / 结账法律 modal 共用正文排版（.entry--post 仅保留阅读栏布局）
-// 壳层与排版分离：cart / checkout 页的 .entry__content 只保留壳层，避免 a/列表/标题泄漏到 Woo UI
+// 壳层与排版分离：cart / checkout / account 页的 .entry__content 只保留壳层，避免 a/列表/标题泄漏到 Woo UI
 @mixin ts-entry-content-shell {
 	display: grid;
 	gap: var(--ts-spacer-4);
@@ -218,8 +218,8 @@ $ts-entry-measure: 42rem;
 	@include ts-entry-content-shell;
 }
 
-// 普通 Page / Post；cart、checkout 表单页排除（其 .woocommerce UI 不应继承正文 a/列表）
-body:not(.woocommerce-cart):not(.woocommerce-checkout) .entry__content,
+// 普通 Page / Post；cart、checkout、account 表单页排除（其 .woocommerce UI 不应继承正文 a/列表）
+body:not(.woocommerce-cart):not(.woocommerce-checkout):not(.woocommerce-account) .entry__content,
 .checkout-legal-modal__body.entry__content {
 	@include ts-entry-content-prose;
 }
