@@ -32,6 +32,11 @@
 	gap: var(--ts-spacer-4);
 }
 
+/* 无 notice 时隐藏空 wrapper，避免 grid gap 留白 */
+.wc-account__content > .woocommerce-notices-wrapper:not(:has(.woocommerce-message, .woocommerce-info, .woocommerce-error)) {
+	display: none;
+}
+
 .wc-account__content .heading {
 	margin: 0;
 }

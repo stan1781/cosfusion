@@ -21,7 +21,7 @@
 
 - **Skip link**：`header.php` 在 `wp_body_open` 后输出「Skip to content」→ `#primary`；聚焦时可见（`.skip-link:focus`）。商城 `<main>` 由 `tailwindscore_wc_wrapper_open()` 带 `id="primary"`。
 - **吸顶高度**：`header-sticky.ts` 用 `ResizeObserver` 把 `.site-header` 实测高度写入 `--ts-site-header-height`，供归档侧栏 / 文章侧栏 sticky `top`；compact 切换后同步更新。
-- **账户页（`< lg`）**：无站点 `mobile-tab-bar`；`.wc-account__nav` 固定底部（对齐 Tab 栏视觉），`.main` 预留 `--ts-account-nav-bar-height` + safe-area；抽屉/overlay 打开时隐藏。`≥ lg` 为左侧栏：`.woocommerce-MyAccount-navigation` 成卡（`--ts-surface` / `--ts-border-radius-lg` / `--ts-shadow-sm`），顶部 `.wc-account-nav__user`（头像 + Welcome back + 姓名 + View profile → `edit-account`）；`< lg` 隐藏用户信息区，底栏仅菜单项。
+- **账户页（`< lg`）**：无站点 `mobile-tab-bar`；`.wc-account__nav` 固定底部（对齐 Tab 栏视觉），`.main` 预留 `--ts-account-nav-bar-height` + safe-area；抽屉/overlay 打开时隐藏。`≥ lg` 为左侧栏：`.woocommerce-MyAccount-navigation` 成卡（`--ts-surface` / `--ts-border-radius-lg` / `--ts-shadow-sm`），顶部 `.wc-account-nav__user`（头像 + Welcome back + 姓名 + View profile → `edit-account`）；`< lg` 隐藏用户信息区，底栏仅菜单项。Dashboard / Orders / View Order 内容区为 grid + `gap`；空的 `.woocommerce-notices-wrapper`（无 message/info/error）`display: none`，避免无通知时仍占一行间距。
 - **Logo**：`loading="eager"` + `decoding="async"` + 固有宽高，降低 CLS。
 - 性能总览见 [前台性能](../architecture/performance.md)。
 
