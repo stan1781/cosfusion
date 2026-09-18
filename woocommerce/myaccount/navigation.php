@@ -12,11 +12,33 @@ defined( 'ABSPATH' ) || exit;
 
 $nav_icons        = tailwindscore_account_nav_icons();
 $nav_short_labels = tailwindscore_account_nav_short_labels();
+$current_user     = wp_get_current_user();
+$profile_url      = wc_get_account_endpoint_url( 'edit-account' );
 
 do_action( 'woocommerce_before_account_navigation' );
 ?>
 
 <nav class="woocommerce-MyAccount-navigation" aria-label="<?php esc_attr_e( 'Account pages', 'woocommerce' ); ?>">
+	<div class="wc-account-nav__user">
+		<div class="wc-account-nav__avatar">
+			<?php
+			echo get_avatar(
+				$current_user->ID,
+				96,
+				'',
+				$current_user->display_name,
+				array( 'class' => 'wc-account-nav__avatar-img' )
+			);
+			?>
+		</div>
+		<div class="wc-account-nav__user-body">
+			<p class="wc-account-nav__user-greeting"><?php esc_html_e( 'Welcome back,', 'tailwindscore' ); ?></p>
+			<p class="wc-account-nav__user-name"><?php echo esc_html( $current_user->display_name ); ?></p>
+			<a class="wc-account-nav__user-link" href="<?php echo esc_url( $profile_url ); ?>">
+				<?php esc_html_e( 'View profile', 'tailwindscore' ); ?>
+			</a>
+		</div>
+	</div>
 	<ul class="wc-account-nav__list">
 		<?php foreach ( wc_get_account_menu_items() as $endpoint => $label ) : ?>
 			<?php
