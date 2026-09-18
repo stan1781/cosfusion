@@ -30,6 +30,11 @@ $show_customer_details = $order->get_user_id() === get_current_user_id();
 $process_data          = class_exists( 'WC_Order_Process_Manager' ) ? WC_Order_Process_Manager::get_order_process( $order->get_id() ) : null;
 $order_status          = $order->get_status();
 $is_shipping           = ( 'shipping' === $order_status ) || ( $process_data && 'shipping' === $process_data['process_step'] );
+$wrap_order_body       = function_exists( 'is_wc_endpoint_url' ) && is_wc_endpoint_url( 'view-order' );
+$show_process_info     = $process_data
+	&& class_exists( 'WC_Order_Process_Tracking_Widget_Manager' )
+	&& ! empty( $process_data['international_tracking'] );
+$show_order_aside      = $wrap_order_body && ( $show_process_info || $show_customer_details );
 
 if ( $show_downloads ) {
 	wc_get_template(
@@ -40,11 +45,22 @@ if ( $show_downloads ) {
 		)
 	);
 }
+
+if ( $wrap_order_body ) :
+	?>
+<div class="wc-account-order-body">
+	<?php
+endif;
 ?>
-<section class="woocommerce-order-details stack">
+<section class="woocommerce-order-details stack wc-account-panel">
 	<?php do_action( 'woocommerce_order_details_before_order_table', $order ); ?>
 
-	<?php if ( class_exists( 'WC_Order_Process_Customer_View' ) ) : ?>
+	<?php
+	// 账户 view-order 头部卡片已内嵌 stepper，此处跳过以免重复。
+	$show_order_stepper = class_exists( 'WC_Order_Process_Customer_View' )
+		&& ! ( function_exists( 'is_wc_endpoint_url' ) && is_wc_endpoint_url( 'view-order' ) );
+	?>
+	<?php if ( $show_order_stepper ) : ?>
 		<?php
 		wc_get_template(
 			'myaccount/partials/order-stepper.php',
@@ -56,7 +72,10 @@ if ( $show_downloads ) {
 		?>
 	<?php endif; ?>
 
-	<h2 class="woocommerce-order-details__title heading"><?php esc_html_e( 'Order details', 'woocommerce' ); ?></h2>
+	<h2 class="woocommerce-order-details__title wc-account-panel__title">
+		<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'package' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+		<span><?php esc_html_e( 'Order details', 'woocommerce' ); ?></span>
+	</h2>
 
 	<div class="wc-account-order-card wc-account-order-card--details">
 		<div class="wc-account-order-details__items">
@@ -175,32 +194,39 @@ if ( $show_downloads ) {
 		<?php endif; ?>
 	</div>
 
-	<?php if ( $process_data && class_exists( 'WC_Order_Process_Tracking_Widget_Manager' ) && ! empty( $process_data['international_tracking'] ) ) : ?>
-		<section class="wc-account-process-info">
-			<h3 class="heading"><?php esc_html_e( 'Shipping information', 'tailwindscore' ); ?></h3>
-			<?php if ( ! empty( $process_data['international_carrier'] ) ) : ?>
-				<?php
-				$carriers     = WC_Order_Process_Tracking_Widget_Manager::get_supported_carriers();
-				$carrier_name = $carriers[ $process_data['international_carrier'] ] ?? $process_data['international_carrier'];
-				?>
-				<p><strong><?php esc_html_e( 'Carrier:', 'tailwindscore' ); ?></strong> <?php echo esc_html( $carrier_name ); ?></p>
-			<?php endif; ?>
-			<p>
-				<strong><?php esc_html_e( 'Tracking number:', 'tailwindscore' ); ?></strong>
-				<?php
-				echo WC_Order_Process_Tracking_Widget_Manager::render_tracking_widget( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					$process_data['international_tracking'],
-					$process_data['international_carrier'],
-					null,
-					array( 'context' => 'frontend' )
-				);
-				?>
-			</p>
-		</section>
-	<?php endif; ?>
-
 	<?php do_action( 'woocommerce_order_details_after_order_table', $order ); ?>
 </section>
+
+<?php if ( $show_order_aside ) : ?>
+	<div class="wc-account-order-aside">
+<?php endif; ?>
+
+<?php if ( $show_process_info ) : ?>
+	<section class="wc-account-process-info wc-account-panel">
+		<h3 class="wc-account-panel__title">
+			<span class="icon" aria-hidden="true"><?php echo tailwindscore_icon( 'truck' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+			<span><?php esc_html_e( 'Shipping information', 'tailwindscore' ); ?></span>
+		</h3>
+		<?php if ( ! empty( $process_data['international_carrier'] ) ) : ?>
+			<?php
+			$carriers     = WC_Order_Process_Tracking_Widget_Manager::get_supported_carriers();
+			$carrier_name = $carriers[ $process_data['international_carrier'] ] ?? $process_data['international_carrier'];
+			?>
+			<p><strong><?php esc_html_e( 'Carrier:', 'tailwindscore' ); ?></strong> <?php echo esc_html( $carrier_name ); ?></p>
+		<?php endif; ?>
+		<p>
+			<strong><?php esc_html_e( 'Tracking number:', 'tailwindscore' ); ?></strong>
+			<?php
+			echo WC_Order_Process_Tracking_Widget_Manager::render_tracking_widget( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				$process_data['international_tracking'],
+				$process_data['international_carrier'],
+				null,
+				array( 'context' => 'frontend' )
+			);
+			?>
+		</p>
+	</section>
+<?php endif; ?>
 
 <?php
 do_action( 'woocommerce_after_order_details', $order );
@@ -208,3 +234,15 @@ do_action( 'woocommerce_after_order_details', $order );
 if ( $show_customer_details ) {
 	wc_get_template( 'order/order-details-customer.php', array( 'order' => $order ) );
 }
+
+if ( $show_order_aside ) :
+	?>
+	</div>
+	<?php
+endif;
+
+if ( $wrap_order_body ) :
+	?>
+</div>
+	<?php
+endif;

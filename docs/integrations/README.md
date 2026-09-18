@@ -45,6 +45,9 @@
 - Bootstrap Modal 改为主题 `<dialog>` / TS
 - Woo 模板优先使用 `themes/tailwindscore/woocommerce/`
 - 账户订单卡（`myaccount/partials/order-card.php`）：顶栏日期+编号 | 金额；左商品行（最多 3 + `+N`）；右状态；整卡 hit-link 进详情；无独立 View order；`< md` 状态沉底
+- View Order 状态头部（`myaccount/view-order.php` → `.wc-account-order-header`）：订单号 + 状态徽章 + Back to Orders + 日期/总额 + 内嵌 full stepper；`order-details.php` 在 view-order 端点不再重复输出 stepper（thank-you 仍保留）；`.wc-account-stepper` 步骤圆点间有横线连接（已完成段 `--ts-on-secondary`，其余 `--ts-border-color`；full/mini 共用）
+- View Order 内容区取消外层整卡（`:has(.wc-account-order-header)`）；Order details / Shipping information / 账单与配送地址各自 `.wc-account-panel`（标题 1rem + icon，正文 `sm`）；订单行项 `< md`：`gap` spacer-1、字号 `xs`、图 3.75rem（60px）
+- View Order PC（`≥ lg`）：`.wc-account-order-body` 左 3fr（Order details）/ 右 2fr（`.wc-account-order-aside`：物流 + 地址叠放）；`< lg` 仍单列
 
 ### WP Enhanced Tools（脚本管理）
 

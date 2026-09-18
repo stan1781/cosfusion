@@ -13,14 +13,26 @@
 }
 
 @include mixins.ts-up("md") {
-.wc-account__content {
-	box-shadow: var(--ts-shadow-md);
+	.wc-account__content {
+		box-shadow: var(--ts-shadow-md);
 		border-radius: var(--ts-border-radius);
 		padding: var(--ts-spacer-4);
 	}
+
+	// View Order：去掉外层整卡，由子版块各自成卡
+	.wc-account__content:has(.wc-account-order-header) {
+		padding: 0;
+		border-radius: 0;
+		box-shadow: none;
+		background: transparent;
+	}
 }
 
-.wc-account__content > .woocommerce-order-details,
+.wc-account__content:has(.wc-account-order-header) {
+	display: grid;
+	gap: var(--ts-spacer-4);
+}
+
 .wc-account__content > .woocommerce-MyAccount-content > .stack {
 	padding: 0;
 }
@@ -300,6 +312,24 @@
 	}
 }
 
+// 订单详情内嵌卡：无列表 hover / 底边
+.wc-account-order-card--details {
+	display: grid;
+	flex-direction: unset;
+	align-items: stretch;
+	gap: var(--ts-spacer-3);
+	padding: 0;
+	border-bottom: 0;
+	font-size: var(--ts-font-size-sm);
+	transition: none;
+
+	@media (hover: hover) {
+		&:hover {
+			background: transparent;
+		}
+	}
+}
+
 .wc-account-order-card__hit {
 	position: absolute;
 	inset: 0;
@@ -491,6 +521,163 @@
 	color: var(--ts-success);
 }
 
+// 账户订单详情独立版块（View Order）
+.wc-account-panel {
+	display: grid;
+	gap: var(--ts-spacer-3);
+	margin: 0;
+	padding: var(--ts-spacer-3);
+	border-radius: var(--ts-border-radius-lg);
+	background: var(--ts-surface);
+	box-shadow: var(--ts-shadow-sm);
+	font-size: var(--ts-font-size-sm);
+	color: var(--ts-text-primary);
+}
+
+.wc-account-panel__title {
+	display: flex;
+	align-items: center;
+	gap: var(--ts-spacer-2);
+	margin: 0;
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: var(--ts-line-height-base);
+	color: var(--ts-text-primary);
+}
+
+.wc-account-panel__title .icon {
+	flex-shrink: 0;
+	width: 1rem;
+	height: 1rem;
+	color: var(--ts-on-secondary);
+}
+
+.wc-account-panel__body {
+	margin: 0;
+	font-size: var(--ts-font-size-sm);
+	font-style: normal;
+	line-height: var(--ts-line-height-base);
+	color: var(--ts-text-secondary);
+}
+
+.wc-account-order-addresses {
+	display: grid;
+	gap: var(--ts-spacer-4);
+	margin: 0;
+}
+
+@include mixins.ts-up("md") {
+	.wc-account-order-addresses:has(.wc-account-panel--address + .wc-account-panel--address) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+// View Order：PC 左 60% 详情 / 右 40% 侧栏（物流 + 地址）
+.wc-account-order-body {
+	display: grid;
+	gap: var(--ts-spacer-4);
+	min-width: 0;
+}
+
+.wc-account-order-aside {
+	display: grid;
+	gap: var(--ts-spacer-4);
+	min-width: 0;
+	align-content: start;
+}
+
+@include mixins.ts-up("lg") {
+	.wc-account-order-body:has(.wc-account-order-aside) {
+		grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+		align-items: start;
+	}
+
+	// 侧栏内地址始终单列，避免挤在 40% 宽里再分两列
+	.wc-account-order-aside .wc-account-order-addresses:has(.wc-account-panel--address + .wc-account-panel--address) {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.wc-account-panel--address .wc-account-panel__body p {
+	margin: var(--ts-spacer-1) 0 0;
+}
+
+// View Order 状态头部卡片
+.wc-account-order-header {
+	display: grid;
+	gap: var(--ts-spacer-3);
+	margin: 0;
+	padding: var(--ts-spacer-3);
+	border-radius: var(--ts-border-radius-lg);
+	background: var(--ts-surface);
+	box-shadow: var(--ts-shadow-sm);
+	font-size: var(--ts-font-size-sm);
+}
+
+@include mixins.ts-up("md") {
+	.wc-account-order-header {
+		padding: var(--ts-spacer-4);
+	}
+}
+
+.wc-account-order-header__top {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--ts-spacer-2) var(--ts-spacer-3);
+}
+
+.wc-account-order-header__title-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--ts-spacer-2);
+	min-width: 0;
+}
+
+.wc-account-order-header__title {
+	margin: 0;
+	font-size: var(--ts-font-size-lg);
+	font-weight: 600;
+	line-height: var(--ts-line-height-base);
+	color: var(--ts-text-primary);
+}
+
+.wc-account-order-header__back {
+	margin-inline-start: auto;
+	font-size: var(--ts-font-size-sm);
+	font-weight: 400;
+	color: var(--ts-link-color);
+	text-decoration: none;
+	white-space: nowrap;
+
+	@media (hover: hover) {
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+.wc-account-order-header__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--ts-spacer-1) var(--ts-spacer-2);
+	margin: 0;
+	font-size: var(--ts-font-size-sm);
+	color: var(--ts-text-secondary);
+}
+
+.wc-account-order-header__sep {
+	color: var(--ts-text-muted);
+}
+
+.wc-account-order-header__total-amount {
+	font-weight: 600;
+	color: var(--ts-primary);
+}
+
 // Stepper (order detail)
 .wc-account-stepper {
 	display: grid;
@@ -502,13 +689,14 @@
 }
 
 .wc-account-stepper--full {
-	margin-bottom: var(--ts-spacer-4);
+	margin-bottom: 0;
 	padding: var(--ts-spacer-3);
 	border-radius: var(--ts-border-radius);
 	background: var(--ts-surface-muted);
 }
 
 .wc-account-stepper__step {
+	position: relative;
 	display: grid;
 	justify-items: center;
 	gap: var(--ts-spacer-1);
@@ -516,7 +704,27 @@
 	min-width: 0;
 }
 
+// 步骤圆点之间的横线（对齐 marker 中心；宽 = 列宽 - marker + gap）
+.wc-account-stepper__step:not(:last-child)::after {
+	content: '';
+	position: absolute;
+	top: calc(1.75rem / 2);
+	left: calc(50% + 1.75rem / 2);
+	width: calc(100% - 1.75rem + var(--ts-spacer-2));
+	height: 1px;
+	background: var(--ts-border-color);
+	transform: translateY(-50%);
+	z-index: 0;
+	pointer-events: none;
+}
+
+.wc-account-stepper__step.is-completed:not(:last-child)::after {
+	background: var(--ts-on-secondary);
+}
+
 .wc-account-stepper__marker {
+	position: relative;
+	z-index: 1;
 	display: grid;
 	place-items: center;
 	width: 1.75rem;
@@ -525,12 +733,12 @@
 	background: var(--ts-surface);
 	color: var(--ts-text-secondary);
 	font-size: 0.75rem;
-	font-weight: 700;
+	font-weight: 600;
 }
 
 .wc-account-stepper__step.is-completed .wc-account-stepper__marker,
 .wc-account-stepper__step.is-current .wc-account-stepper__marker {
-	background: var(--ts-info);
+	background: var(--ts-on-secondary);
 	color: var(--ts-on-primary);
 }
 
@@ -541,11 +749,11 @@
 }
 
 .wc-account-stepper__step.is-current .wc-account-stepper__title {
-	color: var(--ts-info);
+	color: var(--ts-on-secondary);
 }
 
 .wc-account-stepper__description {
-	display: block;
+	display: none;
 	margin-top: 0.125rem;
 	font-size: 0.6875rem;
 	color: var(--ts-text-secondary);
@@ -556,12 +764,13 @@
 }
 
 // Order detail page (thank-you + account view-order)
-.wc-account-order-card--details {
-	display: grid;
-	flex-direction: unset;
-	align-items: stretch;
+.wc-account__content .woocommerce-order-details.wc-account-panel {
 	gap: var(--ts-spacer-3);
-	font-size: var(--ts-font-size-sm);
+}
+
+.wc-account__content .woocommerce-order-details__title.heading {
+	// 账户详情改用 panel 标题，避免 .heading 全局尺寸抢镜
+	font-size: 1rem;
 }
 
 .wc-account-order-details__items {
@@ -582,9 +791,25 @@
 }
 
 .wc-account-order-details__item img {
+	display: block;
+	width: 5rem;
+	height: 5rem;
 	border-radius: var(--ts-border-radius-sm);
 	object-fit: cover;
 }
+
+@include mixins.ts-down("md") {
+	.wc-account-order-details__item {
+		gap: var(--ts-spacer-1);
+		font-size: var(--ts-font-size-xs);
+	}
+
+	.wc-account-order-details__item img {
+		width: 3.75rem;
+		height: 3.75rem;
+	}
+}
+
 .wc-account-order-details__item-body {
 	.wc-item-meta {
 		padding:var(--ts-spacer-2) 0;
@@ -611,8 +836,10 @@
 .wc-account-order-details__totals {
 	display: grid;
 	gap: var(--ts-spacer-1);
-	padding-top: var(--ts-spacer-3);
-	border-top: 1px solid color-mix(in srgb, var(--ts-border-color) 55%, transparent);
+	margin-top: var(--ts-spacer-1);
+	padding: var(--ts-spacer-3);
+	border-radius: var(--ts-border-radius);
+	background: var(--ts-surface-muted);
 }
 
 .wc-account-order-details__total-row {
@@ -628,11 +855,14 @@
 }
 
 .wc-account-process-info {
-	display: grid;
+	// 版块壳层由 .wc-account-panel 提供
 	gap: var(--ts-spacer-2);
-	padding: var(--ts-spacer-3);
-	background: var(--ts-surface-muted);
-	border-radius: var(--ts-border-radius);
+}
+
+.wc-account-process-info p {
+	margin: 0;
+	font-size: var(--ts-font-size-sm);
+	color: var(--ts-text-secondary);
 }
 
 .wc-account-shortcuts {
