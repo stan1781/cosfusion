@@ -1175,6 +1175,13 @@ body.confirm-receipt-open {
 	.wc-account {
 		grid-template-columns: minmax(15rem, 17rem) minmax(0, 1fr);
 	}
+
+	// 桌面左侧栏随滚动吸顶（对齐归档 / 文章侧栏；移动端仍为底部 fixed）
+	.wc-account__nav {
+		position: sticky;
+		top: calc(var(--ts-site-header-height, 5rem) + var(--ts-spacer-3));
+		align-self: start;
+	}
 }
 
 .wc-account-nav__label--short {
