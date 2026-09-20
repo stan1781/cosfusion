@@ -44,8 +44,12 @@
 - 确认收货等 My Account 前台流程
 - Bootstrap Modal 改为主题 `<dialog>` / TS
 - Woo 模板优先使用 `themes/tailwindscore/woocommerce/`
+- **默认订单列表**（Dashboard「Your orders」、Orders 无 `?bucket=`）= 客户全部可见订单：履约中 + `completed` + `pending` / `on-hold` / `cancelled` / `refunded` / `failed`（不含 `checkout-draft`）；按日期倒序
+- **顶栏 4 格**（Confirmed / Packing / Shipping / Completed）仅筛选与计数；点选后只显示该履约桶
+- **待付款**（`pending` / `on-hold`）：徽章 `Awaiting payment`，引导查看订单页付款 / 转帐说明；**不**展示履约 stepper
+- **取消 / 退款 / 失败**：列表可见；徽章用 Woo 状态名；无 stepper；不计入头部活跃订单徽章
 - 账户订单卡（`myaccount/partials/order-card.php`）：顶栏日期+编号 | 金额；左商品行（最多 3 + `+N`）；右状态；整卡 hit-link 进详情；无独立 View order；`< md` 状态沉底
-- View Order 状态头部（`myaccount/view-order.php` → `.wc-account-order-header`）：订单号 + 状态徽章 + Back to Orders + 日期/总额 + 内嵌 full stepper；`order-details.php` 在 view-order 端点不再重复输出 stepper（thank-you 仍保留）；`.wc-account-stepper` 步骤圆点间有横线连接（已完成段 `--ts-on-secondary`，其余 `--ts-border-color`；full/mini 共用）
+- View Order 状态头部（`myaccount/view-order.php` → `.wc-account-order-header`）：订单号 + 状态徽章 + Back to Orders + 日期/总额；履约订单内嵌 full stepper（待付 / 关闭无 stepper）；`order-details.php` 在 view-order 端点不再重复输出 stepper（thank-you 仍保留履约 stepper）；`.wc-account-stepper` 步骤圆点间有横线连接（已完成段 `--ts-on-secondary`，其余 `--ts-border-color`；full/mini 共用）
 - View Order 内容区取消外层整卡（`:has(.wc-account-order-header)`）；Order details / Shipping information / 账单与配送地址各自 `.wc-account-panel`（标题 1rem + icon，正文 `sm`）；订单行项 `< md`：`gap` spacer-1、字号 `xs`、图 3.75rem（60px）
 - View Order PC（`≥ lg`）：`.wc-account-order-body` 左 3fr（Order details）/ 右 2fr（`.wc-account-order-aside`：物流 + 地址叠放）；`< lg` 仍单列
 

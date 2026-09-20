@@ -56,8 +56,12 @@ endif;
 	<?php do_action( 'woocommerce_order_details_before_order_table', $order ); ?>
 
 	<?php
-	// 账户 view-order 头部卡片已内嵌 stepper，此处跳过以免重复。
+	// 账户 view-order 头部已内嵌 stepper；非履约状态（待付 / 关闭）也不展示。
+	$order_bucket       = class_exists( 'WC_Order_Process_Customer_View' )
+		? WC_Order_Process_Customer_View::get_bucket_for_order( $order )
+		: '';
 	$show_order_stepper = class_exists( 'WC_Order_Process_Customer_View' )
+		&& WC_Order_Process_Customer_View::is_fulfillment_bucket( $order_bucket )
 		&& ! ( function_exists( 'is_wc_endpoint_url' ) && is_wc_endpoint_url( 'view-order' ) );
 	?>
 	<?php if ( $show_order_stepper ) : ?>

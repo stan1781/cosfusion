@@ -19,21 +19,25 @@ $is_draft = 'checkout-draft' === $order->get_status();
 $bucket   = class_exists( 'WC_Order_Process_Customer_View' )
 	? WC_Order_Process_Customer_View::get_bucket_for_order( $order )
 	: '';
-$steps    = class_exists( 'WC_Order_Process_Customer_View' )
-	? WC_Order_Process_Customer_View::get_customer_steps()
-	: array();
 
-$status_label = $is_draft
-	? __( 'Draft', 'tailwindscore' )
-	: ( isset( $steps[ $bucket ]['label'] ) ? $steps[ $bucket ]['label'] : wc_get_order_status_name( $order->get_status() ) );
+$status_label = class_exists( 'WC_Order_Process_Customer_View' )
+	? WC_Order_Process_Customer_View::get_order_status_label( $order )
+	: ( $is_draft ? __( 'Draft', 'tailwindscore' ) : wc_get_order_status_name( $order->get_status() ) );
 
-$badge_mod = $is_draft
-	? 'warning'
-	: ( 'completed' === $bucket
-		? 'success'
-		: ( 'shipping' === $bucket
-			? 'primary'
-			: ( 'packing' === $bucket ? 'info' : 'neutral' ) ) );
+if ( $is_draft || 'awaiting_payment' === $bucket ) {
+	$badge_mod = 'warning';
+} elseif ( 'completed' === $bucket ) {
+	$badge_mod = 'success';
+} elseif ( 'shipping' === $bucket ) {
+	$badge_mod = 'primary';
+} elseif ( 'packing' === $bucket ) {
+	$badge_mod = 'info';
+} else {
+	$badge_mod = 'neutral';
+}
+
+$show_stepper = class_exists( 'WC_Order_Process_Customer_View' )
+	&& WC_Order_Process_Customer_View::is_fulfillment_bucket( $bucket );
 
 $date_created = $order->get_date_created();
 $orders_url   = wc_get_account_endpoint_url( 'orders' );
@@ -80,7 +84,7 @@ $orders_url   = wc_get_account_endpoint_url( 'orders' );
 		</span>
 	</p>
 
-	<?php if ( class_exists( 'WC_Order_Process_Customer_View' ) ) : ?>
+	<?php if ( $show_stepper ) : ?>
 		<?php
 		wc_get_template(
 			'myaccount/partials/order-stepper.php',

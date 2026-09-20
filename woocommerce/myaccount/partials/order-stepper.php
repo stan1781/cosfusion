@@ -12,7 +12,13 @@ if ( ! $order || ! class_exists( 'WC_Order_Process_Customer_View' ) ) {
 	return;
 }
 
-$bucket       = WC_Order_Process_Customer_View::get_bucket_for_order( $order );
+$bucket = WC_Order_Process_Customer_View::get_bucket_for_order( $order );
+
+// 待付款 / 已关闭 / 草稿：不展示履约 stepper。
+if ( ! WC_Order_Process_Customer_View::is_fulfillment_bucket( $bucket ) ) {
+	return;
+}
+
 $current_idx  = WC_Order_Process_Customer_View::get_customer_step_index( $bucket );
 $steps        = WC_Order_Process_Customer_View::get_customer_steps();
 $bucket_keys  = WC_Order_Process_Customer_View::get_bucket_keys();

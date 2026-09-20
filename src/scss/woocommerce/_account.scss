@@ -509,11 +509,14 @@
 }
 
 .wc-account-order-card__line-name {
-	font-size: var(--ts-font-size-sm);
+	font-size: var(--ts-font-size-xs);
 	line-height: 1.35;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	@include mixins.ts-up("md") {
+		font-size: var(--ts-font-size-sm);
+	}
 }
 
 .wc-account-order-card__line-meta {
@@ -559,7 +562,7 @@
 	min-width: 0;
 	flex: 1 1 auto;
 	color: var(--ts-text-secondary);
-	font-size: var(--ts-font-size-sm);
+	font-size: var(--ts-font-size-xs);
 	line-height: 1.45;
 	overflow: hidden;
 	text-overflow: ellipsis;
