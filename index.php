@@ -19,7 +19,7 @@ get_header();
 							<?php if ( tailwindscore_show_entry_header() ) : ?>
 								<?php get_template_part( 'template-parts/content/entry-header' ); ?>
 							<?php endif; ?>
-							<div class="entry-content entry__content">
+							<div class="entry-content entry__content ts-content-root">
 								<?php the_content(); ?>
 							</div>
 						</article>

@@ -14,7 +14,9 @@ get_header();
 		the_post();
 		?>
 		<article <?php post_class( 'page-full-width' ); ?>>
-			<?php the_content(); ?>
+			<div class="ts-content-root">
+				<?php the_content(); ?>
+			</div>
 		</article>
 		<?php
 	endwhile;

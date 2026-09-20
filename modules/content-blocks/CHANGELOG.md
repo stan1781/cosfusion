@@ -1,5 +1,12 @@
 # Content Blocks
 
+## 0.3.0
+
+- **Singular CSS**：`_ts_singular_css` 覆盖 Page 与特稿 Post；读兼容旧 `_ts_page_css`；写只写新 key
+- Post 侧栏「Feature layout」开关；开启或已有 CSS 时显示「文章 CSS」metabox
+- 正文壳增加 `ts-content-root`（`page.php` / `single.php` / `index.php`）；Full Width 包一层 `ts-content-root`
+- 实现文件：`class-singular-style.php`（`Tailwindscore_Page_Style` 类名别名保留）
+
 ## 0.2.0
 
 - **Page 页面 CSS**：编辑 Page 时新增「页面 CSS」metabox；正文内 `<style>` 保存时自动抽离至 `_ts_page_css`，前台挂到 `tailwindscore-app` inline style

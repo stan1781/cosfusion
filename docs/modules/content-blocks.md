@@ -12,7 +12,7 @@
 | HTML / CSS 规范化 | `modules/content-blocks/includes/class-content-block-content.php` |
 | 前台渲染 | `modules/content-blocks/includes/class-content-block-renderer.php` |
 | 短代码 `[block]` | `modules/content-blocks/includes/class-content-block-shortcode.php` |
-| Page 页面 CSS（正文 `<style>` 抽离） | `modules/content-blocks/includes/class-page-style.php` |
+| Page / 特稿 Singular CSS（正文 `<style>` 抽离） | `modules/content-blocks/includes/class-singular-style.php` |
 | Bootstrap | `modules/content-blocks/module.php` |
 
 ## 后台
@@ -60,21 +60,24 @@ Page 正文若连续放置多个 `[block]`（中间仅换行），核心 `wpauto
 1. 优先级 `10.5`：把仅含 `[block]`（及其中 `<br>`）的段落还原为裸短代码
 2. 优先级 `12`：清掉紧贴 `.content-block` / 其 `</style>` 的残留空标签
 
-## Page 页面 CSS
+## Singular CSS（Page / 特稿 Post）
 
-编辑 **Page**（经典编辑器 Code 模式可贴整段 HTML）时，主题提供与内容区块同类的 CSS 抽离：
+编辑 **Page** 或开启 Feature layout 的 **Post** 时，主题提供与内容区块同类的 CSS 抽离（HTML → `post_content`，CSS → meta，禁止把 `<style>` 留在正文作为真源）：
 
 | 项 | 说明 |
 |----|------|
-| Metabox | 「页面 CSS」 |
-| Meta | `_ts_page_css` |
-| 保存 | 正文内所有 `<style>…</style>` 自动剥离并合并进该字段；字段本身也支持纯 CSS 或 `<style>` 包裹；抽取时会先遮蔽 HTML 注释 |
-| 前台 | `wp_add_inline_style( 'tailwindscore-app', … )`（仅 `is_singular( 'page' )`） |
-| 权限 | 与内容区块一致：无 `unfiltered_html` 时正文 `<style>` 可能已被 WP 过滤；CSS 字段保留规则文本 |
+| Metabox | Page：「页面 CSS」；Post：侧栏 Feature layout +（有 CSS 或已开启时）「文章 CSS」 |
+| Meta | `_ts_singular_css`（读兼容旧 `_ts_page_css`；写只写新 key 并清除旧 key） |
+| 内容根 | `.ts-content-root`（与 `.entry__content` 同节点；Full Width 仅包该 class） |
+| 保存 | 正文内所有 `<style>…</style>` 自动剥离并合并进 CSS 字段 |
+| 前台 | `wp_add_inline_style( 'tailwindscore-app', … )`（`is_singular( ['page','post'] )`） |
+| 权限 | 无 `unfiltered_html` 时正文 `<style>` 可能已被 WP 过滤；CSS 字段保留规则文本 |
 
-推荐落地页仍优先用 **内容区块** + `[block id="…"]`（可复用、有预览）；仅单页一次性 HTML 时可直接贴在 Page 正文，依赖本机制保存 CSS。
+推荐：可复用片段用 **内容区块** + `[block]`；单页/特稿一次性样式用 Singular CSS。与 WooPIM 同步见 [Singular Scoped CSS](../roadmap/singular-scoped-css.md)。
 
 ## 相关文档
 
 - [首页](../features/homepage.md)
+- [博客文章页](../features/blog-post.md)
+- [Singular Scoped CSS](../roadmap/singular-scoped-css.md)
 - [模块总览](README.md)

@@ -51,6 +51,7 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 | [后续升级评估](roadmap/starcore-upgrades.md) | 可从 Starcore 继续移植的非套餐能力 |
 | [B2C 转化优化](roadmap/b2c-conversion.md) | UI 反馈 / Recently viewed / Section title / PWA / E2E；一阶一验 |
 | [冗余精简路线图](roadmap/redundancy-cleanup.md) | 去重 / 遗留修剪 / 文件拆分；分阶段 + 验收门禁（与升级评估分开） |
+| [Singular Scoped CSS](roadmap/singular-scoped-css.md) | Page/特稿 CSS meta + WooPIM Bridge 同步 |
 
 ## 历史文档（归档）
 
