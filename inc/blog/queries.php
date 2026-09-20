@@ -83,3 +83,19 @@ function tailwindscore_get_popular_posts( int $limit = 5 ): array {
 
 	return $posts;
 }
+
+/**
+ * 博客归档每页篇数：2 与 3 的最小公倍数，对齐网格列数。
+ */
+function tailwindscore_blog_archive_posts_per_page( WP_Query $query ): void {
+	if ( is_admin() || ! $query->is_main_query() ) {
+		return;
+	}
+
+	if ( ! ( $query->is_category() || $query->is_tag() || $query->is_author() || $query->is_date() ) ) {
+		return;
+	}
+
+	$query->set( 'posts_per_page', 12 );
+}
+add_action( 'pre_get_posts', 'tailwindscore_blog_archive_posts_per_page' );

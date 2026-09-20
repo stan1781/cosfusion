@@ -35,6 +35,7 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 | [配件搭配 Cross-sells](features/product-cross-sells.md) | 单品 list 横卡（与 Recently viewed 同壳）；购物车瀑布见购买流程 |
 | [商店 / 分类归档](features/shop-archive.md) | AJAX 筛选导航、无限滚动、桌面侧栏 / 移动端 Filters+Sort 各半 + 左侧 Drawer |
 | [博客文章页](features/blog-post.md) | singular post：阅读栏、相关文章、Post Sidebar（桌面列 / 移动 Drawer） |
+| [博客归档列表](features/blog-archive.md) | 分类 / 标签 / 日期 / 作者：网格卡（缩略图 + 标题 + 日期）；可选 sidebar-1 |
 | [404 页面](features/not-found.md) | Hero、快捷导航卡片、人气商品轮播 |
 | [主题设置导入/导出](features/theme-settings-import-export.md) | Kirki theme_mod 白名单 JSON；预览与本机快照 |
 | [排版 / 字体](features/typography.md) | uploads 字体目录、GWFH 手动放入、分组选择 |

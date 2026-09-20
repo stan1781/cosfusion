@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * 文章卡片（相关网格 / 侧栏紧凑列表）。
+ * 文章卡片（相关网格 / 侧栏紧凑列表 / 归档 grid）。
  *
  * @package TailwindScore
  *
@@ -19,6 +19,10 @@ if ( ! $ts_post instanceof WP_Post ) {
 	return;
 }
 
+if ( ! in_array( $ts_variant, array( 'card', 'compact', 'grid' ), true ) ) {
+	$ts_variant = 'card';
+}
+
 if ( ! in_array( $ts_tag, array( 'article', 'li', 'div' ), true ) ) {
 	$ts_tag = 'article';
 }
@@ -27,11 +31,17 @@ $ts_permalink = get_permalink( $ts_post );
 $ts_title     = get_the_title( $ts_post );
 $ts_classes   = array( 'post-card' );
 
-if ( 'compact' === $ts_variant ) {
-	$ts_classes[] = 'post-card--compact';
+if ( 'card' !== $ts_variant ) {
+	$ts_classes[] = 'post-card--' . $ts_variant;
 }
 
-$ts_thumb_size = 'compact' === $ts_variant ? 'thumbnail' : 'medium';
+$ts_show_date = 'compact' !== $ts_variant;
+
+if ( 'compact' === $ts_variant ) {
+	$ts_thumb_size = 'thumbnail';
+} else {
+	$ts_thumb_size = 'medium';
+}
 ?>
 <<?php echo esc_attr( $ts_tag ); ?> class="<?php echo esc_attr( implode( ' ', $ts_classes ) ); ?>">
 	<a class="post-card__link" href="<?php echo esc_url( is_string( $ts_permalink ) ? $ts_permalink : '' ); ?>">
@@ -54,7 +64,7 @@ $ts_thumb_size = 'compact' === $ts_variant ? 'thumbnail' : 'medium';
 		<?php endif; ?>
 		<span class="post-card__body">
 			<span class="post-card__title"><?php echo esc_html( $ts_title ); ?></span>
-			<?php if ( 'compact' !== $ts_variant ) : ?>
+			<?php if ( $ts_show_date ) : ?>
 				<time class="post-card__date" datetime="<?php echo esc_attr( get_the_date( DATE_W3C, $ts_post ) ); ?>">
 					<?php echo esc_html( get_the_date( '', $ts_post ) ); ?>
 				</time>

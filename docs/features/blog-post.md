@@ -29,7 +29,7 @@ single.php
 | `src/ts/site/post-sidebar-drawer.ts` | Drawer 开合 |
 | `src/scss/components/_post-sidebar.scss` | 分栏 / Drawer / 卡片 |
 
-无独立相关产品；普通 Page 仍走 `page.php`，不使用 `sidebar-post`。
+无独立相关产品；普通 Page 仍走 `page.php`，不使用 `sidebar-post`。博客分类 / 标签 / 日期 / 作者列表见 [博客归档列表](blog-archive.md)。
 
 ## 侧栏
 
