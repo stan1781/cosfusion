@@ -6,17 +6,12 @@ defined( 'ABSPATH' ) || exit;
 $ts_breadcrumb_items = tailwindscore_entry_breadcrumb_items();
 $ts_has_excerpt      = has_excerpt();
 $ts_is_post          = is_singular( 'post' );
-$ts_header_classes   = 'entry__header';
 $ts_categories       = $ts_is_post ? get_the_category() : array();
 $ts_primary_category = ( ! empty( $ts_categories ) && $ts_categories[0] instanceof WP_Term )
 	? $ts_categories[0]
 	: null;
-
-if ( $ts_is_post ) {
-	$ts_header_classes .= ' entry__header--post';
-}
 ?>
-<header class="<?php echo esc_attr( $ts_header_classes ); ?>">
+<header class="entry__header">
 	<?php if ( count( $ts_breadcrumb_items ) > 1 ) : ?>
 		<nav class="entry__breadcrumb" aria-label="<?php esc_attr_e( 'Breadcrumb', 'tailwindscore' ); ?>">
 			<ol class="entry__breadcrumb-list">

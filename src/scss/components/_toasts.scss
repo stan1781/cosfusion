@@ -6,7 +6,8 @@ $toast-handle-width: 2.5rem;
 $toast-handle-height: 0.25rem;
 $toast-progress-height: 2px;
 $toast-close-size: calc(var(--ts-font-size-lg) + var(--ts-spacer-2));
-$toast-tint: 8%;
+// 浅 tint 底 + 同色系文字（对齐常见 soft alert，非严格色值）
+$toast-tint: 10%;
 
 .purchase-flow-toast-root {
 	position: fixed;
@@ -36,17 +37,16 @@ $toast-tint: 8%;
 	position: relative;
 	pointer-events: auto;
 	overflow: visible;
-	border: 1px solid var(--ts-border-color);
+	border: 0;
 	border-radius: var(--ts-border-radius);
 	background: color-mix(in srgb, var(--ts-info) $toast-tint, var(--ts-surface));
-	color: var(--ts-text-primary);
+	color: var(--ts-info);
 	box-shadow: var(--ts-shadow-md);
 	transition: opacity mixins.$ts-animation-slide-duration ease, transform mixins.$ts-animation-slide-duration ease;
 	will-change: transform, opacity;
 
 	@include mixins.ts-down(md) {
 		border-radius: 0 0 var(--ts-border-radius) var(--ts-border-radius);
-		border-top: 0;
 		// 浅底铺满到刘海区，正文避开 safe-area
 		padding-top: env(safe-area-inset-top, 0px);
 	}
@@ -54,14 +54,17 @@ $toast-tint: 8%;
 
 .purchase-flow-toast--success {
 	background: color-mix(in srgb, var(--ts-success) $toast-tint, var(--ts-surface));
+	color: var(--ts-success);
 }
 
 .purchase-flow-toast--warning {
 	background: color-mix(in srgb, var(--ts-warning) $toast-tint, var(--ts-surface));
+	color: var(--ts-warning);
 }
 
 .purchase-flow-toast--error {
 	background: color-mix(in srgb, var(--ts-danger) $toast-tint, var(--ts-surface));
+	color: var(--ts-danger);
 }
 
 .purchase-flow-toast.is-entering,

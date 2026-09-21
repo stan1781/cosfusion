@@ -1,25 +1,6 @@
-@use "../abstracts/mixins";
-
 .entry__header {
-	--ts-entry-header-accent: var(--ts-text-primary);
 	display: grid;
 	gap: var(--ts-spacer-2);
-	padding-block: var(--ts-spacer-4);
-	padding-inline: var(--ts-spacer-4);
-	background: linear-gradient(
-		135deg,
-		var(--ts-surface-muted) 0%,
-		var(--ts-surface-alt) 100%
-	);
-	border: 1px solid var(--ts-border-color);
-	border-inline-start: 3px solid var(--ts-entry-header-accent);
-}
-
-.entry__header--post {
-	padding: 0;
-	background: none;
-	border: 0;
-	border-inline-start: 0;
 }
 
 .entry__breadcrumb {
@@ -39,16 +20,8 @@
 	overflow: hidden;
 	font-family: var(--ts-font-body);
 	font-size: var(--ts-font-size-xs);
-	font-weight: 600;
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
-	color: var(--ts-text-secondary);
-}
-
-.entry__header--post .entry__breadcrumb-list {
-	letter-spacing: 0;
-	text-transform: none;
 	font-weight: 400;
+	color: var(--ts-text-secondary);
 }
 
 .entry__breadcrumb-item {
@@ -153,11 +126,4 @@
 	width: 100%;
 	height: auto;
 	vertical-align: middle;
-}
-
-@include mixins.ts-up(sm) {
-	.entry__header:not(.entry__header--post) {
-		padding-block: var(--ts-spacer-5);
-		padding-inline: var(--ts-spacer-5);
-	}
 }

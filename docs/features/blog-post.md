@@ -48,7 +48,15 @@ Popular Posts：按 `comment_count` 排序；可配置标题与数量（默认 5
 
 ## 标题区 / 阅读栏
 
-见既有约定：post 去装饰标题带；`$ts-entry-measure: 42rem`；meta 为日期 · 分类。正文排版由共享 `.entry__content`（`ts-entry-content-prose`）负责，与普通 Page、结账法律 modal 一致；cart / checkout / account 页仅用壳层以免泄漏到 Woo UI；`.entry--post` 仅控制阅读栏宽度与壳层间距。正文壳带 `ts-content-root`，供特稿 scoped CSS 挂载（见 [Singular Scoped CSS](../roadmap/singular-scoped-css.md)）。
+singular Page 与 Post **共用干净标题带**（无边框 / 渐变 / 色条卡片）：面包屑为句式大小写、字重 400；`h1.entry__title` 共享。Post 另有 meta（日期 · 分类）与可选特色图。
+
+| 表面 | 正文宽度 | 说明 |
+|------|----------|------|
+| Post（`.entry--post`） | `$ts-entry-measure: 42rem` 居中 | 阅读栏 |
+| 普通 Page | container 全宽 | 不加 measure |
+| cart / checkout / account | — | `.entry__content` 仅壳层，不继承 prose（避免泄漏到 Woo UI） |
+
+正文排版由共享 `ts-entry-content-prose`（Page / Post / 结账法律 modal）负责；正文壳带 `ts-content-root`，供特稿 scoped CSS 挂载（见 [Singular Scoped CSS](../roadmap/singular-scoped-css.md)）。
 
 ## 特稿 CSS（可选）
 
