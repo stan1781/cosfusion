@@ -252,22 +252,47 @@ function tailwindscore_get_not_found_products_category_id(): int {
 }
 
 /**
- * 人气商品轮播移动端可见 slide 数。
- */
-function tailwindscore_get_not_found_products_columns_mobile(): float {
-	return tailwindscore_sanitize_products_carousel_slide_count(
-		apply_filters( 'tailwindscore_not_found_products_columns_mobile', 2.5 )
-	);
-}
+	 * 人气商品轮播移动端可见 slide 数。
+	 */
+	function tailwindscore_get_not_found_products_columns_mobile(): float {
+		$default = function_exists( 'tailwindscore_get_products_carousel_columns_mobile' )
+			? tailwindscore_get_products_carousel_columns_mobile()
+			: 1.5;
 
-/**
- * 人气商品轮播桌面端可见 slide 数。
- */
-function tailwindscore_get_not_found_products_columns_desktop(): float {
-	return tailwindscore_sanitize_products_carousel_slide_count(
-		apply_filters( 'tailwindscore_not_found_products_columns_desktop', 4.0 )
-	);
-}
+		return tailwindscore_sanitize_products_carousel_slide_count(
+			apply_filters( 'tailwindscore_not_found_products_columns_mobile', $default )
+		);
+	}
+
+	/**
+	 * 人气商品轮播桌面端可见 slide 数。
+	 */
+	function tailwindscore_get_not_found_products_columns_desktop(): float {
+		$default = function_exists( 'tailwindscore_get_products_carousel_columns_desktop' )
+			? tailwindscore_get_products_carousel_columns_desktop()
+			: 3.0;
+
+		return tailwindscore_sanitize_products_carousel_slide_count(
+			apply_filters( 'tailwindscore_not_found_products_columns_desktop', $default )
+		);
+	}
+
+	/**
+	 * 人气商品轮播大屏 lg 可见 slide 数；null = 跟随桌面。
+	 */
+	function tailwindscore_get_not_found_products_columns_wide(): ?float {
+		$default = function_exists( 'tailwindscore_get_products_carousel_columns_wide' )
+			? tailwindscore_get_products_carousel_columns_wide()
+			: 4.0;
+
+		$filtered = apply_filters( 'tailwindscore_not_found_products_columns_wide', $default );
+
+		if ( null === $filtered || '' === $filtered ) {
+			return null;
+		}
+
+		return tailwindscore_sanitize_products_carousel_slide_count( $filtered );
+	}
 
 /**
  * 人气商品排序字段。
@@ -394,21 +419,21 @@ function tailwindscore_render_not_found_product_carousel(): void {
 		return;
 	}
 
-	$markup = tailwindscore_render_products_carousel_shell(
-		array(
-			'product_ids'        => $product_ids,
-			'title'              => tailwindscore_get_not_found_products_title(),
-			'columns_mobile'     => tailwindscore_get_not_found_products_columns_mobile(),
-			'columns_desktop'    => tailwindscore_get_not_found_products_columns_desktop(),
-			'gap'                => 16,
-			'section_class'      => 'not-found__products-carousel',
-			'section_data_attrs' => array(
-				'data-ts-not-found-products' => '',
-			),
-			'section_id'         => 'ts-not-found-products-title',
-			'title_class'        => 'section-title--inline',
-		)
-	);
+		$markup = tailwindscore_render_products_carousel_shell(
+			array(
+				'product_ids'        => $product_ids,
+				'title'              => tailwindscore_get_not_found_products_title(),
+				'columns_mobile'     => tailwindscore_get_not_found_products_columns_mobile(),
+				'columns_desktop'    => tailwindscore_get_not_found_products_columns_desktop(),
+				'columns_wide'       => tailwindscore_get_not_found_products_columns_wide(),
+				'section_class'      => 'not-found__products-carousel',
+				'section_data_attrs' => array(
+					'data-ts-not-found-products' => '',
+				),
+				'section_id'         => 'ts-not-found-products-title',
+				'title_class'        => 'section-title--inline',
+			)
+		);
 
 	if ( '' === trim( $markup ) ) {
 		return;

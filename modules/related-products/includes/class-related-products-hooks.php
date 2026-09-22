@@ -151,21 +151,27 @@ class Tailwindscore_Related_Products_Hooks {
 			return;
 		}
 
-		$markup = tailwindscore_render_products_carousel_shell(
-			array(
-				'product_ids'        => $ids,
-				'title'              => __( 'Related products', 'woocommerce' ),
-				'columns_mobile'     => 2.5,
-				'columns_desktop'    => 4.0,
-				'gap'                => 16,
-				'section_class'      => 'related products product-carousel--related',
-				'section_id'         => 'ts-related-products-title',
-				'section_data_attrs' => array(
-					'data-ts-related-products' => '',
-				),
-				'title_class'        => 'section-title--inline',
-			)
-		);
+			$markup = tailwindscore_render_products_carousel_shell(
+				array(
+					'product_ids'        => $ids,
+					'title'              => __( 'Related products', 'woocommerce' ),
+					'columns_mobile'     => function_exists( 'tailwindscore_get_products_carousel_columns_mobile' )
+						? tailwindscore_get_products_carousel_columns_mobile()
+						: 1.5,
+					'columns_desktop'    => function_exists( 'tailwindscore_get_products_carousel_columns_desktop' )
+						? tailwindscore_get_products_carousel_columns_desktop()
+						: 3.0,
+					'columns_wide'       => function_exists( 'tailwindscore_get_products_carousel_columns_wide' )
+						? tailwindscore_get_products_carousel_columns_wide()
+						: 4.0,
+					'section_class'      => 'related products product-carousel--related',
+					'section_id'         => 'ts-related-products-title',
+					'section_data_attrs' => array(
+						'data-ts-related-products' => '',
+					),
+					'title_class'        => 'section-title--inline',
+				)
+			);
 
 		if ( '' === trim( $markup ) ) {
 			return;

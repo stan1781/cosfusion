@@ -24,8 +24,8 @@
 | `exclude` | `0` | 排除的商品 ID |
 | `card` | `grid` | 与 [产品轮播](product-carousel.md) 相同；`list` 强制关轮播 |
 | `carousel` | `1` | `0` 静态布局 |
-| `columns_mobile` / `columns_desktop` / `columns_wide` | list：`1` / `3`；grid：`2.5` / `4` | 未写时按 `card` 默认；list 下为 CSS grid 列数 |
-| `gap` | `16` | 间距 px |
+| `columns_mobile` / `columns_desktop` / `columns_wide` | list：`1` / `3`；grid：全局产品轮播默认 | 未写时按 `card` / 全局；list 下为 CSS grid 列数 |
+| `gap` | 空（响应式 token） | 显式 px 时全断点统一；未写则手机 0.5rem / 桌面 1rem |
 
 编辑页侧栏速查见 [主题短代码](shortcode-help.md)。
 

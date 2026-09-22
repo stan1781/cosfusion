@@ -1,9 +1,13 @@
 # Related products 模块变更记录
 
+## 0.2.1 — 2026-09-22
+
+- 轮播列数改为读取主题全局 `tailwindscore_get_products_carousel_columns_*()`（默认 1.5 / md 3 / lg 4）；不再硬编码 2.5 / 4；间距跟壳层响应式 token 默认。
+
 ## 0.2.0 — 2026-08-15
 
 - Kirki `product_related_carousel`：运营可在单品 Related 的 Swiper 轮播与 Woo 默认网格之间切换（默认轮播）。
-- 轮播开启时复用 `tailwindscore_render_products_carousel_shell()`；ID 仍经 `woocommerce_related_products` 过滤链。
+- 轮播开启时复用 `tailwindscore_render_products_carousel_shell()`；ID 仍走 `woocommerce_related_products` 过滤链。
 - 布局开关不参与 transient 缓存指纹。
 
 ## 0.1.0 — 2026-05-22

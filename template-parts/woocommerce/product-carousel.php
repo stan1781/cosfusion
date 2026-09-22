@@ -14,12 +14,20 @@ defined( 'ABSPATH' ) || exit;
 $section_id         = isset( $args['section_id'] ) ? (string) $args['section_id'] : wp_unique_id( 'ts-product-carousel-' );
 $title              = isset( $args['title'] ) ? (string) $args['title'] : '';
 $loop_html          = isset( $args['loop_html'] ) ? (string) $args['loop_html'] : '';
-$columns_mobile     = isset( $args['columns_mobile'] ) ? (float) $args['columns_mobile'] : 2.5;
-$columns_desktop    = isset( $args['columns_desktop'] ) ? (float) $args['columns_desktop'] : 4.0;
+$columns_mobile     = isset( $args['columns_mobile'] )
+	? (float) $args['columns_mobile']
+	: ( function_exists( 'tailwindscore_get_products_carousel_columns_mobile' ) ? tailwindscore_get_products_carousel_columns_mobile() : 1.5 );
+$columns_desktop    = isset( $args['columns_desktop'] )
+	? (float) $args['columns_desktop']
+	: ( function_exists( 'tailwindscore_get_products_carousel_columns_desktop' ) ? tailwindscore_get_products_carousel_columns_desktop() : 3.0 );
 $columns_wide       = isset( $args['columns_wide'] ) && null !== $args['columns_wide'] && '' !== $args['columns_wide']
 	? (float) $args['columns_wide']
 	: null;
-$gap                = isset( $args['gap'] ) ? (int) $args['gap'] : 16;
+$gap                = array_key_exists( 'gap', $args )
+	? ( function_exists( 'tailwindscore_parse_products_carousel_gap_optional' )
+		? tailwindscore_parse_products_carousel_gap_optional( $args['gap'] )
+		: ( is_numeric( $args['gap'] ) ? (int) $args['gap'] : null ) )
+	: null;
 $section_class      = isset( $args['section_class'] ) ? trim( (string) $args['section_class'] ) : '';
 $title_class        = isset( $args['title_class'] ) ? trim( (string) $args['title_class'] ) : 'section-title--inline';
 $section_data_attrs = isset( $args['section_data_attrs'] ) && is_array( $args['section_data_attrs'] )
@@ -49,26 +57,42 @@ if ( '' === trim( $loop_html ) ) {
 $has_title     = '' !== $title;
 $section_class = trim( 'product-carousel ' . $section_class );
 
-$is_static     = '0' === $carousel;
-$static_style  = '';
+$is_static = '0' === $carousel;
+
+// 轮播 foreshadow + 静态 grid 共用列 CSS 变量。
+$cols_style = sprintf(
+	'--ts-product-carousel-cols-mobile:%s;--ts-product-carousel-cols-desktop:%s;',
+	(string) $columns_mobile,
+	(string) $columns_desktop
+);
+if ( null !== $columns_wide ) {
+	$cols_style .= sprintf( '--ts-product-carousel-cols-wide:%s;', (string) $columns_wide );
+}
+
+$static_style = $cols_style;
 if ( $is_static && function_exists( 'tailwindscore_products_carousel_static_columns' ) ) {
-	// list / static grid 共用列变量；list 默认由调用方或短代码解析给 1 / 2。
 	$cols_mobile  = tailwindscore_products_carousel_static_columns( $columns_mobile );
 	$cols_desktop = tailwindscore_products_carousel_static_columns( $columns_desktop );
-	$cols_wide    = null;
-	if ( null !== $columns_wide ) {
-		$cols_wide = tailwindscore_products_carousel_static_columns( $columns_wide );
-	}
-
 	$static_style = sprintf(
-		'--ts-product-carousel-cols-mobile:%d;--ts-product-carousel-cols-desktop:%d;--ts-product-carousel-gap:%dpx;',
+		'--ts-product-carousel-cols-mobile:%d;--ts-product-carousel-cols-desktop:%d;',
 		$cols_mobile,
-		$cols_desktop,
-		max( 0, min( 48, $gap ) )
+		$cols_desktop
 	);
-	if ( null !== $cols_wide ) {
-		$static_style .= sprintf( '--ts-product-carousel-cols-wide:%d;', $cols_wide );
+	if ( null !== $columns_wide ) {
+		$static_style .= sprintf(
+			'--ts-product-carousel-cols-wide:%d;',
+			tailwindscore_products_carousel_static_columns( $columns_wide )
+		);
 	}
+}
+
+if ( null !== $gap ) {
+	$static_style .= sprintf( '--ts-product-carousel-gap:%dpx;', max( 0, min( 48, $gap ) ) );
+}
+
+$section_style = $is_static ? $static_style : $cols_style;
+if ( ! $is_static && null !== $gap ) {
+	$section_style .= sprintf( '--ts-product-carousel-gap:%dpx;', max( 0, min( 48, $gap ) ) );
 }
 ?>
 <section
@@ -93,9 +117,11 @@ if ( $is_static && function_exists( 'tailwindscore_products_carousel_static_colu
 	<?php if ( null !== $columns_wide ) : ?>
 		data-ts-columns-wide="<?php echo esc_attr( (string) $columns_wide ); ?>"
 	<?php endif; ?>
-	data-ts-gap="<?php echo esc_attr( (string) $gap ); ?>"
-	<?php if ( '' !== $static_style ) : ?>
-		style="<?php echo esc_attr( $static_style ); ?>"
+	<?php if ( null !== $gap ) : ?>
+		data-ts-gap="<?php echo esc_attr( (string) $gap ); ?>"
+	<?php endif; ?>
+	<?php if ( '' !== $section_style ) : ?>
+		style="<?php echo esc_attr( $section_style ); ?>"
 	<?php endif; ?>
 >
 	<header class="product-carousel__header">

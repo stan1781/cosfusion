@@ -149,13 +149,14 @@ function tailwindscore_kirki_customizer_targets(): array {
 		'home_hero'   => tailwindscore_kirki_section_home_hero(),
 		'account'     => tailwindscore_kirki_section_account(),
 		'design'      => tailwindscore_kirki_panel_design(),
-		'shop'        => tailwindscore_kirki_panel_shop(),
-		'product'     => tailwindscore_kirki_panel_product(),
-		'cart'        => tailwindscore_kirki_section_cart(),
-		'checkout'    => tailwindscore_kirki_section_checkout(),
-		'pwa'         => 'tailwindscore_pwa',
+		'shop'              => tailwindscore_kirki_panel_shop(),
+		'products_carousel' => 'tailwindscore_products_carousel',
+		'product'           => tailwindscore_kirki_panel_product(),
+		'cart'              => tailwindscore_kirki_section_cart(),
+		'checkout'          => tailwindscore_kirki_section_checkout(),
+		'pwa'               => 'tailwindscore_pwa',
 		// 原生 WooCommerce panel；主题 section 不再挂载于此。
-		'woocommerce' => 'woocommerce',
+		'woocommerce'       => 'woocommerce',
 	);
 }
 

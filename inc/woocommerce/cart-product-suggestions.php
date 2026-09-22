@@ -74,22 +74,28 @@ function tailwindscore_get_cart_product_suggestions_orderby(): string {
 }
 
 /**
- * 购物车推荐轮播移动端可见 slide 数。
- */
-function tailwindscore_get_cart_product_suggestions_columns_mobile(): float {
-	return tailwindscore_sanitize_products_carousel_slide_count(
-		apply_filters( 'tailwindscore_cart_product_suggestions_columns_mobile', 2.5 )
-	);
-}
+	 * 购物车推荐轮播移动端可见 slide 数。
+	 */
+	function tailwindscore_get_cart_product_suggestions_columns_mobile(): float {
+		return tailwindscore_sanitize_products_carousel_slide_count(
+			apply_filters(
+				'tailwindscore_cart_product_suggestions_columns_mobile',
+				tailwindscore_mod( 'cart_product_suggestions_columns_mobile', 1.5 )
+			)
+		);
+	}
 
-/**
- * 购物车推荐轮播桌面端可见 slide 数。
- */
-function tailwindscore_get_cart_product_suggestions_columns_desktop(): float {
-	return tailwindscore_sanitize_products_carousel_slide_count(
-		apply_filters( 'tailwindscore_cart_product_suggestions_columns_desktop', 3.0 )
-	);
-}
+	/**
+	 * 购物车推荐轮播桌面端可见 slide 数。
+	 */
+	function tailwindscore_get_cart_product_suggestions_columns_desktop(): float {
+		return tailwindscore_sanitize_products_carousel_slide_count(
+			apply_filters(
+				'tailwindscore_cart_product_suggestions_columns_desktop',
+				tailwindscore_mod( 'cart_product_suggestions_columns_desktop', 3.0 )
+			)
+		);
+	}
 
 /**
  * 是否应展示购物车推荐。
@@ -137,21 +143,21 @@ function tailwindscore_render_cart_product_suggestions(): void {
 		return;
 	}
 
-	$markup = tailwindscore_render_products_carousel_shell(
-		array(
-			'product_ids'        => $product_ids,
-			'title'              => tailwindscore_get_cart_product_suggestions_title(),
-			'columns_mobile'     => tailwindscore_get_cart_product_suggestions_columns_mobile(),
-			'columns_desktop'    => tailwindscore_get_cart_product_suggestions_columns_desktop(),
-			'gap'                => 16,
-			'section_class'      => 'cart-suggestions',
-			'section_data_attrs' => array(
-				'data-ts-cart-suggestions' => '',
-			),
-			'section_id'         => 'ts-cart-suggestions-title',
-			'title_class'        => 'section-title--inline',
-		)
-	);
+		$markup = tailwindscore_render_products_carousel_shell(
+			array(
+				'product_ids'        => $product_ids,
+				'title'              => tailwindscore_get_cart_product_suggestions_title(),
+				'columns_mobile'     => tailwindscore_get_cart_product_suggestions_columns_mobile(),
+				'columns_desktop'    => tailwindscore_get_cart_product_suggestions_columns_desktop(),
+				'columns_wide'       => null,
+				'section_class'      => 'cart-suggestions',
+				'section_data_attrs' => array(
+					'data-ts-cart-suggestions' => '',
+				),
+				'section_id'         => 'ts-cart-suggestions-title',
+				'title_class'        => 'section-title--inline',
+			)
+		);
 
 	if ( '' === trim( $markup ) ) {
 		return;
@@ -232,26 +238,71 @@ function tailwindscore_cart_product_suggestions_kirki_register( string $cfg, arr
 		)
 	);
 
-	Kirki::add_field(
-		$cfg,
-		array(
-			'type'            => 'select',
-			'settings'        => 'cart_product_suggestions_orderby',
-			'label'           => esc_html__( '补齐层排序', 'tailwindscore' ),
-			'description'     => esc_html__( '仅影响分类与人气补齐；Cross-sells 保持后台设定顺序。', 'tailwindscore' ),
-			'section'         => 'tailwindscore_cart_settings',
-			'default'         => 'popularity',
-			'choices'         => array(
-				'popularity' => esc_html__( '热度', 'tailwindscore' ),
-				'date'       => esc_html__( '最新', 'tailwindscore' ),
-				'menu_order' => esc_html__( '菜单顺序', 'tailwindscore' ),
-				'title'      => esc_html__( '标题', 'tailwindscore' ),
-			),
-			'active_callback' => static function (): bool {
-				return (bool) tailwindscore_mod( 'cart_product_suggestions_enable', true );
-			},
-			'priority'        => 43,
-		)
-	);
-}
-add_action( 'tailwindscore/kirki/register', 'tailwindscore_cart_product_suggestions_kirki_register', 20, 2 );
+		Kirki::add_field(
+			$cfg,
+			array(
+				'type'            => 'select',
+				'settings'        => 'cart_product_suggestions_orderby',
+				'label'           => esc_html__( '补齐层排序', 'tailwindscore' ),
+				'description'     => esc_html__( '仅影响分类与人气补齐；Cross-sells 保持后台设定顺序。', 'tailwindscore' ),
+				'section'         => 'tailwindscore_cart_settings',
+				'default'         => 'popularity',
+				'choices'         => array(
+					'popularity' => esc_html__( '热度', 'tailwindscore' ),
+					'date'       => esc_html__( '最新', 'tailwindscore' ),
+					'menu_order' => esc_html__( '菜单顺序', 'tailwindscore' ),
+					'title'      => esc_html__( '标题', 'tailwindscore' ),
+				),
+				'active_callback' => static function (): bool {
+					return (bool) tailwindscore_mod( 'cart_product_suggestions_enable', true );
+				},
+				'priority'        => 43,
+			)
+		);
+
+		$column_choices = function_exists( 'tailwindscore_products_carousel_column_choices' )
+			? tailwindscore_products_carousel_column_choices()
+			: array(
+				'1'   => '1',
+				'1.5' => '1.5',
+				'2'   => '2',
+				'2.5' => '2.5',
+				'3'   => '3',
+				'3.5' => '3.5',
+				'4'   => '4',
+			);
+
+		Kirki::add_field(
+			$cfg,
+			array(
+				'type'            => 'select',
+				'settings'        => 'cart_product_suggestions_columns_mobile',
+				'label'           => esc_html__( '推荐轮播：手机列数', 'tailwindscore' ),
+				'description'     => esc_html__( '独立于商店「产品轮播」全局默认。', 'tailwindscore' ),
+				'section'         => 'tailwindscore_cart_settings',
+				'default'         => '1.5',
+				'choices'         => $column_choices,
+				'active_callback' => static function (): bool {
+					return (bool) tailwindscore_mod( 'cart_product_suggestions_enable', true );
+				},
+				'priority'        => 44,
+			)
+		);
+
+		Kirki::add_field(
+			$cfg,
+			array(
+				'type'            => 'select',
+				'settings'        => 'cart_product_suggestions_columns_desktop',
+				'label'           => esc_html__( '推荐轮播：桌面列数', 'tailwindscore' ),
+				'section'         => 'tailwindscore_cart_settings',
+				'default'         => '3',
+				'choices'         => $column_choices,
+				'active_callback' => static function (): bool {
+					return (bool) tailwindscore_mod( 'cart_product_suggestions_enable', true );
+				},
+				'priority'        => 45,
+			)
+		);
+	}
+	add_action( 'tailwindscore/kirki/register', 'tailwindscore_cart_product_suggestions_kirki_register', 20, 2 );

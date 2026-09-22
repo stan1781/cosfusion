@@ -49,7 +49,7 @@ WordPress 标准 `404.php` 模板，三段式布局：错误 Hero、快捷导航
 
 - 复用 `tailwindscore_render_products_carousel_shell()` 与全局 Swiper 初始化
 - 可变品按钮走 Quick View（Customizer → 商店/归档 → 快速查看 → 生效页面含「404 页面」）
-- 移动 2.5 列 / 桌面 4 列
+- 列数读全局产品轮播（默认手机 1.5 / md 3 / lg 4）；过滤器 `tailwindscore_not_found_products_columns_mobile|desktop|wide`
 - WooCommerce 未启用或无可视产品时不输出该段
 - 过滤器：`tailwindscore_not_found_products_limit`、`tailwindscore_not_found_products_category_id`、`tailwindscore_not_found_product_ids` 等
 

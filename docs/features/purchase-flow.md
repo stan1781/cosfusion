@@ -27,7 +27,7 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 - 单品 **价格行促销徽章**（`product-price-row.php` + `sale-badge.php`）：价格后显示最大折扣 `-N%` / 金额回退；可变商品固定最大值，不随变体选择更新（画廊已移除默认 sale flash）
 - Drawer / 购物车页 **优惠码**（`cart-config.php` 中 drawer coupon 设置、`ui/coupon-form.ts`）
 - Drawer / 购物车页 **免运进度条**（`cart-free-shipping-progress.php`；Drawer 行项上方；Cart 页在 `.wc-cart__sidebar` 内与 aside 卡片同级；门槛读 Woo 条件免运 `min_amount`；Store API `extensions.tailwindscore.freeShippingProgress`；`refreshCart()` 后 TS 重绘）
-- 购物车页 **产品推荐轮播**（`cart-product-suggestions.php` + 共享引擎 `product-suggestions.php`：Cross-sells → 车内分类 → 人气补齐；共享 [产品轮播](product-carousel.md) 壳层；不进 Drawer）
+- 购物车页 **产品推荐轮播**（`cart-product-suggestions.php` + 共享引擎 `product-suggestions.php`：Cross-sells → 车内分类 → 人气补齐；共享 [产品轮播](product-carousel.md) 壳层；不进 Drawer；列数在「购物车」Customizer 独立设置，默认手机 `1.5` / 桌面 `3`，**不读**商店全局产品轮播）
 - 单品页 **配件搭配**（Cross-sells list 横卡，见 [配件搭配](product-cross-sells.md)）
 - **统一通知**接口（`src/ts/cart/notifications.ts`）：支持 toast 与 inline/drawer 反馈
 - 购物车行项 **编辑 modal**（`cart-item-edit.ts`）：左固定缩略图 + 右品名/价格/变体选项；匹配变体时联动更新价格与图片（有变体图才换，未选齐时回退初始图）

@@ -53,11 +53,11 @@ function tailwindscore_shortcode_help_catalog(): array {
 				),
 				array(
 					'name' => 'columns_mobile / columns_desktop / columns_wide',
-					'desc' => __( '可见列数；轮播为 slidesPerView，静态/list 为 CSS grid 列；wide 可选，设值后在 xl 生效', 'tailwindscore' ),
+					'desc' => __( '可见列数；未写则用 Customizer「商店/归档 → 产品轮播」全局默认（1.5 / 3 / 4）；list 未指定时手机 1 / 桌面 2', 'tailwindscore' ),
 				),
 				array(
 					'name' => 'gap',
-					'desc' => __( '间距 px，0–48，默认 16', 'tailwindscore' ),
+					'desc' => __( '间距 px，0–48；未写则手机 0.5rem / 桌面 1rem', 'tailwindscore' ),
 				),
 				array(
 					'name' => 'orderby / order',
@@ -97,7 +97,11 @@ function tailwindscore_shortcode_help_catalog(): array {
 				),
 				array(
 					'name' => 'columns_mobile / columns_desktop / columns_wide',
-					'desc' => __( '可选；list 默认 1 / 2，grid 默认 2.5 / 4', 'tailwindscore' ),
+					'desc' => __( '可选；list 默认 1 / 3，grid 未写则用全局产品轮播默认', 'tailwindscore' ),
+				),
+				array(
+					'name' => 'gap',
+					'desc' => __( '可选间距 px；未写则手机 0.5rem / 桌面 1rem', 'tailwindscore' ),
 				),
 			),
 		),

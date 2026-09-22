@@ -122,7 +122,7 @@ function tailwindscore_render_product_cross_sells(): void {
 			'carousel'           => '0',
 			'columns_mobile'     => 1,
 			'columns_desktop'    => 3,
-			'gap'                => 16,
+			'columns_wide'       => null,
 			'section_class'      => 'product-carousel--cross-sells',
 			'section_data_attrs' => array(
 				'data-ts-product-cross-sells' => '',

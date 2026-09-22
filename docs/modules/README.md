@@ -36,7 +36,7 @@ modules/{slug}/
 | gallery | `modules/gallery` | 0.1.0 | ✅ | Swiper 单品图库、变体相册 `_variation_images` |
 | variations | `modules/variations` | 0.1.7 | ✅ | 图片/色块 swatch、grid/list 布局；已选不可取消 |
 | size-guide | `modules/size-guide` | 0.1.2 | ✅ | JSON 尺码表 modal + 选码单行；QV/cart-edit 复用 inline |
-| related-products | `modules/related-products` | 0.2.0 | ✅ | 单品页相关产品引擎 + Kirki 轮播/网格切换 |
+| related-products | `modules/related-products` | 0.2.1 | ✅ | 单品页相关产品引擎 + Kirki 轮播/网格切换 |
 | quick-view | `modules/quick-view` | 0.1.12 | ✅ | 归档 / 首页 / 单品 / 购物车 / 404 轮播 Quick View；选码 inline 尺码摘要 |
 | review-images | `modules/review-images` | 0.1.1 | ✅ | 评论附图、买家秀 Showcase |
 | account-auth | `modules/account-auth` | 0.1.4 | ✅ | 分屏登录、独立注册页、Google 登录预设、登录 modal 密码明文切换、注册表单隐藏隐私政策说明 |

@@ -6,16 +6,17 @@ import type { SwiperOptions } from 'swiper/types';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import { TS_BREAKPOINT_MD_REM, TS_BREAKPOINT_XL_REM } from '../breakpoints';
+import { TS_BREAKPOINT_MD_REM, TS_BREAKPOINT_LG_REM } from '../breakpoints';
 import { TS_SWIPER_A11Y } from '../swiper/a11y-i18n';
 import { parseGap, parseSlideCount } from '../swiper/parse';
 import { bindSwiperWrapNavigation } from '../swiper/wrap-navigation';
 
-const DEFAULT_COLUMNS_MOBILE = 2.5;
-const DEFAULT_COLUMNS_DESKTOP = 4;
-const DEFAULT_GAP = 16;
+const DEFAULT_COLUMNS_MOBILE = 1.5;
+const DEFAULT_COLUMNS_DESKTOP = 3;
+const DEFAULT_GAP_MOBILE = 8; // --ts-spacer-2 @ 16px root
+const DEFAULT_GAP_DESKTOP = 16; // --ts-spacer-3 @ 16px root
 const MD_BREAKPOINT_PX = TS_BREAKPOINT_MD_REM * 16;
-const XL_BREAKPOINT_PX = TS_BREAKPOINT_XL_REM * 16;
+const LG_BREAKPOINT_PX = TS_BREAKPOINT_LG_REM * 16;
 
 function unwrapProductsList(root: HTMLElement, list: HTMLElement): void {
 	const parent = list.parentElement;
@@ -28,6 +29,17 @@ function unwrapProductsList(root: HTMLElement, list: HTMLElement): void {
 	root.classList.add('woocommerce');
 	root.insertBefore(list, parent);
 	parent.remove();
+}
+
+function resolveGaps(section: HTMLElement): { mobile: number; desktop: number } {
+	const raw = section.dataset.tsGap;
+
+	if (raw === undefined || raw === '') {
+		return { mobile: DEFAULT_GAP_MOBILE, desktop: DEFAULT_GAP_DESKTOP };
+	}
+
+	const explicit = parseGap(raw, DEFAULT_GAP_DESKTOP);
+	return { mobile: explicit, desktop: explicit };
 }
 
 function initProductCarousel(section: HTMLElement): void {
@@ -73,7 +85,7 @@ function initProductCarousel(section: HTMLElement): void {
 		wideRaw !== undefined && wideRaw !== ''
 			? parseSlideCount(wideRaw, slidesDesktop)
 			: null;
-	const spaceBetween = parseGap(section.dataset.tsGap, DEFAULT_GAP);
+	const gaps = resolveGaps(section);
 	const slideCount = items.length;
 
 	const mountSwiper = (): void => {
@@ -84,21 +96,21 @@ function initProductCarousel(section: HTMLElement): void {
 			const breakpoints: NonNullable<SwiperOptions['breakpoints']> = {
 				[MD_BREAKPOINT_PX]: {
 					slidesPerView: slidesDesktop,
-					spaceBetween,
+					spaceBetween: gaps.desktop,
 				},
 			};
 
-			if (slidesWide !== null) {
-				breakpoints[XL_BREAKPOINT_PX] = {
-					slidesPerView: slidesWide,
-					spaceBetween,
-				};
-			}
+				if (slidesWide !== null) {
+					breakpoints[LG_BREAKPOINT_PX] = {
+						slidesPerView: slidesWide,
+						spaceBetween: gaps.desktop,
+					};
+				}
 
 			swiper = new Swiper(root, {
 				modules: [Pagination, A11y],
 				slidesPerView: slidesMobile,
-				spaceBetween,
+				spaceBetween: gaps.mobile,
 				watchOverflow: true,
 				observer: true,
 				observeParents: true,

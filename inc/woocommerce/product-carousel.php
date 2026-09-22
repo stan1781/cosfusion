@@ -31,6 +31,86 @@ function tailwindscore_sanitize_products_carousel_gap( $value ): int {
 }
 
 /**
+ * 解析可选 gap：空 / 未设 → null（响应式 token 默认）；数字含 0 → px。
+ *
+ * @param mixed $value 原始值。
+ */
+function tailwindscore_parse_products_carousel_gap_optional( $value ): ?int {
+	if ( null === $value ) {
+		return null;
+	}
+
+	if ( is_string( $value ) && '' === trim( $value ) ) {
+		return null;
+	}
+
+	if ( ! is_numeric( $value ) ) {
+		return null;
+	}
+
+	return tailwindscore_sanitize_products_carousel_gap( $value );
+}
+
+/**
+ * Kirki / 短代码列数选项（1–6，0.5 步进）。
+ *
+ * @return array<string, string>
+ */
+function tailwindscore_products_carousel_column_choices(): array {
+	$choices = array();
+
+	for ( $n = 2; $n <= 12; $n++ ) {
+		$value           = (string) ( $n / 2 );
+		$choices[ $value ] = $value;
+	}
+
+	return $choices;
+}
+
+/**
+ * 宽屏列数选项：空 = 跟随桌面（不启用 lg 断点）。
+ *
+ * @return array<string, string>
+ */
+function tailwindscore_products_carousel_wide_column_choices(): array {
+	// 用 + 而非 array_merge，避免 "1"/"2" 等数字键被重排。
+	return array(
+		'' => esc_html__( '跟随桌面', 'tailwindscore' ),
+	) + tailwindscore_products_carousel_column_choices();
+}
+
+/**
+ * 全局默认：手机可见 slide 数（theme_mod）。
+ */
+function tailwindscore_get_products_carousel_columns_mobile(): float {
+	return tailwindscore_sanitize_products_carousel_slide_count(
+		tailwindscore_mod( 'products_carousel_columns_mobile', 1.5 )
+	);
+}
+
+/**
+ * 全局默认：桌面 md+ 可见 slide 数（theme_mod）。
+ */
+function tailwindscore_get_products_carousel_columns_desktop(): float {
+	return tailwindscore_sanitize_products_carousel_slide_count(
+		tailwindscore_mod( 'products_carousel_columns_desktop', 3.0 )
+	);
+}
+
+/**
+ * 全局默认：大屏 lg+ 可见 slide 数；空 theme_mod → null（跟随桌面）。
+ */
+function tailwindscore_get_products_carousel_columns_wide(): ?float {
+	$raw = tailwindscore_mod( 'products_carousel_columns_wide', '4' );
+
+	if ( null === $raw || '' === (string) $raw ) {
+		return null;
+	}
+
+	return tailwindscore_sanitize_products_carousel_slide_count( $raw );
+}
+
+/**
  * 归一化卡形态与是否轮播；list 强制关 Swiper。
  *
  * @param mixed $card     grid|list。
@@ -72,14 +152,16 @@ function tailwindscore_products_carousel_static_columns( $value ): int {
  * @return array<string, mixed>
  */
 function tailwindscore_parse_products_carousel_atts( $atts ): array {
+	$default_wide = tailwindscore_get_products_carousel_columns_wide();
+
 	$parsed = shortcode_atts(
 		array(
 			'category'        => '',
 			'limit'           => '8',
-			'columns_mobile'  => '2.5',
-			'columns_desktop' => '4',
-			'columns_wide'    => '',
-			'gap'             => '16',
+			'columns_mobile'  => (string) tailwindscore_get_products_carousel_columns_mobile(),
+			'columns_desktop' => (string) tailwindscore_get_products_carousel_columns_desktop(),
+			'columns_wide'    => null !== $default_wide ? (string) $default_wide : '',
+			'gap'             => '',
 			'orderby'         => 'date',
 			'order'           => 'DESC',
 			'title'           => '',
@@ -118,18 +200,22 @@ function tailwindscore_parse_products_carousel_atts( $atts ): array {
 		)
 	);
 
-	$columns_wide_raw = trim( (string) $parsed['columns_wide'] );
-	$columns_wide     = '' !== $columns_wide_raw
-		? tailwindscore_sanitize_products_carousel_slide_count( $columns_wide_raw )
-		: null;
-
-	$display = tailwindscore_normalize_products_carousel_display( $parsed['card'], $parsed['carousel'] );
-
 	$raw_atts = is_array( $atts ) ? $atts : array();
+	$display  = tailwindscore_normalize_products_carousel_display( $parsed['card'], $parsed['carousel'] );
+
 	$columns_mobile  = tailwindscore_sanitize_products_carousel_slide_count( $parsed['columns_mobile'] );
 	$columns_desktop = tailwindscore_sanitize_products_carousel_slide_count( $parsed['columns_desktop'] );
 
-	// list：未显式指定列数时用 1 / 2（横卡不宜默认 4 列）。
+	$columns_wide_raw = trim( (string) $parsed['columns_wide'] );
+	if ( array_key_exists( 'columns_wide', $raw_atts ) ) {
+		$columns_wide = '' !== $columns_wide_raw
+			? tailwindscore_sanitize_products_carousel_slide_count( $columns_wide_raw )
+			: null;
+	} else {
+		$columns_wide = $default_wide;
+	}
+
+	// list：未显式指定列数时用 1 / 2；不套用全局 wide。
 	if ( 'list' === $display['card'] ) {
 		if ( ! array_key_exists( 'columns_mobile', $raw_atts ) ) {
 			$columns_mobile = 1.0;
@@ -137,7 +223,12 @@ function tailwindscore_parse_products_carousel_atts( $atts ): array {
 		if ( ! array_key_exists( 'columns_desktop', $raw_atts ) ) {
 			$columns_desktop = 2.0;
 		}
+		if ( ! array_key_exists( 'columns_wide', $raw_atts ) ) {
+			$columns_wide = null;
+		}
 	}
+
+	$gap = tailwindscore_parse_products_carousel_gap_optional( $parsed['gap'] );
 
 	return array(
 		'category'        => $categories,
@@ -145,7 +236,7 @@ function tailwindscore_parse_products_carousel_atts( $atts ): array {
 		'columns_mobile'  => $columns_mobile,
 		'columns_desktop' => $columns_desktop,
 		'columns_wide'    => $columns_wide,
-		'gap'             => tailwindscore_sanitize_products_carousel_gap( $parsed['gap'] ),
+		'gap'             => $gap,
 		'orderby'         => $orderby,
 		'order'           => $order,
 		'title'           => sanitize_text_field( (string) $parsed['title'] ),
@@ -305,11 +396,15 @@ function tailwindscore_render_products_carousel_shell( array $config ): string {
 		? (string) $config['section_id']
 		: wp_unique_id( 'ts-product-carousel-' );
 
-	$columns_wide = $config['columns_wide'] ?? null;
-	if ( null !== $columns_wide && '' !== $columns_wide ) {
-		$columns_wide = tailwindscore_sanitize_products_carousel_slide_count( $columns_wide );
+	if ( array_key_exists( 'columns_wide', $config ) ) {
+		$columns_wide = $config['columns_wide'];
+		if ( null !== $columns_wide && '' !== $columns_wide ) {
+			$columns_wide = tailwindscore_sanitize_products_carousel_slide_count( $columns_wide );
+		} else {
+			$columns_wide = null;
+		}
 	} else {
-		$columns_wide = null;
+		$columns_wide = tailwindscore_get_products_carousel_columns_wide();
 	}
 
 	$display  = tailwindscore_normalize_products_carousel_display(
@@ -333,6 +428,10 @@ function tailwindscore_render_products_carousel_shell( array $config ): string {
 	$section_data_attrs['data-ts-card']     = $card;
 	$section_data_attrs['data-ts-carousel'] = $carousel;
 
+	$gap = array_key_exists( 'gap', $config )
+		? tailwindscore_parse_products_carousel_gap_optional( $config['gap'] )
+		: null;
+
 	ob_start();
 	get_template_part(
 		'template-parts/woocommerce/product-carousel',
@@ -341,10 +440,10 @@ function tailwindscore_render_products_carousel_shell( array $config ): string {
 			'section_id'         => $section_id,
 			'title'              => (string) ( $config['title'] ?? '' ),
 			'loop_html'          => $loop_html,
-			'columns_mobile'     => (float) ( $config['columns_mobile'] ?? 2.5 ),
-			'columns_desktop'    => (float) ( $config['columns_desktop'] ?? 4.0 ),
+			'columns_mobile'     => (float) ( $config['columns_mobile'] ?? tailwindscore_get_products_carousel_columns_mobile() ),
+			'columns_desktop'    => (float) ( $config['columns_desktop'] ?? tailwindscore_get_products_carousel_columns_desktop() ),
 			'columns_wide'       => $columns_wide,
-			'gap'                => (int) ( $config['gap'] ?? 16 ),
+			'gap'                => $gap,
 			'card'               => $card,
 			'carousel'           => $carousel,
 			'section_class'      => $section_class,
@@ -375,10 +474,10 @@ function tailwindscore_render_products_carousel( array $atts ): string {
 		array(
 			'product_ids'     => $product_ids,
 			'title'           => (string) ( $atts['title'] ?? '' ),
-			'columns_mobile'  => (float) ( $atts['columns_mobile'] ?? 2.5 ),
-			'columns_desktop' => (float) ( $atts['columns_desktop'] ?? 4.0 ),
-			'columns_wide'    => $atts['columns_wide'] ?? null,
-			'gap'             => (int) ( $atts['gap'] ?? 16 ),
+			'columns_mobile'  => (float) ( $atts['columns_mobile'] ?? tailwindscore_get_products_carousel_columns_mobile() ),
+			'columns_desktop' => (float) ( $atts['columns_desktop'] ?? tailwindscore_get_products_carousel_columns_desktop() ),
+			'columns_wide'    => array_key_exists( 'columns_wide', $atts ) ? $atts['columns_wide'] : tailwindscore_get_products_carousel_columns_wide(),
+			'gap'             => array_key_exists( 'gap', $atts ) ? $atts['gap'] : null,
 			'card'            => $display['card'],
 			'carousel'        => $display['carousel'],
 		)
@@ -397,3 +496,73 @@ function tailwindscore_products_carousel_shortcode( $atts ): string {
 }
 
 add_shortcode( 'ts_products_carousel', 'tailwindscore_products_carousel_shortcode' );
+
+/**
+ * Customizer：商店 panel → 产品轮播全局列数。
+ *
+ * @param string                $cfg     Kirki 配置 ID。
+ * @param array<string, string> $targets 按区域索引的 Customizer 面板 / 区块 ID。
+ */
+function tailwindscore_products_carousel_kirki_register( string $cfg, array $targets ): void {
+	if ( ! class_exists( 'Kirki' ) || ! class_exists( 'WooCommerce' ) ) {
+		return;
+	}
+
+	$section = $targets['products_carousel'] ?? 'tailwindscore_products_carousel';
+	$panel   = $targets['shop'] ?? tailwindscore_kirki_panel_shop();
+
+	Kirki::add_section(
+		$section,
+		array(
+			'title'       => esc_html__( '产品轮播', 'tailwindscore' ),
+			'description' => esc_html__( '短代码未指定列数、Related、404 等共享默认；购物车推荐在「购物车」中单独设置。短代码显式属性优先。', 'tailwindscore' ),
+			'panel'       => $panel,
+			'priority'    => 40,
+		)
+	);
+
+	$column_choices = tailwindscore_products_carousel_column_choices();
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'        => 'select',
+			'settings'    => 'products_carousel_columns_mobile',
+			'label'       => esc_html__( '手机可见列数', 'tailwindscore' ),
+			'description' => esc_html__( 'md 以下 slidesPerView（可含小数，如 1.5）。', 'tailwindscore' ),
+			'section'     => $section,
+			'default'     => '1.5',
+			'priority'    => 10,
+			'choices'     => $column_choices,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'        => 'select',
+			'settings'    => 'products_carousel_columns_desktop',
+			'label'       => esc_html__( '桌面可见列数（md）', 'tailwindscore' ),
+			'description' => esc_html__( 'md–lg 窄屏桌面 slidesPerView。', 'tailwindscore' ),
+			'section'     => $section,
+			'default'     => '3',
+			'priority'    => 20,
+			'choices'     => $column_choices,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'        => 'select',
+			'settings'    => 'products_carousel_columns_wide',
+			'label'       => esc_html__( '大屏可见列数（lg）', 'tailwindscore' ),
+			'description' => esc_html__( 'lg+；选「跟随桌面」则不启用宽屏断点。', 'tailwindscore' ),
+			'section'     => $section,
+			'default'     => '4',
+			'priority'    => 30,
+			'choices'     => tailwindscore_products_carousel_wide_column_choices(),
+		)
+	);
+}
+add_action( 'tailwindscore/kirki/register', 'tailwindscore_products_carousel_kirki_register', 20, 2 );

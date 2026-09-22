@@ -162,42 +162,62 @@ function tailwindscore_render_recently_viewed( array $args = array() ): string {
 			'carousel' => '1',
 		);
 
-	// list 默认 1 / 3；grid 轮播默认 2.5 / 4。
-	$default_mobile  = 'list' === $display['card'] ? 1.0 : 2.5;
-	$default_desktop = 'list' === $display['card'] ? 3.0 : 4.0;
-	$columns_mobile  = isset( $args['columns_mobile'] )
-		? (float) $args['columns_mobile']
-		: $default_mobile;
-	$columns_desktop = isset( $args['columns_desktop'] )
-		? (float) $args['columns_desktop']
-		: $default_desktop;
-	$columns_wide    = array_key_exists( 'columns_wide', $args ) ? $args['columns_wide'] : null;
-	$gap             = isset( $args['gap'] ) ? absint( $args['gap'] ) : 16;
+		// list 默认 1 / 3；grid 轮播默认读全局（含 wide）。
+		$default_mobile  = 'list' === $display['card']
+			? 1.0
+			: ( function_exists( 'tailwindscore_get_products_carousel_columns_mobile' )
+				? tailwindscore_get_products_carousel_columns_mobile()
+				: 1.5 );
+		$default_desktop = 'list' === $display['card']
+			? 3.0
+			: ( function_exists( 'tailwindscore_get_products_carousel_columns_desktop' )
+				? tailwindscore_get_products_carousel_columns_desktop()
+				: 3.0 );
+		$columns_mobile  = isset( $args['columns_mobile'] )
+			? (float) $args['columns_mobile']
+			: $default_mobile;
+		$columns_desktop = isset( $args['columns_desktop'] )
+			? (float) $args['columns_desktop']
+			: $default_desktop;
+		if ( array_key_exists( 'columns_wide', $args ) ) {
+			$columns_wide = $args['columns_wide'];
+		} elseif ( 'list' === $display['card'] ) {
+			$columns_wide = null;
+		} else {
+			$columns_wide = function_exists( 'tailwindscore_get_products_carousel_columns_wide' )
+				? tailwindscore_get_products_carousel_columns_wide()
+				: 4.0;
+		}
+		$gap = array_key_exists( 'gap', $args )
+			? ( function_exists( 'tailwindscore_parse_products_carousel_gap_optional' )
+				? tailwindscore_parse_products_carousel_gap_optional( $args['gap'] )
+				: ( is_numeric( $args['gap'] ) ? (int) $args['gap'] : null ) )
+			: null;
 
-	$product_ids = tailwindscore_recently_viewed_filter_product_ids( $ids, $exclude, $limit );
+		$product_ids = tailwindscore_recently_viewed_filter_product_ids( $ids, $exclude, $limit );
 
-	if ( array() === $product_ids ) {
-		return '';
+		if ( array() === $product_ids ) {
+			return '';
+		}
+
+		return tailwindscore_render_products_carousel_shell(
+			array(
+				'product_ids'        => $product_ids,
+				'title'              => $title,
+				'columns_mobile'     => $columns_mobile,
+				'columns_desktop'    => $columns_desktop,
+				'columns_wide'       => $columns_wide,
+				'gap'                => $gap,
+				'card'               => $display['card'],
+				'carousel'           => $display['carousel'],
+				'section_class'      => 'product-carousel--recently-viewed',
+				'section_id'         => 'ts-recently-viewed-title',
+				'section_data_attrs' => array(
+					'data-ts-recently-viewed' => '',
+				),
+			)
+		);
 	}
-
-	return tailwindscore_render_products_carousel_shell(
-		array(
-			'product_ids'        => $product_ids,
-			'title'              => $title,
-			'columns_mobile'     => $columns_mobile,
-			'columns_desktop'    => $columns_desktop,
-			'columns_wide'       => $columns_wide,
-			'gap'                => $gap,
-			'card'               => $display['card'],
-			'carousel'           => $display['carousel'],
-			'section_class'      => 'product-carousel--recently-viewed',
-			'section_id'         => 'ts-recently-viewed-title',
-			'section_data_attrs' => array(
-				'data-ts-recently-viewed' => '',
-			),
-		)
-	);
-}
 
 /**
  * 空购物车 / 客户端水合用的挂载点（始终输出，由 TS 或 SSR 填充）。
@@ -215,16 +235,36 @@ function tailwindscore_render_recently_viewed_host( array $args = array() ): str
 			'carousel' => '1',
 		);
 
-	$default_mobile  = 'list' === $display['card'] ? 1.0 : 2.5;
-	$default_desktop = 'list' === $display['card'] ? 3.0 : 4.0;
+	$default_mobile  = 'list' === $display['card']
+		? 1.0
+		: ( function_exists( 'tailwindscore_get_products_carousel_columns_mobile' )
+			? tailwindscore_get_products_carousel_columns_mobile()
+			: 1.5 );
+	$default_desktop = 'list' === $display['card']
+		? 3.0
+		: ( function_exists( 'tailwindscore_get_products_carousel_columns_desktop' )
+			? tailwindscore_get_products_carousel_columns_desktop()
+			: 3.0 );
 	$columns_mobile  = isset( $args['columns_mobile'] )
 		? (float) $args['columns_mobile']
 		: $default_mobile;
 	$columns_desktop = isset( $args['columns_desktop'] )
 		? (float) $args['columns_desktop']
 		: $default_desktop;
-	$columns_wide    = array_key_exists( 'columns_wide', $args ) ? $args['columns_wide'] : null;
-	$gap             = isset( $args['gap'] ) ? absint( $args['gap'] ) : 16;
+	if ( array_key_exists( 'columns_wide', $args ) ) {
+		$columns_wide = $args['columns_wide'];
+	} elseif ( 'list' === $display['card'] ) {
+		$columns_wide = null;
+	} else {
+		$columns_wide = function_exists( 'tailwindscore_get_products_carousel_columns_wide' )
+			? tailwindscore_get_products_carousel_columns_wide()
+			: 4.0;
+	}
+	$gap = array_key_exists( 'gap', $args )
+		? ( function_exists( 'tailwindscore_parse_products_carousel_gap_optional' )
+			? tailwindscore_parse_products_carousel_gap_optional( $args['gap'] )
+			: ( is_numeric( $args['gap'] ) ? (int) $args['gap'] : null ) )
+		: null;
 
 	$render_args = array(
 		'exclude'         => $exclude,
@@ -256,7 +296,9 @@ function tailwindscore_render_recently_viewed_host( array $args = array() ): str
 		<?php if ( null !== $columns_wide && '' !== $columns_wide ) : ?>
 			data-ts-recently-viewed-columns-wide="<?php echo esc_attr( (string) $columns_wide ); ?>"
 		<?php endif; ?>
-		data-ts-recently-viewed-gap="<?php echo esc_attr( (string) $gap ); ?>"
+		<?php if ( null !== $gap ) : ?>
+			data-ts-recently-viewed-gap="<?php echo esc_attr( (string) $gap ); ?>"
+		<?php endif; ?>
 		<?php echo '' === $html ? ' hidden' : ''; ?>
 	><?php echo $html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- carousel HTML from theme renderer. ?></div>
 	<?php
@@ -281,7 +323,7 @@ function tailwindscore_recently_viewed_shortcode( $atts ): string {
 			'columns_mobile'  => '',
 			'columns_desktop' => '',
 			'columns_wide'    => '',
-			'gap'             => '16',
+			'gap'             => '',
 		),
 		is_array( $atts ) ? $atts : array(),
 		'ts_recently_viewed'
@@ -305,10 +347,12 @@ function tailwindscore_recently_viewed_shortcode( $atts ): string {
 		'exclude'  => absint( $parsed['exclude'] ),
 		'card'     => $display['card'],
 		'carousel' => $display['carousel'],
-		'gap'      => function_exists( 'tailwindscore_sanitize_products_carousel_gap' )
-			? tailwindscore_sanitize_products_carousel_gap( $parsed['gap'] )
-			: 16,
 	);
+
+	$raw_atts = is_array( $atts ) ? $atts : array();
+	if ( array_key_exists( 'gap', $raw_atts ) && function_exists( 'tailwindscore_parse_products_carousel_gap_optional' ) ) {
+		$host_args['gap'] = tailwindscore_parse_products_carousel_gap_optional( $parsed['gap'] );
+	}
 
 	if ( '' !== trim( (string) $parsed['columns_mobile'] ) && function_exists( 'tailwindscore_sanitize_products_carousel_slide_count' ) ) {
 		$host_args['columns_mobile'] = tailwindscore_sanitize_products_carousel_slide_count( $parsed['columns_mobile'] );
