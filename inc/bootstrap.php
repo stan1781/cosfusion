@@ -58,7 +58,9 @@ require_once __DIR__ . '/woocommerce/thankyou.php';
 require_once __DIR__ . '/woocommerce/account-header.php';
 require_once __DIR__ . '/woocommerce/account-nav.php';
 require_once __DIR__ . '/woocommerce/ajax-search.php';
+require_once __DIR__ . '/woocommerce/search-sku-redirect.php';
 require_once __DIR__ . '/woocommerce/checkout-coupon.php';
+
 require_once __DIR__ . '/woocommerce/reviews.php';
 require_once __DIR__ . '/config/kirki-config.php';
 require_once __DIR__ . '/config/kirki/import-export.php';

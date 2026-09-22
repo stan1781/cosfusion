@@ -116,6 +116,7 @@ Customizer **设计 → 联络方式**（`inc/contact/whatsapp.php`、`inc/confi
 - 全站搜索表单与头部搜索入口
 - AJAX 实时搜索（`tailwindscoreAjaxSearch` 配置注入）
 - 与 WooCommerce 产品搜索集成
+- **SKU 直达**：表单提交时，若关键词与可公开的简单商品 / 可变商品父级 `_sku` 精确匹配，则 302 到产品详情；未命中、变体 SKU、草稿或目录不可见则仍走搜索结果页。实现：`inc/woocommerce/search-sku-redirect.php`。AJAX 实时建议不因此改跳转。
 - 搜索弹层（`template-parts/header/search-modal.php`）可在输入框下方展示 chip 引导：
   - **热门搜索**（`search_modal_hot_terms`）：每行一个关键词；点击跳转商品搜索结果页
   - **热门分类**（`search_modal_hot_categories`）：每行一个 `product_cat` 名称或 slug；解析成功后点击直达该分类归档
