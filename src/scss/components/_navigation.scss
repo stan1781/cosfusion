@@ -382,13 +382,13 @@
 		// 多列 + 缩略图需要更宽列槽，否则长分类名只能叠字或过度折行。
 		.nav__item--cols-2 > .nav__submenu {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
-			min-width: 24rem;
+			min-width: 28rem;
 			max-width: min(36rem, calc(100vw - 2rem));
 		}
 
 		.nav__item--cols-3 > .nav__submenu {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
-			min-width: 32rem;
+			min-width: 40rem;
 			max-width: min(48rem, calc(100vw - 2rem));
 		}
 
