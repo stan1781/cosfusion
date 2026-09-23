@@ -92,16 +92,18 @@
 		padding: 0;
 		opacity: 1;
 		visibility: visible;
+		transform: none;
 		pointer-events: auto;
 	}
 
-	// 覆盖归档「md+ 悬停才显」：list 操作区常显。
+	// 覆盖归档「md+ 悬停滑入」：list 操作区常显、无位移。
 	@media (hover: hover) {
 		.wc-product-card__actions,
 		.wc-product-card:hover .wc-product-card__actions,
 		.wc-product-card:focus-within .wc-product-card__actions {
 			opacity: 1;
 			visibility: visible;
+			transform: none;
 		}
 	}
 
@@ -156,6 +158,7 @@
 		border: 1px solid var(--ts-border-color-strong);
 		border-radius: var(--ts-border-radius-sm);
 		background: var(--ts-surface);
+		color: var(--ts-text-primary);
 		box-shadow: none;
 
 		.icon {

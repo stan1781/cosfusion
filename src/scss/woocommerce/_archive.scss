@@ -523,7 +523,7 @@ body.archive-filters-drawer-open {
 .wc-product-grid {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: var(--ts-spacer-3);
+	gap: var(--ts-spacer-2);
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -532,7 +532,7 @@ body.archive-filters-drawer-open {
 @include mixins.ts-up(md) {
 	.wc-product-grid {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: var(--ts-spacer-4);
+		gap: var(--ts-spacer-3);
 	}
 }
 
@@ -547,8 +547,8 @@ body.archive-filters-drawer-open {
 .upsells.products,
 .cross-sells {
 	display: grid;
-	gap: var(--ts-spacer-4);
-	margin-top: var(--ts-spacer-4);
+	gap: var(--ts-spacer-3);
+	margin-top: var(--ts-spacer-3);
 }
 
 .related.products > h2,
@@ -875,9 +875,9 @@ body.archive-filters-drawer-open {
 	white-space: nowrap;
 }
 
-// 操作钮叠在图上（absolute），不占卡片文档流；手机端常显且略小，md+ 悬停显。
+// 操作钮叠在图上（absolute），不占卡片文档流；手机端常显且略小，md+ 悬停从右滑入。
 .wc-product-card__actions {
-	--wc-card-action-size: calc(var(--ts-control-min-height) * 0.8);
+	--wc-card-action-size: calc(var(--ts-control-min-height) * 0.7);
 	position: absolute;
 	z-index: 3;
 	inset: 0;
@@ -904,7 +904,7 @@ body.archive-filters-drawer-open {
 
 @include mixins.ts-up(md) {
 	.wc-product-card__actions {
-		--wc-card-action-size: var(--ts-control-min-height);
+		--wc-card-action-size: calc(var(--ts-control-min-height) * 0.8);
 		gap: var(--ts-spacer-2);
 		padding: var(--ts-spacer-2);
 	}
@@ -913,20 +913,32 @@ body.archive-filters-drawer-open {
 		.wc-product-card__actions {
 			opacity: 0;
 			visibility: hidden;
+			transform: translateX(100%);
 			transition:
-				opacity 0.2s ease,
-				visibility 0.2s ease;
+				opacity 0.25s ease,
+				visibility 0.25s ease,
+				transform 0.25s ease;
 		}
 
 		.wc-product-card:hover .wc-product-card__media-wrap .wc-product-card__actions,
 		.wc-product-card:focus-within .wc-product-card__media-wrap .wc-product-card__actions {
 			opacity: 1;
 			visibility: visible;
+			transform: none;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.wc-product-card__actions {
+				transform: none;
+				transition:
+					opacity 0.2s ease,
+					visibility 0.2s ease;
+			}
 		}
 	}
 }
 
-// 归档圆形操作钮：加购 / QV / Wishlist 同一套（surface-alt；压过 Woo .button 黑底白字）。
+// 归档圆形操作钮：加购 / QV / Wishlist 同一套（深底浅图标；压过 Woo .button）。
 .woocommerce .wc-product-card__actions .product-card-action,
 .woocommerce .wc-product-card__actions a.button.product-card-action,
 .woocommerce .wc-product-card__actions button.button.product-card-action {
@@ -946,9 +958,9 @@ body.archive-filters-drawer-open {
 	padding: 0;
 	border: none;
 	border-radius: 50%;
-	background: var(--ts-surface-alt);
-	color: var(--ts-text-primary);
-	box-shadow: 0 1px 3px color-mix(in srgb, var(--ts-text-primary) 12%, transparent);
+	background: var(--ts-text-primary);
+	color: var(--ts-surface);
+	box-shadow: 0 1px 3px color-mix(in srgb, var(--ts-text-primary) 24%, transparent);
 	text-decoration: none;
 	line-height: 1;
 	font-size: 0;
@@ -969,9 +981,9 @@ body.archive-filters-drawer-open {
 	@media (hover: hover) {
 		&:hover,
 		&:not(:disabled):not(.disabled):hover {
-			background: var(--ts-surface-alt);
-			color: var(--ts-text-primary);
-			box-shadow: 0 2px 6px color-mix(in srgb, var(--ts-text-primary) 18%, transparent);
+			background: var(--ts-text-primary);
+			color: var(--ts-surface);
+			box-shadow: 0 2px 6px color-mix(in srgb, var(--ts-text-primary) 32%, transparent);
 		}
 	}
 
@@ -979,8 +991,8 @@ body.archive-filters-drawer-open {
 	&:focus-visible,
 	&.loading,
 	&.added {
-		background: var(--ts-surface-alt);
-		color: var(--ts-text-primary);
+		background: var(--ts-text-primary);
+		color: var(--ts-surface);
 	}
 }
 

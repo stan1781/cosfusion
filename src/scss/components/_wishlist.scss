@@ -51,10 +51,10 @@
 	}
 }
 
-// 压过归档圆形钮 / list 小钮的「悬停保持主色」规则。
+// 压过归档圆形钮默认色；网格深底用 surface，list 浅底在 _product-card-list 再覆写。
 .woocommerce .wc-product-card__actions .wishlist-btn.product-card-action,
 .wc-product-card__actions .wishlist-btn.product-card-action {
-	color: var(--ts-text-primary);
+	color: var(--ts-surface);
 
 	@media (hover: hover) {
 		&:hover,

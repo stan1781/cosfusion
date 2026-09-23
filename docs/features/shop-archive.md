@@ -81,7 +81,7 @@ woocommerce/loop/orderby.php           # 覆盖 WC：页内 Sort 下拉（非 fo
 - **商品卡标题**（`.wc-product-card__title`）：使用 `--ts-font-body`（覆盖全局 heading 字体），与正文同栈。
 - **商品卡价格**（`.wc-product-card__price`）：现价 `sm`；划线原价 `< md` 为 `xs`，`md+` 与现价同档 `sm`（仅灰删除线）。
 - **商品卡促销徽章**（`.wc-product-card__badges .onsale`）：`inc/woocommerce/sale-badge.php` 计算具体折扣——优先 `-12%`（四舍五入），无法算百分比时回退 `-$10`（`wc_price`）；可变商品取各促销变体**最大**折扣；无节省额则不渲染。
-- **商品卡操作区**（`.wc-product-card__actions`）：叠在媒体图上（绝对定位），不占卡片文档流；`< md` 常显，按钮为 `0.8 × --ts-control-min-height`（约 2rem），避免两列网格里挡住主图；`md+` 恢复标准控件高度，悬停/焦点显。右上圆形图标统一样式：简单商品加购（plus，`<button>`）/ 可变品 QV（eye）/ Wishlist（heart）；`button.button.product-card-action` 排除 Woo 主色按钮 padding，强制 `aspect-ratio: 1`；Woo 可变品 `screen-reader-text` 与未图标化的文字链在此隐藏。AJAX 加购 loading 走 `.btn-icon` 的 `currentColor` spinner（勿用主色按钮白圈）。
+- **商品卡操作区**（`.wc-product-card__actions`）：叠在媒体图上（绝对定位），不占卡片文档流；`< md` 常显，按钮为 `0.7 × --ts-control-min-height`；`md+` 为 `0.8 ×`，悬停/焦点时整组从右侧滑入（离开时移出；`prefers-reduced-motion` 仅淡入）。圆形图标：深底（`text-primary`）+ 浅色图标（`surface`）；简单商品加购（plus，`<button>`）/ 可变品 QV（eye）/ Wishlist（heart，已收藏 danger 红心）；`button.button.product-card-action` 排除 Woo 主色按钮 padding，强制 `aspect-ratio: 1`；Woo 可变品 `screen-reader-text` 与未图标化的文字链在此隐藏。AJAX 加购 loading 走 `.btn-icon` 的 `currentColor` spinner。list 横卡操作区常显、无滑入，仍为浅底描边小钮。
 
 ## 归档 Hero 与 LCP
 
