@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
  * PWA Level 1：可安装壳层 + 仅缓存主题 dist 静态资源。
  */
 
-const TAILWINDSCORE_PWA_REWRITE_VERSION = '5';
+const TAILWINDSCORE_PWA_REWRITE_VERSION = '6';
 const TAILWINDSCORE_PWA_MANIFEST_OPTION = 'tailwindscore_pwa_manifest_sig';
 
 /**
@@ -70,12 +70,11 @@ function tailwindscore_pwa_is_enabled(): bool {
 }
 
 /**
- * SW 走站点根 rewrite `/ts-sw.js`（少一层 REST，降低手机安装时 SW 卡住风险）。
- * manifest 走 uploads 静态 JSON（避开 REST/页面缓存导致的 Chrome Syntax error）。
- * REST `/tailwindscore/v1/pwa/sw` 仍保留作回退端点。
+ * SW 注册 URL：用 query var（首页主查询非 404 → 稳定 200）。
+ * 本站主机上 `/ts-sw.js` rewrite 常带 WP 404 状态码，浏览器会拒绝注册。
  */
 function tailwindscore_pwa_sw_url(): string {
-	return esc_url_raw( home_url( '/ts-sw.js' ) );
+	return esc_url_raw( home_url( '/?tailwindscore_pwa_asset=sw' ) );
 }
 
 /**
@@ -514,13 +513,35 @@ function tailwindscore_pwa_maybe_flush_rewrites(): void {
 add_action( 'init', 'tailwindscore_pwa_maybe_flush_rewrites', 99 );
 add_action( 'after_switch_theme', 'tailwindscore_pwa_maybe_flush_rewrites' );
 
-function tailwindscore_pwa_serve_asset(): void {
+/**
+ * 当前请求的 PWA 资产 slug（sw|manifest），无则空字串。
+ */
+function tailwindscore_pwa_request_asset(): string {
 	$asset = get_query_var( 'tailwindscore_pwa_asset' );
 	if ( ( ! is_string( $asset ) || '' === $asset ) && isset( $_GET['tailwindscore_pwa_asset'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- public asset endpoint.
 		$asset = sanitize_key( wp_unslash( (string) $_GET['tailwindscore_pwa_asset'] ) );
 	}
 
-	if ( ! is_string( $asset ) || '' === $asset ) {
+	return ( is_string( $asset ) && '' !== $asset ) ? $asset : '';
+}
+
+/**
+ * 在 WP 标 404 之前拦截，避免 `/ts-sw.js` 带着 404 状态输出脚本。
+ *
+ * @param bool     $preempt Whether to short-circuit default 404 handling.
+ * @param WP_Query $query   Query object.
+ * @return bool
+ */
+function tailwindscore_pwa_pre_handle_404( $preempt, $query ) {
+	unset( $query );
+
+	return '' !== tailwindscore_pwa_request_asset() ? true : $preempt;
+}
+add_filter( 'pre_handle_404', 'tailwindscore_pwa_pre_handle_404', 10, 2 );
+
+function tailwindscore_pwa_serve_asset(): void {
+	$asset = tailwindscore_pwa_request_asset();
+	if ( '' === $asset ) {
 		return;
 	}
 
@@ -535,9 +556,26 @@ function tailwindscore_pwa_serve_asset(): void {
 add_action( 'template_redirect', 'tailwindscore_pwa_serve_asset', 0 );
 
 /**
+ * rewrite 端点无对应帖子时 WP 会标 is_404；必须显式 200，否则浏览器拒绝注册 SW。
+ */
+function tailwindscore_pwa_send_ok_status(): void {
+	global $wp_query;
+
+	if ( $wp_query instanceof WP_Query ) {
+		$wp_query->is_404 = false;
+	}
+
+	status_header( 200 );
+	if ( function_exists( 'http_response_code' ) ) {
+		http_response_code( 200 );
+	}
+}
+
+/**
  * 输出 Web App Manifest JSON 并终止请求。
  */
 function tailwindscore_pwa_output_manifest(): void {
+	tailwindscore_pwa_send_ok_status();
 	nocache_headers();
 	header( 'Content-Type: application/manifest+json; charset=utf-8' );
 	header( 'X-Robots-Tag: noindex' );
@@ -561,6 +599,7 @@ function tailwindscore_pwa_output_sw(): void {
 	$body = (string) file_get_contents( $sw_path );
 	$boot = 'self.__TAILWINDSCORE_PWA__ = ' . wp_json_encode( tailwindscore_pwa_sw_bootstrap_config(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . ";\n";
 
+	tailwindscore_pwa_send_ok_status();
 	nocache_headers();
 	header( 'Content-Type: application/javascript; charset=utf-8' );
 	header( 'Service-Worker-Allowed: ' . tailwindscore_pwa_scope_path() );
@@ -638,10 +677,10 @@ function tailwindscore_pwa_wp_head(): void {
 	$theme   = isset( $payload['theme_color'] ) ? (string) $payload['theme_color'] : '#181818';
 	$icons   = tailwindscore_pwa_icon_urls();
 
-	printf(
-		'<link rel="manifest" href="%s" crossorigin="use-credentials">' . "\n",
-		esc_url( tailwindscore_pwa_manifest_url() )
-	);
+		printf(
+			'<link rel="manifest" href="%s">' . "\n",
+			esc_url( tailwindscore_pwa_manifest_url() )
+		);
 	printf(
 		'<meta name="theme-color" content="%s">' . "\n",
 		esc_attr( $theme )

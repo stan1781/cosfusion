@@ -118,6 +118,7 @@ function mountInstallSheet(opts: {
 	overlay.append(panel);
 	document.body.append(overlay);
 
+	overlay.hidden = false;
 	overlay.classList.add('is-open');
 	openBottomSheetPanel(panel);
 
