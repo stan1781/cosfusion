@@ -92,7 +92,7 @@ function tailwindscore_blog_archive_posts_per_page( WP_Query $query ): void {
 		return;
 	}
 
-	if ( ! ( $query->is_category() || $query->is_tag() || $query->is_author() || $query->is_date() ) ) {
+	if ( ! ( $query->is_home() || $query->is_category() || $query->is_tag() || $query->is_author() || $query->is_date() ) ) {
 		return;
 	}
 

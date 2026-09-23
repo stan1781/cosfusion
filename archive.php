@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * 博客归档（分类 / 标签 / 日期 / 作者）：网格列表。
+ * 博客列表（首页最新文章 / 分类 / 标签 / 日期 / 作者）：网格列表。
  *
  * @package TailwindScore
  */

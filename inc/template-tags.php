@@ -91,44 +91,56 @@ function tailwindscore_image_url_dimensions( string $url, int $fallback_width, i
 	);
 }
 
-/**
- * 博客归档标题（无 “Category:” 等默认前缀）。
- */
-function tailwindscore_get_archive_title(): string {
-	if ( is_category() ) {
-		return single_cat_title( '', false );
-	}
+	/**
+	 * 博客归档标题（无 “Category:” 等默认前缀）。
+	 */
+	function tailwindscore_get_archive_title(): string {
+		if ( is_home() ) {
+			$page_for_posts = (int) get_option( 'page_for_posts' );
 
-	if ( is_tag() ) {
-		return single_tag_title( '', false );
-	}
+			if ( $page_for_posts > 0 && ! is_front_page() ) {
+				$title = get_the_title( $page_for_posts );
 
-	if ( is_author() ) {
-		$author = get_queried_object();
+				return is_string( $title ) && '' !== $title ? $title : __( 'Blog', 'tailwindscore' );
+			}
 
-		if ( $author instanceof WP_User ) {
-			return $author->display_name;
+			return __( 'Blog', 'tailwindscore' );
 		}
 
-		return get_the_author();
+		if ( is_category() ) {
+			return single_cat_title( '', false );
+		}
+
+		if ( is_tag() ) {
+			return single_tag_title( '', false );
+		}
+
+		if ( is_author() ) {
+			$author = get_queried_object();
+
+			if ( $author instanceof WP_User ) {
+				return $author->display_name;
+			}
+
+			return get_the_author();
+		}
+
+		if ( is_day() ) {
+			return get_the_date();
+		}
+
+		if ( is_month() ) {
+			return get_the_date( _x( 'F Y', 'monthly archives date format', 'tailwindscore' ) );
+		}
+
+		if ( is_year() ) {
+			return get_the_date( _x( 'Y', 'yearly archives date format', 'tailwindscore' ) );
+		}
+
+		$title = get_the_archive_title();
+
+		return is_string( $title ) ? wp_strip_all_tags( $title ) : '';
 	}
-
-	if ( is_day() ) {
-		return get_the_date();
-	}
-
-	if ( is_month() ) {
-		return get_the_date( _x( 'F Y', 'monthly archives date format', 'tailwindscore' ) );
-	}
-
-	if ( is_year() ) {
-		return get_the_date( _x( 'Y', 'yearly archives date format', 'tailwindscore' ) );
-	}
-
-	$title = get_the_archive_title();
-
-	return is_string( $title ) ? wp_strip_all_tags( $title ) : '';
-}
 
 /**
  * 当前条目的面包屑路径（首页 + 祖先 / 分类 + 标题）。
@@ -143,14 +155,25 @@ function tailwindscore_entry_breadcrumb_items(): array {
 		),
 	);
 
-	if ( is_category() || is_tag() || is_author() || is_date() ) {
-		$items[] = array(
-			'label' => tailwindscore_get_archive_title(),
-			'url'   => '',
-		);
+		if ( is_home() ) {
+			if ( ! is_front_page() ) {
+				$items[] = array(
+					'label' => tailwindscore_get_archive_title(),
+					'url'   => '',
+				);
+			}
 
-		return $items;
-	}
+			return $items;
+		}
+
+		if ( is_category() || is_tag() || is_author() || is_date() ) {
+			$items[] = array(
+				'label' => tailwindscore_get_archive_title(),
+				'url'   => '',
+			);
+
+			return $items;
+		}
 
 	if ( is_page() && ! is_front_page() ) {
 		$ancestors = array_reverse( array_map( 'absint', get_post_ancestors( get_the_ID() ) ) );
