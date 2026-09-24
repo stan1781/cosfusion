@@ -1,8 +1,6 @@
 /**
- * PWA Level 1：注册 SW + 可选 install bottom sheet（无专属券）。
+ * PWA Level 1：注册 SW + 可选 install 底部提示条（无遮罩，不阻断浏览）。
  */
-
-import { closeBottomSheetOverlay, openBottomSheetPanel } from '../ui/bottom-sheet';
 
 type BeforeInstallPromptEvent = Event & {
 	prompt: () => Promise<void>;
@@ -58,21 +56,19 @@ function i18n(key: string, fallback: string): string {
 	return window.tsPwa?.i18n?.[key] || fallback;
 }
 
-function mountInstallSheet(opts: {
+/**
+ * 对齐 Starcore `.sc-pwa-install`：固定底部提示条，无全屏 overlay。
+ */
+function mountBanner(opts: {
 	title: string;
 	body: string;
 	actionLabel?: string;
 	onAction?: () => void;
 }): HTMLElement {
-	const overlay = document.createElement('div');
-	overlay.className = 'pwa-install-overlay';
-	overlay.hidden = true;
-
-	const panel = document.createElement('div');
-	panel.className = 'pwa-install';
-	panel.setAttribute('role', 'dialog');
-	panel.setAttribute('aria-live', 'polite');
-	panel.hidden = true;
+	const root = document.createElement('div');
+	root.className = 'pwa-install';
+	root.setAttribute('role', 'status');
+	root.setAttribute('aria-live', 'polite');
 
 	const copy = document.createElement('div');
 	copy.className = 'pwa-install__copy';
@@ -96,9 +92,7 @@ function mountInstallSheet(opts: {
 	dismiss.textContent = i18n('installDismiss', 'Not now');
 	dismiss.addEventListener('click', () => {
 		markDismissed();
-		void closeBottomSheetOverlay(overlay, panel).then(() => {
-			overlay.remove();
-		});
+		root.remove();
 	});
 
 	actions.append(dismiss);
@@ -114,15 +108,9 @@ function mountInstallSheet(opts: {
 		actions.append(action);
 	}
 
-	panel.append(copy, actions);
-	overlay.append(panel);
-	document.body.append(overlay);
-
-	overlay.hidden = false;
-	overlay.classList.add('is-open');
-	openBottomSheetPanel(panel);
-
-	return overlay;
+	root.append(copy, actions);
+	document.body.append(root);
+	return root;
 }
 
 function setupInstallPrompt(): void {
@@ -139,7 +127,7 @@ function setupInstallPrompt(): void {
 		if (banner) {
 			return;
 		}
-		banner = mountInstallSheet({
+		banner = mountBanner({
 			title: i18n('installTitle', 'Add to Home Screen'),
 			body: i18n('installBody', 'Install for quick access like an app.'),
 			actionLabel: i18n('installAction', 'Install'),
@@ -152,13 +140,8 @@ function setupInstallPrompt(): void {
 					.then(() => deferred?.userChoice)
 					.then(() => {
 						deferred = null;
-						if (banner) {
-							const panel = banner.querySelector<HTMLElement>('.pwa-install');
-							void closeBottomSheetOverlay(banner, panel).then(() => {
-								banner?.remove();
-								banner = null;
-							});
-						}
+						banner?.remove();
+						banner = null;
 					});
 			},
 		});
@@ -169,7 +152,7 @@ function setupInstallPrompt(): void {
 			if (banner || wasDismissed() || isStandalone()) {
 				return;
 			}
-			banner = mountInstallSheet({
+			banner = mountBanner({
 				title: i18n('installTitle', 'Add to Home Screen'),
 				body: i18n('iosHint', 'In Safari, tap Share, then Add to Home Screen.'),
 			});

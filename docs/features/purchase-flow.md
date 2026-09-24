@@ -71,7 +71,7 @@ Toast 贴顶（对齐 Starcore）：桌面（`≥ md`）右上限宽卡片；手
 ### Bottom sheet 原语
 
 - TS：`src/ts/ui/bottom-sheet.ts`；SCSS mixin：`ts-bottom-sheet-panel` / `ts-bottom-sheet-panel-open` / `ts-bottom-sheet-overlay-shell`
-- 首个业务消费者：PWA install 提示（见 [b2c-conversion.md](../roadmap/b2c-conversion.md) Phase 4）
+- PWA 安装提示已改为无遮罩底部条（见 [pwa.md](pwa.md)），不再使用本原语
 
 前端 API 形态（`notifications.ts`）：
 
