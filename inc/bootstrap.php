@@ -60,6 +60,7 @@ require_once __DIR__ . '/woocommerce/account-nav.php';
 require_once __DIR__ . '/woocommerce/ajax-search.php';
 require_once __DIR__ . '/woocommerce/search-sku-redirect.php';
 require_once __DIR__ . '/woocommerce/checkout-coupon.php';
+require_once __DIR__ . '/woocommerce/order-device-os.php';
 
 require_once __DIR__ . '/woocommerce/reviews.php';
 require_once __DIR__ . '/config/kirki-config.php';

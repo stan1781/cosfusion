@@ -19,6 +19,17 @@
 
 开启后请到 **设置 → 固定链接** 保存一次以刷新 rewrite（或切换主题触发）。
 
+## 装置 OS（订单来源增强）
+
+与 PWA 安装无关：展示时解析订单已有字段 `customer_user_agent`（`$order->get_customer_user_agent()`），粗分为 iOS / Android / macOS / Windows / Linux；不写新 meta、不依赖插件。历史订单只要 UA 已存即可立刻显示。
+
+| 位置 | 表现 |
+|------|------|
+| 订单列表 **Origin** 列 | 来源下方追加一行（`iOS` 等） |
+| 订单详情账单地址下方 | 「Device: iOS」等 |
+
+无 UA（如后台手动建单）或不识别时不输出。实现：`inc/woocommerce/order-device-os.php`。
+
 ## 排障
 
 | 现象 | 常见原因 |
