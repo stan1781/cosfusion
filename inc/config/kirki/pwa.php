@@ -44,7 +44,7 @@ function tailwindscore_kirki_register_pwa( string $cfg, array $targets ): void {
 			'type'        => 'image',
 			'settings'    => 'pwa_icon',
 			'label'       => esc_html__( 'PWA icon source', 'tailwindscore' ),
-			'description' => esc_html__( 'Upload a square PNG/JPG (at least 512×512). On save, generates assets/pwa 192 / 512 / maskable icons.', 'tailwindscore' ),
+			'description' => esc_html__( 'Upload a square PNG/JPG (at least 512×512). On save, generates 192 / 512 / maskable icons into uploads/ts-pwa/.', 'tailwindscore' ),
 			'section'     => $section,
 			'default'     => '',
 			'priority'    => 20,

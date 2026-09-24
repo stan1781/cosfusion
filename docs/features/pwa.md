@@ -9,7 +9,7 @@
 | Manifest | `uploads/ts-pwa/manifest.json`（不可写时回退 REST） |
 | Service Worker | 注册 URL 为 `/?tailwindscore_pwa_asset=sw`（稳定 200）；`/ts-sw.js` rewrite 保留；仅 CacheFirst 主题 `assets/dist` 静态资源；导航始终网络 |
 | Install UI | 底部固定提示条（`.pwa-install`，对齐 Starcore `.sc-pwa-install`）；**无全屏遮罩**，不阻断页面浏览；Kirki「Show install prompt」默认关 |
-| 图标 | `assets/pwa/icon-192.png` / `icon-512.png` 必须为 **正方形** 且尺寸与文件名一致，否则 Chrome 不发 `beforeinstallprompt` |
+| 图标 | Kirki 保存后写入 **`uploads/ts-pwa/icon-*.png`**（与 manifest 同目录）；主题 `assets/pwa/` 仅为本地 `npm run pwa:icons` 占位（**git 忽略、不随主题包发布**） |
 
 ## 实现
 
@@ -45,7 +45,8 @@
 |------|----------|
 | 安装提示不出现 | SW 未注册成功；Kirki「Show install prompt」关闭；已点「Not now」（同会话 sessionStorage） |
 | `/ts-sw.js` 有 JS 但状态码 404 | 本站主机常见；注册已改走 query URL；勿把 `swUrl` 改回 `/ts-sw.js` |
-| 图标已换仍不可安装 | 清 CDN / 浏览器缓存；确认 PNG 为 192×192 与 512×512 |
+| `themes/.../assets/pwa/icon-192.png` 404 | 正常：该目录不发布；正式图标在 `uploads/ts-pwa/`。部署本修复后，到 Customizer → PWA **再保存一次** 触发生成 |
+| 图标已换仍不可安装 | 清 CDN / 浏览器缓存；确认 `uploads/ts-pwa/icon-192.png` 可访问且为 192×192 |
 | Cursor / Electron 内嵌页 | 通常不触发安装事件；请用本机 Chrome 或 Android Chrome 测 |
 | 提示挡住浏览 | 旧版含 `.pwa-install-overlay`；需部署含非遮罩 toast 的 `assets/dist` |
 

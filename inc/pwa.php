@@ -213,23 +213,33 @@ function tailwindscore_pwa_precache_urls(): array {
 }
 
 /**
- * 主题 PWA 图标目录（可写时由 Kirki 源图生成正式 PNG）。
+ * 主题内占位图标目录（本地 `npm run pwa:icons`；产线主题目录通常不可写，不作生成目标）。
  */
 function tailwindscore_pwa_theme_icons_dir(): string {
 	return trailingslashit( get_template_directory() ) . 'assets/pwa';
 }
 
 /**
+ * 正式图标写入目录：优先 uploads/ts-pwa（与 manifest 同目录，可写）。
+ */
+function tailwindscore_pwa_icons_output_dir(): string {
+	$paths = tailwindscore_pwa_upload_paths();
+	if ( null !== $paths ) {
+		return $paths['basedir'];
+	}
+
+	return tailwindscore_pwa_theme_icons_dir();
+}
+
+/**
  * @return array{192: string, 512: string, maskable: string, apple: string}
  */
-function tailwindscore_pwa_theme_icon_urls(): array {
-	$base = trailingslashit( get_template_directory_uri() ) . 'assets/pwa/';
-
+function tailwindscore_pwa_icon_filenames(): array {
 	return array(
-		'192'      => $base . 'icon-192.png',
-		'512'      => $base . 'icon-512.png',
-		'maskable' => $base . 'icon-maskable-512.png',
-		'apple'    => $base . 'icon-192.png',
+		'192'      => 'icon-192.png',
+		'512'      => 'icon-512.png',
+		'maskable' => 'icon-maskable-512.png',
+		'apple'    => 'icon-192.png',
 	);
 }
 
@@ -344,7 +354,7 @@ function tailwindscore_pwa_save_maskable_png( string $source_path, string $dest_
 }
 
 /**
- * 根据 Kirki `pwa_icon` 生成 assets/pwa 正式图标。
+ * 根据 Kirki `pwa_icon` 生成正式图标到 uploads/ts-pwa（主题目录产线常不可写）。
  */
 function tailwindscore_pwa_maybe_generate_icons_from_kirki(): bool {
 	$source = (string) tailwindscore_mod( 'pwa_icon', '' );
@@ -357,7 +367,7 @@ function tailwindscore_pwa_maybe_generate_icons_from_kirki(): bool {
 		return false;
 	}
 
-	$dir = tailwindscore_pwa_theme_icons_dir();
+	$dir = tailwindscore_pwa_icons_output_dir();
 	if ( ! is_dir( $dir ) && ! wp_mkdir_p( $dir ) ) {
 		return false;
 	}
@@ -366,28 +376,50 @@ function tailwindscore_pwa_maybe_generate_icons_from_kirki(): bool {
 		return false;
 	}
 
-	$ok_192 = tailwindscore_pwa_save_square_png( $path, $dir . '/icon-192.png', 192 );
-	$ok_512 = tailwindscore_pwa_save_square_png( $path, $dir . '/icon-512.png', 512 );
+	$ok_192  = tailwindscore_pwa_save_square_png( $path, $dir . '/icon-192.png', 192 );
+	$ok_512  = tailwindscore_pwa_save_square_png( $path, $dir . '/icon-512.png', 512 );
 	$ok_mask = tailwindscore_pwa_save_maskable_png( $path, $dir . '/icon-maskable-512.png', 512 );
 
 	return $ok_192 && $ok_512 && $ok_mask;
 }
 
 /**
- * PWA 图标一律使用主题 assets/pwa 下生成/占位 PNG（由 Kirki 上传驱动）。
+ * PWA 图标 URL：优先 uploads/ts-pwa（Kirki 生成），回退主题 assets/pwa 占位。
  *
  * @return array{192: string, 512: string, maskable: string, apple: string}
  */
 function tailwindscore_pwa_icon_urls(): array {
-	$urls = tailwindscore_pwa_theme_icon_urls();
-	$dir  = tailwindscore_pwa_theme_icons_dir();
+	$files      = tailwindscore_pwa_icon_filenames();
+	$upload     = tailwindscore_pwa_upload_paths();
+	$theme_dir  = tailwindscore_pwa_theme_icons_dir();
+	$theme_base = trailingslashit( get_template_directory_uri() ) . 'assets/pwa/';
+	$urls       = array();
 
-	// 带 filemtime 防缓存，确保更换图示后浏览器拉到新文件。
-	foreach ( array( '192' => 'icon-192.png', '512' => 'icon-512.png', 'maskable' => 'icon-maskable-512.png', 'apple' => 'icon-192.png' ) as $key => $file ) {
-		$full = $dir . '/' . $file;
-		if ( is_readable( $full ) ) {
-			$urls[ $key ] = add_query_arg( 'v', (string) filemtime( $full ), $urls[ $key ] );
+	foreach ( $files as $key => $file ) {
+		$url   = $theme_base . $file;
+		$mtime = null;
+
+		if ( null !== $upload ) {
+			$full = $upload['basedir'] . '/' . $file;
+			if ( is_readable( $full ) ) {
+				$url   = $upload['baseurl'] . '/' . $file;
+				$mtime = filemtime( $full );
+			}
 		}
+
+		if ( null === $mtime ) {
+			$full = $theme_dir . '/' . $file;
+			if ( is_readable( $full ) ) {
+				$mtime = filemtime( $full );
+			}
+		}
+
+		// 带 filemtime 防缓存，确保更换图示后浏览器拉到新文件。
+		if ( is_int( $mtime ) && $mtime > 0 ) {
+			$url = add_query_arg( 'v', (string) $mtime, $url );
+		}
+
+		$urls[ $key ] = $url;
 	}
 
 	return $urls;
