@@ -1,0 +1,43 @@
+@use "../abstracts/mixins";
+
+/* 主题单例 Tooltip（data-ts-tooltip） */
+.ts-tooltip {
+	position: fixed;
+	z-index: var(--ts-z-toast);
+	max-width: min(16rem, calc(100vw - 1rem));
+	padding: var(--ts-spacer-1) var(--ts-spacer-2);
+	border-radius: var(--ts-border-radius-sm);
+	border: 1px solid var(--ts-border-color-strong);
+	background: var(--ts-text-primary);
+	color: var(--ts-surface);
+	font-size: var(--ts-font-size-xs);
+	font-weight: 600;
+	line-height: var(--ts-line-height-base);
+	text-align: center;
+	box-shadow: var(--ts-shadow-md);
+	pointer-events: none;
+	opacity: 0;
+	transform: translateY(0.15rem);
+	transition:
+		opacity 0.12s ease,
+		transform 0.12s ease;
+
+	&.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	&[data-placement='bottom'].is-visible {
+		transform: translateY(0);
+	}
+
+	&[hidden] {
+		display: none !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ts-tooltip {
+		transition: none;
+	}
+}

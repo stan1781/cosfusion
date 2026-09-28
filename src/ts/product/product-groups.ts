@@ -1,5 +1,5 @@
 /**
- * 产品组缩略图条：hover/focus 一次性 prefetch 目标 PDP。
+ * 产品组缩略图条：prefetch + 悬停预览 Style 文案。
  */
 
 const ROOT_SELECTOR = '[data-ts-product-group]';
@@ -30,6 +30,36 @@ function onIntent(event: Event): void {
 		return;
 	}
 	prefetchUrl(anchor.href);
+
+	const root = anchor.closest(ROOT_SELECTOR);
+	const labelEl = root?.querySelector<HTMLElement>('[data-ts-product-group-current]');
+	const preview = anchor.getAttribute('data-ts-product-group-label')?.trim() ?? '';
+	if (labelEl && preview) {
+		if (!labelEl.dataset.tsPgDefaultLabel) {
+			labelEl.dataset.tsPgDefaultLabel = labelEl.textContent?.trim() ?? '';
+		}
+		labelEl.textContent = preview;
+	}
+}
+
+function onLeave(event: PointerEvent): void {
+	const target = event.target;
+	if (!(target instanceof Element)) {
+		return;
+	}
+	const root = target.closest(ROOT_SELECTOR);
+	if (!root) {
+		return;
+	}
+	const related = event.relatedTarget;
+	if (related instanceof Node && root.contains(related)) {
+		return;
+	}
+	const labelEl = root.querySelector<HTMLElement>('[data-ts-product-group-current]');
+	const fallback = labelEl?.dataset.tsPgDefaultLabel;
+	if (labelEl && typeof fallback === 'string') {
+		labelEl.textContent = fallback;
+	}
 }
 
 export function initProductGroups(): void {
@@ -40,4 +70,5 @@ export function initProductGroups(): void {
 
 	root.addEventListener('pointerenter', onIntent, true);
 	root.addEventListener('focusin', onIntent, true);
+	root.addEventListener('pointerleave', onLeave);
 }

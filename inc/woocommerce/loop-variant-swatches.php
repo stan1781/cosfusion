@@ -233,7 +233,7 @@ function tailwindscore_render_loop_variant_swatches( ?WC_Product $product = null
 		$button_class = trim( $kind_class . ( $has_visual ? ' wc-product-card__swatch--visual' : '' ) );
 
 		printf(
-			'<button type="button" class="wc-product-card__swatch %1$s" data-swatch-slug="%2$s" data-image=\'%3$s\' aria-label="%4$s" title="%4$s" aria-pressed="false"%5$s>%6$s</button>',
+			'<button type="button" class="wc-product-card__swatch %1$s" data-swatch-slug="%2$s" data-image=\'%3$s\' aria-label="%4$s" data-ts-tooltip="%4$s" aria-pressed="false"%5$s>%6$s</button>',
 			esc_attr( $button_class ),
 			esc_attr( $item['slug'] ),
 			esc_attr( (string) $data_image ),

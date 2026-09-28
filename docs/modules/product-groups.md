@@ -49,7 +49,7 @@
 | Variable | `woocommerce_before_variations_form` priority 5 |
 | Simple 等 | `woocommerce_before_add_to_cart_button` |
 
-可见组员 &lt; 2 → 不输出。DOM 复用 `custom-variation-selector color-selector mode-grid`；hover/focus 对目标 permalink 一次性 `rel=prefetch`。
+可见组员 &lt; 2 → 不输出。DOM 复用 `custom-variation-selector color-selector mode-grid`；hover/focus 对目标 permalink 一次性 `rel=prefetch`。缩略图提示用主题 Tooltip（`data-ts-tooltip` = 组首属性 term，如 Style 值）。
 
 ### 与 variations 联动
 

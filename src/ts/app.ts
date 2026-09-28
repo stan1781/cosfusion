@@ -3,6 +3,7 @@ import './wishlist/index';
 import './ui/login-modal';
 import './ui/quantity-input';
 import './ui/button-loading';
+import { initTooltip } from './ui/tooltip';
 import { initWooSuccessNotices } from './ui/woo-notices';
 import { registerServiceWorker } from './pwa/register';
 import './site/index';
@@ -30,6 +31,7 @@ import './cart/cart-page';
 import './checkout/index';
 
 initHeaderBar();
+initTooltip();
 initProductCarousels();
 initHeroCarousels();
 initWooSuccessNotices();

@@ -101,28 +101,43 @@ final class Tailwindscore_Product_Group_Frontend {
 				<ul class="custom-variation-selector color-selector mode-grid shape-<?php echo esc_attr( $shape ); ?>">
 					<?php foreach ( $members as $member ) : ?>
 						<?php
-						$mid       = (int) $member->get_id();
+						$mid        = (int) $member->get_id();
 						$is_current = $mid === $current_id;
-						$name      = $member->get_name();
-						$url       = get_permalink( $mid );
-						$thumb_id  = (int) $member->get_image_id();
-						$lazy      = $index >= 2;
+						$name       = $member->get_name();
+						$tip        = self::resolve_attribute_term_label( $member, $primary_attr );
+						if ( '' === $tip ) {
+							$tip = $name;
+						}
+						$url      = get_permalink( $mid );
+						$thumb_id = (int) $member->get_image_id();
+						$lazy     = $index >= 2;
 						++$index;
 						?>
 						<?php if ( $is_current ) : ?>
-							<li class="selected" aria-current="page" title="<?php echo esc_attr( $name ); ?>">
+							<li
+								class="selected"
+								aria-current="page"
+								aria-label="<?php echo esc_attr( $tip ); ?>"
+								data-ts-tooltip="<?php echo esc_attr( $tip ); ?>"
+							>
 								<span class="variation-media">
-									<?php echo self::thumb_html( $thumb_id, $name, $lazy ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+									<?php echo self::thumb_html( $thumb_id, $tip, $lazy ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 								</span>
-								<span class="variation-content"><span class="variation-name"><?php echo esc_html( $name ); ?></span></span>
+								<span class="variation-content"><span class="variation-name"><?php echo esc_html( $tip ); ?></span></span>
 							</li>
 						<?php else : ?>
-							<li title="<?php echo esc_attr( $name ); ?>">
-								<a class="product-group-row__link" href="<?php echo esc_url( (string) $url ); ?>" data-ts-product-group-prefetch>
+							<li data-ts-tooltip="<?php echo esc_attr( $tip ); ?>">
+								<a
+									class="product-group-row__link"
+									href="<?php echo esc_url( (string) $url ); ?>"
+									aria-label="<?php echo esc_attr( $tip ); ?>"
+									data-ts-product-group-prefetch
+									data-ts-product-group-label="<?php echo esc_attr( $tip ); ?>"
+								>
 									<span class="variation-media">
-										<?php echo self::thumb_html( $thumb_id, $name, $lazy ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+										<?php echo self::thumb_html( $thumb_id, $tip, $lazy ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 									</span>
-									<span class="variation-content"><span class="variation-name"><?php echo esc_html( $name ); ?></span></span>
+									<span class="variation-content"><span class="variation-name"><?php echo esc_html( $tip ); ?></span></span>
 								</a>
 							</li>
 						<?php endif; ?>
@@ -140,11 +155,21 @@ final class Tailwindscore_Product_Group_Frontend {
 	 * @param string     $primary_attr 组首属性键。
 	 */
 	private static function resolve_current_value_label( WC_Product $product, string $primary_attr ): string {
-		if ( '' === $primary_attr ) {
+		return self::resolve_attribute_term_label( $product, $primary_attr );
+	}
+
+	/**
+	 * 商品在指定属性上的 term 显示名。
+	 *
+	 * @param WC_Product $product  商品。
+	 * @param string     $attr_key 属性 taxonomy 键。
+	 */
+	private static function resolve_attribute_term_label( WC_Product $product, string $attr_key ): string {
+		if ( '' === $attr_key ) {
 			return '';
 		}
 
-		$taxonomy = $primary_attr;
+		$taxonomy = $attr_key;
 		if ( ! taxonomy_exists( $taxonomy ) && taxonomy_exists( 'pa_' . $taxonomy ) ) {
 			$taxonomy = 'pa_' . $taxonomy;
 		}
