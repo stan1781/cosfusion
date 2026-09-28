@@ -42,6 +42,8 @@
 
 列表搜索：组标题，以及组内商品的 **SKU / 商品名**（经 Woo `search_products`，变体命中会归到父商品所属组）。
 
+CSV：**Products → Product Groups** 列表「Import / Export CSV」。列 `group_id,title,skus,attributes,attr_actions`（`skus` / `attributes` 用 `|`；`attr_actions` 如 `pa_style:disable_image`）。有 `group_id` 则更新，否则新建。导入时若引用不存在的全局属性则**跳过该行并提示**（不创建属性）；term / 商品属性留给 feed-export。
+
 编辑 meta box：Products（`wc-product-search`）、Affects attributes（勾选 + 排序）、Per-attribute action（`None` / `Disable image display` / `Hide row`）。组名始终作前台行标题。
 
 ## 前台
@@ -76,6 +78,7 @@
 | variations 钩子 | `modules/variations/.../class-variation-settings.php`、`woocommerce/single-product/add-to-cart/variable.php` |
 | 样式 | `src/scss/woocommerce/_product-variations.scss` |
 | TS | `src/ts/product/product-groups.ts` |
+| CSV | `modules/product-groups/includes/class-product-group-csv.php` |
 
 ## 已否决
 

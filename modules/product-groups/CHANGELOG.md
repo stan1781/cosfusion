@@ -8,3 +8,4 @@
 - 主题 Tooltip（`data-ts-tooltip`）用于组缩略图 Style 值；悬停同步预览行内当前值。
 - 后台列表搜索支持组标题、组内商品 SKU 与商品名。
 - Iconic 迁移入口改到 Product Groups 列表（不再挂 WooCommerce 侧栏）。
+- CSV 导出/导入（SKU + 属性 action）；未知全局属性跳过并提示（不创建）；term/商品属性不在此处理。
