@@ -70,7 +70,16 @@ class Tailwindscore_Variation_Settings {
 		}
 
 		$color_attributes = self::normalize_lowercase_list( self::get_color_attributes() );
-		return in_array( $attribute_name_lower, $color_attributes, true );
+		$is_color         = in_array( $attribute_name_lower, $color_attributes, true );
+
+		/**
+		 * 过滤某属性是否按颜色/图像色块展示。
+		 *
+		 * @param bool     $is_color       是否颜色属性。
+		 * @param string   $attribute_name 属性键。
+		 * @param int|null $product_id     商品 ID。
+		 */
+		return (bool) apply_filters( 'tailwindscore/variations/is_color_attribute', $is_color, $attribute_name, $product_id );
 	}
 
 	/**
@@ -181,15 +190,32 @@ function tailwindscore_variations_enabled(): bool {
  * @param int|null $product_id     商品 ID。
  * @return bool
  */
-function tailwindscore_is_color_variation_attribute( string $attribute_name, ?int $product_id = null ): bool {
-	return Tailwindscore_Variation_Settings::is_color_attribute( $attribute_name, $product_id );
-}
+	function tailwindscore_is_color_variation_attribute( string $attribute_name, ?int $product_id = null ): bool {
+		return Tailwindscore_Variation_Settings::is_color_attribute( $attribute_name, $product_id );
+	}
 
-/**
- * @param string $attribute_name 属性。
- * @return bool
- */
-function tailwindscore_is_size_variation_attribute( string $attribute_name ): bool {
+	/**
+	 * 是否视觉隐藏该变体属性行（select 仍保留）。
+	 *
+	 * @param string   $attribute_name 属性键。
+	 * @param int|null $product_id     商品 ID。
+	 */
+	function tailwindscore_should_hide_variation_attribute_row( string $attribute_name, ?int $product_id = null ): bool {
+		$product_id = (int) ( $product_id ?? 0 );
+
+		/**
+		 * @param bool   $hide           是否隐藏。
+		 * @param string $attribute_name 属性键。
+		 * @param int    $product_id     商品 ID。
+		 */
+		return (bool) apply_filters( 'tailwindscore/variations/hide_attribute_row', false, $attribute_name, $product_id );
+	}
+
+	/**
+	 * @param string $attribute_name 属性。
+	 * @return bool
+	 */
+	function tailwindscore_is_size_variation_attribute( string $attribute_name ): bool {
 	return Tailwindscore_Variation_Settings::is_size_attribute( $attribute_name );
 }
 

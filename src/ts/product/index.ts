@@ -71,6 +71,11 @@ if (isProductPage) {
 	}
 	void import('./variations');
 	void import('./gallery');
+	if (document.querySelector('[data-ts-product-group]')) {
+		void import('./product-groups').then(({ initProductGroups }) => {
+			initProductGroups();
+		});
+	}
 	void import('./review-images').then(({ initReviewImages, shouldInitReviewImages }) => {
 		if (shouldInitReviewImages()) {
 			initReviewImages();

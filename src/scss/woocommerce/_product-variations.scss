@@ -433,3 +433,51 @@
 .size-guide-legacy {
 	max-width: none;
 }
+
+/* 产品组（modules/product-groups）：复用 color-selector，仅补行级差异 */
+.product-group-row .variation-row__label {
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	gap: var(--ts-spacer-1);
+}
+
+.product-group-row .product-group-row__title {
+	font-weight: 600;
+}
+
+.product-group-row .selected-attribute-value {
+	margin-inline-start: 0;
+}
+
+.product-group-row .product-group-row__link {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	color: inherit;
+	text-decoration: none;
+}
+
+/* 与未包 <a> 的选中项同尺寸，避免链接项被拉大 */
+.product-group-row .color-selector.mode-grid li .product-group-row__link .variation-media {
+	width: 3.125rem;
+	flex: 0 0 3.125rem;
+	aspect-ratio: 1 / 1;
+}
+
+.product-group-row .color-selector li:hover:not(.selected),
+.product-group-row .color-selector li:focus-within:not(.selected) {
+	border-color: var(--ts-primary);
+	background: color-mix(in srgb, var(--ts-primary) 12%, var(--ts-surface));
+}
+
+.product-group-row .custom-variation-selector li.selected {
+	pointer-events: none;
+	cursor: default;
+}
+
+.variation-row--group-hidden {
+	display: none !important;
+}
+

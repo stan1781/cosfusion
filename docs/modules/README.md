@@ -34,7 +34,7 @@ modules/{slug}/
 |------|------|------|------|------|
 | typography | `modules/typography` | 0.2.0 | ✅ | 站外字体目录（uploads）+ Kirki 分组选择 |
 | gallery | `modules/gallery` | 0.1.0 | ✅ | Swiper 单品图库、变体相册 `_variation_images` |
-| variations | `modules/variations` | 0.1.7 | ✅ | 图片/色块 swatch、grid/list 布局；已选不可取消 |
+| variations | `modules/variations` | 0.1.8 | ✅ | 图片/色块 swatch、grid/list 布局；已选不可取消 |
 | size-guide | `modules/size-guide` | 0.1.2 | ✅ | JSON 尺码表 modal + 选码单行；QV/cart-edit 复用 inline |
 | related-products | `modules/related-products` | 0.2.1 | ✅ | 单品页相关产品引擎 + Kirki 轮播/网格切换 |
 | quick-view | `modules/quick-view` | 0.1.12 | ✅ | 归档 / 首页 / 单品 / 购物车 / 404 轮播 Quick View；选码 inline 尺码摘要 |
@@ -42,6 +42,7 @@ modules/{slug}/
 | account-auth | `modules/account-auth` | 0.1.4 | ✅ | 分屏登录、独立注册页、Google 登录预设、登录 modal 密码明文切换、注册表单隐藏隐私政策说明 |
 | wishlist | `modules/wishlist` | 0.1.7 | ✅ | 心愿单：父商品收藏、登录合并、Account + QV 加购 |
 | content-blocks | `modules/content-blocks` | 0.3.0 | ✅ | CPT `ts_block` + `[block]`；Singular CSS（Page / 特稿 Post，`_ts_singular_css`） |
+| product-groups | `modules/product-groups` | 0.1.0 | ✅ | 相近款 / 同主题组；替 Iconic Linked Variations；见 [product-groups.md](product-groups.md) |
 
 各模块详细变更见对应 `CHANGELOG.md`。
 

@@ -21,10 +21,12 @@
 |------|----------|-------------|----------|------|------|
 | wc-mailnest | `inc/integrations/wc-mailnest.php` | `wcSubscribeAjax`、`wcMailnestFormAjax` | 弹窗/短代码/联系表单页；前台**非** cart/checkout（结账自动订阅为插件服务端钩子） | 档 B + `src/ts/integrations/mailnest.ts` | ✅ 已完成 |
 | wc-order-process-manager | `inc/integrations/wc-order-process-manager.php` | `wcOrderProcessFrontend` | `is_account_page()` | 模板迁主题 + `order-process.ts`；去 Bootstrap Modal | ✅ 已完成 |
-| Iconic Linked Variations | `inc/integrations/iconic-linked-variations.php` | — | 按插件条件 | 样式/资源协调 | ✅ 已整合 |
+| Iconic Linked Variations | `inc/integrations/iconic-linked-variations.php`（已停用加载） | — | — | 能力迁入 `modules/product-groups` | ⛔ 已退役 |
 | WP Enhanced Tools（脚本管理） | `inc/integrations/wp-enhanced-tools.php` | — | 插件 Head/Body/Foot 直出 | 滤镜 `wp_enhanced_tools_script_output`：仅 Hotjar idle/交互延迟 | ✅ 已整合 |
 | wc-enhanced-user | — | `wcUserEnhancedLogin`、`wcUserEnhancedParams` | 账户页 / 单品积分 | 档 B（待实现） | ⏸ 待做 |
 | feed-export | — | — | 仅后台 | 跳过 | — |
+
+> **Iconic Linked Variations（已退役）**：能力由 [产品组](../modules/product-groups.md) 承接。请停用插件；用 **WooCommerce → Migrate Product Groups** 导入。表 `wp_iconic_woo_linked_variations` 勿自动删除。`inc/integrations/iconic-linked-variations.php` 保留文件但已不再 bootstrap。
 
 ### wc-mailnest
 

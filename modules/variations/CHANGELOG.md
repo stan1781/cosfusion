@@ -1,5 +1,10 @@
 # Variations 模块变更记录
 
+## 0.1.8
+
+- 新增 filter：`tailwindscore/variations/is_color_attribute`、`tailwindscore/variations/hide_attribute_row`（供产品组运行时禁用图像 / 隐藏属性行）。
+- `variable.php`：隐藏行保留 select（`hidden` + `.variation-row--group-hidden`）。
+
 ## 0.1.7
 
 - 单品 / Quick View / 购物车编辑：表单统一 `data-ts-require-variation-selection`；已选 swatch 再点不取消，只能切换其他值；无选中时自动选第一项可用值。

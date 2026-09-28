@@ -66,10 +66,20 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 				$is_color_attribute = tailwindscore_is_color_variation_attribute( $attribute_name, $product_id );
 				$is_size_attribute  = tailwindscore_is_size_variation_attribute( $attribute_name );
 				$attr_slug          = sanitize_title( $attribute_name );
+				$hide_attr_row      = function_exists( 'tailwindscore_should_hide_variation_attribute_row' )
+					&& tailwindscore_should_hide_variation_attribute_row( $attribute_name, $product_id );
+				$row_classes        = 'variation-row variation-row';
+				if ( $is_size_attribute ) {
+					$row_classes .= ' variation-row--size';
+				}
+				if ( $hide_attr_row ) {
+					$row_classes .= ' variation-row--group-hidden';
+				}
 				?>
 				<div
-					class="variation-row variation-row<?php echo $is_size_attribute ? ' variation-row--size' : ''; ?>"
+					class="<?php echo esc_attr( $row_classes ); ?>"
 					data-ts-attribute-label="<?php echo esc_attr( wc_attribute_label( $attribute_name ) ); ?>"
+					<?php echo $hide_attr_row ? ' hidden' : ''; ?>
 				>
 					<div class="label variation-row__label">
 						<label for="<?php echo esc_attr( $attr_slug ); ?>">
