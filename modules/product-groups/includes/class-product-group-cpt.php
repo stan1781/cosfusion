@@ -39,7 +39,7 @@ final class Tailwindscore_Product_Group_Cpt {
 					'edit_item'          => __( '编辑产品组', 'tailwindscore' ),
 					'new_item'           => __( '新产品组', 'tailwindscore' ),
 					'view_item'          => __( '查看产品组', 'tailwindscore' ),
-					'search_items'       => __( '搜索产品组', 'tailwindscore' ),
+					'search_items'       => __( 'Search groups, SKU, or product name', 'tailwindscore' ),
 					'not_found'          => __( '找不到产品组', 'tailwindscore' ),
 					'not_found_in_trash' => __( '回收站内没有产品组', 'tailwindscore' ),
 					'all_items'          => __( 'Product Groups', 'tailwindscore' ),

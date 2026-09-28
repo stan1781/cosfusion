@@ -26,7 +26,7 @@
 | wc-enhanced-user | — | `wcUserEnhancedLogin`、`wcUserEnhancedParams` | 账户页 / 单品积分 | 档 B（待实现） | ⏸ 待做 |
 | feed-export | — | — | 仅后台 | 跳过 | — |
 
-> **Iconic Linked Variations（已退役）**：能力由 [产品组](../modules/product-groups.md) 承接。请停用插件；用 **WooCommerce → Migrate Product Groups** 导入。表 `wp_iconic_woo_linked_variations` 勿自动删除。`inc/integrations/iconic-linked-variations.php` 保留文件但已不再 bootstrap。
+> **Iconic Linked Variations（已退役）**：能力由 [产品组](../modules/product-groups.md) 承接。请停用插件；用 **Products → Product Groups** 列表「Migrate from Iconic」导入。表 `wp_iconic_woo_linked_variations` 勿自动删除。`inc/integrations/iconic-linked-variations.php` 保留文件但已不再 bootstrap。
 
 ### wc-mailnest
 

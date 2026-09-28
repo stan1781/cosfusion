@@ -40,6 +40,8 @@
 
 列表列：Title、Products（数量 + 摘要）、Attributes、Date。
 
+列表搜索：组标题，以及组内商品的 **SKU / 商品名**（经 Woo `search_products`，变体命中会归到父商品所属组）。
+
 编辑 meta box：Products（`wc-product-search`）、Affects attributes（勾选 + 排序）、Per-attribute action（`None` / `Disable image display` / `Hide row`）。组名始终作前台行标题。
 
 ## 前台
@@ -60,7 +62,7 @@
 
 ## Iconic 迁移与退役
 
-- 后台：**WooCommerce → Migrate Product Groups**（dry-run / force）
+- 后台：**Products → Product Groups** 列表 views 行「Migrate from Iconic」（不进侧栏；CLI 仍可用）
 - CLI（若可用）：`wp ts-pg-migrate-iconic [--dry-run] [--force]`
 - 映射：见历史设计；`show_image` 时首属性默认 `disable_image`
 - **已退役**主题侧 `inc/integrations/iconic-linked-variations.php`（不再从 bootstrap 加载）

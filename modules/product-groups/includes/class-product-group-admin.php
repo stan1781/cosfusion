@@ -25,6 +25,110 @@ final class Tailwindscore_Product_Group_Admin {
 		add_action( 'admin_enqueue_scripts', array( self::class, 'enqueue_scripts' ) );
 		add_action( 'admin_notices', array( self::class, 'render_notices' ) );
 		add_action( 'wp_ajax_ts_pg_json_search_products', array( self::class, 'ajax_json_search_products' ) );
+		add_action( 'pre_get_posts', array( self::class, 'expand_list_search' ) );
+	}
+
+	/**
+	 * 列表搜索：组标题 OR 组内商品 SKU / 商品名。
+	 *
+	 * @param WP_Query $query 主查询。
+	 */
+	public static function expand_list_search( WP_Query $query ): void {
+		if ( ! is_admin() || ! $query->is_main_query() ) {
+			return;
+		}
+
+		if ( Tailwindscore_Product_Group_Cpt::POST_TYPE !== $query->get( 'post_type' ) ) {
+			return;
+		}
+
+		$term = $query->get( 's' );
+		if ( ! is_string( $term ) ) {
+			return;
+		}
+		$term = trim( $term );
+		if ( '' === $term ) {
+			return;
+		}
+
+		$title_ids = get_posts(
+			array(
+				'post_type'              => Tailwindscore_Product_Group_Cpt::POST_TYPE,
+				'post_status'            => 'any',
+				's'                      => $term,
+				'fields'                 => 'ids',
+				'posts_per_page'         => -1,
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+			)
+		);
+		if ( ! is_array( $title_ids ) ) {
+			$title_ids = array();
+		}
+
+		$ids = array_values(
+			array_unique(
+				array_merge(
+					array_map( 'absint', $title_ids ),
+					self::find_group_ids_by_product_term( $term )
+				)
+			)
+		);
+
+		$query->set( 's', '' );
+		$query->set( 'post__in', array() === $ids ? array( 0 ) : $ids );
+	}
+
+	/**
+	 * 按 SKU / 商品名找到所属产品组（含变体 → 父商品）。
+	 *
+	 * @param string $term 搜索词。
+	 * @return int[]
+	 */
+	private static function find_group_ids_by_product_term( string $term ): array {
+		if ( ! function_exists( 'WC' ) || ! class_exists( 'WC_Data_Store', false ) ) {
+			return array();
+		}
+
+		try {
+			$data_store = WC_Data_Store::load( 'product' );
+		} catch ( Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+			return array();
+		}
+
+		$limit = (int) apply_filters( 'tailwindscore/product_groups/admin_search_product_limit', 100 );
+		$limit = max( 1, min( 200, $limit ) );
+		$ids   = $data_store->search_products( $term, '', true, false, $limit );
+		if ( ! is_array( $ids ) || array() === $ids ) {
+			return array();
+		}
+
+		$group_ids = array();
+		foreach ( $ids as $product_id ) {
+			$product_id = absint( $product_id );
+			if ( $product_id < 1 ) {
+				continue;
+			}
+
+			$candidates = array( $product_id );
+			$product    = wc_get_product( $product_id );
+			if ( $product instanceof WC_Product ) {
+				$parent_id = (int) $product->get_parent_id();
+				if ( $parent_id > 0 ) {
+					$candidates[] = $parent_id;
+				}
+			}
+
+			foreach ( array_unique( $candidates ) as $candidate_id ) {
+				$group_id = Tailwindscore_Product_Group_Repository::get_group_id_for_product( (int) $candidate_id );
+				if ( $group_id > 0 ) {
+					$group_ids[] = $group_id;
+				}
+			}
+		}
+
+		return array_values( array_unique( $group_ids ) );
 	}
 
 	/**

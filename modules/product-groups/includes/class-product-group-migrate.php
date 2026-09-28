@@ -10,16 +10,20 @@ declare(strict_types=1);
 defined( 'ABSPATH' ) || exit;
 
 /**
- * 后台 Tools + 可选 WP-CLI。
+ * 挂在 Product Groups 列表入口（不进侧栏菜单）+ 可选 WP-CLI。
  */
 final class Tailwindscore_Product_Group_Migrate {
+
+	public const PAGE_SLUG = 'ts-product-groups-migrate';
 
 	/**
 	 * @return void
 	 */
 	public static function init(): void {
-		add_action( 'admin_menu', array( self::class, 'register_menu' ) );
+		add_action( 'admin_menu', array( self::class, 'register_page' ) );
+		add_action( 'admin_menu', array( self::class, 'hide_menu_item' ), 999 );
 		add_action( 'admin_post_ts_pg_migrate_iconic', array( self::class, 'handle_admin_post' ) );
+		add_filter( 'views_edit-' . Tailwindscore_Product_Group_Cpt::POST_TYPE, array( self::class, 'list_views_link' ) );
 
 		if ( defined( 'WP_CLI' ) && constant( 'WP_CLI' ) && class_exists( '\WP_CLI' ) ) {
 			\WP_CLI::add_command(
@@ -32,16 +36,60 @@ final class Tailwindscore_Product_Group_Migrate {
 	}
 
 	/**
+	 * 注册页面（父级与 CPT 同挂 Products，便于权限与高亮）。
+	 *
 	 * @return void
 	 */
-	public static function register_menu(): void {
+	public static function register_page(): void {
 		add_submenu_page(
-			'woocommerce',
-			__( 'Migrate Product Groups', 'tailwindscore' ),
-			__( 'Migrate Product Groups', 'tailwindscore' ),
+			'edit.php?post_type=product',
+			__( 'Migrate from Iconic', 'tailwindscore' ),
+			__( 'Migrate from Iconic', 'tailwindscore' ),
 			'manage_woocommerce',
-			'ts-product-groups-migrate',
+			self::PAGE_SLUG,
 			array( self::class, 'render_page' )
+		);
+	}
+
+	/**
+	 * 一次性工具：不出现在侧栏，仅从 Product Groups 列表进入。
+	 *
+	 * @return void
+	 */
+	public static function hide_menu_item(): void {
+		remove_submenu_page( 'edit.php?post_type=product', self::PAGE_SLUG );
+	}
+
+	/**
+	 * 列表页 views 行增加迁移入口。
+	 *
+	 * @param array<string, string> $views 视图链接。
+	 * @return array<string, string>
+	 */
+	public static function list_views_link( array $views ): array {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			return $views;
+		}
+
+		$views['ts_pg_migrate'] = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( self::page_url() ),
+			esc_html__( 'Migrate from Iconic', 'tailwindscore' )
+		);
+
+		return $views;
+	}
+
+	/**
+	 * 迁移页 URL。
+	 */
+	public static function page_url(): string {
+		return add_query_arg(
+			array(
+				'post_type' => 'product',
+				'page'      => self::PAGE_SLUG,
+			),
+			admin_url( 'edit.php' )
 		);
 	}
 
@@ -57,10 +105,15 @@ final class Tailwindscore_Product_Group_Migrate {
 		if ( is_array( $result ) ) {
 			delete_transient( 'ts_pg_migrate_result_' . get_current_user_id() );
 		}
+
+		$list_url = admin_url( 'edit.php?post_type=' . Tailwindscore_Product_Group_Cpt::POST_TYPE );
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Migrate Iconic Linked Variations', 'tailwindscore' ); ?></h1>
-			<p><?php esc_html_e( '将 wp_iconic_woo_linked_variations 导入为产品组。不删除 Iconic 表。', 'tailwindscore' ); ?></p>
+			<h1><?php esc_html_e( 'Migrate from Iconic', 'tailwindscore' ); ?></h1>
+			<p>
+				<a href="<?php echo esc_url( $list_url ); ?>">&larr; <?php esc_html_e( 'Back to Product Groups', 'tailwindscore' ); ?></a>
+			</p>
+			<p><?php esc_html_e( 'Import wp_iconic_woo_linked_variations into Product Groups. Does not drop the Iconic table.', 'tailwindscore' ); ?></p>
 			<?php if ( is_array( $result ) ) : ?>
 				<div class="notice notice-<?php echo ! empty( $result['ok'] ) ? 'success' : 'warning'; ?> is-dismissible">
 					<pre style="white-space:pre-wrap;"><?php echo esc_html( (string) ( $result['report'] ?? '' ) ); ?></pre>
@@ -72,13 +125,13 @@ final class Tailwindscore_Product_Group_Migrate {
 				<p>
 					<label>
 						<input type="checkbox" name="dry_run" value="1" checked />
-						<?php esc_html_e( 'Dry run（只报告，不写库）', 'tailwindscore' ); ?>
+						<?php esc_html_e( 'Dry run (report only)', 'tailwindscore' ); ?>
 					</label>
 				</p>
 				<p>
 					<label>
 						<input type="checkbox" name="force" value="1" />
-						<?php esc_html_e( 'Force（覆盖已迁移组）', 'tailwindscore' ); ?>
+						<?php esc_html_e( 'Force (overwrite already migrated groups)', 'tailwindscore' ); ?>
 					</label>
 				</p>
 				<?php submit_button( __( 'Run migration', 'tailwindscore' ) ); ?>
@@ -109,7 +162,7 @@ final class Tailwindscore_Product_Group_Migrate {
 			120
 		);
 
-		wp_safe_redirect( admin_url( 'admin.php?page=ts-product-groups-migrate' ) );
+		wp_safe_redirect( self::page_url() );
 		exit;
 	}
 
