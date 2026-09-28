@@ -209,30 +209,29 @@ final class Tailwindscore_Product_Group_Admin {
 
 		wp_enqueue_script( 'wc-enhanced-select' );
 		wp_enqueue_style( 'woocommerce_admin_styles' );
-		wp_enqueue_script( 'jquery-ui-sortable' );
 
 		wp_register_style( 'ts-product-groups-admin', false, array( 'woocommerce_admin_styles' ), TAILWINDSCORE_MODULE_PRODUCT_GROUPS_VERSION );
 		wp_enqueue_style( 'ts-product-groups-admin' );
 		wp_add_inline_style( 'ts-product-groups-admin', self::admin_css() );
 
+		// Display 属性通常非变体维：动作表隐藏对应行，避免误配 Style。
 		$js = <<<'JS'
 		jQuery(function ($) {
-			var $tbody = $('#ts-pg-attributes-body');
-			if ($tbody.length) {
-				$tbody.sortable({ handle: '.ts-pg-attributes__handle', axis: 'y', items: 'tr' });
-			}
-			function syncActions() {
-				var checked = {};
-				$tbody.find('input[type=checkbox]:checked').each(function () {
-					checked[$(this).val()] = true;
+			var $display = $('#ts-pg-display-attribute');
+			var $rows = $('.ts-pg-attr-actions tbody tr[data-attr]');
+			function syncActionRows() {
+				var display = $display.val() || '';
+				$rows.each(function () {
+					var attr = String($(this).data('attr') || '');
+					var isDisplay = display !== '' && attr === display;
+					$(this).toggle(!isDisplay);
+					if (isDisplay) {
+						$(this).find('select').val('none');
+					}
 				});
-				$('.ts-pg-attr-actions tbody tr').each(function () {
-					var attr = $(this).data('attr');
-					$(this).toggle(!!checked[attr]);
-				});
 			}
-			$tbody.on('change', 'input[type=checkbox]', syncActions);
-			syncActions();
+			$display.on('change', syncActionRows);
+			syncActionRows();
 		});
 		JS;
 		wp_add_inline_script( 'wc-enhanced-select', $js );
@@ -243,40 +242,8 @@ final class Tailwindscore_Product_Group_Admin {
 	 */
 	private static function admin_css(): string {
 		return <<<'CSS'
-.woocommerce_options_panel .ts-pg-attributes-wrap {
-	margin-left: 162px;
-	max-width: 40rem;
-}
-.woocommerce_options_panel .ts-pg-attributes-wrap .widefat {
-	margin: 0;
-}
-.woocommerce_options_panel .ts-pg-attributes-wrap .widefat th,
-.woocommerce_options_panel .ts-pg-attributes-wrap .widefat td {
-	padding: 8px 10px;
-	vertical-align: middle;
-}
-.woocommerce_options_panel .ts-pg-attributes-wrap .ts-pg-attributes__handle {
-	cursor: move;
-	color: #646970;
-	margin-right: 6px;
-	vertical-align: middle;
-}
-.woocommerce_options_panel .ts-pg-attributes-wrap input[type="checkbox"] {
-	float: none !important;
-	margin: 0 8px 0 0 !important;
-	width: auto !important;
-	vertical-align: middle;
-}
-.woocommerce_options_panel .ts-pg-attributes-wrap .ts-pg-attr-name {
-	float: none !important;
-	width: auto !important;
-	margin: 0 !important;
-	padding: 0 !important;
-	display: inline !important;
-	color: #1d2327 !important;
-	font-size: 13px !important;
-	font-weight: 600 !important;
-	line-height: 1.4 !important;
+.woocommerce_options_panel .ts-pg-display-attr select {
+	max-width: 20rem;
 }
 .woocommerce_options_panel .ts-pg-attr-actions {
 	margin-top: 1rem;
@@ -296,6 +263,10 @@ final class Tailwindscore_Product_Group_Admin {
 	float: none !important;
 	width: auto !important;
 	margin: 0 !important;
+}
+.woocommerce_options_panel .ts-pg-attr-actions .description {
+	margin-left: 162px;
+	max-width: 40rem;
 }
 CSS;
 	}
@@ -324,10 +295,10 @@ CSS;
 		// 兜底：确保 options_panel label 负边距不会吞掉属性名（不依赖 enqueue 是否成功挂上）。
 		echo '<style id="ts-pg-admin-css">' . self::admin_css() . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 静态 CSS。
 
-		$product_ids  = Tailwindscore_Product_Group_Repository::get_product_ids( (int) $post->ID );
-		$attributes   = Tailwindscore_Product_Group_Repository::get_attributes( (int) $post->ID );
-		$attr_actions = Tailwindscore_Product_Group_Repository::get_attr_actions( (int) $post->ID );
-		$taxonomies   = self::get_attribute_taxonomies();
+		$product_ids       = Tailwindscore_Product_Group_Repository::get_product_ids( (int) $post->ID );
+		$display_attribute = Tailwindscore_Product_Group_Repository::get_display_attribute( (int) $post->ID );
+		$attr_actions      = Tailwindscore_Product_Group_Repository::get_attr_actions( (int) $post->ID );
+		$taxonomies        = self::get_attribute_taxonomies();
 		?>
 		<div class="panel woocommerce_options_panel">
 			<div class="options_group">
@@ -357,89 +328,57 @@ CSS;
 					<?php echo wp_kses_post( wc_help_tip( __( '同一商品只能属于一个产品组。', 'tailwindscore' ) ) ); ?>
 				</p>
 
-				<div class="form-field">
-					<label><?php esc_html_e( 'Affects attributes', 'tailwindscore' ); ?></label>
+				<p class="form-field ts-pg-display-attr">
+					<label for="ts-pg-display-attribute"><?php esc_html_e( 'Group display attribute', 'tailwindscore' ); ?></label>
 					<?php if ( array() === $taxonomies ) : ?>
-						<p class="ts-pg-attributes-wrap"><?php esc_html_e( '请先在商品属性中创建属性。', 'tailwindscore' ); ?></p>
+						<span class="description"><?php esc_html_e( '请先在商品属性中创建属性。', 'tailwindscore' ); ?></span>
 					<?php else : ?>
-						<?php
-						$ordered = $attributes;
-						foreach ( array_keys( $taxonomies ) as $slug ) {
-							if ( ! in_array( $slug, $ordered, true ) ) {
-								$ordered[] = $slug;
-							}
-						}
-						?>
-						<div class="ts-pg-attributes-wrap">
-							<table class="widefat striped" id="ts-pg-attributes">
-								<thead>
-									<tr>
-										<th style="width:2.5rem;"></th>
-										<th><?php esc_html_e( 'Include', 'tailwindscore' ); ?></th>
-										<th><?php esc_html_e( 'Attribute', 'tailwindscore' ); ?></th>
-									</tr>
-								</thead>
-								<tbody id="ts-pg-attributes-body">
-									<?php foreach ( $ordered as $slug ) : ?>
-										<?php
-										if ( ! isset( $taxonomies[ $slug ] ) ) {
-											continue;
-										}
-										$id      = 'ts-pg-attr-' . sanitize_html_class( $slug );
-										$checked = in_array( $slug, $attributes, true );
-										?>
-										<tr data-attr="<?php echo esc_attr( $slug ); ?>">
-											<td>
-												<span class="ts-pg-attributes__handle dashicons dashicons-menu" aria-hidden="true" title="<?php esc_attr_e( 'Drag to reorder', 'tailwindscore' ); ?>"></span>
-											</td>
-											<td>
-												<input
-													id="<?php echo esc_attr( $id ); ?>"
-													type="checkbox"
-													name="ts_pg_attributes[]"
-													value="<?php echo esc_attr( $slug ); ?>"
-													aria-label="<?php echo esc_attr( $taxonomies[ $slug ] ); ?>"
-													<?php checked( $checked ); ?>
-												/>
-											</td>
-											<td>
-												<span class="ts-pg-attr-name"><?php echo esc_html( $taxonomies[ $slug ] ); ?></span>
-											</td>
-										</tr>
-									<?php endforeach; ?>
-								</tbody>
-							</table>
-						</div>
+						<select id="ts-pg-display-attribute" name="ts_pg_display_attribute">
+							<option value=""><?php esc_html_e( '— Use group title —', 'tailwindscore' ); ?></option>
+							<?php foreach ( $taxonomies as $slug => $label ) : ?>
+								<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $display_attribute, $slug ); ?>>
+									<?php echo esc_html( $label ); ?>
+								</option>
+							<?php endforeach; ?>
+						</select>
+						<?php echo wp_kses_post( wc_help_tip( __( '通常为非变体商品属性（如 Style），只用于组缩略图标题 / tip，不会出现在变体选择器里。', 'tailwindscore' ) ) ); ?>
 					<?php endif; ?>
-				</div>
+				</p>
 
 				<div class="form-field ts-pg-attr-actions">
-					<label><?php esc_html_e( 'Per-attribute action', 'tailwindscore' ); ?></label>
-					<table class="widefat striped">
-						<thead>
-							<tr>
-								<th><?php esc_html_e( 'Attribute', 'tailwindscore' ); ?></th>
-								<th><?php esc_html_e( 'Action', 'tailwindscore' ); ?></th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php foreach ( $taxonomies as $slug => $label ) : ?>
-								<?php
-								$action = $attr_actions[ $slug ] ?? Tailwindscore_Product_Group_Repository::ACTION_NONE;
-								?>
-								<tr data-attr="<?php echo esc_attr( $slug ); ?>">
-									<td><?php echo esc_html( $label ); ?></td>
-									<td>
-										<select name="ts_pg_attr_actions[<?php echo esc_attr( $slug ); ?>]">
-											<option value="none" <?php selected( $action, 'none' ); ?>><?php esc_html_e( 'None', 'tailwindscore' ); ?></option>
-											<option value="disable_image" <?php selected( $action, 'disable_image' ); ?>><?php esc_html_e( 'Disable image display', 'tailwindscore' ); ?></option>
-											<option value="hide_row" <?php selected( $action, 'hide_row' ); ?>><?php esc_html_e( 'Hide row', 'tailwindscore' ); ?></option>
-										</select>
-									</td>
+					<label><?php esc_html_e( 'Variation attribute actions', 'tailwindscore' ); ?></label>
+					<?php if ( array() === $taxonomies ) : ?>
+						<p class="description"><?php esc_html_e( '请先在商品属性中创建属性。', 'tailwindscore' ); ?></p>
+					<?php else : ?>
+						<p class="description">
+							<?php esc_html_e( '针对变体属性（如 Color）：Disable image / Hide row。Display 属性（Style）不会出现在此表。', 'tailwindscore' ); ?>
+						</p>
+						<table class="widefat striped">
+							<thead>
+								<tr>
+									<th><?php esc_html_e( 'Attribute', 'tailwindscore' ); ?></th>
+									<th><?php esc_html_e( 'Action', 'tailwindscore' ); ?></th>
 								</tr>
-							<?php endforeach; ?>
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								<?php foreach ( $taxonomies as $slug => $label ) : ?>
+									<?php
+									$action = $attr_actions[ $slug ] ?? Tailwindscore_Product_Group_Repository::ACTION_NONE;
+									?>
+									<tr data-attr="<?php echo esc_attr( $slug ); ?>">
+										<td><?php echo esc_html( $label ); ?></td>
+										<td>
+											<select name="ts_pg_attr_actions[<?php echo esc_attr( $slug ); ?>]">
+												<option value="none" <?php selected( $action, 'none' ); ?>><?php esc_html_e( 'None', 'tailwindscore' ); ?></option>
+												<option value="disable_image" <?php selected( $action, 'disable_image' ); ?>><?php esc_html_e( 'Disable image display', 'tailwindscore' ); ?></option>
+												<option value="hide_row" <?php selected( $action, 'hide_row' ); ?>><?php esc_html_e( 'Hide row', 'tailwindscore' ); ?></option>
+											</select>
+										</td>
+									</tr>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>
@@ -468,9 +407,9 @@ CSS;
 			? array_map( 'absint', wp_unslash( $_POST['ts_pg_product_ids'] ) ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			: array();
 
-		$attributes = isset( $_POST['ts_pg_attributes'] ) && is_array( $_POST['ts_pg_attributes'] )
-			? array_map( 'sanitize_title', wp_unslash( $_POST['ts_pg_attributes'] ) ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			: array();
+		$display_attribute = isset( $_POST['ts_pg_display_attribute'] )
+			? sanitize_title( wp_unslash( (string) $_POST['ts_pg_display_attribute'] ) ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			: '';
 
 		$raw_actions = isset( $_POST['ts_pg_attr_actions'] ) && is_array( $_POST['ts_pg_attr_actions'] )
 			? wp_unslash( $_POST['ts_pg_attr_actions'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
@@ -484,7 +423,7 @@ CSS;
 		$notices = Tailwindscore_Product_Group_Repository::save_group_meta(
 			$post_id,
 			$product_ids,
-			$attributes,
+			$display_attribute,
 			$attr_actions
 		);
 

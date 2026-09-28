@@ -20,7 +20,7 @@ final class Tailwindscore_Product_Group_Csv {
 		'group_id',
 		'title',
 		'skus',
-		'attributes',
+		'display_attribute',
 		'attr_actions',
 	);
 
@@ -110,9 +110,9 @@ final class Tailwindscore_Product_Group_Csv {
 			<p>
 				<?php esc_html_e( 'Export or import groups by SKU. Unknown global attributes are reported and the row is skipped (attributes are not created here). Attribute terms / product values belong in feed-export.', 'tailwindscore' ); ?>
 			</p>
-			<p><code>group_id,title,skus,attributes,attr_actions</code></p>
+			<p><code>group_id,title,skus,display_attribute,attr_actions</code></p>
 			<p class="description">
-				<?php esc_html_e( 'skus / attributes: pipe-separated. attr_actions: pa_style:disable_image|pa_color:none (actions: none, disable_image, hide_row).', 'tailwindscore' ); ?>
+				<?php esc_html_e( 'skus: pipe-separated. display_attribute: e.g. pa_style. attr_actions: pa_style:hide_row|pa_color:disable_image (actions: none, disable_image, hide_row). Legacy "attributes" column is accepted as display_attribute fallback.', 'tailwindscore' ); ?>
 			</p>
 
 			<?php if ( is_array( $result ) ) : ?>
@@ -253,11 +253,10 @@ final class Tailwindscore_Product_Group_Csv {
 				$skus[] = '' !== $sku ? $sku : '#' . $pid;
 			}
 
-			$attributes = Tailwindscore_Product_Group_Repository::get_attributes( $group_id );
-			$actions    = Tailwindscore_Product_Group_Repository::get_attr_actions( $group_id );
+			$display = Tailwindscore_Product_Group_Repository::get_display_attribute( $group_id );
+			$actions = Tailwindscore_Product_Group_Repository::get_attr_actions( $group_id );
 			$action_bits = array();
-			foreach ( $attributes as $attr ) {
-				$action        = $actions[ $attr ] ?? Tailwindscore_Product_Group_Repository::ACTION_NONE;
+			foreach ( $actions as $attr => $action ) {
 				$action_bits[] = $attr . ':' . $action;
 			}
 
@@ -267,7 +266,7 @@ final class Tailwindscore_Product_Group_Csv {
 					(string) $group_id,
 					$post->post_title,
 					implode( '|', $skus ),
-					implode( '|', $attributes ),
+					$display,
 					implode( '|', $action_bits ),
 				)
 			);
@@ -326,18 +325,19 @@ final class Tailwindscore_Product_Group_Csv {
 				continue;
 			}
 
-			/** @var array{group_id:int,title:string,product_ids:int[],attributes:string[],attr_actions:array<string,string>,missing_attrs:string[],missing_skus?:string[]} $parsed */
+			/** @var array{group_id:int,title:string,product_ids:int[],display_attribute:string,attr_actions:array<string,string>,missing_attrs:string[],missing_skus?:string[]} $parsed */
 			$missing = isset( $parsed['missing_skus'] ) && is_array( $parsed['missing_skus'] )
 				? $parsed['missing_skus']
 				: array();
 			$missing_attrs = $parsed['missing_attrs'];
 			$line          = sprintf(
-				'row %d title="%s" products=%d missing_skus=%d attrs=%d missing_attrs=[%s] group_id=%s',
+				'row %d title="%s" products=%d missing_skus=%d display=%s actions=%d missing_attrs=[%s] group_id=%s',
 				$row_num,
 				$parsed['title'],
 				count( $parsed['product_ids'] ),
 				count( $missing ),
-				count( $parsed['attributes'] ),
+				'' !== $parsed['display_attribute'] ? $parsed['display_attribute'] : '(title)',
+				count( $parsed['attr_actions'] ),
 				implode( ',', $missing_attrs ),
 				$parsed['group_id'] > 0 ? (string) $parsed['group_id'] : 'new'
 			);
@@ -400,7 +400,7 @@ final class Tailwindscore_Product_Group_Csv {
 			Tailwindscore_Product_Group_Repository::save_group_meta(
 				$group_id,
 				$parsed['product_ids'],
-				$parsed['attributes'],
+				$parsed['display_attribute'],
 				$parsed['attr_actions']
 			);
 
@@ -469,33 +469,41 @@ final class Tailwindscore_Product_Group_Csv {
 		}
 		$product_ids = array_values( array_unique( array_filter( $product_ids ) ) );
 
-		$attrs_raw = isset( $map['attributes'] ) ? (string) ( $row[ $map['attributes'] ] ?? '' ) : '';
-		$attr_bits = self::split_pipe( $attrs_raw );
-		$attributes = array();
-		$missing_attrs = array();
-		foreach ( $attr_bits as $raw_attr ) {
-			$normalized = self::normalize_attribute_key( $raw_attr );
-			if ( '' === $normalized ) {
-				continue;
-			}
-			$attributes[] = $normalized;
-			if ( ! taxonomy_exists( $normalized ) ) {
-				$missing_attrs[] = $normalized;
+		$display_attribute = '';
+		if ( isset( $map['display_attribute'] ) ) {
+			$display_attribute = self::normalize_attribute_key( (string) ( $row[ $map['display_attribute'] ] ?? '' ) );
+		} elseif ( isset( $map['attributes'] ) ) {
+			// 旧列：attributes 管道列表的首项作为显示属性。
+			$legacy = self::split_pipe( (string) ( $row[ $map['attributes'] ] ?? '' ) );
+			if ( isset( $legacy[0] ) ) {
+				$display_attribute = self::normalize_attribute_key( $legacy[0] );
 			}
 		}
-		$attributes    = array_values( array_unique( $attributes ) );
+
+		$actions_raw  = isset( $map['attr_actions'] ) ? (string) ( $row[ $map['attr_actions'] ] ?? '' ) : '';
+		$attr_actions = self::parse_attr_actions( $actions_raw );
+		if ( '' !== $display_attribute && isset( $attr_actions[ $display_attribute ] ) ) {
+			unset( $attr_actions[ $display_attribute ] );
+		}
+
+		$missing_attrs = array();
+		if ( '' !== $display_attribute && ! taxonomy_exists( $display_attribute ) ) {
+			$missing_attrs[] = $display_attribute;
+		}
+		foreach ( array_keys( $attr_actions ) as $attr ) {
+			if ( ! taxonomy_exists( $attr ) ) {
+				$missing_attrs[] = $attr;
+			}
+		}
 		$missing_attrs = array_values( array_unique( $missing_attrs ) );
 
-		$actions_raw = isset( $map['attr_actions'] ) ? (string) ( $row[ $map['attr_actions'] ] ?? '' ) : '';
-		$attr_actions = self::parse_attr_actions( $actions_raw, $attributes );
-
 		$out = array(
-			'group_id'      => $group_id,
-			'title'         => $title,
-			'product_ids'   => $product_ids,
-			'attributes'    => $attributes,
-			'attr_actions'  => $attr_actions,
-			'missing_attrs' => $missing_attrs,
+			'group_id'          => $group_id,
+			'title'             => $title,
+			'product_ids'       => $product_ids,
+			'display_attribute' => $display_attribute,
+			'attr_actions'      => $attr_actions,
+			'missing_attrs'     => $missing_attrs,
 		);
 
 		if ( array() !== $missing ) {
@@ -506,11 +514,10 @@ final class Tailwindscore_Product_Group_Csv {
 	}
 
 	/**
-	 * @param string   $raw        原串。
-	 * @param string[] $attributes 属性列表。
+	 * @param string $raw 原串。
 	 * @return array<string, string>
 	 */
-	private static function parse_attr_actions( string $raw, array $attributes ): array {
+	private static function parse_attr_actions( string $raw ): array {
 		$allowed = Tailwindscore_Product_Group_Repository::allowed_actions();
 		$parsed  = array();
 		foreach ( self::split_pipe( $raw ) as $bit ) {
@@ -520,17 +527,13 @@ final class Tailwindscore_Product_Group_Csv {
 			list( $attr, $action ) = array_map( 'trim', explode( ':', $bit, 2 ) );
 			$attr   = self::normalize_attribute_key( $attr );
 			$action = sanitize_key( $action );
-			if ( '' === $attr || ! in_array( $action, $allowed, true ) ) {
+			if ( '' === $attr || ! in_array( $action, $allowed, true ) || Tailwindscore_Product_Group_Repository::ACTION_NONE === $action ) {
 				continue;
 			}
 			$parsed[ $attr ] = $action;
 		}
 
-		$out = array();
-		foreach ( $attributes as $attr ) {
-			$out[ $attr ] = $parsed[ $attr ] ?? Tailwindscore_Product_Group_Repository::ACTION_NONE;
-		}
-		return $out;
+		return $parsed;
 	}
 
 	/**
@@ -554,10 +557,11 @@ final class Tailwindscore_Product_Group_Csv {
 	 */
 	private static function map_header( array $header ): array {
 		$map = array();
+		$allowed = array_merge( self::COLUMNS, array( 'attributes' ) ); // attributes：旧列兼容。
 		foreach ( $header as $i => $col ) {
 			$key = strtolower( trim( (string) $col ) );
 			$key = str_replace( array( ' ', '-' ), '_', $key );
-			if ( in_array( $key, self::COLUMNS, true ) ) {
+			if ( in_array( $key, $allowed, true ) ) {
 				$map[ $key ] = (int) $i;
 			}
 		}

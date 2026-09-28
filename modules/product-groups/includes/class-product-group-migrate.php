@@ -246,10 +246,9 @@ final class Tailwindscore_Product_Group_Migrate {
 			foreach ( $attributes as $i => $attr ) {
 				if ( 0 === $i && $show_image ) {
 					$attr_actions[ $attr ] = Tailwindscore_Product_Group_Repository::ACTION_DISABLE_IMAGE;
-				} else {
-					$attr_actions[ $attr ] = Tailwindscore_Product_Group_Repository::ACTION_NONE;
 				}
 			}
+			$display_attribute = $attributes[0] ?? '';
 
 			$existing = $iconic_post_id > 0
 				? Tailwindscore_Product_Group_Repository::find_group_by_iconic_id( $iconic_post_id )
@@ -314,7 +313,7 @@ final class Tailwindscore_Product_Group_Migrate {
 				++$created;
 			}
 
-			Tailwindscore_Product_Group_Repository::save_group_meta( $group_id, $unique_ids, $attributes, $attr_actions );
+			Tailwindscore_Product_Group_Repository::save_group_meta( $group_id, $unique_ids, $display_attribute, $attr_actions );
 			if ( $iconic_post_id > 0 ) {
 				update_post_meta( $group_id, Tailwindscore_Product_Group_Repository::META_MIGRATED_FROM, $iconic_post_id );
 			}

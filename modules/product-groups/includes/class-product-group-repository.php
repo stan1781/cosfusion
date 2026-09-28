@@ -14,11 +14,12 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Tailwindscore_Product_Group_Repository {
 
-	public const META_PRODUCT_IDS     = '_ts_pg_product_ids';
-	public const META_ATTRIBUTES      = '_ts_pg_attributes';
-	public const META_ATTR_ACTIONS    = '_ts_pg_attr_actions';
-	public const META_MIGRATED_FROM   = '_ts_pg_migrated_from_iconic';
-	public const META_PRODUCT_GROUP   = '_ts_pg_group_id';
+	public const META_PRODUCT_IDS        = '_ts_pg_product_ids';
+	public const META_ATTRIBUTES         = '_ts_pg_attributes';
+	public const META_ATTR_ACTIONS       = '_ts_pg_attr_actions';
+	public const META_DISPLAY_ATTRIBUTE  = '_ts_pg_display_attribute';
+	public const META_MIGRATED_FROM      = '_ts_pg_migrated_from_iconic';
+	public const META_PRODUCT_GROUP      = '_ts_pg_group_id';
 
 	public const ACTION_NONE          = 'none';
 	public const ACTION_DISABLE_IMAGE = 'disable_image';
@@ -165,13 +166,28 @@ final class Tailwindscore_Product_Group_Repository {
 	}
 
 	/**
-	 * 组的首个勾选属性键（用于前台标题）。
+	 * 组缩略图 / 行标题用的显示属性（独立于变体动作）。
+	 *
+	 * @param int $group_id 组 ID。
+	 */
+	public static function get_display_attribute( int $group_id ): string {
+		$raw = sanitize_title( (string) get_post_meta( $group_id, self::META_DISPLAY_ATTRIBUTE, true ) );
+		if ( '' !== $raw ) {
+			return $raw;
+		}
+
+		// 兼容旧数据：勾选列表首项。
+		$attrs = self::get_attributes( $group_id );
+		return $attrs[0] ?? '';
+	}
+
+	/**
+	 * @deprecated 使用 get_display_attribute()。
 	 *
 	 * @param int $group_id 组 ID。
 	 */
 	public static function get_primary_attribute( int $group_id ): string {
-		$attrs = self::get_attributes( $group_id );
-		return $attrs[0] ?? '';
+		return self::get_display_attribute( $group_id );
 	}
 
 	/**
@@ -258,40 +274,45 @@ final class Tailwindscore_Product_Group_Repository {
 	}
 
 	/**
-	 * @param int                  $group_id    组 ID。
-	 * @param int[]                $product_ids 商品 ID。
-	 * @param string[]             $attributes  属性。
-	 * @param array<string, string> $attr_actions 属性动作。
+	 * @param int                   $group_id          组 ID。
+	 * @param int[]                 $product_ids       商品 ID。
+	 * @param string                $display_attribute 组缩略图显示属性。
+	 * @param array<string, string> $attr_actions      属性动作（可独立于显示属性）。
 	 * @return string[] 被移出旧组的商品短说明（供 admin notice）。
 	 */
-	public static function save_group_meta( int $group_id, array $product_ids, array $attributes, array $attr_actions ): array {
+	public static function save_group_meta( int $group_id, array $product_ids, string $display_attribute, array $attr_actions ): array {
 		$group_id = absint( $group_id );
 		if ( $group_id < 1 || ! self::is_valid_group( $group_id ) ) {
 			return array();
 		}
 
 		$product_ids = array_values( array_unique( array_filter( array_map( 'absint', $product_ids ) ) ) );
-		$attributes  = array_values(
-			array_unique(
-				array_filter(
-					array_map(
-						static function ( $a ): string {
-							return sanitize_title( (string) $a );
-						},
-						$attributes
-					)
-				)
-			)
-		);
+		$display_attribute = sanitize_title( $display_attribute );
 
-		$allowed = self::allowed_actions();
+		$allowed       = self::allowed_actions();
 		$clean_actions = array();
-		foreach ( $attributes as $attr ) {
-			$action = isset( $attr_actions[ $attr ] ) ? (string) $attr_actions[ $attr ] : self::ACTION_NONE;
-			if ( ! in_array( $action, $allowed, true ) ) {
-				$action = self::ACTION_NONE;
+		foreach ( $attr_actions as $attr => $action ) {
+			$attr   = sanitize_title( (string) $attr );
+			$action = (string) $action;
+			if ( '' === $attr || ! in_array( $action, $allowed, true ) || self::ACTION_NONE === $action ) {
+				continue;
+			}
+			// Display 属性（多为非变体 Style）不参与变体动作。
+			if ( '' !== $display_attribute && $attr === $display_attribute ) {
+				continue;
 			}
 			$clean_actions[ $attr ] = $action;
+		}
+
+		// 列表 / CSV 摘要：显示属性 + 有动作的属性。
+		$attributes = array();
+		if ( '' !== $display_attribute ) {
+			$attributes[] = $display_attribute;
+		}
+		foreach ( array_keys( $clean_actions ) as $attr ) {
+			if ( ! in_array( $attr, $attributes, true ) ) {
+				$attributes[] = $attr;
+			}
 		}
 
 		$notices = self::enforce_one_group_per_product( $group_id, $product_ids );
@@ -306,6 +327,11 @@ final class Tailwindscore_Product_Group_Repository {
 		update_post_meta( $group_id, self::META_PRODUCT_IDS, $product_ids );
 		update_post_meta( $group_id, self::META_ATTRIBUTES, $attributes );
 		update_post_meta( $group_id, self::META_ATTR_ACTIONS, $clean_actions );
+		if ( '' === $display_attribute ) {
+			delete_post_meta( $group_id, self::META_DISPLAY_ATTRIBUTE );
+		} else {
+			update_post_meta( $group_id, self::META_DISPLAY_ATTRIBUTE, $display_attribute );
+		}
 
 		foreach ( $product_ids as $pid ) {
 			update_post_meta( $pid, self::META_PRODUCT_GROUP, $group_id );

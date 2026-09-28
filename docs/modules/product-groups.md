@@ -15,15 +15,16 @@
 |----|------|
 | 模块路径 | `modules/product-groups/` |
 | CPT | `ts_product_group`；`supports` 仅 `title`；挂在 Products 子菜单；无前台归档 |
-| 组名 | CPT `post_title`（后台识别用）；**前台行标题**用组内首个勾选属性的标签（如 `Style`），无勾选属性时才回退到 CPT 标题 / `Styles` |
+| 组名 | CPT `post_title`（后台识别用）；**前台行标题**用 **Group display attribute**（如 Style），未设时回退 CPT 标题 / `Styles` |
 
 ### 组 meta
 
 | 键 | 类型 | 说明 |
 |----|------|------|
 | `_ts_pg_product_ids` | `int[]` | 组内商品，有序 |
-| `_ts_pg_attributes` | `string[]` | 勾选的属性 taxonomy（如 `pa_color`） |
-| `_ts_pg_attr_actions` | `array<string, string>` | 属性 → `none` \| `disable_image` \| `hide_row` |
+| `_ts_pg_display_attribute` | `string` | 组缩略图标题 / tip（如 `pa_style`）；通常为**非变体**商品属性；空则回退 CPT 标题 |
+| `_ts_pg_attributes` | `string[]` | 摘要用（显示属性 + 有动作的属性）；由保存时派生 |
+| `_ts_pg_attr_actions` | `array<string, string>` | 变体属性 → `disable_image` \| `hide_row`（如 Color）；**不含** display 属性 |
 | `_ts_pg_migrated_from_iconic` | `int` | 幂等迁移来源 Iconic `post_id`（可选） |
 | `_ts_pg_group_id`（写在商品上） | `int` | 反向索引，一组一品 |
 
@@ -42,9 +43,9 @@
 
 列表搜索：组标题，以及组内商品的 **SKU / 商品名**（经 Woo `search_products`，变体命中会归到父商品所属组）。
 
-CSV：**Products → Product Groups** 列表「Import / Export CSV」。列 `group_id,title,skus,attributes,attr_actions`（`skus` / `attributes` 用 `|`；`attr_actions` 如 `pa_style:disable_image`）。有 `group_id` 则更新，否则新建。导入时若引用不存在的全局属性则**跳过该行并提示**（不创建属性）；term / 商品属性留给 feed-export。
+CSV：**Products → Product Groups** 列表「Import / Export CSV」。列 `group_id,title,skus,display_attribute,attr_actions`（`skus` 用 `|`；`attr_actions` 如 `pa_style:hide_row|pa_color:disable_image`）。有 `group_id` 则更新，否则新建。未知全局属性跳过并提示。旧列 `attributes` 仍可读（首项作 display）。
 
-编辑 meta box：Products（`wc-product-search`）、Affects attributes（勾选 + 排序）、Per-attribute action（`None` / `Disable image display` / `Hide row`）。组名始终作前台行标题。
+编辑 meta box：Products；**Group display attribute**（多为非变体 Style）；**Variation attribute actions**（变体属性如 Color；Display 属性不出现在动作表）。
 
 ## 前台
 
@@ -59,8 +60,8 @@ CSV：**Products → Product Groups** 列表「Import / Export CSV」。列 `gro
 
 | 动作 | 行为 |
 |------|------|
-| `disable_image` | filter `tailwindscore/variations/is_color_attribute` → false；若配置属性不在当前商品变体维上，则回退作用于该商品的颜色类属性（如仅勾 Style 时 Color 仍会关图像） |
-| `hide_row` | filter `tailwindscore/variations/hide_attribute_row`；行 `hidden` + `.variation-row--group-hidden`，select 保留（仅当该属性存在于商品时） |
+| `disable_image` | 配在变体属性（如 Color）上；filter `is_color_attribute` → false。旧数据若误写在 Style 且商品无该变体维，仍可回退颜色类 |
+| `hide_row` | 配在变体属性上；Display（Style）保存时会被忽略 |
 
 ## Iconic 迁移与退役
 

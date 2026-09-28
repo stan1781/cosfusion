@@ -74,7 +74,7 @@ final class Tailwindscore_Product_Group_Frontend {
 			return;
 		}
 
-		$primary_attr = Tailwindscore_Product_Group_Repository::get_primary_attribute( (int) $group->ID );
+		$primary_attr = Tailwindscore_Product_Group_Repository::get_display_attribute( (int) $group->ID );
 		$title        = '' !== $primary_attr
 			? wc_attribute_label( $primary_attr )
 			: trim( (string) $group->post_title );

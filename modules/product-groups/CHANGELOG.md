@@ -9,3 +9,4 @@
 - 后台列表搜索支持组标题、组内商品 SKU 与商品名。
 - Iconic 迁移入口改到 Product Groups 列表（不再挂 WooCommerce 侧栏）。
 - CSV 导出/导入（SKU + 属性 action）；未知全局属性跳过并提示（不创建）；term/商品属性不在此处理。
+- 拆分 **Group display attribute** 与 **Variation attribute actions**：Display（多为非变体 Style）不进动作表；动作针对变体属性（如 Color）。
