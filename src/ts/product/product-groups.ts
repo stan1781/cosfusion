@@ -1,5 +1,8 @@
 /**
  * 产品组缩略图条：prefetch + 悬停预览 Style 文案。
+ *
+ * 注意：勿用 pointerenter 绑在祖先上——该事件不冒泡、也不向祖先派发，
+ * 悬停子链接时监听器不会触发。
  */
 
 const ROOT_SELECTOR = '[data-ts-product-group]';
@@ -11,12 +14,25 @@ function prefetchUrl(url: string): void {
 	if (!url || prefetched.has(url)) {
 		return;
 	}
+
+	try {
+		const resolved = new URL(url, window.location.href);
+		if (resolved.origin !== window.location.origin) {
+			return;
+		}
+		if (resolved.pathname === window.location.pathname && resolved.search === window.location.search) {
+			return;
+		}
+		url = resolved.href;
+	} catch {
+		return;
+	}
+
 	prefetched.add(url);
 
 	const link = document.createElement('link');
 	link.rel = 'prefetch';
 	link.href = url;
-	link.as = 'document';
 	document.head.append(link);
 }
 
@@ -26,7 +42,7 @@ function onIntent(event: Event): void {
 		return;
 	}
 	const anchor = target.closest<HTMLAnchorElement>(LINK_SELECTOR);
-	if (!anchor || !anchor.href) {
+	if (!anchor?.href) {
 		return;
 	}
 	prefetchUrl(anchor.href);
@@ -43,19 +59,15 @@ function onIntent(event: Event): void {
 }
 
 function onLeave(event: PointerEvent): void {
-	const target = event.target;
+	const target = event.currentTarget;
 	if (!(target instanceof Element)) {
 		return;
 	}
-	const root = target.closest(ROOT_SELECTOR);
-	if (!root) {
-		return;
-	}
 	const related = event.relatedTarget;
-	if (related instanceof Node && root.contains(related)) {
+	if (related instanceof Node && target.contains(related)) {
 		return;
 	}
-	const labelEl = root.querySelector<HTMLElement>('[data-ts-product-group-current]');
+	const labelEl = target.querySelector<HTMLElement>('[data-ts-product-group-current]');
 	const fallback = labelEl?.dataset.tsPgDefaultLabel;
 	if (labelEl && typeof fallback === 'string') {
 		labelEl.textContent = fallback;
@@ -68,7 +80,8 @@ export function initProductGroups(): void {
 		return;
 	}
 
-	root.addEventListener('pointerenter', onIntent, true);
-	root.addEventListener('focusin', onIntent, true);
+	// pointerover / focusin 会冒泡，祖先委托才能收到子链接 hover。
+	root.addEventListener('pointerover', onIntent);
+	root.addEventListener('focusin', onIntent);
 	root.addEventListener('pointerleave', onLeave);
 }
