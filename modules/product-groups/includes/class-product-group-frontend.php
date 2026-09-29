@@ -18,19 +18,29 @@ final class Tailwindscore_Product_Group_Frontend {
 	 * @return void
 	 */
 	public static function init(): void {
-		add_action( 'woocommerce_before_variations_form', array( self::class, 'render' ), 5 );
+		add_action( 'woocommerce_before_variations_form', array( self::class, 'render_above' ), 5 );
+		add_action( 'woocommerce_after_variations_table', array( self::class, 'render_below' ), 5 );
 		add_action( 'woocommerce_before_add_to_cart_button', array( self::class, 'render_for_simple' ), 5 );
 		add_filter( 'tailwindscore/variations/is_color_attribute', array( self::class, 'filter_is_color_attribute' ), 10, 3 );
 		add_filter( 'tailwindscore/variations/hide_attribute_row', array( self::class, 'filter_hide_attribute_row' ), 10, 3 );
 	}
 
 	/**
-	 * Variable 表单内输出；Simple 走另一钩子避免重复。
+	 * Variable：属性行上方。
 	 *
 	 * @return void
 	 */
-	public static function render(): void {
-		self::output( true );
+	public static function render_above(): void {
+		self::output( true, Tailwindscore_Product_Group_Repository::POSITION_ABOVE );
+	}
+
+	/**
+	 * Variable：属性表下方（价格 / ATC 之前）。
+	 *
+	 * @return void
+	 */
+	public static function render_below(): void {
+		self::output( true, Tailwindscore_Product_Group_Repository::POSITION_BELOW );
 	}
 
 	/**
@@ -41,14 +51,16 @@ final class Tailwindscore_Product_Group_Frontend {
 		if ( ! $product instanceof WC_Product || $product->is_type( 'variable' ) ) {
 			return;
 		}
-		self::output( false );
+		// Simple 忽略 display_position，始终挂在 ATC 上方。
+		self::output( false, '' );
 	}
 
 	/**
-	 * @param bool $from_variations_form 是否来自变体表单钩子。
+	 * @param bool   $from_variations_form 是否来自变体表单钩子。
+	 * @param string $expected_position    Variable 期望位置；Simple 传空串跳过校验。
 	 * @return void
 	 */
-	private static function output( bool $from_variations_form ): void {
+	private static function output( bool $from_variations_form, string $expected_position ): void {
 		if ( ! function_exists( 'is_product' ) || ! is_product() ) {
 			return;
 		}
@@ -58,7 +70,7 @@ final class Tailwindscore_Product_Group_Frontend {
 			return;
 		}
 
-		// Variable 只在 variations_form 钩子输出，避免 before_add_to_cart 再出一次。
+		// Variable 只在 variations 钩子输出，避免 before_add_to_cart 再出一次。
 		if ( $product->is_type( 'variable' ) && ! $from_variations_form ) {
 			return;
 		}
@@ -69,7 +81,16 @@ final class Tailwindscore_Product_Group_Frontend {
 			return;
 		}
 
-		$group_id     = (int) $group->ID;
+		$group_id = (int) $group->ID;
+
+		// Variable：仅在与组配置位置匹配的钩子上渲染，避免双份。
+		if ( $product->is_type( 'variable' ) && '' !== $expected_position ) {
+			$position = Tailwindscore_Product_Group_Repository::get_display_position( $group_id );
+			if ( $position !== $expected_position ) {
+				return;
+			}
+		}
+
 		$members      = self::get_visible_members( Tailwindscore_Product_Group_Repository::get_product_ids( $group_id ) );
 		$primary_attr = Tailwindscore_Product_Group_Repository::get_display_attribute( $group_id );
 		$display_mode = Tailwindscore_Product_Group_Repository::get_display_mode( $group_id );

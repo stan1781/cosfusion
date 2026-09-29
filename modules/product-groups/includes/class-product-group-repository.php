@@ -19,6 +19,7 @@ final class Tailwindscore_Product_Group_Repository {
 	public const META_ATTR_ACTIONS       = '_ts_pg_attr_actions';
 	public const META_DISPLAY_ATTRIBUTE  = '_ts_pg_display_attribute';
 	public const META_DISPLAY_MODE       = '_ts_pg_display_mode';
+	public const META_DISPLAY_POSITION   = '_ts_pg_display_position';
 	public const META_MIGRATED_FROM      = '_ts_pg_migrated_from_iconic';
 	public const META_PRODUCT_GROUP      = '_ts_pg_group_id';
 
@@ -28,6 +29,9 @@ final class Tailwindscore_Product_Group_Repository {
 
 	public const MODE_THUMBNAIL = 'thumbnail';
 	public const MODE_BUTTON    = 'button';
+
+	public const POSITION_ABOVE = 'above';
+	public const POSITION_BELOW = 'below';
 
 	/**
 	 * @return string[]
@@ -47,6 +51,16 @@ final class Tailwindscore_Product_Group_Repository {
 		return array(
 			self::MODE_THUMBNAIL,
 			self::MODE_BUTTON,
+		);
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public static function allowed_display_positions(): array {
+		return array(
+			self::POSITION_ABOVE,
+			self::POSITION_BELOW,
 		);
 	}
 
@@ -210,6 +224,20 @@ final class Tailwindscore_Product_Group_Repository {
 	}
 
 	/**
+	 * 组在 Variable 上的显示位置：属性行上方或下方。
+	 *
+	 * @param int $group_id 组 ID。
+	 */
+	public static function get_display_position( int $group_id ): string {
+		$raw = sanitize_key( (string) get_post_meta( $group_id, self::META_DISPLAY_POSITION, true ) );
+		if ( in_array( $raw, self::allowed_display_positions(), true ) ) {
+			return $raw;
+		}
+
+		return self::POSITION_ABOVE;
+	}
+
+	/**
 	 * @deprecated 使用 get_display_attribute()。
 	 *
 	 * @param int $group_id 组 ID。
@@ -307,9 +335,10 @@ final class Tailwindscore_Product_Group_Repository {
 	 * @param string                $display_attribute 组缩略图显示属性。
 	 * @param array<string, string> $attr_actions      属性动作（可独立于显示属性）。
 	 * @param string                $display_mode      thumbnail | button。
+	 * @param string                $display_position  above | below（仅 Variable）。
 	 * @return string[] 被移出旧组的商品短说明（供 admin notice）。
 	 */
-	public static function save_group_meta( int $group_id, array $product_ids, string $display_attribute, array $attr_actions, string $display_mode = self::MODE_THUMBNAIL ): array {
+	public static function save_group_meta( int $group_id, array $product_ids, string $display_attribute, array $attr_actions, string $display_mode = self::MODE_THUMBNAIL, string $display_position = self::POSITION_ABOVE ): array {
 		$group_id = absint( $group_id );
 		if ( $group_id < 1 || ! self::is_valid_group( $group_id ) ) {
 			return array();
@@ -320,6 +349,10 @@ final class Tailwindscore_Product_Group_Repository {
 		$display_mode      = sanitize_key( $display_mode );
 		if ( ! in_array( $display_mode, self::allowed_display_modes(), true ) ) {
 			$display_mode = self::MODE_THUMBNAIL;
+		}
+		$display_position = sanitize_key( $display_position );
+		if ( ! in_array( $display_position, self::allowed_display_positions(), true ) ) {
+			$display_position = self::POSITION_ABOVE;
 		}
 
 		$allowed       = self::allowed_actions();
@@ -370,6 +403,12 @@ final class Tailwindscore_Product_Group_Repository {
 			update_post_meta( $group_id, self::META_DISPLAY_MODE, self::MODE_BUTTON );
 		} else {
 			delete_post_meta( $group_id, self::META_DISPLAY_MODE );
+		}
+		// 默认 above 不占 meta；仅 below 持久化。
+		if ( self::POSITION_BELOW === $display_position ) {
+			update_post_meta( $group_id, self::META_DISPLAY_POSITION, self::POSITION_BELOW );
+		} else {
+			delete_post_meta( $group_id, self::META_DISPLAY_POSITION );
 		}
 
 		foreach ( $product_ids as $pid ) {

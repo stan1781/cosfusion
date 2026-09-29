@@ -318,7 +318,8 @@ final class Tailwindscore_Product_Group_Migrate {
 				$unique_ids,
 				$display_attribute,
 				$attr_actions,
-				Tailwindscore_Product_Group_Repository::MODE_THUMBNAIL
+				Tailwindscore_Product_Group_Repository::MODE_THUMBNAIL,
+				Tailwindscore_Product_Group_Repository::POSITION_ABOVE
 			);
 			if ( $iconic_post_id > 0 ) {
 				update_post_meta( $group_id, Tailwindscore_Product_Group_Repository::META_MIGRATED_FROM, $iconic_post_id );

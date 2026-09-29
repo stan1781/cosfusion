@@ -243,7 +243,8 @@ final class Tailwindscore_Product_Group_Admin {
 	private static function admin_css(): string {
 		return <<<'CSS'
 	.woocommerce_options_panel .ts-pg-display-attr select,
-	.woocommerce_options_panel .ts-pg-display-mode select {
+	.woocommerce_options_panel .ts-pg-display-mode select,
+	.woocommerce_options_panel .ts-pg-display-position select {
 		max-width: 20rem;
 	}
 .woocommerce_options_panel .ts-pg-attr-actions {
@@ -299,6 +300,7 @@ CSS;
 			$product_ids       = Tailwindscore_Product_Group_Repository::get_product_ids( (int) $post->ID );
 			$display_attribute = Tailwindscore_Product_Group_Repository::get_display_attribute( (int) $post->ID );
 			$display_mode      = Tailwindscore_Product_Group_Repository::get_display_mode( (int) $post->ID );
+			$display_position  = Tailwindscore_Product_Group_Repository::get_display_position( (int) $post->ID );
 			$attr_actions      = Tailwindscore_Product_Group_Repository::get_attr_actions( (int) $post->ID );
 			$taxonomies        = self::get_attribute_taxonomies();
 			?>
@@ -354,10 +356,23 @@ CSS;
 								<?php esc_html_e( 'Thumbnail', 'tailwindscore' ); ?>
 							</option>
 							<option value="button" <?php selected( $display_mode, Tailwindscore_Product_Group_Repository::MODE_BUTTON ); ?>>
-								<?php esc_html_e( 'Button (text, no image)', 'tailwindscore' ); ?>
+								<?php esc_html_e( 'Button', 'tailwindscore' ); ?>
 							</option>
 						</select>
 						<?php echo wp_kses_post( wc_help_tip( __( 'Button 复用变体 text-selector 样式，仅显示 display attribute term；无 term 的组员会跳过。', 'tailwindscore' ) ) ); ?>
+					</p>
+
+					<p class="form-field ts-pg-display-position">
+						<label for="ts-pg-display-position"><?php esc_html_e( 'Display position', 'tailwindscore' ); ?></label>
+						<select id="ts-pg-display-position" name="ts_pg_display_position">
+							<option value="above" <?php selected( $display_position, Tailwindscore_Product_Group_Repository::POSITION_ABOVE ); ?>>
+								<?php esc_html_e( 'Above variations', 'tailwindscore' ); ?>
+							</option>
+							<option value="below" <?php selected( $display_position, Tailwindscore_Product_Group_Repository::POSITION_BELOW ); ?>>
+								<?php esc_html_e( 'Below variations', 'tailwindscore' ); ?>
+							</option>
+						</select>
+						<?php echo wp_kses_post( wc_help_tip( __( '仅 Variable 生效：Above = 属性行上方；Below = 属性行之后、价格 / 加入购物车之前。Simple 忽略此选项。', 'tailwindscore' ) ) ); ?>
 					</p>
 
 				<div class="form-field ts-pg-attr-actions">
@@ -430,6 +445,10 @@ CSS;
 				? sanitize_key( wp_unslash( (string) $_POST['ts_pg_display_mode'] ) ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				: Tailwindscore_Product_Group_Repository::MODE_THUMBNAIL;
 
+			$display_position = isset( $_POST['ts_pg_display_position'] )
+				? sanitize_key( wp_unslash( (string) $_POST['ts_pg_display_position'] ) ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				: Tailwindscore_Product_Group_Repository::POSITION_ABOVE;
+
 			$raw_actions = isset( $_POST['ts_pg_attr_actions'] ) && is_array( $_POST['ts_pg_attr_actions'] )
 				? wp_unslash( $_POST['ts_pg_attr_actions'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				: array();
@@ -444,7 +463,8 @@ CSS;
 				$product_ids,
 				$display_attribute,
 				$attr_actions,
-				$display_mode
+				$display_mode,
+				$display_position
 			);
 
 		if ( array() !== $notices ) {
