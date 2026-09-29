@@ -23,6 +23,7 @@
 | wc-order-process-manager | `inc/integrations/wc-order-process-manager.php` | `wcOrderProcessFrontend` | `is_account_page()` | 模板迁主题 + `order-process.ts`；去 Bootstrap Modal | ✅ 已完成 |
 | Iconic Linked Variations | `inc/integrations/iconic-linked-variations.php`（已停用加载） | — | — | 能力迁入 `modules/product-groups` | ⛔ 已退役 |
 | WP Enhanced Tools（脚本管理） | `inc/integrations/wp-enhanced-tools.php` | — | 插件 Head/Body/Foot 直出 | 滤镜 `wp_enhanced_tools_script_output`：仅 Hotjar idle/交互延迟 | ✅ 已整合 |
+| PayPal Payments × Pinterest | `inc/integrations/paypal-pinterest-cart.php` | — | `?wc-ajax=ppc-simulate-cart` | 置位 `woocommerce_paypal_payments_is_simulating_cart`，避免模拟加购把空车写入 session | ✅ 已整合 |
 | wc-enhanced-user | — | `wcUserEnhancedLogin`、`wcUserEnhancedParams` | 账户页 / 单品积分 | 档 B（待实现） | ⏸ 待做 |
 | feed-export | — | — | 仅后台 | 跳过 | — |
 
@@ -64,6 +65,13 @@
 - 与 WP Rocket Delay JS：**同一段 Hotjar 勿叠两次**（二选一）
 
 详见 [前台性能](../architecture/performance.md)。
+
+### PayPal Payments × Pinterest（购物车 session）
+
+- 现象：单品页开着 PayPal 智能按钮时，加购后进 cart/checkout 偶发空车 / `Sorry, your session has expired`
+- 原因：`ppc-simulate-cart` 会 `empty_cart()`；Pinterest Tracking 在 `woocommerce_add_to_cart` 里立刻 `session->save_data()`，把尚未恢复的空车写入 DB；PayPal 本欲用 `remove_all_actions( 'shutdown' )` 防落库，但挡不住这次立即保存
+- 修复：`paypal-pinterest-cart.php` 在 simulate 请求中置 `woocommerce_paypal_payments_is_simulating_cart` 为 true（Pinterest 1.5.1+ 据此跳过模拟加购上报与立即 save）
+- 不改 PayPal / Pinterest 插件文件；`ppc-change-cart`（真实快捷结账改车）不置位
 
 ### wc-enhanced-user（待做）
 

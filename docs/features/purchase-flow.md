@@ -42,6 +42,7 @@ TailwindScore 采用 **Drawer-first** 购买路径：用户在单品页加购后
 - **WhatsApp CTA**（成功页）：号码未配置时不渲染；预填消息支持 `{order_number}` / `{order_total}`（Customizer → 设计 → 联络方式）。**页头顶栏 / FAB 本轮未接入**
 - Store API 缓存优化（`store-api-cache.php`）
 - Store API nonce：页注入 nonce 视为新鲜（TTL 60s），冷加购默认 **单次 POST**；仅 TTL 过期或 `woocommerce_rest_invalid_nonce` 时才先 `GET /cart`
+- **PayPal × Pinterest 兼容**（`inc/integrations/paypal-pinterest-cart.php`）：单品页 `ppc-simulate-cart` 期间置位 `woocommerce_paypal_payments_is_simulating_cart`，避免 Pinterest 立即 `save_data()` 把空车写入 session（详见 [独立插件整合](../integrations/README.md)）
 - **禁用 GET `?add-to-cart=`**：卡片简单品用 `button` + Store API；`tailwindscore_block_get_add_to_cart` 去掉查询参数，避免 bot 扫链加购（单品 POST 表单不受影响）
 - 运费规则（`shipping-rules.php`）：达标后隐藏付费配送；门槛读取当前配送 zone 内条件免运的 **Minimum order amount**（`min_amount`），与 Starcore 一致，Customizer（根级「结账」）仅配置开关与要隐藏的 rate ID，不手填门槛金额
 - **区域限制**（`checkout-region-restrictions.php`，策略 B）：账单或收货任一为 `US` + `IL`（Illinois）则拒绝下单；经典结账用 `woocommerce_after_checkout_validation`，Store API / Blocks 用 `woocommerce_store_api_checkout_update_order_from_request`；前台 `woocommerce_states` 去掉 Illinois，后台改单仍可选；不改 `form-checkout.php`、不依赖 Shipping Zone
