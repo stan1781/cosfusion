@@ -68,7 +68,7 @@ CSV：**Products → Product Groups** 列表「Import / Export CSV」。列 `gro
 - 后台：**Products → Product Groups** 列表 views 行「Migrate from Iconic」（不进侧栏；CLI 仍可用）
 - CLI（若可用）：`wp ts-pg-migrate-iconic [--dry-run] [--force]`
 - 映射：见历史设计；`show_image` 时首属性默认 `disable_image`
-- **已退役**主题侧 `inc/integrations/iconic-linked-variations.php`（不再从 bootstrap 加载）
+- 主题侧 `inc/integrations/iconic-linked-variations.php` 已删除（资源 dequeue 补丁不再需要）
 - 请在 WP 后台**停用** Iconic 插件；**暂留** `wp_iconic_woo_linked_variations` 表，确认无误后再手工 DROP
 
 ## 实现文件

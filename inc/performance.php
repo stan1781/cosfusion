@@ -87,11 +87,6 @@ function tailwindscore_theme_needs_jquery(): bool {
 		return true;
 	}
 
-	// Iconic Linked Variations 在单品页仍会加载小型 jQuery 脚本。
-	if ( function_exists( 'tailwindscore_should_load_iconic_wlv_assets' ) && tailwindscore_should_load_iconic_wlv_assets() ) {
-		return true;
-	}
-
 	return (bool) apply_filters( 'tailwindscore_theme_needs_jquery', false );
 }
 
