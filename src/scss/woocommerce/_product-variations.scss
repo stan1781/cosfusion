@@ -434,7 +434,7 @@
 	max-width: none;
 }
 
-/* 产品组（modules/product-groups）：复用 color-selector，仅补行级差异 */
+/* 产品组（modules/product-groups）：复用 color-selector / text-selector，仅补行级差异 */
 .product-group-row .variation-row__label {
 	justify-content: flex-start;
 	flex-wrap: wrap;
@@ -457,6 +457,20 @@
 	height: 100%;
 	color: inherit;
 	text-decoration: none;
+}
+
+/* 按钮模式：链接铺满 text-selector 色块，沿用变体文字按钮视觉 */
+.product-group-row .text-selector li .product-group-row__link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	width: 100%;
+	height: 100%;
+	color: inherit;
+	text-decoration: none;
+	font: inherit;
+	line-height: inherit;
 }
 
 /* 与未包 <a> 的选中项同尺寸，避免链接项被拉大 */

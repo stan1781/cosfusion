@@ -242,9 +242,10 @@ final class Tailwindscore_Product_Group_Admin {
 	 */
 	private static function admin_css(): string {
 		return <<<'CSS'
-.woocommerce_options_panel .ts-pg-display-attr select {
-	max-width: 20rem;
-}
+	.woocommerce_options_panel .ts-pg-display-attr select,
+	.woocommerce_options_panel .ts-pg-display-mode select {
+		max-width: 20rem;
+	}
 .woocommerce_options_panel .ts-pg-attr-actions {
 	margin-top: 1rem;
 }
@@ -295,55 +296,69 @@ CSS;
 		// 兜底：确保 options_panel label 负边距不会吞掉属性名（不依赖 enqueue 是否成功挂上）。
 		echo '<style id="ts-pg-admin-css">' . self::admin_css() . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- 静态 CSS。
 
-		$product_ids       = Tailwindscore_Product_Group_Repository::get_product_ids( (int) $post->ID );
-		$display_attribute = Tailwindscore_Product_Group_Repository::get_display_attribute( (int) $post->ID );
-		$attr_actions      = Tailwindscore_Product_Group_Repository::get_attr_actions( (int) $post->ID );
-		$taxonomies        = self::get_attribute_taxonomies();
-		?>
-		<div class="panel woocommerce_options_panel">
-			<div class="options_group">
-				<p class="form-field">
-					<label for="ts-pg-product-ids"><?php esc_html_e( 'Products', 'tailwindscore' ); ?></label>
-					<select
-						class="wc-product-search"
-						multiple="multiple"
-						style="width: 85%;"
-						id="ts-pg-product-ids"
-						name="ts_pg_product_ids[]"
-						data-placeholder="<?php esc_attr_e( 'Search by SKU or product name&hellip;', 'tailwindscore' ); ?>"
-						data-action="ts_pg_json_search_products"
-					>
-						<?php foreach ( $product_ids as $product_id ) : ?>
-							<?php
-							$product = wc_get_product( $product_id );
-							if ( ! $product instanceof WC_Product ) {
-								continue;
-							}
-							?>
-							<option value="<?php echo esc_attr( (string) $product_id ); ?>" selected="selected">
-								<?php echo esc_html( self::format_product_label( $product ) ); ?>
-							</option>
-						<?php endforeach; ?>
-					</select>
-					<?php echo wp_kses_post( wc_help_tip( __( '同一商品只能属于一个产品组。', 'tailwindscore' ) ) ); ?>
-				</p>
-
-				<p class="form-field ts-pg-display-attr">
-					<label for="ts-pg-display-attribute"><?php esc_html_e( 'Group display attribute', 'tailwindscore' ); ?></label>
-					<?php if ( array() === $taxonomies ) : ?>
-						<span class="description"><?php esc_html_e( '请先在商品属性中创建属性。', 'tailwindscore' ); ?></span>
-					<?php else : ?>
-						<select id="ts-pg-display-attribute" name="ts_pg_display_attribute">
-							<option value=""><?php esc_html_e( '— Use group title —', 'tailwindscore' ); ?></option>
-							<?php foreach ( $taxonomies as $slug => $label ) : ?>
-								<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $display_attribute, $slug ); ?>>
-									<?php echo esc_html( $label ); ?>
+			$product_ids       = Tailwindscore_Product_Group_Repository::get_product_ids( (int) $post->ID );
+			$display_attribute = Tailwindscore_Product_Group_Repository::get_display_attribute( (int) $post->ID );
+			$display_mode      = Tailwindscore_Product_Group_Repository::get_display_mode( (int) $post->ID );
+			$attr_actions      = Tailwindscore_Product_Group_Repository::get_attr_actions( (int) $post->ID );
+			$taxonomies        = self::get_attribute_taxonomies();
+			?>
+			<div class="panel woocommerce_options_panel">
+				<div class="options_group">
+					<p class="form-field">
+						<label for="ts-pg-product-ids"><?php esc_html_e( 'Products', 'tailwindscore' ); ?></label>
+						<select
+							class="wc-product-search"
+							multiple="multiple"
+							style="width: 85%;"
+							id="ts-pg-product-ids"
+							name="ts_pg_product_ids[]"
+							data-placeholder="<?php esc_attr_e( 'Search by SKU or product name&hellip;', 'tailwindscore' ); ?>"
+							data-action="ts_pg_json_search_products"
+						>
+							<?php foreach ( $product_ids as $product_id ) : ?>
+								<?php
+								$product = wc_get_product( $product_id );
+								if ( ! $product instanceof WC_Product ) {
+									continue;
+								}
+								?>
+								<option value="<?php echo esc_attr( (string) $product_id ); ?>" selected="selected">
+									<?php echo esc_html( self::format_product_label( $product ) ); ?>
 								</option>
 							<?php endforeach; ?>
 						</select>
-						<?php echo wp_kses_post( wc_help_tip( __( '通常为非变体商品属性（如 Style），只用于组缩略图标题 / tip，不会出现在变体选择器里。', 'tailwindscore' ) ) ); ?>
-					<?php endif; ?>
-				</p>
+						<?php echo wp_kses_post( wc_help_tip( __( '同一商品只能属于一个产品组。', 'tailwindscore' ) ) ); ?>
+					</p>
+
+					<p class="form-field ts-pg-display-attr">
+						<label for="ts-pg-display-attribute"><?php esc_html_e( 'Group display attribute', 'tailwindscore' ); ?></label>
+						<?php if ( array() === $taxonomies ) : ?>
+							<span class="description"><?php esc_html_e( '请先在商品属性中创建属性。', 'tailwindscore' ); ?></span>
+						<?php else : ?>
+							<select id="ts-pg-display-attribute" name="ts_pg_display_attribute">
+								<option value=""><?php esc_html_e( '— Use group title —', 'tailwindscore' ); ?></option>
+								<?php foreach ( $taxonomies as $slug => $label ) : ?>
+									<option value="<?php echo esc_attr( $slug ); ?>" <?php selected( $display_attribute, $slug ); ?>>
+										<?php echo esc_html( $label ); ?>
+									</option>
+								<?php endforeach; ?>
+							</select>
+							<?php echo wp_kses_post( wc_help_tip( __( '通常为非变体商品属性（如 Style），只用于组缩略图标题 / tip，不会出现在变体选择器里。', 'tailwindscore' ) ) ); ?>
+						<?php endif; ?>
+					</p>
+
+					<p class="form-field ts-pg-display-mode">
+						<label for="ts-pg-display-mode"><?php esc_html_e( 'Display mode', 'tailwindscore' ); ?></label>
+						<select id="ts-pg-display-mode" name="ts_pg_display_mode">
+							<option value="thumbnail" <?php selected( $display_mode, Tailwindscore_Product_Group_Repository::MODE_THUMBNAIL ); ?>>
+								<?php esc_html_e( 'Thumbnail', 'tailwindscore' ); ?>
+							</option>
+							<option value="button" <?php selected( $display_mode, Tailwindscore_Product_Group_Repository::MODE_BUTTON ); ?>>
+								<?php esc_html_e( 'Button (text, no image)', 'tailwindscore' ); ?>
+							</option>
+						</select>
+						<?php echo wp_kses_post( wc_help_tip( __( 'Button 复用变体 text-selector 样式，仅显示 display attribute term；无 term 的组员会跳过。', 'tailwindscore' ) ) ); ?>
+					</p>
 
 				<div class="form-field ts-pg-attr-actions">
 					<label><?php esc_html_e( 'Variation attribute actions', 'tailwindscore' ); ?></label>
@@ -407,25 +422,30 @@ CSS;
 			? array_map( 'absint', wp_unslash( $_POST['ts_pg_product_ids'] ) ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			: array();
 
-		$display_attribute = isset( $_POST['ts_pg_display_attribute'] )
-			? sanitize_title( wp_unslash( (string) $_POST['ts_pg_display_attribute'] ) ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			: '';
+			$display_attribute = isset( $_POST['ts_pg_display_attribute'] )
+				? sanitize_title( wp_unslash( (string) $_POST['ts_pg_display_attribute'] ) ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				: '';
 
-		$raw_actions = isset( $_POST['ts_pg_attr_actions'] ) && is_array( $_POST['ts_pg_attr_actions'] )
-			? wp_unslash( $_POST['ts_pg_attr_actions'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			: array();
+			$display_mode = isset( $_POST['ts_pg_display_mode'] )
+				? sanitize_key( wp_unslash( (string) $_POST['ts_pg_display_mode'] ) ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				: Tailwindscore_Product_Group_Repository::MODE_THUMBNAIL;
 
-		$attr_actions = array();
-		foreach ( $raw_actions as $attr => $action ) {
-			$attr_actions[ sanitize_title( (string) $attr ) ] = sanitize_key( (string) $action );
-		}
+			$raw_actions = isset( $_POST['ts_pg_attr_actions'] ) && is_array( $_POST['ts_pg_attr_actions'] )
+				? wp_unslash( $_POST['ts_pg_attr_actions'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				: array();
 
-		$notices = Tailwindscore_Product_Group_Repository::save_group_meta(
-			$post_id,
-			$product_ids,
-			$display_attribute,
-			$attr_actions
-		);
+			$attr_actions = array();
+			foreach ( $raw_actions as $attr => $action ) {
+				$attr_actions[ sanitize_title( (string) $attr ) ] = sanitize_key( (string) $action );
+			}
+
+			$notices = Tailwindscore_Product_Group_Repository::save_group_meta(
+				$post_id,
+				$product_ids,
+				$display_attribute,
+				$attr_actions,
+				$display_mode
+			);
 
 		if ( array() !== $notices ) {
 			set_transient( 'ts_pg_admin_notices_' . get_current_user_id(), $notices, 60 );

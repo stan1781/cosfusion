@@ -69,13 +69,20 @@ final class Tailwindscore_Product_Group_Frontend {
 			return;
 		}
 
-		$members = self::get_visible_members( Tailwindscore_Product_Group_Repository::get_product_ids( (int) $group->ID ) );
+		$group_id     = (int) $group->ID;
+		$members      = self::get_visible_members( Tailwindscore_Product_Group_Repository::get_product_ids( $group_id ) );
+		$primary_attr = Tailwindscore_Product_Group_Repository::get_display_attribute( $group_id );
+		$display_mode = Tailwindscore_Product_Group_Repository::get_display_mode( $group_id );
+
+		if ( Tailwindscore_Product_Group_Repository::MODE_BUTTON === $display_mode ) {
+			$members = self::filter_members_with_display_term( $members, $primary_attr );
+		}
+
 		if ( count( $members ) < 2 ) {
 			return;
 		}
 
-		$primary_attr = Tailwindscore_Product_Group_Repository::get_display_attribute( (int) $group->ID );
-		$title        = '' !== $primary_attr
+		$title = '' !== $primary_attr
 			? wc_attribute_label( $primary_attr )
 			: trim( (string) $group->post_title );
 		if ( '' === $title ) {
@@ -88,7 +95,27 @@ final class Tailwindscore_Product_Group_Frontend {
 		}
 
 		$current_label = self::resolve_current_value_label( $product, $primary_attr );
-		$index         = 0;
+
+		if ( Tailwindscore_Product_Group_Repository::MODE_BUTTON === $display_mode ) {
+			self::render_button_row( $members, $current_id, $primary_attr, $title, $current_label, $shape );
+			return;
+		}
+
+		self::render_thumbnail_row( $members, $current_id, $primary_attr, $title, $current_label, $shape );
+	}
+
+	/**
+	 * 缩略图模式（默认）：复用 color-selector mode-grid。
+	 *
+	 * @param WC_Product[] $members       可见组员。
+	 * @param int          $current_id    当前商品。
+	 * @param string       $primary_attr  显示属性。
+	 * @param string       $title         行标题。
+	 * @param string       $current_label 当前 term 文案。
+	 * @param string       $shape         色块形状。
+	 */
+	private static function render_thumbnail_row( array $members, int $current_id, string $primary_attr, string $title, string $current_label, string $shape ): void {
+		$index = 0;
 		?>
 		<div class="variation-row product-group-row" data-ts-product-group>
 			<div class="label variation-row__label">
@@ -146,6 +173,76 @@ final class Tailwindscore_Product_Group_Frontend {
 			</div>
 		</div>
 		<?php
+	}
+
+	/**
+	 * 按钮模式：复用变体 text-selector；文案仅为 display attribute term。
+	 *
+	 * @param WC_Product[] $members       已过滤有 term 的组员。
+	 * @param int          $current_id    当前商品。
+	 * @param string       $primary_attr  显示属性。
+	 * @param string       $title         行标题。
+	 * @param string       $current_label 当前 term 文案。
+	 * @param string       $shape         形状。
+	 */
+	private static function render_button_row( array $members, int $current_id, string $primary_attr, string $title, string $current_label, string $shape ): void {
+		?>
+		<div class="variation-row product-group-row product-group-row--button" data-ts-product-group>
+			<div class="label variation-row__label">
+				<span class="product-group-row__title"><?php echo esc_html( $title ); ?>:</span>
+				<?php if ( '' !== $current_label ) : ?>
+					<span class="selected-attribute-value" data-ts-product-group-current><?php echo esc_html( $current_label ); ?></span>
+				<?php endif; ?>
+			</div>
+			<div class="value variation-row__value">
+				<ul class="custom-variation-selector text-selector shape-<?php echo esc_attr( $shape ); ?>">
+					<?php foreach ( $members as $member ) : ?>
+						<?php
+						$mid        = (int) $member->get_id();
+						$is_current = $mid === $current_id;
+						$tip        = self::resolve_attribute_term_label( $member, $primary_attr );
+						$url        = get_permalink( $mid );
+						?>
+						<?php if ( $is_current ) : ?>
+							<li
+								class="selected"
+								aria-current="page"
+								aria-label="<?php echo esc_attr( $tip ); ?>"
+								data-ts-tooltip="<?php echo esc_attr( $tip ); ?>"
+							><?php echo esc_html( $tip ); ?></li>
+						<?php else : ?>
+							<li data-ts-tooltip="<?php echo esc_attr( $tip ); ?>">
+								<a
+									class="product-group-row__link"
+									href="<?php echo esc_url( (string) $url ); ?>"
+									aria-label="<?php echo esc_attr( $tip ); ?>"
+									data-ts-product-group-prefetch
+									data-ts-product-group-label="<?php echo esc_attr( $tip ); ?>"
+								><?php echo esc_html( $tip ); ?></a>
+							</li>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * 按钮模式：跳过无 display attribute term 的组员。
+	 *
+	 * @param WC_Product[] $members      可见组员。
+	 * @param string       $primary_attr 显示属性。
+	 * @return WC_Product[]
+	 */
+	private static function filter_members_with_display_term( array $members, string $primary_attr ): array {
+		$out = array();
+		foreach ( $members as $member ) {
+			if ( '' !== self::resolve_attribute_term_label( $member, $primary_attr ) ) {
+				$out[] = $member;
+			}
+		}
+		return $out;
 	}
 
 	/**

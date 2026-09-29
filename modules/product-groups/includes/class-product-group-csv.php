@@ -21,6 +21,7 @@ final class Tailwindscore_Product_Group_Csv {
 		'title',
 		'skus',
 		'display_attribute',
+		'display_mode',
 		'attr_actions',
 	);
 
@@ -110,9 +111,9 @@ final class Tailwindscore_Product_Group_Csv {
 			<p>
 				<?php esc_html_e( 'Export or import groups by SKU. Unknown global attributes are reported and the row is skipped (attributes are not created here). Attribute terms / product values belong in feed-export.', 'tailwindscore' ); ?>
 			</p>
-			<p><code>group_id,title,skus,display_attribute,attr_actions</code></p>
+			<p><code>group_id,title,skus,display_attribute,display_mode,attr_actions</code></p>
 			<p class="description">
-				<?php esc_html_e( 'skus: pipe-separated. display_attribute: e.g. pa_style. attr_actions: pa_style:hide_row|pa_color:disable_image (actions: none, disable_image, hide_row). Legacy "attributes" column is accepted as display_attribute fallback.', 'tailwindscore' ); ?>
+				<?php esc_html_e( 'skus: pipe-separated. display_attribute: e.g. pa_style. display_mode: thumbnail|button (default thumbnail). attr_actions: pa_color:disable_image|pa_size:hide_row (actions: none, disable_image, hide_row). Legacy "attributes" column is accepted as display_attribute fallback.', 'tailwindscore' ); ?>
 			</p>
 
 			<?php if ( is_array( $result ) ) : ?>
@@ -254,6 +255,7 @@ final class Tailwindscore_Product_Group_Csv {
 			}
 
 			$display = Tailwindscore_Product_Group_Repository::get_display_attribute( $group_id );
+			$mode    = Tailwindscore_Product_Group_Repository::get_display_mode( $group_id );
 			$actions = Tailwindscore_Product_Group_Repository::get_attr_actions( $group_id );
 			$action_bits = array();
 			foreach ( $actions as $attr => $action ) {
@@ -267,6 +269,7 @@ final class Tailwindscore_Product_Group_Csv {
 					$post->post_title,
 					implode( '|', $skus ),
 					$display,
+					$mode,
 					implode( '|', $action_bits ),
 				)
 			);
@@ -325,18 +328,19 @@ final class Tailwindscore_Product_Group_Csv {
 				continue;
 			}
 
-			/** @var array{group_id:int,title:string,product_ids:int[],display_attribute:string,attr_actions:array<string,string>,missing_attrs:string[],missing_skus?:string[]} $parsed */
+			/** @var array{group_id:int,title:string,product_ids:int[],display_attribute:string,display_mode:string,attr_actions:array<string,string>,missing_attrs:string[],missing_skus?:string[]} $parsed */
 			$missing = isset( $parsed['missing_skus'] ) && is_array( $parsed['missing_skus'] )
 				? $parsed['missing_skus']
 				: array();
 			$missing_attrs = $parsed['missing_attrs'];
 			$line          = sprintf(
-				'row %d title="%s" products=%d missing_skus=%d display=%s actions=%d missing_attrs=[%s] group_id=%s',
+				'row %d title="%s" products=%d missing_skus=%d display=%s mode=%s actions=%d missing_attrs=[%s] group_id=%s',
 				$row_num,
 				$parsed['title'],
 				count( $parsed['product_ids'] ),
 				count( $missing ),
 				'' !== $parsed['display_attribute'] ? $parsed['display_attribute'] : '(title)',
+				$parsed['display_mode'],
 				count( $parsed['attr_actions'] ),
 				implode( ',', $missing_attrs ),
 				$parsed['group_id'] > 0 ? (string) $parsed['group_id'] : 'new'
@@ -401,7 +405,8 @@ final class Tailwindscore_Product_Group_Csv {
 				$group_id,
 				$parsed['product_ids'],
 				$parsed['display_attribute'],
-				$parsed['attr_actions']
+				$parsed['attr_actions'],
+				$parsed['display_mode']
 			);
 
 			$lines[] = $line . ' → ' . $verb . ' #' . $group_id;
@@ -486,6 +491,14 @@ final class Tailwindscore_Product_Group_Csv {
 			unset( $attr_actions[ $display_attribute ] );
 		}
 
+		$display_mode = Tailwindscore_Product_Group_Repository::MODE_THUMBNAIL;
+		if ( isset( $map['display_mode'] ) ) {
+			$raw_mode = sanitize_key( (string) ( $row[ $map['display_mode'] ] ?? '' ) );
+			if ( in_array( $raw_mode, Tailwindscore_Product_Group_Repository::allowed_display_modes(), true ) ) {
+				$display_mode = $raw_mode;
+			}
+		}
+
 		$missing_attrs = array();
 		if ( '' !== $display_attribute && ! taxonomy_exists( $display_attribute ) ) {
 			$missing_attrs[] = $display_attribute;
@@ -502,6 +515,7 @@ final class Tailwindscore_Product_Group_Csv {
 			'title'             => $title,
 			'product_ids'       => $product_ids,
 			'display_attribute' => $display_attribute,
+			'display_mode'      => $display_mode,
 			'attr_actions'      => $attr_actions,
 			'missing_attrs'     => $missing_attrs,
 		);

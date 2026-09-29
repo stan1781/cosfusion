@@ -5,7 +5,7 @@
 
 ## 目标
 
-用主题模块提供「精选商品组」：后台操作贴近 Linked Variations；前台在选项上方以 **变体色块同款缩略图** 切换组内商品；组级运行时控制 `modules/variations` 的图像显示 / 属性行可见性，**不改写**商品 meta。
+用主题模块提供「精选商品组」：后台操作贴近 Linked Variations；前台在选项上方以 **缩略图** 或 **文字按钮**（可按组切换）切换组内商品；组级运行时控制 `modules/variations` 的图像显示 / 属性行可见性，**不改写**商品 meta。
 
 非目标（首版）：系列归档页、写入 Upsells/Cross-sells、Speculation Rules prerender、AJAX 换品（整页跳转）。
 
@@ -22,7 +22,8 @@
 | 键 | 类型 | 说明 |
 |----|------|------|
 | `_ts_pg_product_ids` | `int[]` | 组内商品，有序 |
-| `_ts_pg_display_attribute` | `string` | 组缩略图标题 / tip（如 `pa_style`）；通常为**非变体**商品属性；空则回退 CPT 标题 |
+| `_ts_pg_display_attribute` | `string` | 组行标题 / tip / 按钮文案（如 `pa_style`）；通常为**非变体**商品属性；空则回退 CPT 标题 |
+| `_ts_pg_display_mode` | `string` | `thumbnail`（默认，不写 meta）\| `button`；仅 `button` 持久化 |
 | `_ts_pg_attributes` | `string[]` | 摘要用（显示属性 + 有动作的属性）；由保存时派生 |
 | `_ts_pg_attr_actions` | `array<string, string>` | 变体属性 → `disable_image` \| `hide_row`（如 Color）；**不含** display 属性 |
 | `_ts_pg_migrated_from_iconic` | `int` | 幂等迁移来源 Iconic `post_id`（可选） |
@@ -43,9 +44,9 @@
 
 列表搜索：组标题，以及组内商品的 **SKU / 商品名**（经 Woo `search_products`，变体命中会归到父商品所属组）。
 
-CSV：**Products → Product Groups** 列表「Import / Export CSV」。列 `group_id,title,skus,display_attribute,attr_actions`（`skus` 用 `|`；`attr_actions` 如 `pa_style:hide_row|pa_color:disable_image`）。有 `group_id` 则更新，否则新建。未知全局属性跳过并提示。旧列 `attributes` 仍可读（首项作 display）。
+CSV：**Products → Product Groups** 列表「Import / Export CSV」。列 `group_id,title,skus,display_attribute,display_mode,attr_actions`（`skus` 用 `|`；`display_mode` 为 `thumbnail` \| `button`，缺省 / 非法 → thumbnail；`attr_actions` 如 `pa_color:disable_image`）。有 `group_id` 则更新，否则新建。未知全局属性跳过并提示。旧列 `attributes` 仍可读（首项作 display）。
 
-编辑 meta box：Products；**Group display attribute**（多为非变体 Style）；**Variation attribute actions**（变体属性如 Color；Display 属性不出现在动作表）。
+编辑 meta box：Products；**Group display attribute**（多为非变体 Style）；**Display mode**（Thumbnail / Button）；**Variation attribute actions**（变体属性如 Color；Display 属性不出现在动作表）。
 
 ## 前台
 
@@ -54,7 +55,12 @@ CSV：**Products → Product Groups** 列表「Import / Export CSV」。列 `gro
 | Variable | `woocommerce_before_variations_form` priority 5 |
 | Simple 等 | `woocommerce_before_add_to_cart_button` |
 
-可见组员 &lt; 2 → 不输出。DOM 复用 `custom-variation-selector color-selector mode-grid`；hover/focus 对目标 permalink 一次性 `rel=prefetch`。缩略图提示用主题 Tooltip（`data-ts-tooltip` = 组首属性 term，如 Style 值）。
+可见组员 &lt; 2 → 不输出。hover/focus 对目标 permalink 一次性 `rel=prefetch`。提示用主题 Tooltip（`data-ts-tooltip` = display attribute term）。
+
+| Display mode | DOM | 文案 |
+|--------------|-----|------|
+| `thumbnail`（默认） | `custom-variation-selector color-selector mode-grid` + 商品特色图 | tip 优先 term，空则回退商品名 |
+| `button` | `custom-variation-selector text-selector`（与变体 Size 等同款） | **仅** display attribute term；无 term 的组员跳过；过滤后 &lt; 2 不输出 |
 
 ### 与 variations 联动
 
@@ -67,7 +73,7 @@ CSV：**Products → Product Groups** 列表「Import / Export CSV」。列 `gro
 
 - 后台：**Products → Product Groups** 列表 views 行「Migrate from Iconic」（不进侧栏；CLI 仍可用）
 - CLI（若可用）：`wp ts-pg-migrate-iconic [--dry-run] [--force]`
-- 映射：见历史设计；`show_image` 时首属性默认 `disable_image`
+- 映射：见历史设计；`show_image` 时首属性默认 `disable_image`；迁移组 display mode 固定 `thumbnail`
 - 主题侧 `inc/integrations/iconic-linked-variations.php` 已删除（资源 dequeue 补丁不再需要）
 - 请在 WP 后台**停用** Iconic 插件；**暂留** `wp_iconic_woo_linked_variations` 表，确认无误后再手工 DROP
 

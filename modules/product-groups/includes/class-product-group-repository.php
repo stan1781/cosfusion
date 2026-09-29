@@ -18,12 +18,16 @@ final class Tailwindscore_Product_Group_Repository {
 	public const META_ATTRIBUTES         = '_ts_pg_attributes';
 	public const META_ATTR_ACTIONS       = '_ts_pg_attr_actions';
 	public const META_DISPLAY_ATTRIBUTE  = '_ts_pg_display_attribute';
+	public const META_DISPLAY_MODE       = '_ts_pg_display_mode';
 	public const META_MIGRATED_FROM      = '_ts_pg_migrated_from_iconic';
 	public const META_PRODUCT_GROUP      = '_ts_pg_group_id';
 
 	public const ACTION_NONE          = 'none';
 	public const ACTION_DISABLE_IMAGE = 'disable_image';
 	public const ACTION_HIDE_ROW      = 'hide_row';
+
+	public const MODE_THUMBNAIL = 'thumbnail';
+	public const MODE_BUTTON    = 'button';
 
 	/**
 	 * @return string[]
@@ -33,6 +37,16 @@ final class Tailwindscore_Product_Group_Repository {
 			self::ACTION_NONE,
 			self::ACTION_DISABLE_IMAGE,
 			self::ACTION_HIDE_ROW,
+		);
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public static function allowed_display_modes(): array {
+		return array(
+			self::MODE_THUMBNAIL,
+			self::MODE_BUTTON,
 		);
 	}
 
@@ -182,6 +196,20 @@ final class Tailwindscore_Product_Group_Repository {
 	}
 
 	/**
+	 * 组前台显示模式：缩略图或文字按钮。
+	 *
+	 * @param int $group_id 组 ID。
+	 */
+	public static function get_display_mode( int $group_id ): string {
+		$raw = sanitize_key( (string) get_post_meta( $group_id, self::META_DISPLAY_MODE, true ) );
+		if ( in_array( $raw, self::allowed_display_modes(), true ) ) {
+			return $raw;
+		}
+
+		return self::MODE_THUMBNAIL;
+	}
+
+	/**
 	 * @deprecated 使用 get_display_attribute()。
 	 *
 	 * @param int $group_id 组 ID。
@@ -278,9 +306,10 @@ final class Tailwindscore_Product_Group_Repository {
 	 * @param int[]                 $product_ids       商品 ID。
 	 * @param string                $display_attribute 组缩略图显示属性。
 	 * @param array<string, string> $attr_actions      属性动作（可独立于显示属性）。
+	 * @param string                $display_mode      thumbnail | button。
 	 * @return string[] 被移出旧组的商品短说明（供 admin notice）。
 	 */
-	public static function save_group_meta( int $group_id, array $product_ids, string $display_attribute, array $attr_actions ): array {
+	public static function save_group_meta( int $group_id, array $product_ids, string $display_attribute, array $attr_actions, string $display_mode = self::MODE_THUMBNAIL ): array {
 		$group_id = absint( $group_id );
 		if ( $group_id < 1 || ! self::is_valid_group( $group_id ) ) {
 			return array();
@@ -288,6 +317,10 @@ final class Tailwindscore_Product_Group_Repository {
 
 		$product_ids = array_values( array_unique( array_filter( array_map( 'absint', $product_ids ) ) ) );
 		$display_attribute = sanitize_title( $display_attribute );
+		$display_mode      = sanitize_key( $display_mode );
+		if ( ! in_array( $display_mode, self::allowed_display_modes(), true ) ) {
+			$display_mode = self::MODE_THUMBNAIL;
+		}
 
 		$allowed       = self::allowed_actions();
 		$clean_actions = array();
@@ -331,6 +364,12 @@ final class Tailwindscore_Product_Group_Repository {
 			delete_post_meta( $group_id, self::META_DISPLAY_ATTRIBUTE );
 		} else {
 			update_post_meta( $group_id, self::META_DISPLAY_ATTRIBUTE, $display_attribute );
+		}
+		// 默认 thumbnail 不占 meta；仅 button 持久化。
+		if ( self::MODE_BUTTON === $display_mode ) {
+			update_post_meta( $group_id, self::META_DISPLAY_MODE, self::MODE_BUTTON );
+		} else {
+			delete_post_meta( $group_id, self::META_DISPLAY_MODE );
 		}
 
 		foreach ( $product_ids as $pid ) {
