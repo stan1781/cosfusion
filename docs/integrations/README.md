@@ -24,7 +24,7 @@
 | WP Enhanced Tools（脚本管理） | `inc/integrations/wp-enhanced-tools.php` | — | 插件 Head/Body/Foot 直出 | 滤镜 `wp_enhanced_tools_script_output`：仅 Hotjar idle/交互延迟 | ✅ 已整合 |
 | PayPal Payments × Pinterest | `inc/integrations/paypal-pinterest-cart.php` | — | `?wc-ajax=ppc-simulate-cart` | 置位 `woocommerce_paypal_payments_is_simulating_cart`，避免模拟加购把空车写入 session | ✅ 已整合 |
 | wc-enhanced-user | — | `wcUserEnhancedLogin`、`wcUserEnhancedParams` | 账户页 / 单品积分 | 档 B（待实现） | ⏸ 待做 |
-| feed-export | — | — | 仅后台 | 跳过 | — |
+| feed-export | — | — | 仅后台 | 跳过前台整合；变体相册读写应对齐 WC 11.1+ `gallery_image_ids`（插件 ≥1.5.0） | ✅ 插件侧已对齐 |
 
 > **Iconic Linked Variations（已退役）**：能力由 [产品组](../modules/product-groups.md) 承接；主题侧整合文件已删除。请停用插件；用 **Products → Product Groups** 列表「Migrate from Iconic」导入。表 `wp_iconic_woo_linked_variations` 勿自动删除。
 

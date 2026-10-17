@@ -9,13 +9,14 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'TAILWINDSCORE_MODULE_GALLERY_VERSION', '0.2.0' );
+define( 'TAILWINDSCORE_MODULE_GALLERY_VERSION', '0.3.0' );
 
 $tailwindscore_gallery_dir = __DIR__;
 
 require_once $tailwindscore_gallery_dir . '/kirki.php';
 require_once $tailwindscore_gallery_dir . '/includes/class-gallery-data.php';
 require_once $tailwindscore_gallery_dir . '/includes/class-variation-images.php';
+require_once $tailwindscore_gallery_dir . '/includes/class-variation-gallery-migrate.php';
 require_once $tailwindscore_gallery_dir . '/includes/class-gallery-assets.php';
 
 /**
@@ -28,5 +29,6 @@ function tailwindscore_gallery_module_init(): void {
 
 	new Tailwindscore_Gallery_Variation_Images();
 	new Tailwindscore_Gallery_Assets();
+	Tailwindscore_Gallery_Variation_Migrate::init();
 }
 add_action( 'after_setup_theme', 'tailwindscore_gallery_module_init', 25 );

@@ -1,5 +1,14 @@
 # 相册模块更新日志
 
+## 0.3.0
+
+- 变体相册改用 WooCommerce 11.1+ 官方 Variation Gallery（`_product_image_gallery` / `gallery_image_ids`）。
+- 移除主题后台「Variation images」字段、保存逻辑与 `_variation_images` REST meta 注册。
+- 前台仍通过 `available_variation.variation_images` 驱动 Swiper（主图 + 官方附加图）。
+- 一次性迁移：管理员进入后台后将旧 `_variation_images` 写入 `set_gallery_image_ids`（不覆盖已有官方相册；旧 meta 保留不删）。
+- 移除 Kirki「每个变体最大图片数」；张数由官方后台管理。
+- 正式环境需 WooCommerce ≥ 11.1；低于此版本时前台可回退读旧 `_variation_images`。
+
 ## 0.2.1
 
 - 单品页 `wp_head` 预加载父商品首张主图（`woocommerce_single` + srcset），缩短 LCP 发现延迟；占位图与变体图不 preload。

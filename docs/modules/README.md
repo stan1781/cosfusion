@@ -33,7 +33,7 @@ modules/{slug}/
 | 模块 | 路径 | 版本 | 状态 | 说明 |
 |------|------|------|------|------|
 | typography | `modules/typography` | 0.2.0 | ✅ | 站外字体目录（uploads）+ Kirki 分组选择 |
-| gallery | `modules/gallery` | 0.1.0 | ✅ | Swiper 单品图库、变体相册 `_variation_images` |
+| gallery | `modules/gallery` | 0.3.0 | ✅ | Swiper 单品图库；变体相册对接 WC 11.1+ 官方 gallery |
 | variations | `modules/variations` | 0.1.8 | ✅ | 图片/色块 swatch、grid/list 布局；已选不可取消 |
 | size-guide | `modules/size-guide` | 0.1.2 | ✅ | JSON 尺码表 modal + 选码单行；QV/cart-edit 复用 inline |
 | related-products | `modules/related-products` | 0.2.1 | ✅ | 单品页相关产品引擎 + Kirki 轮播/网格切换 |
@@ -58,9 +58,10 @@ modules/{slug}/
 ### gallery
 
 - 桌面左侧缩略图 + 主图，移动端 dots
-- 变体图行为对齐 WooCommerce（父相册激活 / 首张替换 / 自定义多图整组切换）
-- Customizer → Gallery（需 [Kirki](https://wordpress.org/plugins/kirki/)）；路径：商品详情页 → 商品画廊
+- 变体相册：WC 11.1+ 官方 Variation Gallery 存数据；主题组装 `variation_images` 驱动 Swiper（父相册激活 / 首张替换 / 多图整组切换）
+- Customizer → 商品详情页 → 商品画廊（缩略图下限、计数器；需 [Kirki](https://wordpress.org/plugins/kirki/)）
 - TS：`src/ts/product/gallery.ts`、`gallery-variations.ts`、`gallery-photoswipe.ts`
+- 详见 [单品商品画廊](../features/product-gallery.md)
 
 ### variations
 

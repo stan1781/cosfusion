@@ -56,22 +56,5 @@ function tailwindscore_gallery_kirki_register( string $cfg, array $targets ): vo
 			'default'     => true,
 		)
 	);
-
-	Kirki::add_field(
-		$cfg,
-		array(
-			'type'        => 'slider',
-			'settings'    => 'product_gallery_variation_max_images',
-			'label'       => esc_html__( '每个变体最大图片数（后台）', 'tailwindscore' ),
-			'section'     => 'tailwindscore_product_gallery',
-			'default'     => 10,
-			'choices'     => array(
-				'min'  => 1,
-				'max'  => 20,
-				'step' => 1,
-			),
-			'sanitize_callback' => 'absint',
-		)
-	);
 }
 add_action( 'tailwindscore/kirki/register', 'tailwindscore_gallery_kirki_register', 10, 2 );

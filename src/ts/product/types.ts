@@ -55,6 +55,8 @@ export interface TailwindscoreProductGalleryConfig {
 		full_src_sizes?: string;
 	};
 	image_id?: number;
+	/** WC 11.1+ 附加相册 ID（不含主图）；前台换图仍以 variation_images 为准。 */
+	gallery_image_ids?: number[];
 	variation_images?: GalleryImage[];
 }
 

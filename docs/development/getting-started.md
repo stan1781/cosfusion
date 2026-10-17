@@ -6,7 +6,7 @@
 |------|----------|
 | WordPress | 6.x+ |
 | PHP | 8.0+ |
-| WooCommerce | 8.x+（商城功能） |
+| WooCommerce | 11.1+（商城功能；变体相册依赖官方 Variation Gallery） |
 | Node.js | 18+ |
 | Kirki Framework | 推荐安装（Customizer 字段；未安装时使用代码默认值） |
 

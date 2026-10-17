@@ -29,7 +29,11 @@ Customizer → 商品详情页 → 商品画廊 →「缩略图均分下限张�
 
 ## 变体
 
-`variations_form` 变更时按匹配结果：`restoreParent` / `activateSlide` / `patchFirstSlide` / `replaceAllSlides`（见 `gallery-variations.ts`）。重建后重新初始化 Swiper 并重算缩略图尺寸。
+**依赖 WooCommerce ≥ 11.1**（官方 Variation Gallery）。后台在商品 → Variations 展开变体 → **Variation gallery → Manage** 编辑附加图；主图仍为变体特色图。存储为变体 `_product_image_gallery`，REST / `available_variation` 暴露 `gallery_image_ids`（不含主图）。
+
+主题不提供第二套后台字段。`modules/gallery` 仅在 `woocommerce_available_variation` 上把「主图 + `gallery_image_ids`」组装为 `variation_images`（`GalleryImage[]`），供 Swiper 使用。旧站点 `_variation_images` 会在管理员进入后台后一次性迁入官方字段（option 哨兵 `tailwindscore_gallery_migrated_to_wc_variation_gallery`）；迁移完成前前台仍可回退读旧 meta。
+
+`variations_form` 变更时按匹配结果：`restoreParent` / `activateSlide` / `patchFirstSlide` / `replaceAllSlides`（见 `gallery-variations.ts`）。有 `variation_images` 时整组替换。重建后重新初始化 Swiper 并重算缩略图尺寸。
 
 ## 图片与 LCP
 

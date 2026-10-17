@@ -148,7 +148,7 @@ Phase 0 (Audit_Doc) → 1 SharedUtils → 2 LegacyPrune → 3 CartDedup
 ## 禁区（早阶不可动）
 
 - Gallery ↔ variation 图库契约（`modules/gallery`、`gallery.ts` / `gallery-variations.ts`）
-- 产品 meta key 名（`_variation_images`、`_size_guide*`、`_wc_variation_selector_*` 等）
+- 产品 meta key 名（遗留 `_variation_images` 已迁官方 gallery、`_size_guide*`、`_wc_variation_selector_*` 等）
 - Store API 购买路径核心语义（nonce TTL、Drawer auto-open、加购后同步）
 - `variation-engine.ts` 核心（UI 层清理另议）
 - Wishlist 主题模块 vs WPC Smart Wishlist 插件边界
