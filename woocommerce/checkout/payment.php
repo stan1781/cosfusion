@@ -6,7 +6,7 @@ declare(strict_types=1);
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
- * @version 9.8.0
+ * @version 10.9.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ if ( ! wp_doing_ajax() ) {
 ?>
 <div id="payment" class="woocommerce-checkout-payment loading-host">
 	<?php if ( WC()->cart && WC()->cart->needs_payment() ) : ?>
-		<ul class="wc_payment_methods payment_methods methods">
+		<ul class="wc_payment_methods payment_methods methods" aria-label="<?php esc_attr_e( 'Payment methods', 'woocommerce' ); ?>">
 			<?php
 			if ( ! empty( $available_gateways ) ) {
 				foreach ( $available_gateways as $gateway ) {
@@ -33,7 +33,7 @@ if ( ! wp_doing_ajax() ) {
 							: esc_html__( 'Please fill in your details above to see available payment methods.', 'woocommerce' )
 					),
 					'notice'
-				);
+				); // phpcs:ignore WooCommerce.Commenting.CommentHooks.MissingHookComment
 				echo '</li>';
 			}
 			?>
@@ -48,12 +48,8 @@ if ( ! wp_doing_ajax() ) {
 	<div class="form-row place-order">
 		<noscript>
 			<?php
-			printf(
-				/* translators: %1$s and %2$s: emphasis tags */
-				esc_html__( 'Since your browser does not support JavaScript, or it is disabled, please ensure you click the %1$sUpdate totals%2$s button before placing your order. You may be charged more than the amount stated above if you fail to do so.', 'woocommerce' ),
-				'<em>',
-				'</em>'
-			);
+			/* translators: $1 and $2 opening and closing emphasis tags respectively */
+			printf( esc_html__( 'Since your browser does not support JavaScript, or it is disabled, please ensure you click the %1$sUpdate Totals%2$s button before placing your order. You may be charged more than the amount stated above if you fail to do so.', 'woocommerce' ), '<em>', '</em>' );
 			?>
 			<br />
 			<button type="submit" class="button alt<?php echo esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>" name="woocommerce_checkout_update_totals" value="<?php esc_attr_e( 'Update totals', 'woocommerce' ); ?>"><?php esc_html_e( 'Update totals', 'woocommerce' ); ?></button>

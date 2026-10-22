@@ -6,7 +6,7 @@ declare(strict_types=1);
  *
  * @see https://woocommerce.com/document/template-structure/
  * @package TailwindScore
- * @version 8.1.0
+ * @version 11.2.0
  *
  * @var WC_Order|false $order
  */
@@ -21,9 +21,24 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php if ( $order->has_status( 'failed' ) ) : ?>
 
+			<?php
+			$default_order_failed_text = esc_html__( 'Unfortunately your order cannot be processed as the originating bank/merchant has declined your transaction. Please attempt your purchase again.', 'woocommerce' );
+
+			/**
+			 * Filters the message shown when an order has failed.
+			 *
+			 * @param string   $message The failed order message.
+			 * @param WC_Order $order   The failed order.
+			 *
+			 * @since 11.2.0
+			 */
+			$order_failed_text = apply_filters( 'woocommerce_thankyou_order_failed_text', $default_order_failed_text, $order );
+			$order_failed_text = is_string( $order_failed_text ) ? $order_failed_text : $default_order_failed_text;
+			?>
+
 			<header class="wc-thankyou__hero wc-thankyou__hero--failed">
 				<h1 class="wc-thankyou__title woocommerce-notice woocommerce-notice--error woocommerce-thankyou-order-failed">
-					<?php esc_html_e( 'Unfortunately your order cannot be processed as the originating bank/merchant has declined your transaction. Please attempt your purchase again.', 'woocommerce' ); ?>
+					<?php echo wp_kses_post( $order_failed_text ); ?>
 				</h1>
 			</header>
 

@@ -4,7 +4,7 @@
  *
  * @see     https://woocommerce.com/document/template-structure/
  * @package WooCommerce\Templates
- * @version 10.9.0
+ * @version 11.1.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -239,6 +239,10 @@ do_action( 'woocommerce_before_add_to_cart_form' );
 			<?php endforeach; ?>
 		</div>
 		<div class="reset_variations_alert screen-reader-text" role="alert" aria-live="polite" aria-relevant="all"></div>
+		<?php
+		// 变体表单延迟加载（如 Quick View）时用于画廊重置快照。
+		?>
+		<template class="wc-product-gallery-default-template"><?php echo wc_get_product_gallery_html( $product ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></template>
 		<?php do_action( 'woocommerce_after_variations_table' ); ?>
 
 		<div class="single_variation_wrap">
