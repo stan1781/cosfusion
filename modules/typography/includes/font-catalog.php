@@ -128,6 +128,50 @@ function tailwindscore_typography_font_catalog(): array {
 				array( 'family' => 'Plus Jakarta Sans', 'weight' => 600, 'style' => 'normal', 'file' => 'plus-jakarta-sans-v8-latin-600.woff2' ),
 			),
 		),
+		'barlow' => array(
+			'label'  => 'Barlow',
+			'group'  => 'body-sans',
+			'style'  => '略紧、中性',
+			'remark' => '配 Barlow Condensed 最佳',
+			'family' => '"Barlow", ui-sans-serif, system-ui, sans-serif',
+			'faces'  => array(
+				array( 'family' => 'Barlow', 'weight' => 400, 'style' => 'normal', 'file' => 'barlow-v13-latin-regular.woff2' ),
+				array( 'family' => 'Barlow', 'weight' => 600, 'style' => 'normal', 'file' => 'barlow-v13-latin-600.woff2' ),
+			),
+		),
+		'ibm-plex-sans' => array(
+			'label'  => 'IBM Plex Sans',
+			'group'  => 'body-sans',
+			'style'  => '偏技术、清晰',
+			'remark' => '参数/说明文好读',
+			'family' => '"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif',
+			'faces'  => array(
+				array( 'family' => 'IBM Plex Sans', 'weight' => 400, 'style' => 'normal', 'file' => 'ibm-plex-sans-v23-latin-regular.woff2' ),
+				array( 'family' => 'IBM Plex Sans', 'weight' => 600, 'style' => 'normal', 'file' => 'ibm-plex-sans-v23-latin-600.woff2' ),
+			),
+		),
+		'work-sans' => array(
+			'label'  => 'Work Sans',
+			'group'  => 'body-sans',
+			'style'  => '中性、耐看',
+			'remark' => '通用电商正文',
+			'family' => '"Work Sans", ui-sans-serif, system-ui, sans-serif',
+			'faces'  => array(
+				array( 'family' => 'Work Sans', 'weight' => 400, 'style' => 'normal', 'file' => 'work-sans-v24-latin-regular.woff2' ),
+				array( 'family' => 'Work Sans', 'weight' => 600, 'style' => 'normal', 'file' => 'work-sans-v24-latin-600.woff2' ),
+			),
+		),
+		'manrope' => array(
+			'label'  => 'Manrope',
+			'group'  => 'body-sans',
+			'style'  => '现代几何',
+			'remark' => 'athleisure / 生活方式',
+			'family' => '"Manrope", ui-sans-serif, system-ui, sans-serif',
+			'faces'  => array(
+				array( 'family' => 'Manrope', 'weight' => 400, 'style' => 'normal', 'file' => 'manrope-v20-latin-regular.woff2' ),
+				array( 'family' => 'Manrope', 'weight' => 600, 'style' => 'normal', 'file' => 'manrope-v20-latin-600.woff2' ),
+			),
+		),
 		'poppins' => array(
 			'label'  => 'Poppins',
 			'group'  => 'heading-sans',
@@ -180,6 +224,71 @@ function tailwindscore_typography_font_catalog(): array {
 			'family' => '"Bebas Neue", ui-sans-serif, system-ui, sans-serif',
 			'faces'  => array(
 				array( 'family' => 'Bebas Neue', 'weight' => 400, 'style' => 'normal', 'file' => 'bebas-neue-v16-latin-regular.woff2' ),
+			),
+		),
+		'barlow-condensed' => array(
+			'label'  => 'Barlow Condensed',
+			'group'  => 'heading-sans',
+			'style'  => '紧缩、运动感',
+			'remark' => '运动站首选标题；配 Barlow',
+			'family' => '"Barlow Condensed", ui-sans-serif, system-ui, sans-serif',
+			'faces'  => array(
+				array( 'family' => 'Barlow Condensed', 'weight' => 400, 'style' => 'normal', 'file' => 'barlow-condensed-v13-latin-regular.woff2' ),
+				array( 'family' => 'Barlow Condensed', 'weight' => 600, 'style' => 'normal', 'file' => 'barlow-condensed-v13-latin-600.woff2' ),
+			),
+		),
+		'teko' => array(
+			'label'  => 'Teko',
+			'group'  => 'heading-sans',
+			'style'  => '更紧、海报感',
+			'remark' => '短标题 / 分类名 / 促销',
+			'family' => '"Teko", ui-sans-serif, system-ui, sans-serif',
+			'faces'  => array(
+				array( 'family' => 'Teko', 'weight' => 400, 'style' => 'normal', 'file' => 'teko-v23-latin-regular.woff2' ),
+				array( 'family' => 'Teko', 'weight' => 600, 'style' => 'normal', 'file' => 'teko-v23-latin-600.woff2' ),
+			),
+		),
+		'saira-condensed' => array(
+			'label'  => 'Saira Condensed',
+			'group'  => 'heading-sans',
+			'style'  => '现代紧缩',
+			'remark' => '跑鞋 / 户外装备',
+			'family' => '"Saira Condensed", ui-sans-serif, system-ui, sans-serif',
+			'faces'  => array(
+				array( 'family' => 'Saira Condensed', 'weight' => 400, 'style' => 'normal', 'file' => 'saira-condensed-v12-latin-regular.woff2' ),
+				array( 'family' => 'Saira Condensed', 'weight' => 600, 'style' => 'normal', 'file' => 'saira-condensed-v12-latin-600.woff2' ),
+			),
+		),
+		'anton' => array(
+			'label'  => 'Anton',
+			'group'  => 'heading-sans',
+			'style'  => '粗显示',
+			'remark' => '只适合短 Hero',
+			'family' => '"Anton", ui-sans-serif, system-ui, sans-serif',
+			'faces'  => array(
+				array( 'family' => 'Anton', 'weight' => 400, 'style' => 'normal', 'file' => 'anton-v27-latin-regular.woff2' ),
+			),
+		),
+		'exo-2' => array(
+			'label'  => 'Exo 2',
+			'group'  => 'heading-sans',
+			'style'  => '科技几何',
+			'remark' => '智能穿戴 / 功能运动',
+			'family' => '"Exo 2", ui-sans-serif, system-ui, sans-serif',
+			'faces'  => array(
+				array( 'family' => 'Exo 2', 'weight' => 400, 'style' => 'normal', 'file' => 'exo-2-v26-latin-regular.woff2' ),
+				array( 'family' => 'Exo 2', 'weight' => 600, 'style' => 'normal', 'file' => 'exo-2-v26-latin-600.woff2' ),
+			),
+		),
+		'rajdhani' => array(
+			'label'  => 'Rajdhani',
+			'group'  => 'heading-sans',
+			'style'  => '竞速 / 电竞感',
+			'remark' => '硬核、性能向标题',
+			'family' => '"Rajdhani", ui-sans-serif, system-ui, sans-serif',
+			'faces'  => array(
+				array( 'family' => 'Rajdhani', 'weight' => 400, 'style' => 'normal', 'file' => 'rajdhani-v17-latin-regular.woff2' ),
+				array( 'family' => 'Rajdhani', 'weight' => 600, 'style' => 'normal', 'file' => 'rajdhani-v17-latin-600.woff2' ),
 			),
 		),
 		'playfair-display' => array(
@@ -269,6 +378,174 @@ function tailwindscore_typography_font_catalog(): array {
 				array( 'family' => 'JetBrains Mono', 'weight' => 400, 'style' => 'normal', 'file' => 'jetbrains-mono-v18-latin-regular.woff2' ),
 				array( 'family' => 'JetBrains Mono', 'weight' => 600, 'style' => 'normal', 'file' => 'jetbrains-mono-v18-latin-600.woff2' ),
 			),
+		),
+	);
+}
+
+/**
+ * Customizer「一点应用」推荐组合（两边字体均在磁盘可用时才展示）。
+ *
+ * @return list<array{id: string, group: string, label: string, detail: string, heading: string, body: string}>
+ */
+function tailwindscore_typography_font_presets(): array {
+	return array(
+		// —— 运动 ——
+		array(
+			'id'      => 'sports-default',
+			'group'   => __( '运动', 'tailwindscore' ),
+			'label'   => __( '运动站默认', 'tailwindscore' ),
+			'detail'  => 'Barlow Condensed + Barlow',
+			'heading' => 'barlow-condensed',
+			'body'    => 'barlow',
+		),
+		array(
+			'id'      => 'sports-promo',
+			'group'   => __( '运动', 'tailwindscore' ),
+			'label'   => __( '促销 / 硬核', 'tailwindscore' ),
+			'detail'  => 'Teko + IBM Plex Sans',
+			'heading' => 'teko',
+			'body'    => 'ibm-plex-sans',
+		),
+		array(
+			'id'      => 'sports-tech',
+			'group'   => __( '运动', 'tailwindscore' ),
+			'label'   => __( '科技运动', 'tailwindscore' ),
+			'detail'  => 'Exo 2 + Manrope',
+			'heading' => 'exo-2',
+			'body'    => 'manrope',
+		),
+		array(
+			'id'      => 'sports-classic',
+			'group'   => __( '运动', 'tailwindscore' ),
+			'label'   => __( '经典运动', 'tailwindscore' ),
+			'detail'  => 'Oswald + Source Sans 3',
+			'heading' => 'oswald',
+			'body'    => 'source-sans-3',
+		),
+		// —— 时尚 ——
+		array(
+			'id'      => 'fashion-elegant',
+			'group'   => __( '时尚', 'tailwindscore' ),
+			'label'   => __( '优雅时装', 'tailwindscore' ),
+			'detail'  => 'Playfair Display + Lato',
+			'heading' => 'playfair-display',
+			'body'    => 'lato',
+		),
+		array(
+			'id'      => 'fashion-lifestyle',
+			'group'   => __( '时尚', 'tailwindscore' ),
+			'label'   => __( '生活方式', 'tailwindscore' ),
+			'detail'  => 'Raleway + Open Sans',
+			'heading' => 'raleway',
+			'body'    => 'open-sans',
+		),
+		array(
+			'id'      => 'fashion-modern',
+			'group'   => __( '时尚', 'tailwindscore' ),
+			'label'   => __( '现代成衣', 'tailwindscore' ),
+			'detail'  => 'Montserrat + DM Sans',
+			'heading' => 'montserrat',
+			'body'    => 'dm-sans',
+		),
+		array(
+			'id'      => 'fashion-haute',
+			'group'   => __( '时尚', 'tailwindscore' ),
+			'label'   => __( '高级成衣', 'tailwindscore' ),
+			'detail'  => 'Cormorant Garamond + Inter',
+			'heading' => 'cormorant-garamond',
+			'body'    => 'inter',
+		),
+		// —— 手表 / 奢侈 ——
+		array(
+			'id'      => 'watch-luxury',
+			'group'   => __( '手表 / 奢侈', 'tailwindscore' ),
+			'label'   => __( '奢华表款', 'tailwindscore' ),
+			'detail'  => 'Cormorant Garamond + Source Sans 3',
+			'heading' => 'cormorant-garamond',
+			'body'    => 'source-sans-3',
+		),
+		array(
+			'id'      => 'watch-classic',
+			'group'   => __( '手表 / 奢侈', 'tailwindscore' ),
+			'label'   => __( '经典正装', 'tailwindscore' ),
+			'detail'  => 'Libre Baskerville + Open Sans',
+			'heading' => 'libre-baskerville',
+			'body'    => 'open-sans',
+		),
+		array(
+			'id'      => 'watch-modern',
+			'group'   => __( '手表 / 奢侈', 'tailwindscore' ),
+			'label'   => __( '现代精品', 'tailwindscore' ),
+			'detail'  => 'Playfair Display + Inter',
+			'heading' => 'playfair-display',
+			'body'    => 'inter',
+		),
+		// —— 通用电商 ——
+		array(
+			'id'      => 'shop-neutral',
+			'group'   => __( '通用电商', 'tailwindscore' ),
+			'label'   => __( '中性产品站', 'tailwindscore' ),
+			'detail'  => 'Poppins + Inter',
+			'heading' => 'poppins',
+			'body'    => 'inter',
+		),
+		array(
+			'id'      => 'shop-friendly',
+			'group'   => __( '通用电商', 'tailwindscore' ),
+			'label'   => __( '亲和营销', 'tailwindscore' ),
+			'detail'  => 'Poppins + Nunito Sans',
+			'heading' => 'poppins',
+			'body'    => 'nunito-sans',
+		),
+		array(
+			'id'      => 'shop-clean',
+			'group'   => __( '通用电商', 'tailwindscore' ),
+			'label'   => __( '干净品牌感', 'tailwindscore' ),
+			'detail'  => 'Montserrat + Plus Jakarta Sans',
+			'heading' => 'montserrat',
+			'body'    => 'plus-jakarta-sans',
+		),
+		array(
+			'id'      => 'shop-work',
+			'group'   => __( '通用电商', 'tailwindscore' ),
+			'label'   => __( '耐看电商', 'tailwindscore' ),
+			'detail'  => 'Montserrat + Work Sans',
+			'heading' => 'montserrat',
+			'body'    => 'work-sans',
+		),
+		// —— 内容 / 博客 ——
+		array(
+			'id'      => 'editorial-story',
+			'group'   => __( '内容 / 博客', 'tailwindscore' ),
+			'label'   => __( '品牌故事', 'tailwindscore' ),
+			'detail'  => 'Lora + Source Sans 3',
+			'heading' => 'lora',
+			'body'    => 'source-sans-3',
+		),
+		array(
+			'id'      => 'editorial-read',
+			'group'   => __( '内容 / 博客', 'tailwindscore' ),
+			'label'   => __( '长文阅读', 'tailwindscore' ),
+			'detail'  => 'Merriweather + Open Sans',
+			'heading' => 'merriweather',
+			'body'    => 'open-sans',
+		),
+		// —— 科技 ——
+		array(
+			'id'      => 'tech-product',
+			'group'   => __( '科技', 'tailwindscore' ),
+			'label'   => __( '科技产品', 'tailwindscore' ),
+			'detail'  => 'Exo 2 + IBM Plex Sans',
+			'heading' => 'exo-2',
+			'body'    => 'ibm-plex-sans',
+		),
+		array(
+			'id'      => 'tech-racing',
+			'group'   => __( '科技', 'tailwindscore' ),
+			'label'   => __( '竞速 / 电竞', 'tailwindscore' ),
+			'detail'  => 'Rajdhani + Roboto',
+			'heading' => 'rajdhani',
+			'body'    => 'roboto',
 		),
 	);
 }

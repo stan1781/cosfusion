@@ -1,5 +1,17 @@
 # Typography Module
 
+## 0.2.3
+
+- 推荐组合按品类扩展：运动 / 时尚 / 手表·奢侈 / 通用电商 / 内容·博客 / 科技；控件按分组展示。
+
+## 0.2.2
+
+- Customizer 排版区「正文字体」下方增加「常用推荐组合」一点应用（双方字体磁盘可用才显示）。
+
+## 0.2.1
+
+- 目录新增运动向字体：正文 Barlow / IBM Plex Sans / Work Sans / Manrope；标题 Barlow Condensed / Teko / Saira Condensed / Anton / Exo 2 / Rajdhani。
+
 ## 0.2.0
 
 - 字体迁至 `uploads/tailwindscore-fonts/{slug}/`；主题包不再携带 woff2。
