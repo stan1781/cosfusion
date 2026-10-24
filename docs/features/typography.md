@@ -36,6 +36,9 @@ Customizer **设计 → 排版** 在「正文字体」下方按品类展示按�
 | 运动 | 促销 / 硬核 | Teko | IBM Plex Sans |
 | 运动 | 科技运动 | Exo 2 | Manrope |
 | 运动 | 经典运动 | Oswald | Source Sans 3 |
+| 户外 | 户外装备默认 | Oswald | Source Sans 3 |
+| 户外 | 功能 / 技术装备 | Barlow Condensed | IBM Plex Sans |
+| 户外 | 户外生活方式 | Raleway | Open Sans |
 | 时尚 | 优雅时装 | Playfair Display | Lato |
 | 时尚 | 生活方式 | Raleway | Open Sans |
 | 时尚 | 现代成衣 | Montserrat | DM Sans |

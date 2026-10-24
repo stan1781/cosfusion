@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'TAILWINDSCORE_MODULE_TYPOGRAPHY_VERSION', '0.2.3' );
+define( 'TAILWINDSCORE_MODULE_TYPOGRAPHY_VERSION', '0.2.4' );
 
 $tailwindscore_typography_dir = __DIR__;
 

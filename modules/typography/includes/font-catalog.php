@@ -422,6 +422,31 @@ function tailwindscore_typography_font_presets(): array {
 			'heading' => 'oswald',
 			'body'    => 'source-sans-3',
 		),
+		// —— 户外（偏功能/耐用；少用海报感紧缩字）——
+		array(
+			'id'      => 'outdoor-default',
+			'group'   => __( '户外', 'tailwindscore' ),
+			'label'   => __( '户外装备默认', 'tailwindscore' ),
+			'detail'  => 'Oswald + Source Sans 3',
+			'heading' => 'oswald',
+			'body'    => 'source-sans-3',
+		),
+		array(
+			'id'      => 'outdoor-tech',
+			'group'   => __( '户外', 'tailwindscore' ),
+			'label'   => __( '功能 / 技术装备', 'tailwindscore' ),
+			'detail'  => 'Barlow Condensed + IBM Plex Sans',
+			'heading' => 'barlow-condensed',
+			'body'    => 'ibm-plex-sans',
+		),
+		array(
+			'id'      => 'outdoor-lifestyle',
+			'group'   => __( '户外', 'tailwindscore' ),
+			'label'   => __( '户外生活方式', 'tailwindscore' ),
+			'detail'  => 'Raleway + Open Sans',
+			'heading' => 'raleway',
+			'body'    => 'open-sans',
+		),
 		// —— 时尚 ——
 		array(
 			'id'      => 'fashion-elegant',

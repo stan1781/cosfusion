@@ -32,7 +32,7 @@ modules/{slug}/
 
 | 模块 | 路径 | 版本 | 状态 | 说明 |
 |------|------|------|------|------|
-| typography | `modules/typography` | 0.2.3 | ✅ | 站外字体目录（uploads）+ Kirki 分组选择 + 品类推荐组合一点应用 |
+| typography | `modules/typography` | 0.2.4 | ✅ | 站外字体目录（uploads）+ Kirki 分组选择 + 品类推荐组合一点应用 |
 | gallery | `modules/gallery` | 0.3.0 | ✅ | Swiper 单品图库；变体相册对接 WC 11.1+ 官方 gallery |
 | variations | `modules/variations` | 0.1.8 | ✅ | 图片/色块 swatch、grid/list 布局；已选不可取消 |
 | size-guide | `modules/size-guide` | 0.1.2 | ✅ | JSON 尺码表 modal + 选码单行；QV/cart-edit 复用 inline |
