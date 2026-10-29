@@ -205,3 +205,115 @@ function tailwindscore_customize_merge_home_sections( $wp_customize ): void {
 	$section->priority = 10;
 }
 add_action( 'customize_register', 'tailwindscore_customize_merge_home_sections', 100 );
+
+/**
+ * 分栏 Hero（短代码 [ts_home_split_hero]）。
+ *
+ * @param string                $cfg
+ * @param array<string, string> $targets
+ */
+function tailwindscore_kirki_register_home_split_hero( string $cfg, array $targets ): void {
+	if ( ! class_exists( 'Kirki' ) ) {
+		return;
+	}
+
+	$panel   = $targets['home'] ?? 'tailwindscore_home';
+	$section = 'tailwindscore_home_split_hero';
+
+	Kirki::add_section(
+		$section,
+		array(
+			'title'       => esc_html__( '分栏 Hero', 'tailwindscore' ),
+			'description' => esc_html__( '左右分栏 Hero（短代码 [ts_home_split_hero]）。用于 Spoutini 首页；全图轮播仍用 Hero Banner。', 'tailwindscore' ),
+			'panel'       => $panel,
+			'priority'    => 25,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'     => 'toggle',
+			'settings' => 'home_split_hero_enable',
+			'label'    => esc_html__( '启用分栏 Hero', 'tailwindscore' ),
+			'section'  => $section,
+			'default'  => true,
+			'priority' => 10,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'     => 'text',
+			'settings' => 'home_split_hero_eyebrow',
+			'label'    => esc_html__( '眉题（可选）', 'tailwindscore' ),
+			'section'  => $section,
+			'default'  => 'Outdoor & Adventure Gear',
+			'priority' => 20,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'     => 'text',
+			'settings' => 'home_split_hero_title',
+			'label'    => esc_html__( '主标题', 'tailwindscore' ),
+			'section'  => $section,
+			'default'  => 'Gear up. Get out.',
+			'priority' => 30,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'     => 'textarea',
+			'settings' => 'home_split_hero_text',
+			'label'    => esc_html__( '副文', 'tailwindscore' ),
+			'section'  => $section,
+			'default'  => 'Everyday essentials for wherever adventure takes you.',
+			'priority' => 40,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'     => 'text',
+			'settings' => 'home_split_hero_cta_label',
+			'label'    => esc_html__( 'CTA 文案', 'tailwindscore' ),
+			'section'  => $section,
+			'default'  => 'Shop all gear',
+			'priority' => 50,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'        => 'text',
+			'settings'    => 'home_split_hero_cta_url',
+			'label'       => esc_html__( 'CTA 链接', 'tailwindscore' ),
+			'description' => esc_html__( '空则回退到商店页或首页。', 'tailwindscore' ),
+			'section'     => $section,
+			'default'     => '',
+			'priority'    => 60,
+		)
+	);
+
+	Kirki::add_field(
+		$cfg,
+		array(
+			'type'        => 'image',
+			'settings'    => 'home_split_hero_image',
+			'label'       => esc_html__( '右侧图片', 'tailwindscore' ),
+			'description' => esc_html__( '未上传时显示柔和占位，不输出破损图。', 'tailwindscore' ),
+			'section'     => $section,
+			'default'     => '',
+			'priority'    => 70,
+		)
+	);
+}
+add_action( 'tailwindscore/kirki/register', 'tailwindscore_kirki_register_home_split_hero', 11, 2 );

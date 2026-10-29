@@ -19,6 +19,7 @@
 |--------|----------|
 | `[ts_products_carousel]` | 示例 + 常用属性简表 |
 | `[ts_recently_viewed]` | 示例 + 常用属性简表 |
+| `[ts_home_split_hero]` / `[ts_category_tiles]` | 分栏 Hero / 分类磁贴 |
 | `[ts_home_hero]` | 仅示例 + 用途（幻灯片 / 布局在 Customizer；可选覆盖属性不进运营速查，见 [首页 Hero](home-hero.md)） |
 
 不含 `[block]`（内容区块编辑页已有本条短代码复制）。

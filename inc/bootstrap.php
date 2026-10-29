@@ -70,6 +70,8 @@ require_once __DIR__ . '/config/kirki/contact.php';
 require_once __DIR__ . '/config/kirki/pwa.php';
 require_once __DIR__ . '/pwa.php';
 require_once __DIR__ . '/home/hero-carousel.php';
+require_once __DIR__ . '/home/split-hero.php';
+require_once __DIR__ . '/home/category-tiles.php';
 require_once __DIR__ . '/home/purge-legacy-homepage-mods.php';
 require_once __DIR__ . '/page-templates.php';
 

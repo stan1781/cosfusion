@@ -61,7 +61,7 @@ function tailwindscore_shortcode_help_catalog(): array {
 				),
 				array(
 					'name' => 'orderby / order',
-					'desc' => __( 'orderby：date / popularity / menu_order / title；order：ASC / DESC', 'tailwindscore' ),
+					'desc' => __( 'orderby：date / popularity / menu_order / title / featured（精选优先，不足则最新补齐）；order：ASC / DESC', 'tailwindscore' ),
 				),
 				array(
 					'name' => 'title',
@@ -102,6 +102,38 @@ function tailwindscore_shortcode_help_catalog(): array {
 				array(
 					'name' => 'gap',
 					'desc' => __( '可选间距 px；未写则手机 0.5rem / 桌面 1rem', 'tailwindscore' ),
+				),
+			),
+		),
+
+		array(
+			'tag'     => 'ts_home_split_hero',
+			'label'   => __( '分栏 Hero', 'tailwindscore' ),
+			'blurb'   => __( '左右分栏 Hero；文案与图片在 外观 → 自定义 → 首页 → 分栏 Hero。', 'tailwindscore' ),
+			'example' => '[ts_home_split_hero]',
+			'attrs'   => array(),
+		),
+		array(
+			'tag'     => 'ts_category_tiles',
+			'label'   => __( '分类磁贴', 'tailwindscore' ),
+			'blurb'   => __( '动态输出 product_cat 磁贴网格。', 'tailwindscore' ),
+			'example' => '[ts_category_tiles columns="4" limit="4"]',
+			'attrs'   => array(
+				array(
+					'name' => 'ids / slugs',
+					'desc' => __( '逗号分隔的 term ID 或 slug；空则按菜单序取前 limit 个（略过 uncategorized）', 'tailwindscore' ),
+				),
+				array(
+					'name' => 'columns',
+					'desc' => __( '桌面列数，1–6，默认 4', 'tailwindscore' ),
+				),
+				array(
+					'name' => 'limit',
+					'desc' => __( '数量，1–12，默认 4', 'tailwindscore' ),
+				),
+				array(
+					'name' => 'title',
+					'desc' => __( '可选区块标题', 'tailwindscore' ),
 				),
 			),
 		),

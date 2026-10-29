@@ -174,7 +174,7 @@ function tailwindscore_parse_products_carousel_atts( $atts ): array {
 
 	$limit   = max( 1, min( 24, absint( $parsed['limit'] ) ) );
 	$orderby = sanitize_key( (string) $parsed['orderby'] );
-	$allowed = array( 'date', 'popularity', 'menu_order', 'title' );
+	$allowed = array( 'date', 'popularity', 'menu_order', 'title', 'featured' );
 
 	if ( ! in_array( $orderby, $allowed, true ) ) {
 		$orderby = 'date';
@@ -255,7 +255,7 @@ function tailwindscore_get_products_carousel_query_args( array $atts ): array {
 	$args = array(
 		'status'  => 'publish',
 		'limit'   => (int) $atts['limit'],
-		'orderby' => (string) $atts['orderby'],
+		'orderby' => ( 'featured' === (string) $atts['orderby'] ) ? 'date' : (string) $atts['orderby'],
 		'order'   => (string) $atts['order'],
 	);
 
@@ -308,23 +308,56 @@ function tailwindscore_get_products_carousel_ids( array $atts ): array {
 	}
 
 	$query_args = tailwindscore_get_products_carousel_query_args( $atts );
-	$products   = wc_get_products( $query_args );
+	$limit      = max( 1, (int) ( $atts['limit'] ?? 8 ) );
+	$orderby    = (string) ( $atts['orderby'] ?? 'date' );
 
+	/**
+	 * @param array<int, mixed> $products
+	 * @return int[]
+	 */
+	$collect_visible_ids = static function ( array $products ): array {
+		$ids = array();
+		foreach ( $products as $product ) {
+			if ( ! $product instanceof WC_Product || ! $product->is_visible() ) {
+				continue;
+			}
+			$ids[] = (int) $product->get_id();
+		}
+		return $ids;
+	};
+
+	if ( 'featured' === $orderby ) {
+		$featured_args             = $query_args;
+		$featured_args['featured'] = true;
+		$featured_args['orderby']  = 'date';
+		$featured_args['limit']    = $limit;
+
+		$featured_ids = $collect_visible_ids( (array) wc_get_products( $featured_args ) );
+
+		if ( count( $featured_ids ) >= $limit ) {
+			return array_slice( $featured_ids, 0, $limit );
+		}
+
+		$fill_args             = $query_args;
+		$fill_args['featured'] = false;
+		$fill_args['orderby']  = 'date';
+		$fill_args['order']    = 'DESC';
+		$fill_args['limit']    = $limit;
+		if ( array() !== $featured_ids ) {
+			$fill_args['exclude'] = $featured_ids;
+		}
+
+		$fill_ids = $collect_visible_ids( (array) wc_get_products( $fill_args ) );
+
+		return array_slice( array_merge( $featured_ids, $fill_ids ), 0, $limit );
+	}
+
+	$products = wc_get_products( $query_args );
 	if ( ! is_array( $products ) ) {
 		return array();
 	}
 
-	$ids = array();
-
-	foreach ( $products as $product ) {
-		if ( ! $product instanceof WC_Product || ! $product->is_visible() ) {
-			continue;
-		}
-
-		$ids[] = (int) $product->get_id();
-	}
-
-	return $ids;
+	return $collect_visible_ids( $products );
 }
 
 /**

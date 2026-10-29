@@ -32,7 +32,7 @@ Getter：`tailwindscore_get_products_carousel_columns_mobile|desktop|wide()`。
 | `columns_desktop` | 全局（list 未指定时为 `2`） | md 断点及以上 |
 | `columns_wide` | 全局（默认 `4`；list 未指定时不设） | 可选；设值后在 lg 断点生效；空字符串=跟随桌面 |
 | `gap` | 空（响应式 token） | 显式 px（0–48）时全断点统一；未设则手机 `--ts-spacer-2`（8px）、桌面 `--ts-spacer-3`（16px） |
-| `orderby` | `date` | `date` / `popularity` / `menu_order` / `title` |
+| `orderby` | `date` | `date` / `popularity` / `menu_order` / `title` / `featured`（精选优先，不足则最新补齐） |
 | `order` | `DESC` | `ASC` / `DESC` |
 | `title` | 空 | 区块标题（[`section-title`](section-title.md)）；空则仅保留导航位 |
 
@@ -59,6 +59,7 @@ Getter：`tailwindscore_get_products_carousel_columns_mobile|desktop|wide()`。
 ```text
 [ts_products_carousel limit="8" orderby="date" title="New arrivals"]
 [ts_products_carousel limit="8" carousel="0" columns_desktop="3" title="Shop the edit"]
+[ts_products_carousel limit="4" carousel="0" columns_desktop="4" orderby="featured" title="Ready for your next adventure"]
 [ts_products_carousel limit="6" card="list" title="Featured"]
 ```
 
