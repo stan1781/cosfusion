@@ -9,7 +9,8 @@
 }
 
 .site-footer__band--main {
-	background: var(--ts-surface-alt);
+	background: var(--ts-surface-inverse);
+	color: var(--ts-on-inverse);
 }
 
 .site-footer__inner p {
@@ -289,4 +290,38 @@
 	.site-footer__payment-image {
 		margin-left: auto;
 	}
+}
+
+.site-footer__band--main .site-footer__inner p,
+.site-footer__band--main .site-footer__copyright-text {
+	color: var(--ts-on-inverse-muted);
+}
+
+.site-footer__band--main .site-footer__title {
+	color: var(--ts-on-inverse);
+}
+
+.site-footer__band--main .site-footer__nav-list a,
+.site-footer__band--main .site-footer__content .widget .menu a {
+	color: var(--ts-on-inverse-muted);
+}
+
+.site-footer__band--main .site-footer__nav-list a:hover,
+.site-footer__band--main .site-footer__nav-list a:focus-visible,
+.site-footer__band--main .site-footer__content .widget .menu a:hover,
+.site-footer__band--main .site-footer__content .widget .menu a:focus-visible {
+	color: var(--ts-on-inverse);
+}
+
+.site-footer__band--main .site-footer__info {
+	border-top-color: rgb(255 255 255 / 12%);
+}
+
+.site-footer__band--main .site-footer__accordion-trigger {
+	border-block-end-color: rgb(255 255 255 / 12%);
+	color: var(--ts-on-inverse);
+}
+
+.site-footer__band--main .site-footer__accordion-icon {
+	color: var(--ts-on-inverse-muted);
 }

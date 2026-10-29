@@ -84,7 +84,7 @@ Customizer 路径：页头 → **页头图标**。影响页头操作区与移动
 | Band | 类 | 默认背景 | 内容 |
 |------|-----|----------|------|
 | Top | `.site-footer__band--top` | `--ts-surface-muted` | `.site-footer__top`（`footer-top` widget；未启用则不输出该 band） |
-| Main | `.site-footer__band--main` | `--ts-surface` | `.site-footer__content` + `.site-footer__nav` + `.site-footer__info` |
+| Main | `.site-footer__band--main` | `--ts-surface-inverse`（深色；字色 `--ts-on-inverse`） | `.site-footer__content` + `.site-footer__nav` + `.site-footer__info` |
 
 样式：`src/scss/components/_footer.scss`（band 背景）；壳层边框仍在 `_header.scss` 的 `.site-footer`。换色只改上述 token，不新增 footer 专用色。
 
