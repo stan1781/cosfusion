@@ -43,7 +43,7 @@ Spoutini 首页默认使用本短代码；全图 Swiper 仍用 [`[ts_home_hero]`
 ## 降级
 
 - 关闭 enable 或标题为空 → 不输出
-- 无图 → `home-split-hero--no-media` + 占位块
+- 无图 → 仍渲染右侧占位块；桌面保持左右分栏（不因无图压成单列）
 - Woo 未启用时 CTA 回退 `home_url( '/' )`
 
 ## 相关文档
