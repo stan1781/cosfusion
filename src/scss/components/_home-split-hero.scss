@@ -9,6 +9,7 @@
 	display: grid;
 	gap: var(--ts-spacer-4);
 	align-items: center;
+	grid-template-columns: 1fr;
 }
 
 .home-split-hero__content {
@@ -65,6 +66,11 @@
 
 .home-split-hero__media--placeholder {
 	min-height: 12rem;
+	background: linear-gradient(
+		135deg,
+		var(--ts-surface-muted) 0%,
+		var(--ts-primary-soft) 100%
+	);
 }
 
 .home-split-hero__img {
@@ -74,7 +80,7 @@
 	object-fit: cover;
 }
 
-@include mixins.ts-up(lg) {
+@include mixins.ts-up("lg") {
 	.home-split-hero {
 		padding-block: var(--ts-spacer-5);
 	}
@@ -84,11 +90,8 @@
 		gap: var(--ts-spacer-5);
 	}
 
-	.home-split-hero--no-media .home-split-hero__inner {
-		grid-template-columns: 1fr;
-	}
-
 	.home-split-hero__media {
 		aspect-ratio: 5 / 4;
+		min-height: 0;
 	}
 }

@@ -52,7 +52,7 @@ if ( $has_image && function_exists( 'tailwindscore_hero_render_responsive_image'
 	);
 }
 ?>
-<section class="home-split-hero<?php echo $has_image ? '' : ' home-split-hero--no-media'; ?>" data-ts-home-split-hero>
+<section class="home-split-hero" data-ts-home-split-hero>
 	<div class="container home-split-hero__inner">
 		<div class="home-split-hero__content">
 			<?php if ( '' !== $eyebrow ) : ?>
