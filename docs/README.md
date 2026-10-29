@@ -53,6 +53,7 @@ TailwindScore 是基于 PHP、SCSS 设计令牌、TypeScript、Alpine.js 与 Woo
 | [B2C 转化优化](roadmap/b2c-conversion.md) | UI 反馈 / Recently viewed / Section title / PWA / E2E；一阶一验 |
 | [冗余精简路线图](roadmap/redundancy-cleanup.md) | 去重 / 遗留修剪 / 文件拆分；分阶段 + 验收门禁（与升级评估分开） |
 | [Singular Scoped CSS](roadmap/singular-scoped-css.md) | Page/特稿 CSS meta + WooPIM Bridge 同步 |
+| [Spoutini 户外商城改造](roadmap/spoutini-outdoor-storefront.md) | Tokens / 壳层 / 分栏 Hero / 分类磁贴；静态 Page + 短代码（禁 front-page.php） |
 
 ## 历史文档（归档）
 
