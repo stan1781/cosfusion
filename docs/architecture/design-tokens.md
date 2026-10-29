@@ -1,6 +1,6 @@
 # 设计令牌
 
-TailwindScore 使用 **SCSS 变量 → `:root` CSS 变量 → 组件 `var(--ts-*)`** 的单向数据流。结构与命名对齐 Starcore；颜色字面量保留本站时尚风，其余非颜色数值与 Starcore 一致。
+TailwindScore 使用 **SCSS 变量 → `:root` CSS 变量 → 组件 `var(--ts-*)`** 的单向数据流。结构与命名对齐 Starcore；颜色字面量为 Spoutini 户外风（Forest / Moss / Canvas / Sand / Charcoal），其余非颜色数值与 Starcore 一致。
 
 ## 唯一真源
 
@@ -18,7 +18,7 @@ TailwindScore 使用 **SCSS 变量 → `:root` CSS 变量 → 组件 `var(--ts-*
 | 类别 | 示例 token |
 |------|------------|
 | 品牌色 | `primary` / `primary-hover` / `primary-soft` / `on-primary`、`secondary` / `on-secondary`、`link-color` |
-| Surface | `surface`、`surface-alt`、`surface-muted` |
+| Surface | `surface`、`surface-alt`、`surface-muted`、`surface-inverse` / `on-inverse` / `on-inverse-muted` |
 | 文本 | `text-primary`、`text-secondary`、`text-muted` |
 | 边框 | `border-color`、`border-color-strong`（本站扩展） |
 | 反馈色 | `info`、`success`、`warning`、`danger` |
@@ -36,21 +36,24 @@ TailwindScore 使用 **SCSS 变量 → `:root` CSS 变量 → 组件 `var(--ts-*
 
 单页尺寸（hero 高度、search 最大宽、section 垂直间距等）**不进全局 token**，写在对应组件局部 Sass 变量中。
 
-## COSFUSION 品牌双色与 Surface
+## Spoutini 品牌色与 Surface
 
-本站亮色主题为 **White + Soft Lavender + Pink + Purple**。不另建 `$ts-pink` / `$ts-purple` 别名，沿用现有对偶：
+本站亮色主题为 **Forest + Moss + Canvas + Sand + Charcoal**（Trail Orange 仅作少量强调，映射 `$ts-warning`）。不另建 `$ts-forest` 平行色板，沿用现有语义对偶：
 
 | 语义 | Token | 用途 |
 |------|--------|------|
-| Pink / CTA | `primary`、`primary-hover`、`primary-soft` | 按钮、链接、现价、Wishlist、Active |
-| Purple / Fantasy | `on-secondary`（实色）、`secondary`（浅底） | 分类氛围、Guide、次要强调 |
-| 页面底 | `surface-alt` | `body`、大区块底（让商品图成为中心） |
-| 抬升面 | `surface` | Header、Footer、Card、Modal、Dropdown |
-| 弱底 | `surface-muted` | Filter、Input 辅区、轻分隔 |
+| Forest / CTA | `primary`、`primary-hover`、`primary-soft` | 按钮、链接、现价、Wishlist、Active |
+| Moss | `on-secondary`（实色）、`secondary`（Sand 浅底） | 辅助强调、图标、次要状态 |
+| Canvas 页面底 | `surface-alt` | `body`、大区块底 |
+| 抬升面 | `surface` | Header、Card、Modal、Dropdown |
+| Sand 弱底 | `surface-muted` | Filter、Input 辅区、轻分隔 |
+| 深色 Footer | `surface-inverse`、`on-inverse`、`on-inverse-muted` | Footer main band 背景与浅色字 |
+| Trail Orange | `warning` | 少量活动/焦点；禁止大面积铺开 |
 
-**渐变预算**：仅公告栏（`gradient-brand`）、Hero / Newsletter / Category banner（`gradient-promo` / `gradient-soft`）。主按钮保持实色 `primary`（hover 用 `primary-hover`），**禁止**在商品卡与 Filter 铺渐变。分类 / 归档页以 `surface-alt` + 白卡为主，粉紫只负责 CTA、Active、Badge 与 Banner。
+**渐变预算**：仅公告栏（`gradient-brand`）、Hero / Newsletter / Category banner（`gradient-promo` / `gradient-soft`）。主按钮保持实色 `primary`（hover → `primary-hover`），**禁止**在商品卡或 Filter 铺渐变。
 
-价格 HTML（`ts-price-html` / `ts-price-sale`）：现价 / `ins` 用 `primary`；划线原价用 `text-secondary`。
+价格 HTML（`ts-price-html` / `ts-price-sale`）：现价 / `ins` → `primary`；划线原价用 `text-secondary`。
+
 
 ## 响应式断点
 
@@ -131,7 +134,7 @@ Swiper `breakpoints`、手风琴/Tab 切换等运行时逻辑须与 SCSS 断点�
 
 ## 与站点壳层、商城的关系
 
-- **Header / 主导航**：移动壳 `< lg`，桌面 inline 导航 `≥ lg`；页头背景为 `surface`（抬升于 `body` 的 `surface-alt`）；页脚 main band 为 `surface`，top band（`footer-top`）为 `surface-muted`
+- **Header / 主导航**：移动壳 `< lg`，桌面 inline 导航 `≥ lg`；页头背景为 `surface`（抬升于 `body` 的 `surface-alt`）；页脚 main band 为 `surface-inverse`（深色），top band（`footer-top`）为 `surface-muted`
 - **WooCommerce**：结账/账户可在 `lg` 启用多列；商品网格在 `md`/`xl` 按需加分列；归档商品卡背景为 `surface`
 - **产品详情 Tab**：手风琴 `< md`，两列网格 `≥ md`
 - **容器宽度**：`--ts-container-max` 在较宽视口内居中

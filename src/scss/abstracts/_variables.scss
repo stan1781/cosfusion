@@ -1,4 +1,4 @@
-// 设计令牌 — 编译期唯一真源（结构对齐 Starcore；颜色保留本站时尚风）。
+// 设计令牌 — 编译期唯一真源（结构对齐 Starcore；颜色为 Spoutini 户外风）。
 
 // 断点（不导出到 :root）
 $ts-breakpoint-sm: 40rem;
@@ -8,44 +8,48 @@ $ts-breakpoint-xl: 80rem;
 $ts-breakpoint-2xl: 96rem;
 
 // ======================================================
-// COSFUSION — Light Theme
-// White / Pink / Purple
+// Spoutini — Light Theme
+// Forest / Moss / Canvas / Sand / Charcoal（Trail Orange 少用）
 // ======================================================
 
 
 // ------------------------------------------------------
 // Brand
-// Pink = CTA / 价格 / Sale；Purple（on-secondary）= Fantasy / 分类氛围
+// Forest = CTA / 价格 / Sale；Moss（on-secondary）= 辅助强调 / 图标
 // ------------------------------------------------------
 
-$ts-primary: #f22986;
-$ts-primary-hover: #dc176f;
-$ts-primary-soft: #fff0f7;
+$ts-primary: #244b3a;
+$ts-primary-hover: #1b3a2c;
+$ts-primary-soft: #e8f0eb;
 $ts-on-primary: #ffffff;
-$ts-secondary: #f5efff;
-$ts-on-secondary: #6d35d9;
-$ts-border-color: #e9e4f2;
-$ts-border-color-strong: #d8d0e8;
+$ts-secondary: #e9e3d6;
+$ts-on-secondary: #647b55;
+$ts-border-color: #ddd6c8;
+$ts-border-color-strong: #c9c0b0;
 $ts-link-color: $ts-primary;
 
 
 // ------------------------------------------------------
 // Surface
-// surface = Header / Card / Modal；alt = 页面底；muted = Filter / 弱底
+// surface = Header / Card / Modal；alt = 页面底（Canvas）；muted = Sand 弱底
+// inverse = 深色 Footer band
 // ------------------------------------------------------
 
 $ts-surface: #ffffff;
-$ts-surface-alt: #faf8ff;
-$ts-surface-muted: #f5f2fa;
+$ts-surface-alt: #f7f5ef;
+$ts-surface-muted: #e9e3d6;
+$ts-surface-inverse: #202722;
+$ts-on-inverse: #f7f5ef;
+$ts-on-inverse-muted: #b8c0ba;
 
 
 // ------------------------------------------------------
 // Text
 // ------------------------------------------------------
 
-$ts-text-primary: #20203a;
-$ts-text-secondary: #55556b;
-$ts-text-muted: #9292a5;
+$ts-text-primary: #202722;
+$ts-text-secondary: #4a524c;
+$ts-text-muted: #7a827c;
 
 
 // ------------------------------------------------------
@@ -54,7 +58,7 @@ $ts-text-muted: #9292a5;
 
 $ts-success: #19a974;
 $ts-info: #4778e8;
-$ts-warning: #f5a623;
+$ts-warning: #d97736;
 $ts-danger: #e5395b;
 
 
@@ -62,8 +66,8 @@ $ts-danger: #e5395b;
 // Gradients（仅公告栏 / Hero / Newsletter / Banner；勿铺商品卡与 Filter）
 // ------------------------------------------------------
 
-$ts-gradient-brand: linear-gradient(90deg, #{$ts-primary} 0%, #{$ts-on-secondary} 50%, #7c3aed 100%);
-$ts-gradient-promo: linear-gradient(135deg, #{$ts-on-secondary} 0%, #{$ts-primary} 100%);
+$ts-gradient-brand: linear-gradient(90deg, #{$ts-primary} 0%, #{$ts-on-secondary} 100%);
+$ts-gradient-promo: linear-gradient(135deg, #{$ts-primary} 0%, #{$ts-on-secondary} 100%);
 $ts-gradient-soft: linear-gradient(135deg, #{$ts-primary-soft} 0%, #{$ts-secondary} 100%);
 
 
@@ -71,8 +75,8 @@ $ts-gradient-soft: linear-gradient(135deg, #{$ts-primary-soft} 0%, #{$ts-seconda
 // Overlay
 // ------------------------------------------------------
 
-$ts-overlay: rgb(28 20 55 / 45%);
-$ts-overlay-dark: rgb(28 20 55 / 65%);
+$ts-overlay: rgb(32 39 34 / 45%);
+$ts-overlay-dark: rgb(32 39 34 / 65%);
 
 // 间距（BS $spacer 倍数，0–5）
 $ts-spacer: 1rem;
