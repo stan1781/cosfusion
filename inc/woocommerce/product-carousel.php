@@ -165,8 +165,12 @@ function tailwindscore_parse_products_carousel_atts( $atts ): array {
 			'orderby'         => 'date',
 			'order'           => 'DESC',
 			'title'           => '',
+			'eyebrow'         => '',
+			'view_all'        => '',
+			'view_all_url'    => '',
 			'card'            => 'grid',
 			'carousel'        => '1',
+			'container'       => '1',
 		),
 		is_array( $atts ) ? $atts : array(),
 		'ts_products_carousel'
@@ -230,6 +234,16 @@ function tailwindscore_parse_products_carousel_atts( $atts ): array {
 
 	$gap = tailwindscore_parse_products_carousel_gap_optional( $parsed['gap'] );
 
+	// 短代码默认包 .container，与 Full Width 首页上的 split-hero / category-tiles 对齐；container="0" 可全宽。
+	$wrap_container = ! in_array( strtolower( trim( (string) $parsed['container'] ) ), array( '0', 'false', 'no', 'off' ), true );
+
+	$view_all     = sanitize_text_field( (string) $parsed['view_all'] );
+	$view_all_url = esc_url_raw( trim( (string) $parsed['view_all_url'] ) );
+	if ( '' !== $view_all && '' === $view_all_url ) {
+		$shop = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : '';
+		$view_all_url = is_string( $shop ) && '' !== $shop ? $shop : home_url( '/' );
+	}
+
 	return array(
 		'category'        => $categories,
 		'limit'           => $limit,
@@ -240,8 +254,12 @@ function tailwindscore_parse_products_carousel_atts( $atts ): array {
 		'orderby'         => $orderby,
 		'order'           => $order,
 		'title'           => sanitize_text_field( (string) $parsed['title'] ),
+		'eyebrow'         => sanitize_text_field( (string) $parsed['eyebrow'] ),
+		'view_all'        => $view_all,
+		'view_all_url'    => $view_all_url,
 		'card'            => $display['card'],
 		'carousel'        => $display['carousel'],
+		'wrap_container'  => $wrap_container,
 	);
 }
 
@@ -408,7 +426,7 @@ function tailwindscore_render_products_carousel_loop( array $product_ids ): stri
 /**
  * 渲染产品轮播壳层（可传入已查询的 product IDs 或现成 loop HTML）。
  *
- * @param array<string, mixed> $config title / loop_html 或 product_ids / columns_* / gap / card / carousel / section_class / section_data_attrs。
+ * @param array<string, mixed> $config title / loop_html 或 product_ids / columns_* / gap / card / carousel / wrap_container / eyebrow / view_all / view_all_url / section_class / section_data_attrs。
  */
 function tailwindscore_render_products_carousel_shell( array $config ): string {
 	$product_ids = $config['product_ids'] ?? array();
@@ -472,6 +490,9 @@ function tailwindscore_render_products_carousel_shell( array $config ): string {
 		array(
 			'section_id'         => $section_id,
 			'title'              => (string) ( $config['title'] ?? '' ),
+			'eyebrow'            => (string) ( $config['eyebrow'] ?? '' ),
+			'view_all'           => (string) ( $config['view_all'] ?? '' ),
+			'view_all_url'       => (string) ( $config['view_all_url'] ?? '' ),
 			'loop_html'          => $loop_html,
 			'columns_mobile'     => (float) ( $config['columns_mobile'] ?? tailwindscore_get_products_carousel_columns_mobile() ),
 			'columns_desktop'    => (float) ( $config['columns_desktop'] ?? tailwindscore_get_products_carousel_columns_desktop() ),
@@ -479,6 +500,7 @@ function tailwindscore_render_products_carousel_shell( array $config ): string {
 			'gap'                => $gap,
 			'card'               => $card,
 			'carousel'           => $carousel,
+			'wrap_container'     => ! empty( $config['wrap_container'] ),
 			'section_class'      => $section_class,
 			'section_data_attrs' => $section_data_attrs,
 			'title_class'        => (string) ( $config['title_class'] ?? 'section-title--inline' ),
@@ -507,12 +529,16 @@ function tailwindscore_render_products_carousel( array $atts ): string {
 		array(
 			'product_ids'     => $product_ids,
 			'title'           => (string) ( $atts['title'] ?? '' ),
+			'eyebrow'         => (string) ( $atts['eyebrow'] ?? '' ),
+			'view_all'        => (string) ( $atts['view_all'] ?? '' ),
+			'view_all_url'    => (string) ( $atts['view_all_url'] ?? '' ),
 			'columns_mobile'  => (float) ( $atts['columns_mobile'] ?? tailwindscore_get_products_carousel_columns_mobile() ),
 			'columns_desktop' => (float) ( $atts['columns_desktop'] ?? tailwindscore_get_products_carousel_columns_desktop() ),
 			'columns_wide'    => array_key_exists( 'columns_wide', $atts ) ? $atts['columns_wide'] : tailwindscore_get_products_carousel_columns_wide(),
 			'gap'             => array_key_exists( 'gap', $atts ) ? $atts['gap'] : null,
 			'card'            => $display['card'],
 			'carousel'        => $display['carousel'],
+			'wrap_container'  => ! empty( $atts['wrap_container'] ),
 		)
 	);
 }

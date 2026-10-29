@@ -65,7 +65,19 @@ function tailwindscore_shortcode_help_catalog(): array {
 				),
 				array(
 					'name' => 'title',
-					'desc' => __( '区块标题；空则仅保留导航位', 'tailwindscore' ),
+					'desc' => __( '区块标题；配合 eyebrow / view_all 时为大写 featured 样式', 'tailwindscore' ),
+				),
+				array(
+					'name' => 'eyebrow',
+					'desc' => __( '标题上方小标签（如 Featured products）；非空启用 featured 头', 'tailwindscore' ),
+				),
+				array(
+					'name' => 'view_all / view_all_url',
+					'desc' => __( '右侧链接文案与 URL；仅文案时 URL 默认商店页', 'tailwindscore' ),
+				),
+				array(
+					'name' => 'container',
+					'desc' => __( '1（默认）包主题 .container 限宽；0 / false / off 不包（全宽或外层已有容器时）', 'tailwindscore' ),
 				),
 			),
 		),

@@ -26,4 +26,4 @@ tailwindscore_render_section_title(
 - Related / 购物车推荐 / 404 人气轮播同用
 - Woo 原生 `.related.products > h2` 等亦套用居中标题样式
 
-不支持产品轮播 banner / view_all（见 [b2c-conversion.md](../roadmap/b2c-conversion.md)）。
+产品轮播在仅有 `title` 时仍用本组件 `--inline`；带 `eyebrow` / `view_all` 时改走轮播 featured 头（见 [product-carousel.md](product-carousel.md)），不经过本组件。

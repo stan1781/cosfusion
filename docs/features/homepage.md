@@ -13,9 +13,11 @@ Spoutini 户外站改造指南见 [spoutini-outdoor-storefront.md](../roadmap/sp
 ```text
 [ts_home_split_hero]
 [ts_category_tiles columns="4" limit="4"]
-[ts_products_carousel carousel="0" columns_desktop="4" columns_wide="4" limit="4" title="Ready for your next adventure" orderby="featured"]
+[ts_products_carousel carousel="0" columns_desktop="4" columns_wide="4" limit="4" orderby="featured" eyebrow="Featured products" title="Ready for your next adventure" view_all="View All Products"]
 [block id="homepage-trust"]
 ```
+
+分栏 Hero、分类磁贴与产品轮播短代码均自带主题 `.container` 限宽（Full Width 正文本身无容器）。产品轮播可用 `container="0"` 取消限宽；`eyebrow` / `view_all` 对齐 Featured 区块 mockup，见 [产品轮播](product-carousel.md)。
 
 其它落地页 / 促销仍可用图轮播 Hero：
 

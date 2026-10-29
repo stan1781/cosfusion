@@ -13,6 +13,9 @@ defined( 'ABSPATH' ) || exit;
 
 $section_id         = isset( $args['section_id'] ) ? (string) $args['section_id'] : wp_unique_id( 'ts-product-carousel-' );
 $title              = isset( $args['title'] ) ? (string) $args['title'] : '';
+$eyebrow            = isset( $args['eyebrow'] ) ? trim( (string) $args['eyebrow'] ) : '';
+$view_all           = isset( $args['view_all'] ) ? trim( (string) $args['view_all'] ) : '';
+$view_all_url       = isset( $args['view_all_url'] ) ? trim( (string) $args['view_all_url'] ) : '';
 $loop_html          = isset( $args['loop_html'] ) ? (string) $args['loop_html'] : '';
 $columns_mobile     = isset( $args['columns_mobile'] )
 	? (float) $args['columns_mobile']
@@ -33,6 +36,7 @@ $title_class        = isset( $args['title_class'] ) ? trim( (string) $args['titl
 $section_data_attrs = isset( $args['section_data_attrs'] ) && is_array( $args['section_data_attrs'] )
 	? $args['section_data_attrs']
 	: array();
+$wrap_container = ! empty( $args['wrap_container'] );
 
 $display  = function_exists( 'tailwindscore_normalize_products_carousel_display' )
 	? tailwindscore_normalize_products_carousel_display( $args['card'] ?? 'grid', $args['carousel'] ?? '1' )
@@ -54,8 +58,13 @@ if ( '' === trim( $loop_html ) ) {
 	return;
 }
 
-$has_title     = '' !== $title;
-$section_class = trim( 'product-carousel ' . $section_class );
+$has_title     = '' !== trim( $title );
+$has_eyebrow   = '' !== $eyebrow;
+$has_view_all  = '' !== $view_all && '' !== $view_all_url;
+// eyebrow / view_all 时用 featured 头（大标题 + 右侧链接）；否则沿用 section-title--inline。
+$use_featured_header = $has_eyebrow || $has_view_all;
+$has_header          = $has_title || $has_eyebrow || $has_view_all;
+$section_class       = trim( 'product-carousel ' . $section_class );
 
 $is_static = '0' === $carousel;
 
@@ -97,7 +106,7 @@ if ( ! $is_static && null !== $gap ) {
 ?>
 <section
 	class="<?php echo esc_attr( $section_class ); ?>"
-	<?php echo $has_title ? 'aria-labelledby="' . esc_attr( $section_id ) . '"' : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_attr applied. ?>
+	<?php echo $has_title ? 'aria-labelledby="' . esc_attr( $section_id ) . '"' : ( $has_eyebrow ? 'aria-label="' . esc_attr( $eyebrow ) . '"' : '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- esc_attr applied. ?>
 	<?php
 	foreach ( $section_data_attrs as $attr_name => $attr_value ) {
 		$attr_name = (string) $attr_name;
@@ -124,18 +133,80 @@ if ( ! $is_static && null !== $gap ) {
 		style="<?php echo esc_attr( $section_style ); ?>"
 	<?php endif; ?>
 >
-	<header class="product-carousel__header">
-		<?php if ( $has_title ) : ?>
-			<?php
-			tailwindscore_render_section_title(
-				$title,
-				array(
-					'id'    => $section_id,
-					'class' => $title_class,
-				)
-			);
-			?>
+	<?php if ( $wrap_container ) : ?>
+		<div class="container">
+	<?php endif; ?>
+	<?php if ( $has_header ) : ?>
+	<header class="product-carousel__header<?php echo $use_featured_header ? ' product-carousel__header--featured' : ''; ?>">
+		<?php if ( $use_featured_header ) : ?>
+			<div class="product-carousel__heading">
+				<?php if ( $has_eyebrow ) : ?>
+					<p class="product-carousel__eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
+				<?php endif; ?>
+				<?php if ( $has_title ) : ?>
+					<h2 id="<?php echo esc_attr( $section_id ); ?>" class="product-carousel__title"><?php echo esc_html( $title ); ?></h2>
+				<?php endif; ?>
+			</div>
+			<div class="product-carousel__header-actions">
+				<?php if ( $has_view_all ) : ?>
+					<a class="product-carousel__view-all" href="<?php echo esc_url( $view_all_url ); ?>">
+						<span class="product-carousel__view-all-label"><?php echo esc_html( $view_all ); ?></span>
+						<span class="product-carousel__view-all-icon" aria-hidden="true"><?php echo function_exists( 'tailwindscore_icon' ) ? tailwindscore_icon( 'chevron-right' ) : '&rarr;'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted SVG from theme map. ?></span>
+					</a>
+				<?php endif; ?>
+				<div class="product-carousel__nav-group" data-ts-product-carousel-nav hidden>
+					<button
+						type="button"
+						class="product-carousel__nav product-carousel__nav--prev"
+						data-ts-product-carousel-prev
+						aria-label="<?php esc_attr_e( 'Previous products', 'tailwindscore' ); ?>"
+					>
+						<span class="product-carousel__nav-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-left' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted SVG from theme map. ?></span>
+					</button>
+					<button
+						type="button"
+						class="product-carousel__nav product-carousel__nav--next"
+						data-ts-product-carousel-next
+						aria-label="<?php esc_attr_e( 'Next products', 'tailwindscore' ); ?>"
+					>
+						<span class="product-carousel__nav-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-right' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted SVG from theme map. ?></span>
+					</button>
+				</div>
+			</div>
+		<?php else : ?>
+			<?php if ( $has_title ) : ?>
+				<?php
+				tailwindscore_render_section_title(
+					$title,
+					array(
+						'id'    => $section_id,
+						'class' => $title_class,
+					)
+				);
+				?>
+			<?php endif; ?>
+			<div class="product-carousel__nav-group" data-ts-product-carousel-nav hidden>
+				<button
+					type="button"
+					class="product-carousel__nav product-carousel__nav--prev"
+					data-ts-product-carousel-prev
+					aria-label="<?php esc_attr_e( 'Previous products', 'tailwindscore' ); ?>"
+				>
+					<span class="product-carousel__nav-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-left' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted SVG from theme map. ?></span>
+				</button>
+				<button
+					type="button"
+					class="product-carousel__nav product-carousel__nav--next"
+					data-ts-product-carousel-next
+					aria-label="<?php esc_attr_e( 'Next products', 'tailwindscore' ); ?>"
+				>
+					<span class="product-carousel__nav-icon" aria-hidden="true"><?php echo tailwindscore_icon( 'chevron-right' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Trusted SVG from theme map. ?></span>
+				</button>
+			</div>
 		<?php endif; ?>
+	</header>
+	<?php else : ?>
+	<header class="product-carousel__header">
 		<div class="product-carousel__nav-group" data-ts-product-carousel-nav hidden>
 			<button
 				type="button"
@@ -155,6 +226,7 @@ if ( ! $is_static && null !== $gap ) {
 			</button>
 		</div>
 	</header>
+	<?php endif; ?>
 	<div class="product-carousel__content">
 		<div class="product-carousel__viewport">
 			<div class="swiper product-carousel__swiper woocommerce">
@@ -168,4 +240,7 @@ if ( ! $is_static && null !== $gap ) {
 			></div>
 		</div>
 	</div>
+	<?php if ( $wrap_container ) : ?>
+		</div>
+	<?php endif; ?>
 </section>

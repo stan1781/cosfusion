@@ -126,7 +126,7 @@ flowchart TB
 | 分类导航（Shop All / Camping / …） | WP 已注册菜单位置 + 既有 Mega / `product_cat` 同步（[navigation.md](../features/navigation.md)） | **运营配置菜单**；不硬编码 mockup 分类名 |
 | 左文右图 Hero | **新建** `[ts_home_split_hero]` + Kirki（eyebrow / 标题 / 副文 / CTA 文案与 URL / 图） | 现有 `[ts_home_hero]` 仅为全图 Swiper，不适配此 mockup。桌面双栏、移动堆叠；无图时优雅降级（无 broken image） |
 | 四宫格分类磁贴 | **新建** `[ts_category_tiles]`：动态读 `product_cat`；可配 ID/slug 列表与列数；忽略 uncategorized；缺图统一占位 | 无现成短代码。整卡可点、键盘焦点可见 |
-| Featured Products「Ready for your next adventure」 | 复用 `[ts_products_carousel carousel="0" columns_desktop="4" limit="4" title="…"]` + 现有 `content-product` | 加购为现有圆形「+」等 UI；**首期沿用，不强制**全宽「ADD TO CART」文案（以免牵动 Store API / 循环卡）。mockup 右侧「View All Products →」：现 section-title / 轮播**不支持** `view_all`（Cosfusion 明确不做）；首期可用区块旁手写链接、Content Block，或延后扩展 section-title |
+| Featured Products「Ready for your next adventure」 | 复用 `[ts_products_carousel carousel="0" … eyebrow="…" title="…" view_all="View All Products"]` + 现有 `content-product` | 加购为现有圆形「+」等 UI；**首期沿用，不强制**全宽「ADD TO CART」文案。短代码已支持 `eyebrow` / `view_all` / `view_all_url` 与 `.container` 限宽（默认开） |
 | Trust 三列 | `[block id="homepage-trust"]` HTML/CSS | 旧 `homepage_trust_*` Kirki 已清除。文案只写可验证承诺（如 Secure checkout / Helpful support）；勿编造未兑现政策 |
 | 深色 Footer + Newsletter | Footer SCSS 改深色 band；链接走菜单 / widget；支付图仅用 Kirki `footer_payment_image` 已上传资源 | 现为亮色双 band（[site-shell.md](../features/site-shell.md)）。Newsletter：**仅当**站点已启用 [wc-mailnest](../integrations/README.md) 等真实订阅时，用插件短代码 / widget 放入 footer 列；否则布局占位且**不假装可提交** |
 | 底栏版权 + 支付图标 | 既有 `footer-info` + `footer_payment_image` | 动态年份；不猜测 Visa/PayPal 等未开通方式 |
@@ -144,7 +144,7 @@ flowchart TB
 ### 3.2 实施时需核实的缺口（相对 mockup / Prompt）
 
 1. **`orderby=featured`**：当前 `[ts_products_carousel]` 仅允许 `date` / `popularity` / `menu_order` / `title`（见 [product-carousel.md](../features/product-carousel.md)）。若首页要「后台 Featured 优先、空则最新」，阶段 D 需扩展查询（或运营用精选分类 + `category=`）。**未扩展前不要在文档里假装已支持 `featured`。**
-2. **「View All Products」链接**：轮播无 `view_all`；首期用 Block / 页面内链接或延后。
+2. **「View All Products」链接**：短代码已支持 `view_all` / `view_all_url`（默认 Shop）；见 [product-carousel.md](../features/product-carousel.md)。
 3. **公告栏文案**：mockup 的 `$75` 免运是否真实政策，以运营/Woo 设置为准，主题只提供可配置字段。
 4. **Mailnest**：主题侧整合已完成，但本机/生产是否启用插件、是否有订阅表单短代码可用，装配阶段再确认；未启用则不做假表单。
 
@@ -213,7 +213,7 @@ flowchart TB
 | 商品卡全宽「ADD TO CART」文案（首期） | 沿用现有加购 UI |
 | 虚构 Newsletter 可提交表单 | 无 Mailnest（或同等）则不做假提交 |
 | 硬编码 mockup 商品名 / 价格 / 分类 URL | 必须 Woo 动态数据 |
-| 产品轮播 `banner` / `view_all` 能力（除非产品决策变更） | Cosfusion 路线图已 Skip |
+| 产品轮播 `banner` | 仍不做；`view_all` / `eyebrow` 已作为短代码可选能力落地 |
 | 把 ChatGPT Prompt 当实施真源 | 仅作历史参考；以本文为准 |
 
 ---

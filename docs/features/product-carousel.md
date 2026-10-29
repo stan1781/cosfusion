@@ -19,7 +19,7 @@ Getter：`tailwindscore_get_products_carousel_columns_mobile|desktop|wide()`。
 ## 短代码
 
 ```text
-[ts_products_carousel category="" limit="8" card="grid" carousel="1" columns_mobile="" columns_desktop="" columns_wide="" gap="" orderby="date" order="DESC" title=""]
+[ts_products_carousel category="" limit="8" card="grid" carousel="1" columns_mobile="" columns_desktop="" columns_wide="" gap="" orderby="date" order="DESC" title="" eyebrow="" view_all="" view_all_url="" container="1"]
 ```
 
 | 属性 | 默认 | 说明 |
@@ -34,7 +34,11 @@ Getter：`tailwindscore_get_products_carousel_columns_mobile|desktop|wide()`。
 | `gap` | 空（响应式 token） | 显式 px（0–48）时全断点统一；未设则手机 `--ts-spacer-2`（8px）、桌面 `--ts-spacer-3`（16px） |
 | `orderby` | `date` | `date` / `popularity` / `menu_order` / `title` / `featured`（精选优先，不足则最新补齐） |
 | `order` | `DESC` | `ASC` / `DESC` |
-| `title` | 空 | 区块标题（[`section-title`](section-title.md)）；空则仅保留导航位 |
+| `title` | 空 | 区块标题；无 `eyebrow` / `view_all` 时走 [`section-title`](section-title.md) `--inline`；有其一则用 featured 大标题样式 |
+| `eyebrow` | 空 | 标题上方小标签（CSS `uppercase` + 宽字距）；非空时启用 featured 头 |
+| `view_all` | 空 | 右侧「View all」链接文案；非空时启用 featured 头并输出链接 |
+| `view_all_url` | 空 | `view_all` 的 URL；未写且 `view_all` 非空时默认商店页（`wc_get_page_permalink( 'shop' )`） |
+| `container` | `1` | `1` 在壳层内包主题 `.container`（与 Full Width 页上的分栏 Hero / 分类磁贴对齐）；`0` / `false` / `off` 不包，便于已有外层容器或全宽场景 |
 
 ### 展示组合
 
@@ -46,7 +50,7 @@ Getter：`tailwindscore_get_products_carousel_columns_mobile|desktop|wide()`。
 
 非法值回退 `grid` + `1`。壳层标记：`data-ts-card`、`data-ts-carousel`；修饰类 `product-carousel--static`、`product-carousel--card-list`。
 
-不支持短代码 `banner` / `view_all`（Cosfusion 不做）。
+不支持短代码 `banner`（装饰图位）。`view_all` / `eyebrow` 为短代码可选能力；购物车 / 404 / Related 等程序化壳层默认不传。
 
 查询可过滤：`tailwindscore_products_carousel_query_args`。
 
@@ -59,9 +63,19 @@ Getter：`tailwindscore_get_products_carousel_columns_mobile|desktop|wide()`。
 ```text
 [ts_products_carousel limit="8" orderby="date" title="New arrivals"]
 [ts_products_carousel limit="8" carousel="0" columns_desktop="3" title="Shop the edit"]
-[ts_products_carousel limit="4" carousel="0" columns_desktop="4" orderby="featured" title="Ready for your next adventure"]
+[ts_products_carousel carousel="0" columns_desktop="4" columns_wide="4" limit="4" orderby="featured" eyebrow="Featured products" title="Ready for your next adventure" view_all="View All Products"]
 [ts_products_carousel limit="6" card="list" title="Featured"]
 ```
+
+Full Width 模板（`page-templates/full-width.php`）正文无外层 `.container`；短代码默认 `container="1"` 自行限宽，与 `[ts_home_split_hero]` / `[ts_category_tiles]` 一致。购物车推荐、404、Related、Cross-sells、Recently viewed 等程序化壳层调用**不**包 `.container`（由各自页面布局负责）。需要短代码全宽时写 `container="0"`。
+
+首页精选区推荐用法（eyebrow + 大标题 + View All，静态 4 列）：
+
+```text
+[ts_products_carousel carousel="0" columns_desktop="4" columns_wide="4" limit="4" orderby="featured" eyebrow="Featured products" title="Ready for your next adventure" view_all="View All Products"]
+```
+
+`view_all_url` 可省略（默认 Shop）；也可写成具体分类归档 URL。
 
 也可嵌在内容区块 `[block]` 内。不再经 Customizer「首页展示」包装。
 
@@ -82,7 +96,7 @@ Getter：`tailwindscore_get_products_carousel_columns_mobile|desktop|wide()`。
 - 关闭：恢复 WooCommerce 默认网格 `woocommerce_output_related_products()`
 - 总开关 `product_related_enabled` 关闭时不劫持输出
 - 列数读全局产品轮播默认（1.5 / 3 / 4）；标题文案与 WC 一致（`Related products`）
-- **不**支持短代码 banner / view_all；**不**改默认 `card` / `carousel`
+- **不**改默认 `card` / `carousel`；Related 不传 `eyebrow` / `view_all`（仅短代码可选）
 
 ## 单品 Cross-sells
 
