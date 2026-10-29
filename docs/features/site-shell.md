@@ -98,6 +98,11 @@ Customizer 路径：页头 → **页头图标**。影响页头操作区与移动
 
 **移动端折叠**（`< lg`）：`src/ts/site/footer-widgets.ts` 将带菜单的列 widget 标题增强为按钮；默认全部收起，可各自展开（非互斥）。`≥ lg` 常开并隐藏 chevron。无 JS 时菜单保持展开可见。
 
+
+### Spoutini 户外商城 Footer 装配
+
+运营侧通过 **外观 → 小工具** 填充 ooter-1～ooter-4：品牌文案 + [wc_subscribe_form]（Mailnest）、Shop / Help / About 导航菜单 widget；底栏「Footer Menu」菜单位置挂政策/快捷链接。勿硬编码未开通支付或虚构社媒。详见 [spoutini-outdoor-storefront.md](../roadmap/spoutini-outdoor-storefront.md)。
+
 ## 联络方式（WhatsApp）
 
 Customizer **设计 → 联络方式**（`inc/contact/whatsapp.php`、`inc/config/kirki/contact.php`）：

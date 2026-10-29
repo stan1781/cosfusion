@@ -325,3 +325,76 @@
 .site-footer__band--main .site-footer__accordion-icon {
 	color: var(--ts-on-inverse-muted);
 }
+
+// —— Spoutini Footer 品牌区 + 深色带上的 Mailnest 订阅 ——
+.site-footer__brand {
+	display: grid;
+	gap: var(--ts-spacer-2);
+	margin-block-end: var(--ts-spacer-3);
+}
+
+.site-footer__brand-name {
+	margin: 0;
+	color: var(--ts-on-inverse);
+	font-family: var(--ts-font-heading);
+	font-size: var(--ts-font-size-lg);
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.site-footer__brand-tagline {
+	margin: 0;
+	color: var(--ts-on-inverse);
+	font-weight: 600;
+	font-size: var(--ts-font-size-sm);
+}
+
+.site-footer__brand-text {
+	margin: 0;
+	max-width: 22rem;
+	color: var(--ts-on-inverse-muted);
+	font-size: var(--ts-font-size-sm);
+	line-height: var(--ts-line-height-base);
+}
+
+.site-footer__band--main {
+	.mailnest-subscribe__title,
+	.wc-subscribe-text-dark .mailnest-subscribe__title {
+		color: var(--ts-on-inverse);
+	}
+
+	.mailnest-subscribe__description,
+	.mailnest-subscribe__description--on-dark,
+	.wc-subscribe-text-dark .mailnest-subscribe__description {
+		color: var(--ts-on-inverse-muted);
+	}
+
+	.mailnest-subscribe__icon {
+		color: var(--ts-on-inverse);
+	}
+
+	.wc-subscribe-form .form-control,
+	.wc-subscribe-form input[type='email'] {
+		background: var(--ts-surface);
+		color: var(--ts-text-primary);
+		border-color: var(--ts-border-color);
+	}
+
+	.mailnest-check,
+	.wc-subscribe-text-dark .mailnest-check {
+		color: var(--ts-on-inverse-muted);
+		font-size: var(--ts-font-size-xs);
+	}
+}
+
+.site-footer__band--main .site-footer__content {
+	padding-block: var(--ts-spacer-4);
+}
+
+@include mixins.ts-up('lg') {
+	.site-footer__band--main .site-footer__content {
+		padding-block: var(--ts-spacer-5);
+	}
+}
+
