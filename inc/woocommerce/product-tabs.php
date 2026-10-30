@@ -122,11 +122,16 @@ function tailwindscore_render_product_description_clamp( string $description ): 
  * @param WC_Product $product 当前商品。
  * @return array<string, array{title: string, priority: int, callback: callable}>
  */
-function tailwindscore_get_product_detail_tabs( WC_Product $product ): array {
-	$size_guide_config = function_exists( 'tailwindscore_size_guide_config' )
-		? tailwindscore_size_guide_config( $product->get_id() )
-		: null;
-	$has_size_guide = $size_guide_config && ! empty( $size_guide_config['hasContent'] );
+	function tailwindscore_get_product_detail_tabs( WC_Product $product ): array {
+		$size_guide_config = function_exists( 'tailwindscore_size_guide_config' )
+			? tailwindscore_size_guide_config( $product->get_id() )
+			: null;
+		// 无尺码属性时不展示 Size Guide Tab（即使分类/模板绑了尺码表）。
+		$has_size_attr = function_exists( 'tailwindscore_product_has_size_attribute' )
+			&& tailwindscore_product_has_size_attribute( $product );
+		$has_size_guide = $has_size_attr
+			&& $size_guide_config
+			&& ! empty( $size_guide_config['hasContent'] );
 
 	$description     = apply_filters( 'the_content', $product->get_description() );
 	$has_description = ! empty( trim( wp_strip_all_tags( $description ) ) );

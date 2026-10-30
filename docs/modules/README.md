@@ -34,8 +34,8 @@ modules/{slug}/
 |------|------|------|------|------|
 | typography | `modules/typography` | 0.2.4 | ✅ | 站外字体目录（uploads）+ Kirki 分组选择 + 品类推荐组合一点应用 |
 | gallery | `modules/gallery` | 0.3.0 | ✅ | Swiper 单品图库；变体相册对接 WC 11.1+ 官方 gallery |
-| variations | `modules/variations` | 0.1.8 | ✅ | 图片/色块 swatch、grid/list 布局；已选不可取消 |
-| size-guide | `modules/size-guide` | 0.1.2 | ✅ | JSON 尺码表 modal + 选码单行；QV/cart-edit 复用 inline |
+| variations | `modules/variations` | 0.1.9 | ✅ | 图片/色块 swatch、grid/list 布局；已选不可取消 |
+| size-guide | `modules/size-guide` | 0.1.3 | ✅ | JSON 尺码表 modal + 选码单行；QV/cart-edit 复用 inline |
 | related-products | `modules/related-products` | 0.2.1 | ✅ | 单品页相关产品引擎 + Kirki 轮播/网格切换 |
 | quick-view | `modules/quick-view` | 0.1.12 | ✅ | 归档 / 首页 / 单品 / 购物车 / 404 轮播 Quick View；选码 inline 尺码摘要 |
 | review-images | `modules/review-images` | 0.1.1 | ✅ | 评论附图、买家秀 Showcase |

@@ -82,14 +82,33 @@ class Tailwindscore_Variation_Settings {
 		return (bool) apply_filters( 'tailwindscore/variations/is_color_attribute', $is_color, $attribute_name, $product_id );
 	}
 
-	/**
-	 * @param string $attribute_name 属性键。
-	 * @return bool
-	 */
-	public static function is_size_attribute( string $attribute_name ): bool {
-		$size_attributes = self::normalize_lowercase_list( self::get_size_attributes() );
-		return in_array( strtolower( $attribute_name ), $size_attributes, true );
-	}
+		/**
+		 * @param string $attribute_name 属性键。
+		 * @return bool
+		 */
+		public static function is_size_attribute( string $attribute_name ): bool {
+			$size_attributes = self::normalize_lowercase_list( self::get_size_attributes() );
+			return in_array( strtolower( $attribute_name ), $size_attributes, true );
+		}
+
+		/**
+		 * 商品是否含尺码类属性（可变商品看变体属性；其余看商品属性）。
+		 *
+		 * @param WC_Product $product 商品。
+		 */
+		public static function product_has_size_attribute( WC_Product $product ): bool {
+			$keys = $product->is_type( 'variable' )
+				? array_keys( $product->get_variation_attributes() )
+				: array_keys( $product->get_attributes() );
+
+			foreach ( $keys as $attr ) {
+				if ( self::is_size_attribute( (string) $attr ) ) {
+					return true;
+				}
+			}
+
+			return false;
+		}
 
 	/**
 	 * @param int $product_id 商品 ID。
@@ -216,8 +235,17 @@ function tailwindscore_variations_enabled(): bool {
 	 * @return bool
 	 */
 	function tailwindscore_is_size_variation_attribute( string $attribute_name ): bool {
-	return Tailwindscore_Variation_Settings::is_size_attribute( $attribute_name );
-}
+		return Tailwindscore_Variation_Settings::is_size_attribute( $attribute_name );
+	}
+
+	/**
+	 * 商品是否含尺码类属性。
+	 *
+	 * @param WC_Product $product 商品。
+	 */
+	function tailwindscore_product_has_size_attribute( WC_Product $product ): bool {
+		return Tailwindscore_Variation_Settings::product_has_size_attribute( $product );
+	}
 
 /**
  * @param int|null $product_id 商品 ID。

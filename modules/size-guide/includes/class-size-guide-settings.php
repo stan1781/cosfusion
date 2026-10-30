@@ -86,12 +86,15 @@ final class Tailwindscore_Size_Guide_Settings {
 			return null;
 		}
 
-		$resolved = Product_Size_Guide::resolve( $product_id );
-		if ( $resolved['source'] === 'empty' ) {
-			return null;
-		}
+			$resolved = Product_Size_Guide::resolve( $product_id );
+			if ( $resolved['source'] === 'empty' ) {
+				return null;
+			}
 
-		$has_content = ! empty( $resolved['data'] ) || ! empty( $resolved['legacyHtml'] );
+			// 仅有表头、无 rows 时不算有内容（避免空 Tab / 空弹窗）。
+			$data            = $resolved['data'] ?? null;
+			$has_table_rows  = is_array( $data ) && ! empty( $data['rows'] ) && is_array( $data['rows'] );
+			$has_content     = $has_table_rows || ! empty( $resolved['legacyHtml'] );
 
 		$config = array(
 			'enabled'          => true,

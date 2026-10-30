@@ -1,5 +1,9 @@
 # Variations 模块变更记录
 
+## 0.1.9
+
+- 新增：`tailwindscore_product_has_size_attribute()` / `Tailwindscore_Variation_Settings::product_has_size_attribute()`，供详情 Tab 等判断是否含尺码属性。
+
 ## 0.1.8
 
 - 新增 filter：`tailwindscore/variations/is_color_attribute`、`tailwindscore/variations/hide_attribute_row`（供产品组运行时禁用图像 / 隐藏属性行）。

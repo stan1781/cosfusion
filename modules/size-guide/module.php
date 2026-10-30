@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'TAILWINDSCORE_MODULE_SIZE_GUIDE_VERSION', '0.1.2' );
+define( 'TAILWINDSCORE_MODULE_SIZE_GUIDE_VERSION', '0.1.3' );
 
 $tailwindscore_size_guide_dir = __DIR__;
 

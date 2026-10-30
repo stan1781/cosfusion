@@ -14,7 +14,7 @@
 ## 显示条件
 
 - **描述**：产品有长描述时显示
-- **Size Guide**：产品配置了 Size Guide 且有内容时显示
+- **Size Guide**：产品含尺码类属性，且配置了 Size Guide 并有可渲染内容（表行或 legacy HTML）时显示；无 size 属性不显示该 Tab
 - **评论**：产品开启评论时显示（桌面独立行；移动端手风琴末项）
 - **自定义 Tab**：经 `tailwindscore_product_detail_tabs` filter 注入（见下）
 

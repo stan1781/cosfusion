@@ -1,5 +1,9 @@
 # Size Guide module
 
+## 0.1.3
+
+- 修复：`hasContent` 要求尺码表有 `rows`（或 legacy HTML）；仅有空表头不再视为有内容。
+
 ## 0.1.2
 
 - 改进：`initSizeGuideInlineInRoot` — QV / cart-edit 从内嵌 JSON 初始化选码 inline（作用域限 root，不绑 PDP）。
